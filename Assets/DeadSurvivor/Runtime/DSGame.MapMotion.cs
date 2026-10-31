@@ -12,6 +12,8 @@ namespace DeadSurvivor
             if(movementFixture!=null)
                 return movementFixture.Propose(this,dt);
 #endif
+            if(MapSession)return DSMapMotion.Propose(MapSession.Geometry,Center,Team.Select(c=>c.pos).ToArray(),
+                Enumerable.Range(0,Team.Count).Select(Offset).ToArray(),Team.Select(c=>c.hp>0).ToArray(),Enumerable.Repeat(8f,Team.Count).ToArray(),8,MoveInput,dt);
             Vector2 center=Center+MoveInput*140*dt;
             var actual=Team.Select((c,i)=>c.hp<=0 ? c.pos : Vector2.Lerp(c.pos,center+Offset(i),Mathf.Min(1,dt*12))).ToArray();
             return new DSMotionProposal(center,actual,1,false);

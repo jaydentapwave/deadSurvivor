@@ -42,3 +42,7 @@ Assets/DeadSurvivor/Runtime/DSMap*.cs, DSGame*.cs, DSWorld*.cs, Editor의 별도
 ### 021 결과
 
 독립 설계 검토 D1–D4 해소 PASS. 6뷰 Unity 검사 PASS, 가림 trigger/clear/dispose PASS. [개발 기본 프로필](map-calibration-021-profile.json)에 s4/55도/ortho6을 기록했다. 3088×1440에서45도 몸체61.1px,55도49.6px이며 모두40px 이상. 지도 크기가 가장 작은 기존 s4를 유지하고55도에서 지면을 더 내려다보는 실험 기본값을 선택했다. 시각적 최적값을 실측으로 증명한 것은 아니다.
+
+### 022 결과
+
+DSMapSession opt-in, DSGame 사전 전환 검사, 실제 스프라이트 파티·기존 UI를 연결했다. 79개 Unity 검사 및 기존 게임695규칙/24캡처 회귀 PASS. [022 기록](../reviews/map-playable-022-review.md). 파티 장면은 전투 비활성 실험이며 전체 G3 인수를 의미하지 않는다.

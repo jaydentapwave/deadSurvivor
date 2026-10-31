@@ -27,6 +27,8 @@ namespace DeadSurvivor
             if (RejectMovementFixtureCommand("StartRun")) return;
             if (Selected.Count == 0)
                 return;
+            if(MapSession && !DSMapPartyRules.CanStart(MapSession.Geometry,MapSession.StartCenter,Selected.Count)){RejectMap();return;}
+            Center=MapSession?MapSession.StartCenter:Vector2.zero;
             uid = enemyUid = 0;
             MoveInput = Vector2.zero;
             Formation = PendingFormation = 0;
@@ -36,7 +38,7 @@ namespace DeadSurvivor
             for (int i = 0; i < Selected.Count; i++)
             {
                 var d = Data.characters[Selected[i]];
-                var c = new Survivor { index = Selected[i], hp = d.hp, maxhp = d.hp, pos = Offset(i) };
+                var c = new Survivor { index = Selected[i], hp = d.hp, maxhp = d.hp, pos = Center + Offset(i) };
                 for (int y = 1; y <= 4; y++)
                 for (int x = 1; x <= 4; x++)
                     c.cells[y * 6 + x] = true;
@@ -50,7 +52,7 @@ namespace DeadSurvivor
             TotalTime = 0;
             History.Clear();
             Stash.Clear();
-            Center = Vector2.zero;
+            Center = MapSession?MapSession.StartCenter:Vector2.zero;
             NextWave();
         }
         public Vector2 Offset(int i) => FormationOffset(Formation, i, Mathf.Max(1, Selected.Count));
@@ -63,6 +65,7 @@ namespace DeadSurvivor
                 Result(true);
                 return;
             }
+            if(!MapAllows(PendingFormation))return;
             Stash.Clear();
             Wave++;
             Formation = PendingFormation;

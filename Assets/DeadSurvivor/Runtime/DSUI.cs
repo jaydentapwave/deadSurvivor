@@ -13,16 +13,31 @@ namespace DeadSurvivor
         public Rect? SafeAreaPreview { get; set; }
 #endif
         DSGame g; Canvas canvas; RectTransform root, page, modal, toastRoot, tooltip, ghost; TMP_FontAsset font; TextMeshProUGUI toastText, hudWave, hudTimer, hudInfo, banner; List<TextMeshProUGUI> teamTexts = new(); float toastUntil, nextHud; public int Held = -1; bool dragged; public bool JoystickActive; public Vector2 Joystick; Vector2 joystickStart; RectTransform joystickRing, joystickKnob; UnityEngine.UI.Image burningBorder; Sprite borderSprite, joystickBaseSprite, joystickKnobSprite; public float W = 1600, H = 900; UnityEngine.UI.CanvasScaler scaler; Rect lastSafeArea; Vector2 lastScreen;
+        TMP_FontAsset privateMapFont;
+        void OnDestroy()
+        {
+            if(!privateMapFont)return;
+            if(borderSprite){Destroy(borderSprite.texture);Destroy(borderSprite);}
+            if(privateMapFont.material)Destroy(privateMapFont.material);
+            foreach(var atlas in privateMapFont.atlasTextures)if(atlas)Destroy(atlas);
+            Destroy(privateMapFont);
+        }
         public void Init(DSGame game)
         {
             g = game;
             W = 1600;
             H = 900;
             font = Resources.Load<TMP_FontAsset>("DeadSurvivor/UI/PrototypeFont");
+            if(g.MapSession)
+            {
+                font=TMP_FontAsset.CreateFontAsset(Resources.Load<Font>("DeadSurvivor/UI/NotoSansKR"),48,5,UnityEngine.TextCore.LowLevel.GlyphRenderMode.SDFAA,1024,1024,AtlasPopulationMode.Dynamic,true);
+                privateMapFont=font;
+            }
             g.World.Font = font;
             joystickBaseSprite = Resources.Load<Sprite>("DeadSurvivor/UI/JoystickBase");
             joystickKnobSprite = Resources.Load<Sprite>("DeadSurvivor/UI/JoystickKnob");
             var go = new GameObject("DeadSurvivorUI", typeof(RectTransform), typeof(Canvas), typeof(UnityEngine.UI.CanvasScaler), typeof(UnityEngine.UI.GraphicRaycaster));
+            if(g.MapSession)go.transform.SetParent(transform,false);
             canvas = go.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             scaler = go.GetComponent<UnityEngine.UI.CanvasScaler>();
@@ -35,7 +50,10 @@ namespace DeadSurvivor
             root.pivot = Vector2.one * .5f;
             UpdateSafeArea();
             if (EventSystem.current == null)
-                new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
+            {
+                var events=new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
+                if(g.MapSession)events.transform.SetParent(transform,false);
+            }
             Lobby();
         }
         void UpdateSafeArea()

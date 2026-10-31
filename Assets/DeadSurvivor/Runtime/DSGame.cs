@@ -22,6 +22,7 @@ namespace DeadSurvivor
         }
         void Awake()
         {
+            if(MapSession)MapSession.Bind(this);
             initializationStarted = Time.realtimeSinceStartupAsDouble;
             Data = JsonUtility.FromJson<PrototypeData>(Resources.Load<TextAsset>("DeadSurvivor/PrototypeData").text);
             Config = JsonUtility.FromJson<RunSettings>(JsonUtility.ToJson(Data.settings));

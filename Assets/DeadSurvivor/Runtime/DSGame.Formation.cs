@@ -22,6 +22,7 @@ namespace DeadSurvivor
             if (RejectMovementFixtureCommand("SelectFormation")) return;
             if (State != "prep" || value < 0 || value > 2)
                 return;
+            if(!MapAllows(value))return;
             PendingFormation = value;
             UI.Prep();
         }

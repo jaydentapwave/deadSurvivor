@@ -1,3 +1,5 @@
+> 022 실제 파티 연결: Map022_PartyExperimental 장면에서 기존 파티·정비·진형·부활·다음 웨이브를 시험한다. [검증](docs/reviews/map-playable-022-review.md). 전투 비활성 개발 실험이며 전체 G3는 미완료.
+
 > 021 개발 기본값: s4 / 카메라55도 / ortho6. [설계](docs/design/map-playable-021-023.md) · [검증](docs/reviews/map-playable-021-review.md). 별도 Map021 보정 장면, 전체 맵 인수는 미완료.
 
 # 데드 서바이버 / 배낭 원정대 프로토타입

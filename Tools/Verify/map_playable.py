@@ -54,6 +54,8 @@ def run(stage):
                 assert tests['status']=='PASS'
                 first=json.loads(invoke(u,'GameEvidence'));time.sleep(.35);last=json.loads(invoke(u,'GameEvidence'))
                 assert last['frame']>first['frame'] and last['elapsed']>first['elapsed'],'GAME_FROZEN'
+                if stage==22:assert last['center']['x']>first['center']['x'],'MAP_INPUT_NO_PROGRESS'
+                m.write(out/'frame-progress.json',dict(before=first,after=last))
                 invoke(u,'FreezeGame');e=json.loads(invoke(u,'GameEvidence'));capture('game',e['camera']);m.write(out/'game.json',e)
                 report.update(status='PASS',units=tests,game=e)
             logs=u.cli(['command','console','get','--caller','plugin','--skill','ds-workflow','--','--tail','100','--level','error'])['data']['result'];m.write(out/'console.json',logs)

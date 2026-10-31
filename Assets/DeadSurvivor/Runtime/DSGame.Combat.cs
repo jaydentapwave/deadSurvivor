@@ -308,6 +308,7 @@ namespace DeadSurvivor
             if (State != "battle" || Paused)
                 return;
             dt = Mathf.Min(dt, Mathf.Max(0, Duration - Elapsed));
+            if(MapSession && !MapSession.CombatEnabled){MapOnlyStep(dt);return;}
             Elapsed += dt;
             TotalTime += dt;
             int count = Mathf.RoundToInt(Config.waves[Wave - 1].count * Config.countScale);

@@ -53,6 +53,7 @@ namespace DeadSurvivor
             var c = Team[ci];
             if (State != "prep" || c.hp > 0)
                 return;
+            if(!MapAllows(PendingFormation,ci))return;
             c.hp = c.maxhp;
             c.healClock = c.shieldClock = c.shield = c.flash = c.shareClock = 0;
             c.pos = Center + Offset(ci);

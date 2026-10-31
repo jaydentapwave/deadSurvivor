@@ -5,7 +5,7 @@ namespace DeadSurvivor
 {
     public partial class DSWorld : MonoBehaviour
     {
-        DSGame g; Camera cam; Transform root; List<SpriteRenderer> pool = new(); int cursor; Dictionary<string, Sprite> sprites = new(); Sprite square, disc, ring, vignette; float vignetteAspect; List<TextMeshPro> texts = new(); int textCursor; public TMP_FontAsset Font;
+        bool mapOwned; DSGame g; Camera cam; Transform root; List<SpriteRenderer> pool = new(); int cursor; Dictionary<string, Sprite> sprites = new(); Sprite square, disc, ring, vignette; float vignetteAspect; List<TextMeshPro> texts = new(); int textCursor; public TMP_FontAsset Font;
         public static Color ColorOf(string h)
         {
             ColorUtility.TryParseHtmlString(h, out var c);
@@ -14,12 +14,14 @@ namespace DeadSurvivor
         public void Init(DSGame game)
         {
             g = game;
+            mapOwned=game.MapSession!=null;
             cam = Camera.main;
             cam.orthographic = true;
             cam.orthographicSize = 748f / 84;
             cam.backgroundColor = ColorOf("#192326");
             cam.clearFlags = CameraClearFlags.SolidColor;
             root = new GameObject("BattleWorld").transform;
+            if(g.MapSession)root.SetParent(transform,false);
             square = MakeShape(0);
             disc = MakeShape(1);
             ring = MakeShape(2);
@@ -61,6 +63,8 @@ namespace DeadSurvivor
         }
         void OnDestroy()
         {
+            if(mapOwned)
+                foreach(var shape in new[]{square,disc,ring,vignette})if(shape){Destroy(shape.texture);Destroy(shape);}
             foreach (var pair in sprites)
                 if (pair.Key.StartsWith("prototype-icon:") && pair.Value != null)
                 { Destroy(pair.Value.texture); Destroy(pair.Value); }
@@ -136,6 +140,7 @@ namespace DeadSurvivor
         }
         public void Render()
         {
+            if(g.MapSession){RenderMap();return;}
             cursor = textCursor = 0;
             bool visible = g.State == "battle" || g.State == "result";
             root.gameObject.SetActive(visible);
