@@ -170,6 +170,135 @@ namespace DeadSurvivor.Editor
             UnityEngine.InputSystem.InputSystem.QueueStateEvent(testKeyboard,new UnityEngine.InputSystem.LowLevel.KeyboardState(UnityEngine.InputSystem.Key.D));
             return JsonUtility.ToJson(new DSMapBlockoutVerification.UnitRecord {status="PASS",count=checks.Count,checks=checks.ToArray()});
         }
+        public const string CombatScene=Folder+"/Map023_CombatExperimental.unity";
+        public static string BuildCombatScene()
+        {
+            var saved=(DSMapMotionVerification.SnapshotData)DSMapMotionVerification.Snapshot();
+            if(File.Exists(CombatScene))throw new Exception("DESTINATION_EXISTS");
+            try
+            {
+                var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+                var root=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Source));
+                PrefabUtility.UnpackPrefabInstance(root,PrefabUnpackMode.Completely,InteractionMode.AutomatedAction);
+                root.name="Map023_EXPERIMENTAL";MakeGame(root,root.GetComponent<DSMapBlockoutPreview>(),true);
+                if(!EditorSceneManager.SaveScene(scene,CombatScene))throw new Exception("SAVE_FAILED");return CombatScene;
+            }
+            finally {Restore(saved);}
+        }
+        [Serializable] public class PathRecord {public float radius;public Vector2 start,target;public Vector2[] points;public int visited;}
+        [Serializable] public class CombatUnitRecord {public string status="PASS";public int count;public string[] checks;public PathRecord[] paths;}
+        static readonly System.Reflection.BindingFlags Hidden=System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance;
+        static object Call(string name,params object[] args)=>typeof(DSGame).GetMethod(name,Hidden).Invoke(game,args);
+        static void FixtureGeometry(DSMapGeometry geometry)
+        {
+            if(game.enabled)throw new Exception("FIXTURE_GAME_ENABLED");
+            typeof(DSMapSession).GetProperty("Geometry").SetValue(game.MapSession,geometry);
+            ((System.Collections.IDictionary)typeof(DSGame).GetField("mapNavigators",Hidden).GetValue(game)).Clear();Call("ResetMapCombat");
+        }
+        public static string CombatTests()
+        {
+            game.enabled=false;var original=game.MapSession.Geometry;var checks=new System.Collections.Generic.List<string>();var records=new System.Collections.Generic.List<PathRecord>();
+            void Check(bool ok,string label){if(!ok)throw new Exception("COMBAT_TEST:"+label);checks.Add(label);}
+            var outer=new[]{new Vector2(-500,-500),new Vector2(500,-500),new Vector2(500,500),new Vector2(-500,500)};
+            var wall=new[]{new Vector2(36,-100),new Vector2(44,-100),new Vector2(44,100),new Vector2(36,100)};
+            var map=new DSMapGeometry(outer,new[]{wall},.001);
+            var open=new DSMapGeometry(outer,Array.Empty<Vector2[]>(),.001);
+            try
+            {
+                FixtureGeometry(map);game.Selected=new System.Collections.Generic.List<int>{0};game.StartRun();game.Config.countScale=0;
+                var c=game.Team[0];
+                void Clear(){game.Enemies.Clear();game.Shots.Clear();game.Effects.Clear();game.Center=c.pos=Vector2.zero;c.hp=c.maxhp;c.shield=0;game.MoveInput=Vector2.zero;foreach(var i in c.items)i.cd=1000;Call("ResetMapCombat");}
+                Enemy EnemyAt(Vector2 pos,string type="charger")=>new Enemy{id=game.Enemies.Count+1,type=type,pos=pos,hp=1000,maxhp=1000,damage=10,phase="recover",phaseTime=100,cd=100};
+                Clear();Check(!game.MapLine(Vector2.zero,new Vector2(80,0)),"line-blocked");Check(game.MapLine(Vector2.zero,new Vector2(0,120)),"line-clear");
+                foreach(float radius in new[]{18f,25f})
+                {
+                    var nav=new DSMapNavigation(map,radius);var start=new Vector2(100,0);var target=Vector2.zero;
+                    Check(nav.TryPath(start,target,out var path),"route-found-r"+radius);var previous=start;
+                    foreach(var point in path){Check(map.SafeSweep(previous,point,radius),"route-edge-r"+radius);previous=point;}
+                    Check(Vector2.Distance(previous,target)<.01f,"route-reaches-r"+radius);
+                    records.Add(new PathRecord{radius=radius,start=start,target=target,points=path.ToArray(),visited=nav.LastVisited});
+                    Check(!nav.TryPath(start,target,out _,1),"route-budget-failure-r"+radius);
+                }
+                var touchMap=new DSMapGeometry(outer,new[]{new[]{new Vector2(-10,-100),new Vector2(10,-100),new Vector2(10,100),new Vector2(-10,100)}},.125);
+                Check(!touchMap.SafeSweep(new Vector2(-28.25f,0),new Vector2(-28.25f,0),18),"exact-margin-rejected");
+                Check(touchMap.SafeSweep(new Vector2(-28.251f,0),new Vector2(-28.251f,0),18),"beyond-margin-safe");
+                foreach(var type in new[]{"melee","armored"})
+                {
+                    Clear();var e=EnemyAt(new Vector2(100,0),type);e.phase="approach";e.cd=100;game.Enemies.Add(e);var points=new System.Collections.Generic.List<Vector2>();var start=e.pos;
+                    for(int i=0;i<320;i++){typeof(DSGame).GetField("mapSearches",Hidden).SetValue(game,0);game.TotalTime+=.05f;var old=e.pos;Call("UpdateEnemy",e,.05f);Check(map.SafeSweep(old,e.pos,game.Monsters[type].radius),"enemy-segment-"+type+"-"+i);points.Add(e.pos);}
+                    Check(Vector2.Distance(e.pos,c.pos)<game.Monsters[type].radius+8,"enemy-arrives-"+type);records.Add(new PathRecord{radius=game.Monsters[type].radius,start=start,target=c.pos,points=points.ToArray()});
+                }
+                foreach(var type in new[]{"shortbow","enemy","firestaff"})
+                {
+                    Clear();var e=EnemyAt(new Vector2(80,0));game.Enemies.Add(e);float hp=c.hp;
+                    var shot=new Shot{type=type,pos=type=="enemy"?new Vector2(80,0):Vector2.zero,dir=type=="enemy"?Vector2.left:Vector2.right,speed=2000,damage=90,range=500,target=new Vector2(80,0),radius=120};game.Shots.Add(shot);
+                    game.Simulate(.05f);Check(e.hp==1000 && c.hp==hp && game.Kills==0 && shot.hits.Count==0 && game.Effects.Count==0 && game.Shots.Count==0,"wall-first-shot-"+type);
+                }
+                foreach(var type in new[]{"shortbow","enemy"})
+                {
+                    Clear();var e=EnemyAt(new Vector2(-80,0));game.Enemies.Add(e);float hp=c.hp;
+                    var shot=new Shot{type=type,pos=type=="enemy"?new Vector2(-80,0):Vector2.zero,dir=type=="enemy"?Vector2.right:Vector2.left,speed=1600,damage=30,range=500};game.Shots.Add(shot);
+                    game.Simulate(.05f);Check(type=="enemy"?c.hp<hp:e.hp<1000,"clear-projectile-hits-"+type);
+                }
+                foreach(var weaponType in new[]{"sword","axe","wand"})
+                {
+                    Clear();var left=EnemyAt(new Vector2(10,0));var right=EnemyAt(new Vector2(80,0));right.id=2;game.Enemies.Add(left);game.Enemies.Add(right);
+                    var weapon=new Gear{id=900,type=weaponType,x=1,y=1};c.items.Clear();c.items.Add(weapon);Call("TickAction",c,weapon,.05f);
+                    Check(left.hp<1000 && right.hp==1000,"wall-damage-"+weaponType);
+                }
+                Clear();var near=EnemyAt(new Vector2(10,0));var far=EnemyAt(new Vector2(80,0));far.id=2;game.Enemies.Add(near);game.Enemies.Add(far);
+                c.items.Clear();c.items.Add(new Gear{id=901,type="orb",x=1,y=1});Call("TickEquipment",c,.05f);Check(near.hp<1000 && far.hp==1000,"wall-pulse");
+                Clear();near=EnemyAt(new Vector2(10,0));far=EnemyAt(new Vector2(80,0));far.id=2;game.Enemies.Add(near);game.Enemies.Add(far);c.items.Clear();game.Shots.Add(new Shot{type="firestaff",pos=Vector2.zero,target=Vector2.zero,speed=0,damage=30,range=100,radius=120});
+                game.Simulate(.05f);Check(near.hp<1000 && far.hp==1000,"wall-explosion");
+                Clear();var charger=EnemyAt(new Vector2(80,0));charger.phase="dash";charger.phaseTime=.7f;charger.charge=Vector2.left;float oldHp=c.hp;Call("UpdateEnemy",charger,.25f);Check(map.SafeSweep(new Vector2(80,0),charger.pos,18) && charger.pos.x>62 && c.hp==oldHp && charger.dashHits.Count==0,"charger-clipped-no-crosswall-hit");
+                Clear();var ranged=EnemyAt(new Vector2(80,0),"ranged");ranged.phase="approach";ranged.cd=0;Call("UpdateEnemy",ranged,.05f);Check(game.Shots.Count==0 && map.SafeSweep(new Vector2(80,0),ranged.pos,18),"ranged-seeks-los");
+                Clear();var bomber=EnemyAt(new Vector2(80,0),"bomber");bomber.phase="fuse";bomber.phaseTime=0;oldHp=c.hp;Call("UpdateEnemy",bomber,.05f);Check(c.hp==oldHp && bomber.hp==0,"bomber-wall-explosion");
+                foreach(var healType in new[]{"relic","censer"})
+                {
+                    Clear();var receiver=new Survivor{index=1,hp=50,maxhp=100,pos=new Vector2(80,0)};game.Team.Add(receiver);var weapon=new Gear{id=902,type=healType,x=1,y=1};c.items.Clear();c.items.Add(weapon);Call("TickAction",c,weapon,.05f);Check(receiver.hp>50,"heal-through-wall-"+healType);receiver.hp=0;weapon.cd=0;Call("TickAction",c,weapon,.05f);Check(receiver.hp==0,"heal-no-revive-"+healType);game.Team.Remove(receiver);
+                }
+                foreach(var type in new[]{"melee","armored"})
+                {
+                    Clear();game.Center=c.pos=new Vector2(27.9f,0);c.items.Clear();var e=EnemyAt(new Vector2(-100,0),type);e.phase="approach";e.cd=0;float hp=c.hp;
+                    for(int i=0;i<180;i++){typeof(DSGame).GetField("mapSearches",Hidden).SetValue(game,0);game.TotalTime+=.05f;var old=e.pos;Call("UpdateEnemy",e,.05f);Check(map.SafeSweep(old,e.pos,game.Monsters[type].radius),"near-wall-safe-"+type+"-"+i);}
+                    Check(c.hp<hp,"near-wall-contact-"+type);
+                }
+                Clear();var large=new DSMapGeometry(new[]{new Vector2(-2000,-2000),new Vector2(2000,-2000),new Vector2(2000,2000),new Vector2(-2000,2000)},new[]{wall},.001,4096);FixtureGeometry(large);
+                var recycled=EnemyAt(new Vector2(900,0),"melee");recycled.phase="approach";recycled.offscreenTime=4;game.Enemies.Add(recycled);game.ViewWidth=game.ViewHeight=100;
+                Call("EnemyAdvance",recycled,c.pos,Vector2.left,1f);
+                var routes=(System.Collections.IDictionary)typeof(DSGame).GetField("mapRoutes",Hidden).GetValue(game);Check(routes.Contains(recycled),"recycle-existing-route");
+                typeof(DSGame).GetField("recycleCooldown",Hidden).SetValue(game,0f);typeof(DSGame).GetField("mapSpawnSearches",Hidden).SetValue(game,0);
+                Call("Recycle",.01f);Check(recycled.pos!=new Vector2(900,0) && !routes.Contains(recycled) && recycled.id==1 && recycled.hp==1000,"recycle-invalidates-route-preserves-identity");
+                var recycledStart=recycled.pos;
+                for(int i=0;i<100;i++){typeof(DSGame).GetField("mapSearches",Hidden).SetValue(game,0);game.TotalTime+=.05f;var old=recycled.pos;Call("UpdateEnemy",recycled,.05f);Check(large.SafeSweep(old,recycled.pos,18),"recycle-new-safe-segment-"+i);}
+                Check(Vector2.Distance(recycled.pos,c.pos)<Vector2.Distance(recycledStart,c.pos),"recycle-approach-continues");
+                Clear();FixtureGeometry(map);
+                Clear();FixtureGeometry(open);Check((bool)Call("TryMapSpawn","melee",0f,200f,null)==true,"reachable-spawn");
+                var cage=new[]{new[]{new Vector2(-60,-60),new Vector2(60,-60),new Vector2(60,-50),new Vector2(-60,-50)},new[]{new Vector2(-60,50),new Vector2(60,50),new Vector2(60,60),new Vector2(-60,60)},new[]{new Vector2(-60,-60),new Vector2(-50,-60),new Vector2(-50,60),new Vector2(-60,60)},new[]{new Vector2(50,-60),new Vector2(60,-60),new Vector2(60,60),new Vector2(50,60)}};
+                FixtureGeometry(new DSMapGeometry(outer,cage,.001));Check((bool)Call("TryMapSpawn","melee",0f,200f,null)==false,"unreachable-spawn-rejected");
+                Clear();var farCage=new[]{new[]{new Vector2(200,-50),new Vector2(300,-50),new Vector2(300,-40),new Vector2(200,-40)},new[]{new Vector2(200,40),new Vector2(300,40),new Vector2(300,50),new Vector2(200,50)},new[]{new Vector2(200,-50),new Vector2(210,-50),new Vector2(210,50),new Vector2(200,50)},new[]{new Vector2(290,-50),new Vector2(300,-50),new Vector2(300,50),new Vector2(290,50)}};
+                var fairMap=new DSMapGeometry(outer,new[]{wall}.Concat(farCage).ToArray(),.001);FixtureGeometry(fairMap);game.Config.countScale=0;
+                for(int i=0;i<20;i++){var trapped=EnemyAt(new Vector2(250,0),"melee");trapped.phase="approach";game.Enemies.Add(trapped);}
+                var last=EnemyAt(new Vector2(100,0),"melee");last.phase="approach";game.Enemies.Add(last);
+                for(int i=0;i<60;i++){var old=last.pos;game.Simulate(.05f);Check(fairMap.SafeSweep(old,last.pos,18),"fairness-safe-"+i);}
+                Check(Vector2.Distance(new Vector2(100,0),last.pos)>20,"fairness-reachable-last-moves");
+                Clear();FixtureGeometry(new DSMapGeometry(outer,cage,.001));
+                game.Config.countScale=1;int spawned=game.Spawned;game.Simulate(.05f);Check(game.Spawned==spawned && game.Enemies.Count==0,"spawn-failure-bounded-no-quota");
+            }
+            finally
+            {
+                FixtureGeometry(original);game.Config=JsonUtility.FromJson<RunSettings>(JsonUtility.ToJson(game.Data.settings));game.Selected=Enumerable.Range(0,4).ToList();game.Rng=new System.Random(17);game.LootRng=new System.Random(29);game.StartRun();
+            }
+            game.World.Render();
+            for(int i=0;i<240 && game.State=="battle";i++)
+            {
+                var before=game.Enemies.ToDictionary(e=>e.id,e=>e.pos);game.Simulate(.05f);
+                Check(game.Enemies.All(e=>original.SafeSweep(before.TryGetValue(e.id,out var old)?old:e.pos,e.pos,game.Monsters[e.type].radius)),"actual-map-enemy-sweeps-"+i);
+                Check(game.Team.Where(c=>c.hp>0).All(c=>original.SafeSweep(c.pos,c.pos,8)),"actual-map-party-safe-"+i);
+            }
+            Check(game.State=="battle" && game.Enemies.Count>0,"actual-map-live-combat");game.World.Render();game.enabled=true;
+            return JsonUtility.ToJson(new CombatUnitRecord{count=checks.Count,checks=checks.ToArray(),paths=records.ToArray()});
+        }
         public static string VisibilityTests(string run,string nonce)
         {
             var root=DSMapMotionVerification.CreateExternalRoot(run,nonce,"Blockout018_"+nonce);root.SetActive(true);

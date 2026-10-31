@@ -66,6 +66,7 @@ namespace DeadSurvivor
                 return;
             }
             if(!MapAllows(PendingFormation))return;
+            ResetMapCombat();
             Stash.Clear();
             Wave++;
             Formation = PendingFormation;

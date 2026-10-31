@@ -21,7 +21,7 @@ namespace DeadSurvivor
         public void Bind(DSGame game)
         {
             if(owner!=null)throw new InvalidOperationException("MAP_ALREADY_BOUND");
-            if(!Layout || DSMapBlockoutPreview.Hash(Layout.text)!=ExpectedDataSha || !ViewCamera || !StaticGeometry || !RockHolder)throw new InvalidOperationException("MAP_BINDING_INVALID");
+            if(!Layout || DSMapBlockoutPreview.Hash(Layout.text)!=ExpectedDataSha || !ViewCamera || !StaticGeometry || !RockHolder || transform.position!=Vector3.zero || transform.rotation!=Quaternion.identity || transform.lossyScale!=Vector3.one || Elevation!=45 && Elevation!=55)throw new InvalidOperationException("MAP_BINDING_INVALID");
             Data=JsonUtility.FromJson<DSBlockoutData>(Layout.text);Data.Validate();Geometry=Data.Geometry(ImageScale);
             StaticGeometry.localScale=new Vector3(ImageScale/Data.build_scale,1,ImageScale/Data.build_scale);
             RockHolder.localPosition=World(Data.Logical(Data.rock_center_px,ImageScale))+RockPlacementOffset;

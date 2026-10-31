@@ -52,6 +52,19 @@ def run(stage):
                 raw=json.loads(invoke(u,'BeginGame',uid,nonce,stage));m.write(out/'started.json',raw)
                 tests=json.loads(invoke(u,'PartyTests' if stage==22 else 'CombatTests'));m.write(out/'units.json',tests)
                 assert tests['status']=='PASS'
+                if stage==23:
+                    from fractions import Fraction
+                    from map_oracle import Geometry,assess_sweep
+                    fixture=Geometry.from_polygons([[-500,-500],[500,-500],[500,500],[-500,500]],[[[36,-100],[44,-100],[44,100],[36,100]]])
+                    proofs=[]
+                    for index,path in enumerate(tests['paths']):
+                        previous=b.xy(path['start']);count=0
+                        for point in path['points']:
+                            result=assess_sweep(fixture,previous,b.xy(point),path['radius'],.001)
+                            if result['status']!='PASS' or Fraction(result['exact_gap_interval'][0])<=Fraction(.002):raise AssertionError('INDEPENDENT_PATH_UNSAFE:'+str(index)+':'+str(count))
+                            previous=b.xy(point);count+=1
+                        proofs.append(dict(path=index,radius=path['radius'],segments=count,status='PASS'))
+                    m.write(out/'independent-path-oracle.json',dict(status='PASS',paths=proofs,segments=sum(p['segments'] for p in proofs)))
                 first=json.loads(invoke(u,'GameEvidence'));time.sleep(.35);last=json.loads(invoke(u,'GameEvidence'))
                 assert last['frame']>first['frame'] and last['elapsed']>first['elapsed'],'GAME_FROZEN'
                 if stage==22:assert last['center']['x']>first['center']['x'],'MAP_INPUT_NO_PROGRESS'
@@ -61,7 +74,7 @@ def run(stage):
             logs=u.cli(['command','console','get','--caller','plugin','--skill','ds-workflow','--','--tail','100','--level','error'])['data']['result'];m.write(out/'console.json',logs)
             if logs.get('session')!=console_before.get('session') or logs.get('dropped'):raise RuntimeError('CONSOLE_CURSOR_LOST')
             if any(x['seq']>console_before['cursor'] for x in logs.get('entries',[])) or logs.get('groundTruth',{}).get('consoleErrors',0):raise AssertionError('CONSOLE_ERRORS')
-        except Exception as e:report.update(status='FAIL' if isinstance(e,(AssertionError,ValueError)) else 'BLOCKED',error=str(e))
+        except Exception as e:report.update(status='FAIL' if isinstance(e,(AssertionError,ValueError)) or 'PARTY_TEST:' in str(e) or 'COMBAT_TEST:' in str(e) else 'BLOCKED',error=str(e))
         finally:
             try:
                 if pending.exists():m.cleanup_owned(u.session,u.ready,uid,nonce,str(out/'snapshot.json'),snapshot,pid)

@@ -50,7 +50,7 @@ namespace DeadSurvivor
                         item.activationFlash = .18f;
                         Burst(c.pos, d.effectRadius, .4f, "#a586dc");
                         foreach (var e in Enemies)
-                        if (e.hp > 0 && Vector2.Distance(c.pos, e.pos) <= d.effectRadius)
+                        if (e.hp > 0 && Vector2.Distance(c.pos, e.pos) <= d.effectRadius && MapLine(c.pos,e.pos))
                             Hit(e, d.bonusValue * Data.grades[item.grade].mult, "pulse", Vector2.zero);
                     }
                 }
@@ -92,7 +92,7 @@ namespace DeadSurvivor
                 weapon.activationFlash = .18f;
                 return;
             }
-            var target = Enemies.Where(e => e.hp > 0 && Vector2.Distance(c.pos, e.pos) <= range).OrderBy(e => (e.pos - c.pos).sqrMagnitude).FirstOrDefault();
+            var target = Enemies.Where(e => e.hp > 0 && Vector2.Distance(c.pos, e.pos) <= range && MapLine(c.pos,e.pos)).OrderBy(e => (e.pos - c.pos).sqrMagnitude).FirstOrDefault();
             if (target == null)
                 return;
             weapon.cd = weapon.lastPeriod = w.interval / (1 + s.haste);
@@ -102,7 +102,7 @@ namespace DeadSurvivor
             {
                 float angle = w.attackMode == "melee" ? 50 : 90;
                 foreach (var e in Enemies)
-                if (e.hp > 0 && Vector2.Distance(c.pos, e.pos) <= range && Vector2.Angle(direction, e.pos - c.pos) <= angle)
+                if (e.hp > 0 && Vector2.Distance(c.pos, e.pos) <= range && Vector2.Angle(direction, e.pos - c.pos) <= angle && MapLine(c.pos,e.pos))
                     Hit(e, power, "melee", direction);
                 Burst(c.pos, range, .25f, "#d9ad83");
                 return;
@@ -118,7 +118,7 @@ namespace DeadSurvivor
                     Hit(next, power, "chain", (next.pos - origin).normalized);
                     Burst(next.pos, 25, .25f, "#b9a9fa");
                     origin = next.pos;
-                    next = Enemies.Where(e => e.hp > 0 && !visited.Contains(e.id) && Vector2.Distance(e.pos, origin) <= 150).OrderBy(e => (e.pos - origin).sqrMagnitude).FirstOrDefault();
+                    next = Enemies.Where(e => e.hp > 0 && !visited.Contains(e.id) && Vector2.Distance(e.pos, origin) <= 150 && MapLine(origin,e.pos)).OrderBy(e => (e.pos - origin).sqrMagnitude).FirstOrDefault();
                 }
                 return;
             }

@@ -66,7 +66,9 @@ namespace DeadSurvivor
             float a = angle ?? Heading();
             float r = new Vector2(ViewWidth / 2, ViewHeight / 2).magnitude + 70;
             var spec = Monsters[type];
-            Enemies.Add(new Enemy { id = ++enemyUid, type = type, pos = Center + Direction(a) * r, hp = spec.hp * d.hp, maxhp = spec.hp * d.hp, damage = spec.damage * d.damage });
+            Vector2 position=Center+Direction(a)*r;
+            if(MapSession && !TryMapSpawn(type,a,r,out position)){MapSpawnFailures++;return;}
+            Enemies.Add(new Enemy { id = ++enemyUid, type = type, pos = position, hp = spec.hp * d.hp, maxhp = spec.hp * d.hp, damage = spec.damage * d.damage });
             if (!extra)
                 Spawned++;
         }
@@ -95,7 +97,10 @@ namespace DeadSurvivor
             {
                 var v = Direction(Heading());
                 float r = Mathf.Min((ViewWidth / 2 + 150) / Mathf.Max(1e-8f, Mathf.Abs(v.x)), (ViewHeight / 2 + 150) / Mathf.Max(1e-8f, Mathf.Abs(v.y)));
-                e.pos = Center + v * r;
+                var position=Center+v*r;
+                if(MapSession && !TryMapSpawn(e.type,Mathf.Atan2(v.y,v.x),r,out position))continue;
+                e.pos = position;
+                mapRoutes.Remove(e);
                 e.offscreenTime = 0;
                 e.cd = Mathf.Max(1, e.cd);
                 e.flock = Vector2.zero;
@@ -114,10 +119,13 @@ namespace DeadSurvivor
             int count = Mathf.RoundToInt(Config.waves[Wave - 1].count * Config.countScale);
             float interval = Mathf.Max(.01f, (Duration - 4) / Mathf.Max(1, count - 1) / 2);
             int due = Mathf.Min(Mathf.CeilToInt(10 / interval), Mathf.FloorToInt((Mathf.Min(Elapsed, start + 10 - .0001f) - start) / interval) + 1);
-            while (burningSpawned < due)
+            int attempts=0;
+            while (burningSpawned < due && (!MapSession || attempts++<4))
             {
                 float a = burningAngle + (burningSpawned % 2) * Mathf.PI + (Random01() - .5f) * .3f;
+                int before=Enemies.Count;
                 Spawn(Random01() < .8f ? "melee" : "charger", a, true);
+                if(MapSession && Enemies.Count==before)break;
                 burningSpawned++;
             }
         }
@@ -149,7 +157,7 @@ namespace DeadSurvivor
                 v += .65f * (center / mates.Count - e.pos).normalized + .35f * align / mates.Count + 1.8f * separation;
             }
             e.flock = Vector2.Lerp(e.flock, v.normalized, Mathf.Min(1, dt * 7));
-            e.pos += e.flock * (e.phase == "swarm" ? 225 : Monsters[e.type].speed) * dt;
+            e.pos=EnemyAdvance(e,target.pos,e.flock,(e.phase=="swarm"?225:Monsters[e.type].speed)*dt);
             if (e.phase == "swarm")
             {
                 e.rushTime -= dt;
@@ -201,7 +209,7 @@ namespace DeadSurvivor
                 return;
             float best = Vector2.Distance(e.pos, t.pos);
             var dir = (t.pos - e.pos).normalized;
-            if (e.type == "bomber" && (e.phase == "fuse" || best < 65))
+            if (e.type == "bomber" && (e.phase == "fuse" || best < 65 && MapLine(e.pos,t.pos)))
             {
                 if (e.phase != "fuse")
                 {
@@ -212,7 +220,7 @@ namespace DeadSurvivor
                 if (e.phaseTime <= 0)
                 {
                     foreach (var c in Team)
-                    if (c.hp > 0 && Vector2.Distance(e.pos, c.pos) <= 90)
+                    if (c.hp > 0 && Vector2.Distance(e.pos, c.pos) <= 90 && MapLine(e.pos,c.pos))
                         Damage(c, e.damage);
                     Burst(e.pos, 90, .5f, "#ff6969");
                     e.hp = 0;
@@ -240,9 +248,9 @@ namespace DeadSurvivor
                 if (e.phase == "dash")
                 {
                     Vector2 old = e.pos;
-                    e.pos += e.charge * 460 * Mathf.Min(dt, e.phaseTime);
+                    e.pos=EnemyDisplace(e,e.pos+e.charge*460*Mathf.Min(dt,e.phaseTime));
                     foreach (var c in Team)
-                    if (c.hp > 0 && !e.dashHits.Contains(c) && SegmentDistance(old, e.pos, c.pos) < 28)
+                    if (c.hp > 0 && !e.dashHits.Contains(c) && SegmentDistance(old, e.pos, c.pos) < 28 && MapLine(old,c.pos) && MapLine(e.pos,c.pos))
                     {
                         Damage(c, e.damage);
                         e.dashHits.Add(c);
@@ -263,7 +271,7 @@ namespace DeadSurvivor
                         e.phase = "approach";
                     return;
                 }
-                if (best < 280 && e.cd <= 0)
+                if (best < 280 && e.cd <= 0 && MapLine(e.pos,t.pos))
                 {
                     Rally(e);
                     return;
@@ -272,19 +280,19 @@ namespace DeadSurvivor
             if (e.type == "ranged")
             {
                 float range = 252;
-                if (best > range * .92f)
-                    e.pos += dir * spec.speed * dt;
+                if (best > range * .92f || !MapLine(e.pos,t.pos))
+                    e.pos=EnemyAdvance(e,t.pos,dir,spec.speed*dt);
                 else if (best < range * .65f)
-                    e.pos -= dir * spec.speed * dt;
-                if (best < range && e.cd <= 0)
+                    e.pos=EnemyDisplace(e,e.pos-dir*spec.speed*dt);
+                if (best < range && e.cd <= 0 && MapLine(e.pos,t.pos))
                 {
                     Shots.Add(new Shot { pos = e.pos, dir = dir, speed = 180, damage = e.damage, type = "enemy", range = range * 1.5f });
                     e.cd = 2;
                 }
             }
             else if (best > spec.radius + 5)
-                e.pos += dir * spec.speed * dt;
-            else if (e.cd <= 0)
+                e.pos=EnemyAdvance(e,t.pos,dir,spec.speed*dt);
+            else if (e.cd <= 0 && MapLine(e.pos,t.pos))
             {
                 Damage(t, e.damage);
                 e.cd = e.type == "armored" ? 1.8f : 1;
@@ -311,11 +319,15 @@ namespace DeadSurvivor
             if(MapSession && !MapSession.CombatEnabled){MapOnlyStep(dt);return;}
             Elapsed += dt;
             TotalTime += dt;
+            mapSearches=mapSpawnSearches=0;
+            foreach(var gone in mapRoutes.Keys.Where(e=>!Enemies.Contains(e)||e.hp<=0).ToArray())mapRoutes.Remove(gone);
             int count = Mathf.RoundToInt(Config.waves[Wave - 1].count * Config.countScale);
             spawnClock -= dt;
-            while (Spawned < count && spawnClock <= 0)
+            int spawnAttempts=0;
+            while (Spawned < count && spawnClock <= 0 && (!MapSession || spawnAttempts++<4))
             {
-                Spawn();
+                int before=Spawned;Spawn();
+                if(MapSession && Spawned==before){spawnClock=.25f;break;}
                 spawnClock += Mathf.Max(0, Duration - 4) / Mathf.Max(1, count - 1);
             }
             Burning();
@@ -333,20 +345,23 @@ namespace DeadSurvivor
                 TickEquipment(c, dt);
             }
             Recycle(dt);
-            foreach (var e in Enemies)
-                UpdateEnemy(e, dt);
+            int start=MapSession && Enemies.Count>0?mapEnemyCursor%Enemies.Count:0;
+            for(int i=0;i<Enemies.Count;i++)UpdateEnemy(Enemies[(start+i)%Enemies.Count],dt);
+            if(MapSession)mapEnemyCursor=(start+1)%Mathf.Max(1,Enemies.Count);
             foreach (var b in Shots)
             {
                 if (b.dead)
                     continue;
                 float step = b.speed * dt;
                 var old = b.pos;
-                b.pos += b.dir * step;
+                var requested=b.pos+b.dir*step;
+                if(MapSession && (!MapSession.Geometry.ValidCoordinate(requested)||!MapSession.Geometry.SafeSweep(old,requested,2))){b.dead=true;continue;}
+                b.pos=requested;
                 b.travel += step;
                 if (b.type == "enemy")
                 {
                     foreach (var c in Team)
-                    if (c.hp > 0 && SegmentDistance(old, b.pos, c.pos) < 15)
+                    if (c.hp > 0 && SegmentDistance(old, b.pos, c.pos) < 15 && MapLine(old,c.pos))
                     {
                         Damage(c, b.damage);
                         b.dead = true;
@@ -359,7 +374,7 @@ namespace DeadSurvivor
                     {
                         Burst(b.pos, b.radius, .4f, "#ffb86d");
                         foreach (var e in Enemies)
-                        if (Vector2.Distance(b.pos, e.pos) < b.radius)
+                        if (Vector2.Distance(b.pos, e.pos) < b.radius && MapLine(b.pos,e.pos))
                             Hit(e, b.damage, b.type, b.dir);
                         b.dead = true;
                     }
@@ -369,7 +384,7 @@ namespace DeadSurvivor
                 {
                     if (e.hp <= 0 || b.hits.Contains(e.id))
                         continue;
-                    if (SegmentDistance(old, b.pos, e.pos) < Monsters[e.type].radius)
+                    if (SegmentDistance(old, b.pos, e.pos) < Monsters[e.type].radius && MapLine(old,e.pos))
                     {
                         Hit(e, b.damage, b.type, b.dir);
                         b.hits.Add(e.id);
