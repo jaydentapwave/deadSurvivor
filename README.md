@@ -1,3 +1,5 @@
+> 021 개발 기본값: s4 / 카메라55도 / ortho6. [설계](docs/design/map-playable-021-023.md) · [검증](docs/reviews/map-playable-021-review.md). 별도 Map021 보정 장면, 전체 맵 인수는 미완료.
+
 # 데드 서바이버 / 배낭 원정대 프로토타입
 
 > 작업 위치 통일: **Git 루트 = Unity 프로젝트 루트 = `/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor`**. Unity Hub에서도 이 폴더를 연다. 게임 코드·콘텐츠는 `Assets/DeadSurvivor`에서 직접 수정한다. [020 이전 검증](docs/reviews/repository-unify-020-review.md).

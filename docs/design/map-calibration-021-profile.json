@@ -1,0 +1,14 @@
+{
+  "id": "MAP-021-EXPERIMENTAL",
+  "status": "DEVELOPMENT_DEFAULT_NOT_MAP_ACCEPTANCE",
+  "source": "Assets/DeadSurvivor/Scenes/Map018_r001/Layout.json",
+  "image_scale": 4,
+  "world_scale": 0.02,
+  "camera_elevation": 55,
+  "orthographic_size": 6,
+  "body_radius_logical": 8,
+  "body_height_logical": 36,
+  "occlusion_alpha": 0.22,
+  "selection_reason": "All six views pass. Scale4 retains the smallest existing map extent and existing movement profile. Elevation55 improves the ground view versus45 while measured body height49.6px remains above40px at3088x1440. This is a reversible development choice, not a reference-measured optimum.",
+  "evidence": "output/map-blockout-018/playable-21-947694f1aceb42a2a678333a3871acaa/summary.json"
+}
