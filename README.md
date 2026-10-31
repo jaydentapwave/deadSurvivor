@@ -54,7 +54,7 @@ python3 Tools/Verify/run.py all
 python3 UnityMigration/sync.py
 ```
 
-이 저장소의 Git 원격은 [deadSurvivor](https://github.com/jaydentapwave/deadSurvivor)이며 기본 브랜치는 `main`이다. 사용자가 지정한 공개 저장소이며, 로그인 정보와 임시 생성물/실행 로그는 `.gitignore`의 제외 범위를 유지한다. 실제 Unity 프로젝트의 씬/.meta/패키지는 별도 실행 폴더에 있으므로 이 저장소만으로 전체 프로젝트가 복구된다고 가정하지 않는다.
+이 저장소의 Git 원격은 [deadSurvivor](https://github.com/jaydentapwave/deadSurvivor)이며 기본 브랜치는 `main`이다. 사용자가 지정한 공개 저장소이며, 로그인 정보와 임시 생성물/실행 로그는 `.gitignore`의 제외 범위를 유지한다. 실제 Unity 프로젝트의 저장된 필수 파일은 [UnityProject](UnityProject/README.md)에 포함한다. Unity Hub에서 이 하위 폴더를 열며, 캐시/빌드/검증 캡처는 다시 생성한다. [파일 이관 검증과 기존 미해결 참조](docs/reviews/unity-project-019-review.md)를 확인한다. 현재 개인 실행 경로와 검증 도구 대상은 기존 Desktop 프로젝트를 유지한다.
 
 - [3D 배경 신비한 숲 분석 준비](docs/design/3D배경-신비한숲-분석준비.md) — 구역·지도·화면 대응 정리, 제작 전.
 
