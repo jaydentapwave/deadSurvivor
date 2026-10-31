@@ -1,0 +1,583 @@
+{
+  "sourceSha256": "a43e48c34c990c9aa8809da2c045c9b8edea556a8bf5153c78ff3e5e3e083bcf",
+  "method": "Original Canvas drawing statements and original SVG; no AI regeneration",
+  "unityWorldScale": "42 source pixels = 1 Unity unit",
+  "assets": [
+    {
+      "file": "Sprites/Characters/bruno.png",
+      "label": "브루노",
+      "category": "character",
+      "width": 256,
+      "height": 256,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Characters/bruno_hit.png",
+      "label": "브루노",
+      "category": "character",
+      "width": 256,
+      "height": 256,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Portraits/bruno.png",
+      "label": "브루노",
+      "category": "portrait",
+      "width": 552,
+      "height": 512,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Characters/hans.png",
+      "label": "한스",
+      "category": "character",
+      "width": 256,
+      "height": 256,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Characters/hans_hit.png",
+      "label": "한스",
+      "category": "character",
+      "width": 256,
+      "height": 256,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Portraits/hans.png",
+      "label": "한스",
+      "category": "portrait",
+      "width": 552,
+      "height": 512,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Characters/lena.png",
+      "label": "레나",
+      "category": "character",
+      "width": 256,
+      "height": 256,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Characters/lena_hit.png",
+      "label": "레나",
+      "category": "character",
+      "width": 256,
+      "height": 256,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Portraits/lena.png",
+      "label": "레나",
+      "category": "portrait",
+      "width": 552,
+      "height": 512,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Characters/yuki.png",
+      "label": "유키",
+      "category": "character",
+      "width": 256,
+      "height": 256,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Characters/yuki_hit.png",
+      "label": "유키",
+      "category": "character",
+      "width": 256,
+      "height": 256,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Portraits/yuki.png",
+      "label": "유키",
+      "category": "portrait",
+      "width": 552,
+      "height": 512,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Characters/bolt.png",
+      "label": "볼트",
+      "category": "character",
+      "width": 256,
+      "height": 256,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Characters/bolt_hit.png",
+      "label": "볼트",
+      "category": "character",
+      "width": 256,
+      "height": 256,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Portraits/bolt.png",
+      "label": "볼트",
+      "category": "portrait",
+      "width": 552,
+      "height": 512,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Characters/mira.png",
+      "label": "미라",
+      "category": "character",
+      "width": 256,
+      "height": 256,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Characters/mira_hit.png",
+      "label": "미라",
+      "category": "character",
+      "width": 256,
+      "height": 256,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Portraits/mira.png",
+      "label": "미라",
+      "category": "portrait",
+      "width": 552,
+      "height": 512,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Monsters/melee.png",
+      "label": "일반형",
+      "category": "monster",
+      "width": 320,
+      "height": 320,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Monsters/melee_hit.png",
+      "label": "일반형",
+      "category": "monster",
+      "width": 320,
+      "height": 320,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Monsters/ranged.png",
+      "label": "사격형",
+      "category": "monster",
+      "width": 320,
+      "height": 320,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Monsters/ranged_hit.png",
+      "label": "사격형",
+      "category": "monster",
+      "width": 320,
+      "height": 320,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Monsters/charger.png",
+      "label": "돌진형",
+      "category": "monster",
+      "width": 320,
+      "height": 320,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Monsters/charger_hit.png",
+      "label": "돌진형",
+      "category": "monster",
+      "width": 320,
+      "height": 320,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Monsters/armored.png",
+      "label": "중장갑형",
+      "category": "monster",
+      "width": 320,
+      "height": 320,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Monsters/armored_hit.png",
+      "label": "중장갑형",
+      "category": "monster",
+      "width": 320,
+      "height": 320,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Monsters/bomber.png",
+      "label": "자폭형",
+      "category": "monster",
+      "width": 320,
+      "height": 320,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Monsters/bomber_hit.png",
+      "label": "자폭형",
+      "category": "monster",
+      "width": 320,
+      "height": 320,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Projectiles/knife.png",
+      "label": "knife",
+      "category": "projectile",
+      "width": 192,
+      "height": 192,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Projectiles/sling.png",
+      "label": "sling",
+      "category": "projectile",
+      "width": 192,
+      "height": 192,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Projectiles/club.png",
+      "label": "club",
+      "category": "projectile",
+      "width": 192,
+      "height": 192,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Projectiles/bow.png",
+      "label": "bow",
+      "category": "projectile",
+      "width": 192,
+      "height": 192,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Projectiles/firework.png",
+      "label": "firework",
+      "category": "projectile",
+      "width": 192,
+      "height": 192,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Projectiles/pan.png",
+      "label": "pan",
+      "category": "projectile",
+      "width": 192,
+      "height": 192,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Projectiles/enemy.png",
+      "label": "enemy",
+      "category": "projectile",
+      "width": 192,
+      "height": 192,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    },
+    {
+      "file": "Sprites/Markers/dead.png",
+      "label": "사망 표시",
+      "category": "marker",
+      "width": 128,
+      "height": 128,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "pixelsPerUnit": 168,
+      "sourcePixelsPerUnit": 42,
+      "scale": 4,
+      "alpha": true,
+      "edgeAlphaPixels": 0
+    }
+  ]
+}

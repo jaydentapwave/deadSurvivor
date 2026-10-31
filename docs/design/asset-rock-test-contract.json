@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "asset_id": "rock-21300150",
+  "revision": "r001-test",
+  "scope": "TRANSFER_TEST",
+  "provider": "tripo-studio",
+  "task_id": "21300150-1f34-4e8d-ae0b-a0ca509bf443",
+  "account_profile": "studio-existing",
+  "source_files": {
+    "output/tripo-studio-test/source/tripo-rock-21300150.zip": {
+      "sha256": "18ae66f5316c90b0b2d7131b17e4a0dc89803696562bd9ba6709f986d3b73ff7",
+      "destination": "tripo-rock-21300150.zip"
+    },
+    "output/tripo-studio-test/source/tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbm/stone_boulder_low-poly_3d_model_basecolor.JPEG": {
+      "sha256": "e2145d92430a35eb37368c9a9acce66410e62bf4d6cab3c1b45d84e7c366244e",
+      "destination": "tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbm/stone_boulder_low-poly_3d_model_basecolor.JPEG"
+    },
+    "output/tripo-studio-test/source/tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbm/stone_boulder_low-poly_3d_model_metallic.JPEG": {
+      "sha256": "dfeb3dacce3b7dc66974ac33763e2059609ec0ae6a1c0eda42875166ac5608bd",
+      "destination": "tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbm/stone_boulder_low-poly_3d_model_metallic.JPEG"
+    },
+    "output/tripo-studio-test/source/tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbm/stone_boulder_low-poly_3d_model_normal.PNG": {
+      "sha256": "0d492db9ef43c8d51c2d04d607264cf9a58d9c371b3c9da7d44db3e2aea27af1",
+      "destination": "tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbm/stone_boulder_low-poly_3d_model_normal.PNG"
+    },
+    "output/tripo-studio-test/source/tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbm/stone_boulder_low-poly_3d_model_rm.JPEG": {
+      "sha256": "045c612c9f316442c70b418335596cca481d57c2571b29f12713ab224dad7af1",
+      "destination": "tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbm/stone_boulder_low-poly_3d_model_rm.JPEG"
+    },
+    "output/tripo-studio-test/source/tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbm/stone_boulder_low-poly_3d_model_roughness.JPEG": {
+      "sha256": "e51e5f591814ca9182eb3163f3d1c9fb8400cc3245f9e9c7307b113c7e148244",
+      "destination": "tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbm/stone_boulder_low-poly_3d_model_roughness.JPEG"
+    },
+    "output/tripo-studio-test/source/tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbx": {
+      "sha256": "a6db517860630cbeafca352fd907056f3aa73a6efabaec34931d90b51f081b95",
+      "destination": "tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbx"
+    }
+  },
+  "basecolor": "output/tripo-studio-test/source/tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbm/stone_boulder_low-poly_3d_model_basecolor.JPEG",
+  "normal": "output/tripo-studio-test/source/tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbm/stone_boulder_low-poly_3d_model_normal.PNG",
+  "model": "output/tripo-studio-test/source/tripo_convert_96865c70-5c26-475b-afe6-e32ca3c19db6.fbx",
+  "limits": {
+    "triangles": 10000,
+    "materials": 1,
+    "meshes": 1,
+    "texture_size": 2048,
+    "horizontal_size": 2.0,
+    "tolerance": 0.01
+  },
+  "purpose": "ASSET-PIPELINE-012 technical transfer test. Targets are test choices, not final map/art/performance budgets. Existing approved generic rock; no new generation."
+}

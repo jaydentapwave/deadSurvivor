@@ -1,0 +1,20 @@
+{
+  "scope": "EXISTING_TRANSFER_TEST_INPUT_NOT_ASSET_ADOPTION",
+  "prefab": "Assets/DeadSurvivor/Art/Tests/Asset012_69f5e6272f3f4368aa0c9babb64262e8/Rock.prefab",
+  "source_summary": "output/asset-pipeline/rock-21300150/eb6917c0e2444ae09ad3f1607f1c2155/unity-69f5e6272f3f4368aa0c9babb64262e8/summary.json",
+  "source_summary_sha256": "94c501a3cb12bd7c6e3831d44bf17cbaa42790a09ead61b4ab35116f0cc13a27",
+  "measurement": "output/asset-pipeline/rock-21300150/eb6917c0e2444ae09ad3f1607f1c2155/unity-69f5e6272f3f4368aa0c9babb64262e8/measurement.json",
+  "measurement_sha256": "578c8aa0e3e84b130bb2352c8554c1b6f3da42385a6ac883861e76c41927901e",
+  "dependency_hashes": {
+    "Assets/DeadSurvivor/Art/Tests/Asset012_69f5e6272f3f4368aa0c9babb64262e8/Rock.prefab": "b5becc5de338ffe2462a7ea5bb478cb1638d8f0a3d891aef5303ce5b831322da",
+    "Assets/DeadSurvivor/Art/Tests/Asset012_69f5e6272f3f4368aa0c9babb64262e8/Rock.prefab.meta": "c941cb09014dd582bacadc345f85fba66fce08e2f80eab09649275df5713fd17",
+    "Assets/DeadSurvivor/Art/Tests/Asset012_69f5e6272f3f4368aa0c9babb64262e8/basecolor.png": "4122a96ae823c36dc925764c0c94f3d81ea8002cf732a7997314da6a419793f4",
+    "Assets/DeadSurvivor/Art/Tests/Asset012_69f5e6272f3f4368aa0c9babb64262e8/basecolor.png.meta": "977781438adba030d8ad5b7c459b475fff0a612b518ea963badfdee4785f7afb",
+    "Assets/DeadSurvivor/Art/Tests/Asset012_69f5e6272f3f4368aa0c9babb64262e8/Rock.mat": "6d828afeee9504ba84d5b60feaeaba06603a1f165e57cee259a3d0480457afed",
+    "Assets/DeadSurvivor/Art/Tests/Asset012_69f5e6272f3f4368aa0c9babb64262e8/Rock.mat.meta": "a942e3dfe1fd1f7273f3cd7c576516b57f297b7b5af272317c01f60106d0b89f",
+    "Assets/DeadSurvivor/Art/Tests/Asset012_69f5e6272f3f4368aa0c9babb64262e8/model.fbx": "526d0f45c05bfc34bbb391493155370e958b315056f0560724e0f9b222189119",
+    "Assets/DeadSurvivor/Art/Tests/Asset012_69f5e6272f3f4368aa0c9babb64262e8/model.fbx.meta": "df7e7cc9ba3b593f2356fcda6afe59d78bcdf3295a37031c5d28c6c3c5cb5707",
+    "Assets/DeadSurvivor/Art/Tests/Asset012_69f5e6272f3f4368aa0c9babb64262e8/normal.png": "3ff88c17cf909e2a0b6526e654ddef16f61e74b5e43412e0b5a72891b1250295",
+    "Assets/DeadSurvivor/Art/Tests/Asset012_69f5e6272f3f4368aa0c9babb64262e8/normal.png.meta": "82b4c7d66ae3de37b060a1ba7615e10c679e3fe961acb3aa5272b17e05fd9a6b"
+  }
+}

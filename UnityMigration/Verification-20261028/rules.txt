@@ -1,0 +1,145 @@
+PASS 4-person squad
+PASS Current HTML tank HP, not old DOCX
+PASS Central 4x4 grid
+PASS Starting weapons
+PASS Wave 1 duration
+PASS 18 current item types
+PASS Disconnected expansion rejected
+PASS Expansion disabled for fixed 4x4
+PASS Rejected kit preserves inventory
+PASS Two-cell expansion disabled
+PASS Grid stays 4x4
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Loot excludes expansion kits
+PASS Out-of-bounds placement preserves item
+PASS Occupied placement rejected
+PASS Same type / grade merge
+PASS Merge preserves target position, consumes source
+PASS Different grades cannot merge
+PASS Legendary merge rejected
+PASS Unequip to stash
+PASS Re-equip from stash
+PASS Dead inventory locked
+PASS Free revive keeps equipment
+PASS Defense cap 80 percent
+PASS Support shares healing
+PASS Buff range is enforced
+PASS Dead support stops buffs
+PASS Healing ticks at 3 seconds
+PASS Shield refills at 8 seconds
+PASS Swept projectile collision
+PASS Original movement speed 140px/s
+PASS Skip enters prep with rewards
+PASS Next wave discards stash and adds 10 seconds
+PASS Burning spawns extra enemies
+PASS Total squad loss triggers defeat
+PASS Wave 1 end-to-end transition
+PASS Wave 2 end-to-end transition
+PASS Wave 3 end-to-end transition
+PASS Wave 4 end-to-end transition
+PASS Wave 5 end-to-end transition
+PASS Wave 6 end-to-end transition
+PASS Wave 7 end-to-end transition
+PASS Wave 8 end-to-end transition
+PASS Wave 9 end-to-end transition
+PASS Wave 10 end-to-end transition
+PASS Complete 10-wave victory
+PASS Exactly one EventSystem

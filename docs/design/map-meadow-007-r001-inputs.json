@@ -1,0 +1,28 @@
+{
+  "package": "MAP-MEADOW-007",
+  "revision": "r001",
+  "scope": "local inputs as read; not Unity project sync evidence",
+  "files": {
+    "docs/art/maps/references/VerdantMeadowsFullMap.png": "84bb8b2502061af81a620b18f158479d963eed7070e1779c97f4dc059b5da5e9",
+    "docs/design/map-meadow-005-r001-cases.csv": "d9406f36eaca08b432f33b68cd6468f18a9838e77765c1a32b03f4fb8477b4d9",
+    "docs/design/map-meadow-005-r001-objects.csv": "1d65e9de28ea2e49c4c346c4eb562cc078318e90c3ed5d6311d1ea25c404bd6c",
+    "docs/design/map-meadow-005-r001-routes.csv": "ec632ab3209cb24f80b2e9161f194ff41472bee642ccdc2604b820fb66dd1ca8",
+    "docs/design/map-meadow-006-r001-contract.md": "ab770e49fc30f0d0ec6acf08cc68e6fe0176c29a3cc7a43728f02b200b557553",
+    "docs/design/map-meadow-006-r001-route-policy.csv": "900ae4ea13a7adb59d765c196b6a32687f2fbdf728c6080d528e41fc2fa8a325",
+    "docs/design/map-meadow-006-r001-transform-vectors.csv": "9269de8587344f06e31391a8b78cf8548acd587d3743f19f25af25f272a858b9",
+    "docs/design/map-meadow-006-r001-package.md": "4bac00aa52e3b2042b81845e1edbb971bcf4dba10aca189a348957682f24f64f",
+    "docs/design/map-meadow-006-r001-contour-policy.csv": "392f9894c77d304e2f8223d195619c9aba9611c6a3d08d4990a68730ff3cf9d1",
+    "UnityMigration/Runtime/DSGame.EquipmentCombat.cs": "145cf23641236cb56051f45768c77e75a3b9a5c033fdd5cb63829ff88cd4dc03",
+    "UnityMigration/Runtime/DSGame.Run.cs": "499fdfc739136f7f0b1d760d9d73284adf35a11997e8bc037edc7e1b49075a03",
+    "UnityMigration/Runtime/DSGame.Combat.cs": "fd02809ae083850f347043e554c5d5f88ecd0995559211f716b348b4bb94aded",
+    "UnityMigration/Runtime/DSGame.Inventory.cs": "8f39ba8d23f23963427f828340f632e7784060c14b2fa8620df9709565e79c19",
+    "UnityMigration/Runtime/DSGame.cs": "d47dca1c8f8620e463de15566ac592482ea207b01b863d714c05aa50e57b53e4",
+    "UnityMigration/Runtime/DSGame.Stats.cs": "745dbe2861b1a308a5ff98c089476e0c8c42c3bd77d7cb48303a35e6c8322d58",
+    "UnityMigration/Runtime/DSGame.Formation.cs": "4883a1a9136296e5ee875449cad3fb92eac12f55c1f57987435605faf3091533",
+    "UnityMigration/Runtime/DSWorld.cs": "843053786978a51d0330218fe22590a6329c4a3589ff03bb97f0723b276c2838",
+    "Tools/Verify/run.py": "3b7203c3d91e08270445bdaa36f616771ba2717b65e6a42030f70e34cfe47a32",
+    "docs/workflows/map-artifact-contract.md": "97eb54cac48320f9c73f109302b966c3476a4ee1c1830dd9bddc5a59a52c5664",
+    "docs/design/맵-워크플로우-하네스-설계.md": "3e49f411d64627ebb407bc0c50b121e9416a373b2205fd1d99904d63dc87903d",
+    "docs/design/맵-하네스-사례명세.md": "8485db9ba488bc77c31dbde8cdfb3a5cb407d9e23fb0ee501c31fe93df89757c"
+  }
+}

@@ -1,0 +1,3 @@
+Built-in image_gen used; model selection not exposed. Transparent PNG originals preserved.
+Base prompt: Centered circular virtual joystick base ring, dark charcoal teal #182125, pale lime #c7ed83 outlines, four cardinal tick marks, subtle worn painted metal, transparent center and outside, no handle/text/perspective.
+Knob prompt: Centered solid circular thumb cap, dark charcoal teal center, pale lime double rim, subtle worn painted metal and concentric grip groove, transparent outside, no text/symbols/perspective.

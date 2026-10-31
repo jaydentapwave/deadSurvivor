@@ -1,0 +1,50 @@
+데드 서바이버 — 원본 디자인 PNG 추출
+
+Sprites 폴더를 Unity 프로젝트의 Assets/Art/DeadSurvivor 아래로 복사하세요.
+Reference1x는 원본 크기 비교용이며, 게임에는 Sprites(4배 해상도)를 사용합니다.
+
+구성: 각 해상도당 PNG 36개
+- Characters: 6종 + 피격 6종 (256×256)
+- Monsters: 5종 + 피격 5종 (320×320)
+- Projectiles: 7종 (192×192)
+- Portraits: 초상화 6종 (552×512)
+- Markers: 사망 표시 1종 (128×128)
+
+Unity 권장 임포트 설정
+- Texture Type: Sprite (2D and UI)
+- Sprite Mode: Single
+- Pixels Per Unit: 168 (원본 42px = Unity 1 unit 기준)
+- Pivot: Center (0.5, 0.5)
+- Mesh Type: Full Rect
+- Alpha Source: Input Texture Alpha / Alpha Is Transparency 활성화
+- Filter Mode: Bilinear
+- Compression: None
+- Generate Mip Maps: 비활성화
+- Wrap Mode: Clamp
+- Max Size: 1024 이상
+초상화는 UI에서 크기를 별도로 지정합니다.
+Reference1x를 사용하는 경우 PPU는 42로 설정하면 같은 월드 크기가 됩니다.
+
+원본 보존 및 재현 범위
+- 원본 HTML의 Canvas 그리기 문장을 직접 실행했습니다. AI로 다시 그린 이미지가 아닙니다.
+- 4배 버전은 작은 PNG를 늘린 것이 아니라 같은 도형을 4배 캔버스에 다시 렌더링했습니다.
+- 그림자와 발밑 타원은 원본대로 포함됩니다. 별도 그림자를 추가하면 중복됩니다.
+- 이름, 체력바, 화면 전체의 비네트, 배경은 제외했습니다.
+- 피격 버전은 원본 코드가 실제로 흰색으로 바꾸는 영역만 변경합니다.
+- 중장갑 몬스터의 원본 1.4배 크기는 이미 반영되어 있습니다.
+- 모든 전투 리소스의 중심 피벗은 원본 게임 좌표 (x,y)에 해당합니다.
+- 화살은 오른쪽(+X)을 향하며 몽둥이 회전 시작 각도는 0입니다.
+- 단검과 새총 발사체가 같은 원 모양인 것은 원본 구현 그대로입니다.
+- 이동, 회전, 발사, 경고 범위, 폭발, 기절, 체력바 등 동적 연출은 Unity에서 구현합니다.
+- 초상화는 원본 SVG 도형을 사용했고, 무기 기호에는 로컬 폰트를 사용했습니다.
+  따라서 초상화의 문자/이모지 기호와 안티앨리어싱은 브라우저와 약간 다를 수 있습니다.
+- 초상화의 카드 배경 및 CSS drop-shadow는 UI 장식이므로 포함하지 않았습니다.
+
+manifest.json: 파일별 크기, 피벗, PPU 및 원본 파일 SHA-256 기록.
+Source/prototype.html: 추출에 사용한 원본 사본.
+Source/PortraitSVG: 초상화 원본 벡터.
+Tools/extract.cjs: 재현 가능한 추출 스크립트(로컬 @napi-rs/canvas 의존).
+Preview.png: 체크무늬 배경의 전체 미리보기. 실제 개별 PNG는 투명합니다.
+
+검증: 72개 PNG 모두 비어 있지 않음, 투명 픽셀 존재, 최외곽 잘림 없음 확인.
+전체 미리보기 시각 검토 완료. Unity Editor 내 임포트/실행 검증은 아직 수행하지 않았습니다.

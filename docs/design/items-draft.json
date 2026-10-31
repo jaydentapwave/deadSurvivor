@@ -1,0 +1,944 @@
+{
+  "status": "prototype proposal",
+  "gradeMultipliers": [
+    1,
+    1.4,
+    2,
+    3,
+    4.5
+  ],
+  "items": [
+    {
+      "id": "sword",
+      "name": "장검",
+      "weaponClass": "전사",
+      "attackMode": "melee",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        }
+      ],
+      "damage": 22,
+      "interval": 1.0,
+      "range": 3,
+      "spriteKey": "pan",
+      "color": "#a87865",
+      "effect": "melee",
+      "baseEffect": "",
+      "baseValue": 0,
+      "classEffect": "",
+      "classValue": 0
+    },
+    {
+      "id": "axe",
+      "name": "전투 도끼",
+      "weaponClass": "전사",
+      "attackMode": "sweep",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        }
+      ],
+      "damage": 35,
+      "interval": 1.8,
+      "range": 3.5,
+      "spriteKey": "club",
+      "color": "#a87865",
+      "effect": "sweep",
+      "baseEffect": "",
+      "baseValue": 0,
+      "classEffect": "",
+      "classValue": 0
+    },
+    {
+      "id": "shortbow",
+      "name": "단궁",
+      "weaponClass": "궁수",
+      "attackMode": "projectile",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        }
+      ],
+      "damage": 13,
+      "interval": 0.7,
+      "range": 8,
+      "spriteKey": "bow",
+      "color": "#67966e",
+      "effect": "projectile",
+      "baseEffect": "",
+      "baseValue": 0,
+      "classEffect": "",
+      "classValue": 0
+    },
+    {
+      "id": "crossbow",
+      "name": "쇠뇌",
+      "weaponClass": "궁수",
+      "attackMode": "projectile",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "damage": 32,
+      "interval": 1.6,
+      "range": 10,
+      "spriteKey": "bow",
+      "color": "#67966e",
+      "effect": "projectile",
+      "baseEffect": "",
+      "baseValue": 0,
+      "classEffect": "",
+      "classValue": 0
+    },
+    {
+      "id": "firestaff",
+      "name": "화염 지팡이",
+      "weaponClass": "마법사",
+      "attackMode": "explosion",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        }
+      ],
+      "damage": 24,
+      "interval": 1.7,
+      "range": 7,
+      "spriteKey": "firework",
+      "color": "#8475ad",
+      "effect": "explosion",
+      "baseEffect": "",
+      "baseValue": 0,
+      "classEffect": "",
+      "classValue": 0
+    },
+    {
+      "id": "wand",
+      "name": "번개 완드",
+      "weaponClass": "마법사",
+      "attackMode": "chain",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        }
+      ],
+      "damage": 17,
+      "interval": 1.4,
+      "range": 7,
+      "spriteKey": "sling",
+      "color": "#8475ad",
+      "effect": "chain",
+      "baseEffect": "",
+      "baseValue": 0,
+      "classEffect": "",
+      "classValue": 0
+    },
+    {
+      "id": "relic",
+      "name": "치유 성물",
+      "weaponClass": "사제",
+      "attackMode": "heal",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "damage": 12,
+      "interval": 2,
+      "range": 6,
+      "spriteKey": "knife",
+      "color": "#c2ac6f",
+      "effect": "heal",
+      "baseEffect": "",
+      "baseValue": 0,
+      "classEffect": "",
+      "classValue": 0
+    },
+    {
+      "id": "censer",
+      "name": "성스러운 향로",
+      "weaponClass": "사제",
+      "attackMode": "healArea",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        }
+      ],
+      "damage": 6,
+      "interval": 2.5,
+      "range": 4,
+      "spriteKey": "firework",
+      "color": "#c2ac6f",
+      "effect": "healArea",
+      "baseEffect": "",
+      "baseValue": 0,
+      "classEffect": "",
+      "classValue": 0
+    },
+    {
+      "id": "ironshield",
+      "name": "철제 방패",
+      "matchClass": "전사",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "def",
+      "baseValue": 0.08,
+      "classEffect": "def",
+      "classValue": 0.08,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#a87865",
+      "effect": "def / def"
+    },
+    {
+      "id": "chainmail",
+      "name": "쇠사슬 갑옷",
+      "matchClass": "전사",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "hp",
+      "baseValue": 45,
+      "classEffect": "hp",
+      "classValue": 30,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#a87865",
+      "effect": "hp / hp"
+    },
+    {
+      "id": "helmet",
+      "name": "철제 투구",
+      "matchClass": "전사",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        }
+      ],
+      "baseEffect": "def",
+      "baseValue": 0.03,
+      "classEffect": "startShield",
+      "classValue": 15,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#a87865",
+      "effect": "def / startShield"
+    },
+    {
+      "id": "whetstone",
+      "name": "숫돌",
+      "matchClass": "전사",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "baseEffect": "attack",
+      "baseValue": 0.06,
+      "classEffect": "attack",
+      "classValue": 0.14,
+      "requiresAdjacent": true,
+      "targetMode": "attack",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#a87865",
+      "effect": "attack / attack"
+    },
+    {
+      "id": "gauntlet",
+      "name": "전투 장갑",
+      "matchClass": "전사",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "haste",
+      "baseValue": 0.08,
+      "classEffect": "haste",
+      "classValue": 0.18,
+      "requiresAdjacent": true,
+      "targetMode": "attack",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#a87865",
+      "effect": "haste / haste"
+    },
+    {
+      "id": "banner",
+      "name": "수호 깃발",
+      "matchClass": "전사",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 0,
+          "y": 2
+        },
+        {
+          "x": 1,
+          "y": 2
+        }
+      ],
+      "baseEffect": "def",
+      "baseValue": 0.04,
+      "classEffect": "shield",
+      "classValue": 20,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#a87865",
+      "effect": "def / shield"
+    },
+    {
+      "id": "quiver",
+      "name": "화살통",
+      "matchClass": "궁수",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        }
+      ],
+      "baseEffect": "haste",
+      "baseValue": 0.05,
+      "classEffect": "haste",
+      "classValue": 0.15,
+      "requiresAdjacent": true,
+      "targetMode": "projectile",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#67966e",
+      "effect": "haste / haste"
+    },
+    {
+      "id": "pierce",
+      "name": "관통 화살촉",
+      "matchClass": "궁수",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        }
+      ],
+      "baseEffect": "attack",
+      "baseValue": 0.05,
+      "classEffect": "pierce",
+      "classValue": 1,
+      "requiresAdjacent": true,
+      "targetMode": "projectile",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#67966e",
+      "effect": "attack / pierce"
+    },
+    {
+      "id": "split",
+      "name": "갈래 화살촉",
+      "matchClass": "궁수",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "attack",
+      "baseValue": 0.05,
+      "classEffect": "extraShots",
+      "classValue": 1,
+      "requiresAdjacent": true,
+      "targetMode": "projectile",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#67966e",
+      "effect": "attack / extraShots"
+    },
+    {
+      "id": "feather",
+      "name": "매의 깃털",
+      "matchClass": "궁수",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "baseEffect": "range",
+      "baseValue": 0.08,
+      "classEffect": "range",
+      "classValue": 0.2,
+      "requiresAdjacent": true,
+      "targetMode": "projectile",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#67966e",
+      "effect": "range / range"
+    },
+    {
+      "id": "scope",
+      "name": "사냥꾼의 조준경",
+      "matchClass": "궁수",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        }
+      ],
+      "baseEffect": "attack",
+      "baseValue": 0.08,
+      "classEffect": "attack",
+      "classValue": 0.22,
+      "requiresAdjacent": true,
+      "targetMode": "projectile",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#67966e",
+      "effect": "attack / attack"
+    },
+    {
+      "id": "leather",
+      "name": "가죽 조끼",
+      "matchClass": "궁수",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "hp",
+      "baseValue": 30,
+      "classEffect": "hp",
+      "classValue": 20,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#67966e",
+      "effect": "hp / hp"
+    },
+    {
+      "id": "crystal",
+      "name": "마력 수정",
+      "matchClass": "마법사",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "baseEffect": "attack",
+      "baseValue": 0.06,
+      "classEffect": "attack",
+      "classValue": 0.14,
+      "requiresAdjacent": true,
+      "targetMode": "attack",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#8475ad",
+      "effect": "attack / attack"
+    },
+    {
+      "id": "spellbook",
+      "name": "마법서",
+      "matchClass": "마법사",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "attack",
+      "baseValue": 0.06,
+      "classEffect": "radius",
+      "classValue": 0.4,
+      "requiresAdjacent": true,
+      "targetMode": "explosion",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#8475ad",
+      "effect": "attack / radius"
+    },
+    {
+      "id": "ring",
+      "name": "집중의 반지",
+      "matchClass": "마법사",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "baseEffect": "haste",
+      "baseValue": 0.04,
+      "classEffect": "haste",
+      "classValue": 0.1,
+      "requiresAdjacent": true,
+      "targetMode": "attack",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#8475ad",
+      "effect": "haste / haste"
+    },
+    {
+      "id": "hat",
+      "name": "마법사 모자",
+      "matchClass": "마법사",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 2,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "attack",
+      "baseValue": 0.05,
+      "classEffect": "chain",
+      "classValue": 2,
+      "requiresAdjacent": true,
+      "targetMode": "chain",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#8475ad",
+      "effect": "attack / chain"
+    },
+    {
+      "id": "orb",
+      "name": "수정 구슬",
+      "matchClass": "마법사",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "attack",
+      "baseValue": 0.08,
+      "classEffect": "pulse",
+      "classValue": 10,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 3,
+      "effectRadius": 100,
+      "color": "#8475ad",
+      "effect": "attack / pulse"
+    },
+    {
+      "id": "robe",
+      "name": "마법 로브",
+      "matchClass": "마법사",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "def",
+      "baseValue": 0.04,
+      "classEffect": "shield",
+      "classValue": 18,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 8,
+      "effectRadius": 100,
+      "color": "#8475ad",
+      "effect": "def / shield"
+    },
+    {
+      "id": "scripture",
+      "name": "성전",
+      "matchClass": "사제",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "heal",
+      "baseValue": 4,
+      "classEffect": "share",
+      "classValue": 1,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 3,
+      "effectRadius": 100,
+      "color": "#c2ac6f",
+      "effect": "heal / share"
+    },
+    {
+      "id": "bell",
+      "name": "축복의 종",
+      "matchClass": "사제",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "heal",
+      "baseValue": 3,
+      "classEffect": "share",
+      "classValue": 1,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 3,
+      "effectRadius": 100,
+      "color": "#c2ac6f",
+      "effect": "heal / share"
+    },
+    {
+      "id": "rosary",
+      "name": "기도 묵주",
+      "matchClass": "사제",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        }
+      ],
+      "baseEffect": "heal",
+      "baseValue": 2,
+      "classEffect": "share",
+      "classValue": 1,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 3,
+      "effectRadius": 100,
+      "color": "#c2ac6f",
+      "effect": "heal / share"
+    },
+    {
+      "id": "amulet",
+      "name": "수호 부적",
+      "matchClass": "사제",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        }
+      ],
+      "baseEffect": "heal",
+      "baseValue": 1,
+      "classEffect": "share",
+      "classValue": 1,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 3,
+      "effectRadius": 100,
+      "color": "#c2ac6f",
+      "effect": "heal / share"
+    },
+    {
+      "id": "vestment",
+      "name": "성직자의 의복",
+      "matchClass": "사제",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "heal",
+      "baseValue": 3,
+      "classEffect": "share",
+      "classValue": 1,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 3,
+      "effectRadius": 100,
+      "color": "#c2ac6f",
+      "effect": "heal / share"
+    },
+    {
+      "id": "lantern",
+      "name": "성역의 등불",
+      "matchClass": "사제",
+      "shape": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 0,
+          "y": 1
+        },
+        {
+          "x": 1,
+          "y": 1
+        }
+      ],
+      "baseEffect": "heal",
+      "baseValue": 4,
+      "classEffect": "share",
+      "classValue": 1,
+      "requiresAdjacent": false,
+      "targetMode": "",
+      "effectInterval": 3,
+      "effectRadius": 100,
+      "color": "#c2ac6f",
+      "effect": "heal / share"
+    }
+  ]
+}

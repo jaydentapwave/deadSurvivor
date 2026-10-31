@@ -1,0 +1,28 @@
+# Local OS/editor files
+.DS_Store
+*.swp
+*.tmp
+__pycache__/
+*.pyc
+
+# Generated output and duplicate export archive
+/output/
+/DeadSurvivor-UnityArt.zip
+
+# Unity generated directories (keep source assets and .meta files)
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Ll]ogs/
+[Bb]uild/
+[Bb]uilds/
+UserSettings/
+*.csproj
+*.sln
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.local.json
+*.local.toml

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "document_role": "I1_COLLECTION_PLAN",
+  "scope": "PROTOCOL_FIXTURE_ONLY",
+  "suite_id": "i1-recording-example",
+  "revision": "r001",
+  "expected_case_ids": [
+    "COLLECT-A",
+    "COLLECT-B"
+  ],
+  "cases": [
+    {
+      "case_id": "COLLECT-A",
+      "step_count": 2,
+      "event_count": 1
+    },
+    {
+      "case_id": "COLLECT-B",
+      "step_count": 2,
+      "event_count": 1
+    }
+  ],
+  "inputs": [
+    {
+      "path": "docs/design/map-harness-fixtures.json",
+      "sha256": "7b0800be0aad2688e44e4d32c6707c6fe57a8d53ef06f83b27d44675489ce660"
+    }
+  ],
+  "wall_timeout_s": 300,
+  "max_payload_bytes": 1048576
+}

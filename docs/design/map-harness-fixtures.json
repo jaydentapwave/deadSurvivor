@@ -1,0 +1,307 @@
+{
+  "schema_version": 1,
+  "document_role": "DESIGN_EXAMPLES_NOT_EXECUTABLE_REQUEST",
+  "scope": "G2 fixture examples only; full suite expansion required before acceptance",
+  "units": "game logical units; not map scale or final body radius",
+  "cases": [
+    {
+      "id": "NORMAL-EMPTY",
+      "coordinate_space": "logical_fixture",
+      "boundary": [
+        [
+          -500,
+          -500
+        ],
+        [
+          500,
+          -500
+        ],
+        [
+          500,
+          500
+        ],
+        [
+          -500,
+          500
+        ]
+      ],
+      "obstacles": [],
+      "party_count": 1,
+      "formation": 0,
+      "start_center": [
+        0,
+        0
+      ],
+      "start_actual": [
+        [
+          0,
+          0
+        ]
+      ],
+      "body_radius": 0.25,
+      "input_steps": [
+        {
+          "index": 0,
+          "frame_dt_supplied": 0.05,
+          "config_speed": 1,
+          "move": [
+            1,
+            0
+          ]
+        }
+      ],
+      "remaining_wave_time": 10,
+      "geometry_epsilon": 0.0001,
+      "wall_timeout_s": 30,
+      "max_steps": 1,
+      "mutation": {
+        "kind": "none"
+      },
+      "expected": {
+        "center_x": 7,
+        "actual_x": 4.2,
+        "status": "PASS"
+      },
+      "runtime_status": "NOT_RUN",
+      "replay_position_epsilon": 0.0001,
+      "replay_time_epsilon": 0.0001
+    },
+    {
+      "id": "NORMAL-WALL",
+      "coordinate_space": "logical_fixture",
+      "boundary": [
+        [
+          -500,
+          -500
+        ],
+        [
+          500,
+          -500
+        ],
+        [
+          500,
+          500
+        ],
+        [
+          -500,
+          500
+        ]
+      ],
+      "obstacles": [
+        [
+          [
+            3.4,
+            -20
+          ],
+          [
+            3.6,
+            -20
+          ],
+          [
+            3.6,
+            20
+          ],
+          [
+            3.4,
+            20
+          ]
+        ]
+      ],
+      "party_count": 1,
+      "formation": 0,
+      "start_center": [
+        0,
+        0
+      ],
+      "start_actual": [
+        [
+          0,
+          0
+        ]
+      ],
+      "body_radius": 0.25,
+      "input_steps": [
+        {
+          "index": 0,
+          "frame_dt_supplied": 0.05,
+          "config_speed": 1,
+          "move": [
+            1,
+            0
+          ]
+        }
+      ],
+      "remaining_wave_time": 10,
+      "geometry_epsilon": 0.0001,
+      "wall_timeout_s": 30,
+      "max_steps": 1,
+      "mutation": {
+        "kind": "none"
+      },
+      "expected": {
+        "center_x_min_exclusive": 0,
+        "center_x_max_exclusive": 3.1499,
+        "swept_penetrations": 0,
+        "status": "PASS"
+      },
+      "runtime_status": "NOT_RUN",
+      "replay_position_epsilon": 0.0001,
+      "replay_time_epsilon": 0.0001
+    },
+    {
+      "id": "FI03-THIN-WALL",
+      "coordinate_space": "logical_fixture",
+      "boundary": [
+        [
+          -500,
+          -500
+        ],
+        [
+          500,
+          -500
+        ],
+        [
+          500,
+          500
+        ],
+        [
+          -500,
+          500
+        ]
+      ],
+      "obstacles": [
+        [
+          [
+            3.4,
+            -20
+          ],
+          [
+            3.6,
+            -20
+          ],
+          [
+            3.6,
+            20
+          ],
+          [
+            3.4,
+            20
+          ]
+        ]
+      ],
+      "party_count": 1,
+      "formation": 0,
+      "start_center": [
+        0,
+        0
+      ],
+      "start_actual": [
+        [
+          0,
+          0
+        ]
+      ],
+      "body_radius": 0.25,
+      "input_steps": [
+        {
+          "index": 0,
+          "frame_dt_supplied": 0.05,
+          "config_speed": 1,
+          "move": [
+            1,
+            0
+          ]
+        }
+      ],
+      "remaining_wave_time": 10,
+      "geometry_epsilon": 0.0001,
+      "wall_timeout_s": 30,
+      "max_steps": 1,
+      "mutation": {
+        "fi_id": "FI-03",
+        "variant": "bypass_motion_once",
+        "step": 0
+      },
+      "expected": {
+        "status": "FAIL",
+        "reason": "SWEPT_PENETRATION",
+        "detection_expected": "PASS"
+      },
+      "runtime_status": "NOT_RUN",
+      "replay_position_epsilon": 0.0001,
+      "replay_time_epsilon": 0.0001
+    }
+  ],
+  "oracle_vectors": [
+    {
+      "id": "BODY_OVERLAP_OUTSIDE_CENTER",
+      "center": [
+        3.3,
+        0
+      ],
+      "surface": "wall_x_3.4_to_3.6",
+      "radius": 0.25,
+      "signed_center_distance": 0.1,
+      "body_gap": -0.15,
+      "epsilon": 0.0001,
+      "expected": "FAIL",
+      "runtime_status": "NOT_RUN"
+    },
+    {
+      "id": "EPSILON_BAND",
+      "center": [
+        3.1499,
+        0
+      ],
+      "surface": "wall_x_3.4_to_3.6",
+      "radius": 0.25,
+      "signed_center_distance": 0.2501,
+      "body_gap": 0.0001,
+      "epsilon": 0.0001,
+      "expected": "BLOCKED",
+      "runtime_status": "NOT_RUN"
+    },
+    {
+      "id": "CENTER_INSIDE_SOLID",
+      "center": [
+        3.5,
+        0
+      ],
+      "surface": "wall_x_3.4_to_3.6",
+      "radius": 0.25,
+      "signed_center_distance": -0.1,
+      "body_gap": -0.35,
+      "epsilon": 0.0001,
+      "expected": "FAIL",
+      "runtime_status": "NOT_RUN"
+    },
+    {
+      "id": "BODY_OUTSIDE_BOUNDARY",
+      "center": [
+        499.9,
+        0
+      ],
+      "surface": "boundary_x_500",
+      "radius": 0.25,
+      "signed_center_distance": 0.1,
+      "body_gap": -0.15,
+      "epsilon": 0.0001,
+      "expected": "FAIL",
+      "runtime_status": "NOT_RUN"
+    },
+    {
+      "id": "CENTER_OUTSIDE_BOUNDARY",
+      "center": [
+        500.1,
+        0
+      ],
+      "surface": "boundary_x_500",
+      "radius": 0.25,
+      "signed_center_distance": -0.1,
+      "body_gap": -0.35,
+      "epsilon": 0.0001,
+      "expected": "FAIL",
+      "runtime_status": "NOT_RUN"
+    }
+  ]
+}

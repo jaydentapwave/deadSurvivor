@@ -1,0 +1,14 @@
+{
+  "scope": "preparation SVG/PNG integrity only",
+  "layout_sha256": "9a8deb6a57e9ae4692fe3e25275b1e21b484bff9b26896c2342e47e487696775",
+  "files": {
+    "docs/art/maps/map-meadow-007-r001/map-meadow-007-r001-structure.svg": "ae98c2db8fc6e8d5ecf5238b395d7072a6bb1377032e521af264b31084cb90b3",
+    "docs/art/maps/map-meadow-007-r001/map-meadow-007-r001-structure.png": "a753ce26952986095f680c349d4925d67c0e5da9db611cc0350c2e4faa137904",
+    "docs/art/maps/map-meadow-007-r001/map-meadow-007-r001-collision.svg": "e88a9daa1bac580f62c91b2b01420373fbf156457692432a75feda1f88564819",
+    "docs/art/maps/map-meadow-007-r001/map-meadow-007-r001-collision.png": "ed7caec135e0a08c9401709c29221eb378e98739d2b49987f46209f6f56f9843",
+    "docs/art/maps/map-meadow-007-r001/map-meadow-007-r001-tests.svg": "d8874f80162abe6636487683208f8e6898b9e2f048943b5a419bbde74b81bae7",
+    "docs/art/maps/map-meadow-007-r001/map-meadow-007-r001-tests.png": "81927a00c5a46338a9392ceab6d15c0d3d35a5c8241f5c0d9282683efdf5e064",
+    "docs/art/maps/map-meadow-007-r001/map-meadow-007-r001-changes.svg": "83579a5459db3612ea940ab509a69e03ab9dbf605d0c17b8f4450b11e6de7f0c",
+    "docs/art/maps/map-meadow-007-r001/map-meadow-007-r001-changes.png": "44dabcdd8391988c8cd4892d4cac85267f7e5929056e1eda662b7ae9afe054fc"
+  }
+}
