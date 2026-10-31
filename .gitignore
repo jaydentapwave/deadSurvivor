@@ -2,12 +2,20 @@
 .DS_Store
 *.swp
 *.tmp
+*.log
 __pycache__/
 *.pyc
+.venv/
+node_modules/
 
 # Generated output and duplicate export archive
 /output/
 /DeadSurvivor-UnityArt.zip
+1029.zip
+MigrationReference/
+MigrationReference.meta
+MigrationVerification/
+MigrationVerification.meta
 
 # Unity generated directories (keep source assets and .meta files)
 [Ll]ibrary/
@@ -16,9 +24,45 @@ __pycache__/
 [Ll]ogs/
 [Bb]uild/
 [Bb]uilds/
-UserSettings/
+[Uu]ser[Ss]ettings/
+[Mm]emory[Cc]aptures/
+[Rr]ecordings/
+TestResults.xml
+*_BurstDebugInformation_DoNotShip/
+*_BackUpThisFolder_ButDontShipItWithYourGame/
+*.app/
+*.apk
+*.aab
+*.obb
+
+# Local IDE caches and generated project/debug files
+.vs/
+.idea/
+.gradle/
 *.csproj
 *.sln
+*.slnx
+*.unityproj
+*.suo
+*.user
+*.userprefs
+*.DotSettings.user
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Crash reports and Blender backup files (keep original .blend files)
+sysinfo.txt
+mono_crash.*
+*.blend[0-9]
+*.blend[0-9].meta
 
 # Local configuration and secrets
 .env
