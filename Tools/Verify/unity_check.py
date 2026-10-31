@@ -2,6 +2,10 @@
 import json
 import shutil
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from project_paths import canonical_evidence_path, require_project
+
 import subprocess
 import time
 import math
@@ -45,16 +49,8 @@ def run_unity(root, project, out, screens=False, experiments=False, loadouts=Fal
         if check: return {'status':'BLOCKED','error':'Unsaved scene or disabled reload; no settings changed'}
         scene=evaluate('return UnityEngine.SceneManagement.SceneManager.GetActiveScene().path;')
         if scene!='Assets/DeadSurvivor/Scenes/DeadSurvivor.unity':return {'status':'BLOCKED','error':'Expected gameplay scene is not active'}
-        for folder in ['Runtime','Editor']:
-            source_names={p.relative_to(root/'UnityMigration'/folder) for p in (root/'UnityMigration'/folder).rglob('*.cs')}
-            target_names={p.relative_to(project/'Assets/DeadSurvivor'/folder) for p in (project/'Assets/DeadSurvivor'/folder).rglob('*.cs')}
-            if source_names!=target_names:raise UnityFailure('Source file sets differ: '+folder)
-            for relative in sorted(source_names):
-                p=root/'UnityMigration'/folder/relative
-                q=project/'Assets/DeadSurvivor'/folder/relative
-                if not q.exists() or p.read_bytes()!=q.read_bytes():raise UnityFailure('Unsynced source: '+str(p))
-        data=root/'UnityMigration/Data/PrototypeData.json'
-        if data.read_bytes()!=(project/'Assets/DeadSurvivor/Resources/DeadSurvivor/PrototypeData.json').read_bytes():raise UnityFailure('Unsynced data')
+        require_project(root, project)
+        data=root/'Assets/DeadSurvivor/Resources/DeadSurvivor/PrototypeData.json'
         compile_run=subprocess.run(['unity','recompile','--project-path',str(project),'--format','json'],capture_output=True,text=True,timeout=120)
         (out/'compile.json').write_text(compile_run.stdout+'\n'+compile_run.stderr)
         if compile_run.returncode:raise UnityFailure('Compile failed; see compile.json')

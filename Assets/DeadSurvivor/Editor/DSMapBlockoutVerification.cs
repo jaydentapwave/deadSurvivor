@@ -17,7 +17,7 @@ namespace DeadSurvivor.Editor
         public const string ScenePath=Folder+"/MapBlockout018_r001.unity";
         public const string PrefabPath=Folder+"/MapBlockout018_r001.prefab";
         const string Project="/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor";
-        const string Reports="/Users/hyeongwoo/Documents/ChatGPT/데드 서바이버/output/map-blockout-018/";
+        static readonly string Reports=Path.Combine(Project,"output/map-blockout-018/");
         const string RockPath="Assets/DeadSurvivor/Art/Tests/Asset012_69f5e6272f3f4368aa0c9babb64262e8/Rock.prefab";
         static DSMapBlockoutPreview current;
         static Keyboard keyboard,previous;

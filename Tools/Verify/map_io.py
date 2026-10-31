@@ -3,6 +3,10 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from project_paths import canonical_evidence_path, require_project
+
 
 
 class MapInputError(ValueError):
@@ -89,7 +93,7 @@ def read_input_bytes(path, max_bytes=1024 * 1024):
 
 
 def load_json(path, max_bytes=1024 * 1024):
-    raw = read_input_bytes(path, max_bytes)
+    raw = read_input_bytes(canonical_evidence_path(path), max_bytes)
     try:
         return strict_loads(raw.decode('utf-8'))
     except UnicodeError as error:

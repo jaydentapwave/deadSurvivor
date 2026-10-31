@@ -9,11 +9,11 @@ import stat
 import subprocess
 import sys
 import uuid
-from gate_support import runtime_state, evidence_context, validate_unity_report, digest
+from gate_support import runtime_state, evidence_context, validate_unity_report, digest, canonical_evidence_path
 
 ROOT = Path(__file__).resolve().parents[2]
 PYTHON = '/usr/bin/python3'
-REQUIRED = ('AGENTS.md', 'Tools/Verify/run.py', 'Tools/Verify/gate.py',
+REQUIRED = ('Tools/project_paths.py', 'AGENTS.md', 'Tools/Verify/run.py', 'Tools/Verify/gate.py',
             'Tools/Verify/gate_support.py', 'Tools/Verify/gate-policy.json',
             '.githooks/pre-commit', '.codex/hooks.json')
 
@@ -200,13 +200,13 @@ def main():
     if mode == 'stop':
         try:
             payload = json.load(sys.stdin)
-            cwd = Path(payload['cwd']).resolve()
+            cwd = canonical_evidence_path(Path(payload['cwd'])).resolve()
             if payload.get('hook_event_name') != 'Stop' or not cwd.is_relative_to(ROOT):
                 raise ValueError('Wrong hook event or cwd; no checks executed')
         except Exception as error:
             print(json.dumps({'decision': 'block', 'reason': str(error)}, ensure_ascii=False))
             return 0
-    elif not Path.cwd().resolve().is_relative_to(ROOT):
+    elif not canonical_evidence_path(Path.cwd()).resolve().is_relative_to(ROOT):
         print('Wrong project cwd', file=sys.stderr)
         return 2
     try:

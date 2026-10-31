@@ -1,5 +1,7 @@
 # 데드 서바이버 / 배낭 원정대 프로토타입
 
+> 작업 위치 통일: **Git 루트 = Unity 프로젝트 루트 = `/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor`**. Unity Hub에서도 이 폴더를 연다. 게임 코드·콘텐츠는 `Assets/DeadSurvivor`에서 직접 수정한다. [020 이전 검증](docs/reviews/repository-unify-020-review.md).
+
 > 3D 배치 미리보기: [018 설계·사용법](docs/design/map-blockout-018.md) · [검증 기록](docs/reviews/map-blockout-018-review.md). 007의64개 충돌 후보를 높이 있는 메시로 전개하고 기존 Tripo 바위 하나와 4인 탐색을 별도 장면에 배치했다. 최종 미술·전체 맵/G2·전투 연결·자산 채택은 후속 범위다.
 
 > 이동 핵심 구현: [017 설계/사용법](docs/design/map-i2-017.md) · [실제 검증](docs/reviews/map-i2-017-review.md). 파티/예약 슬롯 안전 이동과 별도 Unity 프레임 시험을 구현했다. 최종 숲 맵·full map v1·I3 상태 전환·전체 G2는 후속 범위다.
@@ -51,10 +53,10 @@
 ```sh
 python3 Tools/Verify/run.py local
 python3 Tools/Verify/run.py all
-python3 UnityMigration/sync.py
+git status --short
 ```
 
-이 저장소의 Git 원격은 [deadSurvivor](https://github.com/jaydentapwave/deadSurvivor)이며 기본 브랜치는 `main`이다. 사용자가 지정한 공개 저장소이며, 로그인 정보와 임시 생성물/실행 로그는 `.gitignore`의 제외 범위를 유지한다. 실제 Unity 프로젝트의 저장된 필수 파일은 [UnityProject](UnityProject/README.md)에 포함한다. Unity Hub에서 이 하위 폴더를 열며, 캐시/빌드/검증 캡처는 다시 생성한다. [파일 이관 검증과 기존 미해결 참조](docs/reviews/unity-project-019-review.md)를 확인한다. 현재 개인 실행 경로와 검증 도구 대상은 기존 Desktop 프로젝트를 유지한다.
+이 저장소의 Git 원격은 [deadSurvivor](https://github.com/jaydentapwave/deadSurvivor)이며 기본 브랜치는 `main`이다. 사용자가 지정한 공개 저장소이며, 로그인 정보와 임시 생성물/실행 로그는 `.gitignore`의 제외 범위를 유지한다. Unity의 `Assets`, `Packages`, `ProjectSettings`는 저장소 루트에서 직접 관리한다. 캐시/빌드/검증 캡처는 제외한다. 기존 커밋 이력은 그대로이며 이전 별도 UnityProject 사본은 로컬 output에 보관했다. [이전 파일 이관 시 확인한 미해결 참조](docs/reviews/unity-project-019-review.md)는 별도 후속 사항이다.
 
 - [3D 배경 신비한 숲 분석 준비](docs/design/3D배경-신비한숲-분석준비.md) — 구역·지도·화면 대응 정리, 제작 전.
 

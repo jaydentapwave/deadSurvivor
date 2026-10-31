@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/usr/bin/python3 '/Users/hyeongwoo/Documents/ChatGPT/데드 서바이버/Tools/Verify/gate.py' stop",
+            "command": "/usr/bin/python3 '/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/Tools/Verify/gate.py' stop",
             "timeout": 120,
             "statusMessage": "프로젝트 필수 검사 확인"
           }

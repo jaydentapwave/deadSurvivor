@@ -13,6 +13,8 @@ import shutil
 import subprocess
 import sys
 import uuid
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from project_paths import canonical_evidence_path
 
 ROOT = Path(__file__).resolve().parents[2]
 BASE = ROOT / 'output/asset-pipeline'
@@ -97,8 +99,10 @@ def lock(folder):
 
 
 def tools_hashes():
-    return {name: digest(TOOLS / name) for name in
+    result = {name: digest(TOOLS / name) for name in
             ('pipeline.py', 'process_blender.py', 'UnityAsset.cs', 'unity_asset.py')}
+    result['Tools/project_paths.py'] = digest(TOOLS.parent/'project_paths.py')
+    return result
 
 
 def process_dependencies():
@@ -173,7 +177,7 @@ def check_sources(s):
 
 def job_dir(path):
     child(ROOT, 'output/asset-pipeline')
-    p = Path(path)
+    p = canonical_evidence_path(path)
     if p.is_absolute():
         try:
             p = p.relative_to(BASE)

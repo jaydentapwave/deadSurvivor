@@ -14,7 +14,7 @@
 
 [숲 공터 평면도 01](maps/forest-clearing-plan-01.png) · [설계 설명](../design/3D배경-첫맵-평면설계-01.md). 준비 단계의 비례 개념도이며 정확한 축척 도면이나 게임 적용 완료 자산이 아니다.
 
-[32종 시안 목록](items/catalog.svg)은 런타임 [DSIconArt](../../UnityMigration/Runtime/DSIconArt.cs)의 동일 벡터 경로에서 내보낸다. `python3 Tools/Verify/export_catalog.py`로 다시 생성한다. 각 ID의 SVG가 items 폴더에 있고 데이터 ID 32개와 일치 여부를 검사한다. 런타임은 64×64 투명 텍스처로 생성해 캐시하고 종료 시 해제한다. 인벤토리 원점 칸·전리품·진형 미리보기에 연결했다. 아이콘은 외형 식별용이며 실제 점유 칸은 별도 모양 표시가 기준이다.
+[32종 시안 목록](items/catalog.svg)은 런타임 [DSIconArt](../../Assets/DeadSurvivor/Runtime/DSIconArt.cs)의 동일 벡터 경로에서 내보낸다. `python3 Tools/Verify/export_catalog.py`로 다시 생성한다. 각 ID의 SVG가 items 폴더에 있고 데이터 ID 32개와 일치 여부를 검사한다. 런타임은 64×64 투명 텍스처로 생성해 캐시하고 종료 시 해제한다. 인벤토리 원점 칸·전리품·진형 미리보기에 연결했다. 아이콘은 외형 식별용이며 실제 점유 칸은 별도 모양 표시가 기준이다.
 
 ## 제작 기준
 

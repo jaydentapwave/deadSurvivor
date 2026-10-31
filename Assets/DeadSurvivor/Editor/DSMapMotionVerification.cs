@@ -16,7 +16,7 @@ namespace DeadSurvivor.Editor
     {
         const string Key="DS.Map017.";
         const string Project="/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor";
-        const string Reports="/Users/hyeongwoo/Documents/ChatGPT/데드 서바이버/output/map-i2-017/";
+        static readonly string Reports=Path.Combine(Project,"output/map-i2-017/");
         static DSMovementFixture fixture;
         static GameObject[] roots;
         static Keyboard keyboard,previousKeyboard;
@@ -139,7 +139,7 @@ namespace DeadSurvivor.Editor
         static string ReportPath(string path)
         {
             string full=Path.GetFullPath(path);
-            if(!full.StartsWith(Reports,StringComparison.Ordinal) && !full.StartsWith("/Users/hyeongwoo/Documents/ChatGPT/데드 서바이버/output/map-blockout-018/",StringComparison.Ordinal)) throw new Exception("INVALID_REPORT_PATH");
+            if(!full.StartsWith(Reports,StringComparison.Ordinal) && !full.StartsWith(Path.Combine(Project,"output/map-blockout-018/"),StringComparison.Ordinal)) throw new Exception("INVALID_REPORT_PATH");
             return full;
         }
         static void ReleaseKeyboard()

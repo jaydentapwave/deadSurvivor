@@ -16,7 +16,9 @@ R/회전 버튼은 임시 방향, 적용 성공 시 저장. 중앙 보관함으�
 균형/쐐기/횡대 선택은 다음 웨이브부터 적용. 능력치 보너스 없음.
 
 검증: 작업 저장소에서 python3 Tools/Verify/run.py all.
-동기화: sync.py는 기본 비교만 수행. --apply에는 이전 summary.json 기준 필요.
+현재 코드/콘텐츠 단일 원본은 Assets/DeadSurvivor이며 Git과 Unity 루트가 같다.
+과거 Runtime/Editor/PrototypeData 사본은 output/repository-unify-020에 보관했다.
+sync.py --apply는 폐기되어 현재 Assets를 덮어쓰지 않는다. 이 폴더에는 독립 검증 템플릿·폰트/이미지 저작 원본만 남긴다.
 자세한 기획/구조/검증은 작업 저장소 README.md 및 docs 참조.
 원본 DOCX와 이전 할일은 docs/sources에 보존. 최신 규칙이 이전 기획보다 우선.
 

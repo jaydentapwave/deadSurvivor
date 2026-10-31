@@ -7,6 +7,10 @@ import json
 import math
 import os
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from project_paths import canonical_evidence_path, require_project
+
 import shutil
 import subprocess
 import struct
@@ -386,21 +390,15 @@ class Unity:
     def ready(self):self.cli(['status','--until-ready'])
 
 
-def assert_sources_synced():
-    for name in ('Runtime','Editor'):
-        a={str(p.relative_to(ROOT/'UnityMigration'/name)):motion.digest(p) for p in (ROOT/'UnityMigration'/name).rglob('*.cs')}
-        target=PROJECT/'Assets/DeadSurvivor'/name
-        b={str(p.relative_to(target)):motion.digest(p) for p in target.rglob('*.cs')}
-        if a!=b:raise RuntimeError('SOURCE_TARGET_MISMATCH:'+name)
-    if motion.digest(ROOT/'UnityMigration/Data/PrototypeData.json')!=motion.digest(PROJECT/'Assets/DeadSurvivor/Resources/DeadSurvivor/PrototypeData.json'):
-        raise RuntimeError('CONTENT_MISMATCH')
+def assert_canonical_project():
+    require_project(ROOT, PROJECT)
 
 
 def _build_at(path,data,uid,out,fail_after=0):
     u=Unity(out)
     with motion.editor_lock():
         if (motion.BASE/'unity-pending.json').exists() or (BASE/'build-pending.json').exists():raise RuntimeError('UNFINISHED_UNITY_RUN')
-        assert_sources_synced();sources=motion.source_hashes()
+        assert_canonical_project();sources=motion.source_hashes()
         u.ready();snapshot=u.session('Snapshot');motion.write(out/'snapshot.json',snapshot)
         before={name:motion.tree_hashes(PROJECT/name) for name in ('Assets','Packages','ProjectSettings')}
         motion.write(out/'target-before.json',before)
@@ -485,7 +483,7 @@ def verify():
             if after!=evidence:raise RuntimeError('CAMERA_CHANGED_DURING_CAPTURE')
             motion.write(out/(label+'.capture.json'),dict(**sizes,camera_before=evidence,camera_after=after,png_sha256=item['sha256'],source='screen',pose='FROZEN_AFTER_RECORDED_STEPS'))
         try:
-            assert_sources_synced();u.ready();snapshot=u.session('Snapshot');pid=u.session('Ownership')['pid'];motion.write(out/'snapshot.json',snapshot)
+            assert_canonical_project();u.ready();snapshot=u.session('Snapshot');pid=u.session('Ownership')['pid'];motion.write(out/'snapshot.json',snapshot)
             receipt=build_receipt();dependencies=rock_inputs()
             before={name:motion.tree_hashes(PROJECT/name) for name in ('Assets','Packages','ProjectSettings')};motion.write(out/'target-before.json',before)
             if motion.digest(PROJECT/(FOLDER+'/Layout.json'))!=motion.digest(path):raise RuntimeError('DEPLOYED_LAYOUT_CHANGED')

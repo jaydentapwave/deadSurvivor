@@ -10,6 +10,10 @@ import json
 import math
 import os
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from project_paths import canonical_evidence_path, require_project
+
 import shutil
 import subprocess
 import time
@@ -286,7 +290,7 @@ def tree_hashes(base):
 
 
 def source_hashes():
-    return {str(p.relative_to(ROOT)): digest(p) for directory in ('UnityMigration/Runtime', 'UnityMigration/Editor', 'Tools/Verify')
+    return {str(p.relative_to(ROOT)): digest(p) for directory in ('Assets/DeadSurvivor/Runtime', 'Assets/DeadSurvivor/Editor', 'Tools/Verify', 'Tools')
             for p in sorted((ROOT/directory).glob('*')) if p.suffix in ('.py', '.cs')}
 
 
@@ -412,17 +416,7 @@ def run(cleanup_probe=None):
         snapshot, target_before, editor_pid = None, None, None
         try:
             cli(['status', '--until-ready'])
-            for directory in ('Runtime', 'Editor'):
-                local = ROOT/'UnityMigration'/directory
-                target = PROJECT/'Assets/DeadSurvivor'/directory
-                if tree_hashes(local) != {p: h for p, h in tree_hashes(target).items() if p.endswith('.cs')}:
-                    # Source directories contain only .cs and local generated caches are excluded.
-                    a = {p: h for p, h in tree_hashes(local).items() if p.endswith('.cs')}
-                    b = {p: h for p, h in tree_hashes(target).items() if p.endswith('.cs')}
-                    if a != b:
-                        raise RuntimeError('SOURCE_TARGET_MISMATCH:' + directory)
-            if digest(ROOT/'UnityMigration/Data/PrototypeData.json') != digest(PROJECT/'Assets/DeadSurvivor/Resources/DeadSurvivor/PrototypeData.json'):
-                raise RuntimeError('CONTENT_MISMATCH')
+            require_project(ROOT, PROJECT)
             if evaluate('return UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode;'):
                 raise RuntimeError('USER_PLAY_ACTIVE')
             cli(['recompile'], timeout=120)

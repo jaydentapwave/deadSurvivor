@@ -26,12 +26,12 @@
 
 | 현재 위치 | 관찰한 동작 | 새 설계에서 필요한 연결 |
 |---|---|---|
-| [DSGame.Update](../../UnityMigration/Runtime/DSGame.cs) | 실제 입력, ClampMagnitude, min(frameDt,.05)×speed, Simulate, Render/Tick | 공유 프레임 진입점과 입력 소유권, 전/후 관찰 |
-| [Simulate](../../UnityMigration/Runtime/DSGame.Combat.cs) | 남은 시간으로 dt 제한, 적 생성, Center 이동, 생존자 Lerp, 장비·적·투사체 진행 | 이동 계산 결과 원자적 반영, 이동 전용 시험의 전투 차단 |
-| [Formation](../../UnityMigration/Runtime/DSGame.Formation.cs) | 오프셋과 Pending 변경, VerificationRun이면 전투/정비 실제시간 기록 생략 | 오프셋 재사용, Pending 사전 검사, 외부 관찰기로 wall time 기록 |
-| [Run](../../UnityMigration/Runtime/DSGame.Run.cs) | StartRun 초기화, NextWave의 Stash/RNG/상태 변경, FinishWave 보상 | 변경 전에 전환 검사, 초기화 순서·난수 추적 |
-| [Revive](../../UnityMigration/Runtime/DSGame.Inventory.cs) | HP/좌표/장비/이력 변경 | 사전 검사 후 한 번에 반영 |
-| [기존 실험기](../../UnityMigration/Editor/DSExperiments.cs) | 동기 반복 Simulate, 일부 상태만 복구 | 논리 실험 선례. 실제 프레임/입력 증거로 전용하지 않음 |
+| [DSGame.Update](../../Assets/DeadSurvivor/Runtime/DSGame.cs) | 실제 입력, ClampMagnitude, min(frameDt,.05)×speed, Simulate, Render/Tick | 공유 프레임 진입점과 입력 소유권, 전/후 관찰 |
+| [Simulate](../../Assets/DeadSurvivor/Runtime/DSGame.Combat.cs) | 남은 시간으로 dt 제한, 적 생성, Center 이동, 생존자 Lerp, 장비·적·투사체 진행 | 이동 계산 결과 원자적 반영, 이동 전용 시험의 전투 차단 |
+| [Formation](../../Assets/DeadSurvivor/Runtime/DSGame.Formation.cs) | 오프셋과 Pending 변경, VerificationRun이면 전투/정비 실제시간 기록 생략 | 오프셋 재사용, Pending 사전 검사, 외부 관찰기로 wall time 기록 |
+| [Run](../../Assets/DeadSurvivor/Runtime/DSGame.Run.cs) | StartRun 초기화, NextWave의 Stash/RNG/상태 변경, FinishWave 보상 | 변경 전에 전환 검사, 초기화 순서·난수 추적 |
+| [Revive](../../Assets/DeadSurvivor/Runtime/DSGame.Inventory.cs) | HP/좌표/장비/이력 변경 | 사전 검사 후 한 번에 반영 |
+| [기존 실험기](../../Assets/DeadSurvivor/Editor/DSExperiments.cs) | 동기 반복 Simulate, 일부 상태만 복구 | 논리 실험 선례. 실제 프레임/입력 증거로 전용하지 않음 |
 | [기존 Unity 검사](../../Tools/Verify/unity_check.py) | 대상/미저장/Play 상태 확인, 실제 프레임·캡처 | 직렬 실행과 새 결과 형식 연결. 기존 검사는 유지 |
 
 ## 2. 구현 파일과 단일 소유권

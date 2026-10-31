@@ -1,6 +1,6 @@
 # UNITY-PROJECT-019 — 실제 Unity 파일 Git 이관
 
-2026-10-31 · L1 · [설계](../design/unity-project-019.md) · [프로젝트 열기](../../UnityProject/README.md). 사용자 요청은 필요한 Unity 파일을 기존 GitHub 저장소에 커밋·업로드하는 것이다. 판정 범위는 **SAVED_PROJECT_TRANSFER_ONLY**이며 새 기능/개발 대상 변경/새 클론 첫 import·Play 성공을 뜻하지 않는다.
+2026-10-31 · L1 · [설계](../design/unity-project-019.md) · [프로젝트 열기](../../README.md). 사용자 요청은 필요한 Unity 파일을 기존 GitHub 저장소에 커밋·업로드하는 것이다. 판정 범위는 **SAVED_PROJECT_TRANSFER_ONLY**이며 새 기능/개발 대상 변경/새 클론 첫 import·Play 성공을 뜻하지 않는다.
 
 ## 포함과 보존
 

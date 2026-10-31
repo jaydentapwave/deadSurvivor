@@ -15,6 +15,7 @@ class ContractTests(unittest.TestCase):
         self.tools=self.root/'tools';self.tools.mkdir()
         for name in ('pipeline.py','process_blender.py','UnityAsset.cs','unity_asset.py'):
             (self.tools/name).write_text(name)
+        (self.tools.parent/'project_paths.py').write_text('fixture shared path policy')
         self.blender=self.root/'blender';self.blender.write_bytes(b'fixture executable')
         self.patch=patch.multiple(p,ROOT=self.root,BASE=self.root/'output/asset-pipeline',
                                  TOOLS=self.tools,BLENDER=str(self.blender));self.patch.start()
@@ -48,6 +49,12 @@ class ContractTests(unittest.TestCase):
             return subprocess.CompletedProcess(cmd,0)
         with patch.object(p.subprocess,'run',side_effect=processor): p.resume(job)
         return job
+
+    def test_shared_path_policy_is_fingerprinted(self):
+        before=p.tools_hashes()
+        (self.tools.parent/'project_paths.py').write_text('changed fixture policy')
+        after=p.tools_hashes()
+        self.assertNotEqual(before['Tools/project_paths.py'],after['Tools/project_paths.py'])
 
     def test_contract_valid(self):
         self.assertEqual(p.validate_spec(self.spec),self.spec)

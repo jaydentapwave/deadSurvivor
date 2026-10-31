@@ -6,8 +6,8 @@ import re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 def main():
-    data=json.loads((ROOT/'UnityMigration/Data/PrototypeData.json').read_text())
-    paths=dict(re.findall(r'\{"([a-z]+)", "([MLZ 0-9]+)"\}',(ROOT/'UnityMigration/Runtime/DSIconArt.cs').read_text()))
+    data=json.loads((ROOT/'Assets/DeadSurvivor/Resources/DeadSurvivor/PrototypeData.json').read_text())
+    paths=dict(re.findall(r'\{"([a-z]+)", "([MLZ 0-9]+)"\}',(ROOT/'Assets/DeadSurvivor/Runtime/DSIconArt.cs').read_text()))
     assert set(paths)=={i['id'] for i in data['items']}
     out=ROOT/'docs/art/items';out.mkdir(parents=True,exist_ok=True)
     parts=['<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="640" viewBox="0 0 1024 640"><rect width="1024" height="640" fill="#101b20"/>']

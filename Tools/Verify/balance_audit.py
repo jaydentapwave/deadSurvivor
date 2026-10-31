@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--loadouts',type=Path,required=True);args=parser.parse_args();args.loadouts=args.loadouts.resolve()
-    source=ROOT/'UnityMigration/Data/PrototypeData.json';data=json.loads(source.read_text());items=data['items'];defs={i['id']:i for i in items}
+    source=ROOT/'Assets/DeadSurvivor/Resources/DeadSurvivor/PrototypeData.json';data=json.loads(source.read_text());items=data['items'];defs={i['id']:i for i in items}
     party=[data['characters'][i] for i in [0,2,4,5]]
     def eligible(d):
         if not d.get('bonusEffect'):return False
@@ -18,7 +18,7 @@ def main():
         return False
     weights={w['id']:w['weight'] for w in data['settings']['weights']};early={i:w*(2 if eligible(defs[i]) else 1) for i,w in weights.items()};late={i:w*(1.5 if i in [c['weapon'] for c in party] else 1) for i,w in weights.items()}
     evidence=json.loads((args.loadouts.parent.parent/'summary.json').read_text())
-    assert evidence['sha256']['UnityMigration/Data/PrototypeData.json']==hashlib.sha256(source.read_bytes()).hexdigest(), 'Data differs from experiment input'
+    assert evidence['sha256'].get('Assets/DeadSurvivor/Resources/DeadSurvivor/PrototypeData.json', evidence['sha256'].get('UnityMigration/Data/PrototypeData.json'))==hashlib.sha256(source.read_bytes()).hexdigest(), 'Data differs from experiment input'
     results=json.loads(args.loadouts.read_text());keys=['simulationTime','wave','kills','damage','healing','alive','maxSlotError','win']
     assert len(results)==96
     assert all('parallel-v1 additive loadout' in r['equipped']['policy'] for r in results), 'Expected current additive experiment policy'

@@ -2,6 +2,10 @@
 import hashlib
 import json
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from project_paths import canonical_evidence_path, require_project
+
 
 PERSONAL_PROJECT = Path('/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor')
 
@@ -33,7 +37,9 @@ def runtime_state(root, project=PERSONAL_PROJECT):
 
 
 def verifier_hashes(root):
-    return {str(p.relative_to(root)): digest(p) for p in sorted((root / 'Tools/Verify').rglob('*.py'))}
+    result = {str(p.relative_to(root)): digest(p) for p in sorted((root / 'Tools/Verify').rglob('*.py'))}
+    result['Tools/project_paths.py'] = digest(root / 'Tools/project_paths.py')
+    return result
 
 
 def evidence_context(root, project=PERSONAL_PROJECT):

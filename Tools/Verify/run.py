@@ -35,7 +35,7 @@ def documents(root):
 
 def data_check(root):
     errors = []
-    data = json.loads((root / 'UnityMigration/Data/PrototypeData.json').read_text())
+    data = json.loads((root / 'Assets/DeadSurvivor/Resources/DeadSurvivor/PrototypeData.json').read_text())
     ids = {}
     for section in ('characters', 'items', 'monsters'):
         rows = data[section]
@@ -65,7 +65,7 @@ def map_oracle_foundation(root):
 
 def fingerprint():
     hashes = {}
-    for directory in ('UnityMigration', 'Tools/Verify', 'docs', '.agents', '.claude'):
+    for directory in ('Assets', 'Packages', 'ProjectSettings', 'UnityMigration', 'Tools', 'docs', '.agents', '.claude'):
         for path in sorted((ROOT / directory).rglob('*')):
             if path.is_file() and path.suffix in ('.py', '.cs', '.json', '.md', '.svg'):
                 hashes[str(path.relative_to(ROOT))] = hashlib.sha256(path.read_bytes()).hexdigest()
