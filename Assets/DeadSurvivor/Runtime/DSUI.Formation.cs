@@ -10,7 +10,7 @@ namespace DeadSurvivor
             for (int n = 0; n < 3; n++)
             {
                 int index = n;
-                Button(page, DSGame.FormationNames[n], left + n * 170, H - 171, 160, 34, () => g.SelectFormation(index), g.PendingFormation == n);
+                Button(page, DSGame.FormationNames[n], left + n * 170, H - 171, 160, 34, () => g.SubmitMapCommand("SelectFormation",index), g.PendingFormation == n);
             }
             var preview = Box("FormationPreview", page, W / 2 - 250, H - 330, 500, 150);
             for (int n = 0; n < g.Team.Count; n++)

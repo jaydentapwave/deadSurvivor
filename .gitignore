@@ -70,3 +70,8 @@ mono_crash.*
 !.env.example
 *.local.json
 *.local.toml
+
+# Tripo local client context and temporary Unity capture folders
+/.tripo/
+/Assets/output/
+/Assets/output.meta

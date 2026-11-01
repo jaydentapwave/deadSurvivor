@@ -20,8 +20,8 @@ namespace DeadSurvivor
             root.gameObject.SetActive(visible);
             g.MapSession.Frame(g.Center);
             cam.backgroundColor=ColorOf("#192326");
-            g.ViewWidth=cam.orthographicSize*2*cam.aspect/g.MapSession.Data.world_scale;
-            g.ViewHeight=cam.orthographicSize*2/Mathf.Sin(g.MapSession.Elevation*Mathf.Deg2Rad)/g.MapSession.Data.world_scale;
+            g.ViewWidth=cam.orthographicSize*2*cam.aspect/g.MapSession.BoundWorldScale;
+            g.ViewHeight=cam.orthographicSize*2/Mathf.Sin(g.MapSession.BoundElevation*Mathf.Deg2Rad)/g.MapSession.BoundWorldScale;
             if(!visible)return;
             foreach(var e in g.Enemies)
             {
@@ -30,6 +30,15 @@ namespace DeadSurvivor
             }
             foreach(var c in g.Team)
             {
+                if(g.MapSession.IsFixture)
+                {
+                    int slot=g.Team.IndexOf(c);float radius=g.MapSession.BodyProfile.Radius(slot,g.Team.Count)*g.MapSession.BoundWorldScale;
+                    var mark=MapSprite(c.hp>0?disc:ring,c.pos,radius*2,ColorOf(c.hp>0?"#c7ed83":"#666666"),30);
+                    mark.transform.rotation=Quaternion.Euler(90,0,0);mark.transform.position=g.MapSession.World(c.pos)+Vector3.up*.015f;
+                    var reserve=MapSprite(ring,g.Center+g.Offset(slot),radius*2,ColorOf("#73b5ed"),31);
+                    reserve.transform.rotation=Quaternion.Euler(90,0,0);reserve.transform.position=g.MapSession.World(g.Center+g.Offset(slot))+Vector3.up*.016f;
+                    continue;
+                }
                 MapSprite(Load(c.hp>0?"Characters/"+g.Def(c).id+(c.flash>0?"_hit":""):"Markers/dead"),c.pos,c.hp>0?.72f:.24f,Color.white,30);
                 if(c.hp<=0)continue;
                 var bar=MapSprite(square,c.pos,.04f,ColorOf("#3c4847"),40,.84f);bar.transform.localScale=new Vector3(.72f,.04f,1);
@@ -41,7 +50,7 @@ namespace DeadSurvivor
             {
                 Text(e.text,e.pos,12,ColorOf(e.color));var t=texts[textCursor-1];t.transform.rotation=cam.transform.rotation;t.transform.position=g.MapSession.World(e.pos)+cam.transform.up;
             }
-            if(g.MapSession.Visibility)g.MapSession.Visibility.Focus=g.Team.Where(c=>c.hp>0).Select(c=>g.MapSession.World(c.pos)+Vector3.up*.36f).ToArray();
+            if(g.MapSession.BoundVisibility)g.MapSession.BoundVisibility.Focus=g.Team.Where(c=>c.hp>0).Select(c=>g.MapSession.World(c.pos)+Vector3.up*.01f+cam.transform.up*.36f).ToArray();
             for(int i=cursor;i<pool.Count;i++)pool[i].gameObject.SetActive(false);
             for(int i=textCursor;i<texts.Count;i++)texts[i].gameObject.SetActive(false);
         }

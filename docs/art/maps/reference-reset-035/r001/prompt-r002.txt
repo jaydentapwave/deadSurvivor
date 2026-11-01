@@ -1,0 +1,17 @@
+Use case: precise-object-edit.
+Image 1 is the ORIGINAL source full map, 1195x1110. Image 2 is our first generated regional concept. Correct ONLY the regional framing and landmark layout of Image 2 using Image 1. Preserve Image 2's low moss/grass-topped broken stone remnants, thin irregular gray edges, cool muted palette, meadow ground layers, subdued overhead lighting, and game-art level of detail.
+
+The final image must represent ONLY the original source rectangle x=100..520 and y=100..360, filling an overhead orthographic landscape canvas of aspect 21:13. It is not the full upper-left quarter. The prior draft erroneously included boundary walls from OUTSIDE this rectangle and shifted the path and stones. REMOVE ALL outer/perimeter walls along the top and left edges. Do not replace them with fences or any border. The picture edges here should just be cropped meadow and worn soil, with the small pebble road crossing the lower area.
+
+Match these source-landmark positions in the final canvas. Coordinates below are fractions of output width and height with (0,0) top left:
+- ONE larger rounded green-topped remnant centered (0.298,0.269), approx width0.14/height0.22.
+- ONE long curved remnant centered (0.595,0.404), approx width0.22/height0.18, same orientation as source near pixel(350,205).
+- ONE long curved remnant centered (0.857,0.404), approx width0.23/height0.15, same orientation as source near pixel(460,205).
+- ONE long curved remnant centered (0.369,0.654), approx width0.23/height0.17, source near pixel(255,270).
+- ONE small rounded remnant centered (0.671,0.623), approx width0.09/height0.16.
+- ONE smaller rounded remnant centered (0.869,0.646), approx width0.075/height0.13.
+Exactly six principal remnants, separated by grassy open ground. Keep source-specific curvatures, green upper surfaces, thin gray broken-stone rims, and some restrained low dark moss/shrub clumps. They are low raised remnants, not empty rooms, planter containers, big piles of rocks, or hollow pits.
+
+The gray-blue small-cobblestone path must cross from the left to the right edge centered at about y=0.86 of the final canvas (slightly irregular as in source), approx thickness0.08 of canvas height. Keep the original pale worn-soil route along the left side, approx x=.08-.16, and irregular dirt patches scattered around the forms, directly observed from Image 1.
+Do not invent new landmarks. Do not add a pond, a large tree, more stones, a circular enclosing wall, a village, characters or UI. No labels, coordinates, text, grid, arrows, title, border or watermark.
+Priority: use Image 1's actual selected crop layout and relative object sizes; Image 2 is a material/style reference only. No isometric angle or perspective change. Output a single clean corrected regional concept.

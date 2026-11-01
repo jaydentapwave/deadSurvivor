@@ -1,0 +1,17 @@
+{
+  "mode": "native image_gen",
+  "intent": "new seamless grass material using actual map as palette/style reference",
+  "source": "docs/art/maps/references/VerdantMeadowsFullMap.png",
+  "source_sha256": "84bb8b2502061af81a620b18f158479d963eed7070e1779c97f4dc059b5da5e9",
+  "result_sha256": "2b7dc092838e567015fc541f4a54b1a89b4c66731e775e9e210a468847fc3fc4",
+  "output_size": "1254x1254",
+  "requested_size": "1024x1024",
+  "unity_import_max_size": 1024,
+  "tripo_calls": 0,
+  "soil": {
+    "mode": "native image_gen",
+    "input": "docs/art/maps/references/VerdantMeadowsFullMap.png",
+    "prompt": "soil-prompt.txt",
+    "result_sha256": "01727392d0b24f83ad67639dc72bd86345406860038c40cd0801bb175ffeb2c1"
+  }
+}

@@ -14,7 +14,20 @@ namespace DeadSurvivor.Editor
         static string[] simulatorStates;
         static int resizeFrame;
         static string SimulatorState(EditorWindow window) => window.GetType().GetField("m_State", Flags).GetValue(window).ToString();
-        static void UpdateSimulators() { foreach (var window in simulators) window.GetType().GetMethod("Update", Flags).Invoke(window, null); }
+        // Focus() can be ineffective while the Editor is in the background. The
+        // state enum alone does not establish that the Device.Screen shim is off.
+        // Use the same explicit API as Restore; do not change runtime UI or checks.
+        static void SuspendSimulators()
+        {
+            foreach(var window in simulators)
+            {
+                var state=window.GetType().GetField("m_State",Flags);
+                var main=window.GetType().GetField("m_Main",Flags).GetValue(window);
+                main.GetType().GetMethod("Disable",Flags).Invoke(main,null);
+                state.SetValue(window,Enum.Parse(state.FieldType,"Disabled"));
+                if(SimulatorState(window)!="Disabled")throw new Exception("Simulator suspension failed");
+            }
+        }
         static object group;
         static int originalIndex, customIndex = -1;
         static PropertyInfo selected;
@@ -50,7 +63,7 @@ namespace DeadSurvivor.Editor
             group.GetType().GetMethod("AddCustomSize").Invoke(group, new[] { size });
             Select(customIndex);
             view.Focus();
-            UpdateSimulators();
+            SuspendSimulators();
             resizeFrame = Time.frameCount;
             view.Repaint();
             return "RESIZED";

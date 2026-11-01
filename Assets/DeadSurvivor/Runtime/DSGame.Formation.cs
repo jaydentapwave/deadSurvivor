@@ -38,8 +38,11 @@ namespace DeadSurvivor
                 ResultTime += dt;
                 return;
             }
-            if (VerificationRun)
-                return;
+            if (VerificationRun
+#if UNITY_EDITOR
+                && !NormalObserverRecordingTime
+#endif
+                )return;
             if (State == "prep")
             {
                 RealPrep += dt;

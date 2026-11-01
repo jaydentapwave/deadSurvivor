@@ -1,0 +1,27 @@
+{
+  "id": "MAP-FULL-026-MAC/r001",
+  "status": "FROZEN_DEVELOPMENT_TARGET_PROPOSAL_NOT_EXECUTED",
+  "target_selection": "User confirmed current development Mac 2026-11-01",
+  "environment_evidence": "output/map-full-026/development-mac.json",
+  "architecture": "arm64",
+  "graphics_api": "Metal",
+  "build_type": "Development",
+  "viewport": [1280, 720],
+  "v_sync_count": 0,
+  "target_frame_rate": 60,
+  "warmup_seconds": 10,
+  "measure_seconds": 30,
+  "repetitions": 3,
+  "thresholds": {
+    "frame_p95_ms": 16.67,
+    "frame_p99_ms": 33.34,
+    "frame_max_ms": 100,
+    "total_allocated_memory_bytes": 2147483648,
+    "process_start_to_ready_seconds": 5
+  },
+  "load_tiers": null,
+  "load_tiers_readiness": "BLOCKED_PENDING_ACTUAL_BASELINE_CONCURRENCY",
+  "gpu_counter_unavailable": "BLOCKED_NOT_ZERO",
+  "execution": "NOT_RUN",
+  "acceptance": "BLOCKED_PENDING_N1_G3_AND_METRICS_ADAPTER"
+}

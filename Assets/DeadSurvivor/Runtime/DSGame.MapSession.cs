@@ -9,7 +9,7 @@ namespace DeadSurvivor
         bool MapAllows(int formation,int revive=-1)
         {
             if(!MapSession)return true;
-            bool safe=DSMapPartyRules.CanTransition(MapSession.Geometry,Center,Formation,formation,Team.ToArray(),revive);
+            bool safe=DSMapPartyRules.CanTransition(MapSession.Geometry,Center,Formation,formation,Team.ToArray(),MapSession.BodyProfile,revive);
             if(!safe)RejectMap();else MapRejection="";
             return safe;
         }

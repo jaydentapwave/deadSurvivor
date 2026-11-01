@@ -4,7 +4,7 @@ using UnityEngine;
 namespace DeadSurvivor
 {
     // Immutable geometry/radius cache; every path edge is certified by the same swept disc policy.
-    public sealed class DSMapNavigation
+    public sealed partial class DSMapNavigation
     {
         readonly DSMapGeometry map;
         readonly float radius;

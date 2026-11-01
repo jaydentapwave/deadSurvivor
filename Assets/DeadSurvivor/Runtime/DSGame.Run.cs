@@ -27,8 +27,8 @@ namespace DeadSurvivor
             if (RejectMovementFixtureCommand("StartRun")) return;
             if (Selected.Count == 0)
                 return;
-            if(MapSession && !DSMapPartyRules.CanStart(MapSession.Geometry,MapSession.StartCenter,Selected.Count)){RejectMap();return;}
-            Center=MapSession?MapSession.StartCenter:Vector2.zero;
+            if(MapSession && !DSMapPartyRules.CanStart(MapSession.Geometry,MapSession.BoundStartCenter,Selected.Count,MapSession.BodyProfile)){RejectMap();return;}
+            Center=MapSession?MapSession.BoundStartCenter:Vector2.zero;
             uid = enemyUid = 0;
             MoveInput = Vector2.zero;
             Formation = PendingFormation = 0;
@@ -52,7 +52,7 @@ namespace DeadSurvivor
             TotalTime = 0;
             History.Clear();
             Stash.Clear();
-            Center = MapSession?MapSession.StartCenter:Vector2.zero;
+            Center = MapSession?MapSession.BoundStartCenter:Vector2.zero;
             NextWave();
         }
         public Vector2 Offset(int i) => FormationOffset(Formation, i, Mathf.Max(1, Selected.Count));
@@ -159,6 +159,7 @@ namespace DeadSurvivor
                 History.Add(new WaveRecord { wave = Wave, time = Elapsed, realBattle = WaveReal, pausedTime = WavePaused, formation = Formation, kills = WaveKills, survivors = Team.Count(c => c.hp > 0), defeated = true });
             Win = win;
             State = "result";
+            if(mapRequired)RotateMapNonce("Result");
             Paused = false;
             UI.Result();
         }

@@ -15,7 +15,7 @@ namespace DeadSurvivor
         {
             g = game;
             mapOwned=game.MapSession!=null;
-            cam = Camera.main;
+            cam = game.MapSession?game.MapSession.BoundCamera:Camera.main;
             cam.orthographic = true;
             cam.orthographicSize = 748f / 84;
             cam.backgroundColor = ColorOf("#192326");

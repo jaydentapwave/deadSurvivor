@@ -9,12 +9,15 @@ import stat
 import subprocess
 import sys
 import uuid
-from gate_support import runtime_state, evidence_context, validate_unity_report, digest, canonical_evidence_path
+import gate_scope
+import run as local_checks
+from gate_support import runtime_state, evidence_context, digest, canonical_evidence_path
+from gate_evidence import validate_unity_report, same_producers, same_execution_context
 
 ROOT = Path(__file__).resolve().parents[2]
 PYTHON = '/usr/bin/python3'
 REQUIRED = ('Tools/project_paths.py', 'AGENTS.md', 'Tools/Verify/run.py', 'Tools/Verify/gate.py',
-            'Tools/Verify/gate_support.py', 'Tools/Verify/gate-policy.json',
+            'Tools/Verify/gate_support.py', 'Tools/Verify/gate_scope.py', 'Tools/Verify/gate_evidence.py', 'Tools/Verify/gate-policy.json',
             '.githooks/pre-commit', '.codex/hooks.json')
 
 
@@ -129,33 +132,99 @@ def validate_policy_paths(root, policy):
             raise ValueError('Invalid active map dependency path: ' + rel)
 
 
+def static_requirements(root, policy, source, out):
+    deps = gate_scope.dependencies(root, source, policy)
+    old = gate_scope.history(root)
+    checks = {}
+    for name, inputs in deps.items():
+        record, reason = gate_scope.reusable(root, old, name, inputs)
+        if record is not None:
+            checks[name] = record
+            continue
+        record = {'status': 'FAIL', 'action': 'RUN', 'reason': reason, 'dependencies': inputs}
+        checks[name] = record
+        try:
+            if name == 'map_preparation':
+                audit = run_check([PYTHON, str(root / policy['active_map']['audit'])], 'map', root)
+                value = {'status': 'PASS', 'audit': audit, 'map_dependencies': active_map_check(root, policy)}
+            else:
+                fn = {'docs': local_checks.documents, 'data': local_checks.data_check,
+                      'map_oracle_foundation': local_checks.map_oracle_foundation}[name]
+                value = fn(root)
+            if not gate_scope.valid_result(name, value):
+                raise ValueError('Invalid or failed ' + name + ' result: ' + json.dumps(value, ensure_ascii=False))
+            record['status'] = 'PASS'
+        except Exception as error:
+            value = {'status': 'FAIL', 'error': str(error)}
+            record['error'] = str(error)
+        path = out / (name + '.json')
+        path.write_text(json.dumps({'schema': 1, 'name': name, 'dependencies': inputs,
+                                    'result': value}, ensure_ascii=False, indent=2) + '\n')
+        record.update(report=str(path.relative_to(root)), sha256=digest(path))
+    return checks
+
+
 def runtime_requirement(root, policy):
     now = runtime_state(root)
     baseline = policy['runtime_baseline']
     if now == baseline:
-        return {'status': 'PASS', 'scope': 'unchanged installation baseline; NOT a new runtime validation'}
+        return {'status': 'PASS', 'action': 'BASELINE_UNCHANGED',
+                'scope': 'unchanged installation baseline; NOT a new runtime validation'}
     if now['art'] != baseline['art']:
         raise ValueError('BLOCKED: UnityArtExport changed; verified source-to-target art adapter is not implemented. Do not rebaseline to bypass.')
     context = evidence_context(root)
-    for p in sorted((root / 'output/verification').glob('*/summary.json'), reverse=True):
+    reports = []
+    for p in (root / 'output/verification').glob('*/summary.json'):
         try:
+            gate_scope.output_path(root, str(p.relative_to(root)))
             report = json.loads(p.read_text())
+            if report.get('stage') != 'all':
+                continue
             stamp = datetime.datetime.fromisoformat(report['time'])
             if stamp.tzinfo is None or stamp < datetime.datetime.fromisoformat(policy['installed_at']) or stamp > datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(seconds=5):
                 continue
-            valid, why = validate_unity_report(report, p.parent, context)
-            if valid:
-                return {'status': 'PASS', 'scope': why, 'report': str(p.relative_to(root)), 'sha256': digest(p)}
+            reports.append((stamp, p, report))
         except (OSError, ValueError, KeyError, TypeError):
             continue
-    raise ValueError('BLOCKED: runtime/target changed without current complete all --screens evidence. Follow Unity verification procedure; the hook will not start or sync Unity.')
+    reports.sort(key=lambda row: row[0], reverse=True)
+    screen_basis = None
+    for _, p, report in reports:
+        old = report.get('gate_before')
+        if (report.get('options', {}).get('screens') is not True
+                or not isinstance(old, dict) or not same_producers(old, context)
+                or not gate_scope.same_visual_inputs(old.get('runtime'), now)):
+            continue
+        try:
+            valid, _ = validate_unity_report(report, p.parent, old, require_screens=True)
+            if valid:
+                screen_basis = {'report': str(p.relative_to(root)), 'sha256': digest(p)}
+            # A newer failed screen run for the same visual inputs invalidates older proof.
+            break
+        except (OSError, ValueError, KeyError, TypeError, AttributeError):
+            break
+    require_screens = screen_basis is None
+    for _, p, report in reports:
+        if not same_execution_context(report.get('gate_before'), context):
+            continue
+        valid, why = validate_unity_report(report, p.parent, context, require_screens=require_screens)
+        if valid:
+            return {'status': 'PASS', 'action': 'REUSE', 'scope': why,
+                    'required_profile': 'screens' if require_screens else 'basic',
+                    'screen_basis': screen_basis, 'report': str(p.relative_to(root)), 'sha256': digest(p)}
+        # The newest current execution cannot be hidden by an older PASS.
+        raise ValueError('BLOCKED: latest current Unity evidence is not acceptable: ' + why)
+    needed = 'all --screens' if require_screens else 'all'
+    raise ValueError('BLOCKED: runtime/collector changed without current complete ' + needed
+                     + ' evidence. Follow Unity verification procedure; the hook will not start or sync Unity.')
 
 
-def execute(root, mode):
+def execute(root, mode, stop_hook_active=False):
     start = datetime.datetime.now().astimezone()
     out = root / 'output/verification' / ('gate-' + start.strftime('%Y%m%d-%H%M%S') + '-' + uuid.uuid4().hex[:8])
     out.mkdir(parents=True)
-    result = {'time': start.isoformat(), 'mode': mode, 'status': 'FAIL', 'checks': {}, 'runtime_scope': 'not automatically executed'}
+    result = {'schema': gate_scope.SCHEMA, 'time': start.isoformat(), 'mode': mode,
+              'status': 'FAIL', 'checks': {}, 'source_stable': False,
+              'runtime_scope': 'not automatically executed'}
     try:
         before = source_snapshot(root)
         runtime_before = runtime_state(root)
@@ -166,30 +235,41 @@ def execute(root, mode):
         if policy.get('version') != 1:
             raise ValueError('Unsupported gate policy')
         validate_policy_paths(root, policy)
-        result['checks']['local'] = run_check([PYTHON, str(root / 'Tools/Verify/run.py'), 'local'], 'local', root)
-        result['checks']['map_preparation'] = run_check([PYTHON, str(root / policy['active_map']['audit'])], 'map', root)
-        result['checks']['map_dependencies'] = active_map_check(root, policy)
+        result['checks'] = static_requirements(root, policy, before, out)
+        failed = [name for name, value in result['checks'].items() if value['status'] != 'PASS']
+        if failed:
+            raise ValueError('Static checks failed: ' + ', '.join(failed))
         result['checks']['runtime_evidence'] = runtime_requirement(root, policy)
+        final_deps = gate_scope.dependencies(root, source_snapshot(root), policy)
+        if any(result['checks'][n].get('dependencies') != d for n, d in final_deps.items()):
+            raise ValueError('Check dependencies changed during checks; re-run')
         if source_snapshot(root) != before:
             raise ValueError('Source changed during checks; re-run against final files')
         if index_before is not None and index_snapshot(root) != index_before:
             raise ValueError('Git index changed during checks')
         if runtime_state(root) != runtime_before:
             raise ValueError('Unity source/art/target changed during checks; re-run')
+        result['source_stable'] = True
         result['source_sha256'] = before
         result['status'] = 'PASS'
     except (Exception,) as error:
         result['error'] = str(error)
         result['status'] = 'BLOCKED' if isinstance(error, subprocess.TimeoutExpired) or 'BLOCKED:' in str(error) else 'FAIL'
+    if mode == 'stop':
+        result['stop_hook_active'] = stop_hook_active
+        result['continuation_requested'] = False
+        result['notification_policy'] = 'record_only'
+    result['executed'] = [n for n, c in result['checks'].items() if c.get('action') == 'RUN']
+    result['reused'] = [n for n, c in result['checks'].items() if c.get('action') == 'REUSE']
     report = out / 'gate.json'
     report.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
     return result, report
 
 
-def stop_response(result, report):
-    if result['status'] == 'PASS':
-        return {'systemMessage': 'Project verification gate PASS: ' + str(report)}
-    return {'decision': 'block', 'reason': '프로젝트 필수 검사가 통과하지 않았습니다. 완료로 보고하지 말고 원인을 해결한 뒤 다시 검사하세요. 검사 기준이나 hook을 끄지 마세요. 실행 불가이면 근거와 BLOCKED 상태를 사용자에게 설명하세요. ' + result.get('error', '') + ' 기록: ' + str(report)}
+def stop_response(result, report, stop_hook_active=False):
+    # The actual result is already recorded. Stop must not create a new user prompt.
+    # Explicit check and Git pre-commit still return failure for the same result.
+    return {}
 
 
 def main():
@@ -197,9 +277,13 @@ def main():
     if mode not in ('check', 'stop', 'pre-commit'):
         print('Usage: gate.py check|stop|pre-commit', file=sys.stderr)
         return 2
+    stop_hook_active = False
     if mode == 'stop':
         try:
             payload = json.load(sys.stdin)
+            stop_hook_active = payload.get('stop_hook_active', False)
+            if type(stop_hook_active) is not bool:
+                raise ValueError('Invalid stop_hook_active type')
             cwd = canonical_evidence_path(Path(payload['cwd'])).resolve()
             if payload.get('hook_event_name') != 'Stop' or not cwd.is_relative_to(ROOT):
                 raise ValueError('Wrong hook event or cwd; no checks executed')
@@ -210,7 +294,7 @@ def main():
         print('Wrong project cwd', file=sys.stderr)
         return 2
     try:
-        result, report = execute(ROOT, mode)
+        result, report = execute(ROOT, mode, stop_hook_active=stop_hook_active)
     except Exception as error:
         # Even output-directory/permission errors must not become a silent Stop success.
         if mode == 'stop':
@@ -219,9 +303,9 @@ def main():
         print('Gate could not execute: ' + str(error), file=sys.stderr)
         return 1
     if mode == 'stop':
-        print(json.dumps(stop_response(result, report), ensure_ascii=False))
+        print(json.dumps(stop_response(result, report, stop_hook_active=stop_hook_active), ensure_ascii=False))
         return 0
-    print(json.dumps({'status': result['status'], 'report': str(report), 'error': result.get('error')}, ensure_ascii=False))
+    print(json.dumps({'status': result['status'], 'report': str(report), 'error': result.get('error'), 'executed': result.get('executed', []), 'reused': result.get('reused', [])}, ensure_ascii=False))
     return 0 if result['status'] == 'PASS' else 1
 
 

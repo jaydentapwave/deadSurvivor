@@ -15,16 +15,19 @@ from unittest.mock import patch
 
 import gate
 import gate_support as support
+import gate_evidence as evidence
 
 
 class GateTests(unittest.TestCase):
-    def test_stop_failure_stays_blocked(self):
-        for status in ('FAIL', 'BLOCKED', 'NOT_RUN'):
-            self.assertEqual(gate.stop_response({'status':status, 'error':'test'},Path('report'))['decision'],'block')
-        self.assertNotIn('decision',gate.stop_response({'status':'PASS'},Path('report')))
+    def test_recorded_stop_is_quiet_and_keeps_actual_status(self):
+        for status in ('FAIL', 'BLOCKED', 'NOT_RUN', 'PASS'):
+            for active in (False, True):
+                result={'status':status,'error':'fixture'};before=copy.deepcopy(result)
+                self.assertEqual(gate.stop_response(result,Path('report'),stop_hook_active=active),{})
+                self.assertEqual(result,before)
 
     def test_bad_stop_input_blocks(self):
-        for payload in ('invalid', json.dumps({'hook_event_name':'Stop','cwd':'/private/tmp'}), json.dumps({'hook_event_name':'Other','cwd':str(gate.ROOT)})):
+        for payload in ('invalid', json.dumps({'hook_event_name':'Stop','cwd':'/private/tmp'}), json.dumps({'hook_event_name':'Other','cwd':str(gate.ROOT)}), json.dumps({'hook_event_name':'Stop','cwd':str(gate.ROOT),'stop_hook_active':'true'})):
             output=io.StringIO()
             with patch.object(sys,'argv',['gate.py','stop']),patch.object(sys,'stdin',io.StringIO(payload)),patch('sys.stdout',output):
                 self.assertEqual(gate.main(),0)
@@ -35,6 +38,19 @@ class GateTests(unittest.TestCase):
         with patch.object(sys,'argv',['gate.py','stop']),patch.object(sys,'stdin',io.StringIO(json.dumps(payload))),patch('sys.stdout',output),patch.object(gate,'execute',side_effect=PermissionError('cannot record')):
             gate.main()
         self.assertEqual(json.loads(output.getvalue())['decision'],'block')
+
+    def test_recorded_reentry_has_no_continuation_or_warning(self):
+        for status in ('FAIL', 'BLOCKED', 'NOT_RUN', 'PASS'):
+            result={'status':status,'error':'fixture'};before=copy.deepcopy(result)
+            self.assertEqual(gate.stop_response(result,Path('report'),stop_hook_active=True),{})
+            self.assertEqual(result,before)
+
+    def test_reentry_still_executes_gate(self):
+        payload={'hook_event_name':'Stop','cwd':str(gate.ROOT),'stop_hook_active':True};output=io.StringIO()
+        with patch.object(sys,'argv',['gate.py','stop']),patch.object(sys,'stdin',io.StringIO(json.dumps(payload))),patch('sys.stdout',output),patch.object(gate,'execute',return_value=({'status':'BLOCKED','error':'fixture'},Path('report'))) as execute:
+            self.assertEqual(gate.main(),0)
+        execute.assert_called_once_with(gate.ROOT,'stop',stop_hook_active=True)
+        self.assertEqual(json.loads(output.getvalue()),{})
 
     def test_index_add_delete_content_mode(self):
         base={'a':{'sha256':'a','mode':'100644'}}
@@ -72,21 +88,21 @@ class GateTests(unittest.TestCase):
     def test_execute_detects_midrun_unity_target_change(self):
         with tempfile.TemporaryDirectory() as t:
             root=Path(t);(root/'Tools/Verify').mkdir(parents=True);(root/'Tools/Verify/gate-policy.json').write_text(json.dumps({'version':1,'active_map':{'audit':'audit.py'}}))
-            with patch.object(gate,'runtime_state',side_effect=[{'target':'before'},{'target':'after'}]),patch.object(gate,'validate_policy_paths'),patch.object(gate,'source_snapshot',return_value={}),patch.object(gate,'run_check',return_value={'status':'PASS'}),patch.object(gate,'active_map_check',return_value={'status':'PASS'}),patch.object(gate,'runtime_requirement',return_value={'status':'PASS'}):
+            with patch.object(gate,'runtime_state',side_effect=[{'target':'before'},{'target':'after'}]),patch.object(gate,'validate_policy_paths'),patch.object(gate,'source_snapshot',return_value={}),patch.object(gate,'static_requirements',return_value={'docs':{'status':'PASS'}}),patch.object(gate.gate_scope,'dependencies',return_value={}),patch.object(gate,'runtime_requirement',return_value={'status':'PASS'}):
                 result,_=gate.execute(root,'check')
             self.assertEqual(result['status'],'FAIL');self.assertIn('target changed',result['error'])
 
     def test_execute_detects_midrun_source_change(self):
         with tempfile.TemporaryDirectory() as t:
             root=Path(t);(root/'Tools/Verify').mkdir(parents=True);(root/'Tools/Verify/gate-policy.json').write_text(json.dumps({'version':1,'active_map':{'audit':'audit.py'}}))
-            with patch.object(gate,'validate_policy_paths'),patch.object(gate,'source_snapshot',side_effect=[{'x':1},{'x':2}]),patch.object(gate,'run_check',return_value={'status':'PASS'}),patch.object(gate,'active_map_check',return_value={'status':'PASS'}),patch.object(gate,'runtime_requirement',return_value={'status':'PASS'}):
+            with patch.object(gate,'validate_policy_paths'),patch.object(gate,'source_snapshot',side_effect=[{'x':1},{'x':2},{'x':2}]),patch.object(gate,'static_requirements',return_value={'docs':{'status':'PASS'}}),patch.object(gate.gate_scope,'dependencies',return_value={}),patch.object(gate,'runtime_requirement',return_value={'status':'PASS'}):
                 result,_=gate.execute(root,'check')
             self.assertEqual(result['status'],'FAIL');self.assertIn('Source changed',result['error'])
 
     def test_execute_detects_midrun_index_change(self):
         with tempfile.TemporaryDirectory() as t:
             root=Path(t);(root/'Tools/Verify').mkdir(parents=True);(root/'Tools/Verify/gate-policy.json').write_text(json.dumps({'version':1,'active_map':{'audit':'audit.py'}}))
-            with patch.object(gate,'validate_policy_paths'),patch.object(gate,'source_snapshot',return_value={}),patch.object(gate,'index_snapshot',side_effect=[{}, {'new':1}]),patch.object(gate,'run_check',return_value={'status':'PASS'}),patch.object(gate,'active_map_check',return_value={'status':'PASS'}),patch.object(gate,'runtime_requirement',return_value={'status':'PASS'}):
+            with patch.object(gate,'validate_policy_paths'),patch.object(gate,'source_snapshot',return_value={}),patch.object(gate,'index_snapshot',side_effect=[{}, {'new':1}]),patch.object(gate,'static_requirements',return_value={'docs':{'status':'PASS'}}),patch.object(gate.gate_scope,'dependencies',return_value={}),patch.object(gate,'runtime_requirement',return_value={'status':'PASS'}):
                 result,_=gate.execute(root,'pre-commit')
             self.assertEqual(result['status'],'FAIL');self.assertIn('index changed',result['error'])
 
@@ -101,22 +117,22 @@ class GateTests(unittest.TestCase):
 
     def test_unity_evidence_missing_stale_tampered(self):
         with tempfile.TemporaryDirectory() as t:
-            root=Path(t);u=root/'unity';u.mkdir();context={'runtime':'fixture','verifiers':'fixture','project':str(support.PERSONAL_PROJECT)}
+            root=Path(t).resolve();u=root/'unity';u.mkdir();context={'runtime':{},'verifiers':{k:'a'*64 for k in evidence.UNITY_PRODUCERS},'project':str(support.PERSONAL_PROJECT)}
             files=['compile.json','rules.txt','inventory.png','revive.png','comparison.png','interaction.txt']
             for size in ('1280x720','1560x720','1024x768'):
                 files += ['interaction-'+size+'.txt']+[state+'-'+size+'.png' for state in ('prep','description','comparison','safearea','settings','result','battle-items','battle-full')]
             for name in files:(u/name).write_bytes(b'fixture')
             steps={k:{'status':'PASS'} for k in ('compile','rules','frames','interaction','capture','screens','console','cleanup')};steps['screens']['checks']=['PASS fixture'];steps['frames'].update(before=1,after=2)
             report={'status':'PASS','stage':'all','options':{'screens':True,'project':str(support.PERSONAL_PROJECT)},'gate_before':context,'gate_after':context,'results':{**{k:{'status':'PASS'} for k in ('docs','data','source_stability')},'unity':{'status':'PASS','results':steps}},'unity_artifact_sha256':support.artifact_hashes(u)}
-            self.assertTrue(support.validate_unity_report(report,root,context)[0])
+            self.assertTrue(evidence.validate_unity_report(report,root,context)[0])
             changes=[('gate_after',{}),('options',{}),('unity_artifact_sha256',{})]
             for key,value in changes:
-                broken=copy.deepcopy(report);broken[key]=value;self.assertFalse(support.validate_unity_report(broken,root,context)[0])
+                broken=copy.deepcopy(report);broken[key]=value;self.assertFalse(evidence.validate_unity_report(broken,root,context)[0])
             for key in steps:
-                broken=copy.deepcopy(report);del broken['results']['unity']['results'][key];self.assertFalse(support.validate_unity_report(broken,root,context)[0])
-            broken=copy.deepcopy(report);broken['results']['unity']['results']['screens']['checks']=[];self.assertFalse(support.validate_unity_report(broken,root,context)[0])
-            broken=copy.deepcopy(report);broken['results']['unity']['results']['frames']['after']=1;self.assertFalse(support.validate_unity_report(broken,root,context)[0])
-            (u/'inventory.png').unlink();self.assertFalse(support.validate_unity_report(report,root,context)[0])
+                broken=copy.deepcopy(report);del broken['results']['unity']['results'][key];self.assertFalse(evidence.validate_unity_report(broken,root,context)[0])
+            broken=copy.deepcopy(report);broken['results']['unity']['results']['screens']['checks']=[];self.assertFalse(evidence.validate_unity_report(broken,root,context)[0])
+            broken=copy.deepcopy(report);broken['results']['unity']['results']['frames']['after']=1;self.assertFalse(evidence.validate_unity_report(broken,root,context)[0])
+            (u/'inventory.png').unlink();self.assertFalse(evidence.validate_unity_report(report,root,context)[0])
 
     def test_real_git_and_hooks_in_isolated_copy(self):
         # Full fixture uses actual validators, actual pre-commit dispatch and actual Stop entrypoint.
@@ -149,7 +165,15 @@ class GateTests(unittest.TestCase):
             # Runtime evidence rejection is covered by the separate tests above.
             policy_path=root/'Tools/Verify/gate-policy.json'
             fixture_policy=json.loads(policy_path.read_text())
-            fixture_policy['runtime_baseline']=gate.runtime_state(root)
+            # The subprocess must fingerprint its disposable project, never the live
+            # Unity checkout another agent may be editing during this test.
+            fixture_support=root/'Tools/Verify/gate_support.py'
+            original_project="PERSONAL_PROJECT = Path('/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor')"
+            fixture_source=fixture_support.read_text()
+            self.assertEqual(fixture_source.count(original_project),1)
+            fixture_support.write_text(fixture_source.replace(original_project,'PERSONAL_PROJECT = Path('+repr(str(root))+')'))
+            with patch.object(support,'PERSONAL_PROJECT',root):
+                fixture_policy['runtime_baseline']=gate.runtime_state(root,project=root)
             policy_path.write_text(json.dumps(fixture_policy,ensure_ascii=False,indent=2)+'\n')
             # untracked required files must not pass
             before=gate.source_snapshot(root)
@@ -160,9 +184,26 @@ class GateTests(unittest.TestCase):
             saved=(root/'README.md').read_text();(root/'README.md').write_text(saved+'\n[broken](missing-file.md)\n');gate.git(root,'add','README.md')
             bad=subprocess.run(['git','-C',str(root),'-c','user.name=Gate Fixture','-c','user.email=fixture@invalid','commit','-qm','must reject'],capture_output=True,text=True)
             self.assertNotEqual(bad.returncode,0)
-            payload={'hook_event_name':'Stop','cwd':str(root),'stop_hook_active':True}
+            payload={'hook_event_name':'Stop','cwd':str(root),'stop_hook_active':False}
             stop=subprocess.run([gate.PYTHON,str(root/'Tools/Verify/gate.py'),'stop'],input=json.dumps(payload),capture_output=True,text=True)
-            self.assertEqual(json.loads(stop.stdout)['decision'],'block')
+            self.assertEqual(json.loads(stop.stdout),{})
+            first_record=max((root/'output/verification').glob('gate-*/gate.json'),key=lambda p:p.stat().st_mtime)
+            first=json.loads(first_record.read_text())
+            self.assertNotEqual(first['status'],'PASS')
+            self.assertFalse(first['continuation_requested'])
+            self.assertEqual(first['notification_policy'],'record_only')
+            before_reports=set((root/'output/verification').glob('gate-*/gate.json'))
+            payload['stop_hook_active']=True
+            repeated=subprocess.run([gate.PYTHON,str(root/'Tools/Verify/gate.py'),'stop'],input=json.dumps(payload),capture_output=True,text=True)
+            self.assertEqual(repeated.returncode,0)
+            self.assertEqual(json.loads(repeated.stdout),{})
+            fresh=set((root/'output/verification').glob('gate-*/gate.json'))-before_reports
+            self.assertEqual(len(fresh),1)
+            recorded=json.loads(fresh.pop().read_text())
+            self.assertNotEqual(recorded['status'],'PASS')
+            self.assertTrue(recorded['stop_hook_active'])
+            self.assertFalse(recorded['continuation_requested'])
+            payload['stop_hook_active']=False
             (root/'README.md').write_text(saved)
             stop=subprocess.run([gate.PYTHON,str(root/'Tools/Verify/gate.py'),'stop'],input=json.dumps(payload),capture_output=True,text=True)
             self.assertNotIn('decision',json.loads(stop.stdout))

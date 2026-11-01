@@ -127,7 +127,7 @@ namespace DeadSurvivor.Editor
                 if(!GlobalObjectId.TryParse(s,out var id)) throw new Exception("INVALID_SELECTION");
                 var obj=GlobalObjectId.GlobalObjectIdentifierToObjectSlow(id);if(obj==null) throw new Exception("MISSING_SELECTION");return obj;}).ToArray();
             Selection.objects=selection;Application.runInBackground=saved.background;
-            SessionState.EraseString(Key+"owner");SessionState.EraseString(Key+"phase");SessionState.EraseInt(Key+"pid");
+            SessionState.EraseString(Key+"owner");SessionState.EraseString(Key+"phase");SessionState.EraseInt(Key+"pid");SessionState.EraseInt(Key+"case_root");
             SessionState.EraseString(Key+"edit_settings");SessionState.EraseString(Key+"play_settings");
             SessionState.EraseBool(Key+"background");
             return "RESTORED";
@@ -135,11 +135,11 @@ namespace DeadSurvivor.Editor
         public static object Ownership() => new {owner=SessionState.GetString(Key+"owner",""),phase=SessionState.GetString(Key+"phase",""),
             pid=System.Diagnostics.Process.GetCurrentProcess().Id,playing=EditorApplication.isPlaying,scene=SceneManager.GetActiveScene().name,
             marker=MarkerValid()?MarkerName:"",
-            devices=InputSystem.devices.Count(d=>d.name.StartsWith("Map017Keyboard"))};
+            devices=InputSystem.devices.Count(d=>d.name.StartsWith("Map017Keyboard")||d.name.StartsWith("Map026Keyboard")||d.name.StartsWith("Map030Keyboard")||d.name.StartsWith("MapPlayKeyboard"))};
         static string ReportPath(string path)
         {
             string full=Path.GetFullPath(path);
-            if(!full.StartsWith(Reports,StringComparison.Ordinal) && !full.StartsWith(Path.Combine(Project,"output/map-blockout-018/"),StringComparison.Ordinal)) throw new Exception("INVALID_REPORT_PATH");
+            if(!full.StartsWith(Reports,StringComparison.Ordinal) && !full.StartsWith(Path.Combine(Project,"output/map-blockout-018/"),StringComparison.Ordinal) && !full.StartsWith(Path.Combine(Project,"output/map-full-026/"),StringComparison.Ordinal)) throw new Exception("INVALID_REPORT_PATH");
             return full;
         }
         static void ReleaseKeyboard()
@@ -161,6 +161,7 @@ namespace DeadSurvivor.Editor
                 foreach(var o in roots) if(o!=null) UnityEngine.Object.DestroyImmediate(o);
                 roots=null;
             }
+            SessionState.EraseInt(Key+"case_root");
         }
         public static GameObject CreateExternalRoot(string run,string nonce,string name)
         {
@@ -169,13 +170,34 @@ namespace DeadSurvivor.Editor
                 throw new Exception("NOT_OWNED_IDLE_PLAY");
             if(name!="Blockout018_"+nonce)throw new Exception("INVALID_EXTERNAL_ROOT_NAME");
             ReleaseCase();MarkerOnly();
-            var root=new GameObject(name);root.SetActive(false);roots=new[]{root};return root;
+            var root=new GameObject(name);root.SetActive(false);roots=new[]{root};SessionState.SetInt(Key+"case_root",root.GetInstanceID());return root;
         }
         public static void GuardExternalRoot(string run,string nonce,GameObject root,Action guard,Action cleanup)
         {
             Owner(run,nonce);
             if(roots==null || roots.Length!=1 || roots[0]!=root || guard==null || cleanup==null)throw new Exception("INVALID_EXTERNAL_ROOT_GUARD");
             externalGuard=guard;externalCleanup=cleanup;
+        }
+        public static void BeginArtLighting(string run,string nonce)
+        {
+            Owner(run,nonce);
+            if(!EditorApplication.isPlaying || roots==null || roots.Length!=1 || externalGuard==null || externalCleanup==null || SessionState.GetString(Key+"art_lighting_prior","")!="")throw new Exception("ART_LIGHTING_OWNERSHIP");
+            string prior=SceneSettings();SessionState.SetString(Key+"art_lighting_prior",prior);
+            DSMapArtVerification.Lighting();SessionState.SetString(Key+"play_settings",SceneSettings());
+        }
+        public static void RestoreArtLighting(string run,string nonce)
+        {
+            string prior=SessionState.GetString(Key+"art_lighting_prior","");if(prior=="")return;
+            Owner(run,nonce);
+            EditorJsonUtility.FromJsonOverwrite(prior,Unsupported.GetRenderSettings());
+            if(SceneSettings()!=prior)throw new Exception("ART_LIGHTING_RESTORE_FAILED");
+            SessionState.SetString(Key+"play_settings",prior);SessionState.EraseString(Key+"art_lighting_prior");
+        }
+        public static void RegisterOwnedUnitGame(string run,string nonce,DSGame game)
+        {
+            Owner(run,nonce);
+            if(!game||roots==null||roots.Length!=1||roots[0]!=game.transform.root.gameObject||CaseRoots().Length!=1||roots[0].GetComponentsInChildren<DSGame>(true).Length!=1)throw new Exception("UNIT_GAME_OWNERSHIP");
+            game.RegisterOwnedMapUnits(run,nonce,roots[0]);
         }
         public static string BeginCase(string requestPath,string output)
         {

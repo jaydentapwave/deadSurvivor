@@ -174,7 +174,7 @@ namespace DeadSurvivor
             for (int i = 0; i < 4; i++)
             {
                 int n = i;
-                Button(page, i < g.Selected.Count ? g.Data.characters[g.Selected[i]].name + "  ×" : "＋ 생존자 " + (i + 1), 32 + i * (slotW + 10), 228, slotW, 52, () => { if (n < g.Selected.Count) g.ToggleSelection(g.Selected[n]); }, i < g.Selected.Count);
+                Button(page, i < g.Selected.Count ? g.Data.characters[g.Selected[i]].name + "  ×" : "＋ 생존자 " + (i + 1), 32 + i * (slotW + 10), 228, slotW, 52, () => { if (n < g.Selected.Count) g.SubmitMapCommand("ToggleSelection",g.Selected[n]); }, i < g.Selected.Count);
             }
             int cols = 3;
             float cardW = (W - 64 - (cols - 1) * 16) / cols, cardH = 198;
@@ -186,7 +186,7 @@ namespace DeadSurvivor
                 var card = Box("Card_" + c.id, page, x, y, cardW, cardH, g.Selected.Contains(i) ? "#354535" : "#182125", true);
                 var b = card.gameObject.AddComponent<UnityEngine.UI.Button>();
                 b.targetGraphic = card.GetComponent<UnityEngine.UI.Image>();
-                b.onClick.AddListener(() => g.ToggleSelection(id));
+                b.onClick.AddListener(() => g.SubmitMapCommand("ToggleSelection",id));
                 Image(card, g.World.Load("Portraits/" + c.id), cardW - 138, 3, 132, 122);
                 Text(card, c.name, 18, 20, cardW - 150, 48, 25, "#ecf0e8", true);
                 Text(card, "시작: " + g.Items[c.weapon].name, 18, 58, 130, 25, 14, "#93a5a5");
@@ -195,7 +195,7 @@ namespace DeadSurvivor
             }
             float end = 300 + Mathf.Ceil(6f / cols) * (cardH + 14) + 8;
             Text(page, "WASD / 방향키 이동 · 화면 드래그 이동\n공격은 자동입니다. 1: 웨이브 종료", 32, end, W - 340, 54, 14, "#93a5a5");
-            Button(page, "스쿼드 출전 →", W - 280, end, 248, 54, g.StartRun, true).interactable = g.Selected.Count > 0;
+            Button(page, "스쿼드 출전 →", W - 280, end, 248, 54, () => g.SubmitMapCommand("StartRun"), true).interactable = g.Selected.Count > 0;
         }
         public void Battle()
         {
@@ -233,7 +233,7 @@ namespace DeadSurvivor
             Box("TimerHUD", page, W / 2 - 110, 84, 220, 104, "#10191de8");
             hudTimer = Text(page, "", W / 2 - 95, 100, 190, 72, 27);
             hudTimer.alignment = TextAlignmentOptions.Center;
-            Button(page, "Ⅱ", W - 85, 84, 60, 48, () => { g.Paused = true; ShowPause(); });
+            Button(page, "Ⅱ", W - 85, 84, 60, 48, () => { g.SubmitMapCommand("Pause"); });
             banner = Text(page, "", 60, H * .25f, W - 120, 100, 30, "#c7ed83", true);
             banner.alignment = TextAlignmentOptions.Center;
             int itemRows = Mathf.Max(1, Mathf.CeilToInt(g.Team.Max(c => c.items.Count) / 4f));
@@ -258,8 +258,8 @@ namespace DeadSurvivor
             var d = Box("Dialog", modal, W / 2 - 230, H / 2 - 140, 460, 280, "#182125");
             Text(d, "작전 일시정지", 28, 28, 400, 50, 28, "#ecf0e8", true);
             Text(d, "전투 시간과 모든 행동이 멈췄습니다.", 28, 92, 400, 50, 17, "#93a5a5");
-            Button(d, "선발 화면으로", 28, 190, 190, 52, g.ReturnLobby);
-            Button(d, "계속하기 →", 240, 190, 192, 52, () => { g.Paused = false; ShowPause(); }, true);
+            Button(d, "선발 화면으로", 28, 190, 190, 52, () => g.SubmitMapCommand("ReturnLobby"));
+            Button(d, "계속하기 →", 240, 190, 192, 52, () => { g.SubmitMapCommand("Resume"); }, true);
         }
         public void Prep()
         {
@@ -279,7 +279,7 @@ namespace DeadSurvivor
                     var cover = Box("ReviveOverlay", p, 0, 0, packW, packH, "#000000", true);
                     var deadName = Text(cover, g.Def(c).name, 12, 4, gridW, 22, 18, "#ecf0e8", true);
                     deadName.alignment = TextAlignmentOptions.Center;
-                    var revive = Button(cover, "부활하기", (packW - 180) / 2, (packH - 56) / 2, 180, 56, () => g.Revive(idx), true);
+                    var revive = Button(cover, "부활하기", (packW - 180) / 2, (packH - 56) / 2, 180, 56, () => g.SubmitMapCommand("Revive",idx), true);
                     revive.GetComponentInChildren<TextMeshProUGUI>().alignment = TextAlignmentOptions.Center;
                     continue;
                 }
@@ -359,7 +359,7 @@ namespace DeadSurvivor
             FormationControls();
             Button(page, "회전", W / 2 - 270, H - 96, 120, 52, RotateHeld);
             Button(page, "선택 취소", W / 2 + 150, H - 96, 120, 52, () => { Held = -1; Prep(); });
-            Button(page, g.Wave == 10 ? "결과 확인 →" : "다음 웨이브 →", W / 2 - 130, H - 96, 260, 52, g.NextWave, true);
+            Button(page, g.Wave == 10 ? "결과 확인 →" : "다음 웨이브 →", W / 2 - 130, H - 96, 260, 52, () => g.SubmitMapCommand("NextWave"), true);
             var help = Text(page, "같은 장비는 합성 · 중앙 빈 곳에 놓으면 탈착", stashX, H - 38, stashW, 24, 12, "#93a5a5");
             help.alignment = TextAlignmentOptions.Center;
         }
@@ -372,7 +372,7 @@ namespace DeadSurvivor
             Text(d, g.Win ? "새벽이 밝았습니다." : "다음 구조대를 기다리며.", 32, 80, W - 224, 60, 36, "#ecf0e8", true);
             Text(d, $"클리어 웨이브  {(g.Win ? 10 : g.Wave - 1)} / 10\n처치한 몬스터  {g.Kills}\n전투 시간  {Mathf.FloorToInt(g.TotalTime / 60)}:{Mathf.FloorToInt(g.TotalTime % 60):00}", 32, 160, W - 224, 135, 23);
             Button(d, "테스트 기록 저장", 32, 340, 230, 54, () => g.Export());
-            Button(d, "스쿼드 재편성 →", W - 160 - 300, 340, 268, 54, g.ReturnLobby, true);
+            Button(d, "스쿼드 재편성 →", W - 160 - 300, 340, 268, 54, () => g.SubmitMapCommand("ReturnLobby"), true);
         }
         public void Tick()
         {

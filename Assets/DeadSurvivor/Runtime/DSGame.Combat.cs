@@ -306,7 +306,10 @@ namespace DeadSurvivor
         }
         public void Simulate(float dt)
         {
+            RequireMapSimulationPermit();
 #if UNITY_EDITOR
+            normalGameSimulations++;
+            MapFrameSimulation();
             if(movementFixture!=null)
             {
                 SimulateFixture(dt);
@@ -316,7 +319,7 @@ namespace DeadSurvivor
             if (State != "battle" || Paused)
                 return;
             dt = Mathf.Min(dt, Mathf.Max(0, Duration - Elapsed));
-            if(MapSession && !MapSession.CombatEnabled){MapOnlyStep(dt);return;}
+            if(MapSession && !MapSession.BoundCombatEnabled){MapOnlyStep(dt);return;}
             Elapsed += dt;
             TotalTime += dt;
             mapSearches=mapSpawnSearches=0;

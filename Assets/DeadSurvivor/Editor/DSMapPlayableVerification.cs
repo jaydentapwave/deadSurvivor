@@ -54,6 +54,10 @@ namespace DeadSurvivor.Editor
         }
         public const string PartyScene=Folder+"/Map022_PartyExperimental.unity";
         static DSGame game;
+        static string activeRun,activeNonce;
+        static int activeStage;
+        static Action ownedKeyboardDriver;
+        static bool holdOwnedKeyboardD,releaseOwnedKeyboard;
         static UnityEngine.InputSystem.Keyboard testKeyboard,priorKeyboard;
         static DSMapSession MakeGame(GameObject root,DSMapBlockoutPreview p,bool combat)
         {
@@ -80,33 +84,86 @@ namespace DeadSurvivor.Editor
         }
         public static string BeginGame(string run,string nonce,int stage)
         {
+            activeRun=run;activeNonce=nonce;activeStage=stage;
             var wrapper=DSMapMotionVerification.CreateExternalRoot(run,nonce,"Blockout018_"+nonce);
-            var obj=UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(Source),wrapper.transform);
-            MakeGame(obj,obj.GetComponent<DSMapBlockoutPreview>(),stage==23);
+            if(stage!=22 && stage!=23 && stage!=28 && stage!=29)throw new Exception("UNSUPPORTED_GAME_STAGE");
+            string asset=stage==28?DSMapArtVerification.BasicPrefab:stage==29?DSMapArtVerification.ArtPrefab:Source;
+            var obj=UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(asset),wrapper.transform);
+            if(stage==28 || stage==29){game=obj.GetComponentInChildren<DSGame>(true);if(!game || !game.MapSession)throw new Exception("ART_GAME_MISSING");}
+            else MakeGame(obj,obj.GetComponent<DSMapBlockoutPreview>(),stage==23);
             wrapper.SetActive(true);
-            priorKeyboard=UnityEngine.InputSystem.Keyboard.current;
-            testKeyboard=UnityEngine.InputSystem.InputSystem.AddDevice<UnityEngine.InputSystem.Keyboard>("MapPlayKeyboard");testKeyboard.MakeCurrent();
             DSMapMotionVerification.GuardExternalRoot(run,nonce,wrapper,()=>{if(!game || game.MapSession.transform.parent!=obj.transform && game.MapSession.gameObject!=obj)throw new Exception("GAME_BINDING_CHANGED");},()=>{
+                if(ownedKeyboardDriver!=null)UnityEngine.InputSystem.InputSystem.onBeforeUpdate-=ownedKeyboardDriver;ownedKeyboardDriver=null;holdOwnedKeyboardD=false;
+                DSMapMotionVerification.RestoreArtLighting(run,nonce);
+                DSOwnedInputScope.Restore(run,nonce);
                 if(testKeyboard!=null && testKeyboard.added)UnityEngine.InputSystem.InputSystem.RemoveDevice(testKeyboard);
                 if(priorKeyboard!=null && priorKeyboard.added)priorKeyboard.MakeCurrent();testKeyboard=null;priorKeyboard=null;
             });
-            game.VerificationRun=true;game.Selected=Enumerable.Range(0,4).ToList();game.UI.Lobby();Click("스쿼드 출전 →");
+            if(stage==28 || stage==29)DSMapMotionVerification.BeginArtLighting(run,nonce);
+            DSOwnedInputScope.Begin(run,nonce,()=>{holdOwnedKeyboardD=false;if(ownedKeyboardDriver!=null)UnityEngine.InputSystem.InputSystem.onBeforeUpdate-=ownedKeyboardDriver;ownedKeyboardDriver=null;if(game)game.enabled=false;});
+            priorKeyboard=UnityEngine.InputSystem.Keyboard.current;
+            testKeyboard=UnityEngine.InputSystem.InputSystem.AddDevice<UnityEngine.InputSystem.Keyboard>("MapPlayKeyboard");testKeyboard.MakeCurrent();DSOwnedInputScope.RegisterDevice(testKeyboard);holdOwnedKeyboardD=false;releaseOwnedKeyboard=false;
+            ownedKeyboardDriver=()=>{
+                if((holdOwnedKeyboardD || releaseOwnedKeyboard) && testKeyboard!=null && testKeyboard.added && UnityEngine.InputSystem.LowLevel.InputState.currentUpdateType==UnityEngine.InputSystem.LowLevel.InputUpdateType.Dynamic)
+                    UnityEngine.InputSystem.InputSystem.QueueStateEvent(testKeyboard,holdOwnedKeyboardD?new UnityEngine.InputSystem.LowLevel.KeyboardState(UnityEngine.InputSystem.Key.D):new UnityEngine.InputSystem.LowLevel.KeyboardState());
+            };
+            UnityEngine.InputSystem.InputSystem.onBeforeUpdate+=ownedKeyboardDriver;
+            if(stage==28 || stage==29){game.Rng=new DSMapTraceRandom(28001);game.LootRng=new DSMapTraceRandom(28002);}
+            game.VerificationRun=true;game.Selected=Enumerable.Range(0,4).ToList();game.UI.Lobby();game.enabled=false;DSMapMotionVerification.RegisterOwnedUnitGame(run,nonce,game);Click("스쿼드 출전 →");game.BootstrapOwnedMapQueue(run,nonce);if(DSOwnedInputScope.Error!="")throw new Exception("EXTERNAL_INPUT_CANCELLED");game.enabled=true;
             return GameEvidence();
         }
         static void Click(string label)
         {
             var b=game.GetComponentsInChildren<UnityEngine.UI.Button>(false).FirstOrDefault(x=>x.interactable && x.GetComponentsInChildren<TMPro.TextMeshProUGUI>().Any(t=>t.text==label));
-            if(!b)throw new Exception("BUTTON_MISSING:"+label);b.onClick.Invoke();
+            if(!b)throw new Exception("BUTTON_MISSING:"+label);b.onClick.Invoke();if(game.OwnedMapUnitActive)game.DrainOwnedUnitQueue();
+        }
+        public static string ArtChecks()
+        {
+            game.enabled=false;
+            game.RunOwnedMapUnits(activeRun,activeNonce,()=>{game.Rng=new DSMapTraceRandom(28001);game.LootRng=new DSMapTraceRandom(28002);game.StartRun();});
+            var checks=new System.Collections.Generic.List<string>();
+            void Check(bool ok,string label){if(!ok)throw new Exception("ART_TEST:"+label);checks.Add(label);}
+            var session=game.MapSession;
+            Check(session.Layout && DSMapBlockoutPreview.Hash(session.Layout.text)==session.ExpectedDataSha,"source-layout-sha");
+            Check(session.Data.objects.Length==64 && session.ImageScale==4 && session.Elevation==55,"geometry-profile");
+            Check(session.transform.GetComponentsInChildren<Collider>(true).Length==0,"no-new-collider");
+            Check(game.Team.Count==4 && game.Team.All(c=>session.Geometry.SafeSweep(c.pos,c.pos,8)),"four-party-safe");
+            Check(RenderSettings.ambientMode==UnityEngine.Rendering.AmbientMode.Trilight && RenderSettings.ambientSkyColor==new Color(.47f,.56f,.62f),"frozen-scene-lighting");
+            var fog=RenderSettings.fogColor;bool rejected=false;
+            try{RenderSettings.fogColor=Color.magenta;try{DSMapMotionVerification.RegisterOwnedUnitGame(activeRun,activeNonce,null);}catch(Exception e){rejected=e.Message=="SCENE_SETTINGS_CONFLICT";}}
+            finally{RenderSettings.fogColor=fog;}
+            Check(rejected,"injected-lighting-conflict-rejected");
+            var visuals=session.StaticGeometry.Find("Art028_VisualOnly");
+            Check(activeStage==29?visuals!=null:visuals==null,"art-subtree-presence");
+            if(visuals){var stones=visuals.GetComponentsInChildren<MeshFilter>(true).Where(m=>m.name.EndsWith("_Art",StringComparison.Ordinal)).ToArray();Check(stones.Length==5 && stones.All(m=>m.transform.localToWorldMatrix==Matrix4x4.identity && AssetDatabase.GetAssetPath(m.sharedMesh)==DSMapArtVerification.Folder+"/"+m.sharedMesh.name+".asset"),"five-stones-audited-world-transform");Check(stones.Select(m=>m.sharedMesh.name).OrderBy(n=>n).SequenceEqual(Enumerable.Range(1,5).Select(i=>"OB-"+i.ToString("000")+"_Faceted")) && stones.All(m=>m.sharedMesh.name==m.name.Replace("_Art","_Faceted")),"exact-rendered-mesh-set");}
+
+            var v=session.Visibility;Check(v.Blockers.All(r=>r && r.enabled) && v.Blockers.Distinct().Count()==v.Blockers.Length,"fixed-visible-blockers");
+            var focus=v.Focus;v.Focus=Array.Empty<Vector3>();v.Refresh();
+            var original=v.Blockers.Select(r=>r.sharedMaterials).ToArray();
+            var target=v.Blockers.First(r=>r.bounds.size.sqrMagnitude>.01f);v.Focus=new[]{target.bounds.center};v.Refresh();
+            Check(v.FadedCount>0,"synthetic-focus-fade-fixture");v.Focus=Array.Empty<Vector3>();v.Refresh();
+            Check(v.Blockers.Select((r,i)=>r.sharedMaterials.SequenceEqual(original[i])).All(x=>x),"synthetic-focus-material-restore");
+            v.Focus=focus;game.World.Render();v.Refresh();game.UI.Tick();Canvas.ForceUpdateCanvases();foreach(var text in game.GetComponentsInChildren<TMPro.TextMeshProUGUI>(true))text.ForceMeshUpdate(true,true);
+            Check(session.ViewCamera.orthographicSize==6,"camera-ortho6");
+            return JsonUtility.ToJson(new DSMapBlockoutVerification.UnitRecord{count=checks.Count,checks=checks.ToArray()});
+        }
+        [Serializable] public class ArtInitialRecord {public int[] selected;public Survivor[] party;public Gear[] stash;public RunSettings config;public string layout_sha256,state,gameplay_snapshot;public float scale,elevation,ortho,elapsed;public Vector2 center;}
+        public static string ArtInitialState()=>JsonUtility.ToJson(new ArtInitialRecord{gameplay_snapshot=game.CaptureMapFrameState(),selected=game.Selected.ToArray(),party=game.Team.ToArray(),stash=game.Stash.ToArray(),config=game.Config,layout_sha256=game.MapSession.ExpectedDataSha,state=game.State,scale=game.MapSession.ImageScale,elevation=game.MapSession.Elevation,ortho=game.MapSession.ViewCamera.orthographicSize,elapsed=game.Elapsed,center=game.Center});
+        public static string DriveArt(bool move)
+        {
+            if(!game || testKeyboard==null || !testKeyboard.added)throw new Exception("ART_SESSION_MISSING");
+            holdOwnedKeyboardD=move;releaseOwnedKeyboard=!move;
+            game.enabled=true;return GameEvidence();
         }
         public static string FreezeGame() {game.enabled=false;game.World.Render();return "FROZEN";}
         public static string GameEvidence()
         {
             game.World.Render();var m=game.MapSession;var cam=m.ViewCamera;
-            return JsonUtility.ToJson(new GameRecord {frame=Time.frameCount,state=game.State,elapsed=game.Elapsed,wave=game.Wave,enemies=game.Enemies.Count,center=game.Center,party=game.Team.Select(c=>c.pos).ToArray(),
+            return JsonUtility.ToJson(new GameRecord {frame=Time.frameCount,state=game.State,elapsed=game.Elapsed,wave=game.Wave,enemies=game.Enemies.Count,shots=game.Shots.Count,effects=game.Effects.Count,kills=game.Kills,faded=game.MapSession.Visibility.FadedCount,center=game.Center,input=game.MoveInput,inputRead=game.ReadMovementInput(),updateInputFrame=game.MapInputFrame,updateInputDevice=game.MapInputDevice,updateInputD=game.MapInputD,updateInput=game.MapInputObserved,keyboardA=UnityEngine.InputSystem.Keyboard.current?.aKey.isPressed??false,gameEnabled=game.enabled,keyboardId=UnityEngine.InputSystem.Keyboard.current?.deviceId??0,keyboardD=UnityEngine.InputSystem.Keyboard.current?.dKey.isPressed??false,joystickActive=game.UI.JoystickActive,queueError=game.MapCommandError,inputScopeError=DSOwnedInputScope.Error,inputScopeEvidence=DSOwnedInputScope.EvidencePath,party=game.Team.Select(c=>c.pos).ToArray(),
                 camera=new DSBlockoutCameraRecord {elevation=m.Elevation,orthographicSize=cam.orthographicSize,width=cam.pixelWidth,height=cam.pixelHeight,position=cam.transform.position,rotation=cam.transform.eulerAngles,
                 feet=game.Team.Select(c=>cam.WorldToScreenPoint(m.World(c.pos))).ToArray(),heads=game.Team.Select(c=>cam.WorldToScreenPoint(m.World(c.pos)+cam.transform.up*.72f)).ToArray()}});
         }
-        [Serializable] public class GameRecord {public int frame,wave,enemies;public string state;public float elapsed;public Vector2 center;public Vector2[] party;public DSBlockoutCameraRecord camera;}
+        [Serializable] public class GameRecord {public int frame,wave,enemies,shots,effects,kills,faded,keyboardId,updateInputFrame,updateInputDevice;public string state,queueError,inputScopeError,inputScopeEvidence;public bool keyboardD,keyboardA,joystickActive,gameEnabled,updateInputD;public float elapsed;public Vector2 center,input,inputRead,updateInput;public Vector2[] party;public DSBlockoutCameraRecord camera;}
         sealed class ProbeRandom:System.Random
         {public int Calls;public ProbeRandom(int seed):base(seed){}public override double NextDouble(){Calls++;return base.NextDouble();}public override int Next(int max){Calls++;return base.Next(max);}public override int Next(int min,int max){Calls++;return base.Next(min,max);}}
         [Serializable] class StateRecord {public Survivor[] team;public Gear[] stash;public WaveRecord[] history;}
@@ -118,7 +175,14 @@ namespace DeadSurvivor.Editor
             return string.Join("|",game.State,game.Wave,game.Formation,game.PendingFormation,game.Elapsed,game.TotalTime,game.Center,game.Kills,game.Spawned,
                 JsonUtility.ToJson(new StateRecord{team=game.Team.ToArray(),stash=game.Stash.ToArray(),history=game.History.ToArray()}),string.Join(";",game.Team.Select(c=>c.pos.ToString("R"))),privateState,timers,publicState,((ProbeRandom)game.Rng).Calls,((ProbeRandom)game.LootRng).Calls);
         }
+        public static string QueueTests()=>DSMapFullVerification.QueueTests(activeRun,activeNonce);
+        public static string QueueFailureTests(bool exhaustion)=>DSMapFullVerification.QueueFailureTests(activeRun,activeNonce,exhaustion);
         public static string PartyTests()
+        {
+            game.enabled=false;string result=null;
+            game.RunOwnedMapUnits(activeRun,activeNonce,()=>result=PartyTestsBody());return result;
+        }
+        static string PartyTestsBody()
         {
             game.enabled=false;game.Rng=new ProbeRandom(17);game.LootRng=new ProbeRandom(29);var checks=new System.Collections.Generic.List<string>();
             void Check(bool good,string name){if(!good)throw new Exception("PARTY_TEST:"+name);checks.Add(name);}
@@ -167,7 +231,7 @@ namespace DeadSurvivor.Editor
             game.Team[0].hp=0;beforeState=StateFingerprint();game.Revive(0);Check(beforeState==StateFingerprint(),"reject-revive-atomic");
             var initial=game.MapSession.StartCenter;game.MapSession.StartCenter=game.MapSession.Data.Logical(game.MapSession.Data.rock_center_px,4);beforeState=StateFingerprint();game.StartRun();Check(beforeState==StateFingerprint(),"reject-start-atomic");game.MapSession.StartCenter=initial;
             game.Center=center;game.StartRun();game.World.Render();game.enabled=true;
-            UnityEngine.InputSystem.InputSystem.QueueStateEvent(testKeyboard,new UnityEngine.InputSystem.LowLevel.KeyboardState(UnityEngine.InputSystem.Key.D));
+            holdOwnedKeyboardD=true;
             return JsonUtility.ToJson(new DSMapBlockoutVerification.UnitRecord {status="PASS",count=checks.Count,checks=checks.ToArray()});
         }
         public const string CombatScene=Folder+"/Map023_CombatExperimental.unity";
@@ -196,6 +260,11 @@ namespace DeadSurvivor.Editor
             ((System.Collections.IDictionary)typeof(DSGame).GetField("mapNavigators",Hidden).GetValue(game)).Clear();Call("ResetMapCombat");
         }
         public static string CombatTests()
+        {
+            game.enabled=false;string result=null;
+            game.RunOwnedMapUnits(activeRun,activeNonce,()=>result=CombatTestsBody());return result;
+        }
+        static string CombatTestsBody()
         {
             game.enabled=false;var original=game.MapSession.Geometry;var checks=new System.Collections.Generic.List<string>();var records=new System.Collections.Generic.List<PathRecord>();
             void Check(bool ok,string label){if(!ok)throw new Exception("COMBAT_TEST:"+label);checks.Add(label);}

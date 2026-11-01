@@ -1,3 +1,23 @@
+> 2026-11-02 작업 정리: [024~038 완료 범위와 남은 일](docs/reviews/checkpoint-024-038-20261102.md). 최신 미술 확인 장면은 **Map038_TripoPair_r003/Map038_TripoPair**이며, 관목·부서진 석재를 배치한 대표 구역 후보다.
+
+> 2026-11-01 문서 점검: [8개 대표 문서의 문제와 수정](docs/reviews/workflow-docs-audit-033-review.md). 현재 범위는 [현재 상태](docs/현재상태.md)의 요약을 따른다. 아래 누적 진행 문구는 각 실행 당시 기록이며 최신 소스의 재실행 결과가 아니다.
+
+> 작업 회고: [발생 문제·시간 소요·개선 방향](docs/reviews/work-delays-retrospective-20261101.md) — 검증 도구 확대와 반복 실행, 실제 결함·환경 차단·진행 혼선을 구분해 기록했다.
+
+> 최신 N1 기반: [032 실제 몸체 바인딩](docs/reviews/map-body-binding-032-review.md) 핵심9사례·20프레임·72독립 sweep 및 최종 게임 회귀 PASS. 사용자 지시에 따라 필수 검증만 실행했다. 전체 N1/G2/G3는 미완료이며 N2 실제 빌드·테스트는 사용자 담당이다.
+
+> 최신 N1 기반: [031 전체 상태 DTO](docs/reviews/map-snapshot-031-review.md) 341필드·436검사·거부29/사본21 반례 및 현재 게임 회귀 PASS. 전체 v1/G2/G3·708경로는 미완료이며032 실제 몸체 바인딩을 계속한다. N2 빌드·테스트는 사용자 실행으로 제외한다.
+
+> N1 진행: [029 연결성 진단](docs/reviews/map-topology-suite-029-review.md) 12조합과 [030 정상 Update 관찰](docs/reviews/map-normal-observer-030-review.md) 24사례·현재 게임 회귀 PASS. 전체 N1/G2/G3는 미완료이며031 전체 snapshot을 계속한다. N2 실제 빌드·테스트는 사용자 실행으로 제외한다.
+
+> 사용자 후속 지시(2026-11-01): N2 실제 빌드·테스트는 사용자 직접 실행으로 제외하고 [028 대표 구역 미술](docs/design/map-art-028.md)을 먼저 진행한다. 별도 r004 비교 씬의 Editor 구현·검증과 기존 게임 회귀를 마쳤다. 실행 파일 성능·최종 인수·전체 N1/G2/G3/G5는 미완료다.
+
+> 전체 후속 작업 진행 중: [026 N1~N3 실행](docs/design/map-full-026.md). 소유 프레임 연결과 기존 게임 회귀를 검증했으며, 전체 맵/G2·전투·빌드·대표 구역 미술 인수는 아직 미완료다.
+
+> N1 준비 진행: [025 지원·누락 대조표와 708건 경로 조합 초안](docs/design/map-n1-025-preparation.md). 기준·개별 기대 결과·전체 실행기는 미정이며, 전체 N1/G2/G3 실행은 NOT_RUN이다.
+
+> 다음 작업 계획: [024 — 전체 맵 검증 → 전투/성능·빌드 → 대표 구역 미술](docs/design/map-next-steps-024-plan.md). 문서화만 수행했으며 다음 실행은 N1 지원/누락 대조표와 사례 목록 작성부터다.
+
 > 023 개발 전투 연결: **Map023_CombatExperimental**에서 실제 파티·정비·적 우회·공격 차폐를 함께 시험한다. [검증·사용법](docs/reviews/map-playable-023-review.md). 021~023 구현 완료는 격리 실험 범위이며 전체 맵/전투/최종 미술 인수는 미완료.
 
 > 022 실제 파티 연결: Map022_PartyExperimental 장면에서 기존 파티·정비·진형·부활·다음 웨이브를 시험한다. [검증](docs/reviews/map-playable-022-review.md). 전투 비활성 개발 실험이며 전체 G3는 미완료.

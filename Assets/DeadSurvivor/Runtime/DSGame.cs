@@ -11,6 +11,7 @@ namespace DeadSurvivor
         public PrototypeData Data; public RunSettings Config; public Dictionary<string, ItemDef> Items = new(); public Dictionary<string, MonsterDef> Monsters = new();
         public List<int> Selected = new(); public List<Survivor> Team = new(); public List<Gear> Stash = new(); public List<Enemy> Enemies = new(); public List<Shot> Shots = new(); public List<Effect> Effects = new(); public List<WaveRecord> History = new();
         public string State = "lobby"; public bool Paused, Win; public int Wave, Kills, Spawned, WaveKills; public float Elapsed, TotalTime; public Vector2 Center, MoveInput; public float ViewWidth = 1180, ViewHeight = 748;
+        public bool RequireMap;
         public DSUI UI; public DSWorld World; int uid, enemyUid, burningSpawned, bomberSpawnCount; float spawnClock, recycleCooldown, burningAngle, bomberSpawnAngle; public System.Random Rng = new(); public System.Random LootRng = new();
         public float Random01() => (float)Rng.NextDouble(); public float Duration => Config.waves[Mathf.Clamp(Wave - 1, 0, Config.waves.Length - 1)].duration * Config.duration / 30f; public CharacterDef Def(Survivor c) => Data.characters[c.index];
         public float InitialLoadTime = -1;
@@ -22,7 +23,12 @@ namespace DeadSurvivor
         }
         void Awake()
         {
-            if(MapSession)MapSession.Bind(this);
+            if(RequireMap||MapSession)
+            {
+                InitializeMapCommands();
+                try{if(!MapSession)throw new InvalidOperationException("MAP_REQUIRED_BINDING_MISSING");MapSession.Bind(this);}
+                catch(Exception error){mapQueueError=error.Message;enabled=false;return;}
+            }
             initializationStarted = Time.realtimeSinceStartupAsDouble;
             Data = JsonUtility.FromJson<PrototypeData>(Resources.Load<TextAsset>("DeadSurvivor/PrototypeData").text);
             Config = JsonUtility.FromJson<RunSettings>(JsonUtility.ToJson(Data.settings));
@@ -37,6 +43,10 @@ namespace DeadSurvivor
         void Update()
         {
 #if UNITY_EDITOR
+            if(mapFrame!=null)
+            {
+                mapFrame.AdvanceFrame(this);return;
+            }
             if(movementFixture!=null)
             {
                 movementFixture.AdvanceFrame(this);
@@ -45,6 +55,7 @@ namespace DeadSurvivor
                 return;
             }
 #endif
+            if(mapRequired){AdvanceNormalMapFrame();return;}
             RecordTime(Time.unscaledDeltaTime);
             var k = Keyboard.current;
             if (k != null)
@@ -53,8 +64,7 @@ namespace DeadSurvivor
                 {
                     if (State == "battle")
                     {
-                        Paused = !Paused;
-                        UI.ShowPause();
+                        RequestPause(!Paused);
                     }
                 }
                 if (k.digit1Key.wasPressedThisFrame && State == "battle" && !Paused)
