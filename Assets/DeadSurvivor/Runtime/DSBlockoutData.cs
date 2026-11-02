@@ -25,7 +25,8 @@ namespace DeadSurvivor
         }
         public void Validate()
         {
-            if(package!="MAP-BLOCKOUT-018" || revision!="r001" || document_role!="PREVIEW_ONLY" ||
+            // Allowed layout revisions: the 018 blockout and the 045 key-art derivative (only OB-001..006 differ).
+            if(!(package=="MAP-BLOCKOUT-018" || package=="MAP-KEYART-045") || revision!="r001" || document_role!="PREVIEW_ONLY" ||
                 source_layout_sha256?.Length!=64 || source_image_sha256?.Length!=64 || origin_px!=new Vector2(565,580) ||
                 world_scale!=.02f || build_scale!=4 || body_radius!=8 || body_height!=36 || epsilon!=.001f ||
                 scale_profiles==null || !scale_profiles.SequenceEqual(new[]{4f,6f,8f}) || objects==null || objects.Length!=64 ||

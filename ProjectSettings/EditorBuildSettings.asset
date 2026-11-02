@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/DeadSurvivor/Scenes/Proto044/Proto044_Main.unity
+    guid: 35710fee915754d108ad84323d316791
+  - enabled: 1
     path: Assets/DeadSurvivor/Scenes/DeadSurvivor.unity
     guid: 972cbd2187fb845b2a0043c10da977f7
   m_configObjects:

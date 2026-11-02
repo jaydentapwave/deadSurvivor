@@ -12,6 +12,7 @@ namespace DeadSurvivor
 #if UNITY_EDITOR
         public Rect? SafeAreaPreview { get; set; }
 #endif
+        RectTransform backdrop;
         DSGame g; Canvas canvas; RectTransform root, page, modal, toastRoot, tooltip, ghost; TMP_FontAsset font; TextMeshProUGUI toastText, hudWave, hudTimer, hudInfo, banner; List<TextMeshProUGUI> teamTexts = new(); float toastUntil, nextHud; public int Held = -1; bool dragged; public bool JoystickActive; public Vector2 Joystick; Vector2 joystickStart; RectTransform joystickRing, joystickKnob; UnityEngine.UI.Image burningBorder; Sprite borderSprite, joystickBaseSprite, joystickKnobSprite; public float W = 1600, H = 900; UnityEngine.UI.CanvasScaler scaler; Rect lastSafeArea; Vector2 lastScreen;
         TMP_FontAsset privateMapFont;
         void OnDestroy()
@@ -44,6 +45,18 @@ namespace DeadSurvivor
             scaler.uiScaleMode = UnityEngine.UI.CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(W, H);
             scaler.screenMatchMode = UnityEngine.UI.CanvasScaler.ScreenMatchMode.Expand;
+            // Full-canvas backdrop behind the safe-area root for non-battle pages. The fixed 1600x900 page
+            // leaves uncovered canvas on other aspect ratios / safe areas; in 2D the camera clears to the
+            // same colour, but in the 3D map scene the map showed through (044).
+            var backObject = new GameObject("PageBackdrop", typeof(RectTransform), typeof(UnityEngine.UI.Image));
+            backdrop = backObject.GetComponent<RectTransform>();
+            backdrop.SetParent(go.transform, false);
+            backdrop.anchorMin = Vector2.zero;
+            backdrop.anchorMax = Vector2.one;
+            backdrop.offsetMin = backdrop.offsetMax = Vector2.zero;
+            var backImage = backObject.GetComponent<UnityEngine.UI.Image>();
+            backImage.color = C("#0d1317");
+            backImage.raycastTarget = false;
             var safeObject = new GameObject("SafeArea", typeof(RectTransform));
             root = safeObject.GetComponent<RectTransform>();
             root.SetParent(go.transform, false);
@@ -156,6 +169,7 @@ namespace DeadSurvivor
             JoystickActive = false;
             Joystick = Vector2.zero;
             page = Box("Page_" + g.State, root, 0, 0, W, H, g.State == "battle" ? null : "#0d1317");
+            backdrop.gameObject.SetActive(g.State != "battle");
             Header();
         }
         void Header()

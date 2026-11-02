@@ -13,6 +13,9 @@ namespace DeadSurvivor
         public float FadedAlpha=.22f;
         public int FadedCount {get;private set;}
         public Vector3[] Focus=Array.Empty<Vector3>();
+        // 045: set at runtime by DSWorld only when the scene has DSMapPresentation (camera may sit close to the
+        // party, so orthographic occlusion must be tested along the view direction, not from the camera point).
+        [NonSerialized] public bool ParallelRays;
         readonly List<Material[]> originals=new(), copies=new();
         bool initialized;
         void Initialize()
@@ -24,6 +27,8 @@ namespace DeadSurvivor
                 var mats=Array.ConvertAll(source,m=>new Material(m));copies.Add(mats);
                 foreach(var m in mats)
                 {
+                    // 045 dither-fade materials stay opaque (depth/normal prepasses, SSAO, shadows) and only take _BaseColor.a.
+                    if(m.HasProperty("_DitherFade") && m.GetFloat("_DitherFade")>.5f)continue;
                     m.SetFloat("_Surface",1);m.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);
                     m.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);m.SetFloat("_ZWrite",0);
                     m.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");m.renderQueue=(int)RenderQueue.Transparent;
@@ -44,8 +49,14 @@ namespace DeadSurvivor
                 bool faded=false;
                 foreach(var p in points)
                 {
-                    Vector3 delta=p-ViewCamera.transform.position;
-                    if(delta.sqrMagnitude>0 && Blockers[i].bounds.IntersectRay(new Ray(ViewCamera.transform.position,delta.normalized),out float d) && d<delta.magnitude-.01f)
+                    Vector3 origin=ViewCamera.transform.position;
+                    if(ParallelRays && ViewCamera.orthographic)
+                    {
+                        var forward=ViewCamera.transform.forward;
+                        origin=p-forward*Vector3.Dot(p-origin,forward);
+                    }
+                    Vector3 delta=p-origin;
+                    if(delta.sqrMagnitude>0 && Blockers[i].bounds.IntersectRay(new Ray(origin,delta.normalized),out float d) && d<delta.magnitude-.01f)
                     {faded=true;break;}
                 }
                 if(faded)FadedCount++;

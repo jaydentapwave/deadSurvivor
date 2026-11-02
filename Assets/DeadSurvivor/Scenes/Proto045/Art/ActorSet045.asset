@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b039bc03f2579455a84664b136e493ae, type: 3}
+  m_Name: ActorSet045
+  m_EditorClassIdentifier: Assembly-CSharp::DeadSurvivor.DSMapActorSet
+  Heroes:
+  - id: bruno
+    prefab: {fileID: 4564899295956857434, guid: fcdca4420df1d432d80ac8ca417e58d8, type: 3}
+    material: {fileID: 0}
+    yawOffset: 0
+  - id: hans
+    prefab: {fileID: 4564899295956857434, guid: fcdca4420df1d432d80ac8ca417e58d8, type: 3}
+    material: {fileID: 0}
+    yawOffset: 0
+  - id: lena
+    prefab: {fileID: 4564899295956857434, guid: fcdca4420df1d432d80ac8ca417e58d8, type: 3}
+    material: {fileID: 0}
+    yawOffset: 0
+  - id: yuki
+    prefab: {fileID: 4564899295956857434, guid: fcdca4420df1d432d80ac8ca417e58d8, type: 3}
+    material: {fileID: 0}
+    yawOffset: 0
+  - id: bolt
+    prefab: {fileID: 4564899295956857434, guid: fcdca4420df1d432d80ac8ca417e58d8, type: 3}
+    material: {fileID: 0}
+    yawOffset: 0
+  - id: mira
+    prefab: {fileID: 4564899295956857434, guid: fcdca4420df1d432d80ac8ca417e58d8, type: 3}
+    material: {fileID: 0}
+    yawOffset: 0
+  Monsters:
+  - id: melee
+    prefab: {fileID: 4681962407881941192, guid: 71ce05c78390c4ec283477b5e8cd7874, type: 3}
+    material: {fileID: 0}
+    yawOffset: 0
+  - id: ranged
+    prefab: {fileID: 4681962407881941192, guid: 71ce05c78390c4ec283477b5e8cd7874, type: 3}
+    material: {fileID: 2100000, guid: 0b31bd19bbbe84a2d8c19b3a0b1e4d4d, type: 2}
+    yawOffset: 0
+  - id: charger
+    prefab: {fileID: 4681962407881941192, guid: 71ce05c78390c4ec283477b5e8cd7874, type: 3}
+    material: {fileID: 2100000, guid: 13a1f8d2d530d42b0acabe2a3c7a314f, type: 2}
+    yawOffset: 0
+  - id: armored
+    prefab: {fileID: 4681962407881941192, guid: 71ce05c78390c4ec283477b5e8cd7874, type: 3}
+    material: {fileID: 2100000, guid: 104f3f3e2a2fa446b9a53508068c8a21, type: 2}
+    yawOffset: 0
+  - id: bomber
+    prefab: {fileID: 4681962407881941192, guid: 71ce05c78390c4ec283477b5e8cd7874, type: 3}
+    material: {fileID: 2100000, guid: f701feef267004ac6ad71f1458608d79, type: 2}
+    yawOffset: 0
+  HitMaterial: {fileID: 2100000, guid: 75f3036dda995446ba9a429502b89a32, type: 2}
+  HeroHeight: 0.8
+  MonsterHeight: 0.52
+  MonsterReferenceRadius: 18
+  BarLift: 0.66
+  FocusLift: 0.28
+  TurnDegreesPerSecond: 720
+  RunSpeedThreshold: 0.15
+  BobHeight: 0.04
+  BobRate: 7

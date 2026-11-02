@@ -9,6 +9,7 @@
 | Git 커밋 직전 | `.githooks/pre-commit` → `Tools/Verify/gate.py pre-commit` | 이 저장소 core.hooksPath=.githooks 활성화. 이전값 /dev/null |
 | Codex 응답 종료 | `.codex/hooks.json`의 Stop → `gate.py stop` | 정의 작성·직접 호출 시험 완료. **앱의 hook 신뢰 및 실제 발동은 별도 확인 필요** |
 | 직접 최종 검사 | `/usr/bin/python3 Tools/Verify/gate.py check` | 현재 파일을 매번 검사하고 새 gate.json 기록 |
+| Claude 도구 실행 전·프롬프트 제출 | `.claude/settings.json` → `Tools/Hooks/claude_guard.py` | 2026-11-02 설치. 효율 가드(전체 Play·검토 반복·긴 대화)이며 이 gate와 별개다. [핵심 규칙](core-rules.md) |
 
 Codex 프로젝트 hook은 사용자가 현재 정의를 검토·신뢰해야 실행된다. 프로젝트 신뢰와 hook 정의 신뢰는 구분된다. 프로젝트 폴더에서 Codex CLI를 열고 `/hooks`로 프로젝트 Stop 항목을 검토/신뢰한다. 변경된 정의는 재검토 대상이다. 신뢰 DB를 편집하거나 우회 플래그를 사용하지 않았다. 현재 대화가 새 정의를 다시 읽었다고 가정하지 않는다. 근거: [OpenAI 공식 hook 문서](https://learn.chatgpt.com/docs/hooks), Where Codex looks / Review and trust / Stop. 확인2026-10-30.
 
@@ -33,6 +34,8 @@ Codex 프로젝트 hook은 사용자가 현재 정의를 검토·신뢰해야 �
 
 Unity 기본 회귀는 컴파일·규칙·실제 프레임 증가·입력·기본 캡처·콘솔·복구를 유지한다. 기본 회귀만으로 인수할 수 있는 변경은 기존 계산 파일 DSGame.Combat/EquipmentCombat/Stats, EquipmentRules, DSMapGeometry/Motion/Navigation의 **내용 변경**이다. 파일 추가/삭제나 .meta 변경은 해당하지 않는다. 유효한 전체 화면 원자료가 있어야 하고, 그 실행과 현재 runtime의 차이가 이 목록 안에만 있어야 한다. 현재 기본 회귀 자체는 전체 현재 runtime 지문과 일치해야 한다. 그 외에는 전체 화면이 필수다. 기본 회귀 명령은 run.py all, 전체 화면은 run.py all --screens다.
 
+[핵심 규칙](core-rules.md)의 검증 3단계와 증거 재사용(`Tools/Harness/tier.py`, `tier-evidence.json`)은 작업 중·단계 마감에 실행기를 고르는 기준이다. **커밋 전 gate의 Unity 범위는 이 문서가 원본이다.** gate는 `tier-evidence.json`을 읽지 않는다. 그래서 텍스처·재질 같은 시각 파일만 바뀐 경우에도 위 조건에 해당하면 `all --screens`가 필요하다. 짧은 Play 캡처나 사용자 확인은 gate의 화면 근거를 대신하지 않는다. gate에서 시각 증거를 재사용하는 기능은 아직 없다(후속, 사용자 결정 뒤). 커밋 전 실행은 `DS_FULL_REASON="커밋 전 gate"`를 붙인다(Claude hook).
+
 Unity 증거의 수집 의존성은 run.py·unity_check.py·gate_support.py·Tools/project_paths.py다. 무관한 진단/시험 파일 수정 때문에 게임을 재실행하지 않는다. 판정기 변경은 기존 원자료를 현재 판정기로 다시 검사하며, 수집기나 runtime 변경은 새 실행을 요구한다. 수집 당시 before/after 전체 context 일치, 현재 실행 의존성, 필수 원자료 해시는 유지한다. 최신 현재 실행의 실패와 같은 시각 입력의 최신 화면 실패를 이전 PASS로 덮지 않는다. 필요한 증거가 없으면 BLOCKED이며 hook은 Unity를 실행하거나 동기화하지 않는다.
 
 Git은 미스테이징 파일이나 부분 스테이징도 보수적으로 거부한다. 검사기가 임의로 git add 하지 않는다. 최초 커밋에서도 작동한다. 사용자 커밋 요청 시 의도한 전체 입력과 인덱스를 정리한 뒤 커밋한다.
@@ -44,7 +47,7 @@ Git은 미스테이징 파일이나 부분 스테이징도 보수적으로 거�
 - UnityArtExport 변경은 대상 자산과의 대응 검증이 아직 없으므로 새 all PASS만으로 통과하지 않는다. 별도 검증 어댑터를 구현/검토하기 전까지 BLOCKED다.
 - 과거 MAP007 inputs.json과 과거 리뷰는 역사적 기록으로 보존한다. 현재 코드가 달라졌다는 이유로 과거 지문을 덮어쓰지 않는다. 이전 지문을 새 실행 성공 근거로 사용하지 않는다.
 - 최종 시각 확인·사람 플레이·독립 리뷰 내용의 진실성은 기계 검사로 증명하지 못한다. 기존 L1/L2 독립 검토 의무는 그대로다.
-- 다른 도구/Claude에는 자동 종료 hook을 설치하지 않았다. Git hook은 같은 저장소의 일반 Git 커밋에 적용된다.
+- 다른 도구/Claude에는 자동 종료 hook을 설치하지 않았다. Claude에는 2026-11-02 효율 hook만 설치했다(종료 시 gate 실행 아님). Git hook은 같은 저장소의 일반 Git 커밋에 적용된다.
 
 ## 결과와 재실행
 

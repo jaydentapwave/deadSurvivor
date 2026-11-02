@@ -1,0 +1,69 @@
+{
+  "status": "PASS_REPAINTED_GEOMETRY_UNCHANGED",
+  "source_glb": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/output/tripo-pair-038/20261102-r001/shrub/delivery/model-sized.glb",
+  "source_glb_sha256": "27dd0ccec9aa1d833cd61a356cd709c37df8c3c34baced7adc6b478bc980cf32",
+  "source_basecolor": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/output/tripo-pair-038/20261102-r001/shrub/delivery/basecolor.png",
+  "source_basecolor_sha256": "da831067b5f8925c6eac449a5f422eaf8007cbbee29cbb911b60d8f6a055280b",
+  "palette_sha256": "e7528e7acadf9141da6ef7a46facc4ef769e3b0ecce4504d5838dc31c61be8ae",
+  "allowed_rows": [
+    0
+  ],
+  "value_alignment": {
+    "base_cell": 5,
+    "median_oklab_before": [
+      0.3651,
+      -0.0436,
+      0.0337
+    ],
+    "target_oklab": [
+      0.6736,
+      -0.1204,
+      0.1176
+    ],
+    "compress": 0.6,
+    "rule": "area-weighted per-channel OKLab median moved onto the base cell; deviations scaled by compress"
+  },
+  "triangles": 8300,
+  "faces": 8300,
+  "bbox_blender": [
+    [
+      -0.5,
+      -0.44999998807907104,
+      0.0
+    ],
+    [
+      0.5,
+      0.44999998807907104,
+      0.4000000059604645
+    ]
+  ],
+  "smoothing": {
+    "passes": 3,
+    "rule": "switch to neighbour mode if it beats own label by >=1",
+    "faces_changed": 360
+  },
+  "cells_used": [
+    {
+      "index": 5,
+      "hex": "#64ac36",
+      "faces": 7095
+    },
+    {
+      "index": 6,
+      "hex": "#a5c748",
+      "faces": 846
+    },
+    {
+      "index": 3,
+      "hex": "#4f9c32",
+      "faces": 359
+    }
+  ],
+  "uv": "single UV map PaletteUV, every loop at its cell centre; Tripo UVs and textures removed",
+  "export": {
+    "file": "model.fbx",
+    "sha256": "107da099900b91b3dd983ee260810308e172faa1fb34170afdf44ec6451a32e1",
+    "settings": "apply_unit_scale, axis_forward=-Z, axis_up=Y, same as 038 delivery"
+  },
+  "blender": "5.2.2 LTS"
+}
