@@ -42,7 +42,7 @@ Codex·Claude 등 어느 에이전트를 쓰든 이 절이 원본이다. 에이�
 
 ## 워크플로우 라우팅
 
-맵 산출물은 [일관성 규격](docs/workflows/map-artifact-contract.md), 검증 설계는 [맵 하네스 명세](docs/design/맵-워크플로우-하네스-설계.md)를 따른다. 현재 맵 하네스는 미구현이며 문서 검사 PASS를 맵 동작 PASS로 보고하지 않는다.
+맵 산출물은 [일관성 규격](docs/workflows/map-artifact-contract.md), 검증 설계는 [맵 하네스 명세](docs/design/맵-워크플로우-하네스-설계.md)를 따른다. 현재 맵 하네스는 미구현이며 문서 검사 PASS를 맵 동작 PASS로 보고하지 않는다. 2026-11-02부터 맵 하네스 작업은 보류이고, 콘텐츠 작업은 [핵심 규칙 0절](docs/workflows/core-rules.md)(만드는 일 우선, 검증 최소)을 따른다. 현재 게임 맵은 [046 전체 맵](docs/design/map-full-046.md)이다.
 
 레퍼런스 기반 이미지·맵 설계는 [시각 설계 절차](docs/workflows/reference-design.md)를 따른다. 사용자 요구·관찰·에이전트 제안을 구분하고 실제 원본 입력과 결과 비교를 기록한다.
 

@@ -23,6 +23,25 @@ namespace DeadSurvivor
         // natural spawn failures per simulation: no path search happened at all (every candidate rejected by boundary/obstacles)
         // vs a search happened (path failure or the 1-search-per-simulation budget). Injection failures are excluded.
         public int GeoFailures, SearchFailures;int lastFailures=-1;
+        // spawn-failure cause per completed simulation (045 follow-up, measurement only; the game is unchanged).
+        // DSGame.TryMapSpawn allows one path search per simulation and every successful spawn needs that search,
+        // so at most ONE spawn can succeed per simulation (DSGame.MapCombat.cs TryMapSpawn, DSGame.Combat.cs wave loop + Burning).
+        // ClassifySpawnStep splits the failures of one simulation: no search at all = geo; the search was used by a success = budget;
+        // no success but a search = the first failure was a path failure, the rest budget.
+        static readonly FieldInfo Uid=typeof(DSGame).GetField("enemyUid",BindingFlags.Instance|BindingFlags.NonPublic);
+        static readonly FieldInfo Burned=typeof(DSGame).GetField("burningSpawned",BindingFlags.Instance|BindingFlags.NonPublic);
+        int lastUid=-1;
+        public int BudgetFailures, PathFailures, SaturatedSteps, MultiSimFrames, WindowFailures, SlowFrames33, SlowFrames50;
+        public double FrameMsSum;
+        public bool SpawnFieldsMissing;
+        public readonly List<string> SpawnFailSamples=new();
+        public static (int geo,int budget,int path) ClassifySpawnStep(int failures,int successes,int searches)
+        {
+            if(failures<=0)return (0,0,0);
+            if(searches<=0)return (failures,0,0);
+            if(successes>=1)return (0,failures,0);
+            return (0,failures-1,1);
+        }
         public bool Reached, Held, HeroDied, Ended, SearchFieldMissing;
         public string EndReason="";
         public float HoldEnd=-1;
@@ -46,6 +65,7 @@ namespace DeadSurvivor
             SearchFieldMissing=Searches==null;
             if(protectHeroes)foreach(var c in game.Team)if(c.hp>0){c.maxhp=1e9f;c.hp=1e9f;}
             lastSimulation=game.NormalObservedGameSimulations;lastFailures=game.MapSpawnFailures;
+            SpawnFieldsMissing=Uid==null||Burned==null;lastUid=Uid==null?-1:(int)Uid.GetValue(game);
         }
         void Update()
         {
@@ -54,7 +74,9 @@ namespace DeadSurvivor
             int rendered=Game.World.MapActorRenderedFrame;bool hasViews=Game.World.MapActorViewCount>=0;
             if(Order.Count<10)Order.Add($"frame={Time.frameCount} sim={sim} rendered={rendered}");
             if(sim==lastSimulation)return;            // no completed simulation this frame (paused, result, ...)
+            if(sim-lastSimulation>1)MultiSimFrames++;  // more than one simulation since the last tick: the step split below is merged
             lastSimulation=sim;Ticks++;
+            float frameMs=Time.unscaledDeltaTime*1000;FrameMsSum+=frameMs;if(frameMs>33.4f)SlowFrames33++;if(frameMs>50f)SlowFrames50++;
             int aliveHeroes=0;foreach(var c in Game.Team)if(c.hp>0)aliveHeroes++;
             if(aliveHeroes<Game.Team.Count){HeroDied=true;Ended=true;EndReason="HERO_DIED";return;}
             if(Game.State!="battle"){Ended=true;EndReason="STATE_"+Game.State;return;}
@@ -62,6 +84,16 @@ namespace DeadSurvivor
             if(alive>MaxAlive)MaxAlive=alive;
             int df=Game.MapSpawnFailures-lastFailures;
             if(df>0&&Searches!=null){if((int)Searches.GetValue(Game)==0)GeoFailures+=df;else SearchFailures+=df;}
+            if(Searches!=null&&!SpawnFieldsMissing)
+            {
+                int uid=(int)Uid.GetValue(Game),ds=uid-lastUid,sc=(int)Searches.GetValue(Game);
+                var k=ClassifySpawnStep(df,ds,sc);BudgetFailures+=k.budget;PathFailures+=k.path;if(k.budget>0&&ds>=1)SaturatedSteps++;
+                // Burning (DSGame.Combat.cs Burning): wave >= 6, extra spawns from Duration/2 for 10 s at twice the wave rate
+                bool window=Game.Wave>=6&&Game.Elapsed>=Game.Duration/2&&Game.Elapsed<Game.Duration/2+10;
+                if(window)WindowFailures+=df;
+                if(df>0&&SpawnFailSamples.Count<30)
+                    SpawnFailSamples.Add($"{Time.unscaledTime-started:F1}s w{Game.Wave} el={Game.Elapsed:F2}/{Game.Duration:F0} fail={df} ok={ds} search={sc} geo={k.geo} budget={k.budget} path={k.path} burnWin={window} burned={(int)Burned.GetValue(Game)} alive={alive} frame={frameMs:F0}ms center=({Game.Center.x:F0},{Game.Center.y:F0})");
+            }
             // order: this frame's DSGame.Update must already have rendered (views path only)
             if(hasViews&&rendered!=Time.frameCount)OrderViolations++;
             else if(hasViews&&Game.World.MapActorViewCount!=alive+aliveHeroes)Mismatches++;
@@ -80,7 +112,7 @@ namespace DeadSurvivor
                 if(!Reached && t>ReachLimitSeconds){Ended=true;EndReason="REACH_LIMIT";return;}
             }
             foreach(var c in Game.Team)c.hp=c.maxhp;   // heal
-            lastFailures=Game.MapSpawnFailures;
+            lastFailures=Game.MapSpawnFailures;if(Uid!=null)lastUid=(int)Uid.GetValue(Game);
             int ceiling=Target+50;   // top up above the judged target so a few kills do not reset the 20 s hold
             if(HealOnly||alive>=ceiling)return;
             if(Searches==null)return;
@@ -93,7 +125,7 @@ namespace DeadSurvivor
                 Game.Spawn(extra:true);
                 if(Game.MapSpawnFailures>before)InjectFailures++;else Injected++;
             }
-            lastFailures=Game.MapSpawnFailures;
+            lastFailures=Game.MapSpawnFailures;if(Uid!=null)lastUid=(int)Uid.GetValue(Game);   // injected spawns are not natural successes
         }
         void Classify(float t,int alive)
         {
@@ -115,16 +147,24 @@ namespace DeadSurvivor
                     pc=(nav.TryPath(e.pos,hero.pos,out _,16384),t);pathCache[e]=pc;
                 }
                 if(!pc.path){noPath++;if(NoPathSamples.Count<20)NoPathSamples.Add($"{t:F1}s {e.type} pos=({e.pos.x:F0},{e.pos.y:F0}) hero=({hero.pos.x:F0},{hero.pos.y:F0})");continue;}
-                string state="noRoute";
+                string state="noRoute";float er=Game.Monsters[e.type].radius;
+                string detail=$"direct={map.SafeSweep(e.pos,hero.pos,er)}";   // noRoute: DSGame.EnemyAdvance walks straight when this sweep is clear
                 if(routes!=null&&routes.Contains(e))
                 {
                     var rt=routes[e];var tp=rt.GetType();
                     var points=tp.GetField("points").GetValue(rt);float retry=(float)tp.GetField("retry").GetValue(rt);
                     state=points!=null?"onRoute":Game.TotalTime<retry?"waitingRetry":"pendingSearch";
+                    // onRoute detail (045 follow-up): progress index, next point, and whether that leg is blocked by geometry
+                    if(points is List<Vector2> pts)
+                    {
+                        int idx=(int)tp.GetField("index").GetValue(rt);var tgt=(Vector2)tp.GetField("target").GetValue(rt);
+                        if(idx<pts.Count){var nx=pts[idx];detail=$"idx={idx}/{pts.Count} next=({nx.x:F0},{nx.y:F0}) dNext={(nx-e.pos).magnitude:F0} legClear={map.SafeSweep(e.pos,nx,er)} routeTargetToHero={(tgt-hero.pos).magnitude:F0}";}
+                        else detail=$"idx={idx}/{pts.Count} routeEnd routeTargetToHero={(tgt-hero.pos).magnitude:F0}";
+                    }
                 }
                 if(state=="waitingRetry")waiting++;
                 else if(state=="pendingSearch")pending++;
-                else{unexplained++;if(UnexplainedSamples.Count<20)UnexplainedSamples.Add($"{t:F1}s {e.type} {state} pos=({e.pos.x:F0},{e.pos.y:F0}) hero={near:F0}");}
+                else{unexplained++;if(UnexplainedSamples.Count<20)UnexplainedSamples.Add($"{t:F1}s {e.type} {state} pos=({e.pos.x:F0},{e.pos.y:F0}) hero={near:F0} {detail}");}
             }
             if(raw>RawStillMax)RawStillMax=raw;if(ranged>HoldRangedMax)HoldRangedMax=ranged;if(phase>PhaseMax)PhaseMax=phase;
             if(noPath>NoPathMax)NoPathMax=noPath;if(waiting>WaitingPathMax)WaitingPathMax=waiting;if(pending>PendingSearchMax)PendingSearchMax=pending;if(unexplained>UnexplainedMax)UnexplainedMax=unexplained;

@@ -25,6 +25,18 @@ namespace DeadSurvivor
         }
         public void Validate()
         {
+            // 046 full game map: free obstacle count/ids (DSMapGeometry caps obstacles at 128); same scale contract.
+            if(package=="MAP-FULL-046")
+            {
+                if(revision!="r001" || document_role!="GAME_MAP" || origin_px!=new Vector2(565,580) ||
+                    world_scale!=.02f || build_scale!=4 || body_radius!=8 || body_height!=36 || epsilon!=.001f ||
+                    scale_profiles==null || !scale_profiles.SequenceEqual(new[]{4f,6f,8f}) || boundary_px==null || boundary_px.Length<3 ||
+                    objects==null || objects.Length<1 || objects.Length>120 || objects.Select(o=>o.id).Distinct().Count()!=objects.Length ||
+                    objects.Any(o=>string.IsNullOrEmpty(o.id) || o.points_px==null || o.points_px.Length<3 || !new[]{16f,24f,32f}.Contains(o.height_logical)) ||
+                    !objects.Any(o=>o.id==rock_object_id) || !DSMapGeometry.ValidPoint(rock_center_px-origin_px))
+                    throw new ArgumentException("INVALID_MAP_DATA");
+                return;
+            }
             // Allowed layout revisions: the 018 blockout and the 045 key-art derivative (only OB-001..006 differ).
             if(!(package=="MAP-BLOCKOUT-018" || package=="MAP-KEYART-045") || revision!="r001" || document_role!="PREVIEW_ONLY" ||
                 source_layout_sha256?.Length!=64 || source_image_sha256?.Length!=64 || origin_px!=new Vector2(565,580) ||

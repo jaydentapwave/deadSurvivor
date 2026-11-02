@@ -494,13 +494,47 @@ def natural_waves(lobby, s, captures):
         rec = dict(wave=w, spawned=succ, failures=fl, failure_rate=round(rate, 4), geo_failures=d.get('geoFailures'), search_failures=d.get('searchFailures'),
                    inside_max=inside, views_mismatch_samples=views_bad, samples=samples,
                    driver=dict((k, d.get(k)) for k in ('endReason', 'heroDied', 'mismatches', 'orderViolations', 'maxAlive', 'rawStillMax', 'holdRangedMax', 'phaseMax',
-                                                       'noPathMax', 'waitingPathMax', 'pendingSearchMax', 'unexplainedMax', 'unexplainedMaxRatio', 'noPathSamples', 'unexplainedSamples')))
+                                                       'noPathMax', 'waitingPathMax', 'pendingSearchMax', 'unexplainedMax', 'unexplainedMaxRatio', 'noPathSamples', 'unexplainedSamples')),
+                   # measured cause split (DSKeyArt045LoadDriver.ClassifySpawnStep; diagnostic only, the PASS rule below is unchanged)
+                   spawn_split=dict(geo=d.get('geoFailures'), budget=d.get('budgetFailures'), path=d.get('pathFailures'), burning_window=d.get('windowFailures'),
+                                    saturated_steps=d.get('saturatedSteps'), multi_sim_frames=d.get('multiSimFrames'), ticks=d.get('ticks'),
+                                    frame_ms_mean=round(d.get('frameMsMean') or -1, 1), slow33=d.get('slowFrames33'), slow50=d.get('slowFrames50'),
+                                    fields_missing=d.get('spawnFieldsMissing'), fail_samples=(d.get('spawnFailSamples') or [])[:8]))
         ok = rate <= 0.20 and inside == 0 and views_bad == 0 and not d.get('heroDied') and d.get('mismatches') == 0 and d.get('orderViolations') == 0 and d.get('noPathMax') == 0 and d.get('unexplainedMaxRatio', 1) <= 0.02
         rec['status'] = 'PASS' if ok else 'FAIL'; spawn_ok &= ok
         waves.append(rec); step('wave_natural', **rec)
         if w == 1 and captures:
             capture('prep')
     return waves, spawn_ok
+
+
+def spawn_cause(waves, selftest):
+    """measured spawn-failure cause over the waves that failed the 20 % rule (or all waves when none failed)"""
+    judged = [w for w in waves if w.get('failure_rate', 0) > 0.20] or waves
+    tot = {k: sum((w.get('spawn_split') or {}).get(k) or 0 for w in judged) for k in ('geo', 'budget', 'path', 'burning_window', 'saturated_steps', 'multi_sim_frames')}
+    n = tot['geo'] + tot['budget'] + tot['path']
+    bad = selftest != 'PASS' or any((w.get('spawn_split') or {}).get('fields_missing') in (True, None) for w in judged) or tot['multi_sim_frames'] > 0
+    if bad or n == 0:
+        label = 'UNKNOWN' if bad else 'NO_FAILURES'
+    else:
+        top = max(('geo', 'budget', 'path'), key=lambda k: tot[k])
+        label = f"{top.upper()}({round(100 * tot[top] / n)}%)"
+    return dict(label=label, waves=[w['wave'] for w in judged], totals=tot, selftest=selftest,
+                frame_ms_mean={w['wave']: (w.get('spawn_split') or {}).get('frame_ms_mean') for w in judged})
+
+
+def _spawn_cause_selftest():
+    sp = lambda g, b, p, missing=False, multi=0: dict(geo=g, budget=b, path=p, burning_window=0, saturated_steps=0, multi_sim_frames=multi, fields_missing=missing)
+    w = lambda n, rate, split: dict(wave=n, failure_rate=rate, spawn_split=split)
+    c = {}
+    c['budget_dominant'] = spawn_cause([w(6, 0.05, sp(0, 5, 0)), w(7, 0.27, sp(0, 150, 18))], 'PASS')['label'] == 'BUDGET(89%)'
+    c['only_failed_waves_judged'] = spawn_cause([w(6, 0.05, sp(0, 0, 50)), w(7, 0.27, sp(0, 150, 18))], 'PASS')['waves'] == [7]
+    c['selftest_fail_unknown'] = spawn_cause([w(7, 0.27, sp(0, 150, 18))], 'FAIL:x')['label'] == 'UNKNOWN'
+    c['missing_fields_unknown'] = spawn_cause([w(7, 0.27, sp(0, 150, 18, missing=True))], 'PASS')['label'] == 'UNKNOWN'
+    c['old_driver_unknown'] = spawn_cause([dict(wave=7, failure_rate=0.27)], 'PASS')['label'] == 'UNKNOWN'
+    c['merged_steps_unknown'] = spawn_cause([w(7, 0.27, sp(0, 150, 18, multi=3))], 'PASS')['label'] == 'UNKNOWN'
+    c['no_failures'] = spawn_cause([w(1, 0.0, sp(0, 0, 0))], 'PASS')['label'] == 'NO_FAILURES'
+    return dict(status='PASS' if all(c.values()) else 'FAIL', cases=c)
 
 
 def skip_to_wave(n):
@@ -583,6 +617,7 @@ def run_short():
 def main():
     if STAGE in STAGES_FULL:
         report['full_reason'] = TIER.require_full('keyart_045.py', SCENE)
+    report['spawn_cause_selftest'] = _spawn_cause_selftest()
     if STAGE == 'short':
         return run_short()
     subprocess.run(['unity', 'status', '--until-ready', '--project-path', str(ROOT)], capture_output=True, timeout=300)
@@ -767,6 +802,16 @@ def main():
         report['input_scope_end'] = call('EndInputScope', cls=TOUCH)
         step('touch', **touch)
         if S3B:
+            # S3-23: after the touch check only ~9 s of the 30 s wave 1 are left (elapsed 17.8 / 21.3 in run-465bd14aee0c /
+            # run-3633136a76d5) and move_sample with its retries (S3-20/S3-22) can take longer -> the wave ended mid-sample
+            # (NOT_IN_BATTLE). Judge squad B in a fresh sortie, like squad C and the short tier.
+            call('KillParty'); wait(lambda s: s['state'] == 'result', 'defeat_b_pre')
+            call('Click', REFORM); lobby_b = wait(lambda s: s['state'] == 'lobby', 'lobby_b_pre')
+            for i in list(lobby_b['selected']): call('Submit', 'ToggleSelection', i)
+            for i in (0, 1, 2, 3): call('Submit', 'ToggleSelection', i)
+            wait(lambda s: sorted(s['selected']) == [0, 1, 2, 3], 'select_b_judge')
+            call('Click', START); wait(lambda s: s['state'] == 'battle' and s['wave'] == 1, 'battle_b_judge'); time.sleep(2.0)
+            report['before_s3b_b'] = {k: v for k, v in state().items() if k in ('state', 'wave', 'elapsed', 'heroesAlive', 'enemies', 'frame', 'win')}
             results['s3b_heroes'] = s3b_step('s3b_heroes', SQUAD_B)
         call('KillParty'); s = wait(lambda s: s['state'] == 'result', 'defeat_b'); assert not s['win']
         capture('result-defeat')
@@ -786,12 +831,15 @@ def main():
             time.sleep(2.0)   # let the first frames of the battle pass before driving the squad
             results['s3b_heroes_c'] = s3b_step('s3b_heroes_c', SQUAD_C)
         results['hero_keys'] = 'PASS' if all(k.split('=')[1] == 'H:' + k.split('=')[0] for k in (keys_b + ',' + keys_c).split(',')) and set(keys_b.split(',')) != set(keys_c.split(',')) else 'FAIL'
+        split_selftest = call('DriverSelfTest'); report['spawn_split_selftest'] = split_selftest
         waves, spawn_ok = natural_waves(lobby, s, captures=True)
         results['spawn'] = 'PASS' if spawn_ok else 'FAIL'
-        # 045-J2: per-call failure causes are not observable without instrumenting TryMapSpawn, so the cause stays UNKNOWN.
-        # geo/search counts are reported as hints only (a 'search' simulation may still contain geometry-rejected calls).
-        results['spawn_cause'] = 'UNKNOWN'
-        step('waves', waves=waves, spawn=results['spawn'], note='Natural waves (no DebugFinish), heroes healed by the editor-only driver, no injection. Counts = enemyUid/MapSpawnFailures deltas over each whole wave.')
+        # 045-J2 follow-up: the driver now splits each simulation's failures into geo / budget (the one path search per
+        # simulation was used by a success) / path (the search itself failed). Still a per-simulation split: a geo-rejected
+        # call before the search counts as budget. UNKNOWN when the split self-test fails, fields are missing or simulations merged.
+        report['spawn_cause_detail'] = cause = spawn_cause(waves, split_selftest)
+        results['spawn_cause'] = cause['label']
+        step('waves', waves=waves, spawn=results['spawn'], spawn_cause=cause, note='Natural waves (no DebugFinish), heroes healed by the editor-only driver, no injection. Counts = enemyUid/MapSpawnFailures deltas over each whole wave.')
         if s['state'] != 'result':
             cur = state()
             if cur['state'] == 'prep':

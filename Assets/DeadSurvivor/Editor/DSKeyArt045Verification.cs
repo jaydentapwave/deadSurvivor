@@ -167,6 +167,22 @@ namespace DeadSurvivor.Editor
             public bool attached,healOnly,reached,held,heroDied,ended,searchFieldMissing;public string endReason;
             public int pendingSearchMax,unexplainedMax;public float unexplainedMaxRatio;public string[] unexplainedSamples;public int geoFailures,searchFailures,ticks,injected,injectFailures,skippedBudget,mismatches,orderViolations,maxAlive,minAliveWhileHolding,rawStillMax,holdRangedMax,phaseMax,noPathMax,waitingPathMax,holdFrames;
             public float holdEnd,rawStillMaxRatio,noPathMaxRatio,waitingPathMaxRatio,holdFrameMsMedian,holdFrameMsP95;public string[] order,samples,noPathSamples;
+            // spawn-failure cause split (045 follow-up, DSKeyArt045LoadDriver.ClassifySpawnStep)
+            public bool spawnFieldsMissing;public int budgetFailures,pathFailures,saturatedSteps,multiSimFrames,windowFailures,slowFrames33,slowFrames50;public float frameMsMean;public string[] spawnFailSamples;
+        }
+        // pure check of the spawn-failure split (counterexamples first; runs in edit mode)
+        public static string DriverSelfTest()
+        {
+            var fails=new List<string>();
+            void Expect(string name,(int geo,int budget,int path) got,(int,int,int) want){if(got!=want)fails.Add($"{name}:{got}!={want}");}
+            Expect("none",DSKeyArt045LoadDriver.ClassifySpawnStep(0,1,1),(0,0,0));
+            Expect("geo_only",DSKeyArt045LoadDriver.ClassifySpawnStep(2,0,0),(2,0,0));
+            Expect("budget_after_success",DSKeyArt045LoadDriver.ClassifySpawnStep(1,1,1),(0,1,0));
+            Expect("budget_many",DSKeyArt045LoadDriver.ClassifySpawnStep(3,1,1),(0,3,0));
+            Expect("path_then_budget",DSKeyArt045LoadDriver.ClassifySpawnStep(2,0,1),(0,1,1));
+            Expect("path_only",DSKeyArt045LoadDriver.ClassifySpawnStep(1,0,1),(0,0,1));
+            Expect("negative_failures",DSKeyArt045LoadDriver.ClassifySpawnStep(-1,0,1),(0,0,0));
+            return fails.Count==0?"PASS":"FAIL:"+string.Join(",",fails);
         }
         public static string DriverReport()
         {
@@ -176,7 +192,9 @@ namespace DeadSurvivor.Editor
                 ticks=d.Ticks,injected=d.Injected,injectFailures=d.InjectFailures,skippedBudget=d.SkippedBudget,mismatches=d.Mismatches,orderViolations=d.OrderViolations,maxAlive=d.MaxAlive,
                 minAliveWhileHolding=d.MinAliveWhileHolding==int.MaxValue?-1:d.MinAliveWhileHolding,rawStillMax=d.RawStillMax,holdRangedMax=d.HoldRangedMax,phaseMax=d.PhaseMax,noPathMax=d.NoPathMax,
                 waitingPathMax=d.WaitingPathMax,holdFrames=ms.Length,holdEnd=d.HoldEnd,rawStillMaxRatio=d.RawStillMaxRatio,noPathMaxRatio=d.NoPathMaxRatio,waitingPathMaxRatio=d.WaitingPathMaxRatio,
-                holdFrameMsMedian=Q(.5f),holdFrameMsP95=Q(.95f),order=d.Order.ToArray(),samples=d.Samples.ToArray(),noPathSamples=d.NoPathSamples.ToArray()});
+                holdFrameMsMedian=Q(.5f),holdFrameMsP95=Q(.95f),order=d.Order.ToArray(),samples=d.Samples.ToArray(),noPathSamples=d.NoPathSamples.ToArray(),
+                spawnFieldsMissing=d.SpawnFieldsMissing,budgetFailures=d.BudgetFailures,pathFailures=d.PathFailures,saturatedSteps=d.SaturatedSteps,multiSimFrames=d.MultiSimFrames,
+                windowFailures=d.WindowFailures,slowFrames33=d.SlowFrames33,slowFrames50=d.SlowFrames50,frameMsMean=d.Ticks==0?-1:(float)(d.FrameMsSum/d.Ticks),spawnFailSamples=d.SpawnFailSamples.ToArray()});
         }
 
         // Play/test runs leave in-memory changes on unrelated assets (TMP font glyph cache, material GI flags) that a later

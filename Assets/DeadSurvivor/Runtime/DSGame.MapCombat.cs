@@ -36,6 +36,7 @@ namespace DeadSurvivor
         {
             position=Vector2.zero;float radius=Monsters[type].radius;
             var targets=Team.Where(c=>c.hp>0).ToArray();if(targets.Length==0)return false;
+            var reach=DSMapReach.For(MapSession.Geometry,radius);
             for(int i=0;i<16;i++)
             {
                 float offset=(i%2==0?1:-1)*((i+1)/2)*Mathf.PI/8;
@@ -43,6 +44,10 @@ namespace DeadSurvivor
                 if(!MapSession.Geometry.ValidCoordinate(p)||!MapSession.Geometry.SafeSweep(p,p,radius))continue;
                 foreach(var target in targets.OrderBy(c=>(c.pos-p).sqrMagnitude))
                 {
+                    // 046: region lookup first; the budgeted path search only when a point does not touch the grid
+                    var connected=reach.Connected(p,target.pos);
+                    if(connected==true){position=p;return true;}
+                    if(connected==false)continue;
                     if(mapSpawnSearches>=1)return false;mapSpawnSearches++;
                     if(Navigator(radius).TryPath(p,target.pos,out var path)){position=p;return true;}
                 }

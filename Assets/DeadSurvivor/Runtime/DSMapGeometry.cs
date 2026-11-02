@@ -24,6 +24,17 @@ namespace DeadSurvivor
             Epsilon = epsilon;
             boundary = ValidatePolygon(outer);
             obstacles = Array.ConvertAll(solids, ValidatePolygon);
+            boxes = Array.ConvertAll(obstacles, Box);
+        }
+
+        // Axis-aligned bounds per obstacle. An obstacle whose box is farther than the sweep margin from the swept segment's
+        // box cannot contain either end point nor come within the margin, so skipping it leaves SafeSweep's result unchanged.
+        readonly double[][] boxes;
+        static double[] Box(Vector2[] p)
+        {
+            double x0=double.MaxValue,y0=double.MaxValue,x1=double.MinValue,y1=double.MinValue;
+            foreach(var v in p){x0=Math.Min(x0,v.x);y0=Math.Min(y0,v.y);x1=Math.Max(x1,v.x);y1=Math.Max(y1,v.y);}
+            return new[]{x0,y0,x1,y1};
         }
 
         public static bool Finite(double n) => !double.IsNaN(n) && !double.IsInfinity(n);
@@ -90,15 +101,26 @@ namespace DeadSurvivor
         {
             if(!ValidCoordinate(a) || !ValidCoordinate(b) || !Finite(radius) || radius<=0 || radius>1024) throw new ArgumentException("INVALID_SWEEP");
             double margin=radius+2*Epsilon;
+            double sx0=Math.Min(a.x,b.x)-margin,sy0=Math.Min(a.y,b.y)-margin,sx1=Math.Max(a.x,b.x)+margin,sy1=Math.Max(a.y,b.y)+margin;
             bool Clear(Vector2[] p)
             {
                 for(int i=0;i<p.Length;i++)
-                    if(SegmentDistanceSq(a,b,p[i],p[(i+1)%p.Length])<=margin*margin) return false;
+                {
+                    Vector2 c=p[i],d=p[(i+1)%p.Length];
+                    // an edge whose box lies beyond the margin-expanded segment box is farther than the margin
+                    if(Math.Min(c.x,d.x)>sx1 || Math.Max(c.x,d.x)<sx0 || Math.Min(c.y,d.y)>sy1 || Math.Max(c.y,d.y)<sy0) continue;
+                    if(SegmentDistanceSq(a,b,c,d)<=margin*margin) return false;
+                }
                 return true;
             }
             if(!Inside(a,boundary) || !Inside(b,boundary) || !Clear(boundary)) return false;
-            foreach(var p in obstacles)
+            for(int k=0;k<obstacles.Length;k++)
+            {
+                var q=boxes[k];
+                if(q[0]>sx1 || q[2]<sx0 || q[1]>sy1 || q[3]<sy0) continue;
+                var p=obstacles[k];
                 if(Inside(a,p) || Inside(b,p) || !Clear(p)) return false;
+            }
             return true;
         }
     }
