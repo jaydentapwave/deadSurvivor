@@ -47,10 +47,10 @@ unity command script run --project-path <루트> -- --file Tools/Map/build_map_0
 | 장면 생성 | 렌더러 441, 걷는 영역을 침범한 장식 0, 충돌체 0 | `output/map-full-046/build.json` |
 | 짧은 Play | **PASS**(바인딩·출전·이동·정지·패배·재편성·화면 정리, 콘솔 새 에러 0, 보호 파일 변경 0). 캡처는 NOT_RUN(Game 창이 떠 있는 큰 창이라 실행기 화면 검사가 맞지 않음, `KEYART045_NOCAPTURE=1`) | `output/keyart-target-045/r001/run-966353256154` |
 | 적 생성(7웨이브, 20초, 영웅 HP 고정) | 159마리 생성, 실패 0 | 측정 스크립트(작업 폴더 밖 임시) |
-| 성능(편집기 지표) | 1웨이브 시작(적 15): 그리기 호출 322, 삼각형 29만. 7웨이브(적 116): 924, 69만, 약 78fps. 기존 s3b 시작 화면(적 20~38)은 355, 25만 | 같음 |
+| 성능(편집기 지표) | **정정(11-03)**: 1웨이브 시작(적 12) 그리기 호출 135·삼각형 12만, 7웨이브(적 89) 364·27만, 약 104fps. 처음 잰 값(322·29만, 924·69만)은 Simulator 탭과 떠 있는 Game 창이 둘 다 게임을 그려 두 번 잡힌 값이었다(046-13). 시작 화면은 045 예산(250·15만) 안 | 측정 스크립트(작업 폴더 밖 임시) |
 | 사용자 직접 플레이 | 대기 | — |
 
-성능은 기존 045 장면과 같은 수준이며 045 예산(그리기 호출 250·삼각형 15만)은 여전히 넘는다. 후반 웨이브는 적 캐릭터 렌더링이 대부분이다. 실기기 측정은 하지 않았다.
+정정된 수치로 시작 화면은 045 예산 안이다. 후반 웨이브는 적 캐릭터 그리기가 대부분이다. 실기기 측정은 하지 않았다.
 
 ## 놓친 것
 
@@ -70,6 +70,11 @@ unity command script run --project-path <루트> -- --file Tools/Map/build_map_0
 | 046-10 | 도구 | 짧은 Play 캡처·gate 화면 검사가 Game 창 문제로 막혔다. 처음엔 Game 창이 없음(`Sequence contains no elements`), 새로 연 창은 도킹되지 않은 큰 창이라 화면 크기 불일치 | 편집기 메인 탭이 Game이 아니라 Device Simulator 모드였음(같은 탭에서 전환됨) | 메인 탭을 Game으로 되돌림(`PlayModeView.SwapMainWindow`) | Play 검사 전 메인 탭이 도킹된 Game인지 확인 | [개발 환경](../개발환경.md) |
 | 046-11 | 도구 | `script run`이 진입점을 못 찾음, 측정 코드 컴파일 실패 2회 | `script run`은 같은 이름의 정적 메서드가 둘이면 거부. Unity 6.4에서 `FindFirstObjectByType`은 폐기 경고(오류 처리), `UnityStats.batches`·`trianglesLong`은 없음 | 메서드 이름 변경, `FindAnyObjectByType`, 통계는 리플렉션으로 읽음 | 도구 사실로 기록 | [개발 환경](../개발환경.md) |
 
+| 046-12 | 게임 | 몬스터 빌더를 다시 돌린 뒤 `Map046_Full`의 액터 세트 참조가 비어(`Actors: {fileID: 0}`) 영웅·몬스터가 2D 스프라이트로 나왔다 | 빌더가 이전 세트를 지우고 새로 만든 뒤 지정했지만 저장된 장면에 남지 않음(정확한 순서 원인은 미확인) | 다시 지정·저장, 빌더가 장면을 다시 열어 참조를 확인(`ACTORS_NOT_SAVED`) | 빌더는 저장 뒤 다시 열어 핵심 참조를 확인한다 | 빌더 |
+| 046-13 | 도구 | 처음 성능 수치가 실제의 약 2.4배였다 | 메인 탭(Simulator)과 떠 있는 Game 창이 둘 다 게임을 그려 편집기 통계가 두 번 잡힘 | 메인 탭을 Game으로 바꾼 뒤 다시 측정 | 성능 측정 전 게임을 그리는 창이 하나인지 확인 | [개발 환경](../개발환경.md) |
+| 046-14 | 도구 | `capture game_view --save_path`가 `Assets/` 기준이라 캡처가 `Assets/output/`에 들어갔다 | CLI 경로 규칙(실행기는 이 위치를 일부러 씀, git 제외) | 캡처를 `output/`으로 옮기고 Unity에서 지움 | 도구 사실로 기록 | [개발 환경](../개발환경.md) |
+| 046-15 | 게임 | 042 일반형 몬스터 모델의 정면이 -X라 045 장면들에서 옆으로 걸었다(눈이 작아 아무도 못 봄). 새 몬스터 4종도 같은 방향으로 나왔다 | Tripo 출력 방향을 확인하지 않고 `yawOffset` 0으로 등록 | `ActorSet046`에서 5종 모두 `yawOffset` 90. 045 세트는 그대로 | 새 모델은 정면 카메라 캡처로 방향을 확인한다(빌더의 `lineup_front`) | 빌더 |
+
 ### 팔레트 칸 표 (043 `palette-r001.png`)
 
 | 행 | 칸과 색 |
@@ -79,10 +84,21 @@ unity command script run --project-path <루트> -- --file Tools/Map/build_map_0
 | 2 돌 | 16 #293126 ~ 23 #e0dac9(밝은 크림, 꽃에도 씀) |
 | 3 물·꽃 | 24~27 물, 28 #e5772f 주황, 29 #bd4f22, 30 #924122, 31 #e6af69 |
 
+## 후속 작업 (2026-11-03, 사용자 요청 "1-3번까지 모두 진행해줘")
+
+| 항목 | 내용 | 확인 |
+|---|---|---|
+| 빌드 첫 장면 | `Map046_Full` → `DeadSurvivor.unity`(기존 2D) 순서. `Proto044_Main`은 빌드에서 뺐다 | `ProjectSettings/EditorBuildSettings.asset` |
+| 몬스터 4종 3D | 사격형(보라, 대포 입)·돌진형(주황, 뿔)·중장갑형(파랑, 껍질 갑옷)·자폭형(빨강, 심지). Codex 콘셉트 → Tripo(각 40, 합계 160, 잔액 305) → Blender FBX → `Art/Characters/Monster046/`. 뼈대 없음(042처럼 몸 흔들림·회전은 Unity). `ActorSet046`을 `Map046_Full`에만 지정, 일반형은 042 유지 | `output/monster-046/lineup_check.png`, `output/map-full-046/play_w7.png` |
+| 영웅 색 | 레나 `#c6a660`→`#f0cf3c`, 미라 `#cd8274`→`#e88aa8`, 한스 `#7f9b82`→`#c8e0b0`. 045 검토 마스크로 같은 공식 재칠(`Tools/Proto/recolor_update_046.py`), 마스크 밖 변경 0, 다른 영웅 변경 0. 게임 데이터 색도 변경 | `output/map-full-046/ui_heroes_zoom.png` |
+| 넓은 화면 UI(S1-20) | 일시정지·설정 어두운 막을 화면 전체로(`DSUI.Overlay`), 상단 바·불타는 테두리·이동 터치 영역을 안전 영역 폭 전체로 | 1560×720 일시정지 밝기 왼쪽 38·가운데 33·오른쪽 40(수정 전 97 대 48), 1024×768 아래까지 덮음, `output/map-full-046/ui_check.png` |
+| 짧은 Play | **PASS**(캡처·화면 검사 포함) | `output/keyart-target-045/r001/run-53bc65820508` |
+
+다시 만들기: `Tools/Proto/tripo_045.py`의 `monster_*046`(4단계, 한도 340), `Blender -b -P Tools/Art/convert_glb_042.py -- <glb> <fbx 폴더>`, `unity command script run ... --file Tools/Map/build_monsters_046.cs --entry Monster046Build.Build`. 모델 방향은 `output/monster-046/yaw.json`.
+
 ## 남은 것
 
 - 사용자 직접 플레이와 배치·밀도·색 판단(흙 무늬 수, 군집 간격, 외곽 숲 모양)
-- 빌드 첫 장면을 `Map046_Full`로 바꿀지
 - 성능 예산(맵 밀도, 적 캐릭터 그리기 호출), 실기기
-- 몬스터 4종 모델, 넓은 화면 UI 결함(S1-20), 045 영웅 색 조정
+- 자폭형 실제 화면 확인(7웨이브 캡처에는 거의 안 보임), 몬스터 크기·색 사용자 판단
 - 커밋 전 gate(`run.py all --screens`)

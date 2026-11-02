@@ -174,7 +174,7 @@ namespace DeadSurvivor
         }
         void Header()
         {
-            Box("Header", page, 0, 0, W, 64, "#0d1317");
+            Box("Header", page, -W, 0, 3 * W, 64, "#0d1317");   // S1-20: full width on wide screens (3D map behind)
             Text(page, "✚  DEAD SURVIVOR", 32, 16, 400, 32, 22, "#c7ed83", true);
             Button(page, "테스트 설정", W - 160, 12, 128, 40, Settings).interactable = g.State != "battle";
         }
@@ -217,7 +217,9 @@ namespace DeadSurvivor
             teamTexts.Clear();
             Canvas.ForceUpdateCanvases();
             float battleBottom = Mathf.Max(H, root.rect.height);
-            var touch = Box("MovementInput", page, 0, 64, W, battleBottom - 64, "#ffffff00", true);
+            // S1-20: battle layers span the safe-area width, not only the 1600-wide page (wide screens showed uncovered edges)
+            float battleWidth = Mathf.Max(W, root.rect.width), battleLeft = -(battleWidth - W) / 2;
+            var touch = Box("MovementInput", page, battleLeft, 64, battleWidth, battleBottom - 64, "#ffffff00", true);
             var pointer = touch.gameObject.AddComponent<DSPointer>();
             pointer.ui = this;
             pointer.joystick = true;
@@ -236,7 +238,7 @@ namespace DeadSurvivor
                 texture.Apply();
                 borderSprite = Sprite.Create(texture, new Rect(0, 0, n, n), Vector2.one * .5f, n);
             }
-            var border = Box("BurningBorder", page, 0, 64, W, H - 64);
+            var border = Box("BurningBorder", page, battleLeft, 64, battleWidth, battleBottom - 64);
             burningBorder = border.gameObject.AddComponent<UnityEngine.UI.Image>();
             burningBorder.sprite = borderSprite;
             burningBorder.raycastTarget = false;
@@ -263,12 +265,20 @@ namespace DeadSurvivor
             RefreshBattleItems();
             nextHud = 0;
         }
+        // S1-20: a modal frame of the 1600x900 page plus a dim layer three times larger, so wide (19.5:9) and tall (4:3)
+        // screens are covered to the edges. Content stays positioned in the centred frame.
+        RectTransform Overlay(string name, string color)
+        {
+            var frame = Box(name, root, 0, 0, W, H);
+            Box(name + "Dim", frame, -W, -H, 3 * W, 3 * H, color, true);
+            return frame;
+        }
         public void ShowPause()
         {
             Dispose(ref modal);
             if (!g.Paused)
                 return;
-            modal = Box("Pause", root, 0, 0, W, H, "#060b10dd", true);
+            modal = Overlay("Pause", "#060b10dd");
             var d = Box("Dialog", modal, W / 2 - 230, H / 2 - 140, 460, 280, "#182125");
             Text(d, "작전 일시정지", 28, 28, 400, 50, 28, "#ecf0e8", true);
             Text(d, "전투 시간과 모든 행동이 멈췄습니다.", 28, 92, 400, 50, 17, "#93a5a5");
@@ -637,7 +647,7 @@ namespace DeadSurvivor
         public void Settings()
         {
             Dispose(ref modal);
-            modal = Box("Settings", root, 0, 0, W, H, "#060b10ee", true);
+            modal = Overlay("Settings", "#060b10ee");
             float dw = Mathf.Min(860, W - 40), x = (W - dw) / 2;
             var d = Box("SettingsDialog", modal, x, 60, dw, H - 100, "#182125");
             Text(d, "플레이테스트 설정", 24, 20, dw - 150, 44, 27, "#ecf0e8", true);

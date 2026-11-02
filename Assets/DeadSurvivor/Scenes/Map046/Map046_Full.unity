@@ -37177,7 +37177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552d8c2f267d84236b9badac503abb60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeadSurvivor.DSMapPresentation
-  Actors: {fileID: 11400000, guid: 5c479e0b1457f464481da9868551cfbe, type: 2}
+  Actors: {fileID: 11400000, guid: 12e89f91357b04444bf8c23d4f4150d6, type: 2}
   CameraDistance: 30
 --- !u!23 &4871371444331374914
 MeshRenderer:

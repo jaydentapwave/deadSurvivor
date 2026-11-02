@@ -17,7 +17,7 @@
       "atk": 0.9,
       "def": 0.1,
       "weapon": "axe",
-      "color": "#7f9b82",
+      "color": "#c8e0b0",
       "id": "hans"
     },
     {
@@ -27,7 +27,7 @@
       "atk": 1.2,
       "def": 0,
       "weapon": "shortbow",
-      "color": "#c6a660",
+      "color": "#f0cf3c",
       "id": "lena"
     },
     {
@@ -57,7 +57,7 @@
       "atk": 1,
       "def": 0.05,
       "weapon": "firestaff",
-      "color": "#cd8274",
+      "color": "#e88aa8",
       "id": "mira"
     }
   ],

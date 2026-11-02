@@ -22,8 +22,9 @@ ROOT = Path('/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor')
 BASE = ROOT / 'output/keyart-target-045/r002'
 CLI = ROOT / 'output/tools/tripo/node_modules/.bin/tripo'
 CAP = 240                       # stage 2
-CAPS = {2: 240, 3: 255}         # per-stage caps. stage 3: hero test ~85 (retry cap 170) spent 85; v2 base hero approved
+CAPS = {2: 240, 3: 255, 4: 340}         # per-stage caps. stage 3: hero test ~85 (retry cap 170) spent 85; v2 base hero approved
                                 # 2026-11-02 ("보완 기본형 1명 + 색칠": ~85, retry cap 170) -> 85 + 170 = 255
+                                # stage 4 (046): four monster models, approved ~340 incl. retries (no rig/anim: bob/turn in Unity)
 SPECS = {
     'stone045': dict(seed=45001, face_limit=500, fit='longest_horizontal', target=0.45,
                      ranges={'height': [0.18, 0.40], 'short_horizontal': [0.18, 0.40]}, rows='2', base_cell=22, compress=0.5),
@@ -38,12 +39,19 @@ SPECS = {
     'hero_base045v2': dict(stage=3, seed=45021, face_limit=1500, concept=['output/keyart-target-045/r003/concept-v2/hero-front.png',
                                                                          'output/keyart-target-045/r003/concept-v2/hero-left.png',
                                                                          'output/keyart-target-045/r003/concept-v2/hero-back.png']),
+    # stage 4 (046): monsters, single concept image each, static mesh (the 042 monster is not rigged either)
+    'monster_ranged046': dict(stage=4, seed=46001, face_limit=800, concept='output/monster-046/concept/monster-ranged.png'),
+    'monster_charger046': dict(stage=4, seed=46002, face_limit=800, concept='output/monster-046/concept/monster-charger.png'),
+    'monster_armored046': dict(stage=4, seed=46003, face_limit=800, concept='output/monster-046/concept/monster-armored.png'),
+    'monster_bomber046': dict(stage=4, seed=46004, face_limit=800, concept='output/monster-046/concept/monster-bomber.png'),
 }
 def stage(asset): return SPECS[asset].get('stage', 2)
-def adir(asset): return (ROOT / 'output/keyart-target-045/r003/tripo' / asset) if stage(asset) == 3 else (BASE / 'tripo' / asset)
+def adir(asset): return {3: ROOT / 'output/keyart-target-045/r003/tripo', 4: ROOT / 'output/monster-046/tripo'}.get(stage(asset), BASE / 'tripo') / asset
 AUTH3V2 = ("User approved the stage-3 v2 base hero (one hero, multiview front+back, rig + idle/run, ~85 credits, retry cap 170; "
            "the six heroes are recoloured locally) via the 2026-11-02 question: '보완 기본형 1명 + 색칠 (Recommended)'.")
 AUTH3 = ("User approved the stage-3 hero test with rig + idle/run (~85 credits, retry cap 170) via the 2026-11-02 question about the stage-3 hero (bruno) test: '뼈대·동작 포함 약 85'.")
+AUTH4 = ("User approved the four monster 3D models (ranged, charger, armored, bomber; ~340 credits incl. retries) on 2026-11-03: "
+         "'1-3번까지 모두 진행해줘' answering the listed next step '몬스터 4종 3D 모델 크레딧 승인(약 340, 잔액 465)'.")
 AUTH = ('User approved stage 2 of 045 ("4번 단계를 진행해줘", 2026-11-02) = map assets incl. Tripo generation, '
         'cap ~240 credits (docs/design/keyart-target-045.md, 2단계 설계).')
 
@@ -220,7 +228,7 @@ def gen_command(cmd, asset, d, img, cap):
     if cmd == 'freeze':
         if j: raise SystemExit('ALREADY_FROZEN')
         many = isinstance(img, list)
-        auth = AUTH if stage(asset) == 2 else (AUTH3V2 if asset.endswith('v2') else AUTH3)
+        auth = {2: AUTH, 4: AUTH4}.get(stage(asset)) or (AUTH3V2 if asset.endswith('v2') else AUTH3)
         req = dict(scope=f'045_STAGE{stage(asset)}', asset=asset, created_at=now(), authorization=auth, cap_credits=cap,
                    concept=[str(x.relative_to(ROOT)) for x in img] if many else str(img.relative_to(ROOT)),
                    concept_sha256=[sha(x) for x in img] if many else sha(img), spec=SPECS[asset], planned_args=args_for(asset, img, False),
