@@ -1,0 +1,674 @@
+{
+ "schema": "ds-asset-catalog/1",
+ "doc": "docs/workflows/asset-standard.md",
+ "tool": "Tools/Art/assets.py",
+ "note": "050: single source for the mobile asset standard (numbers), the adopted-asset registry and Tripo budgets. Paths without 'Assets/' or 'output/' prefix are under Assets/DeadSurvivor/.",
+ "measured": {
+  "at": "2026-11-03",
+  "scene": "Map046_Full",
+  "camera": "orthographic size 6, tilt 55 deg",
+  "screen_px_1080p": {
+   "hero": 41,
+   "monster": 27
+  },
+  "screen_px_720p": {
+   "hero": 28,
+   "monster": 18
+  }
+ },
+ "standards": {
+  "hero": {
+   "label": "영웅",
+   "tris_target": 1500,
+   "tris_max": 2000,
+   "texture": 256,
+   "bones_max": 70,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "palette_texture",
+   "palette": "char"
+  },
+  "monster": {
+   "label": "몬스터",
+   "tris_target": 600,
+   "tris_max": 1000,
+   "texture": 128,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "blob",
+   "color": "palette_texture",
+   "palette": "char"
+  },
+  "boss": {
+   "label": "보스(예정)",
+   "tris_target": 2500,
+   "tris_max": 4000,
+   "texture": 256,
+   "bones_max": 70,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "palette_texture",
+   "palette": "char"
+  },
+  "prop_small": {
+   "label": "작은 소품(높이 0.5 미만)",
+   "tris_target": 200,
+   "tris_max": 600,
+   "texture": 0,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "off",
+   "color": "palette_uv",
+   "palette": "env"
+  },
+  "prop_large": {
+   "label": "큰 소품(나무·큰 바위)",
+   "tris_target": 800,
+   "tris_max": 1500,
+   "texture": 0,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "palette_uv",
+   "palette": "env"
+  },
+  "landmark": {
+   "label": "랜드마크(맵당 3개 이하)",
+   "tris_target": 2000,
+   "tris_max": 3000,
+   "texture": 256,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "palette_texture",
+   "palette": "env"
+  },
+  "map": {
+   "label": "맵 생성 메시·지형 재질",
+   "tris_target": 3000,
+   "tris_max": 5000,
+   "texture": 0,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "palette_uv",
+   "palette": "env"
+  },
+  "shared": {
+   "label": "공용(그림자 원·피격·액터 세트)",
+   "texture": 64,
+   "color": "exempt"
+  }
+ },
+ "common": {
+  "pivot": "feet_center",
+  "front": "+Z (baked into the model under 'Visual'; actor-set yawOffset 0)",
+  "prefab": "root (feet) -> Visual (turned/bobbed by DSMapActorViews) -> model normalised to height 1",
+  "texture_import": {
+   "mipmaps": true,
+   "filter": "Bilinear",
+   "wrap": "Clamp",
+   "alpha": "none (shader reads A = 1 = not emissive)",
+   "mobile_format": "ASTC_4x4",
+   "standalone_format": "automatic"
+  },
+  "palette_import": {
+   "mipmaps": false,
+   "filter": "Point",
+   "format": "RGBA32"
+  },
+  "mesh_import": {
+   "read_write": false,
+   "materials": "none (assigned by the tool)",
+   "animation": "only rigged heroes",
+   "blend_shapes": false
+  },
+  "shader_allowed": {
+   "DeadSurvivor/LowPolyPalette": "all solid geometry and characters",
+   "DeadSurvivor/Water045": "water",
+   "Universal Render Pipeline/Unlit": "blob shadow, hit flash, solid/fade fx",
+   "Universal Render Pipeline/Particles/Unlit": "particles"
+  },
+  "trial_roots": [
+   "Scenes/Proto",
+   "Art/Tests",
+   "Art/Characters/Test042_r001",
+   "Art/Environment/ENV_S01",
+   "Art/Environment/TripoPair038"
+  ],
+  "scene_generated_roots": [
+   "Scenes/Map046/Art"
+  ]
+ },
+ "palettes": {
+  "env": {
+   "json": "Art/LowPoly043/Palette/palette-r001.json",
+   "png": "Art/LowPoly043/Palette/palette-r001.png"
+  },
+  "char": {
+   "json": "Art/LowPoly043/Palette/palette-char-r001.json",
+   "png": "Art/LowPoly043/Palette/palette-char-r001.png",
+   "seed": 50001,
+   "fixed": {
+    "bruno": "#d79b68",
+    "hans": "#c8e0b0",
+    "lena": "#f0cf3c",
+    "yuki": "#91b7c2",
+    "bolt": "#a590b8",
+    "mira": "#e88aa8"
+   },
+   "fixed_source": "Assets/DeadSurvivor/Resources/DeadSurvivor/PrototypeData.json characters[].color"
+  }
+ },
+ "presets": {
+  "character": {
+   "_GradientBottom": 1,
+   "_GradientHeight": 1,
+   "_TopStrength": 0,
+   "_NoiseStrength": 0,
+   "_ShadeWrap": 0.5,
+   "_ShadeSoftness": 1,
+   "_AmbientStrength": 1,
+   "_RimStrength": 0.2,
+   "_FlatShading": 0,
+   "_WindStrength": 0,
+   "_EmissionStrength": 2,
+   "_VertexAlphaClip": 0,
+   "_Cull": 2,
+   "_DitherFade": 0
+  },
+  "landmark": {
+   "_GradientBottom": 0.7,
+   "_GradientHeight": 1.2,
+   "_TopStrength": 0,
+   "_NoiseStrength": 0,
+   "_ShadeWrap": 0.5,
+   "_ShadeSoftness": 1,
+   "_AmbientStrength": 1,
+   "_RimStrength": 0,
+   "_FlatShading": 1,
+   "_WindStrength": 0,
+   "_EmissionStrength": 2,
+   "_VertexAlphaClip": 0,
+   "_Cull": 2,
+   "_DitherFade": 0
+  }
+ },
+ "tripo": {
+  "cli": "output/tools/tripo/node_modules/.bin/tripo",
+  "model": "tripo-v3.1",
+  "params": [
+   "smart_low_poly=true",
+   "face_limit={face_limit}",
+   "texture=true",
+   "pbr=false",
+   "texture_quality=standard",
+   "quad=false"
+  ],
+  "new_work_root": "output/assets"
+ },
+ "budgets": {
+  "045-s2": {
+   "cap": 240,
+   "approval": "User approved stage 2 of 045 (\"4번 단계를 진행해줘\", 2026-11-02) = map assets incl. Tripo generation, cap ~240 credits (docs/design/keyart-target-045.md, 2단계 설계).",
+   "lock": "output/keyart-target-045/.tripo-stage2.lock",
+   "assets": [
+    "stone045",
+    "boulder045",
+    "tree045"
+   ]
+  },
+  "045-s3": {
+   "cap": 255,
+   "approval": "User approved the stage-3 hero test with rig + idle/run (~85 credits, retry cap 170) via the 2026-11-02 question about the stage-3 hero (bruno) test: '뼈대·동작 포함 약 85'.",
+   "approval_by_asset": {
+    "hero_base045v2": "User approved the stage-3 v2 base hero (one hero, multiview front+back, rig + idle/run, ~85 credits, retry cap 170; the six heroes are recoloured locally) via the 2026-11-02 question: '보완 기본형 1명 + 색칠 (Recommended)'."
+   },
+   "lock": "output/keyart-target-045/.tripo-stage3.lock",
+   "assets": [
+    "hero_bruno045",
+    "hero_base045v2"
+   ]
+  },
+  "046-monsters": {
+   "cap": 340,
+   "approval": "User approved the four monster 3D models (ranged, charger, armored, bomber; ~340 credits incl. retries) on 2026-11-03: '1-3번까지 모두 진행해줘' answering the listed next step '몬스터 4종 3D 모델 크레딧 승인(약 340, 잔액 465)'.",
+   "lock": "output/keyart-target-045/.tripo-stage4.lock",
+   "assets": [
+    "monster_ranged046",
+    "monster_charger046",
+    "monster_armored046",
+    "monster_bomber046"
+   ]
+  }
+ },
+ "assets": [
+  {
+   "id": "hero_base",
+   "kind": "hero",
+   "status": "adopted",
+   "method": "existing_rig",
+   "folder": "Art/Characters/Heroes/hero_base",
+   "prefab": "Hero045v2.prefab",
+   "model": "hero045v2.fbx",
+   "note": "Tripo multiview base hero, rig + idle/run (045 s3 v2) + slash/shoot (047). Shared by the six hero variants.",
+   "tripo": {
+    "asset": "hero_base045v2",
+    "budget": "045-s3",
+    "work_dir": "output/keyart-target-045/r003/tripo/hero_base045v2",
+    "seed": 45021,
+    "face_limit": 1500,
+    "concept": [
+     "output/keyart-target-045/r003/concept-v2/hero-front.png",
+     "output/keyart-target-045/r003/concept-v2/hero-left.png",
+     "output/keyart-target-045/r003/concept-v2/hero-back.png"
+    ]
+   }
+  },
+  {
+   "id": "hero_bruno",
+   "kind": "hero",
+   "status": "adopted",
+   "method": "palette_texture",
+   "variant_of": "hero_base",
+   "folder": "Art/Characters/Heroes/bruno",
+   "identity": "bruno",
+   "source": {
+    "texture": "Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2_bruno.png"
+   },
+   "actor": {
+    "list": "Heroes",
+    "id": "bruno"
+   }
+  },
+  {
+   "id": "hero_hans",
+   "kind": "hero",
+   "status": "adopted",
+   "method": "palette_texture",
+   "variant_of": "hero_base",
+   "folder": "Art/Characters/Heroes/hans",
+   "identity": "hans",
+   "source": {
+    "texture": "Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2_hans.png"
+   },
+   "actor": {
+    "list": "Heroes",
+    "id": "hans"
+   }
+  },
+  {
+   "id": "hero_lena",
+   "kind": "hero",
+   "status": "adopted",
+   "method": "palette_texture",
+   "variant_of": "hero_base",
+   "folder": "Art/Characters/Heroes/lena",
+   "identity": "lena",
+   "source": {
+    "texture": "Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2_lena.png"
+   },
+   "actor": {
+    "list": "Heroes",
+    "id": "lena"
+   }
+  },
+  {
+   "id": "hero_yuki",
+   "kind": "hero",
+   "status": "adopted",
+   "method": "palette_texture",
+   "variant_of": "hero_base",
+   "folder": "Art/Characters/Heroes/yuki",
+   "identity": "yuki",
+   "source": {
+    "texture": "Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2_yuki.png"
+   },
+   "actor": {
+    "list": "Heroes",
+    "id": "yuki"
+   }
+  },
+  {
+   "id": "hero_bolt",
+   "kind": "hero",
+   "status": "adopted",
+   "method": "palette_texture",
+   "variant_of": "hero_base",
+   "folder": "Art/Characters/Heroes/bolt",
+   "identity": "bolt",
+   "source": {
+    "texture": "Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2_bolt.png"
+   },
+   "actor": {
+    "list": "Heroes",
+    "id": "bolt"
+   }
+  },
+  {
+   "id": "hero_mira",
+   "kind": "hero",
+   "status": "adopted",
+   "method": "palette_texture",
+   "variant_of": "hero_base",
+   "folder": "Art/Characters/Heroes/mira",
+   "identity": "mira",
+   "source": {
+    "texture": "Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2_mira.png"
+   },
+   "actor": {
+    "list": "Heroes",
+    "id": "mira"
+   }
+  },
+  {
+   "id": "monster_melee",
+   "kind": "monster",
+   "status": "adopted",
+   "method": "palette_texture",
+   "folder": "Art/Characters/Monsters/melee",
+   "source": {
+    "model": "Assets/DeadSurvivor/Art/Characters/Test042_r001/monster.fbx",
+    "texture": "Assets/DeadSurvivor/Art/Characters/Test042_r001/monster_basecolor.png",
+    "yaw": 90
+   },
+   "actor": {
+    "list": "Monsters",
+    "id": "melee"
+   },
+   "note": "042 Tripo test monster (generated before the budget records); front was -X (046-15)."
+  },
+  {
+   "id": "monster_ranged",
+   "kind": "monster",
+   "status": "adopted",
+   "method": "palette_texture",
+   "folder": "Art/Characters/Monsters/ranged",
+   "source": {
+    "model": "output/monster-046/tripo/monster_ranged046/fbx/model.fbx",
+    "texture": "output/monster-046/tripo/monster_ranged046/fbx/basecolor.png",
+    "yaw": 90
+   },
+   "actor": {
+    "list": "Monsters",
+    "id": "ranged"
+   },
+   "tripo": {
+    "asset": "monster_ranged046",
+    "budget": "046-monsters",
+    "work_dir": "output/monster-046/tripo/monster_ranged046",
+    "seed": 46001,
+    "face_limit": 800,
+    "concept": "output/monster-046/concept/monster-ranged.png"
+   }
+  },
+  {
+   "id": "monster_charger",
+   "kind": "monster",
+   "status": "adopted",
+   "method": "palette_texture",
+   "folder": "Art/Characters/Monsters/charger",
+   "source": {
+    "model": "output/monster-046/tripo/monster_charger046/fbx/model.fbx",
+    "texture": "output/monster-046/tripo/monster_charger046/fbx/basecolor.png",
+    "yaw": 90
+   },
+   "actor": {
+    "list": "Monsters",
+    "id": "charger"
+   },
+   "tripo": {
+    "asset": "monster_charger046",
+    "budget": "046-monsters",
+    "work_dir": "output/monster-046/tripo/monster_charger046",
+    "seed": 46002,
+    "face_limit": 800,
+    "concept": "output/monster-046/concept/monster-charger.png"
+   }
+  },
+  {
+   "id": "monster_armored",
+   "kind": "monster",
+   "status": "adopted",
+   "method": "palette_texture",
+   "folder": "Art/Characters/Monsters/armored",
+   "source": {
+    "model": "output/monster-046/tripo/monster_armored046/fbx/model.fbx",
+    "texture": "output/monster-046/tripo/monster_armored046/fbx/basecolor.png",
+    "yaw": 90
+   },
+   "actor": {
+    "list": "Monsters",
+    "id": "armored"
+   },
+   "tripo": {
+    "asset": "monster_armored046",
+    "budget": "046-monsters",
+    "work_dir": "output/monster-046/tripo/monster_armored046",
+    "seed": 46003,
+    "face_limit": 800,
+    "concept": "output/monster-046/concept/monster-armored.png"
+   }
+  },
+  {
+   "id": "monster_bomber",
+   "kind": "monster",
+   "status": "adopted",
+   "method": "palette_texture",
+   "folder": "Art/Characters/Monsters/bomber",
+   "source": {
+    "model": "output/monster-046/tripo/monster_bomber046/fbx/model.fbx",
+    "texture": "output/monster-046/tripo/monster_bomber046/fbx/basecolor.png",
+    "yaw": 90
+   },
+   "actor": {
+    "list": "Monsters",
+    "id": "bomber"
+   },
+   "tripo": {
+    "asset": "monster_bomber046",
+    "budget": "046-monsters",
+    "work_dir": "output/monster-046/tripo/monster_bomber046",
+    "seed": 46004,
+    "face_limit": 800,
+    "concept": "output/monster-046/concept/monster-bomber.png"
+   }
+  },
+  {
+   "id": "tree045",
+   "kind": "prop_large",
+   "status": "adopted",
+   "method": "existing_palette_uv",
+   "folder": "Art/Environment/Props/tree045",
+   "model": "tree045.fbx",
+   "note": "Tripo tree, 043 face repaint (rows 0,1; base cell 5; compress 0.6) in 045 s2.",
+   "tripo": {
+    "asset": "tree045",
+    "budget": "045-s2",
+    "work_dir": "output/keyart-target-045/r002/tripo/tree045",
+    "seed": 45003,
+    "face_limit": 1500,
+    "concept": "output/keyart-target-045/r002/concept/tree045.png"
+   }
+  },
+  {
+   "id": "boulder045",
+   "kind": "prop_large",
+   "status": "adopted",
+   "method": "existing_palette_uv",
+   "folder": "Art/Environment/Props/boulder045",
+   "model": "boulder045.fbx",
+   "note": "Tripo boulder, 043 face repaint (row 2; base cell 21; compress 0.5) in 045 s2.",
+   "tripo": {
+    "asset": "boulder045",
+    "budget": "045-s2",
+    "work_dir": "output/keyart-target-045/r002/tripo/boulder045",
+    "seed": 45002,
+    "face_limit": 500,
+    "concept": "output/keyart-target-045/r002/concept/boulder045.png"
+   }
+  },
+  {
+   "id": "map_materials",
+   "kind": "map",
+   "status": "adopted",
+   "method": "existing_palette_uv",
+   "folder": "Art/Environment/Map",
+   "note": "045 terrain/foliage/decor/water materials and the 045 look profile used by the map builder."
+  },
+  {
+   "id": "style",
+   "kind": "shared",
+   "status": "adopted",
+   "method": "style",
+   "folder": "Art/LowPoly043",
+   "note": "shared shader, palettes, 043 material presets"
+  },
+  {
+   "id": "fx",
+   "kind": "shared",
+   "status": "adopted",
+   "method": "fx",
+   "folder": "Art/Fx047",
+   "note": "047 combat effects"
+  },
+  {
+   "id": "hero_attack",
+   "kind": "shared",
+   "status": "adopted",
+   "method": "builder_owned",
+   "folder": "Art/Characters/Hero047",
+   "note": "047 slash/shoot clips; the folder belongs to Tools/Map/build_fx_047.cs (it deletes and recreates it), so the clips stay here"
+  },
+  {
+   "id": "char_shared",
+   "kind": "shared",
+   "status": "adopted",
+   "method": "shared",
+   "folder": "Art/Characters/Shared",
+   "note": "blob shadow (049), hit flash (045)"
+  },
+  {
+   "id": "actor_set",
+   "kind": "shared",
+   "status": "adopted",
+   "method": "actor_set",
+   "folder": "Art/Characters",
+   "file": "ActorSet_Main.asset",
+   "note": "the actor set of the build scene; only the asset tool writes it"
+  },
+  {
+   "id": "hero_bruno045",
+   "kind": "hero",
+   "status": "trial",
+   "method": "none",
+   "folder": "Scenes/Proto045/Art_s3",
+   "note": "045 s3 first hero test (superseded by hero_base)",
+   "tripo": {
+    "asset": "hero_bruno045",
+    "budget": "045-s3",
+    "work_dir": "output/keyart-target-045/r003/tripo/hero_bruno045",
+    "seed": 45011,
+    "face_limit": 1500,
+    "concept": "output/keyart-target-045/r003/concept/hero-bruno.png"
+   }
+  },
+  {
+   "id": "stone045",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "none",
+   "folder": "Scenes/Proto045/Art_s2/Tripo",
+   "note": "045 s2 stone. Not referenced by the build scene, but build_map_046 reads this model from the trial folder to bake stone meshes into Scenes/Map046/Art/Meshes046.asset (follow-up: move it to Art/Environment/Props).",
+   "tripo": {
+    "asset": "stone045",
+    "budget": "045-s2",
+    "work_dir": "output/keyart-target-045/r002/tripo/stone045",
+    "seed": 45001,
+    "face_limit": 500,
+    "concept": "output/keyart-target-045/r002/concept/stone045.png"
+   }
+  }
+ ],
+ "migrations": {
+  "050": [
+   [
+    "Assets/DeadSurvivor/Art/Characters/Monster046/ActorSet046.asset",
+    "Assets/DeadSurvivor/Art/Characters/ActorSet_Main.asset"
+   ],
+   [
+    "Assets/DeadSurvivor/Art/Characters/Monster046/BlobShadow046.png",
+    "Assets/DeadSurvivor/Art/Characters/Shared/BlobShadow046.png"
+   ],
+   [
+    "Assets/DeadSurvivor/Art/Characters/Monster046/BlobShadow046.mat",
+    "Assets/DeadSurvivor/Art/Characters/Shared/BlobShadow046.mat"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art/Hit045.mat",
+    "Assets/DeadSurvivor/Art/Characters/Shared/Hit045.mat"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2.fbx",
+    "Assets/DeadSurvivor/Art/Characters/Heroes/hero_base/hero045v2.fbx"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/Hero045v2.controller",
+    "Assets/DeadSurvivor/Art/Characters/Heroes/hero_base/Hero045v2.controller"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/run_lean_k4.anim",
+    "Assets/DeadSurvivor/Art/Characters/Heroes/hero_base/run_lean_k4.anim"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/Hero045v2.prefab",
+    "Assets/DeadSurvivor/Art/Characters/Heroes/hero_base/Hero045v2.prefab"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art_s2/Tripo/tree045.fbx",
+    "Assets/DeadSurvivor/Art/Environment/Props/tree045/tree045.fbx"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art_s2/Tripo/boulder045.fbx",
+    "Assets/DeadSurvivor/Art/Environment/Props/boulder045/boulder045.fbx"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art/Foliage045.mat",
+    "Assets/DeadSurvivor/Art/Environment/Map/Foliage045.mat"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art/Soil045.mat",
+    "Assets/DeadSurvivor/Art/Environment/Map/Soil045.mat"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art/Stone045.mat",
+    "Assets/DeadSurvivor/Art/Environment/Map/Stone045.mat"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art/Look045.asset",
+    "Assets/DeadSurvivor/Art/Environment/Map/Look045.asset"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art_s2/Decor045s2.mat",
+    "Assets/DeadSurvivor/Art/Environment/Map/Decor045s2.mat"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art_s2/Foliage045s2.mat",
+    "Assets/DeadSurvivor/Art/Environment/Map/Foliage045s2.mat"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art_s2/Stone045s2.mat",
+    "Assets/DeadSurvivor/Art/Environment/Map/Stone045s2.mat"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art_s2/Water045s2.mat",
+    "Assets/DeadSurvivor/Art/Environment/Map/Water045s2.mat"
+   ],
+   [
+    "Assets/DeadSurvivor/Scenes/Proto045/Art_s2/Water045.shader",
+    "Assets/DeadSurvivor/Art/LowPoly043/Shaders/Water045.shader"
+   ]
+  ]
+ },
+ "note_050_rock": "The obstacle OB-001 rock (Art/Tests/Asset012_*) is a disabled renderer in Map046_Full (036/037 builders); 050 removes that instance in build_map_046 instead of making a new rock (design review M1)."
+}

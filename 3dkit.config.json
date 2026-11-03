@@ -1,0 +1,29 @@
+{
+ "schema": "3dkit-config/1",
+ "_comment": "Deadsurvivor values for 3dkit (3dkit/workflows/asset-standard.md). assets.profile is the one switch between profiles (3dkit/profiles/). Only keys the 3dkit tools read live here; harness values (tier policy, hooks) stay in Tools/Harness until those tools move to 3dkit.",
+ "unity": {
+  "version": "6000.4.3f1"
+ },
+ "assets": {
+  "profile": "lowpoly",
+  "catalog": "docs/art/asset-catalog.v2.json",
+  "content_root": "Assets/DeadSurvivor",
+  "art_root": "Assets/DeadSurvivor/Art",
+  "work_root": "output/assets",
+  "shaders": {
+   "palette_lit": "DeadSurvivor/LowPolyPalette"
+  },
+  "capture": {
+   "background": [0.31, 0.61, 0.2]
+  }
+ },
+ "tripo": {
+  "cli": "output/tools/tripo/node_modules/.bin/tripo",
+  "home": "output/tripo-state",
+  "key_env_file": ".env.local",
+  "key_env": "TRIPO_API_KEY",
+  "new_work_root": "output/assets",
+  "timezone": "Asia/Seoul"
+ },
+ "blender": "/Applications/Blender.app/Contents/MacOS/Blender"
+}

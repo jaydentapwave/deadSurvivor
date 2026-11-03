@@ -1,0 +1,212 @@
+{
+ "schema": "3dkit-profile/1",
+ "name": "midpoly",
+ "label": "스타일라이즈드 미드폴리(시안). 숫자는 사용자 확정 전(대상 플랫폼·성능 예산 미정). 실제 생성 전에 게임 카메라에서 화면 크기를 다시 재서 정한다",
+ "generate": {
+  "tripo": {
+   "model": "tripo-v3.1",
+   "params": [
+    "smart_low_poly=false",
+    "face_limit={face_limit}",
+    "texture=true",
+    "pbr=true",
+    "texture_quality=detailed",
+    "quad=false"
+   ]
+  }
+ },
+ "decimate": {
+  "method": "none",
+  "planned": "blender",
+  "note": "Tripo face_limit = tris_target; Blender automation is a follow-up"
+ },
+ "lod": {
+  "method": "mesh_lod",
+  "note": "Unity 6000.2+ ModelImporter.generateMeshLods for kinds with lod: true"
+ },
+ "import": {
+  "texture": {
+   "type": "Default",
+   "srgb": true,
+   "alpha": "None",
+   "mip": true,
+   "filter": "Bilinear",
+   "wrap": "Clamp",
+   "npot": "None",
+   "compression": "Compressed",
+   "readable": false,
+   "platforms": {
+    "Android": "ASTC_4x4",
+    "iPhone": "ASTC_4x4",
+    "Standalone": "Automatic"
+   }
+  },
+  "texture_by_map": {
+   "normal": {
+    "type": "NormalMap",
+    "srgb": false
+   }
+  },
+  "model": {
+   "materials": "None",
+   "animation": false,
+   "readable": false,
+   "blend_shapes": false,
+   "cameras": false,
+   "lights": false,
+   "visibility": false
+  }
+ },
+ "material": {
+  "shader": "lit",
+  "slots": {
+   "albedo": "_BaseMap",
+   "normal": "_BumpMap"
+  },
+  "colors": {
+   "_BaseColor": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "instancing": false,
+  "keyword_toggles": {},
+  "map_keywords": {
+   "normal": "_NORMALMAP"
+  },
+  "presets": {
+   "character": {
+    "_Smoothness": 0.25,
+    "_Metallic": 0
+   },
+   "prop": {
+    "_Smoothness": 0.15,
+    "_Metallic": 0
+   }
+  }
+ },
+ "prefab": {
+  "light_probes": "BlendProbes",
+  "reflection_probes": "BlendProbes",
+  "receive_shadows": true
+ },
+ "check": {
+  "scene_texture_max": 1024,
+  "material_props": {}
+ },
+ "standards": {
+  "hero": {
+   "label": "영웅",
+   "tris_target": 6000,
+   "tris_max": 8000,
+   "texture": 512,
+   "bones_max": 70,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "texture",
+   "maps": [
+    "albedo",
+    "normal"
+   ],
+   "preset": "character"
+  },
+  "monster": {
+   "label": "몬스터",
+   "tris_target": 2500,
+   "tris_max": 3500,
+   "texture": 256,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "blob",
+   "color": "texture",
+   "maps": [
+    "albedo"
+   ],
+   "preset": "character"
+  },
+  "boss": {
+   "label": "보스",
+   "tris_target": 9000,
+   "tris_max": 12000,
+   "texture": 1024,
+   "bones_max": 70,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "texture",
+   "maps": [
+    "albedo",
+    "normal"
+   ],
+   "preset": "character",
+   "lod": true
+  },
+  "prop_small": {
+   "label": "작은 소품",
+   "tris_target": 600,
+   "tris_max": 1000,
+   "texture": 128,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "off",
+   "color": "texture",
+   "maps": [
+    "albedo"
+   ],
+   "preset": "prop"
+  },
+  "prop_large": {
+   "label": "큰 소품",
+   "tris_target": 2500,
+   "tris_max": 4000,
+   "texture": 512,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "texture",
+   "maps": [
+    "albedo",
+    "normal"
+   ],
+   "preset": "prop",
+   "lod": true
+  },
+  "landmark": {
+   "label": "랜드마크",
+   "tris_target": 6000,
+   "tris_max": 9000,
+   "texture": 1024,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "texture",
+   "maps": [
+    "albedo",
+    "normal"
+   ],
+   "preset": "prop",
+   "lod": true
+  },
+  "map": {
+   "label": "맵 생성 메시·지형 재질",
+   "tris_target": 6000,
+   "tris_max": 10000,
+   "texture": 512,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "texture",
+   "maps": [
+    "albedo",
+    "normal"
+   ],
+   "preset": "prop"
+  },
+  "shared": {
+   "label": "공용(그림자 원·피격·액터 세트)",
+   "texture": 64,
+   "color": "exempt"
+  }
+ }
+}

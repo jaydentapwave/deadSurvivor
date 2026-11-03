@@ -1,0 +1,30 @@
+{
+  "about": "Verification tiers and efficiency guards (docs/workflows/core-rules.md). Read by Tools/Harness/tier.py and Tools/Hooks/claude_guard.py.",
+  "categories": {
+    "docs": ["docs/**", "*.md", "**/*.md"],
+    "tools": ["Tools/**", "Assets/DeadSurvivor/Editor/**", ".claude/**", ".codex/**", ".githooks/**", ".agents/**"],
+    "visual": ["Assets/DeadSurvivor/**/*.png", "Assets/DeadSurvivor/**/*.jpg", "Assets/DeadSurvivor/**/*.jpeg", "Assets/DeadSurvivor/**/*.JPEG",
+               "Assets/DeadSurvivor/**/*.tga", "Assets/DeadSurvivor/**/*.mat", "Assets/DeadSurvivor/**/*.shader",
+               "Assets/DeadSurvivor/**/*.shadergraph", "Assets/DeadSurvivor/**/*.fbx", "Assets/DeadSurvivor/**/*.obj",
+               "Assets/DeadSurvivor/**/*.prefab", "Assets/DeadSurvivor/**/*.controller", "Assets/DeadSurvivor/**/*.anim",
+               "Assets/DeadSurvivor/Resources/DeadSurvivor/UI/*.asset"],
+    "gameplay": ["Assets/DeadSurvivor/Runtime/**", "Assets/DeadSurvivor/**/*.unity", "Assets/DeadSurvivor/**/*.asset",
+                 "Assets/DeadSurvivor/**/*.json", "ProjectSettings/**", "Packages/manifest.json", "Packages/packages-lock.json"]
+  },
+  "category_order": ["docs", "tools", "visual", "gameplay"],
+  "unknown_category": "gameplay",
+  "evidence_roots": ["Assets/DeadSurvivor", "ProjectSettings", "Packages"],
+  "evidence_ignore": ["Assets/DeadSurvivor/Editor/**", "**/*.meta"],
+  "full_override_env": "DS_FULL_REASON",
+  "full_runners": [
+    {"match": "Tools/Proto/keyart_045.py", "full_if": "KEYART045_STAGE=['\"]?(full|load|baseline044)\\b",
+     "about": "full modes = keyart_045.py STAGES_FULL; any other value is rejected by the runner itself (STAGES_SHORT + STAGES_FULL)"},
+    {"match": "Tools/Proto/proto_main_044.py", "full_if": ".*"},
+    {"match": "Tools/Verify/run.py", "full_if": "run\\.py['\"]?\\s+all\\b"}
+  ],
+  "side_effect_files": ["Assets/DeadSurvivor/Resources/DeadSurvivor/UI/PrototypeFont.asset"],
+  "side_effect_about": "editor rewrites these as a side effect of Play/builds/captures; Tools/Harness/protect.py restores them when they were clean before (047 H4)",
+  "review": {"max_rounds_per_topic": 2, "override_env": "DS_REVIEW_OK"},
+  "context": {"warn_tokens": 250000, "new_session_tokens": 300000, "step_tokens": 100000,
+              "about": "250k: warn once; 300k: a big new task should start in a new session (047 H10); then every 100k"}
+}

@@ -1,0 +1,210 @@
+{
+ "schema": "3dkit-profile/1",
+ "name": "lowpoly",
+ "label": "로우폴리(모바일). Deadsurvivor 050 규격 그대로: 1080p 폰에서 영웅 약 41px, 몬스터 약 27px(직교 카메라 크기 6, 55°)",
+ "generate": {
+  "tripo": {
+   "model": "tripo-v3.1",
+   "params": [
+    "smart_low_poly=true",
+    "face_limit={face_limit}",
+    "texture=true",
+    "pbr=false",
+    "texture_quality=standard",
+    "quad=false"
+   ]
+  }
+ },
+ "decimate": {
+  "method": "none",
+  "note": "over tris_max -> check FAIL; reduce in Blender by hand (automation is a follow-up)"
+ },
+ "lod": {
+  "method": "none"
+ },
+ "import": {
+  "texture": {
+   "type": "Default",
+   "srgb": true,
+   "alpha": "None",
+   "mip": true,
+   "filter": "Bilinear",
+   "wrap": "Clamp",
+   "npot": "None",
+   "compression": "Compressed",
+   "readable": false,
+   "platforms": {
+    "Android": "ASTC_4x4",
+    "iPhone": "ASTC_4x4",
+    "Standalone": "Automatic"
+   }
+  },
+  "texture_by_map": {
+   "normal": {
+    "type": "NormalMap",
+    "srgb": false
+   }
+  },
+  "model": {
+   "materials": "None",
+   "animation": false,
+   "readable": false,
+   "blend_shapes": false,
+   "cameras": false,
+   "lights": false,
+   "visibility": false
+  }
+ },
+ "material": {
+  "shader": "palette_lit",
+  "slots": {
+   "albedo": "_Palette"
+  },
+  "colors": {
+   "_BaseColor": [
+    1,
+    1,
+    1,
+    1
+   ]
+  },
+  "instancing": false,
+  "keyword_toggles": {
+   "_FlatShading": "_FLAT_SHADING"
+  },
+  "map_keywords": {},
+  "presets": {
+   "character": {
+    "_GradientBottom": 1,
+    "_GradientHeight": 1,
+    "_TopStrength": 0,
+    "_NoiseStrength": 0,
+    "_ShadeWrap": 0.5,
+    "_ShadeSoftness": 1,
+    "_AmbientStrength": 1,
+    "_RimStrength": 0.2,
+    "_FlatShading": 0,
+    "_WindStrength": 0,
+    "_EmissionStrength": 2,
+    "_VertexAlphaClip": 0,
+    "_Cull": 2,
+    "_DitherFade": 0
+   },
+   "landmark": {
+    "_GradientBottom": 0.7,
+    "_GradientHeight": 1.2,
+    "_TopStrength": 0,
+    "_NoiseStrength": 0,
+    "_ShadeWrap": 0.5,
+    "_ShadeSoftness": 1,
+    "_AmbientStrength": 1,
+    "_RimStrength": 0,
+    "_FlatShading": 1,
+    "_WindStrength": 0,
+    "_EmissionStrength": 2,
+    "_VertexAlphaClip": 0,
+    "_Cull": 2,
+    "_DitherFade": 0
+   }
+  }
+ },
+ "prefab": {
+  "light_probes": "Off",
+  "reflection_probes": "Off",
+  "receive_shadows": true
+ },
+ "check": {
+  "scene_texture_max": 256,
+  "material_props": {
+   "_TopStrength": 0
+  }
+ },
+ "standards": {
+  "hero": {
+   "label": "영웅",
+   "tris_target": 1500,
+   "tris_max": 2000,
+   "texture": 256,
+   "bones_max": 70,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "palette_texture",
+   "palette": "char",
+   "preset": "character"
+  },
+  "monster": {
+   "label": "몬스터",
+   "tris_target": 600,
+   "tris_max": 1000,
+   "texture": 128,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "blob",
+   "color": "palette_texture",
+   "palette": "char",
+   "preset": "character"
+  },
+  "boss": {
+   "label": "보스(예정)",
+   "tris_target": 2500,
+   "tris_max": 4000,
+   "texture": 256,
+   "bones_max": 70,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "palette_texture",
+   "palette": "char",
+   "preset": "character"
+  },
+  "prop_small": {
+   "label": "작은 소품(높이 0.5 미만)",
+   "tris_target": 200,
+   "tris_max": 600,
+   "texture": 0,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "off",
+   "color": "palette_uv",
+   "palette": "env"
+  },
+  "prop_large": {
+   "label": "큰 소품(나무·큰 바위)",
+   "tris_target": 800,
+   "tris_max": 1500,
+   "texture": 0,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "palette_uv",
+   "palette": "env"
+  },
+  "landmark": {
+   "label": "랜드마크(맵당 3개 이하)",
+   "tris_target": 2000,
+   "tris_max": 3000,
+   "texture": 256,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "palette_texture",
+   "palette": "env",
+   "preset": "landmark"
+  },
+  "map": {
+   "label": "맵 생성 메시·지형 재질",
+   "tris_target": 3000,
+   "tris_max": 5000,
+   "texture": 0,
+   "bones_max": 0,
+   "materials_max": 1,
+   "shadow": "real",
+   "color": "palette_uv",
+   "palette": "env"
+  },
+  "shared": {
+   "label": "공용(그림자 원·피격·액터 세트)",
+   "texture": 64,
+   "color": "exempt"
+  }
+ }
+}

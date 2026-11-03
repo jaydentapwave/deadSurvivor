@@ -1,0 +1,43 @@
+{
+  "project_root": ".",
+  "unity_version": "<예: 6000.4.3f1>",
+  "main_scene": "Assets/<게임>/Scenes/<첫 장면>.unity",
+  "game_namespace": "<C# 네임스페이스>",
+  "art_root": "Assets/<게임>/Art",
+  "asset_catalog": "docs/art/asset-catalog.json",
+  "side_effect_files": [],
+  "full_runners": [],
+  "review": {
+    "max_rounds_per_topic": 2
+  },
+  "context": {
+    "warn_tokens": 250000,
+    "new_session_tokens": 300000,
+    "step_tokens": 100000
+  },
+  "evidence": {
+    "gameplay": [
+      "Assets/<게임>/Runtime/**",
+      "**/*.unity",
+      "ProjectSettings/**",
+      "Packages/manifest.json"
+    ],
+    "visual": [
+      "**/*.png",
+      "**/*.mat",
+      "**/*.shader",
+      "**/*.shadergraph",
+      "**/*.fbx",
+      "**/*.prefab",
+      "**/*.anim",
+      "**/*.controller"
+    ]
+  },
+  "tripo": {
+    "cli": "output/tools/tripo/node_modules/.bin/tripo",
+    "home": "output/tripo-state",
+    "key_env_file": ".env.local"
+  },
+  "blender": "/Applications/Blender.app/Contents/MacOS/Blender",
+  "_comment": "3dkit 도구가 읽는 유일한 프로젝트별 값. 형식은 3dkit/workflows/harness-blueprint.md. H0~H4에서 도구를 만들며 확정한다."
+}
