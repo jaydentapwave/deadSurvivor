@@ -1,43 +1,34 @@
 {
-  "project_root": ".",
-  "unity_version": "<예: 6000.4.3f1>",
-  "main_scene": "Assets/<게임>/Scenes/<첫 장면>.unity",
-  "game_namespace": "<C# 네임스페이스>",
+ "schema": "3dkit-config/1",
+ "_comment": "Project values for 3dkit tools (3dkit/workflows/asset-standard.md, harness-blueprint.md). Fill the <...> values. assets.profile is the one switch between 3dkit/profiles/*.json. Keys only the tools read; add more when a tool that reads them is built.",
+ "unity": {
+  "version": "<예: 6000.4.3f1>"
+ },
+ "assets": {
+  "profile": "midpoly",
+  "catalog": "docs/art/asset-catalog.json",
+  "content_root": "Assets/<게임>",
   "art_root": "Assets/<게임>/Art",
-  "asset_catalog": "docs/art/asset-catalog.json",
-  "side_effect_files": [],
+  "work_root": "output/assets",
+  "shaders": {},
+  "capture": {
+   "background": [0.31, 0.61, 0.2]
+  }
+ },
+ "tripo": {
+  "cli": "output/tools/tripo/node_modules/.bin/tripo",
+  "home": "output/tripo-state",
+  "key_env_file": ".env.local",
+  "key_env": "TRIPO_API_KEY",
+  "new_work_root": "output/assets",
+  "timezone": "Asia/Seoul"
+ },
+ "blender": "/Applications/Blender.app/Contents/MacOS/Blender",
+ "harness": {
   "full_runners": [],
-  "review": {
-    "max_rounds_per_topic": 2
-  },
-  "context": {
-    "warn_tokens": 250000,
-    "new_session_tokens": 300000,
-    "step_tokens": 100000
-  },
-  "evidence": {
-    "gameplay": [
-      "Assets/<게임>/Runtime/**",
-      "**/*.unity",
-      "ProjectSettings/**",
-      "Packages/manifest.json"
-    ],
-    "visual": [
-      "**/*.png",
-      "**/*.mat",
-      "**/*.shader",
-      "**/*.shadergraph",
-      "**/*.fbx",
-      "**/*.prefab",
-      "**/*.anim",
-      "**/*.controller"
-    ]
-  },
-  "tripo": {
-    "cli": "output/tools/tripo/node_modules/.bin/tripo",
-    "home": "output/tripo-state",
-    "key_env_file": ".env.local"
-  },
-  "blender": "/Applications/Blender.app/Contents/MacOS/Blender",
-  "_comment": "3dkit 도구가 읽는 유일한 프로젝트별 값. 형식은 3dkit/workflows/harness-blueprint.md. H0~H4에서 도구를 만들며 확정한다."
+  "full_override_env": "FULL_REASON",
+  "review": {"max_rounds_per_topic": 2, "override_env": "REVIEW_OK"},
+  "context": {"warn_tokens": 250000, "new_session_tokens": 300000, "step_tokens": 100000},
+  "side_effect_files": []
+ }
 }

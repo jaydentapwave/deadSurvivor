@@ -20,18 +20,25 @@ AI 에이전트(Claude·Codex)가 Unity 프로젝트에서 **원하는 3D 자산
 
 ## 프로젝트에 넣기
 
-완성 전(v0~v1)에는 폴더를 복사해서 쓴다. 최종 형태는 아래 로드맵의 하나의 에이전트다.
+완성 전(v1)에는 폴더를 복사해서 쓴다. 최종 형태는 아래 로드맵의 하나의 에이전트다. 2026-11-03 빈 폴더에 아래 순서로 넣어 `assets.py selftest`·`spec`·`profile`, `guard`·`protect`·`session_time` 자체 시험이 모두 도는 것을 확인했다(Unity 쪽은 Deadsurvivor에서 확인).
 
 ```bash
-cd <프로젝트 루트>
-cp -R <3dkit 폴더> 3dkit
+cd <새 Unity 프로젝트 루트>                       # Unity 6000.2 이상, URP
+cp -R <키트 원본>/3dkit 3dkit
 cp 3dkit/templates/project/AGENTS.md 3dkit/templates/project/CLAUDE.md .
-mkdir -p .claude docs && cp -R 3dkit/templates/project/.claude/agents .claude/
+mkdir -p .claude docs/art
+cp -R 3dkit/templates/project/.claude/agents .claude/
+cp 3dkit/templates/project/.claude/settings.json .claude/        # hook: 3dkit/tools/guard.py
 cp 3dkit/templates/project/현재상태.md docs/
-cp 3dkit/templates/project/3dkit.config.json .
+cp 3dkit/templates/project/3dkit.config.json .                   # <게임>·버전 칸을 채운다. 기본 프로필 midpoly
+cp 3dkit/templates/project/docs/art/asset-catalog.json docs/art/  # 빈 카탈로그(v2)
+# Packages/manifest.json "dependencies"에 한 줄: "com.studiokit.kit3d": "file:../3dkit/unity"
+/usr/bin/python3 3dkit/tools/assets.py selftest && /usr/bin/python3 3dkit/tools/guard.py selftest
 ```
 
-그다음 `AGENTS.md`의 `<…>` 칸(이름·경로·원격·저장 경계)과 `3dkit.config.json`을 채운다. 에이전트에게 "CLAUDE.md를 읽고 하네스 설계도 H0부터 진행해줘"라고 하면 된다.
+- Unity에서 게임 타입(액터 세트 등)에 에셋을 연결하려면 프로젝트 Editor 코드에 `Kit3D.IKit3DProjectHooks` 구현을 하나 둔다(예: Deadsurvivor `DSKit3DProjectHooks.cs`). 연결할 것이 없으면 카탈로그 `project.hook_data`를 비워 둔다.
+- Tripo CLI는 프로젝트 `output/tools/tripo/`에 따로 설치하고 키는 `.env.local`(Git 제외)에 둔다([도구 연결](workflows/tools.md)).
+- 그다음 `AGENTS.md`의 `<…>` 칸(이름·경로·원격·저장 경계)을 채우고, 에이전트에게 "CLAUDE.md를 읽고 하네스 설계도 H0부터 진행해줘"라고 하면 된다.
 
 ## 로드맵
 

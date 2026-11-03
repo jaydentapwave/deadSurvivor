@@ -1,0 +1,13 @@
+{
+ "schema": "3dkit-asset-catalog/2",
+ "doc": "3dkit/workflows/asset-standard.md",
+ "tool": "3dkit/tools/assets.py",
+ "note": "Project asset registry (adopted list), Tripo budgets with the user's approval text, palettes, project rules. Standard numbers come from the profile in 3dkit.config.json; standards_override replaces single keys per kind.",
+ "standards_override": {},
+ "project": {"trial_roots": ["Art/Tests"], "scene_generated_roots": [], "shader_allowed": {}, "naming": {}, "hook_data": {}},
+ "palettes": {},
+ "budgets": {},
+ "anim_steps": {},
+ "assets": [],
+ "migrations": {}
+}

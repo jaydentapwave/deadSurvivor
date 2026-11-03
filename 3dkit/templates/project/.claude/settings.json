@@ -1,0 +1,10 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {"matcher": "Bash", "hooks": [{"type": "command", "command": "/usr/bin/python3 \"$CLAUDE_PROJECT_DIR/3dkit/tools/guard.py\" pretool"}]}
+    ],
+    "UserPromptSubmit": [
+      {"hooks": [{"type": "command", "command": "/usr/bin/python3 \"$CLAUDE_PROJECT_DIR/3dkit/tools/guard.py\" prompt"}]}
+    ]
+  }
+}
