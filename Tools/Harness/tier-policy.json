@@ -22,6 +22,9 @@
     {"match": "Tools/Proto/proto_main_044.py", "full_if": ".*"},
     {"match": "Tools/Verify/run.py", "full_if": "run\\.py['\"]?\\s+all\\b"}
   ],
+  "side_effect_files": ["Assets/DeadSurvivor/Resources/DeadSurvivor/UI/PrototypeFont.asset"],
+  "side_effect_about": "editor rewrites these as a side effect of Play/builds/captures; Tools/Harness/protect.py restores them when they were clean before (047 H4)",
   "review": {"max_rounds_per_topic": 2, "override_env": "DS_REVIEW_OK"},
-  "context": {"warn_tokens": 250000, "step_tokens": 100000}
+  "context": {"warn_tokens": 250000, "new_session_tokens": 300000, "step_tokens": 100000,
+              "about": "250k: warn once; 300k: a big new task should start in a new session (047 H10); then every 100k"}
 }

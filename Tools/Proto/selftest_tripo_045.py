@@ -35,6 +35,8 @@ def anim_case(exit_code, http, api):
     except SystemExit as e: return str(e)
 cases = []
 for a in ('fa', 'fb'): run('freeze', a)
+import json as _j
+cases.append(('frozen request keeps the approval text', _j.loads((m.adir('fa') / 'request-frozen.json').read_text()).get('user_approval'), 'selftest'))
 cases.append(('dry run without estimate', run('dryrun', 'fa'), 'DRY_RUN_NO_ESTIMATE'))
 for a in ('fa', 'fb'):
     m.set_state(a, state='DRY_RUN_OK', estimate=60, dry_run_request_sha256=m.journal(a)['request_sha256'])
@@ -49,6 +51,21 @@ cases.append(('reset: exit 2 + HTTP 500', anim_case(2, 500, 1), 'NOT_A_DEFINITE_
 cases.append(('reset: exit 2 + no status', anim_case(2, None, None), 'NOT_A_DEFINITE_REJECTION'))
 cases.append(('reset: exit 2 + HTTP 400 api 2006', anim_case(2, 400, 2006), 'RESET_TO_NEW'))
 cases.append(('provider calls', ','.join(calls), 'dry,make'))
+# 047 H8: a paid anim step writes its approval to the journal before submit; no approval -> refused, nothing sent
+def anim_submit(a, name, auth3):
+    m.SPECS[a] = dict(stage=9, seed=3, face_limit=500, concept=str(T / 'c.png')); d = m.adir(a); d.mkdir(exist_ok=True)
+    m.save(d / 'journal.json', dict(state='DOWNLOADED', task_id='g1', credits_task=0, anim={'check': dict(state='DONE', riggable=True, credits_task=0), **({'rig': dict(state='DONE', task_id='r1', credits_task=0)} if name != 'rig' else {})}))
+    m.AUTH3, n0 = auth3, len(calls)
+    try:
+        with contextlib.redirect_stdout(io.StringIO()): m.anim_step(a, d, name, 1000)
+        got = 'OK'
+    except SystemExit as e: got = str(e).split(':')[0]
+    finally: m.AUTH3 = 'selftest'
+    rec = (m.journal(a).get('anim') or {}).get(name) or {}
+    return f"{got}/{rec.get('user_approval')}/{len(calls) - n0}"
+cases.append(('anim rig: stage approval recorded', anim_submit('fc', 'rig', 'stage-3 ok'), 'SUBMISSION_UNKNOWN/stage-3 ok/1'))
+cases.append(('anim rig: no approval refused', anim_submit('fd', 'rig', ''), 'NO_AUTHORIZATION/None/0'))
+cases.append(('anim attack: own approval', anim_submit('fe', 'attack', '').split('/')[1].startswith('User approved the hero attack'), True))
 shutil.rmtree(T)
 ok = all(got == want for _, got, want in cases)
 for name, got, want in cases: print(('PASS' if got == want else 'FAIL'), name, '->', got)

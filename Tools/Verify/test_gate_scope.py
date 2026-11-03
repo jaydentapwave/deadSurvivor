@@ -37,6 +37,14 @@ class ScopeTests(unittest.TestCase):
         for p in ('Tools/Verify/map_check.py', 'Tools/Verify/map_io.py',
                   'Tools/Verify/map_oracle.py', 'docs/design/map-harness-fixtures.json'):
             self.put(p, (gate.ROOT / p).read_text())
+        # refs (047 H11/H13): one build scene with a matching .meta, one Burst colour handled by DSMapFx
+        self.put('ProjectSettings/EditorBuildSettings.asset', 'EditorBuildSettings:\n  m_Scenes:\n  - enabled: 1\n'
+                 '    path: Assets/DeadSurvivor/Scenes/A.unity\n    guid: ' + 'a' * 32 + '\n')
+        self.put('Assets/DeadSurvivor/Scenes/A.unity', 'scene')
+        self.put('Assets/DeadSurvivor/Scenes/A.unity.meta', 'fileFormatVersion: 2\nguid: ' + 'a' * 32 + '\n')
+        self.put('Assets/DeadSurvivor/Runtime/DSGame.Combat.cs', 'void Burst(Vector2 pos, float r, float life, string color){}\n'
+                 'void F(){ Burst(c.pos, 35, .6f, "#e17769"); }\n')
+        self.put('Assets/DeadSurvivor/Runtime/DSMapFx.cs', 'switch(e.color){ case "#e17769": break; }\n')
         self.policy = {'active_map': {'layout': 'docs/map/layout.json',
             'reference': 'docs/map/reference.png', 'cases': 'docs/map/cases.csv',
             'audit': 'docs/map/audit.py', 'render_manifest': 'docs/map/render.json',
@@ -82,6 +90,11 @@ class ScopeTests(unittest.TestCase):
                  ('docs/map/sheet.png', {'map_preparation'}),
                  ('docs/map/layout.json', {'map_preparation'}),
                  ('docs/design/map-meadow-005-r001-objects.csv', {'map_preparation'}),
+                 ('ProjectSettings/EditorBuildSettings.asset', {'refs'}),
+                 ('Assets/DeadSurvivor/Scenes/A.unity.meta', {'refs'}),
+                 ('Assets/DeadSurvivor/Scenes/A.unity', set()),
+                 ('Assets/DeadSurvivor/Runtime/DSMapFx.cs', {'refs'}),
+                 ('Assets/DeadSurvivor/Runtime/DSGame.Combat.cs', {'refs'}),
                  ('Tools/Verify/gate.py', set(base)),
                  ('Tools/Verify/unrelated_test.py', set()),
                  ('Assets/DeadSurvivor/Runtime/DSUI.cs', set())]
@@ -117,6 +130,35 @@ class ScopeTests(unittest.TestCase):
         changed = self.static()
         self.assertEqual([n for n, c in changed['checks'].items() if c['action'] == 'RUN'], ['docs'])
         self.assertEqual(changed['checks']['data']['report'], first['checks']['data']['report'])
+
+    def test_refs_detects_guid_mismatch_and_unmapped_colour(self):
+        import run
+        self.fixture()
+        self.assertEqual(run.refs_check(self.root)['status'], 'PASS')
+        self.put('Assets/DeadSurvivor/Scenes/A.unity.meta', 'guid: ' + 'b' * 32 + '\n')       # rebuilt scene, new GUID (047-E11)
+        self.assertIn('GUID mismatch', ' '.join(run.refs_check(self.root)['errors']))
+        changed = self.static()
+        self.assertEqual(changed['checks']['refs']['status'], 'FAIL')
+        self.put('Assets/DeadSurvivor/Scenes/A.unity.meta', 'guid: ' + 'a' * 32 + '\n')
+        self.put('Assets/DeadSurvivor/Runtime/DSGame.Combat.cs', 'void F(){ Burst(c.pos, 35, .6f, "#e17768"); Burst(p, r, l, col); }\n')
+        r = run.refs_check(self.root)
+        self.assertEqual(r['status'], 'FAIL')
+        self.assertTrue(any('#e17768' in e for e in r['errors']) and any('not a literal' in e for e in r['errors']))
+        self.assertTrue(any('#e17769' in w for w in r['warnings']))
+        # review 048 r001 #5: a malformed or missing entry next to good ones fails instead of being skipped
+        self.put('Assets/DeadSurvivor/Runtime/DSGame.Combat.cs', 'void F(){ Burst(c.pos, 35, .6f, "#e17769"); }\n')
+        good = '  - enabled: 1\n    path: Assets/DeadSurvivor/Scenes/A.unity\n    guid: ' + 'a' * 32 + '\n'
+        for bad in ('  - enabled: 1\n    path: Assets/DeadSurvivor/Scenes/Gone.unity\n    guid: ' + 'c' * 31 + '\n',
+                    '  - enabled: 1\n    path: Assets/DeadSurvivor/Scenes/My Scene.unity\n    guid: ' + 'c' * 32 + '\n',
+                    '  - enabled: 1\n    path: ../outside.unity\n    guid: ' + 'c' * 32 + '\n'):
+            self.put('ProjectSettings/EditorBuildSettings.asset', 'EditorBuildSettings:\n  m_Scenes:\n' + good + bad + '  m_configObjects: {}\n')
+            with self.subTest(bad=bad[:60]):
+                r = run.refs_check(self.root)
+                self.assertEqual((r['status'], r['build_scenes']), ('FAIL', 2), r)
+        self.put('ProjectSettings/EditorBuildSettings.asset', 'EditorBuildSettings:\n  m_Scenes: []\n')
+        self.assertIn('No scenes', ' '.join(run.refs_check(self.root)['errors']))
+        self.put('ProjectSettings/EditorBuildSettings.asset', 'EditorBuildSettings:\n  m_Scenes:\n' + good + '  m_configObjects: {}\n')
+        self.assertEqual(run.refs_check(self.root)['status'], 'PASS')
 
     def test_missing_tampered_and_newer_failed_evidence_reruns(self):
         self.fixture()

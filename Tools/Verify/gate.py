@@ -148,7 +148,7 @@ def static_requirements(root, policy, source, out):
                 audit = run_check([PYTHON, str(root / policy['active_map']['audit'])], 'map', root)
                 value = {'status': 'PASS', 'audit': audit, 'map_dependencies': active_map_check(root, policy)}
             else:
-                fn = {'docs': local_checks.documents, 'data': local_checks.data_check,
+                fn = {'docs': local_checks.documents, 'data': local_checks.data_check, 'refs': local_checks.refs_check,
                       'map_oracle_foundation': local_checks.map_oracle_foundation}[name]
                 value = fn(root)
             if not gate_scope.valid_result(name, value):

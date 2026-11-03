@@ -23,6 +23,8 @@
 - 어느 단계가 필요한지는 `/usr/bin/python3 Tools/Harness/tier.py plan --scene <장면> [--stage-end]`로 확인한다.
 - Play 실행기는 기본이 짧은 단계다. 전체 단계는 `DS_FULL_REASON="<이유>"`가 없으면 실행기가 스스로 멈춘다(`tier.py require_full`). 실행 이유는 `output/verification/full-runs.jsonl`에 남는다.
 - Play 중 프레임·성능을 재는 도구는 `PlayerSettings.runInBackground`를 켜고 끝나면 원복한다. 끄고 재면 편집기가 백그라운드에서 느려져 3fps 같은 값이 나온다(046-3). 메인 탭이 도킹된 Game 창인지도 먼저 확인한다(046-10, [개발 환경](../개발환경.md#에이전트-도구-연결)).
+- 시각·내용 변경이 큰 단계는 마감 보고에 **성능 한 줄**(그리기 호출·삼각형·그림자·fps, 편집기 값)을 넣는다(047 H12). 측정은 `/usr/bin/python3 Tools/Harness/play_probe.py --wave 7 --hp-lock --settle 0 --captures 0 --perf 20`. 같은 순서로 잰 이전 값과 나란히 적는다.
+- 화면 확인·측정용 Play 스크립트를 새로 짜지 않는다. `Tools/Harness/play_probe.py`(장면·스쿼드·웨이브·HP 고정·캡처 수와 간격·공격 동작 표본·밤·성능 옵션)를 쓰고, 없는 옵션만 그 도구에 더한다(047 H5). 이 도구는 측정 도구이며 단계 증거를 남기지 않는다.
 - 새 Play 실행기를 만들면 짧은/전체 모드를 두고 `Tools/Harness/tier-policy.json`의 `full_runners`에 등록한다. 모드 값은 허용 목록으로 검사하고, 목록 밖의 값(오타 포함)은 실행 전에 거부한다(`keyart_045.py`의 `STAGES_SHORT`·`STAGES_FULL`).
 - **적용 범위.** 이 문서의 3단계와 증거 재사용(1·2절)은 작업 중과 단계 마감에 실행기를 고르는 기준이다. **커밋 전 gate의 Unity 범위(`run.py all` / `all --screens`)는 [gate 문서](verification-gates.md)가 원본이다.** gate는 `tier-evidence.json`을 읽지 않으므로, 시각 파일만 바뀌어도 커밋 전에는 gate 문서의 조건대로 `all --screens`가 필요할 수 있다. gate 쪽 시각 증거 재사용은 아직 지원하지 않는다(후속).
 
@@ -30,6 +32,7 @@
 
 - 전체 PASS는 게임 동작 파일(런타임 코드, 장면, 데이터, 설정)과 시각 파일(텍스처, 재질, 모델, 프리팹, 애니메이션)의 해시를 따로 기록한다(`output/verification/tier-evidence.json`).
 - 시각 파일만 바뀌면 게임 동작 증거는 재사용한다. 짧은 Play와 캡처, 사용자 확인으로 단계 마감까지 충분하다. 커밋 전 gate는 위 1절 '적용 범위'를 따른다.
+- 0.2~0.5초짜리 순간 효과는 정지 캡처 1장으로 판정하지 않는다. 연속 캡처(예: `play_probe.py --captures 6 --interval 0.1`)나 상태 숫자(효과 수·종류)로 확인한다(047 H7, 047-E10).
 - 시각 증거는 실제로 캡처한 PASS 기록(`captured=true`)만 인정한다. `KEYART045_NOCAPTURE=1` 실행이나 화면 없는 편집기 실행은 게임 동작 증거만 된다.
 - 기록은 최근 40건만 남기지만, 장면별 마지막 전체 PASS는 지우지 않는다.
 - 검사 도구(`Tools/`, `Assets/DeadSurvivor/Editor/`)만 바뀌면 그 도구의 자체 시험만 다시 돌린다.
@@ -47,7 +50,8 @@
 ## 4. 단계마다 새 대화
 
 - 단계가 끝나면 [인수인계 양식](../templates/handoff.md)으로 [현재 상태](../현재상태.md)에 인수인계를 쓰고, 사용자에게 새 세션을 제안한다.
-- 대화 맥락이 25만 토큰을 넘으면 hook이 알린다. 이후 10만 토큰마다 한 번씩 알린다.
+- 대화 맥락이 25만 토큰을 넘으면 hook이 알린다. **30만을 넘은 상태에서 새 큰 작업(새 단계, 여러 파일 구현, Play 여러 번)을 받으면 시작하기 전에 인수인계를 쓰고 새 세션을 먼저 제안한다.** 도구를 부를 때마다 전체 맥락을 다시 읽어 캐시 읽기가 비용의 대부분이 된다(047: 세션 캐시 읽기 약 1.21억 토큰, H10). 이후 10만 토큰마다 한 번씩 알린다.
+- 시간·토큰은 `/usr/bin/python3 Tools/Harness/session_time.py --markdown`으로 사용자 요청 단위 표를 뽑아 단계 기록에 붙인다(047 H9).
 - 긴 실행은 백그라운드로 돌리고 완료 알림을 기다린다. 상태를 짧은 간격으로 반복 조회하지 않는다.
 - 여러 확인은 스크립트 하나로 묶어 판정에 필요한 줄만 출력한다. 긴 목록을 그대로 출력하지 않는다.
 - 큰 이미지는 하위 에이전트가 보고 메인은 결론만 받는다.
@@ -67,12 +71,12 @@
 
 | hook | 하는 일 | 통과 방법 |
 |---|---|---|
-| PreToolUse(Bash) | python으로 전체 Play 실행기를 이유 없이 실행하면 막는다. `keyart_045.py` `KEYART045_STAGE=full/load/baseline044`, `proto_main_044.py`, `run.py all`이 대상이다 | 명령 앞에 `DS_FULL_REASON="<이유>"` |
+| PreToolUse(Bash) | python으로 전체 Play 실행기를 이유 없이 실행하면 막는다. `keyart_045.py` `KEYART045_STAGE=full/load/baseline044`, `proto_main_044.py`, `run.py all`이 대상이다. 실제로 실행되는 위치만 본다: heredoc 본문과 따옴표 안의 띄어쓰기 있는 문장(echo·커밋 메시지·프롬프트)은 보지 않고, 변수 값·`bash -c` 문자열·따옴표 친 경로 한 단어는 본다(048, 047-E0) | 명령 앞에 `DS_FULL_REASON="<이유>"` |
 | PreToolUse(Bash) | 같은 주제의 Codex 검토 결과가 이미 2개면 3번째 `codex exec ... -o`를 막는다. 결과 파일 이름 `<주제>-rNNN.md`로 센다("review"가 없는 이름도 센다) | 사용자 승인 뒤 `DS_REVIEW_OK="<승인 내용>"` |
-| UserPromptSubmit | 맥락이 25만 토큰을 넘으면 사용자와 에이전트에게 한 번 알린다 | 없음(알림만) |
+| UserPromptSubmit | 맥락이 25만 토큰을 넘으면 한 번, 30만을 넘으면 "새 큰 작업이면 새 세션 먼저"를 한 번, 이후 10만마다 한 번 알린다(`tier-policy.json` `context`) | 없음(알림만) |
 
 - hook은 막을 때 이유를 한 줄로 알린다. 자동으로 다시 실행하거나 반복해서 알리지 않는다.
 - hook 자체가 오류를 내면 작업을 막지 않고 통과시킨다(fail-open). 오류는 `output/hook-state/errors.log`에 남는다.
-- 실행 명령 문자열을 본문에 담은 셸 편집(heredoc 등)도 막힐 수 있다. 그런 편집은 Edit 도구로 한다.
+- `bash -c`나 셸 스크립트 파일 안의 실행 문자열은 위 규칙대로 검사되거나(`-c`) 검사되지 않는다(파일). 효율 가드이며 보안 장치가 아니다.
 - 시험: `/usr/bin/python3 Tools/Hooks/claude_guard.py selftest`.
 - Codex는 Claude hook을 쓰지 않는다. 실행기 자체의 전체 실행 차단(1절)과 이 문서의 규칙이 그대로 적용된다.

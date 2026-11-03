@@ -23,6 +23,8 @@ from zoneinfo import ZoneInfo
 ROOT = Path('/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor')
 sys.path.insert(0, str(ROOT / 'Tools/Harness'))
 import tier as TIER   # noqa: E402  verification tiers / evidence records
+from play_probe import ATTACK as ATTACK_Q   # noqa: E402  047 H6: hero attack-layer state per hero
+import protect   # noqa: E402  047 H4: side-effect files (font cache) restored when they were clean before
 PROBE = 'DeadSurvivor.Editor.DSKeyArt045Verification'
 TOUCH = 'DeadSurvivor.Editor.DSProtoMain044Verification'
 SCREEN = 'DeadSurvivor.Editor.DSScreenVerification'
@@ -537,6 +539,24 @@ def _spawn_cause_selftest():
     return dict(status='PASS' if all(c.values()) else 'FAIL', cases=c)
 
 
+# 047 H6: scenes whose heroes carry the Attack047 upper-body layer; the short run checks that at least one attack plays
+ATTACK_LAYER_SCENES = ('Assets/DeadSurvivor/Scenes/Map046/Map046_Full.unity',)
+
+
+def attack_sample(max_samples=30):
+    """sample every 0.1 s until the first Slash/Shoot state (or max_samples). PASS = the layer exists and an attack
+    played: catches a lost layer/trigger after a controller or builder change, not attack timing or look."""
+    counts = {}
+    for _ in range(max_samples):
+        for item in filter(None, evaluate(ATTACK_Q).split(',')):
+            n, v = item.rsplit(':', 1); counts.setdefault(n, {'S': 0, 'H': 0, '-': 0})[v] += 1
+        if not counts or any(c['S'] + c['H'] for c in counts.values()):
+            break
+        time.sleep(0.1)
+    ok = bool(counts) and any(c['S'] + c['H'] for c in counts.values())
+    return ('PASS' if ok else 'FAIL'), (counts or 'NO_ATTACK047_LAYER')
+
+
 def skip_to_wave(n):
     for w in range(1, n):
         s = state()
@@ -551,9 +571,10 @@ def skip_to_wave(n):
 def run_short():
     """short tier (core-rules): leftover cleanup -> open -> Play -> squads B (0-3) and C (2-5): sortie, move, stop
     (S3B scenes: hero judge; other scenes: the party really moves and stops), one 1280x720 capture per squad for the
-    user, defeat -> reform -> lobby with no views left -> console / protected files / cleanup. About 1-2 minutes."""
+    user, defeat -> reform -> lobby with no views left -> console / protected files / cleanup. About 1-2 minutes.
+    Scenes in ATTACK_LAYER_SCENES also sample the hero attack layer once (squad B, 047 H6)."""
     subprocess.run(['unity', 'status', '--until-ready', '--project-path', str(ROOT)], capture_output=True, timeout=300)
-    report['sources'] = fingerprints(SOURCES); protected_before = fingerprints(PROTECTED); results = {}
+    report['sources'] = fingerprints(SOURCES); protected_before = fingerprints(PROTECTED); results = {}; side_snap = protect.snapshot()
     try: report['console_errors_before'] = console_errors()
     except Exception as e: report['console_errors_before'] = {'error': str(e)[:200]}
     pre = report['pre_cleanup'] = {}
@@ -575,6 +596,8 @@ def run_short():
             wait(lambda s: sorted(s['selected']) == list(picks), 'select_' + name)
             call('Click', START); wait(lambda s: s['state'] == 'battle' and s['wave'] == 1, 'battle_' + name); time.sleep(2.5)
             capture(name, sizes=[(1280, 720)])
+            if name == 'short_b' and SCENE in ATTACK_LAYER_SCENES:
+                results['attack_layer'], counts = attack_sample(); step('attack_layer', status=results['attack_layer'], counts=counts)
             if S3B:
                 results[name] = s3b_step(name, squad)
             else:
@@ -587,6 +610,10 @@ def run_short():
         report['flow'] = 'PASS'
     except Exception as e:
         report['error'] = str(e)[:1500]; report['error_call'] = report.get('last_call')
+        try:   # 048: game state at the failure, to tell a game defect from a checker defect (core-rules 0)
+            s = state(); report['state_at_error'] = {k: s.get(k) for k in ('state', 'wave', 'win', 'elapsed', 'teamHp', 'heroesAlive', 'enemies', 'selected', 'center')}
+        except Exception as e2:
+            report['state_at_error'] = 'UNAVAILABLE:' + str(e2)[:200]
     finally:
         attempt('touch_device', lambda: call('RemoveTouch', cls=TOUCH))
         if report.get('screen_resized'): attempt('game_view_size', lambda: call('Restore', cls=SCREEN))
@@ -597,6 +624,7 @@ def run_short():
         if report.get('run_in_background_override'):
             attempt('run_in_background', lambda: cli(['command', 'editor.playmode', 'set_run_in_background', '--', '--enable', 'false'], 60))
         attempt('scene_setup', lambda: call('Restore', retries=3))
+        report['side_effect_files'] = protect.restore(side_snap)   # before the protected-file comparison
         after = fingerprints(PROTECTED); report['protected_changed'] = [p for p in PROTECTED if protected_before[p] != after[p]]
         try:
             before_seq = max([e['seq'] for e in report['console_errors_before'].get('entries', [])] or [0])
@@ -609,8 +637,8 @@ def run_short():
         report['status'] = 'PASS' if ok else 'FAIL'
         report['finished'] = datetime.now(ZoneInfo('Asia/Seoul')).isoformat(); report['seconds'] = round(time.time() - T0, 1)
         save(); TIER.record(SCENE, 'short', report['status'], RUN, captured=not NOCAPTURE)
-        print(json.dumps(dict(status=report['status'], tier='short', results=results, error=report.get('error'), cleanup_errors=report.get('cleanup_errors'),
-                              protected_changed=report['protected_changed'], console_new=report['console_new_errors'], out=str(OUT.relative_to(ROOT)),
+        print(json.dumps(dict(status=report['status'], tier='short', results=results, error=report.get('error'), state_at_error=report.get('state_at_error'), cleanup_errors=report.get('cleanup_errors'),
+                              protected_changed=report['protected_changed'], side_effect_files=report.get('side_effect_files'), console_new=report['console_new_errors'], out=str(OUT.relative_to(ROOT)),
                               seconds=report['seconds']), ensure_ascii=False)[:2500])
 
 
@@ -622,7 +650,7 @@ def main():
         return run_short()
     subprocess.run(['unity', 'status', '--until-ready', '--project-path', str(ROOT)], capture_output=True, timeout=300)
     report['sources'] = fingerprints(SOURCES)
-    protected_before = fingerprints(PROTECTED)
+    protected_before = fingerprints(PROTECTED); side_snap = protect.snapshot()
     try:
         report['console_errors_before'] = console_errors()
     except Exception as e:
@@ -889,6 +917,7 @@ def main():
                 report.setdefault('cleanup_errors', {})['run_in_background_value'] = 'NOT_RESTORED_TO_' + str(report.get('run_in_background_before'))
         if report.get('open_attempted'):
             attempt('scene_setup', lambda: call('Restore', retries=3))
+        report['side_effect_files'] = protect.restore(side_snap)
         protected_after = fingerprints(PROTECTED)
         report['protected_changed'] = [p for p in PROTECTED if protected_before[p] != protected_after[p]]
         report['sources_after_match'] = fingerprints(SOURCES) == report['sources']

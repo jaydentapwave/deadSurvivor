@@ -261,7 +261,7 @@ namespace DeadSurvivor
                 teamTexts.Add(Text(box, "", 12, 8, width - 32, 60, 13));
                 BuildBattleItems(box, g.Team[i], width - 8);
             }
-            Text(page, "WASD 이동  /  SPACE 일시정지  /  1 정비 화면", 24, battleBottom - 25, W - 48, 22, 11, "#93a5a5");
+            Text(page, g.MapSession && g.MapSession.GetComponent<DSDayNight>() ? "WASD 이동  /  SPACE 일시정지  /  1 정비 화면  /  N 낮·밤" : "WASD 이동  /  SPACE 일시정지  /  1 정비 화면", 24, battleBottom - 25, W - 48, 22, 11, "#93a5a5");
             RefreshBattleItems();
             nextHud = 0;
         }
@@ -662,6 +662,9 @@ namespace DeadSurvivor
             var json = Field(d, "고급 설정 JSON · weights / waves", JsonUtility.ToJson(g.Config, true), 24, 310, dw - 48, jsonH, true);
             Button(d, "빠른 테스트", 24, H - 170, 160, 46, () => { duration.text = "15"; speed.text = "2"; });
             Button(d, "기본값 복원", 196, H - 170, 160, 46, () => { g.Config = JsonUtility.FromJson<RunSettings>(JsonUtility.ToJson(g.Data.settings)); Settings(); });
+            // 047: day/night look (map scenes with DSDayNight only)
+            var dayNight = g.MapSession ? g.MapSession.GetComponent<DSDayNight>() : null;
+            if (dayNight) Button(d, dayNight.Night ? "낮 화면으로" : "밤 화면으로", 368, H - 170, 170, 46, () => { dayNight.Toggle(); Settings(); });
             Button(d, "설정 적용", dw - 210, H - 170, 186, 46, () => { try { var c = JsonUtility.FromJson<RunSettings>(json.text); c.duration = float.Parse(duration.text); c.speed = float.Parse(speed.text); c.countScale = float.Parse(count.text); c.drops = int.Parse(drops.text); if (!ValidSettings(c)) throw new Exception("시간·배속·적 수·10개 웨이브·드랍 가중치를 확인하세요."); g.Config = c; g.TestControlsUsed = true; Dispose(ref modal); Toast("테스트 설정을 적용했습니다."); } catch (Exception ex) { Toast("설정 오류: " + ex.Message); } }, true);
         }
         public bool ValidSettings(RunSettings c) => c != null && c.duration >= 5 && c.duration <= 60 && (c.speed == 1 || c.speed == 2 || c.speed == 3) && c.countScale >= .1f && c.countScale <= 3 && c.drops >= 0 && c.drops <= 8 && c.weights != null && c.weights.Length > 0 && c.weights.All(w => g.Items.ContainsKey(w.id) && float.IsFinite(w.weight) && w.weight >= 0) && c.weights.Where(w => g.Items[w.id].expand == 0).Sum(w => w.weight) > 0 && c.waves != null && c.waves.Length == 10 && c.waves.All(w => w != null && float.IsFinite(w.duration) && w.duration > 0 && w.duration <= 180 && w.drops >= 0 && w.drops <= 8 && w.count >= 1 && w.count <= 3000 && w.hp > 0 && w.hp <= 20 && w.damage > 0 && w.damage <= 20 && w.types != null && w.types.Length > 0 && w.types.All(t => g.Monsters.ContainsKey(t))) && c.waves[9].drops == 0;

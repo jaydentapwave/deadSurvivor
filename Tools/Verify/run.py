@@ -55,6 +55,85 @@ def data_check(root):
     return {'status': 'FAIL' if errors else 'PASS', 'errors': errors,
             'scope': 'IDs and references only; not gameplay or balance verification'}
 
+BUILD_SETTINGS = 'ProjectSettings/EditorBuildSettings.asset'
+FX_RUNTIME = 'Assets/DeadSurvivor/Runtime/DSMapFx.cs'
+
+
+def build_scene_rows(root):
+    """(path, guid) of every entry under m_Scenes, as written (review 048 r001 #5: malformed entries are returned too,
+    so the check can fail them instead of skipping them). None = no build settings file."""
+    p = root / BUILD_SETTINGS
+    if not p.is_file():
+        return None
+    rows, inside, indent, cur = [], False, 0, None
+    for line in p.read_text().splitlines():
+        if not inside:
+            m = re.match(r'^(\s*)m_Scenes:\s*(\[\])?\s*$', line)
+            if m:
+                inside, indent = not m.group(2), len(m.group(1))
+            continue
+        if line.strip() and len(line) - len(line.lstrip()) <= indent and not line.lstrip().startswith('-'):
+            break                                   # next key at the m_Scenes level ends the list
+        m = re.match(r'^\s*-\s*(.*)$', line)
+        if m:
+            cur = {}; rows.append(cur); line = m.group(1)
+        m = re.match(r'^\s*(path|guid):\s*(.*?)\s*$', line)
+        if m and cur is not None:
+            cur[m.group(1)] = m.group(2)
+    return [(r.get('path', ''), r.get('guid', '')) for r in rows]
+
+
+def safe_scene_path(path):
+    return bool(re.fullmatch(r'Assets/[^\x00]+\.unity', path)) and '..' not in Path(path).parts
+
+
+def game_effect_sources(root):
+    return sorted((root / 'Assets/DeadSurvivor/Runtime').glob('DSGame*.cs'))
+
+
+def refs_check(root):
+    """Cross-file references a rebuild or a colour edit can silently break (047 H11, H13)."""
+    errors, warnings = [], []
+    # H13: a rebuilt scene with a new GUID leaves the build settings pointing at nothing (047-E11)
+    rows = build_scene_rows(root)
+    if rows is None:
+        errors.append('Missing ' + BUILD_SETTINGS)
+        rows = []
+    elif not rows:
+        errors.append('No scenes in ' + BUILD_SETTINGS)
+    for path, guid in rows:
+        meta = root / (path + '.meta')
+        if not safe_scene_path(path) or not re.fullmatch(r'[0-9a-f]{32}', guid):
+            errors.append(f'Build scene entry malformed: path={path!r} guid={guid!r}')
+        elif not (root / path).is_file():
+            errors.append('Build scene missing: ' + path)
+        elif not meta.is_file():
+            errors.append('Build scene has no .meta: ' + path)
+        else:
+            m = re.search(r'^guid:\s*([0-9a-f]{32})', meta.read_text(), re.M)
+            if not m or m.group(1) != guid:
+                errors.append(f'Build scene GUID mismatch: {path} settings={guid} meta={m.group(1) if m else None}')
+    # H11: DSMapFx picks the 3D effect by the Burst colour; a colour without a case falls back to default sparks
+    produced, nonliteral = set(), []
+    for src in game_effect_sources(root):
+        for call in re.findall(r'(?<![\w.])Burst\(([^;]*?)\);', src.read_text()):
+            m = re.search(r',\s*"(#[0-9A-Fa-f]{6})"\s*$', call)
+            if m:
+                produced.add(m.group(1).lower())
+            elif not call.startswith('Vector2 pos'):       # the definition itself
+                nonliteral.append(f'{src.name}: Burst({call[:60]})')
+    fx_path = root / FX_RUNTIME
+    handled = {c.lower() for c in re.findall(r'case\s*"(#[0-9A-Fa-f]{6})"\s*:', fx_path.read_text())} if fx_path.is_file() else set()
+    if not fx_path.is_file():
+        warnings.append('No ' + FX_RUNTIME + ' (FX colour check skipped)')
+    else:
+        errors += [f'Burst colour {c} has no case in DSMapFx (it would show as default sparks)' for c in sorted(produced - handled)]
+        errors += ['Burst colour is not a literal, DSMapFx cannot map it: ' + n for n in nonliteral]
+        warnings += [f'DSMapFx case {c} matches no Burst colour (dead mapping?)' for c in sorted(handled - produced)]
+    return {'status': 'FAIL' if errors else 'PASS', 'build_scenes': len(rows), 'fx_colours': len(produced),
+            'errors': errors, 'warnings': warnings, 'scope': 'build-scene GUIDs and Burst colour -> DSMapFx cases; static only'}
+
+
 def map_oracle_foundation(root):
     from map_check import foundation_check
     result = foundation_check(root / 'docs/design/map-harness-fixtures.json')
@@ -78,7 +157,7 @@ def fingerprint():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('stage', choices=['docs', 'data', 'local', 'unity', 'all'])
+    parser.add_argument('stage', choices=['docs', 'data', 'refs', 'local', 'unity', 'all'])
     parser.add_argument("--loadouts", action="store_true")
     parser.add_argument("--experiments", action="store_true")
     parser.add_argument("--screens", action="store_true")
@@ -94,7 +173,7 @@ def main():
     gate_before = None
     if args.stage in ('unity', 'all'):
         gate_before = evidence_context(ROOT, Path(args.project))
-    for name, fn in [('docs', documents), ('data', data_check),
+    for name, fn in [('docs', documents), ('data', data_check), ('refs', refs_check),
                      ('map_oracle_foundation', map_oracle_foundation)]:
         if args.stage in (name, 'local', 'all'):
             try:

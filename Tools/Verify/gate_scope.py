@@ -55,6 +55,13 @@ def dependencies(root, source, policy):
     oracle = {p: file_state(root, p) for p in (
         'Tools/Verify/map_check.py', 'Tools/Verify/map_io.py', 'Tools/Verify/map_oracle.py',
         'docs/design/map-harness-fixtures.json')}
+    # refs (047 H11/H13): build settings, each listed scene's .meta (and whether the scene exists), Burst sources, DSMapFx
+    from run import BUILD_SETTINGS, FX_RUNTIME, build_scene_rows, game_effect_sources, safe_scene_path
+    scenes = [path for path, _ in (build_scene_rows(root) or []) if safe_scene_path(path)]   # malformed rows: the
+    # check fails them; the build settings file itself is an input, so any edit to them reruns the check
+    ref_paths = [BUILD_SETTINGS, FX_RUNTIME] + [s + '.meta' for s in scenes] + [str(p.relative_to(root)) for p in game_effect_sources(root)]
+    refs = {p: file_state(root, p) for p in sorted(set(ref_paths))}
+    refs['@build_scene_exists'] = {s: (root / s).is_file() for s in scenes}
     spec = policy['active_map']
     map_paths = {spec[k] for k in ('layout', 'reference', 'cases', 'audit', 'render_manifest')}
     map_paths.update(spec['sheets'])
@@ -66,7 +73,7 @@ def dependencies(root, source, policy):
     map_paths.add('docs/art/maps/map-meadow-007-r001/render_sheets.py')
     mapped = {p: file_state(root, p) for p in sorted(map_paths)}
     return {name: {'common': common, 'inputs': inputs} for name, inputs in (
-        ('docs', doc_inputs), ('data', data), ('map_oracle_foundation', oracle),
+        ('docs', doc_inputs), ('data', data), ('refs', refs), ('map_oracle_foundation', oracle),
         ('map_preparation', mapped))}
 
 
@@ -106,6 +113,8 @@ def valid_result(name, value):
         return type(value.get('files')) is int and value['files'] > 0 and value.get('errors') == []
     if name == 'data':
         return value.get('errors') == []
+    if name == 'refs':
+        return value.get('errors') == [] and type(value.get('build_scenes')) is int and value['build_scenes'] > 0
     if name == 'map_oracle_foundation':
         return (value.get('checks_run') == 8 and value.get('failed_checks') == []
                 and value.get('errors') == [] and value.get('unity_status') == 'NOT_RUN')

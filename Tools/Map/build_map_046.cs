@@ -30,7 +30,7 @@ public static class Map046Build
  class LDoc{public List<XY> boundary_px;public List<LObj> objects;}
  class PDoc{public List<float> start_px;public float road_width_px;public Dictionary<string,List<XY>> roads;public List<Dirt> dirt;public List<Prop> props;}
  class Dirt{public float x,y,rx,ry,rot;}
- class Prop{public string model,group;public float x,y,s,r,yaw;public bool occluder,outside;}
+ class Prop{public string model,group;public float x,y,s,r,yaw;public bool occluder,outside;public int v;}
 
  static Vector3 W(Vector2 px,float y=0)=>new((px.x-Origin.x)*.08f,y,-(px.y-Origin.y)*.08f);
  static Vector2 Px(Vector3 w)=>new(w.x/.08f+Origin.x,-w.z/.08f+Origin.y);
@@ -67,7 +67,7 @@ public static class Map046Build
   Directory.CreateDirectory(Out);
   // own outputs only
   if(EditorSceneManager.GetActiveScene().path==Target)EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
-  if(File.Exists(Target))AssetDatabase.DeleteAsset(Target);
+  bool rebuild=File.Exists(Target);   // 047-E11: keep the scene GUID (build settings refer to it); overwrite the content instead of delete + copy
   if(AssetDatabase.IsValidFolder(ArtDir))AssetDatabase.DeleteAsset(ArtDir);
   AssetDatabase.CreateFolder(Dir,"Art");
   AssetDatabase.ImportAsset(Dir+"/Layout046.json",ImportAssetOptions.ForceUpdate);
@@ -84,7 +84,10 @@ public static class Map046Build
   mStoneT=Load<Material>(P45+"Art_s2/Stone045s2.mat");mTree=Load<Material>(P45+"Art_s2/Foliage045s2.mat");mWater=Load<Material>(P45+"Art_s2/Water045s2.mat");mDecor=Load<Material>(P45+"Art_s2/Decor045s2.mat");
   stoneModel=Load<GameObject>(P45+"Art_s2/Tripo/stone045.fbx");boulderModel=Load<GameObject>(P45+"Art_s2/Tripo/boulder045.fbx");treeModel=Load<GameObject>(P45+"Art_s2/Tripo/tree045.fbx");
 
-  if(!AssetDatabase.CopyAsset(Source,Target))throw new Exception("COPY_FAILED");
+  string guidBefore=rebuild?AssetDatabase.AssetPathToGUID(Target):null;
+  if(rebuild){File.Copy(Source,Target,true);AssetDatabase.ImportAsset(Target,ImportAssetOptions.ForceUpdate);}
+  else if(!AssetDatabase.CopyAsset(Source,Target))throw new Exception("COPY_FAILED");
+  if(rebuild&&AssetDatabase.AssetPathToGUID(Target)!=guidBefore)throw new Exception("SCENE_GUID_CHANGED");
   var scene=EditorSceneManager.OpenScene(Target,OpenSceneMode.Single);
   var session=UnityEngine.Object.FindObjectsByType<DSMapSession>(FindObjectsInactive.Include).Single();var root=session.transform;var vis=session.Visibility;
   // remove the old map dressing (blockout + 037/038/045 layers); keep camera, sun, volume, game, rock holder
@@ -127,7 +130,7 @@ public static class Map046Build
    var pos=W(new Vector2(p.x,p.y));
    if(p.model=="bush")
    {
-    var mesh=Bush(p.r);
+    var mesh=Bush(p.r,p.v);
     if(p.outside&&!p.occluder){var a=bucket.At("outside_bush",new Vector2(p.x,p.y));a.ci.Add(new CombineInstance{mesh=mesh,transform=Matrix4x4.Translate(pos)});outsideCombined++;continue;}
     var r=Add(p.outside?Group("Outside"):Group(p.group),"Bush",mesh,mBush,"bushes",true);r.transform.position=pos;if(p.occluder)Block(r);continue;
    }
@@ -149,10 +152,21 @@ public static class Map046Build
    var (layer,cx,cy)=kv.Key;var a=kv.Value;Mesh m;
    if(a.ci.Count>0){m=new Mesh{indexFormat=IndexFormat.UInt32};m.CombineMeshes(a.ci.ToArray(),true,true);m.RecalculateBounds();}
    else{if(a.t.Count==0)continue;m=MakeMesh(a.v,a.uv,a.t);if(layer=="decor"){m.SetNormals(a.v.Select(_=>Vector3.up).ToList());}}
-   var mat=layer switch{"ground"=>mGround,"dirt"=>mSoil,"road_bed"=>mPath,"cobbles"=>mPath,"rim"=>mStoneT,"decor"=>mDecor,"outside_tree"=>mTree,"outside_bush"=>mBush,_=>throw new Exception("LAYER:"+layer)};
+   var mat=layer switch{"pebbles"=>mPath,"ground"=>mGround,"dirt"=>mSoil,"road_bed"=>mPath,"cobbles"=>mPath,"rim"=>mStoneT,"decor"=>mDecor,"outside_tree"=>mTree,"outside_bush"=>mBush,_=>throw new Exception("LAYER:"+layer)};
    bool shadow=layer is "outside_tree" or "outside_bush";
    Add(Group("Chunks_"+layer),$"{layer}_{cx}_{cy}",m,mat,layer,shadow);
   }
+  // 047: re-attach what later builders added (this builder starts from a fresh copy of the s3b scene): monster actor set,
+  // combat effects (DSMapFx + Fx047 materials) and day/night. Missing assets are skipped (first build).
+  var set046=AssetDatabase.LoadAssetAtPath<DSMapActorSet>("Assets/DeadSurvivor/Art/Characters/Monster046/ActorSet046.asset");
+  if(set046){var pso=new SerializedObject(session.GetComponent<DSMapPresentation>());pso.FindProperty("Actors").objectReferenceValue=set046;pso.ApplyModifiedPropertiesWithoutUndo();}
+  var fxSolid=AssetDatabase.LoadAssetAtPath<Material>("Assets/DeadSurvivor/Art/Fx047/Fx047_Solid.mat");
+  if(fxSolid){var fx=session.GetComponent<DSMapFx>()??session.gameObject.AddComponent<DSMapFx>();var fso=new SerializedObject(fx);fso.FindProperty("Solid").objectReferenceValue=fxSolid;
+   fso.FindProperty("Fade").objectReferenceValue=AssetDatabase.LoadAssetAtPath<Material>("Assets/DeadSurvivor/Art/Fx047/Fx047_Fade.mat");fso.FindProperty("Particles").objectReferenceValue=AssetDatabase.LoadAssetAtPath<Material>("Assets/DeadSurvivor/Art/Fx047/Fx047_Particles.mat");fso.ApplyModifiedPropertiesWithoutUndo();}
+  { var dn=session.GetComponent<DSDayNight>()??session.gameObject.AddComponent<DSDayNight>();var dso=new SerializedObject(dn);
+    dso.FindProperty("Sun").objectReferenceValue=UnityEngine.Object.FindObjectsByType<Light>(FindObjectsInactive.Include).FirstOrDefault(l=>l.type==LightType.Directional);
+    dso.FindProperty("Look").objectReferenceValue=UnityEngine.Object.FindObjectsByType<DSLookGlobals>(FindObjectsInactive.Include).FirstOrDefault();dso.ApplyModifiedPropertiesWithoutUndo(); }
+  report["reattached"]=new{actors=set046?set046.name:null,fx=fxSolid!=null,dayNight=true};
   // occluders
   var vso=new SerializedObject(vis);var bp=vso.FindProperty("Blockers");var bl=blockers.Where(r=>r).Distinct().ToArray();bp.arraySize=bl.Length;for(int i=0;i<bl.Length;i++)bp.GetArrayElementAtIndex(i).objectReferenceValue=bl[i];vso.ApplyModifiedPropertiesWithoutUndo();
   if(UnityEngine.Object.FindObjectsByType<Collider>(FindObjectsInactive.Include).Length!=0)throw new Exception("COLLIDER_PRESENT");
@@ -166,6 +180,11 @@ public static class Map046Build
   AssetDatabase.CreateAsset(meshes[0],ArtDir+"/Meshes046.asset");foreach(var m in meshes.Skip(1))AssetDatabase.AddObjectToAsset(m,meshes[0]);
   EditorSceneManager.MarkSceneDirty(scene);if(!EditorSceneManager.SaveScene(scene))throw new Exception("SAVE_FAILED");
   foreach(var o in AssetDatabase.LoadAllAssetsAtPath(ArtDir+"/Meshes046.asset"))if(o)AssetDatabase.SaveAssetIfDirty(o);
+  // 046-12 lesson: reload and check the references survived the save
+  scene=EditorSceneManager.OpenScene(Target,OpenSceneMode.Single);var s2=UnityEngine.Object.FindObjectsByType<DSMapSession>(FindObjectsInactive.Include).Single();visual=s2.transform.Find("Map046_Visual");
+  if(set046&&s2.GetComponent<DSMapPresentation>().Actors!=set046)throw new Exception("ACTORS_NOT_SAVED");
+  if(fxSolid&&(!s2.GetComponent<DSMapFx>()||s2.GetComponent<DSMapFx>().Solid!=fxSolid))throw new Exception("FX_NOT_SAVED");
+  if(!s2.GetComponent<DSDayNight>()||!s2.GetComponent<DSDayNight>().Sun)throw new Exception("DAYNIGHT_NOT_SAVED");
   var all=visual.GetComponentsInChildren<Renderer>(true);
   report["status"]="BUILT";report["target"]=Target;report["seconds"]=Math.Round(clock.Elapsed.TotalSeconds,1);
   report["obstacles"]=L.objects.Count;report["renderers"]=all.Length;report["triangles_by_layer"]=tris;report["triangles_total"]=tris.Values.Sum();
@@ -408,8 +427,15 @@ public static class Map046Build
   m.RecalculateBounds();return m;
  }
  // faceted bush dome (as 045 stage 1)
- static Mesh Bush(float r)
+ // 047 variants: 0 green, 1 dark green, 2 flowering (white/orange/yellow dots on top), 3 tall (two stacked domes)
+ static Mesh Bush(float r,int variant)
  {
+  if(variant==3)
+  {
+   var low=Bush(r,0);var top=Bush(r*.68f,1);var ci=new[]{new CombineInstance{mesh=low,transform=Matrix4x4.identity},new CombineInstance{mesh=top,transform=Matrix4x4.Translate(new Vector3(R(-.08f,.08f)*r,r*.95f,R(-.08f,.08f)*r))}};
+   var tall=new Mesh();tall.CombineMeshes(ci,true,true);tall.RecalculateBounds();UnityEngine.Object.DestroyImmediate(low);UnityEngine.Object.DestroyImmediate(top);return tall;
+  }
+  int cA=variant==1?2:5,cB=variant==1?3:6;
   float J(float x)=>R(-x,x);float g=(1+Mathf.Sqrt(5))/2;
   var p=new List<Vector3>{new(-1,g,0),new(1,g,0),new(-1,-g,0),new(1,-g,0),new(0,-1,g),new(0,1,g),new(0,-1,-g),new(0,1,-g),new(g,0,-1),new(g,0,1),new(-g,0,-1),new(-g,0,1)};
   var f=new List<int[]>{new[]{0,11,5},new[]{0,5,1},new[]{0,1,7},new[]{0,7,10},new[]{0,10,11},new[]{1,5,9},new[]{5,11,4},new[]{11,10,2},new[]{10,7,6},new[]{7,1,8},new[]{3,9,4},new[]{3,4,2},new[]{3,2,6},new[]{3,6,8},new[]{3,8,9},new[]{4,9,5},new[]{2,4,11},new[]{6,2,10},new[]{8,6,7},new[]{9,8,1}};
@@ -418,7 +444,14 @@ public static class Map046Build
   var f2=new List<int[]>();foreach(var x in f){int a=M(x[0],x[1]),b=M(x[1],x[2]),c=M(x[2],x[0]);f2.AddRange(new[]{new[]{x[0],a,c},new[]{x[1],b,a},new[]{x[2],c,b},new[]{a,b,c}});}
   var q=p.Select(x=>x.normalized*(1+J(.07f))).Select(x=>new Vector3(x.x*r,(x.y*.85f+.78f)*r,x.z*r)).ToList();
   var v=new List<Vector3>();var uv=new List<Vector2>();var t=new List<int>();int shade=rng.Next(3);
-  foreach(var x in f2){var cell=Cell(x[0]%5==shade?6:5);int i=v.Count;v.Add(q[x[0]]);v.Add(q[x[1]]);v.Add(q[x[2]]);uv.Add(cell);uv.Add(cell);uv.Add(cell);t.AddRange(new[]{i,i+1,i+2});}
+  foreach(var x in f2){var cell=Cell(x[0]%5==shade?cB:cA);int i=v.Count;v.Add(q[x[0]]);v.Add(q[x[1]]);v.Add(q[x[2]]);uv.Add(cell);uv.Add(cell);uv.Add(cell);t.AddRange(new[]{i,i+1,i+2});}
+  if(variant==2)
+  {
+   int fc=new[]{23,28,31}[rng.Next(3)];var top=q.Where(x=>x.y>r*1.1f).ToList();int nf=Mathf.Min(top.Count,7+rng.Next(5));
+   for(int k=0;k<nf;k++){var p0=top[rng.Next(top.Count)]*1.03f;float s=r*R(.09f,.13f);var cell=Cell(fc);int i=v.Count;
+    v.Add(p0+new Vector3(-s,0,0));v.Add(p0+new Vector3(0,0,s));v.Add(p0+new Vector3(s,0,0));v.Add(p0+new Vector3(0,0,-s));v.Add(p0+Vector3.up*s*.8f);for(int j=0;j<5;j++)uv.Add(cell);
+    t.AddRange(new[]{i,i+4,i+1,i+1,i+4,i+2,i+2,i+4,i+3,i+3,i+4,i});}
+  }
   var m=new Mesh();m.SetVertices(v);m.SetUVs(0,uv);m.SetTriangles(t,0);m.SetColors(v.Select(_=>Color.white).ToList());m.RecalculateNormals();
   if(Vector3.Dot(m.normals[0],(v[0]+v[1]+v[2])/3-new Vector3(0,.78f*r,0))<0){t.Reverse();m.SetTriangles(t,0);m.RecalculateNormals();}
   m.RecalculateBounds();return m;
@@ -458,11 +491,17 @@ public static class Map046Build
    if(inObs)continue;
    float dRoad=roads.Min(r=>LineDist(p,r));if(dRoad<12)continue;
    float dEdge=EdgeDist(p,boundary);
-   float prob=.035f+(dObs<12?.5f:dObs<26?.2f:0)+(dRoad<18?.22f:0)+(dEdge<16?.3f:0);
+   float prob=.035f+(dObs<12?.72f:dObs<26?.25f:0)+(dRoad<18?.22f:0)+(dEdge<16?.3f:0);
+   // 047: pebbles near roads and stones (low, visual only)
+   if((dRoad<22||dObs<20)&&rng.NextDouble()<.05)Pebbles(b.At("pebbles",p),W(p));
    if(rng.NextDouble()>prob)continue;
-   bool flower=(dObs<16||dEdge<14)&&rng.NextDouble()<.55;var acc=b.At("decor",p);
+   bool flower=(dObs<16||dEdge<14)&&rng.NextDouble()<.7;var acc=b.At("decor",p);
    Clump(acc,W(p),flower);
   }
+ }
+ static void Pebbles(Acc a,Vector3 c)
+ {
+  int n=2+rng.Next(3);for(int i=0;i<n;i++){var q=c+new Vector3(R(-.14f,.14f),0,R(-.14f,.14f));Cobble(a,q+Vector3.up*.012f,R(.035f,.065f),R(.02f,.045f),R(0,360),new[]{19,20,21,22}[rng.Next(4)]);}
  }
  static void Clump(Acc a,Vector3 c,bool flower)
  {

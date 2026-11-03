@@ -199,7 +199,7 @@ REGION_KINDS = {
     'ruins': [('boulder', .45), ('ring', .30), ('row', .25)],
 }
 SPACING = {'north': 84, 'center': 88, 'east': 84, 'south': 82, 'grove': 74, 'ruins': 86}
-HEIGHT = {'ring': 16, 'arc': 16, 'row': 24, 'boulder': 24, 'grove': 32, 'lake': 16, 'pond': 16, 'ruin': 24, 'pillar': 32, 'altar': 24, 'keyart': 16}
+HEIGHT = {'ring': 16, 'arc': 16, 'row': 24, 'boulder': 24, 'grove': 32, 'lake': 16, 'pond': 16, 'ruin': 24, 'pillar': 32, 'altar': 24, 'keyart': 16, 'bushes': 24}
 RUINS_C, RUINS_R, RUINS_T = (262.0, 796.0), 92.0, 17.0
 
 
@@ -234,6 +234,8 @@ def make(kind, c, rng, reg):
         return blob(c, rng.uniform(13, 22), rng, 10, .18)
     if kind == 'grove':
         return blob(c, rng.uniform(22, 34), rng, 14, .16)
+    if kind == 'bushes':   # 047: small bush patch (2-4 domes of mixed variants)
+        return blob(c, rng.uniform(13, 19), rng, 12, .18)
     raise ValueError(kind)
 
 
@@ -338,6 +340,10 @@ def pole(poly):
     return best, bd
 
 
+def area_of(poly):
+    return abs(sum(a[0] * b[1] - a[1] * b[0] for a, b in edges(poly))) / 2
+
+
 def props_for(o, rng):
     kind, poly = o['kind'], o['poly']
     out = []
@@ -352,6 +358,9 @@ def props_for(o, rng):
             out.append({'model': 'boulder045', 'x': c[0], 'y': c[1], 's': round(min(1.1, (d - 7) / BOULDER_R), 3), 'yaw': rng.uniform(0, 360), 'occluder': True})
     elif kind in ('boulder', 'altar'):
         c, d = pole(poly)
+        if kind == 'boulder' and rng.random() < .5:
+            for q in fit_points(poly, rng, 4.5, 1, 0, prefer=lambda q: math.dist(q, c) > d * .9):
+                out.append({'model': 'bush', 'x': q[0], 'y': q[1], 'r': round(min(edge_dist(q, poly) - .6, 6) * .08, 3), 'v': rng.choice([0, 1, 2]), 'occluder': True})
         s = min(2.2, (d - 1) / BOULDER_R)
         out.append({'model': 'boulder045', 'x': c[0], 'y': c[1], 's': round(s, 3), 'yaw': rng.uniform(0, 360), 'occluder': True})
         for _ in range(rng.randint(0, 2)):
@@ -359,6 +368,12 @@ def props_for(o, rng):
             pts = fit_points(poly, rng, BOULDER_R * s2, 1, 0)
             if pts and math.dist(pts[0], c) > BOULDER_R * (s + s2) * .8:
                 out.append({'model': 'boulder045', 'x': pts[0][0], 'y': pts[0][1], 's': round(s2, 3), 'yaw': rng.uniform(0, 360), 'occluder': True})
+    elif kind == 'bushes':
+        n = 2 if area_of(poly) < 700 else 3 + (rng.random() < .4)
+        for q in fit_points(poly, rng, 5.0, n, 7):
+            r = min(edge_dist(q, poly) - .8, rng.uniform(5.5, 8.5))
+            if r >= 4:
+                out.append({'model': 'bush', 'x': q[0], 'y': q[1], 'r': round(r * .08, 3), 'v': rng.choice([0, 0, 1, 2, 3]), 'occluder': True})
     elif kind == 'grove':
         area = abs(sum(a[0] * b[1] - a[1] * b[0] for a, b in edges(poly))) / 2
         n = max(1, min(5, int(area / 900)))
@@ -409,25 +424,27 @@ def outside_props(bnd, rng):
             acc += L
         return E[-1][1], (0, 1)
 
-    for row, (off0, off1, step, tree_p) in enumerate([(4, 12, 30, 1.0), (40, 66, 26, 0.0), (80, 125, 28, 0.0)]):
+    for row, (off0, off1, step, tree_p) in enumerate([(4, 12, 30, 1.0), (40, 66, 26, 0.0), (80, 125, 28, 0.0), (3, 8, 31, 0.0)]):
         d = rng.uniform(0, step)
         while d < per:
             p, n = at(d)
             d += step * rng.uniform(.8, 1.2)
             tree = rng.random() < tree_p
             s = rng.uniform(.8, 1.08) if tree else 0
-            r = rng.uniform(.9, 1.5)
+            r = rng.uniform(.9, 1.5) if row < 3 else rng.uniform(.4, .65)   # row 3 (047): low bushes between the row-1 trees
             foot = TREE_LOW_R * s if tree else r / .08
             q = (p[0] + n[0] * (foot + rng.uniform(off0, off1)), p[1] + n[1] * (foot + rng.uniform(off0, off1)))
             if inside(q, bnd) or edge_dist(q, bnd) < foot + 2:
                 continue
             item = {'model': 'tree045', 's': round(s, 3), 'yaw': rng.uniform(0, 360)} if tree else {'model': 'bush', 'r': round(r, 3)}
-            item.update({'x': round(q[0], 2), 'y': round(q[1], 2), 'occluder': row == 0, 'outside': True})
+            item.update({'x': round(q[0], 2), 'y': round(q[1], 2), 'occluder': row in (0, 3), 'outside': True})
+            if not tree:
+                item['v'] = rng.choice([0, 0, 1, 2]) if row == 3 else rng.choice([0, 1])
             out.append(item)
     return out
 
 
-def dirt_patches(bnd, obstacles, roads, rng, count=175):
+def dirt_patches(bnd, obstacles, roads, rng, count=135):
     out = []
     x0, y0, x1, y1 = bbox(bnd)
     for _ in range(6000):
@@ -513,6 +530,27 @@ def main(seed=4601):
             continue
         add(kind, p, anchor=False)
 
+    # 047 richness: bush patches between the main clusters (own spacing; same gap and road/boundary rules)
+    added = 0
+    for _ in range(40000):
+        if added >= 22 or len(objs) >= 118:
+            break
+        c = (rng.uniform(90, 1100), rng.uniform(70, 1050))
+        if region(c) == 'keyart' or not inside(c, bnd) or math.dist(c, RUINS_C) < RUINS_R + 60:
+            continue
+        if any(math.dist(c, centroid(o['poly'])) < 56 for o in objs):
+            continue
+        p = make('bushes', c, rng, region(c))
+        if not simple(p) or not all(inside(v, bnd) for v in p) or min(edge_dist(v, bnd) for v in p) < EDGE_GAP:
+            continue
+        if bb_hit(bbox(p), (KEYART[0] - 30, KEYART[1] - 30, KEYART[2] + 30, KEYART[3] + 30)):
+            continue
+        if any(polyline_dist(p, l) < ROAD_CLEAR for l in roads.values()):
+            continue
+        if any(bb_hit(bbox(p, 36), bbox(o['poly'])) and poly_gap(p, o['poly']) < 36 for o in objs):
+            continue
+        add('bushes', p, anchor=False); added += 1
+
     # connectivity (largest monster radius): remove fill objects that close off pockets
     removed = []
     for it in range(12):
@@ -585,7 +623,7 @@ def main(seed=4601):
     return 0 if not problems else 1
 
 
-COLORS = {'keyart_ring': (240, 200, 70), 'ring': (150, 170, 150), 'arc': (150, 170, 150), 'row': (170, 160, 150), 'boulder': (140, 140, 150),
+COLORS = {'bushes': (60, 150, 60), 'keyart_ring': (240, 200, 70), 'ring': (150, 170, 150), 'arc': (150, 170, 150), 'row': (170, 160, 150), 'boulder': (140, 140, 150),
           'grove': (40, 110, 50), 'lake': (80, 170, 230), 'pond': (80, 170, 230), 'ruin': (200, 180, 150), 'pillar': (200, 180, 150), 'altar': (140, 140, 150)}
 
 

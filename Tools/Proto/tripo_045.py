@@ -82,6 +82,8 @@ def _secret():
     return _SECRET[0]
 
 
+# 047 H8: approval text is stored as 'user_approval'. A key named 'authorization' is treated as an HTTP credential and
+# redacted, which is why the request-frozen.json files written before 2026-11-03 show '[REDACTED]' instead of the approval.
 def redact(v):
     if isinstance(v, dict):
         return {k: ('[REDACTED]' if any(s in k.lower() for s in ('api_key', 'apikey', 'authorization', 'token', 'secret')) else redact(x)) for k, x in v.items()}
@@ -229,7 +231,7 @@ def gen_command(cmd, asset, d, img, cap):
         if j: raise SystemExit('ALREADY_FROZEN')
         many = isinstance(img, list)
         auth = {2: AUTH, 4: AUTH4}.get(stage(asset)) or (AUTH3V2 if asset.endswith('v2') else AUTH3)
-        req = dict(scope=f'045_STAGE{stage(asset)}', asset=asset, created_at=now(), authorization=auth, cap_credits=cap,
+        req = dict(scope=f'045_STAGE{stage(asset)}', asset=asset, created_at=now(), user_approval=auth, cap_credits=cap,
                    concept=[str(x.relative_to(ROOT)) for x in img] if many else str(img.relative_to(ROOT)),
                    concept_sha256=[sha(x) for x in img] if many else sha(img), spec=SPECS[asset], planned_args=args_for(asset, img, False),
                    upload='concept PNG only', visibility='UNVERIFIED: CLI 0.8.1 docs expose no public/private parameter; no publish/share command is used')
@@ -293,7 +295,20 @@ ANIM = {  # paid anim steps run strictly in order (prev must be DONE); src = who
     'check': dict(prev='gen', src='gen', est=0, args=lambda tid: ['anim', 'check', tid]),
     'rig': dict(prev='check', src='gen', est=25, args=lambda tid: ['anim', 'rig', tid, '--rig-type', 'biped', '--spec', 'unity', '--out-format', 'fbx', '--yes']),
     'retarget': dict(prev='rig', src='rig', est=20, args=lambda tid: ['anim', 'retarget', tid, '--animation', 'preset:idle', 'preset:run', '--animate-in-place', '--out-format', 'fbx', '--yes']),
+    # 047: melee heroes use slash, ranged/caster/healer heroes use shoot. Applied to the same rig task.
+    'attack': dict(prev='rig', src='rig', est=20, args=lambda tid: ['anim', 'retarget', tid, '--animation', 'preset:slash', 'preset:shoot', '--animate-in-place', '--out-format', 'fbx', '--yes'],
+                   auth=("User approved the hero attack motions on 2026-11-03: '1번부터해서 4번까지 모두 작업을 진행해줘' answering the listed "
+                         "item '영웅 공격 동작: Tripo 동작 추가, 크레딧 필요(동작 1개당 약 10)' (047).")),
 }
+
+
+def step_auth(asset, name):
+    """047 H8: the user approval behind a paid anim step, written to the journal before submit. Steps without their own
+    'auth' fall back to the approval of the generation they extend (rig/retarget were part of the stage-3 approvals)."""
+    own = ANIM[name].get('auth')
+    if own:
+        return own
+    return {2: AUTH, 4: AUTH4}.get(stage(asset)) or (AUTH3V2 if asset.endswith('v2') else AUTH3)
 
 
 REJECT_HTTP = (400, 404, 422)
@@ -341,10 +356,12 @@ def anim_step(asset, d, name, cap):
         set_state(asset, anim=aa, note=f'anim {name}: {kw.get("state")}')
     if st.get('state') in (None, 'NEW'):
         est = ANIM[name]['est']; args = ANIM[name]['args'](src) + ['--no-wait']
+        auth = step_auth(asset, name)
+        if est and not auth: raise SystemExit('NO_AUTHORIZATION:' + name)
         with stage_lock(asset):
             if est and spent(stage(asset)) + est > cap: raise SystemExit(f'CAP_EXCEEDED:{spent(stage(asset))}+{est}>{cap}')
             b0 = balance(); save(d / f'{name}-balance-before.json', dict(at=now(), **b0))
-            put(state='SUBMITTING', estimate=est, source_task=src, args=args)
+            put(state='SUBMITTING', estimate=est, source_task=src, args=args, user_approval=auth)
         code, out, err = cli(args, 180)
         save(d / f'{name}-submit.json', dict(exit=code, out=out, stderr=err))
         tid = out.get('task_id')
