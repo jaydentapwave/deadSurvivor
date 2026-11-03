@@ -16,7 +16,12 @@ This is a measuring tool, not a verification tier: it records no tier evidence a
     --interval S        seconds between captures (default 0.3; effects last 0.2-0.5 s -> use bursts, 047 H7)
     --night             switch DSDayNight to night (2.2 s transition) before the captures
     --attack N          sample the hero attack layer N times every 0.1 s (047 H6)
-    --perf S            measure for S seconds: fps, draw calls, set-pass, triangles, shadow casters (047 H12)
+    --perf S            measure for S seconds: fps, and the median (and max) of draw calls, set-pass, triangles,
+                        shadow casters sampled about once a second (047 H12, 049)
+    --mobile            render with Mobile_RPAsset while measuring (the budget basis, docs/workflows/performance.md)
+    --count-scale X     monster count multiplier for the run (game setting 0.1-3; load measurements)
+    --assets            no Play: print the active scene's actor set (renderers, sub-meshes, materials, triangles,
+                        shadows, instancing) — look at the assets before proposing an optimisation (049-1)
     --label NAME        output folder suffix
     --dry-run           print the plan only (no Unity)
     --selftest          argument/plan checks without Unity
@@ -61,6 +66,9 @@ def parse(argv):
     p.add_argument('--night', action='store_true')
     p.add_argument('--attack', type=int, default=0)
     p.add_argument('--perf', type=float, default=0.0)
+    p.add_argument('--mobile', action='store_true')
+    p.add_argument('--count-scale', type=float, default=0.0)
+    p.add_argument('--assets', action='store_true')
     p.add_argument('--label', default='probe')
     p.add_argument('--dry-run', action='store_true')
     p.add_argument('--selftest', action='store_true')
@@ -77,11 +85,12 @@ def parse(argv):
     if not 0 <= a.perf <= 120: errs.append('perf: 0-120 s')
     if not 0 <= a.settle <= 120 or not 0 <= a.interval <= 10: errs.append('settle/interval out of range')
     if not all(ch.isalnum() or ch in '-_' for ch in a.label): errs.append('label: letters, digits, - and _ only')
+    if a.count_scale and not 0.1 <= a.count_scale <= 3: errs.append('count-scale: 0.1-3 (game setting range)')
     return a, squad, errs
 
 
 def plan(a, squad):
-    steps = [f'open {a.scene}', 'enter Play', f'select {squad}', 'sortie']
+    steps = [f'open {a.scene}', 'enter Play'] + (['mobile pipeline'] if a.mobile else []) + ([f'count scale {a.count_scale}'] if a.count_scale else []) + [f'select {squad}', 'sortie']
     if a.wave > 1: steps.append(f'skip to wave {a.wave}')
     if a.hp_lock: steps.append('hp lock')
     steps.append(f'wait {a.settle}s')
@@ -89,7 +98,7 @@ def plan(a, squad):
     if a.night: steps.append('night')
     if a.captures: steps.append(f'captures x{a.captures} every {a.interval}s')
     if a.perf: steps.append(f'perf {a.perf}s')
-    return steps + ['exit Play', 'cleanup (quality, side-effect dirty flags, scene setup, runInBackground)', 'restore side-effect files']
+    return steps + (['pc pipeline back'] if a.mobile else []) + ['exit Play', 'cleanup (quality, side-effect dirty flags, scene setup, runInBackground)', 'restore side-effect files']
 
 
 class Unity:
@@ -147,7 +156,7 @@ def run(a, squad, unity_cls=None):
     R = report['results']; u = (unity_cls or Unity)(report)
     save = lambda: (out / 'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=1))
     u.ready()
-    snap = protect.snapshot(); bg_before = None; opened = False
+    snap = protect.snapshot(); bg_before = None; opened = False; mobile_on = False
     try:
         s0 = u.state()
         if s0.get('playing'):
@@ -165,6 +174,10 @@ def run(a, squad, unity_cls=None):
             opened = not any(k in str(e) for k in OPEN_REFUSED)
             raise
         u.call('EnterPlay'); s = u.wait(lambda s: s.get('playing') and s.get('state') == 'lobby', 'lobby', 90)
+        if a.mobile:
+            report['pipeline'] = u.call('MobilePipeline', True); mobile_on = True; time.sleep(0.5)
+        if a.count_scale:
+            report['count_scale'] = u.eval(GAME + f'g.Config.countScale={a.count_scale}f;return g.Config.countScale.ToString();')
         for i in list(s['selected']): u.call('Submit', 'ToggleSelection', i)
         for i in squad: u.call('Submit', 'ToggleSelection', i)
         u.wait(lambda s: sorted(s['selected']) == sorted(squad), 'select')
@@ -193,9 +206,16 @@ def run(a, squad, unity_cls=None):
         if shots: R['captures'] = shots
         if a.perf:
             s1 = u.state(); f0 = u.eval('return UnityEngine.Time.frameCount+"|"+UnityEngine.Time.realtimeSinceStartup;')
-            time.sleep(a.perf)
+            # 049: UnityStats is one frame; sample it about once a second over the window and keep median and max
+            samples, end = [], time.time() + a.perf
+            while time.time() < end:
+                try: samples.append(json.loads(u.eval(STATS)))
+                except Exception: pass
+                time.sleep(max(0.0, min(1.0, end - time.time())))
             f1 = u.eval('return UnityEngine.Time.frameCount+"|"+UnityEngine.Time.realtimeSinceStartup;'); s2 = u.state()
-            stats = json.loads(u.eval(STATS))
+            med = lambda k: sorted(x[k] for x in samples)[len(samples) // 2] if samples else None
+            stats = {k: med(k) for k in ('drawCalls', 'setPassCalls', 'triangles', 'shadowCasters', 'frameTime', 'renderTime')}
+            stats.update(samples=len(samples), max={k: max(x[k] for x in samples) for k in ('drawCalls', 'setPassCalls', 'triangles')} if samples else {})
             (fa, ta), (fb, tb) = (map(float, f0.split('|')), map(float, f1.split('|')))
             R['perf'] = dict(seconds=a.perf, fps=round((fb - fa) / max(1e-6, tb - ta), 1), enemies=s2['enemies'], spawned=s2['spawned'] - s1['spawned'],
                              spawn_failures=s2['spawnFailures'] - s1['spawnFailures'], **stats,
@@ -210,6 +230,8 @@ def run(a, squad, unity_cls=None):
         def attempt(name, fn):
             try: clean[name] = str(fn())[:120]
             except Exception as e: report.setdefault('cleanup_errors', {})[name] = str(e)[:200]
+        if mobile_on:
+            attempt('pc_pipeline', lambda: u.call('MobilePipeline', False))
         if opened:
             attempt('exit_play', lambda: u.call('ExitPlay'))
             attempt('wait_edit', lambda: u.wait(lambda s: not s.get('playing'), 'edit', 60) and 'EDIT_MODE')
@@ -234,6 +256,25 @@ def run(a, squad, unity_cls=None):
     return report['status'] == 'PASS'
 
 
+ASSETS = ('var pres=UnityEngine.Object.FindAnyObjectByType<DeadSurvivor.DSMapPresentation>();if(!pres||!pres.Actors)return "NO_ACTOR_SET";var set=pres.Actors;'
+          'var rows=new System.Collections.Generic.List<string>();'
+          'foreach(var grp in new[]{("hero",set.Heroes),("monster",set.Monsters)})foreach(var e in grp.Item2){if(!e.prefab)continue;'
+          'var rs=e.prefab.GetComponentsInChildren<UnityEngine.Renderer>(true);int sub=0,tri=0;var mats=new System.Collections.Generic.HashSet<UnityEngine.Material>();'
+          'foreach(var r in rs){UnityEngine.Mesh m=r is UnityEngine.SkinnedMeshRenderer s?s.sharedMesh:(r.GetComponent<UnityEngine.MeshFilter>()?r.GetComponent<UnityEngine.MeshFilter>().sharedMesh:null);'
+          'if(m){sub+=m.subMeshCount;tri+=m.triangles.Length/3;}foreach(var x in r.sharedMaterials)if(x)mats.Add(x);}'
+          'var mat=e.material?e.material:System.Linq.Enumerable.FirstOrDefault(mats);'
+          'rows.Add("{\\"group\\":\\""+grp.Item1+"\\",\\"id\\":\\""+e.id+"\\",\\"renderers\\":"+rs.Length+",\\"submeshes\\":"+sub+",\\"materials\\":"+(e.material?1:mats.Count)+",\\"triangles\\":"+tri'
+          '+",\\"skinned\\":"+(rs.Length>0&&rs[0] is UnityEngine.SkinnedMeshRenderer?"true":"false")+",\\"shadow\\":\\""+(rs.Length>0?rs[0].shadowCastingMode.ToString():"-")+"\\",\\"instancing\\":"+(mat&&mat.enableInstancing?"true":"false")+"}");}'
+          'return "["+string.Join(",",rows)+"]";')
+
+
+def assets():
+    u = Unity({}); u.ready()
+    rows = json.loads(u.eval(ASSETS))
+    print(json.dumps({'actor_set': rows}, ensure_ascii=False))
+    return True
+
+
 def selftest():
     c = {}
     a, sq, e = parse([]); c['defaults_ok'] = e == [] and sq == [0, 1, 2, 3] and a.wave == 1 and a.captures == 1
@@ -244,6 +285,9 @@ def selftest():
     a, sq, e = parse(['--wave', '7', '--hp-lock', '--perf', '20', '--captures', '4', '--attack', '30', '--night'])
     p = plan(a, sq); c['plan_order'] = e == [] and p.index('skip to wave 7') < p.index('hp lock') < p.index('wait 3.0s') < p.index('night') < p.index('captures x4 every 0.3s') < p.index('perf 20.0s')
     c['plan_cleanup_last'] = p[-1] == 'restore side-effect files'
+    a2, sq2, e2 = parse(['--mobile', '--count-scale', '3']); p2 = plan(a2, sq2)
+    c['mobile_plan'] = e2 == [] and p2.index('mobile pipeline') < p2.index('sortie') and p2.index('pc pipeline back') < p2.index('exit Play')
+    c['bad_count_scale'] = bool(parse(['--count-scale', '5'])[2])
     c['capture_path_placeholder'] = CAPTURE.count('PATH') == 1
     # review 048 r001 #3: cleanup after OpenScene fails (fake Unity, no editor)
     def fake_run(open_error):
@@ -281,6 +325,8 @@ def main():
         sys.exit(0 if selftest() else 1)
     if errs:
         sys.exit('play_probe: ' + '; '.join(errs) + '. Nothing was run.')
+    if a.assets:
+        sys.exit(0 if assets() else 1)
     if a.dry_run:
         print(json.dumps({'plan': plan(a, squad)}, ensure_ascii=False)); return
     sys.exit(0 if run(a, squad) else 1)

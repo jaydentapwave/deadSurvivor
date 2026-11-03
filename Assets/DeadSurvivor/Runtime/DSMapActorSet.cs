@@ -16,6 +16,10 @@ namespace DeadSurvivor
         public Entry[] Heroes=Array.Empty<Entry>();
         public Entry[] Monsters=Array.Empty<Entry>();
         public Material HitMaterial;
+        // 049 performance (docs/workflows/performance.md). Null / false = the 045 behaviour (real shadows, SRP Batcher).
+        [Tooltip("049: monsters cast no real shadow; this soft disc is drawn under their feet instead.")] public Material MonsterBlobShadow;
+        [Tooltip("049: blob diameter relative to the monster's height.")] public float BlobShadowSize=1.15f;
+        [Tooltip("049: monster renderers get a property block so URP draws them with GPU instancing (materials need instancing on).")] public bool MonsterInstanced;
         [Tooltip("World height of a hero model (prefab normalised to height 1).")] public float HeroHeight=.8f;
         [Tooltip("World height of a radius-18 monster; other radii scale linearly.")] public float MonsterHeight=.52f;
         public float MonsterReferenceRadius=18;

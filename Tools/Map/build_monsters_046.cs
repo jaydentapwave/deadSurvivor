@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 // 046: four Tripo monsters (ranged, charger, armored, bomber) into Unity as prefabs like the 042 monster (root at the feet ->
 // "Visual" -> model normalised to height 1, centred), a new actor set ActorSet046 (heroes and the melee monster unchanged
 // from ActorSet045s3b) assigned to Map046_Full only. Rebuildable: replaces only Art/Characters/Monster046.
+// 049: Build() ends with ApplyPerf() (blob shadows for monsters; GPU instancing measured and left off).
 // Inputs: output/monster-046/tripo/<asset>/fbx/{model.fbx,basecolor.png} (Tools/Art/convert_glb_042.py),
 //         optional output/monster-046/yaw.json {"ranged": deg, ...} when a model's front is not +Z.
 // Run: unity command script run --project-path <root> -- --file Tools/Map/build_monsters_046.cs --entry Monster046Build.Build
@@ -24,8 +25,12 @@ public static class Monster046Build
  const string BaseMat="Assets/DeadSurvivor/Art/Characters/Test042_r001/Monster042.mat";
  static readonly (string id,string asset)[] M={("ranged","monster_ranged046"),("charger","monster_charger046"),("armored","monster_armored046"),("bomber","monster_bomber046")};
 
+// 050: superseded by the official asset pipeline (Tools/Art/assets.py prep/unity, docs/workflows/asset-standard.md). The monsters now
+// live in Art/Characters/Monsters/<id>/, the actor set is Art/Characters/ActorSet_Main.asset and the blob shadow is in
+// Art/Characters/Shared/. Build would delete Art/Characters/Monster046 and re-point the scene, so both entries refuse.
  public static object Build()
  {
+  throw new Exception("SUPERSEDED_BY_050: use /usr/bin/python3 Tools/Art/assets.py prep|unity (docs/workflows/asset-standard.md)");
   if(Application.dataPath!="/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/Assets"||EditorApplication.isPlaying)throw new Exception("WRONG_TARGET_OR_PLAYING");
   for(int i=0;i<EditorSceneManager.sceneCount;i++){var s=EditorSceneManager.GetSceneAt(i);if(s.isDirty)throw new Exception("UNSAVED_SCENE:"+s.path);}
   var yaw=File.Exists(Src+"/yaw.json")?JsonConvert.DeserializeObject<Dictionary<string,float>>(File.ReadAllText(Src+"/yaw.json")):new Dictionary<string,float>();
@@ -60,8 +65,41 @@ public static class Monster046Build
   var check=UnityEngine.Object.FindObjectsByType<DSMapPresentation>(FindObjectsInactive.Include).Single();
   if(check.Actors!=AssetDatabase.LoadAssetAtPath<DSMapActorSet>(Dir+"/ActorSet046.asset"))throw new Exception("ACTORS_NOT_SAVED");
   report["monsters"]=set.Monsters.Select(e=>new{e.id,prefab=e.prefab?e.prefab.name:null,material=e.material?e.material.name:null,e.yawOffset}).ToArray();
+  report["perf"]=ApplyPerf();   // 049: the perf settings belong to the set this builder owns (builder rules 1)
   File.WriteAllText(Src+"/unity-build.json",JsonConvert.SerializeObject(report,Formatting.Indented));
   return report;
+ }
+
+ // 049 performance (docs/workflows/performance.md): monsters cast no real shadow — a soft blob under the feet instead.
+ // Overwrites in place (keeps GUIDs, builder rules 3).
+ // Run alone: unity command script run --project-path <root> -- --file Tools/Map/build_monsters_046.cs --entry Monster046Build.ApplyPerf
+ const string BlobPath=Dir+"/BlobShadow046";
+ public static object ApplyPerf()
+ {
+  throw new Exception("SUPERSEDED_BY_050: the blob shadow material is kept in Art/Characters/Shared/ and set on Art/Characters/ActorSet_Main.asset");
+  if(Application.dataPath!="/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/Assets"||EditorApplication.isPlaying)throw new Exception("WRONG_TARGET_OR_PLAYING");
+  var set=AssetDatabase.LoadAssetAtPath<DSMapActorSet>(Dir+"/ActorSet046.asset")??throw new Exception("NO_SET");
+  // soft round blob: alpha 1 in the centre falling to 0 at the rim (smoothstep), 64 px
+  int n=64;var t=new Texture2D(n,n,TextureFormat.RGBA32,false);
+  for(int y=0;y<n;y++)for(int x=0;x<n;x++){float d=Vector2.Distance(new Vector2(x+.5f,y+.5f),new Vector2(n/2f,n/2f))/(n/2f);float a=Mathf.Clamp01(1-d);a=a*a*(3-2*a);t.SetPixel(x,y,new Color(1,1,1,a));}
+  File.WriteAllBytes(BlobPath+".png",t.EncodeToPNG());UnityEngine.Object.DestroyImmediate(t);AssetDatabase.ImportAsset(BlobPath+".png");
+  var ti=(TextureImporter)AssetImporter.GetAtPath(BlobPath+".png");ti.alphaIsTransparency=true;ti.mipmapEnabled=false;ti.wrapMode=TextureWrapMode.Clamp;ti.SaveAndReimport();
+  var tex=AssetDatabase.LoadAssetAtPath<Texture2D>(BlobPath+".png");
+  var unlit=Shader.Find("Universal Render Pipeline/Unlit")??throw new Exception("NO_URP_UNLIT");
+  var mat=AssetDatabase.LoadAssetAtPath<Material>(BlobPath+".mat");
+  if(!mat){mat=new Material(unlit){name="BlobShadow046"};AssetDatabase.CreateAsset(mat,BlobPath+".mat");}
+  mat.shader=unlit;mat.SetFloat("_Surface",1);mat.SetFloat("_Blend",0);mat.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);mat.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);mat.SetFloat("_ZWrite",0);
+  mat.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");mat.renderQueue=(int)RenderQueue.Transparent-50;mat.SetOverrideTag("RenderType","Transparent");
+  mat.SetShaderPassEnabled("ShadowCaster",false);mat.SetShaderPassEnabled("DepthOnly",false);
+  mat.SetTexture("_BaseMap",tex);mat.SetColor("_BaseColor",new Color(0,0,0,.42f));mat.enableInstancing=true;EditorUtility.SetDirty(mat);
+  // GPU instancing stays OFF (049 measurement, docs/reviews/perf-049.md): it cut draw calls (load 628 -> 239) but the
+  // render time grew (9.2 -> 12.1 ms) because it takes the monsters off the SRP Batcher. To try it again: turn
+  // enableInstancing on for the monster + hit materials and set MonsterInstanced = true.
+  var so=new SerializedObject(set);so.FindProperty("MonsterBlobShadow").objectReferenceValue=mat;so.FindProperty("MonsterInstanced").boolValue=false;so.ApplyModifiedPropertiesWithoutUndo();
+  EditorUtility.SetDirty(set);AssetDatabase.SaveAssets();
+  var check=AssetDatabase.LoadAssetAtPath<DSMapActorSet>(Dir+"/ActorSet046.asset");
+  if(check.MonsterBlobShadow!=mat||check.MonsterInstanced)throw new Exception("PERF_NOT_SAVED");
+  return new{blob=AssetDatabase.GetAssetPath(mat),instanced=check.MonsterInstanced};
  }
 
  // root (feet) -> "Visual" (identity; receives turn/bob) -> model normalised to height 1, feet at 0, centred (as 045 Prefab)

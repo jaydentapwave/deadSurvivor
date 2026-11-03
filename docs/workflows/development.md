@@ -65,6 +65,10 @@ Tripo 정적 소품 요청은 A0에서 [생성 기준](tripo-generation-standard
 
 외부 AI 3D 자산은 [자산 워크플로우 A0~A5](ai-3d-assets.md)와 [자산 하네스 설계](../design/ai-3d-asset-harness.md)를 적용한다. 생성/처리/Unity 후보/시각 인수/채택 등록을 구분한다. Tripo CLI와 기존 Unity CLI를 기본으로 유지하며 참고 저장소 설치를 자동 실행하지 않는다. [012 최소 전송 도구](../../Tools/Assets/README.md)는 부분 구현이며 별도 실행한다. 전체 자산 gate/등록은 미구현이고 기존 local/gate는 자산 시험을 실행하지 않는다. 자산 상태·schema·등록/연결 구현은 L2로 사전 검토한다.
 
+성능 예산·측정·최적화는 [성능 예산과 최적화 절차](performance.md)를 따른다(2026-11-03, 049).
+
+게임에 들어가는 3D 에셋의 규격(모바일 숫자)·색 방식·위치·제작 명령은 [에셋 규격과 정식 제작 경로](asset-standard.md)를 따른다. 정식 경로는 `Tools/Art/assets.py`, 숫자와 채택 목록의 원본은 `docs/art/asset-catalog.json`이다(2026-11-03, 050).
+
 장면·자산을 코드로 다시 만드는 빌더는 [장면 빌더 공통 규칙](scene-builders.md)(소유·순서, 저장 뒤 다시 열어 확인, GUID 유지, 부작용 파일 되돌리기, 046 내용 교훈)을 따른다(2026-11-03, 048).
 
 맵 작업은 [산출물 일관성 규격](map-artifact-contract.md)과 [하네스 설계](../design/맵-워크플로우-하네스-설계.md)의 단계별 필수 증거를 함께 확인한다. 작업 묶음 양식은 L1/L2 설계 브리핑을 대체하지 않는다. 미구현 맵 검사를 기존 local/all PASS로 대체하지 않는다.

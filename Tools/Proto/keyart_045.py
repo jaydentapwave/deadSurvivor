@@ -42,7 +42,7 @@ S3 = SCENE.endswith('_s3.unity')            # stage-3 hero test scene: a copy of
 S3B = SCENE.endswith('_s3b.unity')          # stage-3 v2: all six heroes = one v2 base hero + per-hero textures
 S2 = SCENE.endswith('_s2.unity') or S3 or S3B
 ART3B = 'Assets/DeadSurvivor/Scenes/Proto045/Art_s3b'
-V2_MESH, V2_CTRL, V2_RUN = ART3B + '/hero045v2.fbx', 'Hero045v2', 'run_lean_k4'
+V2_MESH, V2_CTRL, V2_RUN = 'Assets/DeadSurvivor/Art/Characters/Heroes/hero_base/hero045v2.fbx', 'Hero045v2', 'run_lean_k4'   # 050: base hero moved to the official folder (textures stay in ART3B)
 HERO_IDS = ('bruno', 'hans', 'lena', 'yuki', 'bolt', 'mira')
 BRUNO_MESH = 'Assets/DeadSurvivor/Scenes/Proto045/Art_s3/hero_bruno045.fbx'
 MESH_042 = 'Assets/DeadSurvivor/Art/Characters/Test042_r001/hero_model.fbx'
@@ -261,7 +261,7 @@ if S2:
             str(ROOT / 'Assets/DeadSurvivor/Scenes/Proto045/Art_s3/**/*'), recursive=True) if Path(p).is_file()) if S3 else []) + (
         ['Tools/Proto/build_heroes_045_s3b.cs', 'Assets/DeadSurvivor/Scenes/Proto045/Proto045_Main_s2.unity'] + sorted(str(Path(p).relative_to(ROOT)) for p in glob.glob(
             str(ROOT / (ART3B + '/**/*')), recursive=True) if Path(p).is_file()) if S3B else []) + sorted(str(Path(p).relative_to(ROOT)) for p in glob.glob(str(ROOT / 'Assets/DeadSurvivor/Scenes/Proto045/Art_s2/**/*'), recursive=True) if Path(p).is_file())
-PROTECTED = sorted(set(SOURCES + ['Assets/DeadSurvivor/Scenes/Proto045/Proto045_Main.unity'] + [str(Path(p).relative_to(ROOT)) for p in glob.glob(str(ROOT / 'Assets/DeadSurvivor/Scenes/Proto045/Art/**/*'), recursive=True) if Path(p).is_file()] + [str(Path(p).relative_to(ROOT)) for p in glob.glob(str(ROOT / 'ProjectSettings/*.asset'))] + [
+PROTECTED = sorted(set(SOURCES + ['Assets/DeadSurvivor/Scenes/Proto045/Proto045_Main.unity'] + [str(Path(p).relative_to(ROOT)) for p in glob.glob(str(ROOT / 'Assets/DeadSurvivor/Scenes/Proto045/Art/**/*'), recursive=True) if Path(p).is_file()] + [str(Path(p).relative_to(ROOT)) for p in glob.glob(str(ROOT / 'Assets/DeadSurvivor/Art/**/*'), recursive=True) if Path(p).is_file()] + [str(Path(p).relative_to(ROOT)) for p in glob.glob(str(ROOT / 'ProjectSettings/*.asset'))] + [
     'ProjectSettings/Packages/com.unity.pipeline/EditorPipelineConfig.json', 'Assets/DeadSurvivor/Resources/DeadSurvivor/UI/PrototypeFont.asset',
     'Assets/DeadSurvivor/Scenes/DeadSurvivor.unity', 'Assets/DeadSurvivor/Scenes/Map038_TripoPair_r003/Map038_TripoPair.unity',
     'Assets/DeadSurvivor/Scenes/Map043_LowPolyShader_r001/Map043_LowPolyShader.unity', 'Assets/DeadSurvivor/Scenes/Proto044/Proto044_Main.unity',

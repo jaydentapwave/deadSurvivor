@@ -19,8 +19,8 @@ public static class Fx047Build
  const string FxDir="Assets/DeadSurvivor/Art/Fx047";
  const string HeroDir="Assets/DeadSurvivor/Art/Characters/Hero047";
  const string Scene="Assets/DeadSurvivor/Scenes/Map046/Map046_Full.unity";
- const string HeroFbx="Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2.fbx";
- const string Controller="Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/Hero045v2.controller";
+ const string HeroFbx="Assets/DeadSurvivor/Art/Characters/Heroes/hero_base/hero045v2.fbx";
+ const string Controller="Assets/DeadSurvivor/Art/Characters/Heroes/hero_base/Hero045v2.controller";
  const string AttackSrc="output/keyart-target-045/r003/tripo/hero_base045v2/attack/model.fbx";
  const string Layer="Attack047";
 
@@ -113,7 +113,7 @@ public static class Fx047Build
  }
  static object Stills(AnimationClip slash,AnimationClip shoot)
  {
-  var prefab=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/Hero045v2.prefab");if(!prefab)return "NO_PREFAB";
+  var prefab=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/DeadSurvivor/Art/Characters/Heroes/hero_base/Hero045v2.prefab");if(!prefab)return "NO_PREFAB";
   var go=new GameObject("Stills047_Temp");var shots=new List<string>();
   try
   {

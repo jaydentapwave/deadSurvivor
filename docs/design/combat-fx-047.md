@@ -89,4 +89,4 @@
 - **크기·밝기 조정**: 위 표의 값은 `DSMapFx.cs`의 각 함수(`Slash`, `Heal`, `Lightning`, `Explosion`, `ShotColor`, `ShotScale`)와 `DSMapActorViews.Pose`의 상수다. 밤 값은 `DSDayNight` 공개 필드라 장면 Inspector에서도 바꿀 수 있다.
 - **새 효과 추가**: 게임 코드에서 새 색으로 `Burst`를 부르고 `DSMapFx`의 `switch`에 같은 색의 `case`를 넣는다. 색은 문자열 상수여야 한다. 하나만 넣으면 gate `refs`가 FAIL한다(`python3 Tools/Verify/run.py refs`).
 - **확인**: 효과는 0.2~0.5초라 정지 캡처 1장으로 판단하지 않는다. `play_probe.py --wave 6 --hp-lock --captures 6 --interval 0.1`로 연속 캡처하고 보고서의 효과 수(`projectiles`, `timed_fx`)를 함께 본다([핵심 규칙](../workflows/core-rules.md) 2절).
-- **성능**: 효과·덤불을 넣은 뒤 7웨이브(적 86) 그리기 호출 401, 삼각형 29.2만이다(046 같은 측정에서 364, 27만). 효과를 크게 늘렸으면 같은 명령으로 다시 잰다([048](../reviews/harness-update-048.md)).
+- **성능**: 예산과 측정 방법은 [성능 절차](../workflows/performance.md). 049 모바일 기준(바닥 그림자 뒤) 7웨이브 그리기 호출 147, 삼각형 7.1만이다. 효과를 크게 늘렸으면 같은 명령으로 다시 잰다([049](../reviews/perf-049.md)). 048의 401·29.2만은 PC 렌더 설정 값이라 비교하지 않는다.

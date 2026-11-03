@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Rendering;
 namespace DeadSurvivor
 {
     // 045: one 3D view per live simulation object, keyed by object reference (never by id or team slot:
@@ -16,7 +17,7 @@ namespace DeadSurvivor
         }
         sealed class View
         {
-            public string key; public GameObject go; public Transform visual; public Renderer[] renderers;
+            public string key; public GameObject go; public Transform visual; public Renderer[] renderers; public GameObject blob;
             public Material[][] normal,hit; public Animator anim;
             public Vector3 last; public bool hasLast,flashing,running; public float yaw,phase;
             // 047 presentation state: attack/recoil/lunge timers, last cooldown seen, death pop
@@ -88,6 +89,7 @@ namespace DeadSurvivor
             float dt=Time.unscaledDeltaTime;
             v.go.transform.SetPositionAndRotation(feet,Quaternion.identity);
             v.go.transform.localScale=Vector3.one*height;
+            if(v.blob)v.blob.transform.localPosition=new Vector3(0,.026f/Mathf.Max(.01f,height),0);
             Vector3 delta=v.hasLast?feet-v.last:Vector3.zero;delta.y=0;
             if(delta.sqrMagnitude>36f){delta=Vector3.zero;v.yaw=180;}   // recycle/teleport (> 6 world units): reset motion history and facing
             float speed=dt>0?delta.magnitude/dt:0;
@@ -108,6 +110,22 @@ namespace DeadSurvivor
                 for(int i=0;i<v.renderers.Length;i++)v.renderers[i].sharedMaterials=flash?v.hit[i]:v.normal[i];
             }
         }
+        static Mesh blobMesh;static MaterialPropertyBlock instanceBlock;
+        static MaterialPropertyBlock InstanceBlock(){var b=new MaterialPropertyBlock();b.SetFloat("_DSInstanced",1);return b;}
+        GameObject Blob(Transform root)
+        {
+            if(!blobMesh)
+            {
+                blobMesh=new Mesh{name="BlobShadow049"};
+                blobMesh.SetVertices(new[]{new Vector3(-.5f,0,-.5f),new Vector3(-.5f,0,.5f),new Vector3(.5f,0,.5f),new Vector3(.5f,0,-.5f)});
+                blobMesh.SetUVs(0,new[]{new Vector2(0,0),new Vector2(0,1),new Vector2(1,1),new Vector2(1,0)});
+                blobMesh.SetNormals(new[]{Vector3.up,Vector3.up,Vector3.up,Vector3.up});blobMesh.SetTriangles(new[]{0,1,2,0,2,3},0);blobMesh.RecalculateBounds();
+            }
+            var go=new GameObject("BlobShadow049");go.transform.SetParent(root,false);go.transform.localScale=Vector3.one*set.BlobShadowSize;
+            go.AddComponent<MeshFilter>().sharedMesh=blobMesh;var mr=go.AddComponent<MeshRenderer>();mr.sharedMaterial=set.MonsterBlobShadow;
+            mr.shadowCastingMode=ShadowCastingMode.Off;mr.receiveShadows=false;mr.lightProbeUsage=LightProbeUsage.Off;mr.reflectionProbeUsage=ReflectionProbeUsage.Off;
+            return go;
+        }
         View Rent(object owner,string key,DSMapActorSet.Entry e)
         {
             View v=null;
@@ -126,8 +144,15 @@ namespace DeadSurvivor
                     for(int j=0;j<mats.Length;j++)v.hit[i][j]=set.HitMaterial?set.HitMaterial:mats[j];
                 }
                 if(v.anim)v.anim.applyRootMotion=false;
+                // 049: blob shadow instead of a real one, and GPU instancing (a property block takes the renderer off
+                // the SRP Batcher path, so identical monsters are drawn together)
+                if(key.StartsWith("M:"))
+                {
+                    if(set.MonsterBlobShadow){foreach(var r in rs)r.shadowCastingMode=ShadowCastingMode.Off;v.blob=Blob(go.transform);}
+                    if(set.MonsterInstanced){instanceBlock??=InstanceBlock();foreach(var r in rs)r.SetPropertyBlock(instanceBlock);if(v.blob)v.blob.GetComponent<Renderer>().SetPropertyBlock(instanceBlock);}
+                }
             }
-            v.go.SetActive(true);
+            v.go.SetActive(true);if(v.blob)v.blob.SetActive(true);
             v.hasLast=false;v.yaw=180;v.flashing=false;v.running=false;
             v.phase=(RuntimeHelpers.GetHashCode(owner)&1023)*.00614f;   // visual-only phase; no game or Unity RNG
             v.visual.localPosition=Vector3.zero;v.visual.localScale=Vector3.one;
@@ -151,7 +176,7 @@ namespace DeadSurvivor
             {
                 var v=live[k];live.Remove(k);
                 // 047: a killed monster pops (flash, swell, squash to nothing) instead of vanishing
-                if(k is Enemy en&&en.hp<=0&&v.key.StartsWith("M:")&&v.go.activeSelf){v.dying=0;dying.Add(v);MonsterDied?.Invoke(v.go.transform.position,v.key.Substring(2),v.height);}
+                if(k is Enemy en&&en.hp<=0&&v.key.StartsWith("M:")&&v.go.activeSelf){v.dying=0;dying.Add(v);if(v.blob)v.blob.SetActive(false);MonsterDied?.Invoke(v.go.transform.position,v.key.Substring(2),v.height);}
                 else Release(v);
             }
             for(int i=dying.Count-1;i>=0;i--)

@@ -4,7 +4,7 @@
 using System.Linq;using System.Collections.Generic;using UnityEngine;using UnityEditor;
 public static class ClipScan047{
  public static object Run(){
-  var prefab=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/Hero045v2.prefab");
+  var prefab=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/DeadSurvivor/Art/Characters/Heroes/hero_base/Hero045v2.prefab");
   var clips=AssetDatabase.LoadAllAssetsAtPath("Assets/DeadSurvivor/Art/Characters/Hero047/hero_attack.fbx").OfType<AnimationClip>().Where(c=>!c.name.StartsWith("__preview")).ToArray();
   var h=(GameObject)Object.Instantiate(prefab);var an=h.GetComponentInChildren<Animator>();var lines=new List<string>();
   AnimationMode.StartAnimationMode();

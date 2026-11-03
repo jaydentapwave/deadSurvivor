@@ -1,5 +1,7 @@
 # 외부 AI 3D 자산 제작 워크플로우
 
+> **2026-11-03(050) 정식 경로:** 실제 제작은 [에셋 규격과 정식 제작 경로](asset-standard.md)의 `Tools/Art/assets.py`(Tripo 생성 `gen`, 팔레트화 `prep`, Unity `unity`, 규격 대조 `check`)로 한다. 아래 A0~A5는 전체 계약 설계이며, 012 `Tools/Assets/pipeline.py`는 전송 시험 도구로 남는다. 아래에서 `tripo_045.py`라고 적은 규칙은 `Tools/Art/asset_tripo.py`로 그대로 옮겼다.
+
 ASSET-PIPELINE-011/r002 · 2026-11-01 문서 정비 · A0~A5 전체 계약 설계 · 012 전송/013 재사용 부분 구현. r002는 문서 개정이며 asset-spec/job schema 변경이 아니다.
 
 [채택 근거 AD01~07](../design/ai-3d-reference-adoption.md)와 [CLI 선택](../decisions/3d-cli-workflow.md)을 적용한다. 자산 제작 단계/책임의 원본은 본 문서, 자료/검사/실패 사례의 원본은 [자산 하네스 설계](../design/ai-3d-asset-harness.md)다. 기존 [개발 절차](development.md), [맵 단계](../design/맵-워크플로우-하네스-설계.md), [검증 gate](verification-gates.md)는 유지한다.
@@ -74,8 +76,8 @@ Studio 잔액과 API 잔액은 별개다. [과거 잔액 기록](../decisions/3d
 
 - Tripo 동작 프리셋은 1회 동작이 아니라 **연속 시연 동작**일 수 있다. 047의 `slash`는 6.6초, `shoot`은 9.0초였고 `shoot`은 1초 뒤부터 웅크린 자세였다(047-E1). 요청 전에는 길이·자세를 알 수 없으므로 **잘라 쓰는 단계**를 작업 계획에 넣는다.
 - 받자마자 `Tools/Map/clip_scan_047.cs`로 0.25초 구간별 손 속도 최대값·골반 높이 최소값을 숫자로 본다(경로 상수는 대상 FBX로 바꾼다). 공격 구간은 손 속도가 가장 큰 구간, 웅크림·엎드림은 골반 높이가 떨어지는 구간이다. 자른 구간·속도 배율은 빌더 주석과 기록에 남긴다(예: `build_fx_047.cs`).
-- 유료 동작 단계도 생성처럼 사용자 승인 원문을 작업 기록(journal)의 `user_approval`에 남긴 뒤 제출한다. 승인 문구가 없는 유료 단계는 도구가 거부한다(`tripo_045.py` `step_auth`, `NO_AUTHORIZATION`).
-- 승인 문구 키 이름은 `authorization`을 쓰지 않는다. 비밀값 가리기 규칙이 그 키를 HTTP 인증으로 보고 가려, 2026-11-03 전에 쓴 `request-frozen.json`의 승인 문구는 모두 `[REDACTED]`로 남았다(048에서 발견). 그 승인 원문은 `tripo_045.py`의 `AUTH*` 상수와 각 단계 기록에 있다.
+- 유료 동작 단계도 생성처럼 사용자 승인 원문을 작업 기록(journal)의 `user_approval`에 남긴 뒤 제출한다. 승인 문구가 없는 유료 단계는 도구가 거부한다(`tripo_045.py` `step_auth`, `NO_AUTHORIZATION`). (050: 승인 원문은 이제 `docs/art/asset-catalog.json`의 `budgets`에 있다.)
+- 승인 문구 키 이름은 `authorization`을 쓰지 않는다. 비밀값 가리기 규칙이 그 키를 HTTP 인증으로 보고 가려, 2026-11-03 전에 쓴 `request-frozen.json`의 승인 문구는 모두 `[REDACTED]`로 남았다(048에서 발견). 그 승인 원문은 `tripo_045.py`의 `AUTH*` 상수와 각 단계 기록에 있다. (050: 승인 원문은 이제 `docs/art/asset-catalog.json`의 `budgets`에 있다.)
 
 ## 맵 적용과 검사 책임
 

@@ -1,0 +1,484 @@
+{
+ "status": "050 character palette (user asked for palette characters, 2026-11-03)",
+ "method": "row 0 = fixed identity colours + 2 most used; hero texels within OKLab 0.06 of an identity colour excluded from the free clustering; OKLab k-means seed 50001, 6000 texels per texture at 128 px, equal weight",
+ "layout": {
+  "cols": 8,
+  "rows": 4,
+  "cell_px": 8,
+  "png_row0": "top",
+  "alpha": "none (importer drops alpha: A = 1)"
+ },
+ "sources": {
+  "hero_bruno": {
+   "path": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2_bruno.png",
+   "sha256": "dcfdcf9a5cff5fd90a4a3118d6dc23f55d03db99daaea71e8c9e9c1efb1ae5bd"
+  },
+  "hero_hans": {
+   "path": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2_hans.png",
+   "sha256": "8f7147b4076ddad82b2767ac6dc3c966926399c72f343896b9f8f50701cfa1ea"
+  },
+  "hero_lena": {
+   "path": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2_lena.png",
+   "sha256": "ee1cf20e17de76f4cec858f3ca8b76f1314473ee0dc82ba8875143a73c94a5f4"
+  },
+  "hero_yuki": {
+   "path": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2_yuki.png",
+   "sha256": "4e9a2a80fd5f000d9d26015929c5b17c229389d9fe8c449bbe80fc798fe0d413"
+  },
+  "hero_bolt": {
+   "path": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2_bolt.png",
+   "sha256": "466a97a8e5d657e5f64482ccc2aa52103e06a6afc410846705c44910ea8960ec"
+  },
+  "hero_mira": {
+   "path": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/Assets/DeadSurvivor/Scenes/Proto045/Art_s3b/hero045v2_mira.png",
+   "sha256": "8ef75a2d881cae76733c4149b1c3bde00b390e64dd0c3c4f98629a2cc4bdfc85"
+  },
+  "monster_melee": {
+   "path": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/Assets/DeadSurvivor/Art/Characters/Test042_r001/monster_basecolor.png",
+   "sha256": "efc8abb062c0ae59b2d721acbfb72fb6542276ba8630ba606a38f3e29aa0d1a6"
+  },
+  "monster_ranged": {
+   "path": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/output/monster-046/tripo/monster_ranged046/fbx/basecolor.png",
+   "sha256": "b4e98407ec1abeee2463157ed7ca48ad768f79d8f97828519b815b9d9e1c42d7"
+  },
+  "monster_charger": {
+   "path": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/output/monster-046/tripo/monster_charger046/fbx/basecolor.png",
+   "sha256": "b51de98539719c7884d82367ae42195ec1f0e2775a3474721a127393244e58f1"
+  },
+  "monster_armored": {
+   "path": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/output/monster-046/tripo/monster_armored046/fbx/basecolor.png",
+   "sha256": "5f9701427a118c777c754c0127eda47efbba04301c3787a79036e43d73eadd77"
+  },
+  "monster_bomber": {
+   "path": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/output/monster-046/tripo/monster_bomber046/fbx/basecolor.png",
+   "sha256": "1903d0510d3701c791acce1062ff5842046e95b504df7d63121fc17316a9dc67"
+  }
+ },
+ "fixed": {
+  "bruno": "#d79b68",
+  "hans": "#c8e0b0",
+  "lena": "#f0cf3c",
+  "yuki": "#91b7c2",
+  "bolt": "#a590b8",
+  "mira": "#e88aa8"
+ },
+ "palette_sha256": "51f9b03fa6b1399ed264bfcbf42707ee8652c914e1b6f449a9498243d5aca212",
+ "cells": [
+  {
+   "index": 0,
+   "row": 0,
+   "col": 0,
+   "hex": "#d79b68",
+   "oklab": [
+    0.7361,
+    0.048,
+    0.0858
+   ],
+   "fixed": "bruno",
+   "pixel_share": 0.05005
+  },
+  {
+   "index": 1,
+   "row": 0,
+   "col": 1,
+   "hex": "#c8e0b0",
+   "oklab": [
+    0.8766,
+    -0.0438,
+    0.0534
+   ],
+   "fixed": "hans",
+   "pixel_share": 0.0368
+  },
+  {
+   "index": 2,
+   "row": 0,
+   "col": 2,
+   "hex": "#f0cf3c",
+   "oklab": [
+    0.8585,
+    -0.0162,
+    0.1586
+   ],
+   "fixed": "lena",
+   "pixel_share": 0.03574
+  },
+  {
+   "index": 3,
+   "row": 0,
+   "col": 3,
+   "hex": "#91b7c2",
+   "oklab": [
+    0.7554,
+    -0.0348,
+    -0.0266
+   ],
+   "fixed": "yuki",
+   "pixel_share": 0.03818
+  },
+  {
+   "index": 4,
+   "row": 0,
+   "col": 4,
+   "hex": "#a590b8",
+   "oklab": [
+    0.6857,
+    0.0388,
+    -0.0487
+   ],
+   "fixed": "bolt",
+   "pixel_share": 0.03768
+  },
+  {
+   "index": 5,
+   "row": 0,
+   "col": 5,
+   "hex": "#e88aa8",
+   "oklab": [
+    0.7407,
+    0.1192,
+    -0.0002
+   ],
+   "fixed": "mira",
+   "pixel_share": 0.03706
+  },
+  {
+   "index": 6,
+   "row": 0,
+   "col": 6,
+   "hex": "#e48c43",
+   "oklab": [
+    0.7186,
+    0.0748,
+    0.1164
+   ],
+   "fixed": null,
+   "pixel_share": 0.11848
+  },
+  {
+   "index": 7,
+   "row": 0,
+   "col": 7,
+   "hex": "#40504f",
+   "oklab": [
+    0.4167,
+    -0.0199,
+    -0.0037
+   ],
+   "fixed": null,
+   "pixel_share": 0.08965
+  },
+  {
+   "index": 8,
+   "row": 1,
+   "col": 0,
+   "hex": "#bd6961",
+   "oklab": [
+    0.6141,
+    0.0981,
+    0.0486
+   ],
+   "fixed": null,
+   "pixel_share": 0.0692
+  },
+  {
+   "index": 9,
+   "row": 1,
+   "col": 1,
+   "hex": "#d07c74",
+   "oklab": [
+    0.6757,
+    0.0947,
+    0.0469
+   ],
+   "fixed": null,
+   "pixel_share": 0.00962
+  },
+  {
+   "index": 10,
+   "row": 1,
+   "col": 2,
+   "hex": "#ed9a91",
+   "oklab": [
+    0.7663,
+    0.0908,
+    0.0447
+   ],
+   "fixed": null,
+   "pixel_share": 0.00974
+  },
+  {
+   "index": 11,
+   "row": 1,
+   "col": 3,
+   "hex": "#8d5b33",
+   "oklab": [
+    0.5179,
+    0.0458,
+    0.0729
+   ],
+   "fixed": null,
+   "pixel_share": 0.02117
+  },
+  {
+   "index": 12,
+   "row": 1,
+   "col": 4,
+   "hex": "#957f65",
+   "oklab": [
+    0.6095,
+    0.0159,
+    0.0435
+   ],
+   "fixed": null,
+   "pixel_share": 0.00671
+  },
+  {
+   "index": 13,
+   "row": 1,
+   "col": 5,
+   "hex": "#b97d4a",
+   "oklab": [
+    0.6417,
+    0.0502,
+    0.0875
+   ],
+   "fixed": null,
+   "pixel_share": 0.00809
+  },
+  {
+   "index": 14,
+   "row": 1,
+   "col": 6,
+   "hex": "#b19a89",
+   "oklab": [
+    0.7016,
+    0.02,
+    0.0308
+   ],
+   "fixed": null,
+   "pixel_share": 0.0185
+  },
+  {
+   "index": 15,
+   "row": 1,
+   "col": 7,
+   "hex": "#e0ba8a",
+   "oklab": [
+    0.8103,
+    0.0225,
+    0.0728
+   ],
+   "fixed": null,
+   "pixel_share": 0.02138
+  },
+  {
+   "index": 16,
+   "row": 2,
+   "col": 0,
+   "hex": "#f8c89b",
+   "oklab": [
+    0.8644,
+    0.0354,
+    0.072
+   ],
+   "fixed": null,
+   "pixel_share": 0.08136
+  },
+  {
+   "index": 17,
+   "row": 2,
+   "col": 1,
+   "hex": "#7d715b",
+   "oklab": [
+    0.553,
+    0.0061,
+    0.0346
+   ],
+   "fixed": null,
+   "pixel_share": 0.00685
+  },
+  {
+   "index": 18,
+   "row": 2,
+   "col": 2,
+   "hex": "#d6a138",
+   "oklab": [
+    0.7415,
+    0.0209,
+    0.1313
+   ],
+   "fixed": null,
+   "pixel_share": 0.00511
+  },
+  {
+   "index": 19,
+   "row": 2,
+   "col": 3,
+   "hex": "#e4b34a",
+   "oklab": [
+    0.7917,
+    0.0146,
+    0.1319
+   ],
+   "fixed": null,
+   "pixel_share": 0.008
+  },
+  {
+   "index": 20,
+   "row": 2,
+   "col": 4,
+   "hex": "#5c6a3a",
+   "oklab": [
+    0.499,
+    -0.0384,
+    0.0612
+   ],
+   "fixed": null,
+   "pixel_share": 0.00739
+  },
+  {
+   "index": 21,
+   "row": 2,
+   "col": 5,
+   "hex": "#7f904d",
+   "oklab": [
+    0.624,
+    -0.0485,
+    0.0804
+   ],
+   "fixed": null,
+   "pixel_share": 0.00267
+  },
+  {
+   "index": 22,
+   "row": 2,
+   "col": 6,
+   "hex": "#9ab553",
+   "oklab": [
+    0.7327,
+    -0.0695,
+    0.1089
+   ],
+   "fixed": null,
+   "pixel_share": 0.07214
+  },
+  {
+   "index": 23,
+   "row": 2,
+   "col": 7,
+   "hex": "#b1cc69",
+   "oklab": [
+    0.8027,
+    -0.0685,
+    0.1093
+   ],
+   "fixed": null,
+   "pixel_share": 0.00548
+  },
+  {
+   "index": 24,
+   "row": 3,
+   "col": 0,
+   "hex": "#6e7f90",
+   "oklab": [
+    0.5879,
+    -0.0114,
+    -0.0318
+   ],
+   "fixed": null,
+   "pixel_share": 0.01682
+  },
+  {
+   "index": 25,
+   "row": 3,
+   "col": 1,
+   "hex": "#9a738e",
+   "oklab": [
+    0.6033,
+    0.057,
+    -0.0229
+   ],
+   "fixed": null,
+   "pixel_share": 0.0797
+  },
+  {
+   "index": 26,
+   "row": 3,
+   "col": 2,
+   "hex": "#040404",
+   "oklab": [
+    0.1056,
+    -0.0004,
+    -0.0025
+   ],
+   "fixed": null,
+   "pixel_share": 0.00042
+  },
+  {
+   "index": 27,
+   "row": 3,
+   "col": 3,
+   "hex": "#313531",
+   "oklab": [
+    0.324,
+    -0.0078,
+    0.0052
+   ],
+   "fixed": null,
+   "pixel_share": 0.0055
+  },
+  {
+   "index": 28,
+   "row": 3,
+   "col": 4,
+   "hex": "#483c45",
+   "oklab": [
+    0.3727,
+    0.0192,
+    -0.0086
+   ],
+   "fixed": null,
+   "pixel_share": 0.01244
+  },
+  {
+   "index": 29,
+   "row": 3,
+   "col": 5,
+   "hex": "#464c55",
+   "oklab": [
+    0.4138,
+    -0.0039,
+    -0.0167
+   ],
+   "fixed": null,
+   "pixel_share": 0.06092
+  },
+  {
+   "index": 30,
+   "row": 3,
+   "col": 6,
+   "hex": "#535859",
+   "oklab": [
+    0.4572,
+    -0.0068,
+    -0.0037
+   ],
+   "fixed": null,
+   "pixel_share": 0.01677
+  },
+  {
+   "index": 31,
+   "row": 3,
+   "col": 7,
+   "hex": "#666464",
+   "oklab": [
+    0.5053,
+    0.002,
+    0.0015
+   ],
+   "fixed": null,
+   "pixel_share": 0.01036
+  }
+ ]
+}

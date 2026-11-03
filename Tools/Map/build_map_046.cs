@@ -22,6 +22,7 @@ public static class Map046Build
  const string Out="output/map-full-046";
  const string P45="Assets/DeadSurvivor/Scenes/Proto045/";
  const string Mat043="Assets/DeadSurvivor/Art/LowPoly043/Materials/LowPoly043_";
+ const string Env="Assets/DeadSurvivor/Art/Environment/";   // 050: official folders (docs/art/asset-catalog.json)
  static readonly Vector2 Origin=new(565,580);
  const float Chunk=240;   // px; combined meshes are grouped per chunk for culling
 
@@ -80,9 +81,9 @@ public static class Map046Build
   var roads=P.roads.Values.Select(r=>r.Select(p=>p.V).ToArray()).ToArray();
 
   mGround=Load<Material>(Mat043+"Ground.mat");mPath=Load<Material>(Mat043+"Path.mat");mCobble=Load<Material>(Mat043+"Stone.mat");
-  mSoil=Load<Material>(P45+"Art/Soil045.mat");mStoneBox=Load<Material>(P45+"Art/Stone045.mat");mBush=Load<Material>(P45+"Art/Foliage045.mat");
-  mStoneT=Load<Material>(P45+"Art_s2/Stone045s2.mat");mTree=Load<Material>(P45+"Art_s2/Foliage045s2.mat");mWater=Load<Material>(P45+"Art_s2/Water045s2.mat");mDecor=Load<Material>(P45+"Art_s2/Decor045s2.mat");
-  stoneModel=Load<GameObject>(P45+"Art_s2/Tripo/stone045.fbx");boulderModel=Load<GameObject>(P45+"Art_s2/Tripo/boulder045.fbx");treeModel=Load<GameObject>(P45+"Art_s2/Tripo/tree045.fbx");
+  mSoil=Load<Material>(Env+"Map/Soil045.mat");mStoneBox=Load<Material>(Env+"Map/Stone045.mat");mBush=Load<Material>(Env+"Map/Foliage045.mat");
+  mStoneT=Load<Material>(Env+"Map/Stone045s2.mat");mTree=Load<Material>(Env+"Map/Foliage045s2.mat");mWater=Load<Material>(Env+"Map/Water045s2.mat");mDecor=Load<Material>(Env+"Map/Decor045s2.mat");
+  stoneModel=Load<GameObject>(P45+"Art_s2/Tripo/stone045.fbx");boulderModel=Load<GameObject>(Env+"Props/boulder045/boulder045.fbx");treeModel=Load<GameObject>(Env+"Props/tree045/tree045.fbx");
 
   string guidBefore=rebuild?AssetDatabase.AssetPathToGUID(Target):null;
   if(rebuild){File.Copy(Source,Target,true);AssetDatabase.ImportAsset(Target,ImportAssetOptions.ForceUpdate);}
@@ -92,6 +93,7 @@ public static class Map046Build
   var session=UnityEngine.Object.FindObjectsByType<DSMapSession>(FindObjectsInactive.Include).Single();var root=session.transform;var vis=session.Visibility;
   // remove the old map dressing (blockout + 037/038/045 layers); keep camera, sun, volume, game, rock holder
   foreach(Transform c in session.StaticGeometry.Cast<Transform>().ToArray())UnityEngine.Object.DestroyImmediate(c.gameObject);
+  int rocksRemoved=StripTrialRock(session);   // 050
   foreach(var n in new[]{"KeyArt045_VisualOnly","KeyArt045_S2_VisualOnly"}){var t=root.Find(n);if(t)UnityEngine.Object.DestroyImmediate(t.gameObject);}
   var so=new SerializedObject(session);so.FindProperty("Layout").objectReferenceValue=layoutAsset;so.FindProperty("ExpectedDataSha").stringValue=DSMapBlockoutPreview.Hash(layoutAsset.text);
   so.FindProperty("StartCenter").vector2Value=(new Vector2(P.start_px[0],P.start_px[1])-Origin)*4;so.ApplyModifiedPropertiesWithoutUndo();
@@ -158,7 +160,7 @@ public static class Map046Build
   }
   // 047: re-attach what later builders added (this builder starts from a fresh copy of the s3b scene): monster actor set,
   // combat effects (DSMapFx + Fx047 materials) and day/night. Missing assets are skipped (first build).
-  var set046=AssetDatabase.LoadAssetAtPath<DSMapActorSet>("Assets/DeadSurvivor/Art/Characters/Monster046/ActorSet046.asset");
+  var set046=AssetDatabase.LoadAssetAtPath<DSMapActorSet>("Assets/DeadSurvivor/Art/Characters/ActorSet_Main.asset");
   if(set046){var pso=new SerializedObject(session.GetComponent<DSMapPresentation>());pso.FindProperty("Actors").objectReferenceValue=set046;pso.ApplyModifiedPropertiesWithoutUndo();}
   var fxSolid=AssetDatabase.LoadAssetAtPath<Material>("Assets/DeadSurvivor/Art/Fx047/Fx047_Solid.mat");
   if(fxSolid){var fx=session.GetComponent<DSMapFx>()??session.gameObject.AddComponent<DSMapFx>();var fso=new SerializedObject(fx);fso.FindProperty("Solid").objectReferenceValue=fxSolid;
@@ -166,7 +168,7 @@ public static class Map046Build
   { var dn=session.GetComponent<DSDayNight>()??session.gameObject.AddComponent<DSDayNight>();var dso=new SerializedObject(dn);
     dso.FindProperty("Sun").objectReferenceValue=UnityEngine.Object.FindObjectsByType<Light>(FindObjectsInactive.Include).FirstOrDefault(l=>l.type==LightType.Directional);
     dso.FindProperty("Look").objectReferenceValue=UnityEngine.Object.FindObjectsByType<DSLookGlobals>(FindObjectsInactive.Include).FirstOrDefault();dso.ApplyModifiedPropertiesWithoutUndo(); }
-  report["reattached"]=new{actors=set046?set046.name:null,fx=fxSolid!=null,dayNight=true};
+  report["reattached"]=new{actors=set046?set046.name:null,fx=fxSolid!=null,dayNight=true,trialRocksRemoved=rocksRemoved};
   // occluders
   var vso=new SerializedObject(vis);var bp=vso.FindProperty("Blockers");var bl=blockers.Where(r=>r).Distinct().ToArray();bp.arraySize=bl.Length;for(int i=0;i<bl.Length;i++)bp.GetArrayElementAtIndex(i).objectReferenceValue=bl[i];vso.ApplyModifiedPropertiesWithoutUndo();
   if(UnityEngine.Object.FindObjectsByType<Collider>(FindObjectsInactive.Include).Length!=0)throw new Exception("COLLIDER_PRESENT");
@@ -194,6 +196,38 @@ public static class Map046Build
   return report;
  }
 
+ // 050 (docs/design/asset-standard-050.md, design review M1/M2): the OB-001 rock under the rock holder is the 012 Tripo
+ // transfer-test rock from Art/Tests. Nobody sees it (its renderer has been off since 036/037; the obstacle is dressed by the
+ // keyart_ring stones), but it kept the build scene depending on a trial folder. The instance goes, the holder stays
+ // (DSMapSession requires it). This builder owns the scene, so the step lives here and Build() runs it too.
+ static int StripTrialRock(DSMapSession session)
+ {
+  int n=0;foreach(Transform c in session.RockHolder.Cast<Transform>().ToArray()){UnityEngine.Object.DestroyImmediate(c.gameObject);n++;}
+  return n;
+ }
+ // Apply only the 050 steps to the saved scene (no full rebuild): strip the trial rock, point Actors at the official set.
+ // Run: unity command script run --project-path <root> -- --file Tools/Map/build_map_046.cs --entry Map046Build.Apply050
+ public static object Apply050()
+ {
+  if(Application.dataPath!="/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/Assets"||EditorApplication.isPlaying)throw new Exception("WRONG_TARGET_OR_PLAYING");
+  for(int i=0;i<EditorSceneManager.sceneCount;i++){var s=EditorSceneManager.GetSceneAt(i);if(s.isDirty)throw new Exception("UNSAVED_SCENE:"+s.path);}
+  const string SetPath="Assets/DeadSurvivor/Art/Characters/ActorSet_Main.asset";
+  var set=AssetDatabase.LoadAssetAtPath<DSMapActorSet>(SetPath)??throw new Exception("MISSING:"+SetPath);
+  var scene=EditorSceneManager.OpenScene(Target,OpenSceneMode.Single);
+  var session=UnityEngine.Object.FindObjectsByType<DSMapSession>(FindObjectsInactive.Include).Single();
+  int removed=StripTrialRock(session);
+  var vso=new SerializedObject(session.Visibility);var bp=vso.FindProperty("Blockers");int nulls=0;
+  for(int i=bp.arraySize-1;i>=0;i--)if(!bp.GetArrayElementAtIndex(i).objectReferenceValue){bp.DeleteArrayElementAtIndex(i);nulls++;}
+  vso.ApplyModifiedPropertiesWithoutUndo();
+  var pso=new SerializedObject(session.GetComponent<DSMapPresentation>());pso.FindProperty("Actors").objectReferenceValue=set;pso.ApplyModifiedPropertiesWithoutUndo();
+  EditorSceneManager.MarkSceneDirty(scene);if(!EditorSceneManager.SaveScene(scene))throw new Exception("SAVE_FAILED");
+  // 046-12: reopen and verify what was saved
+  EditorSceneManager.OpenScene(Target,OpenSceneMode.Single);
+  var check=UnityEngine.Object.FindObjectsByType<DSMapSession>(FindObjectsInactive.Include).Single();
+  if(!check.RockHolder||check.RockHolder.childCount!=0)throw new Exception("ROCK_NOT_STRIPPED");
+  if(check.GetComponent<DSMapPresentation>().Actors!=set)throw new Exception("ACTORS_NOT_SAVED");
+  return new{removed,blockerNullsRemoved=nulls,actors=SetPath};
+ }
  static T Load<T>(string p)where T:UnityEngine.Object{var a=AssetDatabase.LoadAssetAtPath<T>(p);if(!a)throw new Exception("MISSING:"+p);return a;}
  static void Count(string layer,Renderer r){var mf=r.GetComponent<MeshFilter>();int n=mf&&mf.sharedMesh?mf.sharedMesh.triangles.Length/3:0;tris[layer]=(tris.TryGetValue(layer,out var x)?x:0)+n;}
  static void Block(Renderer r){if(r)blockers.Add(r);}

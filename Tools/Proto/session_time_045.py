@@ -82,7 +82,7 @@ def category(u):
         if re.search(r'keyart_045\.py|proto_main_044\.py|windowed-batch|final-batch|capture_motion', cmd): return 'Unity Play 검증'
         if re.search(r'run\.py all|gate\.py', cmd): return '회귀·gate'
         if 'codex exec' in cmd: return 'Codex 이미지 생성' if (' -i ' in cmd or 'concept' in cmd) else 'Codex 검토'
-        if re.search(r'tripo_045\.py \w* ?\w*.*(submit|fetch|anim)', cmd): return 'Tripo 생성·뼈대'
+        if re.search(r'(tripo_045\.py|assets\.py gen) \w* ?\w*.*(submit|fetch|anim)', cmd): return 'Tripo 생성·뼈대'
         if 'tripo' in cmd.lower(): return 'Tripo 구동기·조회'
         if 'Blender' in cmd: return 'Blender 처리'
         if re.search(r'unity (command|recompile|projects)', cmd): return 'Unity 빌드·조사'

@@ -23,7 +23,7 @@
 - 어느 단계가 필요한지는 `/usr/bin/python3 Tools/Harness/tier.py plan --scene <장면> [--stage-end]`로 확인한다.
 - Play 실행기는 기본이 짧은 단계다. 전체 단계는 `DS_FULL_REASON="<이유>"`가 없으면 실행기가 스스로 멈춘다(`tier.py require_full`). 실행 이유는 `output/verification/full-runs.jsonl`에 남는다.
 - Play 중 프레임·성능을 재는 도구는 `PlayerSettings.runInBackground`를 켜고 끝나면 원복한다. 끄고 재면 편집기가 백그라운드에서 느려져 3fps 같은 값이 나온다(046-3). 메인 탭이 도킹된 Game 창인지도 먼저 확인한다(046-10, [개발 환경](../개발환경.md#에이전트-도구-연결)).
-- 시각·내용 변경이 큰 단계는 마감 보고에 **성능 한 줄**(그리기 호출·삼각형·그림자·fps, 편집기 값)을 넣는다(047 H12). 측정은 `/usr/bin/python3 Tools/Harness/play_probe.py --wave 7 --hp-lock --settle 0 --captures 0 --perf 20`. 같은 순서로 잰 이전 값과 나란히 적는다.
+- 시각·내용 변경이 큰 단계는 마감 보고에 **성능 한 줄**(그리기 호출·삼각형·그림자·fps, 편집기 값)을 넣는다(047 H12). 측정은 `/usr/bin/python3 Tools/Harness/play_probe.py --mobile --wave 7 --hp-lock --settle 0 --captures 0 --perf 20`(모바일 렌더 설정, 20초 중앙값). 예산·측정 기준·줄이는 순서는 [성능 예산과 최적화 절차](performance.md)를 따른다(049). 같은 기준으로 잰 이전 값과 나란히 적는다.
 - 화면 확인·측정용 Play 스크립트를 새로 짜지 않는다. `Tools/Harness/play_probe.py`(장면·스쿼드·웨이브·HP 고정·캡처 수와 간격·공격 동작 표본·밤·성능 옵션)를 쓰고, 없는 옵션만 그 도구에 더한다(047 H5). 이 도구는 측정 도구이며 단계 증거를 남기지 않는다.
 - 새 Play 실행기를 만들면 짧은/전체 모드를 두고 `Tools/Harness/tier-policy.json`의 `full_runners`에 등록한다. 모드 값은 허용 목록으로 검사하고, 목록 밖의 값(오타 포함)은 실행 전에 거부한다(`keyart_045.py`의 `STAGES_SHORT`·`STAGES_FULL`).
 - **적용 범위.** 이 문서의 3단계와 증거 재사용(1·2절)은 작업 중과 단계 마감에 실행기를 고르는 기준이다. **커밋 전 gate의 Unity 범위(`run.py all` / `all --screens`)는 [gate 문서](verification-gates.md)가 원본이다.** gate는 `tier-evidence.json`을 읽지 않으므로, 시각 파일만 바뀌어도 커밋 전에는 gate 문서의 조건대로 `all --screens`가 필요할 수 있다. gate 쪽 시각 증거 재사용은 아직 지원하지 않는다(후속).
