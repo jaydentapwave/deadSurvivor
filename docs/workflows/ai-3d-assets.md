@@ -1,6 +1,6 @@
 # 외부 AI 3D 자산 제작 워크플로우
 
-> **2026-11-03(050) 정식 경로:** 실제 제작은 [에셋 규격과 정식 제작 경로](asset-standard.md)의 `Tools/Art/assets.py`(Tripo 생성 `gen`, 팔레트화 `prep`, Unity `unity`, 규격 대조 `check`)로 한다. 아래 A0~A5는 전체 계약 설계이며, 012 `Tools/Assets/pipeline.py`는 전송 시험 도구로 남는다. 아래에서 `tripo_045.py`라고 적은 규칙은 `Tools/Art/asset_tripo.py`로 그대로 옮겼다.
+> **2026-11-03(050) 정식 경로:** 실제 제작은 [에셋 규격과 정식 제작 경로](asset-standard.md)의 `3dkit/tools/assets.py`(051부터, 이전 `Tools/Art/assets.py`. Tripo 생성 `gen`, 팔레트화 `prep`, Unity `unity`, 규격 대조 `check`)로 한다. 아래 A0~A5는 전체 계약 설계이며, 012 `Tools/Assets/pipeline.py`는 전송 시험 도구로 남는다. 아래에서 `tripo_045.py`라고 적은 규칙은 `3dkit/tools/kitlib/tripo.py`로 그대로 옮겼다.
 
 ASSET-PIPELINE-011/r002 · 2026-11-01 문서 정비 · A0~A5 전체 계약 설계 · 012 전송/013 재사용 부분 구현. r002는 문서 개정이며 asset-spec/job schema 변경이 아니다.
 

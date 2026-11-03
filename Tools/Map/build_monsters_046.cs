@@ -25,12 +25,12 @@ public static class Monster046Build
  const string BaseMat="Assets/DeadSurvivor/Art/Characters/Test042_r001/Monster042.mat";
  static readonly (string id,string asset)[] M={("ranged","monster_ranged046"),("charger","monster_charger046"),("armored","monster_armored046"),("bomber","monster_bomber046")};
 
-// 050: superseded by the official asset pipeline (Tools/Art/assets.py prep/unity, docs/workflows/asset-standard.md). The monsters now
+// 050: superseded by the official asset pipeline (now 3dkit/tools/assets.py prep/unity since 051, docs/workflows/asset-standard.md). The monsters now
 // live in Art/Characters/Monsters/<id>/, the actor set is Art/Characters/ActorSet_Main.asset and the blob shadow is in
 // Art/Characters/Shared/. Build would delete Art/Characters/Monster046 and re-point the scene, so both entries refuse.
  public static object Build()
  {
-  throw new Exception("SUPERSEDED_BY_050: use /usr/bin/python3 Tools/Art/assets.py prep|unity (docs/workflows/asset-standard.md)");
+  throw new Exception("SUPERSEDED_BY_050: use /usr/bin/python3 3dkit/tools/assets.py prep|unity (docs/workflows/asset-standard.md)");
   if(Application.dataPath!="/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/Assets"||EditorApplication.isPlaying)throw new Exception("WRONG_TARGET_OR_PLAYING");
   for(int i=0;i<EditorSceneManager.sceneCount;i++){var s=EditorSceneManager.GetSceneAt(i);if(s.isDirty)throw new Exception("UNSAVED_SCENE:"+s.path);}
   var yaw=File.Exists(Src+"/yaw.json")?JsonConvert.DeserializeObject<Dictionary<string,float>>(File.ReadAllText(Src+"/yaw.json")):new Dictionary<string,float>();

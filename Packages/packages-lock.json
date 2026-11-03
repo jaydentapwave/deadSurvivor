@@ -1,5 +1,13 @@
 {
   "dependencies": {
+    "com.studiokit.kit3d": {
+      "version": "file:../3dkit/unity",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
+      }
+    },
     "com.unity.ai.navigation": {
       "version": "2.0.12",
       "depth": 0,

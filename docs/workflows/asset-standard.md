@@ -2,7 +2,7 @@
 
 게임에 들어가는 3D 에셋(캐릭터·몬스터·소품·맵 재질)에 적용한다. [핵심 규칙](core-rules.md)이 우선한다. 근거는 [050 설계](../design/asset-standard-050.md)·[050 기록](../reviews/asset-standard-050.md)이다. 2026-11-03 사용자 요청: "규격표 숫자의 경우 모바일에 최적화된 형태로 정리를 해줘, 캐릭터도 우선 팔레트를 해주면 좋을 것 같고 3번은 후자로 해줘".
 
-- **숫자의 원본은 [`docs/art/asset-catalog.json`](../art/asset-catalog.json)의 `standards`다.** 아래 표는 `/usr/bin/python3 Tools/Art/assets.py spec --markdown`의 출력이다. 숫자를 바꾸면 JSON을 고치고 표를 다시 뽑는다.
+- **숫자의 원본은 3dkit 프로필 [`3dkit/profiles/lowpoly.json`](../../3dkit/profiles/lowpoly.json)의 `standards`다**(051부터. 이 프로젝트는 [`3dkit.config.json`](../../3dkit.config.json) `assets.profile = lowpoly`). 이 프로젝트만 다르게 하려면 카탈로그 `standards_override`에 그 키만 적는다(지금은 비어 있음). 아래 표는 `/usr/bin/python3 3dkit/tools/assets.py spec --markdown`의 출력이다. 숫자를 바꾸면 JSON을 고치고 표를 다시 뽑는다.
 - 같은 파일의 `assets`가 **채택 목록**이다. 빌드 장면은 목록에 등록된 폴더의 에셋만 쓴다.
 
 ## 1. 규격표
@@ -50,21 +50,23 @@
 
 환경 팔레트에 행을 더하면 기존 UV가 가리키는 칸이 바뀌므로, 팔레트를 바꿀 때는 새 개정(r002)을 만든다.
 
-## 3. 정식 경로 `Tools/Art/assets.py`
+## 3. 정식 경로 `3dkit/tools/assets.py` (051, 이전 `Tools/Art/assets.py`)
 
-Unity 편집기를 이 프로젝트로 열어 둔 채 프로젝트 루트에서 `/usr/bin/python3 Tools/Art/assets.py <명령>`으로 실행한다.
+Unity 편집기를 이 프로젝트로 열어 둔 채 프로젝트 루트에서 `/usr/bin/python3 3dkit/tools/assets.py [--profile 이름] <명령>`으로 실행한다. 3dkit 공통 뼈대 + 프로필 구조와 단계별 설명은 [3dkit 에셋 규격](../../3dkit/workflows/asset-standard.md), 이행 기록은 [051](../reviews/3dkit-asset-pipeline-051.md)이다. Unity 쪽은 패키지 `com.studiokit.kit3d`(`3dkit/unity`, `Packages/manifest.json`)와 이 프로젝트의 훅 `Assets/DeadSurvivor/Editor/DSKit3DProjectHooks.cs`(액터 세트)다. 051 회귀: 옛 도구와 `check` 측정값·`prep` 해시·Unity 결과(git 변경 0)·캡처 픽셀이 모두 같았다.
 
 | 명령 | 하는 일 |
 |---|---|
 | `spec` / `list` | 규격표 / 등록 목록 |
-| `gen <freeze\|dryrun\|submit\|fetch\|status\|reconcile> <자산>` / `gen anim <자산> <단계>` | Tripo 생성. `tripo_045.py`의 규칙(잠금, 재개 일지, 상한·예약, 고정 요청의 드라이런, 네트워크 오류 재전송 금지)을 그대로 옮겼다(`Tools/Art/asset_tripo.py`). **카탈로그 `budgets`에 사용자 승인 원문과 상한이 없거나, 그 예산의 `assets` 목록에 자산이 없으면 `freeze`가 거부한다**(새 에셋은 새 예산을 만든다. 옛 승인을 물려받지 않는다) |
-| `palette-char [--force]` | 캐릭터 팔레트 생성. 바꾸면 모든 캐릭터 색이 바뀐다 |
+| `gen <freeze\|dryrun\|submit\|fetch\|status\|reconcile> <자산>` / `gen anim <자산> <단계>` | Tripo 생성. `tripo_045.py`의 규칙(잠금, 재개 일지, 상한·예약, 고정 요청의 드라이런, 네트워크 오류 재전송 금지)을 그대로 옮겼다(`3dkit/tools/kitlib/tripo.py`). 프로젝트 동작 단계(attack 등, 카탈로그 `anim_steps`)는 **자기 예산의 `step_approvals` 원문이 있어야** 제출한다(051 M2). **카탈로그 `budgets`에 사용자 승인 원문과 상한이 없거나, 그 예산의 `assets` 목록에 자산이 없으면 `freeze`가 거부한다**(새 에셋은 새 예산을 만든다. 옛 승인을 물려받지 않는다) |
+| `palette char [--force]` | 캐릭터 팔레트 생성. 바꾸면 모든 캐릭터 색이 바뀐다 |
+| `profile` | 지금 프로필의 단계·셰이더·텍스처 칸 |
 | `prep <id…>\|--all` | 텍스처 팔레트화 → `output/assets/<id>/prep/` |
-| `unity <id…>\|--all` | Unity(`Tools/Art/AssetBuild.cs`): 텍스처 가져오기, 공용 셰이더 재질, 몬스터 프리팹, 액터 세트 항목, 영웅 기본 프리팹의 기본 재질 |
+| `unity <id…>\|--all` | Unity(패키지 `Kit3D.AssetPipeline` + 이 프로젝트 훅): 텍스처 가져오기, 공용 셰이더 재질, 몬스터 프리팹, 액터 세트 항목(훅), 영웅 기본 프리팹의 기본 재질 |
 | `check` | 등록 에셋과 빌드 장면을 재서 규격과 대조한다. 빌드 장면 의존 파일에 시험 폴더(`Scenes/Proto*`, `Art/Tests` 등)·미등록 에셋·허용 밖 셰이더·256 초과 텍스처가 있으면 FAIL |
 | `capture [--tag T]` | 게임 각도·정면 줄 세우기(`output/assets/<T>-lineup_*.png`). 영웅은 편집 모드에서 묶음 자세라 옆을 보므로 짧은 Play 캡처로 본다 |
 | `migrate <이름>` | 카탈로그 `migrations`의 일회성 이동(GUID 유지) |
-| `selftest` | 오프라인 시험. Tripo 반례는 `Tools/Art/selftest_asset_tripo.py` |
+| (복구) | `unity`가 실패하면 그 명령이 쓰는 경로만 되돌린다: 요청 자산 폴더, `Art/Characters/ActorSet_Main.asset`, 기본 프리팹. 직전에 저장소 전체 `git status`로 다른 세션 변경을 확인하고, 새로 생긴 추적 안 된 파일은 목록을 본 뒤 지운다(051 M3) |
+| `selftest` | 오프라인 시험(텍스처, Tripo 반례 `3dkit/tools/selftest_tripo.py`, 프로필 전환, 고정 요청 재현, 판정 반례) |
 
 **새 에셋 하나를 넣는 순서**
 1. 카탈로그에 항목을 추가한다: `kind`, `folder`, `source` 또는 `tripo`, 필요하면 `actor`.
@@ -79,7 +81,7 @@ Unity 편집기를 이 프로젝트로 열어 둔 채 프로젝트 루트에서 
 
 | 위치 | 소유(만드는 도구) |
 |---|---|
-| `Art/Characters/Heroes/<영웅>/`, `Art/Characters/Monsters/<몬스터>/`, `Art/Characters/ActorSet_Main.asset` 내용, 영웅 기본 프리팹의 기본 재질 | `assets.py unity` |
+| `Art/Characters/Heroes/<영웅>/`, `Art/Characters/Monsters/<몬스터>/`, `Art/Characters/ActorSet_Main.asset` 내용, 영웅 기본 프리팹의 기본 재질 | `3dkit/tools/assets.py unity` |
 | `Art/Characters/Heroes/hero_base/`(모델·애니메이션·프리팹), `Art/Characters/Shared/`(바닥 원 그림자·피격), `Art/Environment/Map/`, `Art/Environment/Props/` | 050에서 옮긴 기존 에셋. 내용은 그대로 유지. 바닥 원 그림자 재질과 액터 세트의 `MonsterBlobShadow` 지정은 049 값 그대로이며 다시 만드는 도구는 없다(`build_monsters_046.cs` `ApplyPerf`는 거부) |
 | `Art/Characters/Hero047/`, `Art/Fx047/` | `Tools/Map/build_fx_047.cs`(폴더를 지우고 다시 만든다) |
 | `Scenes/Map046/` (`Map046_Full.unity`, 맵 생성 메시) | `Tools/Map/build_map_046.cs`. 장면 수정은 이 빌더만 한다(050 단계는 `Apply050`) |

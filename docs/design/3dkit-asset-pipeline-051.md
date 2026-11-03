@@ -1,6 +1,6 @@
 # 051 3dkit v1 — 에셋 파이프라인(공통 뼈대 + 프로필)
 
-- 상태: 구현 중 — Python 쪽 완료(selftest PASS), Unity 쪽(패키지·훅)과 회귀 남음. 설계 검토 반영(7절)
+- 상태: **구현 완료**(2026-11-03). 완료 조건 ①~⑥·프로필 전환 PASS, midpoly Unity 경로 임시 실행 PASS. 결과는 [051 기록](../reviews/3dkit-asset-pipeline-051.md). 설계 검토 반영(7절)
 - 규모: **L2**. 카탈로그 스키마 v1 → v2, 에셋 소유 도구 변경(`Tools/Art/*` → `3dkit/`), Unity 쪽 코드 위치 변경(`script run` 파일 → 로컬 UPM 패키지 + 프로젝트 훅).
 - 사용자 요청(2026-11-03): "응 그러면 우선 에셋도구부터해서 파이프라인을 모두 업데이트를해줘". 바로 전 대화의 합의: 뼈대(카탈로그·Tripo 생성 가드·Unity 가져오기·규격 대조·캡처)는 공통, 사양에 따라 달라지는 단계(텍스처 처리·크기·재질·감량·LOD·뼈대/동작)는 **프로필**(lowpoly / midpoly)로 갈아 끼운다.
 - 해석(인수인계 [현재 상태](../현재상태.md) "다음 할 일"): 3dkit은 이 저장소에서 디벨롭한다. 이미 돌아가는 050 경로·장면·에셋을 시험대로 쓴다.
@@ -19,9 +19,11 @@
 
 **한다**
 1. `NewProjectKit/3dkit` → 저장소 루트 `3dkit/`로 옮긴다. [하네스 설계도](../../3dkit/workflows/harness-blueprint.md)의 배치(`<루트>/3dkit`, `file:../3dkit/unity`)와 같아지고, 키트 문서의 명령(`python3 3dkit/tools/...`)이 이 저장소에서 그대로 돈다. `NewProjectKit/`의 나머지(새 게임 자료)는 그대로 두고 README에 "디벨롭 중 키트는 저장소 루트 `3dkit/`"를 적는다(그 안의 `3dkit/...` 링크는 키트를 복사해 넣은 뒤에 맞는다).
-2. Python 도구 `3dkit/tools/`, 프로필 `3dkit/profiles/{lowpoly,midpoly}.json`, Unity 패키지 `3dkit/unity/`, 프로젝트 설정 `3dkit.config.json`(저장소 루트), 카탈로그 v2(`docs/art/asset-catalog.json` 교체), Deadsurvivor 훅 `Assets/DeadSurvivor/Editor/Kit3DProjectHooks.cs`.
+2. Python 도구 `3dkit/tools/`, 프로필 `3dkit/profiles/{lowpoly,midpoly}.json`, Unity 패키지 `3dkit/unity/`, 프로젝트 설정 `3dkit.config.json`(저장소 루트), 카탈로그 v2(`docs/art/asset-catalog.json` 교체), Deadsurvivor 훅 `Assets/DeadSurvivor/Editor/DSKit3DProjectHooks.cs`.
 3. 회귀가 모두 맞으면 옛 도구를 은퇴: `Tools/Art/assets.py`는 새 경로 안내만 하고 거부(045의 `tripo_045.py` 방식), `AssetBuild.cs`·`asset_tripo.py`·`asset_texture.py`·`selftest_asset_tripo.py`는 지운다(원본은 git과 `3dkit/reference/`에 있다). 안내 문구가 옛 경로를 가리키는 `Tools/Proto/tripo_045.py`·`selftest_tripo_045.py`·`Tools/Map/build_monsters_046.cs`도 새 경로로 고친다.
 4. 문서: 프로젝트 [에셋 규격](../workflows/asset-standard.md)(명령·숫자 원본 위치), 키트 `3dkit/workflows/asset-standard.md`(단계·프로필 일반 규칙), `3dkit/README.md`(v1 상태), 하네스 설계도 H3, [개발 워크플로우](../workflows/development.md) 에셋 줄, [개발 환경](../개발환경.md), [현재 상태](../현재상태.md).
+
+**추가(사용자 요청 2026-11-03 "그러면 우선 3dkit에 필요한 업데이트를 모두 작업을 해줘")**: 게임과 무관한 하네스 도구 `guard`·`protect`·`session_time`을 `3dkit/tools/`로 옮겼다(자체 시험, 이 프로젝트 hook 연결은 바꾸지 않음).
 
 **하지 않는다(후속)**: 감량 자동화(Blender), lowpoly 소품의 면→팔레트 칸(043 `repaint_tripo_043.py`)을 단계로 편입, 셰이더를 패키지로 옮기기(GUID·이름 위험), midpoly 실제 생성·규격 확정, 다른 하네스 도구 이식, 두 번째 프로젝트 이식 시험(v3).
 
@@ -33,7 +35,6 @@
 │   ├── assets.py            CLI: spec · list · profile · gen · palette · prep · unity · check · capture · migrate · selftest
 │   ├── kitlib/
 │   │   ├── config.py        3dkit.config.json 찾기(현재 폴더에서 위로), 프로필 로드·병합, 경로 규칙
-│   │   ├── catalog.py       카탈로그 v2 읽기·검증, 자산 고르기
 │   │   ├── texture.py       텍스처 단계: palette(050 코드 그대로) | passthrough(크기 맞춤 + 추가 맵)
 │   │   ├── tripo.py         생성 단계(asset_tripo.py 규칙 그대로, 경로·인자·승인은 설정·프로필·카탈로그에서)
 │   │   ├── unity.py         Unity 연결: 요청 JSON 쓰기 → script eval → 결과 JSON 읽기
@@ -116,7 +117,7 @@ public interface IKit3DProjectHooks {
 }
 ```
 
-- Deadsurvivor 구현 `Assets/DeadSurvivor/Editor/Kit3DProjectHooks.cs`: 옛 `AssetBuild.cs`의 액터 세트 연결·저장 후 확인(85~120행), 액터 측정(209~212행), 줄 세우기 목록(268~276행)을 옮긴다.
+- Deadsurvivor 구현 `Assets/DeadSurvivor/Editor/DSKit3DProjectHooks.cs`: 옛 `AssetBuild.cs`의 액터 세트 연결·저장 후 확인(85~120행), 액터 측정(209~212행), 줄 세우기 목록(268~276행)을 옮긴다.
 - 기본 프리팹 기본 재질(옛 `hero_prefab`)은 일반 규칙으로 패키지에 둔다: `variant_of` 대상 프리팹의 렌더러 재질을 그 자산의 `default_variant` 재질로 바꾼다.
 
 ### 3.5 기존 도구 대응

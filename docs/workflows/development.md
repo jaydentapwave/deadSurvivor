@@ -67,7 +67,7 @@ Tripo 정적 소품 요청은 A0에서 [생성 기준](tripo-generation-standard
 
 성능 예산·측정·최적화는 [성능 예산과 최적화 절차](performance.md)를 따른다(2026-11-03, 049).
 
-게임에 들어가는 3D 에셋의 규격(모바일 숫자)·색 방식·위치·제작 명령은 [에셋 규격과 정식 제작 경로](asset-standard.md)를 따른다. 정식 경로는 `Tools/Art/assets.py`, 숫자와 채택 목록의 원본은 `docs/art/asset-catalog.json`이다(2026-11-03, 050).
+게임에 들어가는 3D 에셋의 규격(모바일 숫자)·색 방식·위치·제작 명령은 [에셋 규격과 정식 제작 경로](asset-standard.md)를 따른다. 정식 경로는 `3dkit/tools/assets.py`(051, 이전 `Tools/Art/assets.py`), 숫자의 원본은 3dkit 프로필(`3dkit.config.json` `assets.profile`), 채택 목록·예산의 원본은 `docs/art/asset-catalog.json`(v2)이다(2026-11-03, 050·051).
 
 장면·자산을 코드로 다시 만드는 빌더는 [장면 빌더 공통 규칙](scene-builders.md)(소유·순서, 저장 뒤 다시 열어 확인, GUID 유지, 부작용 파일 되돌리기, 046 내용 교훈)을 따른다(2026-11-03, 048).
 

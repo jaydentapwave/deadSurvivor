@@ -6,7 +6,7 @@
  },
  "assets": {
   "profile": "lowpoly",
-  "catalog": "docs/art/asset-catalog.v2.json",
+  "catalog": "docs/art/asset-catalog.json",
   "content_root": "Assets/DeadSurvivor",
   "art_root": "Assets/DeadSurvivor/Art",
   "work_root": "output/assets",
@@ -14,7 +14,11 @@
    "palette_lit": "DeadSurvivor/LowPolyPalette"
   },
   "capture": {
-   "background": [0.31, 0.61, 0.2]
+   "background": [
+    0.31,
+    0.61,
+    0.2
+   ]
   }
  },
  "tripo": {
@@ -25,5 +29,11 @@
   "new_work_root": "output/assets",
   "timezone": "Asia/Seoul"
  },
- "blender": "/Applications/Blender.app/Contents/MacOS/Blender"
+ "blender": "/Applications/Blender.app/Contents/MacOS/Blender",
+ "harness": {
+  "_comment": "3dkit/tools/protect.py reads side_effect_files. Deadsurvivor's own hook and tier tools still read Tools/Harness/tier-policy.json (not switched to 3dkit/tools/guard.py).",
+  "side_effect_files": [
+   "Assets/DeadSurvivor/Resources/DeadSurvivor/UI/PrototypeFont.asset"
+  ]
+ }
 }

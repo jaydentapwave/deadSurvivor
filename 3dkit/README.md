@@ -4,7 +4,7 @@ AI 에이전트(Claude·Codex)가 Unity 프로젝트에서 **원하는 3D 자산
 
 - 출처: 개인 프로젝트 Deadsurvivor(Unity 6000.4 URP, 로우폴리 3D, Tripo·Codex로 만든 AI 미술)에서 2026-10-29~11-03에 실제로 쓰며 다듬은 규칙과 도구.
 - **단계: 디벨롭(개발 중).** 사용자(2026-11-03): "따라서 지금은 아직 3dkit은 디벨롭 단계야". 완성 판단은 사용자가 한다.
-- 상태(2026-11-03, v0): **문서와 참고 구현만 있다.** 실행 도구(`tools/`)와 Unity 패키지(`unity/`)는 아직 없고, 첫 사용 프로젝트에서 [하네스 설계도](workflows/harness-blueprint.md) 단계(H0~H4)대로 만든다. 두 번째 프로젝트에서 설정만 바꿔 돌아가야 "범용"이라고 부른다.
+- 상태(2026-11-03, v1 진행 — Deadsurvivor 051): **에셋 정식 경로(H3)가 실제로 돈다**(`tools/assets.py` + `unity/` 패키지 + 프로필 `lowpoly`·`midpoly`). Deadsurvivor에서 이전 도구와 결과가 같음을 확인했다(규격 대조 측정값, 텍스처 해시, Unity 결과 git 변경 0, 캡처 픽셀). 게임과 무관한 도구 `guard`(hook)·`protect`·`session_time`도 옮겼다(자체 시험 PASS, 프로젝트 hook 연결은 새 프로젝트 H0에서). 측정 Play·Play 실행기·`tier`·`gate`는 게임 루프가 있는 프로젝트에서 [하네스 설계도](workflows/harness-blueprint.md) 단계대로 만든다. midpoly 프로필은 숫자가 시안이고 Unity 실제 실행은 아직이다. 두 번째 프로젝트에서 설정만 바꿔 돌아가야 "범용"이라고 부른다.
 
 ## 구성
 
@@ -14,8 +14,9 @@ AI 에이전트(Claude·Codex)가 Unity 프로젝트에서 **원하는 3D 자산
 | `lessons/` | [교훈](lessons/교훈-이식.md): 이전 프로젝트에서 실제로 겪은 실패 → 원인 → 기본 규칙 |
 | `templates/` | 인수인계·결정·검증·설계 양식, `project/`(새 프로젝트 루트에 복사할 AGENTS·CLAUDE·현재 상태·설정·검토 역할 틀) |
 | `reference/` | 이전 프로젝트의 실제 도구 코드(실행용 아님). [안내](reference/README.md) |
-| `tools/` *(예정)* | Python 도구: `guard`(Claude hook), `probe`(측정 Play), `protect`, `session_time`, `play_check`, `tier`, `assets`(에셋 정식 경로), `gate` |
-| `unity/` *(예정)* | Unity 쪽 Editor C#을 담은 로컬 UPM 패키지(측정 클래스, 에셋 가져오기) |
+| `tools/` | Python 도구. **있음**: `assets.py`(에셋 정식 경로, `kitlib/`), `selftest_tripo.py`, `guard.py`(Claude hook), `protect.py`(부작용 파일 되돌리기), `session_time.py`(시간·토큰). **예정**: `probe`(측정 Play), `play_check`, `tier`, `gate` |
+| `profiles/` | 에셋 프로필: `lowpoly.json`(Deadsurvivor 050 모바일 값), `midpoly.json`(시안). 프로젝트는 `3dkit.config.json`의 `assets.profile`로 고른다 |
+| `unity/` | 로컬 UPM 패키지 `com.studiokit.kit3d`(Editor asmdef `Kit3D.Editor`): `AssetPipeline`(가져오기·재질·프리팹·Mesh LOD·측정·캡처), `IKit3DProjectHooks`(프로젝트 훅). 측정 Play 클래스는 예정 |
 
 ## 프로젝트에 넣기
 
@@ -38,8 +39,8 @@ cp 3dkit/templates/project/3dkit.config.json .
 
 | 단계 | 내용 | 완료 조건 |
 |---|---|---|
-| v0 (지금) | 문서·교훈·양식·참고 구현 | — |
-| v1 키트 완성 | [하네스 설계도](workflows/harness-blueprint.md) H0~H3을 `tools/`·`unity/`에 실제로 구현. 중심은 에셋 정식 경로(생성 → 감량 → 가져오기 → 규격 대조 → 캡처) | 한 프로젝트에서 에셋 1종이 처음부터 끝까지 도구로 만들어짐 |
+| v0 | 문서·교훈·양식·참고 구현 | 완료(2026-11-03) |
+| v1 키트 완성 (지금) | [하네스 설계도](workflows/harness-blueprint.md) H0~H3을 `tools/`·`unity/`에 실제로 구현(H3 완료, H0·H1 일부 완료). 중심은 에셋 정식 경로(생성 → 감량 → 가져오기 → 규격 대조 → 캡처) | 한 프로젝트에서 에셋 1종이 처음부터 끝까지 도구로 만들어짐 |
 | v2 하나의 에이전트 | 워크플로우·도구·hook을 에이전트 하나로 묶음(형태는 그때 정함. 후보: Claude Code 플러그인 = 스킬 + 에이전트 정의 + hook + 도구, Codex용 AGENTS·스킬) | 에이전트에게 "이런 3D 자산을 만들어줘"라고 하면 승인 지점에서만 사람에게 묻고 끝까지 감 |
 | v3 이식 검증 | 다른 프로젝트(시험용이라도)에 넣어 설정만 바꿔 동작 | 두 번째 프로젝트에서 같은 결과 |
 | 그다음 | 3dkit을 studio-kit(`git@github.com:jaydentapwave/studio-kit.git`)에 반영 | 사용자가 3dkit 완성을 판단할 때 |

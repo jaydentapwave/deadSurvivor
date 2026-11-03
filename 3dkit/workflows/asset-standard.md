@@ -2,8 +2,8 @@
 
 게임에 들어가는 3D 에셋(캐릭터·몬스터·소품·지형 재질)에 적용한다. [핵심 규칙](core-rules.md)이 우선한다. 이전 프로젝트의 050 에셋 규격에서 틀과 공통 규칙을 옮겼다(2026-11-03). **미드폴리 숫자는 아직 정하지 않았다.** 출발 계획(프로젝트의 `docs/plan/001-출발-계획.md`)의 룩데브 단계에서 정하고 이 문서를 고친다.
 
-- 숫자의 원본은 에셋 카탈로그(JSON, H3에서 만듦) 하나다. 이 문서의 표는 카탈로그에서 뽑은 출력으로 바꾼다.
-- 카탈로그의 등록 목록이 **채택 목록**이다. 빌드 장면은 등록된 폴더의 에셋만 쓴다.
+- 숫자의 원본은 **프로필**(`3dkit/profiles/<이름>.json`의 `standards`)이다. 프로젝트는 `3dkit.config.json`의 `assets.profile` 값 하나로 프로필을 고르고, 다르게 할 종류만 카탈로그 `standards_override`에 키 단위로 적는다. 표는 `python3 3dkit/tools/assets.py spec --markdown` 출력이다(2026-11-03, 051).
+- 카탈로그(프로젝트의 JSON, 스키마 `3dkit-asset-catalog/2`)의 등록 목록이 **채택 목록**이다. 빌드 장면은 등록된 폴더의 에셋만 쓴다.
 
 ## 1. 규격표
 
@@ -59,18 +59,35 @@
 
 허용 셰이더 목록은 이 결정 뒤에 정한다(이전: 공용 팔레트 셰이더, 물 셰이더, URP Unlit·Particles/Unlit).
 
-## 4. 정식 경로 (H3에서 만듦)
+## 4. 정식 경로 `3dkit/tools/assets.py` (H3, 051에서 구현)
 
-에셋은 정식 도구 하나로만 만든다([하네스 설계도](harness-blueprint.md) H3). 만들기 전까지는 수동으로 만들되 아래 순서와 기록을 지킨다.
+에셋은 이 도구 하나로만 만든다. 프로젝트 루트에서 `/usr/bin/python3 3dkit/tools/assets.py [--profile 이름] <명령>`(numpy·Pillow 필요). `unity`·`check`·`capture`·`migrate`는 Unity 편집기가 이 프로젝트로 열려 있고 패키지 `com.studiokit.kit3d`(`Packages/manifest.json`: `"file:../3dkit/unity"`)가 들어 있어야 한다. 첫 구현과 회귀(이전 도구와 결과 동일)는 Deadsurvivor 051 기록에 있다.
+
+**구조: 공통 뼈대 + 프로필**
+
+| 단계 | 하는 일 | 프로필이 정하는 것 |
+|---|---|---|
+| generate (`gen`) | Tripo 생성: 요청 고정 → 드라이런 → 제출 → 받기, 동작 `gen anim` | 모델·인자(lowpoly `smart_low_poly=true`, midpoly `pbr=true`). 면 한도는 자산 값 우선 |
+| decimate | (도구 밖) 상한 초과 시 Blender로 줄인다 | 지금은 둘 다 `none`(자동화는 후속) |
+| texture (`prep`) | 규격 크기로 줄이고 색 처리 | `standards[종류].color`: `palette_texture` → 팔레트화, `texture` → 그대로(맵별, 노멀 재정규화), `palette_uv` → 도구 밖 |
+| import·material·prefab·lod (`unity`) | 텍스처·모델 가져오기, 재질, 프리팹(루트(발) → `Visual` → 높이 1 모델, 정면 +Z), Mesh LOD, 프로젝트 등록 훅 | 가져오기 설정, 셰이더 역할·텍스처 칸·프리셋·키워드, 빛 프로브, `lod` |
+| check | 등록 에셋과 빌드 장면을 Unity에서 재고 규격과 대조 | 숫자, 장면 텍스처 최대, 고정 재질 속성 |
+| capture | 게임 각도·정면 줄 세우기 | — |
+
+**설정 세 겹(값마다 원본 하나)**: 프로필(키트, 스타일 값) / `3dkit.config.json`(프로젝트: 프로필 이름, 경로, 셰이더 역할 → 실제 이름, 캡처 배경, Tripo CLI·키 파일) / 카탈로그(프로젝트: 자산, 예산·승인 원문, 팔레트, 시험 폴더·허용 셰이더·이름 규칙·훅 데이터, 프로젝트 동작 단계).
+
+**프로젝트 훅**: 게임 타입(예: 액터 세트)을 아는 일은 프로젝트의 Editor C# 클래스 하나가 `Kit3D.IKit3DProjectHooks`(Prepare·Register·Measure·Lineup)를 구현해 맡는다. 키트 코드는 게임 이름·경로를 모른다.
+
+**유료 안전 규칙(도구가 강제)**: 예산에 사용자 승인 원문과 상한이 없으면 `freeze` 거부, 예산 `assets`에 없는 자산 거부, 잠금·재개 일지, 네트워크 오류 뒤 재전송 금지, 프로젝트 동작 단계는 자기 예산 `step_approvals` 원문 필요. 반례 시험 `3dkit/tools/selftest_tripo.py`.
 
 **새 에셋 하나를 넣는 순서**
 
-1. 카탈로그에 항목을 추가한다: 종류, 폴더, 원본(직접 제작 또는 Tripo 요청).
-2. 유료 생성이면 사용자 승인 원문과 상한을 카탈로그 예산에 적는다(핵심 규칙 7절).
-3. 생성: 요청 고정 → 드라이런 → 제출 → 받기. 동작이 필요하면 리깅·애니메이션.
+1. 카탈로그에 항목을 추가한다: `kind`, `folder`, `method: build`, `source`(텍스처·모델, midpoly는 `maps`) 또는 `tripo` 블록, 필요하면 프로젝트 훅 데이터(`project`).
+2. 유료 생성이면 새 예산에 사용자 승인 원문과 상한, 대상 자산 목록을 적는다(옛 승인을 물려받지 않는다).
+3. `gen freeze → dryrun → submit → fetch`, 동작이 필요하면 `gen anim`.
 4. 삼각형이 상한을 넘으면 Blender로 줄인다.
-5. 텍스처 처리 → Unity 가져오기 → 규격 대조.
-6. 정면 줄 세우기 캡처와 짧은 Play 1회로 확인하고, 사용자가 화면을 본다.
+5. `prep` → `unity` → `check`.
+6. `capture`와 짧은 Play 1회로 확인하고, 사용자가 화면을 본다.
 7. 성능 한 줄을 잰다(핵심 규칙 1절).
 
 ## 5. 위치와 소유

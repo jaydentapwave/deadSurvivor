@@ -4,7 +4,7 @@
 
 ## 1. 장면 소유와 순서 (047 H3, 047-E3, 046-12)
 
-- 한 장면은 **소유 빌더** 하나가 만든다. 다른 빌더가 같은 장면에 붙이는 것(액터 세트, 효과, 밤 화면 등)은 소유 빌더가 다시 붙인다. 지금 `Map046_Full`은 `build_map_046.cs`가 소유하고 액터 세트(`Art/Characters/ActorSet_Main.asset`, 내용은 `Tools/Art/assets.py`가 씀)·`build_fx_047.cs`(효과·밤)의 결과를 다시 붙인다. 050 장면 단계(시험 바위 제거)도 이 빌더의 `StripTrialRock`/`Apply050`이다. `build_monsters_046.cs`는 050에서 대체돼 실행하면 거부한다. 에셋 폴더 소유는 [에셋 규격](asset-standard.md) 4절.
+- 한 장면은 **소유 빌더** 하나가 만든다. 다른 빌더가 같은 장면에 붙이는 것(액터 세트, 효과, 밤 화면 등)은 소유 빌더가 다시 붙인다. 지금 `Map046_Full`은 `build_map_046.cs`가 소유하고 액터 세트(`Art/Characters/ActorSet_Main.asset`, 내용은 `3dkit/tools/assets.py`가 씀)·`build_fx_047.cs`(효과·밤)의 결과를 다시 붙인다. 050 장면 단계(시험 바위 제거)도 이 빌더의 `StripTrialRock`/`Apply050`이다. `build_monsters_046.cs`는 050에서 대체돼 실행하면 거부한다. 에셋 폴더 소유는 [에셋 규격](asset-standard.md) 4절.
 - 다시 만드는 순서는 그 장면의 기록 문서에 한 줄로 적는다. 예: [047 "다시 만들기 순서"](../reviews/combat-fx-047-log.md#만든-것).
 - 새 빌더가 소유 장면을 고치면 소유 빌더의 다시 붙이기 목록에도 넣는다. 넣지 않으면 다음 전체 빌드에서 조용히 사라진다.
 

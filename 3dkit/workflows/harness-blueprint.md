@@ -29,8 +29,9 @@
 <프로젝트 루트>/
 ├── 3dkit/                  ← 키트(완성 전에는 폴더 복사, 완성·에이전트화 뒤 형태를 다시 정함)
 │   ├── workflows/ lessons/ templates/ reference/
-│   ├── tools/                   ← H0~H4에서 만드는 Python 도구 (아직 없음)
-│   └── unity/                   ← Unity 쪽 Editor C#을 담는 로컬 UPM 패키지 (아직 없음)
+│   ├── tools/                   ← Python 도구 (assets·guard·protect·session_time 있음, 나머지는 단계별로)
+│   ├── profiles/                ← 에셋 프로필 (lowpoly, midpoly)
+│   └── unity/                   ← 로컬 UPM 패키지 com.studiokit.kit3d (에셋 Editor 코드 있음)
 ├── 3dkit.config.json       ← 프로젝트별 값 (유일)
 ├── AGENTS.md  CLAUDE.md  .claude/
 ├── docs/                        ← 프로젝트 문서 (현재 상태, 계획, 기획)
@@ -74,6 +75,17 @@
 | **H4** | 첫 커밋할 콘텐츠가 생길 때 | 커밋 전 gate `tools/gate.py`: 문서 링크, 컴파일, 정적 참조(빌드 장면 경로·GUID, 누락 참조), `assets.py check`, 현재 게임 동작 지문에 맞는 짧은 Play 증거. 프로젝트의 Git pre-commit에 연결 | 이전 gate의 `refs` 아이디어만. 코드는 새로 | gate PASS로 첫 커밋 |
 
 - H0~H4 밖의 도구는 사용자가 요청할 때만 만든다.
+
+### 진행 상태 (2026-11-03, Deadsurvivor 051)
+
+| 단계 | 상태 |
+|---|---|
+| H0 | `tools/guard.py` 있음(정책은 `3dkit.config.json` `harness`, 자체 시험 PASS). 프로젝트 `.claude/settings.json` 연결은 새 프로젝트에서 |
+| H1 | `tools/protect.py`(`harness.side_effect_files`), `tools/session_time.py` 있음(자체 시험 PASS). `probe`와 Unity 측정 클래스는 게임 장면이 생길 때 |
+| H2 | 없음(게임 루프가 생길 때) |
+| **H3** | **완료**: `tools/assets.py` + `kitlib/` + `profiles/` + `unity/` 패키지 + 프로젝트 훅 인터페이스. Deadsurvivor에서 이전 도구와 결과 동일(규격 대조 측정값, 텍스처 해시, Unity 결과 git 변경 0, 캡처 픽셀), midpoly 경로(URP Lit·노멀맵·Mesh LOD)를 임시 폴더에서 실행 확인. 감량(Blender) 자동화는 후속 |
+| H4 | 없음 |
+- 설정 파일의 실제 키는 위 초안과 조금 다르다: 에셋 값은 `assets`(profile·catalog·content_root·art_root·work_root·shaders·capture), Tripo는 `tripo`, 하네스는 `harness`(full_runners·full_override_env·review·context·side_effect_files). 원본은 각 도구의 문서 문자열이다.
 - 각 단계가 끝나면 [도구 연결](tools.md)과 프로젝트의 `docs/개발환경.md`를 고친다.
 - 두 번째 프로젝트에 넣어 설정 파일만 바꿔 돌아가면 이식성이 증명된 것이다. 그전에는 "범용"이라고 부르지 않는다.
 

@@ -36,6 +36,8 @@ def main(argv=None):
     profile = None
     if '--profile' in a:
         i = a.index('--profile')
+        if i + 1 >= len(a):
+            raise SystemExit('--profile NEEDS_A_NAME')
         profile = a[i + 1]
         del a[i:i + 2]
     if not a:
@@ -164,6 +166,8 @@ def check_profiles():
     assert P.judge(mid, meas(s['tris_max']))[1] == [], P.judge(mid, meas(s['tris_max']))[1]
     assert any('tris' in f for f in P.judge(mid, meas(s['tris_max'] + 1))[1])
     assert any('tris' in f for f in P.judge(low, meas(s['tris_max']))[1]), 'lowpoly numbers must reject a midpoly boss'
+    import shutil
+    shutil.rmtree(d, ignore_errors=True)
     return f'profiles OK (lowpoly <-> midpoly by assets.profile; midpoly boss {s["tris_target"]}/{s["tris_max"]} tris, {size}px albedo+normal, URP Lit, Mesh LOD)'
 
 
