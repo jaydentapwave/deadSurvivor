@@ -1,6 +1,6 @@
 # F4 몬스터 5종과 웨이브 수치 기획서
 
-- 상태: 초안
+- 상태: 승인 (2026-11-15, 디렉터 확인 — 게임 시작 전 승인 범위 안, director-game autonomy 1절)
 - 서버 필요: 아니오
 - 관련 문서: [게임 기획서](../../game/gdd.md) F4(S3, C1, C3), 판정 단계 G2(이 기능에서 회귀 통과), G3·G5·G7(이 기능의 규칙이 지나가지만 F2·F5가 있어야 닿음 — 흐름 경로로 확인), 목표값 M2·M3·M5·M7. [F1 기획서](../f1-skeleton/plan.md) E절(대체할 임시 규칙)·G절(화면 경계)·H절(판정 진입점). 참고 분석 문서 없음. 예전 판 코드 `Assets/DeadSurvivor/Runtime/DSGame.Combat.cs`·`DSGame.Run.cs`·`DSData.cs`, 예전 값 `Assets/DeadSurvivor/Resources/DeadSurvivor/PrototypeData.json`(읽기 전용, 규칙만 옮김). 긴 근거는 [notes.md](notes.md)
 
