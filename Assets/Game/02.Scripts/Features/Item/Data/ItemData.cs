@@ -22,6 +22,8 @@ public class ItemData : ISerializationCallbackReceiver
     [SerializeField] private float effectInterval;
     [SerializeField] private float effectRadius;
     [SerializeField] private string icon;
+    // 전리품 가중치(F5 B3). 칸이 없는 파일은 1, 0이면 전리품에 안 나온다
+    [SerializeField] private float lootWeight = 1f;
 
     private ItemMode _mode;
     private ItemEffectKind _baseEffect;
@@ -44,6 +46,7 @@ public class ItemData : ISerializationCallbackReceiver
     public float EffectInterval => effectInterval;
     public float EffectRadius => effectRadius;
     public string Icon => icon;
+    public float LootWeight => lootWeight;
     public bool IsHealMode => _mode == ItemMode.Heal || _mode == ItemMode.HealArea;
 
     public void OnBeforeSerialize()

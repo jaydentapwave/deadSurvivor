@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-"""게임 데이터 검사(에디터 없이). 스키마: docs/features/f1-skeleton/plan.md·f3-combat/plan.md "데이터 스키마".
+"""게임 데이터 검사(에디터 없이). 스키마: docs/features/f1-skeleton/plan.md·f3-combat/plan.md·f5-bag/plan.md "데이터 스키마".
 
   python3 -B ./tools/check_data.py              지금 데이터를 검사한다. 문제가 있으면 줄마다 출력하고 exit 1
   python3 -B ./tools/check_data.py --root <폴더> 다른 데이터 폴더를 검사한다(Character/ Item/ Wave/ Run/ 이 있는 곳)
   python3 -B ./tools/check_data.py --self-test  지금 데이터가 통과하고, 틀린 데이터 9종(F1: id 중복, 없는 startItem,
                                                 웨이브 order 빈칸, 캐릭터 수 4 아님 / F3: 모르는 mode, interval 0인 발동 아이템,
-                                                4×4 밖이거나 끊긴 shape, 모르는 효과 종류, passive 시작 아이템)이 각각 실패하는지 본다
+                                                4×4 밖이거나 끊긴 shape, 모르는 효과 종류, passive 시작 아이템 / F5: 등급 배수 줄어듦,
+                                                minCount > maxCount, 모든 lootWeight 0, 가방에 안 들어가는 시작 아이템)이 각각 실패하는지 본다
 
 보는 것: JSON 형식, 필수 칸과 형, id = 파일 이름, id 중복, 가리키는 대상(startItem → Item), 웨이브 order 1..N 빈칸 없음,
-개수 범위(캐릭터 4, 아이템 4~40, 웨이브 1~20), 값 범위, 아이템 발동 방식·효과·칸 모양(F3), 전투 규칙 파일(F3). 모르는 칸은 통과시킨다(뒤 기능이 같은 파일에 칸을 더한다).
+개수 범위(캐릭터 4, 아이템 4~40, 웨이브 1~20), 값 범위, 아이템 발동 방식·효과·칸 모양(F3), 전투 규칙 파일(F3),
+등급·가방 규칙·전리품 규칙 파일과 아이템 lootWeight(F5). 모르는 칸은 통과시킨다(뒤 기능이 같은 파일에 칸을 더한다).
 종료 코드: 0 통과, 1 문제 있음, 2 실행할 수 없음(데이터 폴더 없음).
 """
 import json
@@ -206,7 +208,103 @@ def check(root):
         spec["defCap"] = (lambda v: is_num(v) and 0 < v <= 1, "0보다 크고 1 이하여야 한다")
         spec["chainBaseHits"] = (lambda v: is_int(v) and v > 0, "0보다 큰 정수여야 한다")
         check_fields("Combat/combat_rules.json", rules, spec, problems)
+
+    check_bag_loot(root, items, characters, problems, notes)
     return problems, notes
+
+
+def check_bag_loot(root, items, characters, problems, notes):
+    """F5: 등급 파일, 가방 규칙(4×4, 시작 칸, 아이템이 들어감), 전리품 규칙, 아이템 lootWeight."""
+    grades = load_single(root / "Grade" / "grades.json", problems)
+    if grades is not None:
+        grade_list = grades.get("grades")
+        if not isinstance(grade_list, list) or not grade_list:
+            problems.append("Grade/grades.json: 'grades' — 등급 1개 이상의 목록이어야 한다")
+        else:
+            seen, prev_mult = set(), None
+            for i, grade in enumerate(grade_list):
+                label = f"Grade/grades.json grades[{i}]"
+                if not isinstance(grade, dict):
+                    problems.append(f"{label}: 객체여야 한다")
+                    continue
+                check_fields(label, grade, {
+                    "id": (is_text, "글자여야 한다"),
+                    "name": (is_text, "글자여야 한다"),
+                    "color": (lambda v: isinstance(v, str) and COLOR.fullmatch(v), "#rrggbb여야 한다"),
+                    "mult": (lambda v: is_num(v) and v > 0, "0보다 커야 한다"),
+                }, problems)
+                gid, mult = grade.get("id"), grade.get("mult")
+                if is_text(gid) and gid in seen:
+                    problems.append(f"Grade/grades.json: id '{gid}' 중복")
+                seen.add(gid)
+                if is_num(mult) and prev_mult is not None and mult <= prev_mult:
+                    problems.append(f"{label}: 'mult' = {mult!r} — 앞 등급({prev_mult!r})보다 커야 한다")
+                if is_num(mult):
+                    prev_mult = mult
+            notes.append(f"등급 {len(grade_list)}개")
+
+    bag = load_single(root / "Bag" / "bag_rules.json", problems)
+    if bag is not None:
+        label = "Bag/bag_rules.json"
+        check_fields(label, bag, {
+            "bagWidth": (lambda v: v == SHAPE_SIZE and is_int(v), f"{SHAPE_SIZE}여야 한다(게임 기획서 S5 4×4)"),
+            "bagHeight": (lambda v: v == SHAPE_SIZE and is_int(v), f"{SHAPE_SIZE}여야 한다(게임 기획서 S5 4×4)"),
+            "startCell": (lambda v: isinstance(v, dict) and is_int(v.get("x")) and is_int(v.get("y")), "정수 {x, y}여야 한다"),
+            "autoEquip": (lambda v: isinstance(v, dict) and is_num(v.get("hpWeight")) and v["hpWeight"] >= 0
+                          and is_num(v.get("shieldWeight")) and v["shieldWeight"] >= 0,
+                          "{hpWeight, shieldWeight} 0 이상 수여야 한다"),
+        }, problems)
+        width, height, start = bag.get("bagWidth"), bag.get("bagHeight"), bag.get("startCell")
+        if is_int(width) and is_int(height) and isinstance(start, dict) and is_int(start.get("x")) and is_int(start.get("y")):
+            sx, sy = start["x"], start["y"]
+            if not (0 <= sx < width and 0 <= sy < height):
+                problems.append(f"{label}: 'startCell' ({sx}, {sy}) — 가방({width}×{height}) 안이어야 한다")
+            shapes = {d.get("id"): d.get("shape") for _, d in items}
+            for item_id, shape in shapes.items():
+                cells = shape_cells(shape)
+                if cells is not None and any(x >= width or y >= height for x, y in cells):
+                    problems.append(f"Item/{item_id}.json: 'shape' — 회전 0에서 가방({width}×{height})에 들어가지 않는다")
+            for stem, data in characters:
+                cells = shape_cells(shapes.get(data.get("startItem")))
+                if cells is not None and any(not (0 <= sx + x < width and 0 <= sy + y < height) for x, y in cells):
+                    problems.append(f"Character/{stem}.json: 시작 아이템 '{data.get('startItem')}'이 시작 칸 ({sx}, {sy})에서 "
+                                    f"가방에 들어가지 않는다")
+
+    loot = load_single(root / "Loot" / "loot_rules.json", problems)
+    if loot is not None:
+        label = "Loot/loot_rules.json"
+        positive = (lambda v: is_num(v) and v > 0, "0보다 커야 한다")
+        check_fields(label, loot, {
+            "minCount": (lambda v: is_int(v) and v >= 1, "1 이상 정수여야 한다"),
+            "maxCount": (lambda v: is_int(v) and v >= 1, "1 이상 정수여야 한다"),
+            "earlyWaveMax": (lambda v: is_int(v) and v >= 0, "0 이상 정수여야 한다"),
+            "earlyBonusFactor": positive,
+            "mergeWaveMin": (lambda v: is_int(v) and v >= 0, "0 이상 정수여야 한다"),
+            "mergeFactor": positive,
+            "lootSeedOffset": (is_int, "정수여야 한다"),
+        }, problems)
+        lo, hi = loot.get("minCount"), loot.get("maxCount")
+        if is_int(lo) and is_int(hi) and lo > hi:
+            problems.append(f"{label}: minCount {lo} > maxCount {hi} — 1 ≤ minCount ≤ maxCount여야 한다")
+
+    weights = []
+    for stem, data in items:
+        w = data.get("lootWeight", 1)
+        if not is_num(w) or w < 0:
+            problems.append(f"Item/{stem}.json: 'lootWeight' = {w!r} — 0 이상 수여야 한다(없으면 1)")
+        else:
+            weights.append(w)
+    if items and not any(w > 0 for w in weights):
+        problems.append("Item: lootWeight > 0인 아이템이 없다 — 전리품 후보가 하나 이상이어야 한다")
+    notes.append(f"전리품 후보 {sum(1 for w in weights if w > 0)}개")
+
+
+def shape_cells(shape):
+    """정수 {x, y} 목록이면 (x, y) 목록, 아니면 None(형식 문제는 check_shape가 적는다)."""
+    if not isinstance(shape, list) or not shape or not all(
+            isinstance(c, dict) and is_int(c.get("x")) and is_int(c.get("y")) for c in shape):
+        return None
+    return [(c["x"], c["y"]) for c in shape]
 
 
 def check_item_combat(label, data, problems):
@@ -314,7 +412,7 @@ def report(root):
 
 
 def self_test(root):
-    """틀린 데이터 4종이 각각 실패하고, 지금 데이터는 통과하는지."""
+    """틀린 데이터 13종이 각각 실패하고, 지금 데이터는 통과하는지."""
     def edit_json(path, change):
         data = json.loads(path.read_text(encoding="utf-8"))
         change(data)
@@ -353,11 +451,26 @@ def self_test(root):
         first = sorted((d / "Character").glob("*.json"))[0]
         edit_json(first, lambda data: data.update(startItem="ironshield"))
 
+    def break_grade_mult(d):
+        edit_json(d / "Grade" / "grades.json", lambda data: data["grades"][2].update(mult=1.2))
+
+    def break_loot_count(d):
+        edit_json(d / "Loot" / "loot_rules.json", lambda data: data.update(minCount=6, maxCount=5))
+
+    def break_loot_weight(d):
+        for path in sorted((d / "Item").glob("*.json")):
+            edit_json(path, lambda data: data.update(lootWeight=0))
+
+    def break_start_cell(d):
+        edit_json(d / "Bag" / "bag_rules.json", lambda data: data.update(startCell={"x": 3, "y": 3}))
+
     cases = [("id 중복", break_duplicate, "중복"), ("없는 startItem", break_start_item, "startItem"),
              ("웨이브 order 빈칸", break_wave_gap, "Wave: order"), ("캐릭터 수 4 아님", break_character_count, "Character: 3개"),
              ("모르는 mode", break_mode, "'mode'"), ("interval 0인 발동 아이템", break_interval, "'interval'"),
              ("4×4 밖이거나 끊긴 shape", break_shape, "'shape'"), ("모르는 효과 종류", break_effect, "'baseEffect'"),
-             ("passive 시작 아이템", break_passive_start, "passive")]
+             ("passive 시작 아이템", break_passive_start, "passive"),
+             ("등급 배수 줄어듦", break_grade_mult, "'mult'"), ("minCount > maxCount", break_loot_count, "minCount"),
+             ("모든 lootWeight 0", break_loot_weight, "lootWeight > 0"), ("시작 칸 (3, 3)", break_start_cell, "시작 칸 (3, 3)")]
     failures = []
     base_problems, _ = check(root)
     if base_problems:
