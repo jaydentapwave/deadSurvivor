@@ -1,0 +1,27 @@
+{
+  "id": "rosary",
+  "name": "기도 묵주",
+  "mode": "passive",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 0
+    }
+  ],
+  "power": 0,
+  "interval": 0,
+  "range": 0,
+  "baseEffect": "heal",
+  "baseValue": 2,
+  "bonusEffect": "share",
+  "bonusValue": 1,
+  "bonusTarget": "",
+  "bonusNeedsAdjacent": false,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": ""
+}
