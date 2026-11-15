@@ -1,0 +1,23 @@
+{
+  "id": "ring",
+  "name": "집중의 반지",
+  "mode": "passive",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "power": 0,
+  "interval": 0,
+  "range": 0,
+  "baseEffect": "haste",
+  "baseValue": 0.04,
+  "bonusEffect": "haste",
+  "bonusValue": 0.1,
+  "bonusTarget": "attack",
+  "bonusNeedsAdjacent": true,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": ""
+}

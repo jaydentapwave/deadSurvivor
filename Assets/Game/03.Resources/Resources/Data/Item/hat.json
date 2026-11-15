@@ -1,0 +1,35 @@
+{
+  "id": "hat",
+  "name": "마법사 모자",
+  "mode": "passive",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 0
+    },
+    {
+      "x": 2,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 1
+    }
+  ],
+  "power": 0,
+  "interval": 0,
+  "range": 0,
+  "baseEffect": "attack",
+  "baseValue": 0.05,
+  "bonusEffect": "chain",
+  "bonusValue": 2,
+  "bonusTarget": "chain",
+  "bonusNeedsAdjacent": true,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": ""
+}
