@@ -1,6 +1,6 @@
 # F5 가방과 정비, 전리품 기획서
 
-- 상태: 초안
+- 상태: 승인 (2026-11-15, 디렉터 확인 — 게임 시작 전 승인 범위 안, director-game autonomy 1절)
 - 서버 필요: 아니오
 - 관련 문서: [게임 기획서](../../game/gdd.md) F5(S5, S6), 판정 단계 G3·G4·G7(이 기능이 진입점 멤버를 채움, 통과는 F2·F4가 합쳐진 뒤 — H절), G2(회귀). 앞선 기능 [F1 기획서](../f1-skeleton/plan.md)(승인, E·G·H절), [F3 기획서](../f3-combat/plan.md)(승인, B2 `IItemPlacementInfo`, C절 `shape`, E절 `CanChangeEquipment`). 참고 분석 문서 없음. 예전 판 코드 `Assets/DeadSurvivor/Runtime/EquipmentRules.cs`·`DSGame.Inventory.cs`·`DSGame.Run.cs`·`DSUI.Equipment.cs`·`DSUI.cs`와 예전 값 `Assets/DeadSurvivor/Resources/DeadSurvivor/PrototypeData.json`(읽기 전용, 규칙만 옮김)
 - 작업 규모: L2(새 상태 소유권 — 가방·보관함, F3 배치 정보 자리 대체, 데이터 스키마 추가) — 구현 전 설계 검토
