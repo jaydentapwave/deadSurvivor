@@ -49,9 +49,9 @@ public class BattleItemListPresenter : ILateTickable
 
                 var itemSlot = slotList[slot];
                 var period = itemSlot.LastPeriod > 0f ? itemSlot.LastPeriod : GetCurrentPeriod(itemSlot);
-                var barRatio = period > 0f ? itemSlot.RemainingCooldown / period : 0f;
+                var barRatio = period > 0f ? itemSlot.DisplayCooldown / period : 0f;
                 itemViews[slot].UpdateUI(itemSlot.Item.Name, GetIcon(itemSlot.Item), GetItemState(member, slot),
-                    Mathf.Max(0f, itemSlot.RemainingCooldown), barRatio);
+                    Mathf.Max(0f, itemSlot.DisplayCooldown), barRatio);
             }
         }
     }
@@ -75,7 +75,7 @@ public class BattleItemListPresenter : ILateTickable
             return BattleItemState.Fired;
         }
 
-        return slot.RemainingCooldown > 0f ? BattleItemState.Cooling : BattleItemState.Ready;
+        return slot.DisplayCooldown > 0f ? BattleItemState.Cooling : BattleItemState.Ready;
     }
 
     // 마지막 주기가 0(아직 발동 전)이면 지금 주기: 발동 칸은 간격 ÷ (1 + 가속), 파동 칸은 효과 간격

@@ -104,7 +104,10 @@ public class MemberCombatState
 public class BattleItemSlot
 {
     public ItemData Item { get; }
+    // 발동 쿨(발동 아이템)
     public float RemainingCooldown { get; set; }
+    // 파동 쿨(추가 효과 pulse, B6). 발동 쿨과 따로 돈다
+    public float PulseCooldown { get; set; }
     // 마지막 발동 주기(쿨타임 막대의 분모)
     public float LastPeriod { get; set; }
     // "발동!" 표시 남은 초
@@ -115,6 +118,8 @@ public class BattleItemSlot
     public float GradeMultiplier { get; set; }
     // 추가 효과 파동이 적용되는 칸(B6, 쿨이 도는 지속 칸)
     public bool IsPulse { get; set; }
+    // 하단 칸에 보일 남은 쿨: 지속 아이템은 파동 쿨, 발동 아이템은 발동 쿨
+    public float DisplayCooldown => Item.Mode == ItemMode.Passive ? PulseCooldown : RemainingCooldown;
 
     public BattleItemSlot(ItemData item)
     {
@@ -124,6 +129,7 @@ public class BattleItemSlot
     public void ResetCooldown()
     {
         RemainingCooldown = 0f;
+        PulseCooldown = 0f;
         LastPeriod = 0f;
         FiredSeconds = 0f;
     }

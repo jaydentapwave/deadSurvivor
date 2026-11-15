@@ -185,6 +185,36 @@ public class ItemActivationTests
     }
 
     [Test]
+    public void ProjectileDoesNotFlyPastRange()
+    {
+        // 사거리 126, 1/30초에 14.67씩: 9걸음째에 132까지 가면 147의 적(반지름 18)을 맞히게 된다. 126에서 멈춰야 한다
+        // 관통 1이라 첫 적(100)을 지나 계속 난다
+        var context = Create(new FakePlacementInfo { IsAllAdjacent = true }, "t_shot_test", "t_pierce");
+        var origin = context.PartyModel.MemberList[0].Position;
+        var target = context.AddMonster(1, origin + new Vector2(100f, 0f), Hp);
+        var beyond = context.AddMonster(2, origin + new Vector2(147f, 0f), Hp);
+
+        context.StepCombat(20, context.RunRules.SimStep);
+
+        Assert.AreEqual(1, context.CombatModel.GetFireCount("t_shot_test"));
+        Assert.AreEqual(Hp - Hit * 1.05f, target.Hp, 1e-3f);
+        Assert.AreEqual(Hp, beyond.Hp);
+        Assert.AreEqual(0, context.CombatModel.ProjectileList.Count);
+    }
+
+    [Test]
+    public void PulseOnActionItemKeepsItsOwnCooldown()
+    {
+        // 근접 피해 10(× 브루노 0.8), 간격 1초 + 추가 효과 파동 5, 3초마다: 0.125초 24걸음 = 공격 3번·파동 1번
+        var context = Create("t_melee_pulse");
+        var monster = context.AddMonster(1, context.PartyModel.MemberList[0].Position + new Vector2(30f, 0f), Hp);
+
+        context.StepCombat(24, 0.125f);
+
+        Assert.AreEqual(Hp - (3f * Hit + 5f), monster.Hp, 1e-3f);
+    }
+
+    [Test]
     public void TwoItemsKeepOwnCooldowns()
     {
         var context = Create("t_cd_1", "t_cd_075");
@@ -280,7 +310,8 @@ public class ItemActivationTests
             CombatTestItems.Action("t_heal_test", "heal", 10f, 5f, 6f),
             CombatTestItems.Action("t_heal_area_test", "healArea", 10f, 5f, 6f),
             CombatTestItems.Action("t_cd_1", "melee", 1f, 1f, 3f),
-            CombatTestItems.Action("t_cd_075", "melee", 1f, 0.75f, 3f)), placement);
+            CombatTestItems.Action("t_cd_075", "melee", 1f, 0.75f, 3f),
+            CombatTestItems.Action("t_melee_pulse", "melee", 10f, 1f, 3f, "pulse", 5f, 3f, 100f)), placement);
         context.SetupParty(itemIdsPerMember);
         return context;
     }

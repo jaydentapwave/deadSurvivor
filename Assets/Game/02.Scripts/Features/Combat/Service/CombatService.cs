@@ -297,16 +297,21 @@ public class CombatService
                 continue;
             }
 
-            slot.RemainingCooldown -= deltaSeconds;
-            if (slot.RemainingCooldown > 0f)
+            slot.PulseCooldown -= deltaSeconds;
+            if (slot.PulseCooldown > 0f)
             {
                 continue;
             }
 
             var item = slot.Item;
-            slot.RemainingCooldown = item.EffectInterval;
-            slot.LastPeriod = item.EffectInterval;
-            slot.FiredSeconds = _rules.FiredSeconds;
+            slot.PulseCooldown = item.EffectInterval;
+            // 발동 아이템 칸의 표시(마지막 주기·발동!)는 발동 쪽 것이다. 지속 아이템 칸만 파동으로 표시한다
+            if (item.Mode == ItemMode.Passive)
+            {
+                slot.LastPeriod = item.EffectInterval;
+                slot.FiredSeconds = _rules.FiredSeconds;
+            }
+
             _combatModel.AddFireCount(item.Id);
             AddBurst(member.Position, item.EffectRadius);
             var damage = item.BonusValue * slot.GradeMultiplier;
@@ -494,7 +499,8 @@ public class CombatService
     {
         foreach (var projectile in _combatModel.ProjectileList)
         {
-            var travel = projectile.Speed * deltaSeconds;
+            // 사거리를 넘는 몫은 날지 않는다(넘은 자리의 적을 맞히지 않게)
+            var travel = Mathf.Min(projectile.Speed * deltaSeconds, projectile.Range - projectile.Traveled);
             var from = projectile.Position;
             projectile.Position = from + projectile.Direction * travel;
             projectile.Traveled += travel;

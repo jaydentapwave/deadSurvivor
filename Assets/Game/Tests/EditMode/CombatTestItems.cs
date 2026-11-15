@@ -6,9 +6,10 @@ using UnityEngine;
 // 전투 시험용 아이템(데이터 파일에 기대지 않는다). 실제 읽기 경로(JsonUtility + OnAfterDeserialize)로 만든다
 internal static class CombatTestItems
 {
-    public static ItemData Action(string id, string mode, float power, float interval, float range)
+    public static ItemData Action(string id, string mode, float power, float interval, float range, string bonusEffect = "",
+        float bonusValue = 0f, float effectInterval = 0f, float effectRadius = 0f)
     {
-        return Create(id, mode, power, interval, range, "", 0f, "", 0f, "", false);
+        return Create(id, mode, power, interval, range, "", 0f, bonusEffect, bonusValue, "", false, effectInterval, effectRadius);
     }
 
     public static ItemData Passive(string id, string baseEffect, float baseValue, string bonusEffect = "", float bonusValue = 0f,
