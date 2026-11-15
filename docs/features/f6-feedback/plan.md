@@ -1,6 +1,6 @@
 # F6 전투 화면과 피드백 기획서
 
-- 상태: 초안
+- 상태: 승인 (2026-11-15, 디렉터 확인 — 게임 시작 전 승인 범위 안, director-game autonomy 1절)
 - 서버 필요: 아니오
 - 관련 문서: [게임 기획서](../../game/gdd.md) F6(S9), 기둥 P3, 가정 A7, 10절(사람 판정), 목표값 M7. 판정 단계 G2(이 기능에서 회귀 통과), G3·G5·G7(피드백이 지나가지만 F2·F5와 콘텐츠가 있어야 닿음 — H절). 앞선 기능 [F1](../f1-skeleton/plan.md)(E·F·G·H절), [F3](../f3-combat/plan.md)(B4 피해·회복, G절), [F4](../f4-monsters/plan.md)(A절 행동·상태, F절). 아트 기준서 K15·2.4절 겹 순서. 참고 분석 문서 없음. 예전 판 코드 `Assets/DeadSurvivor/Runtime/DSGame.Combat.cs`·`DSWorld.cs`(읽기 전용, 규칙만 옮김). 근거는 [notes.md](notes.md)
 - 작업 규모: L2(새 데이터 파일 스키마, 피해 적용 지점 두 곳에 기록 추가) — 구현 전 설계 검토
