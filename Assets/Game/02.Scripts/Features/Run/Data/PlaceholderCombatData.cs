@@ -1,19 +1,16 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 // 임시 전투 값(기획서 E절). F3·F4가 칸을 지우고 마지막에 파일을 지운다.
 [Serializable]
 public class PlaceholderCombatData
 {
-    [SerializeField] private Vector2[] memberSpots;
     [SerializeField] private PlaceholderWeaponData weapon;
     [SerializeField] private PlaceholderEnemyData enemy;
     [SerializeField] private int spawnCount;
     [SerializeField] private float spawnMargin;
     [SerializeField] private float burningIntervalScale;
 
-    public IReadOnlyList<Vector2> MemberSpots => memberSpots;
     public PlaceholderWeaponData Weapon => weapon;
     public PlaceholderEnemyData Enemy => enemy;
     public int SpawnCount => spawnCount;
