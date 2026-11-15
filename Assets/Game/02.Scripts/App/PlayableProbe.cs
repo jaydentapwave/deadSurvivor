@@ -72,6 +72,54 @@ public static class PlayableProbe
         }
     }
 
+    // F3 전투(기획서 H절)
+    public static float MemberHp(int member) => Resolve<PartyModel>().MemberList[member].Hp;
+    public static float MemberMaxHp(int member) => Resolve<PartyModel>().MemberList[member].MaxHp;
+    public static float MemberShield(int member) => Resolve<PartyModel>().MemberList[member].Shield;
+    public static bool IsMemberAlive(int member) => Resolve<PartyModel>().MemberList[member].IsAlive;
+    public static int BattleItemCount(int member) => Resolve<CombatModel>().MemberStateList[member].SlotList.Count;
+    public static string ItemState(int member, int slot) => Resolve<BattleItemListPresenter>().GetItemState(member, slot).ToString();
+    // 이번 판 그 아이템의 원정대 전체 발동 수
+    public static int FireCount(string itemId) => Resolve<CombatModel>().GetFireCount(itemId);
+    public static bool CanRevive(int member) => Resolve<ReviveService>().CanRevive(member);
+    // 없으면 −1
+    public static int LastRevivedMember => Resolve<CombatModel>().LastRevivedMember;
+
+    // 전투 아이템 칸(발동 목록)에 그 id가 있는가. F5의 IsPlacedItemActive가 이것을 부른다
+    public static bool HasBattleItem(int member, string itemId)
+    {
+        foreach (var slot in Resolve<CombatModel>().MemberStateList[member].SlotList)
+        {
+            if (slot.Item.Id == itemId)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // 쓰러진 대원 중 가장 앞 번호, 없으면 −1
+    public static int FirstDownMember
+    {
+        get
+        {
+            var memberList = Resolve<PartyModel>().MemberList;
+            for (var i = 0; i < memberList.Count; i++)
+            {
+                if (!memberList[i].IsAlive)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+    }
+
+    // 부활 버튼 onClick과 같은 길
+    public static void PressRevive(int member) => Resolve<RevivePresenter>().OnReviveClicked(member);
+
     public static void PressDepart() => Resolve<LobbyPresenter>().OnDepartClicked();
 
     public static void PressNextWave() => Resolve<PrepPresenter>().OnNextWaveClicked();

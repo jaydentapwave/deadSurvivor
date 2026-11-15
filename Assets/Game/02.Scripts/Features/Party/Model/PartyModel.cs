@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 원정대 상태. 1/30초마다 바뀌는 실체 값이라 R3로 감싸지 않고 Presenter가 프레임마다 읽는다.
-// 쓰는 쪽: PartyService(만들기·피해), BasicWeaponService(무기 쿨 시계).
+// 쓰는 쪽: PartyService(만들기·피해·회복), CombatService(최대 HP·유효 방어·보호막, 판·웨이브 시작과 부활의 HP).
 public class PartyModel
 {
     private readonly List<PartyMember> _memberList = new();
@@ -23,19 +23,22 @@ public class PartyMember
     private readonly List<string> _equippedItemIdList = new();
 
     public string CharacterId { get; }
-    public float MaxHp { get; }
+    public float MaxHp { get; set; }
     public float Hp { get; set; }
+    // 유효 방어(기획서 B3)
+    public float Defense { get; set; }
+    public float Shield { get; set; }
     // 바닥 평면 좌표
     public Vector2 Position { get; set; }
-    public float WeaponClock { get; set; }
     public IReadOnlyList<string> EquippedItemIdList => _equippedItemIdList;
     public bool IsAlive => Hp > 0f;
 
-    public PartyMember(string characterId, float maxHp, Vector2 position)
+    public PartyMember(string characterId, float maxHp, float defense, Vector2 position)
     {
         CharacterId = characterId;
         MaxHp = maxHp;
         Hp = maxHp;
+        Defense = defense;
         Position = position;
     }
 

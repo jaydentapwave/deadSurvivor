@@ -11,7 +11,7 @@ public class RunService
     private readonly WaveRepository _waveRepository;
     private readonly RunRulesData _runRules;
     private readonly PartyService _partyService;
-    private readonly BasicWeaponService _basicWeaponService;
+    private readonly CombatService _combatService;
     private readonly MonsterService _monsterService;
 
     // 프레임 시간 × 배속을 걸음 단위(double)로 모은다. 프레임마다 반올림하면 같은 시간을 다르게 나눴을 때 걸음 수가 갈린다(AC11)
@@ -22,13 +22,13 @@ public class RunService
     private WaveData CurrentWave => _waveRepository.WaveDataList[_runModel.Wave.CurrentValue - 1];
 
     public RunService(RunModel runModel, WaveRepository waveRepository, RunRulesData runRules, PartyService partyService,
-        BasicWeaponService basicWeaponService, MonsterService monsterService)
+        CombatService combatService, MonsterService monsterService)
     {
         _runModel = runModel;
         _waveRepository = waveRepository;
         _runRules = runRules;
         _partyService = partyService;
-        _basicWeaponService = basicWeaponService;
+        _combatService = combatService;
         _monsterService = monsterService;
     }
 
@@ -45,6 +45,7 @@ public class RunService
         _enemyCountScale = enemyCountScale;
         _finishedWaveSeconds = 0f;
         _partyService.CreateParty();
+        _combatService.ResetRun();
         _monsterService.BeginRun(runSeed);
         _runModel.SetRunCount(_runModel.RunCount.CurrentValue + 1);
         _runModel.SetKills(0);
@@ -109,8 +110,8 @@ public class RunService
         // ③ 적 생성(버닝 타임 포함)
         _monsterService.TickSpawn(deltaSeconds, elapsed, isBurningTime, burningStart);
 
-        // ④ 기본 무기
-        _basicWeaponService.Tick(deltaSeconds);
+        // ④ 전투 진행: 대원 순서대로 지속 효과 → 장착 순서대로 발동 → 투사체 이동·명중(F3 B절)
+        _combatService.Step(deltaSeconds);
         _runModel.SetKills(_runModel.Kills.CurrentValue + _monsterService.RemoveDead());
 
         // ⑤ 적 이동·접촉 공격
@@ -152,6 +153,7 @@ public class RunService
 
         _accumulatedSteps = 0d;
         _monsterService.ClearMonsters();
+        _combatService.ClearProjectiles();
         _partyService.ClearParty();
         _runModel.SetWave(0);
         _runModel.SetCompletedWave(0);
@@ -198,7 +200,7 @@ public class RunService
         _runModel.SetWaveSeconds(waveData.Duration);
         _runModel.SetRemainingSeconds(waveData.Duration);
         _runModel.SetBurningTime(false);
-        _basicWeaponService.ResetClocks();
+        _combatService.PrepareWave();
         _monsterService.BeginWave(waveData.Duration, _enemyCountScale);
         _runModel.SetPhase(RunPhase.Battle);
     }
@@ -215,6 +217,7 @@ public class RunService
         }
 
         _monsterService.ClearMonsters();
+        _combatService.ClearProjectiles();
         _runModel.SetBurningTime(false);
         _runModel.SetCompletedWave(wave);
         _runModel.SetPhase(RunPhase.Prep);
@@ -225,6 +228,7 @@ public class RunService
     {
         var wave = _runModel.Wave.CurrentValue;
         _monsterService.ClearMonsters();
+        _combatService.ClearProjectiles();
         _runModel.SetBurningTime(false);
         _runModel.SetWavesSurvived(outcome == RunOutcome.Win ? wave : wave - 1);
         _runModel.SetOutcome(outcome);

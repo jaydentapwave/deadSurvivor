@@ -42,7 +42,6 @@ public class DataLoadTests
         CollectionAssert.AreEqual(new[] { 1f, 2f }, context.RunRules.SpeedOptions.ToArray());
         Assert.AreEqual(64, context.RunRules.FieldCells);
         Assert.AreEqual(4, context.CombatData.MemberSpots.Count);
-        Assert.AreEqual(336f, context.CombatData.Weapon.Range);
         Assert.AreEqual("#819363", context.CombatData.Enemy.Color);
         Assert.AreEqual(98, context.CombatData.SpawnCount);
     }

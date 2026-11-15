@@ -10,6 +10,8 @@ public class GameSceneLifetimeScope : LifetimeScope
     private const string PlaceholderCombatPath = "Data/Run/placeholder_combat";
 
     [SerializeField] private MemberView[] memberViews;
+    // 투사체·고리 그림의 부모(F3)
+    [SerializeField] private Transform combatEffectRoot;
 
     protected override void Configure(IContainerBuilder builder)
     {
@@ -26,22 +28,29 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register<CharacterRepository>(Lifetime.Scoped);
         builder.Register<ItemRepository>(Lifetime.Scoped);
         builder.Register<WaveRepository>(Lifetime.Scoped);
+        builder.Register<CombatRulesRepository>(Lifetime.Scoped);
 
         // 모델
         builder.Register<RunModel>(Lifetime.Scoped);
         builder.Register<RunSettingsModel>(Lifetime.Scoped);
         builder.Register<PartyModel>(Lifetime.Scoped);
         builder.Register<MonsterModel>(Lifetime.Scoped);
+        builder.Register<CombatModel>(Lifetime.Scoped);
 
         // 서비스
         builder.Register<RunService>(Lifetime.Scoped);
         builder.Register<PartyService>(Lifetime.Scoped);
-        builder.Register<BasicWeaponService>(Lifetime.Scoped);
+        builder.Register<IItemPlacementInfo, NoBagPlacementInfo>(Lifetime.Scoped);
+        builder.Register<EquipmentStatService>(Lifetime.Scoped);
+        builder.Register<CombatService>(Lifetime.Scoped);
+        builder.Register<ReviveService>(Lifetime.Scoped);
         builder.Register<MonsterService>(Lifetime.Scoped);
 
         // 생성·등록부
         builder.Register<MonsterViewFactory>(Lifetime.Scoped);
         builder.Register<MonsterViewRegistry>(Lifetime.Scoped);
+        builder.Register<ProjectileViewFactory>(Lifetime.Scoped).WithParameter(combatEffectRoot);
+        builder.Register<ProjectileViewRegistry>(Lifetime.Scoped);
 
         // 장면 컴포넌트
         builder.RegisterComponentInHierarchy<Camera>();
@@ -61,5 +70,8 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterEntryPoint<PrepPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<ResultPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<WorldPresenter>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<BattleItemListPresenter>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<RevivePresenter>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<CombatWorldPresenter>(Lifetime.Scoped).AsSelf();
     }
 }

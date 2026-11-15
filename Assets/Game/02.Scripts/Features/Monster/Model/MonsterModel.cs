@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// 살아 있는 적 목록. 쓰는 쪽: MonsterService(생성·이동·제거), BasicWeaponService(HP).
+// 살아 있는 적 목록. 쓰는 쪽: MonsterService(생성·이동·제거), CombatService(HP).
 public class MonsterModel
 {
     private readonly List<Monster> _monsterList = new();

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using R3;
 using VContainer.Unity;
 
@@ -13,14 +12,12 @@ public class BattleHudPresenter : IInitializable, ILateTickable, IDisposable
     private readonly PartyModel _partyModel;
     private readonly MonsterService _monsterService;
     private readonly CharacterRepository _characterRepository;
-    private readonly ItemRepository _itemRepository;
     private readonly UI_BattleHudView _battleHudView;
     private readonly CompositeDisposable _disposables = new();
-    private readonly List<string> _itemNameList = new();
 
     public BattleHudPresenter(RunModel runModel, RunService runService, RunRulesData runRules, WaveRepository waveRepository,
         PartyModel partyModel, MonsterService monsterService, CharacterRepository characterRepository,
-        ItemRepository itemRepository, UI_BattleHudView battleHudView)
+        UI_BattleHudView battleHudView)
     {
         _runModel = runModel;
         _runService = runService;
@@ -29,7 +26,6 @@ public class BattleHudPresenter : IInitializable, ILateTickable, IDisposable
         _partyModel = partyModel;
         _monsterService = monsterService;
         _characterRepository = characterRepository;
-        _itemRepository = itemRepository;
         _battleHudView = battleHudView;
     }
 
@@ -77,14 +73,7 @@ public class BattleHudPresenter : IInitializable, ILateTickable, IDisposable
             }
 
             var member = memberList[i];
-            _itemNameList.Clear();
-            foreach (var itemId in member.EquippedItemIdList)
-            {
-                _itemNameList.Add(_itemRepository.Get(itemId).Name);
-            }
-
-            statusViews[i].UpdateUI(_characterRepository.Get(member.CharacterId).Name, member.Hp, member.MaxHp, member.IsAlive,
-                _itemNameList);
+            statusViews[i].UpdateUI(_characterRepository.Get(member.CharacterId).Name, member.Hp, member.MaxHp, member.IsAlive);
         }
     }
 }

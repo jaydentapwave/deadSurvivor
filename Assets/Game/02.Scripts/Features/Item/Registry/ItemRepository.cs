@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using VContainer;
 
 public class ItemRepository
 {
@@ -7,9 +8,17 @@ public class ItemRepository
 
     private readonly Dictionary<string, ItemData> _itemDict;
 
-    public ItemRepository(ResourceService resourceService)
+    public IEnumerable<ItemData> ItemDataList => _itemDict.Values;
+
+    [Inject]
+    public ItemRepository(ResourceService resourceService) : this(resourceService.LoadAllJson<ItemData>(Folder))
     {
-        _itemDict = resourceService.LoadAllJson<ItemData>(Folder).ToDictionary(data => data.Id);
+    }
+
+    // 시험이 만든 아이템 목록으로 만든다
+    public ItemRepository(IEnumerable<ItemData> itemDataList)
+    {
+        _itemDict = itemDataList.ToDictionary(data => data.Id);
     }
 
     public ItemData Get(string id)

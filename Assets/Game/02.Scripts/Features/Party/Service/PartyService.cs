@@ -47,7 +47,7 @@ public class PartyService
         for (var i = 0; i < characterDataList.Count; i++)
         {
             var data = characterDataList[i];
-            var member = new PartyMember(data.Id, data.Hp, _partyModel.Center + spots[i]);
+            var member = new PartyMember(data.Id, data.Hp, data.Def, _partyModel.Center + spots[i]);
             member.Equip(data.StartItem);
             _partyModel.Add(member);
         }
@@ -55,12 +55,28 @@ public class PartyService
 
     public void ClearParty() => _partyModel.Clear();
 
-    // 받는 피해 = 피해 × (1 − 방어)
+    // 받는 피해 = 피해 × (1 − 유효 방어), 보호막이 먼저 흡수(기획서 B4)
     public void ApplyDamage(PartyMember member, float damage)
     {
-        var def = _characterRepository.Get(member.CharacterId).Def;
-        member.Hp = Mathf.Max(0f, member.Hp - damage * (1f - def));
+        var received = damage * (1f - member.Defense);
+        var absorbed = Mathf.Min(member.Shield, received);
+        member.Shield -= absorbed;
+        member.Hp = Mathf.Max(0f, member.Hp - (received - absorbed));
     }
+
+    // 쓰러지지 않은 대원만 최대 HP까지(기획서 B4)
+    public void Heal(PartyMember member, float amount)
+    {
+        if (!member.IsAlive)
+        {
+            return;
+        }
+
+        member.Hp = Mathf.Min(member.MaxHp, member.Hp + amount);
+    }
+
+    // 쓰러진 대원은 정비에서 장비를 바꿀 수 없다(기획서 E절). 장착 목록을 바꾸는 쪽(F5)이 먼저 부른다
+    public bool CanChangeEquipment(int memberIndex) => _partyModel.MemberList[memberIndex].IsAlive;
 
     // 산 대원 중 가장 가까운 대원. 없으면 null
     public PartyMember FindNearestAlive(Vector2 position)

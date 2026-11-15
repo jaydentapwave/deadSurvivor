@@ -1,21 +1,9 @@
 using NUnit.Framework;
 using UnityEngine;
 
-// AC10·AC11·AC13 — 임시 전투(기획서 E절)
+// AC10·AC11·AC13 — 임시 전투(기획서 E절). 기본 무기 시험 셋(10초 처치, 쓰러진 대원, 가장 가까운 적)은 F3이 ItemActivationTests로 옮겼다(F3 기획서 "기대 변경 허용")
 public class PlaceholderCombatTests
 {
-    [Test]
-    public void TenSecondsWithDefaultSettingsKillsAtLeastOne()
-    {
-        var context = new TestRunContext();
-        context.RunService.StartRun(1, context.RunRules.DefaultEnemyCountScale);
-
-        context.StepSeconds(10f);
-
-        Assert.AreEqual(RunPhase.Battle, context.RunModel.Phase.CurrentValue);
-        Assert.GreaterOrEqual(context.RunModel.Kills.CurrentValue, 1);
-    }
-
     [Test]
     public void ContactDamagesMember()
     {
@@ -52,68 +40,6 @@ public class PlaceholderCombatTests
         var contact = context.CombatData.Enemy.Radius + context.CombatData.Enemy.ContactGap;
         Assert.AreEqual(contact, Vector2.Distance(monster.Position, bruno.Position), 0.01f);
         Assert.Less(bruno.Hp, bruno.MaxHp);
-    }
-
-    [Test]
-    public void DeadMemberDoesNotAttackAndIsNotTargeted()
-    {
-        var context = new TestRunContext();
-        context.PartyService.CreateParty();
-        var members = context.PartyModel.MemberList;
-        var bruno = members[0];
-        bruno.Hp = 0f;
-        // 브루노 바로 옆(브루노 사거리 안, 다른 대원 사거리 밖)에 적을 둔다
-        var monster = new Monster(1, bruno.Position + new Vector2(-30f, -30f), context.CombatData.Enemy.Hp);
-        context.MonsterModel.Add(monster);
-        for (var i = 1; i < members.Count; i++)
-        {
-            members[i].Position += new Vector2(1000f, 1000f);
-        }
-
-        context.BasicWeaponService.Tick(context.RunRules.SimStep);
-        Assert.AreEqual(context.CombatData.Enemy.Hp, monster.Hp);
-
-        var target = context.PartyService.FindNearestAlive(monster.Position);
-        Assert.AreNotSame(bruno, target);
-        Assert.IsNotNull(target);
-    }
-
-    [Test]
-    public void AliveMemberAttacksNearestMonsterInRange()
-    {
-        var context = new TestRunContext();
-        context.PartyService.CreateParty();
-        var lena = context.PartyModel.MemberList[1];
-        var near = new Monster(1, lena.Position + Vector2.right * 100f, context.CombatData.Enemy.Hp);
-        var far = new Monster(2, lena.Position + Vector2.right * 300f, context.CombatData.Enemy.Hp);
-        var outOfRange = new Monster(3, lena.Position + Vector2.right * 400f, context.CombatData.Enemy.Hp);
-        context.MonsterModel.Add(far);
-        context.MonsterModel.Add(near);
-        context.MonsterModel.Add(outOfRange);
-        for (var i = 0; i < context.PartyModel.MemberList.Count; i++)
-        {
-            if (i != 1)
-            {
-                context.PartyModel.MemberList[i].Hp = 0f;
-            }
-        }
-
-        context.BasicWeaponService.Tick(context.RunRules.SimStep);
-
-        var damage = context.CombatData.Weapon.Damage * context.CharacterRepository.Get("lena").Atk;
-        Assert.AreEqual(context.CombatData.Enemy.Hp - damage, near.Hp, 0.001f);
-        Assert.AreEqual(context.CombatData.Enemy.Hp, far.Hp);
-        Assert.AreEqual(context.CombatData.Enemy.Hp, outOfRange.Hp);
-
-        // 다음 발사는 interval(0.7초) 뒤: 1/30초 걸음으로 21걸음째
-        var steps = 0;
-        while (near.Hp > context.CombatData.Enemy.Hp - 2f * damage + 0.001f && steps < 100)
-        {
-            context.BasicWeaponService.Tick(context.RunRules.SimStep);
-            steps++;
-        }
-
-        Assert.AreEqual(context.CombatData.Weapon.Interval, steps * context.RunRules.SimStep, 0.001f);
     }
 
     [Test]

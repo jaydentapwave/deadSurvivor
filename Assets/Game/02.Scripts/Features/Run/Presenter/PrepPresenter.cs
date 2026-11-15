@@ -10,17 +10,19 @@ public class PrepPresenter : IInitializable, IDisposable
     private readonly RunModel _runModel;
     private readonly RunService _runService;
     private readonly PartyModel _partyModel;
+    private readonly CombatModel _combatModel;
     private readonly CharacterRepository _characterRepository;
     private readonly UI_PrepView _prepView;
     private readonly CompositeDisposable _disposables = new();
     private readonly List<string> _memberLineList = new();
 
-    public PrepPresenter(RunModel runModel, RunService runService, PartyModel partyModel,
+    public PrepPresenter(RunModel runModel, RunService runService, PartyModel partyModel, CombatModel combatModel,
         CharacterRepository characterRepository, UI_PrepView prepView)
     {
         _runModel = runModel;
         _runService = runService;
         _partyModel = partyModel;
+        _combatModel = combatModel;
         _characterRepository = characterRepository;
         _prepView = prepView;
     }
@@ -29,11 +31,16 @@ public class PrepPresenter : IInitializable, IDisposable
     {
         _runModel.Phase.Where(phase => phase == RunPhase.Prep).Subscribe(_ => OnPrepEntered()).AddTo(_disposables);
         _prepView.NextWaveButton.OnClickAsObservable().Subscribe(_ => OnNextWaveClicked()).AddTo(_disposables);
+        // 부활 뒤 대원 자리 HP를 바로 다시 그린다(F3 E절)
+        _combatModel.ReviveCount.Where(_ => _runModel.Phase.CurrentValue == RunPhase.Prep).Subscribe(_ => OnMemberRevived())
+            .AddTo(_disposables);
     }
 
     public void Dispose() => _disposables.Dispose();
 
     public void OnNextWaveClicked() => _runService.NextWave();
+
+    private void OnMemberRevived() => OnPrepEntered();
 
     private void OnPrepEntered()
     {

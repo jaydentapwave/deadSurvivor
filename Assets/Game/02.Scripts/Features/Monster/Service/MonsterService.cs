@@ -142,6 +142,9 @@ public class MonsterService
         }
     }
 
+    // 적 반지름(투사체 명중). F1은 임시 적 하나, F4가 유형별로 바꾼다
+    public float GetRadius(Monster monster) => _combatData.Enemy.Radius;
+
     // 쓰러진 적을 목록에서 빼고 뺀 수(처치 수)를 돌려준다
     public int RemoveDead() => _monsterModel.RemoveDead();
 

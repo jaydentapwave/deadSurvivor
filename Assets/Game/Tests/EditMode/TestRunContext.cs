@@ -13,7 +13,11 @@ internal class TestRunContext
     public readonly PartyModel PartyModel = new();
     public readonly MonsterModel MonsterModel = new();
     public readonly PartyService PartyService;
-    public readonly BasicWeaponService BasicWeaponService;
+    public readonly CombatRulesRepository CombatRulesRepository;
+    public readonly CombatModel CombatModel = new();
+    public readonly EquipmentStatService EquipmentStatService;
+    public readonly CombatService CombatService;
+    public readonly ReviveService ReviveService;
     public readonly MonsterService MonsterService;
     public readonly RunService RunService;
 
@@ -21,18 +25,61 @@ internal class TestRunContext
     public Vector2 ReferenceViewHalfExtent => IsoProjection.WorldToFloor(
         new Vector2(640f / Const.PixelsPerUnit / 2f, 360f / Const.PixelsPerUnit / 2f), RunRules.UnitScale);
 
-    public TestRunContext()
+    public CombatRulesData CombatRules => CombatRulesRepository.Rules;
+
+    // itemRepository·placementInfo: 시험용 아이템 목록·가짜 배치 정보(없으면 실제 데이터 파일·가방 없음)
+    public TestRunContext(ItemRepository itemRepository = null, IItemPlacementInfo placementInfo = null)
     {
         RunRules = ResourceService.LoadJson<RunRulesData>("Data/Run/run_rules");
         CombatData = ResourceService.LoadJson<PlaceholderCombatData>("Data/Run/placeholder_combat");
         CharacterRepository = new CharacterRepository(ResourceService);
-        ItemRepository = new ItemRepository(ResourceService);
+        ItemRepository = itemRepository ?? new ItemRepository(ResourceService);
+        CombatRulesRepository = new CombatRulesRepository(ResourceService);
         WaveRepository = new WaveRepository(ResourceService);
         PartyService = new PartyService(PartyModel, CharacterRepository, CombatData);
-        BasicWeaponService = new BasicWeaponService(PartyModel, MonsterModel, CharacterRepository, CombatData);
         MonsterService = new MonsterService(MonsterModel, PartyModel, PartyService, CombatData, RunRules);
-        RunService = new RunService(RunModel, WaveRepository, RunRules, PartyService, BasicWeaponService, MonsterService);
+        EquipmentStatService = new EquipmentStatService(ItemRepository, CombatRulesRepository,
+            placementInfo ?? new NoBagPlacementInfo());
+        CombatService = new CombatService(CombatModel, PartyModel, PartyService, MonsterModel, MonsterService, ItemRepository,
+            CharacterRepository, EquipmentStatService, CombatRulesRepository);
+        ReviveService = new ReviveService(RunModel, PartyModel, CombatService);
+        RunService = new RunService(RunModel, WaveRepository, RunRules, PartyService, CombatService, MonsterService);
         MonsterService.SetViewHalfExtent(ReferenceViewHalfExtent);
+    }
+
+    // 데이터 순서의 캐릭터로 대원을 만들어(F1 자리) 각자 itemIds를 장착하고 전투 판·웨이브를 연다
+    public void SetupParty(params string[][] itemIdsPerMember)
+    {
+        PartyModel.Clear();
+        for (var i = 0; i < itemIdsPerMember.Length; i++)
+        {
+            var data = CharacterRepository.CharacterDataList[i];
+            var member = new PartyMember(data.Id, data.Hp, data.Def, CombatData.MemberSpots[i]);
+            foreach (var itemId in itemIdsPerMember[i])
+            {
+                member.Equip(itemId);
+            }
+
+            PartyModel.Add(member);
+        }
+
+        CombatService.ResetRun();
+        CombatService.PrepareWave();
+    }
+
+    public Monster AddMonster(int id, Vector2 position, float hp = 1000000f)
+    {
+        var monster = new Monster(id, position, hp);
+        MonsterModel.Add(monster);
+        return monster;
+    }
+
+    public void StepCombat(int steps, float stepSeconds)
+    {
+        for (var i = 0; i < steps; i++)
+        {
+            CombatService.Step(stepSeconds);
+        }
     }
 
     // 전투가 끝날 때까지(정비·결과) 걸음을 돌리고 돈 걸음 수를 돌려준다

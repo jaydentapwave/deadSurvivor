@@ -8,8 +8,11 @@ public class UI_PrepView : MonoBehaviour
     [SerializeField] private Text titleText;
     [SerializeField] private Text[] memberTexts;
     [SerializeField] private Button nextWaveButton;
+    [SerializeField] private UI_ReviveView[] reviveViews;
 
     public Button NextWaveButton => nextWaveButton;
+    // 대원 자리 순서(F3 RevivePresenter가 그린다)
+    public IReadOnlyList<UI_ReviveView> ReviveViews => reviveViews;
 
     public void UpdateUI(int completedWave, IReadOnlyList<string> memberLineList)
     {
