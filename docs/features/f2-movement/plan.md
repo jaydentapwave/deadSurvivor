@@ -1,6 +1,6 @@
 # F2 원정대 이동과 진형 기획서
 
-- 상태: 초안
+- 상태: 승인 (2026-11-15, 디렉터 확인 — 게임 시작 전 승인 범위 안, director-game autonomy 1절)
 - 서버 필요: 아니오
 - 관련 문서: [게임 기획서](../../game/gdd.md) F2(S1), 화면 V2(조이스틱·WASD)·V3(진형 3종). 판정 단계 G2(이 기능에서 회귀 통과), G3·G5·G7(진입점 `BotMode.Move`를 채움. 경로 전체 통과는 F5 뒤). 앞선 기능 [F1 기획서](../f1-skeleton/plan.md)(E절 임시 자리, G절 화면 경계, H절 진입점). 참고 분석 문서 없음. 예전 판 코드 `Assets/DeadSurvivor/Runtime/DSGame.Formation.cs`·`DSGame.MapMotion.cs`·`DSGame.cs`·`DSUI.cs`·`DSUI.Formation.cs`·`DSWorld.cs`(읽기 전용, 규칙만 옮김). 긴 근거는 [notes.md](notes.md)
 - 구현 작업 규모: L2 — 새 데이터 스키마(진형·이동 규칙)와 대원 좌표를 쓰는 쪽이 바뀐다(F1 고정 자리 → `PartyMoveService`)
