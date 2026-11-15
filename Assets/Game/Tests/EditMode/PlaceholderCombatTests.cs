@@ -126,6 +126,12 @@ public class PlaceholderCombatTests
 
         Assert.AreEqual(normalCount, withoutBurning);
         Assert.Greater(withBurning, normalCount);
+
+        // 창(10초) 동안 간격(일반 간격 × 0.5)마다 두 방향에서 1마리씩 = 짝수, 간격 수 × 2
+        var waveData = context.WaveRepository.WaveDataList[5];
+        var interval = (waveData.Duration - 4f) / (normalCount - 1) * context.CombatData.BurningIntervalScale;
+        var ticks = Mathf.CeilToInt(context.RunRules.BurningSeconds / interval);
+        Assert.AreEqual(normalCount + ticks * 2, withBurning);
     }
 
     [Test]

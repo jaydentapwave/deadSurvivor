@@ -4,7 +4,8 @@ using UnityEngine;
 // 한 판 규칙(S4, 기획서 B·C절). RunModel을 쓰는 유일한 곳.
 public class RunService
 {
-    private const double MicrosPerSecond = 1_000_000d;
+    // 걸음 단위로 모은 시간이 1에 이만큼 모자라도 한 걸음으로 친다(float 프레임 시간을 나눠 더한 오차, 0.0001걸음 ≈ 3.3µs)
+    private const double StepTolerance = 1e-4;
 
     private readonly RunModel _runModel;
     private readonly WaveRepository _waveRepository;
@@ -13,8 +14,8 @@ public class RunService
     private readonly BasicWeaponService _basicWeaponService;
     private readonly MonsterService _monsterService;
 
-    // 프레임 시간 × 배속을 정수 마이크로초로 모은다. float를 그대로 더하면 같은 시간을 다르게 나눴을 때 걸음 수가 갈린다(AC11)
-    private long _accumulatedMicros;
+    // 프레임 시간 × 배속을 걸음 단위(double)로 모은다. 프레임마다 반올림하면 같은 시간을 다르게 나눴을 때 걸음 수가 갈린다(AC11)
+    private double _accumulatedSteps;
     private float _finishedWaveSeconds;
     private float _enemyCountScale;
 
@@ -66,22 +67,15 @@ public class RunService
         }
 
         var speed = _runRules.SpeedOptions[_runModel.SpeedIndex.CurrentValue];
-        _accumulatedMicros += (long)Math.Round(frameSeconds * speed * MicrosPerSecond);
-        var stepMicros = (long)Math.Round(_runRules.SimStep * MicrosPerSecond);
-        if (stepMicros <= 0)
+        _accumulatedSteps += (double)frameSeconds * speed / _runRules.SimStep;
+        while (_accumulatedSteps >= 1d - StepTolerance)
         {
-            GameLogger.LogError($"[RunService] simStep {_runRules.SimStep} is shorter than 1µs");
-            return;
-        }
-
-        while (_accumulatedMicros >= stepMicros)
-        {
-            _accumulatedMicros -= stepMicros;
+            _accumulatedSteps -= 1d;
             Step(_runRules.SimStep);
             if (_runModel.Phase.CurrentValue != RunPhase.Battle)
             {
                 // 웨이브·판이 끝나면 남은 시간을 버린다(정비 중에 걸음이 돌거나 다음 웨이브로 넘어가지 않게)
-                _accumulatedMicros = 0;
+                _accumulatedSteps = 0d;
                 return;
             }
         }
@@ -154,7 +148,7 @@ public class RunService
             return;
         }
 
-        _accumulatedMicros = 0;
+        _accumulatedSteps = 0d;
         _monsterService.ClearMonsters();
         _partyService.ClearParty();
         _runModel.SetWave(0);
@@ -197,7 +191,7 @@ public class RunService
         }
 
         var waveData = _waveRepository.WaveDataList[wave - 1];
-        _accumulatedMicros = 0;
+        _accumulatedSteps = 0d;
         _runModel.SetWave(wave);
         _runModel.SetWaveSeconds(waveData.Duration);
         _runModel.SetRemainingSeconds(waveData.Duration);

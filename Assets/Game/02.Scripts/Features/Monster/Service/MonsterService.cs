@@ -92,15 +92,18 @@ public class MonsterService
             return;
         }
 
-        // 창 동안 생성 간격 × burningIntervalScale마다 반대쪽 두 방향에서 번갈아 1마리씩
+        // 창 동안 생성 간격 × burningIntervalScale마다 반대쪽 두 방향에서 1마리씩(한 번에 2마리, 기획서 E절)
         var interval = Mathf.Max(0.01f, _spawnInterval * _combatData.BurningIntervalScale);
         var maxCount = Mathf.CeilToInt(_runRules.BurningSeconds / interval);
         var dueCount = Mathf.Min(maxCount, Mathf.FloorToInt((elapsedSeconds - burningStartSeconds) / interval) + 1);
         while (_burningSpawnedCount < dueCount)
         {
-            var side = (_burningSpawnedCount % 2) * Mathf.PI;
-            var jitter = ((float)_random.NextDouble() - 0.5f) * BurningAngleJitter;
-            Spawn(_burningAngle + side + jitter);
+            for (var side = 0; side < 2; side++)
+            {
+                var jitter = ((float)_random.NextDouble() - 0.5f) * BurningAngleJitter;
+                Spawn(_burningAngle + side * Mathf.PI + jitter);
+            }
+
             _burningSpawnedCount++;
         }
     }

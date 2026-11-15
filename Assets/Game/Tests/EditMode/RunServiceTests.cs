@@ -156,6 +156,27 @@ public class RunServiceTests
         Assert.AreEqual(before - 1f, context.RunModel.RemainingSeconds.CurrentValue, 0.001f);
     }
 
+    // 알고리즘 검증 지적: 144fps(1/144초 × 144)와 1초 1번이 같은 걸음 수
+    [TestCase(144)]
+    [TestCase(60)]
+    [TestCase(30)]
+    [TestCase(3)]
+    public void FrameRateDoesNotChangeStepCount(int framesPerSecond)
+    {
+        var split = new TestRunContext();
+        var whole = new TestRunContext();
+        split.RunService.StartRun(1, 0f);
+        whole.RunService.StartRun(1, 0f);
+        for (var i = 0; i < framesPerSecond; i++)
+        {
+            split.RunService.AdvanceFrame(1f / framesPerSecond);
+        }
+
+        whole.RunService.AdvanceFrame(1f);
+        Assert.AreEqual(whole.RunModel.RemainingSeconds.CurrentValue, split.RunModel.RemainingSeconds.CurrentValue);
+        Assert.AreEqual(29f, whole.RunModel.RemainingSeconds.CurrentValue, 0.001f);
+    }
+
     [Test]
     public void SpeedDoubles()
     {
