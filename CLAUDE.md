@@ -91,6 +91,16 @@ Create missing folders if needed. Always specify target file path.
 - 에디터 확인·되살리기: 레포 루트에서 `python3 -B ./tools/editor_ready.py` (꺼졌거나 멈췄으면 다시 열고, 컴파일 오류가 0개인지 본다. Unity CLI 필요)
 - 대기열(`queue.yaml`)의 검사가 에디터에 기대면 이 명령을 `ready`에 적는다. 닫을 때 저장하지 않은 씬 변경은 버려진다.
 
+## 모델·추론 강도와 리뷰 담당 (2026-11-15 사용자 결정)
+
+사용자 원문: "디렉터를 제외하고는 웬만하면 medium으로 설정을 변경해주고 앞으로도 그렇게 해줘", "리뷰 담당을 codex로 변경을해줘", "codex 모델은 gpt 6.1 sol로 변경해줘".
+
+- 디렉터(사람과 대화하는 세션)만 사용자 설정(현재 Opus 5.5 xhigh) 그대로다. 그 밖은 모두 추론 medium.
+- Claude 단계 세션: `claude -p ... --effort medium`. 대기열 러너는 `workqueue.py run ... --claude "$PWD/Tools/claude_medium.sh"`(Codex 실행기의 리뷰 세션도 이 값을 쓴다). 하위 에이전트 정의에는 `effort: medium`.
+- Codex는 어디서 부르든(이미지 생성, 검토, 구현 실행기) 모델 `gpt-6.1-sol`, 추론 medium: `codex exec -m gpt-6.1-sol -c 'model_reasoning_effort="medium"' ...`. 실행기는 `codex-step.py --model gpt-6.1-sol --effort medium`, 대기열은 `--model gpt-6.1-sol --effort medium`. `~/.codex/config.toml`(다른 프로젝트와 같이 쓰는 설정)은 바꾸지 않았다.
+- **리뷰 담당 4종(design-reviewer, spec-reviewer, validator-client, algorithm-tester)은 Codex가 한다.** `.claude/agents/<이름>.md`는 받은 브리핑을 `Tools/codex_review.py`로 Codex에 넘기고 답을 그대로 돌려주는 중계다(Sonnet, medium). Codex가 따르는 역할 지침은 `.ai/reviewers/<이름>.md`(원래 에이전트 본문). 판정 기록 훅은 중계 답의 `VERDICT:` 줄을 그대로 기록한다. studio-kit을 다시 깔거나 올리면 `.claude/agents/`가 덮어써질 수 있으니 이 절대로 되돌린다.
+- 리뷰가 이미 다른 모델 계열(Codex)이므로 디렉터의 "다른 모델 계열 마감 검증"(director-run 5절 3-2)은 따로 돌리지 않는다.
+
 ## Subagent Routing
 
 원칙: **읽기는 분산, 쓰기는 집중.** 구현·수정(쓰기)은 메인 에이전트가 단일 컨텍스트에서 직접 수행한다. 서브에이전트는 조사(읽기)와 검증(fresh context)에만 사용한다.
