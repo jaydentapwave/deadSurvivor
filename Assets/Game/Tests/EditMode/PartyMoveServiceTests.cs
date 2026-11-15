@@ -13,9 +13,9 @@ public class PartyMoveServiceTests
         new(0f, -1f),
     };
 
-    // 진형 3종 × 4방향: 1초 이동 뒤 반대로 돌려 1초, 다시 멈추고 1초. 멈춘 뒤 1초에 자리 5 이내(AC16).
-    // 반대로 돌린 뒤 1초(계속 이동 중)의 자리 오차는 A절 식의 정상 상태 오차(moveSpeed·dt·(1 − k) ÷ k, k = followRate·dt)
-    // + 0.5 이내로 본다 — AC16의 5는 이동 중에는 A절 수치와 양립하지 않는다(설계 브리핑 DR-01, 핸드오프 열린 질문)
+    // AC16(멈춘 경우): 진형 3종 × 4방향, 1초 이동 → 반대로 1초 → 멈추고 1초 뒤 자리 5 이내.
+    // AC16의 "반대로 돌린 뒤 1초(이동 중) 5 이내"는 A절 수치와 양립하지 않아(이동 중 정상 오차 약 7) 기획자 결정 전까지 미해결이다
+    // (설계 브리핑 DR-01, 핸드오프 열린 질문). 그 단정은 여기 넣지 않는다.
     [Test]
     public void FollowsSlotsInEveryFormation()
     {
@@ -26,10 +26,24 @@ public class PartyMoveServiceTests
                 var context = StartWithFormation(formationId);
                 Move(context, direction, 1f);
                 Move(context, -direction, 1f);
-                Assert.LessOrEqual(MaxSlotError(context), MovingSlotErrorBound(context), $"{formationId} {direction} reversed");
-
                 Move(context, Vector2.zero, 1f);
                 Assert.LessOrEqual(MaxSlotError(context), 5f, $"{formationId} {direction} stopped");
+            }
+        }
+    }
+
+    // A절 계산 검증(수용 기준 아님): 이동 중 자리 오차는 A절 식의 정상 상태 오차 moveSpeed·dt·(1 − k) ÷ k(k = followRate·dt)를 넘지 않는다
+    [Test]
+    public void MovingLagMatchesRuleA()
+    {
+        foreach (var formationId in FormationIds())
+        {
+            foreach (var direction in Directions)
+            {
+                var context = StartWithFormation(formationId);
+                Move(context, direction, 1f);
+                Move(context, -direction, 1f);
+                Assert.LessOrEqual(MaxSlotError(context), SteadyMovingSlotError(context) + 0.01f, $"{formationId} {direction}");
             }
         }
     }
@@ -263,11 +277,11 @@ public class PartyMoveServiceTests
         }
     }
 
-    private static float MovingSlotErrorBound(TestRunContext context)
+    private static float SteadyMovingSlotError(TestRunContext context)
     {
         var dt = context.RunRules.SimStep;
         var ratio = context.MoveRules.FollowRate * dt;
-        return context.MoveRules.MoveSpeed * dt * (1f - ratio) / ratio + 0.5f;
+        return context.MoveRules.MoveSpeed * dt * (1f - ratio) / ratio;
     }
 
     private static float MaxSlotError(TestRunContext context)
