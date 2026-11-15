@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "sizes": [
+    [
+      1920,
+      1080
+    ],
+    [
+      2340,
+      1080
+    ],
+    [
+      2520,
+      1080
+    ],
+    [
+      2048,
+      1536
+    ]
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "L1",
+      "name": "로비 도착",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "LOAD",
+      "name": "낮은 적 수 배율로 10웨이브 → 승리, 생성 수 = 데이터, 웨이브 10 버닝 프레임 기록(1배 시간)",
+      "do": "PlayableProbe.StartWaveMetrics(\"Logs/playable/latest/f4-metrics.json\"); PlayableProbe.UseRunSettings(3, 0.1f); PlayableProbe.UseRealTimeAtWave(10); UnityEngine.Time.timeScale = 20f; PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 180,
+      "expect": "PlayableProbe.Outcome == \"Win\" && PlayableProbe.WavesSurvived == 10 && PlayableProbe.IsSpawnCountAsData && PlayableProbe.FirstWaveOf(\"contact\") == 1 && PlayableProbe.BurningFrameMsP95 > 0 && PlayableProbe.MaxAliveEnemies >= 1 && !PlayableProbe.IsSpawnCountNear(98, 407, 0.05f)",
+      "capture": true
+    },
+    {
+      "id": "SHOW",
+      "name": "웨이브 6(1배 시간)에 몬스터 5종과 적 투사체가 함께 있다",
+      "do": "PlayableProbe.StopBot(); PlayableProbe.UseRunSettings(13, 0.4f); PlayableProbe.UseRealTimeAtWave(6); UnityEngine.Time.timeScale = 20f; PlayableProbe.PressToLobby(); PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 6 && PlayableProbe.AliveBehaviorKinds == 5 && PlayableProbe.EnemyShotCount >= 1",
+      "timeout": 120,
+      "capture": "all"
+    },
+    {
+      "id": "SHOWEND",
+      "name": "SHOW 판을 끝까지 → 결과, 생성 수 = 데이터",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120,
+      "expect": "PlayableProbe.IsSpawnCountAsData"
+    },
+    {
+      "id": "STAND",
+      "name": "적 수 배율 1, 이동 없이 가만히 → 패배(M5 값은 판정기 --metrics가 출력)",
+      "do": "PlayableProbe.StopBot(); PlayableProbe.UseRunSettings(5, 1f); PlayableProbe.PressToLobby(); PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120,
+      "expect": "PlayableProbe.Outcome == \"Lose\" && PlayableProbe.WavesSurvived < 10 && PlayableProbe.IsSpawnCountAsData && PlayableProbe.FirstWaveOf(\"contact\") == 1",
+      "capture": true
+    },
+    {
+      "id": "LOBBY",
+      "name": "로비로",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.PressToLobby();",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    }
+  ]
+}
