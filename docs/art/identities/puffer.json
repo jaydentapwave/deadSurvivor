@@ -1,0 +1,19 @@
+{
+ "schema": "2d-identity/1",
+ "id": "puffer",
+ "ref": "Assets/Game/03.Resources/Art/AIGenerated/Monsters/puffer/puffer.png",
+ "ref_sha256": "c2e83a86ed7f96b024d5b8f7f96f99844a53ef7ba8e16d4f6771005b8946af37",
+ "approved": "2026-11-16 — 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기",
+ "note": "몬스터 자폭형 가시 복어(게임 기획서 A6·F4, 기준서 K12 부푼 가시 복어형 덩어리). 슬라임(slime.json) 그림체. 64x64 캔버스, 그림 26x25(키 25px = 캐릭터 48px의 0.52, K13 0.5), 피벗 바닥 가운데(바닥 3줄 기준). 오른쪽 아래를 봄. 주황 몸·빨강 가시와 경고 점, 노랑 배. 같은 노랑(#ffe08a)은 얼굴(눈·볼, box_rel)과 배(belly, box_rel)로 나눴다. box_rel은 그림 bbox 기준.",
+ "width_part": "body",
+ "outline_exclude": ["body_shade"],
+ "parts": {
+  "body": {"hex": "#d5833a"},
+  "body_shade": {"hex": "#af642e"},
+  "body_light": {"hex": "#cfa36c"},
+  "spikes": {"hex": "#c44334"},
+  "belly": {"hex": "#ffe08a", "box_rel": [0.0, 0.70, 1.0, 1.0]},
+  "face": {"hex": "#ffe08a", "box_rel": [0.53, 0.46, 0.93, 0.68], "fixed": true},
+  "shine": {"hex": "#ffffff"}
+ }
+}
