@@ -1,0 +1,62 @@
+# mira_back.png — 출처
+
+- 무엇: 미라(마법사, 게임 기획서 A1) 뒤 3/4 그림(오른쪽 위를 봄, 아트 기준서 K14). 같은 캐릭터의 앞 기준 그림은 ../front/mira_front.png (identity mira).
+- 규격: 64x64 캔버스, 그림 36x48(키 48px = 앞모습과 같음, 캔버스 y 16~63), 피벗 = 발 가운데 = 캔버스 아래 가운데(신발 가운데 x 32, 바닥 63줄). 알파 0/255만.
+- sha256: 32fffc0bfd89de8b6c3d3d29e942476777a33cec31194f8636a874fc059661fb
+- 만든 날: 2026-11-16, 대기열 20261116-art-batch2 항목 mira-back(시도 1), lena-back과 같은 방법("기준 그림이 없는 새 종류" 길: 측정은 참고, 판독 + 사람 판정)
+- 채택: 디렉터 대신 채택(대기열 자동 실행, fringe PASS + 다른 계열 판독 1위), 사용자 판정 대기
+
+## 도구
+- 생성: codex-cli 0.167.2, 모델 gpt-6.1-sol (model_reasoning_effort medium), 내장 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1dfc3-85f3-71a1-ba76-29f716c066f4 (1회차 설정 B, 00:11 시작), 결과 2장 중 2번째 (mira_r1b_2.png)
+- 설정 A 세션: 01a1dfc3-85f2-77d1-98a9-955eb79ae009
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c 'model_reasoning_effort="medium"' -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null
+
+## 참고 그림 (sha256, 넣은 순서)
+1. 채택된 미라 앞 그림 mira_front.png c492c97619ea6092bfa00e6e9a5834cf08bb602c48c6c2349b167a415c0ce1ae
+   → 자홍 배경 16배 확대(1024x1024) ref1_mira_front_x16.png 516376a633abd9f765eb3ee3aa7681fc36cee1c28353d764a049e2302b968e04 (캐릭터·그림체)
+2. 채택된 브루노 뒤 그림 bruno_back.png 63412b437e51646ccfbf07ea17326a0dabcd9e5c4aee603ae1661411efc4c5ab
+   → 자홍 배경 16배 확대 ref2_bruno_back_x16.png 9f5b859b3203879fadb678702c1c8631905757d57a69391170cbd5953da8b6c6 (뒤 3/4 자세·배낭 모양)
+3. 컨셉 PE-G003 docs/game/concept-20261112/3-직업4종.jpg d96f1997c089f2453e1c8ef003879c07571924015c1bca30a6825dd0c9378e20
+   의 마법사 부분 (800,150,1200,680) a8e9272df8a51e87372398097eef4a3ebdb35f01bc5a0acc6b202816a0087d66 (상세 디자인, mira-front와 같은 자르기)
+4. (설정 B만) 앞 그림 실루엣 회색 16배 guide_silhouette_x16.png 84e8b6951ea55c4123c07139cce4c9468491a6def9e7c617aec1b3541de215e0
+
+## 최종 프롬프트 (1회차 설정 B, Codex에 보낸 그대로)
+[mira-back-r1b] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. Four images are attached: the first is our adopted game sprite of the mage (front view), the second is our adopted sprite of another character seen from the back (pose reference only), the third is the concept art of the same mage, the fourth is a grey block silhouette on the same 1024x1024 grid that marks the space and height the figure must fill.
+Copy the two results from the generated images folder into the current working folder as mira_r1b_1.png and mira_r1b_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Draw the SAME character as the first reference, the young mage girl in the tall blue pointed witch hat, seen from the BACK in a 3/4 back view: she has turned around and faces toward the upper-right of the picture (away from the viewer), standing idle, both feet on the ground. Character, colours, art style, proportions and outline come from the first image. The second image shows the 3/4 back pose of another character from our game in the same art style: copy its pose, its angle (turned toward the upper-right) and the way the big backpack covers the middle of the back. The third image is the concept art of the same mage for extra design detail.
+The first reference is a 64x64 pixel sprite enlarged so that every pixel is one 16x16 flat block (canvas 1024x1024). Use exactly this pixel grid: the same block size, the same canvas, the same head size and body proportions (big head, big hat), and the same feet position. The mage is exactly 48 blocks tall (from the soles of the shoes on the bottom row to the tip of the hat), exactly as tall as in the first reference, and about 32-38 blocks wide including the staff, centered like the first reference.
+What is seen from behind: the back of the tall pointed blue witch hat (#40548b, light #5a74b0, dark #2b3566) with its wide brim and the gold rim band (#e4b87d), the tip bending back; long silver-grey hair (#c8b8b8, shade #a89898) falling from under the hat down over the shoulders and upper back; no eyes and no mouth visible (at most a little cheek at the right edge of the head); the blue robe with wide sleeves and gold trim; the big brown leather backpack (#af642e, #774c3b) now covers the middle of her back and is the main shape of the torso, with a rolled blanket or books on top and a potion bottle at its side; the long wooden staff (#af642e, one clear continuous brown line from the floor up to a curl at the top that holds a glowing blue orb #7fd0c8) held upright in her hand appears on the RIGHT side of the picture; the hem of the blue robe; small dark brown shoes (#774c3b with dark outline), seen from the heels, NOT red.
+Pixel rules: every block is ONE flat colour; no detail smaller than one block; no anti-aliasing, no gradients, no dithering, no soft edges. A 1-block dark brown outline (#34140e, not black) around the whole figure. Flat 2-3 tone shading. No purple or magenta blocks inside the character.
+Background: flat solid #ff00ff everywhere outside the character. No grid lines, no text, no UI, no ground, no cast shadow.
+
+## 생성 원본 (Git 밖, output/2d-art/mira-back/)
+- r1a (참고 1·2·3): mira_r1a_1.png a7b6a642… (격자 35x47), mira_r1a_2.png b4e065f4… (34x47)
+- r1b (참고 1·2·3·4): mira_r1b_1.png 46ab6aa0… (36x48), mira_r1b_2.png 0c8c05381a92cee3cb16a95cc4fbc4888f37b93aff9a539967045c355c81904c (채택, 36x48)
+- 모두 1254x1254
+
+## 후처리
+1. pixelize.py grid --size 36x48 --bg-tol 100 → native grid 36x48 (block 19.5px, score 0.77). 키 48칸 그대로.
+2. pixelize.py one --size 36x48 --palette <앞 그림과 같은 팔레트: 기준서 3.5 36색 + 강철 3색, output/2d-art/mira-back/palette.json> --bg-tol 100
+   → 48725a5fe67aa5881489de7377e55438aa6b523ccee7f13cee2fe1bdaff30ee9
+3. 64x64 캔버스에 놓기(bruno-back의 place.py 그대로): 맨 아래 3줄(신발) 가로 범위 가운데를 x 32에, 신발 바닥을 63줄에. 오프셋 (16,16). 다른 편집 없음.
+   (r1a 두 장은 47칸이라 다리 한 줄을 복제해 48로 늘렸다 — 채택본에는 이 처리가 없다)
+
+## 판정
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0). 후보 4장 모두 PASS
+- 키: 48px, 앞모습과 같은 줄(y 16)에서 모자 끝, 63줄에 발 — place.py 출력으로 확인
+- measure.py compare --id mira --pose: FAIL — 참고 기록만(뒷모습은 얼굴·속옷이 가려져 채택 판정에 쓰지 않음).
+  색은 잡힌 부위 모두 PASS(hat 0.66, robe 0.74, hair 1.50, backpack 1.23, staff 0.82, outline 색 1.30 / 허용 8).
+  FAIL: outline:stroke_ratio 0.1265 (ref 0.2526, tol 0.003) — 4후보 모두 FAIL(0.113~0.159, bruno·lena-back과 같은 양상).
+  skin·dress NOT_ASSESSED(뒷모습에서 안 보임), parts NOT_ASSESSED(identity에 fixed 부위 없음). 전체: output/2d-art/mira-back/review/measure_adopted.txt, 시트 칸.
+- 다른 계열 판독(Claude sonnet 하위 에이전트, references/part-check.md, 이름 가린 cand_1~4, 채택본 = cand_1): PASS, 1위.
+  읽힌 것: 같은 마법사의 뒷모습, 오른쪽 위를 봄, 은발이 뒷머리를 덮고 얼굴 안 보임, 파란 고깔모자(금 띠·별), 등 가운데를 덮는 큰 갈색 배낭,
+  오른쪽에 바닥까지 이어지는 지팡이와 구슬, 금 테 파란 로브, 발 2, 같은 그림체. 지적: 배낭 왼쪽 가장자리에 옅은 덩어리(두루마리나 손)와 작은 청록 병(사소), 배낭이 조금 좁다.
+  다른 후보: r1b_1 PASS 2위(책 등이 얼굴처럼 조금 읽힘, 지팡이 아래쪽 불분명), r1a_1 FAIL(배낭 위 초록 점이 눈처럼 보임, 경계선), r1a_2 FAIL(지팡이 끊김, 배낭이 옆으로 치우침).
+  판독은 x6 그림만 열었고 키는 x6에서 어림했다(1px 차이 언급) — 실제 키는 place.py 출력(48px)으로 확인했다.
+- 만든 쪽 확인: 채택본 x6과 시트를 직접 열어 봄 — 모자·은발·배낭·지팡이가 보이고 앞모습과 키가 같다.
+- PASS = 기준과 어긋나지 않음. 자연스러움과 같은 캐릭터로 보이는지는 사람 판정이 본다.
+- 사용자 판정: 대기(게임 화면 짧은 Play·자리 적용은 이 항목 범위 밖)
+- 시트: docs/art/sheets/mira-back.png (sheet.py pairs --ref mira_front.png --size 144 --unverified "<뒷모습 측정은 참고 기록>") — 앞 채택본과 후보 4장
