@@ -1,0 +1,11 @@
+{
+  "id": "bolt",
+  "order": 4,
+  "name": "볼트",
+  "role": "사제",
+  "hp": 120,
+  "atk": 1.1,
+  "def": 0.05,
+  "startItem": "relic",
+  "color": "#c2ac6f"
+}
