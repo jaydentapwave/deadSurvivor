@@ -9,11 +9,16 @@ internal class TestRunContext
     public readonly CharacterRepository CharacterRepository;
     public readonly ItemRepository ItemRepository;
     public readonly WaveRepository WaveRepository;
+    public readonly MonsterRepository MonsterRepository;
     public readonly RunModel RunModel = new();
     public readonly PartyModel PartyModel = new();
     public readonly MonsterModel MonsterModel = new();
     public readonly PartyService PartyService;
     public readonly BasicWeaponService BasicWeaponService;
+    public readonly MonsterSpawnService MonsterSpawnService;
+    public readonly MonsterRecycleService MonsterRecycleService;
+    public readonly MonsterBehaviorService MonsterBehaviorService;
+    public readonly EnemyShotService EnemyShotService;
     public readonly MonsterService MonsterService;
     public readonly RunService RunService;
 
@@ -28,9 +33,21 @@ internal class TestRunContext
         CharacterRepository = new CharacterRepository(ResourceService);
         ItemRepository = new ItemRepository(ResourceService);
         WaveRepository = new WaveRepository(ResourceService);
+        MonsterRepository = new MonsterRepository(ResourceService);
         PartyService = new PartyService(PartyModel, CharacterRepository, CombatData);
         BasicWeaponService = new BasicWeaponService(PartyModel, MonsterModel, CharacterRepository, CombatData);
-        MonsterService = new MonsterService(MonsterModel, PartyModel, PartyService, CombatData, RunRules);
+        MonsterSpawnService = new MonsterSpawnService(MonsterModel, PartyModel, MonsterRepository, RunRules);
+        MonsterRecycleService = new MonsterRecycleService(MonsterModel, PartyModel, MonsterRepository, MonsterSpawnService);
+        MonsterBehaviorService = new MonsterBehaviorService(MonsterModel, PartyService, new IMonsterBehavior[]
+        {
+            new ContactBehavior(PartyService),
+            new ProjectileBehavior(MonsterModel),
+            new ChargeBehavior(MonsterModel, PartyModel, PartyService),
+            new BombBehavior(MonsterModel, PartyModel, PartyService),
+        });
+        EnemyShotService = new EnemyShotService(MonsterModel, PartyModel, PartyService);
+        MonsterService = new MonsterService(MonsterModel, MonsterSpawnService, MonsterRecycleService, MonsterBehaviorService,
+            EnemyShotService);
         RunService = new RunService(RunModel, WaveRepository, RunRules, PartyService, BasicWeaponService, MonsterService);
         MonsterService.SetViewHalfExtent(ReferenceViewHalfExtent);
     }
@@ -68,8 +85,41 @@ internal class TestRunContext
 
         var survivor = members[0];
         survivor.Hp = hp;
-        var contact = CombatData.Enemy.Radius + CombatData.Enemy.ContactGap;
-        MonsterModel.Add(new Monster(9999, survivor.Position + Vector2.left * contact, CombatData.Enemy.Hp));
+        var slime = MonsterRepository.Get("slime");
+        MonsterModel.Add(CreateMonster(9999, "slime", survivor.Position + Vector2.left * (slime.Radius + slime.ContactGap)));
         return survivor;
+    }
+
+    // 손으로 놓는 몬스터: 그 종류의 데이터 HP·피해 그대로(웨이브 배수 없음), 공격 대기 0(F1 임시 적과 같은 준비)
+    public Monster CreateMonster(int id, string monsterId, Vector2 position)
+    {
+        var data = MonsterRepository.Get(monsterId);
+        return new Monster(id, data, position, data.Hp, data.Damage, 0f);
+    }
+
+    // 웨이브 하나를 시작 상태로(원정대 만들기 + 생성 BeginRun·BeginWave). 무기·이동 없이 생성·행동만 볼 때
+    public WaveData BeginWaveOnly(int wave, int seed, float enemyCountScale = 1f)
+    {
+        PartyService.CreateParty();
+        var waveData = WaveRepository.WaveDataList[wave - 1];
+        MonsterService.BeginRun(seed);
+        MonsterService.BeginWave(waveData, enemyCountScale);
+        return waveData;
+    }
+
+    // BeginWaveOnly 뒤 웨이브 끝까지 생성만 돌린다(RunService.Step ②·③과 같은 시간 계산). onStep은 걸음마다(경과 시간)
+    public void SpawnWholeWave(WaveData waveData, System.Action<float> onStep = null)
+    {
+        var burningStart = waveData.Duration * RunRules.BurningStartRatio;
+        var remaining = waveData.Duration;
+        while (remaining > 0f)
+        {
+            var delta = Mathf.Min(RunRules.SimStep, remaining);
+            remaining -= delta;
+            var elapsed = waveData.Duration - remaining;
+            var isBurningTime = waveData.HasBurningTime && elapsed >= burningStart && elapsed < burningStart + RunRules.BurningSeconds;
+            MonsterService.TickSpawn(delta, elapsed, isBurningTime, burningStart);
+            onStep?.Invoke(elapsed);
+        }
     }
 }

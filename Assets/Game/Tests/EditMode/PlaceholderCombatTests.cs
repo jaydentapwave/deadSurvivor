@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
-// AC10·AC11·AC13 — 임시 전투(기획서 E절)
+// AC10·AC11·AC13 — 임시 전투(기획서 E절). F4: 임시 적 → slime 데이터(F4 기획서 "기존 테스트" 기대 변경 허용 목록)
 public class PlaceholderCombatTests
 {
     [Test]
@@ -20,14 +20,15 @@ public class PlaceholderCombatTests
     public void ContactDamagesMember()
     {
         var context = new TestRunContext();
+        var slime = context.MonsterRepository.Get("slime");
         context.PartyService.CreateParty();
         var bruno = context.PartyModel.MemberList[0];
-        var contact = context.CombatData.Enemy.Radius + context.CombatData.Enemy.ContactGap;
-        context.MonsterModel.Add(new Monster(1, bruno.Position + Vector2.left * contact, context.CombatData.Enemy.Hp));
+        var contact = slime.Radius + slime.ContactGap;
+        context.MonsterModel.Add(context.CreateMonster(1, "slime", bruno.Position + Vector2.left * contact));
 
         context.MonsterService.TickMove(context.RunRules.SimStep);
 
-        var expected = bruno.MaxHp - context.CombatData.Enemy.Damage * (1f - context.CharacterRepository.Get("bruno").Def);
+        var expected = bruno.MaxHp - slime.Damage * (1f - context.CharacterRepository.Get("bruno").Def);
         Assert.AreEqual(expected, bruno.Hp, 0.001f);
 
         // 쿨(attackInterval) 동안은 다시 때리지 않는다
@@ -39,9 +40,10 @@ public class PlaceholderCombatTests
     public void MonsterApproachesAndStopsAtContact()
     {
         var context = new TestRunContext();
+        var slime = context.MonsterRepository.Get("slime");
         context.PartyService.CreateParty();
         var bruno = context.PartyModel.MemberList[0];
-        var monster = new Monster(1, bruno.Position + Vector2.left * 100f, context.CombatData.Enemy.Hp);
+        var monster = context.CreateMonster(1, "slime", bruno.Position + Vector2.left * 100f);
         context.MonsterModel.Add(monster);
 
         for (var i = 0; i < 90; i++)
@@ -49,7 +51,7 @@ public class PlaceholderCombatTests
             context.MonsterService.TickMove(context.RunRules.SimStep);
         }
 
-        var contact = context.CombatData.Enemy.Radius + context.CombatData.Enemy.ContactGap;
+        var contact = slime.Radius + slime.ContactGap;
         Assert.AreEqual(contact, Vector2.Distance(monster.Position, bruno.Position), 0.01f);
         Assert.Less(bruno.Hp, bruno.MaxHp);
     }
@@ -58,12 +60,13 @@ public class PlaceholderCombatTests
     public void DeadMemberDoesNotAttackAndIsNotTargeted()
     {
         var context = new TestRunContext();
+        var slime = context.MonsterRepository.Get("slime");
         context.PartyService.CreateParty();
         var members = context.PartyModel.MemberList;
         var bruno = members[0];
         bruno.Hp = 0f;
         // 브루노 바로 옆(브루노 사거리 안, 다른 대원 사거리 밖)에 적을 둔다
-        var monster = new Monster(1, bruno.Position + new Vector2(-30f, -30f), context.CombatData.Enemy.Hp);
+        var monster = context.CreateMonster(1, "slime", bruno.Position + new Vector2(-30f, -30f));
         context.MonsterModel.Add(monster);
         for (var i = 1; i < members.Count; i++)
         {
@@ -71,7 +74,7 @@ public class PlaceholderCombatTests
         }
 
         context.BasicWeaponService.Tick(context.RunRules.SimStep);
-        Assert.AreEqual(context.CombatData.Enemy.Hp, monster.Hp);
+        Assert.AreEqual(slime.Hp, monster.Hp);
 
         var target = context.PartyService.FindNearestAlive(monster.Position);
         Assert.AreNotSame(bruno, target);
@@ -82,11 +85,12 @@ public class PlaceholderCombatTests
     public void AliveMemberAttacksNearestMonsterInRange()
     {
         var context = new TestRunContext();
+        var slime = context.MonsterRepository.Get("slime");
         context.PartyService.CreateParty();
         var lena = context.PartyModel.MemberList[1];
-        var near = new Monster(1, lena.Position + Vector2.right * 100f, context.CombatData.Enemy.Hp);
-        var far = new Monster(2, lena.Position + Vector2.right * 300f, context.CombatData.Enemy.Hp);
-        var outOfRange = new Monster(3, lena.Position + Vector2.right * 400f, context.CombatData.Enemy.Hp);
+        var near = context.CreateMonster(1, "slime", lena.Position + Vector2.right * 100f);
+        var far = context.CreateMonster(2, "slime", lena.Position + Vector2.right * 300f);
+        var outOfRange = context.CreateMonster(3, "slime", lena.Position + Vector2.right * 400f);
         context.MonsterModel.Add(far);
         context.MonsterModel.Add(near);
         context.MonsterModel.Add(outOfRange);
@@ -101,13 +105,13 @@ public class PlaceholderCombatTests
         context.BasicWeaponService.Tick(context.RunRules.SimStep);
 
         var damage = context.CombatData.Weapon.Damage * context.CharacterRepository.Get("lena").Atk;
-        Assert.AreEqual(context.CombatData.Enemy.Hp - damage, near.Hp, 0.001f);
-        Assert.AreEqual(context.CombatData.Enemy.Hp, far.Hp);
-        Assert.AreEqual(context.CombatData.Enemy.Hp, outOfRange.Hp);
+        Assert.AreEqual(slime.Hp - damage, near.Hp, 0.001f);
+        Assert.AreEqual(slime.Hp, far.Hp);
+        Assert.AreEqual(slime.Hp, outOfRange.Hp);
 
         // 다음 발사는 interval(0.7초) 뒤: 1/30초 걸음으로 21걸음째
         var steps = 0;
-        while (near.Hp > context.CombatData.Enemy.Hp - 2f * damage + 0.001f && steps < 100)
+        while (near.Hp > slime.Hp - 2f * damage + 0.001f && steps < 100)
         {
             context.BasicWeaponService.Tick(context.RunRules.SimStep);
             steps++;
@@ -116,16 +120,21 @@ public class PlaceholderCombatTests
         Assert.AreEqual(context.CombatData.Weapon.Interval, steps * context.RunRules.SimStep, 0.001f);
     }
 
+    // F4: 추가로 나오는 적은 slime·boar이고 정규 생성 수에 들지 않는다(기대 변경 허용 목록)
     [Test]
     public void BurningTimeSpawnsExtra()
     {
-        var withBurning = CountSpawnsInWave(6);
-        var withoutBurning = CountSpawnsInWave(5);
+        var withoutBurning = new TestRunContext();
+        withoutBurning.SpawnWholeWave(withoutBurning.BeginWaveOnly(5, 3));
         var context = new TestRunContext();
-        var normalCount = context.CombatData.SpawnCount;
+        var waveData = context.BeginWaveOnly(6, 3);
+        context.SpawnWholeWave(waveData);
 
-        Assert.AreEqual(normalCount, withoutBurning);
-        Assert.Greater(withBurning, normalCount);
+        Assert.AreEqual(withoutBurning.WaveRepository.WaveDataList[4].SpawnCount, withoutBurning.MonsterModel.MonsterList.Count);
+        Assert.AreEqual(0, withoutBurning.MonsterModel.BurningSpawnedCount);
+        Assert.AreEqual(waveData.SpawnCount, context.MonsterModel.SpawnedCount);
+        Assert.Greater(context.MonsterModel.BurningSpawnedCount, 0);
+        Assert.AreEqual(waveData.SpawnCount + context.MonsterModel.BurningSpawnedCount, context.MonsterModel.MonsterList.Count);
     }
 
     [Test]
@@ -166,22 +175,7 @@ public class PlaceholderCombatTests
     private static int CountSpawnsInWave(int wave, float enemyCountScale = 1f)
     {
         var context = new TestRunContext();
-        context.PartyService.CreateParty();
-        var waveData = context.WaveRepository.WaveDataList[wave - 1];
-        context.MonsterService.BeginRun(3);
-        context.MonsterService.BeginWave(waveData.Duration, enemyCountScale);
-        var burningStart = waveData.Duration * context.RunRules.BurningStartRatio;
-        var remaining = waveData.Duration;
-        while (remaining > 0f)
-        {
-            var delta = Mathf.Min(context.RunRules.SimStep, remaining);
-            remaining -= delta;
-            var elapsed = waveData.Duration - remaining;
-            var isBurningTime = waveData.HasBurningTime && elapsed >= burningStart
-                && elapsed < burningStart + context.RunRules.BurningSeconds;
-            context.MonsterService.TickSpawn(delta, elapsed, isBurningTime, burningStart);
-        }
-
+        context.SpawnWholeWave(context.BeginWaveOnly(wave, 3, enemyCountScale));
         return context.MonsterModel.MonsterList.Count;
     }
 }
