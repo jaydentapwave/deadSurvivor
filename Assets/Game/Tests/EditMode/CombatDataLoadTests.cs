@@ -20,7 +20,10 @@ public class CombatDataLoadTests
             ("ironshield", "철제 방패", ItemMode.Passive, 4, 0f, 0f, 0f),
         };
 
-        Assert.AreEqual(expected.Length, repository.ItemDataList.Count());
+        // 대표 8종은 반드시 있고, 전체 개수는 스키마 범위(4~40) — 콘텐츠 대기열이 파일만 더한다
+        var itemCount = repository.ItemDataList.Count();
+        Assert.GreaterOrEqual(itemCount, 4);
+        Assert.LessOrEqual(itemCount, 40);
         foreach (var row in expected)
         {
             var item = repository.Get(row.id);
