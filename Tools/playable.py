@@ -342,7 +342,8 @@ def run(project, route, out_dir, until=None):
             if not ed.wait_playing(False, 60):
                 raise CannotRun("이미 켜져 있던 Play를 끄지 못했다")
         original_size_indexes = ed.game_view_size_indexes()
-        # 포커스가 없는 에디터는 Run In Background가 꺼져 있으면 Play 프레임이 멈춘다. 끝나면 프로젝트 값으로 되돌린다
+        # 포커스가 없는 에디터는 Run In Background가 꺼져 있으면 Play 프레임이 멈춘다. CLI의 덮어쓰기를 켜고,
+        # 끝나면 --enable false(덮어쓰기를 멈추고 프로젝트 자체 값으로 되돌린다, CLI 설명)로 끈다
         ed.command("editor.playmode", "set_run_in_background", "--enable", "true")
         if route.get("scene"):
             rc, out = ed.eval("UnityEditor.SceneManagement.EditorSceneManager.OpenScene("
