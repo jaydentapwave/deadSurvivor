@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""게임 데이터 검사(에디터 없이). 스키마: docs/features/f1-skeleton/plan.md "데이터 스키마".
+"""게임 데이터 검사(에디터 없이). 스키마: docs/features/f1-skeleton/plan.md·f3-combat/plan.md "데이터 스키마".
 
   python3 -B ./tools/check_data.py              지금 데이터를 검사한다. 문제가 있으면 줄마다 출력하고 exit 1
   python3 -B ./tools/check_data.py --root <폴더> 다른 데이터 폴더를 검사한다(Character/ Item/ Wave/ Run/ 이 있는 곳)
-  python3 -B ./tools/check_data.py --self-test  지금 데이터가 통과하고, 틀린 데이터 4종(id 중복, 없는 startItem,
-                                                웨이브 order 빈칸, 캐릭터 수 4 아님)이 각각 실패하는지 본다
+  python3 -B ./tools/check_data.py --self-test  지금 데이터가 통과하고, 틀린 데이터 9종(F1: id 중복, 없는 startItem,
+                                                웨이브 order 빈칸, 캐릭터 수 4 아님 / F3: 모르는 mode, interval 0인 발동 아이템,
+                                                4×4 밖이거나 끊긴 shape, 모르는 효과 종류, passive 시작 아이템)이 각각 실패하는지 본다
 
 보는 것: JSON 형식, 필수 칸과 형, id = 파일 이름, id 중복, 가리키는 대상(startItem → Item), 웨이브 order 1..N 빈칸 없음,
-개수 범위(캐릭터 4, 아이템 4 이상, 웨이브 1~20), 값 범위. 모르는 칸은 통과시킨다(뒤 기능이 같은 파일에 칸을 더한다).
+개수 범위(캐릭터 4, 아이템 4~40, 웨이브 1~20), 값 범위, 아이템 발동 방식·효과·칸 모양(F3), 전투 규칙 파일(F3). 모르는 칸은 통과시킨다(뒤 기능이 같은 파일에 칸을 더한다).
 종료 코드: 0 통과, 1 문제 있음, 2 실행할 수 없음(데이터 폴더 없음).
 """
 import json
@@ -20,7 +21,14 @@ from pathlib import Path
 
 DEFAULT_ROOT = Path(__file__).resolve().parent.parent / "Assets" / "Game" / "03.Resources" / "Resources" / "Data"
 CHARACTER_COUNT = 4
-ITEM_MIN = 4
+ITEM_RANGE = (4, 40)
+MODES = ("melee", "sweep", "projectile", "explosion", "chain", "heal", "healArea", "passive")
+BASE_EFFECTS = ("attack", "def", "hp", "heal", "haste", "range")
+BONUS_EFFECTS = BASE_EFFECTS + ("shield", "startShield", "radius", "pierce", "extraShots", "chain", "pulse", "share")
+COUNT_EFFECTS = ("pierce", "extraShots", "chain")
+BONUS_TARGETS = ("", "attack") + tuple(m for m in MODES if m != "passive")
+SHAPE_SIZE = 4
+SHAPE_MAX_CELLS = 16
 WAVE_RANGE = (1, 20)
 COLOR = re.compile(r"#[0-9a-fA-F]{6}")
 
@@ -91,9 +99,15 @@ def check(root):
             "id": (is_text, "글자여야 한다"),
             "name": (is_text, "글자여야 한다"),
         }, problems)
+        check_item_combat(f"Item/{stem}.json", data, problems)
     item_ids = check_ids("Item", items, problems)
-    if len(items) < ITEM_MIN:
-        problems.append(f"Item: {len(items)}개 — {ITEM_MIN}개 이상이어야 한다")
+    item_modes = {d.get("id"): d.get("mode") for _, d in items}
+    if not ITEM_RANGE[0] <= len(items) <= ITEM_RANGE[1]:
+        problems.append(f"Item: {len(items)}개 — {ITEM_RANGE[0]}~{ITEM_RANGE[1]}개여야 한다")
+    missing_modes = [m for m in MODES if m not in item_modes.values()]
+    if missing_modes:
+        problems.append(f"Item: 발동 방식 {missing_modes}인 아이템이 없다 — 8가지가 모두 한 번 이상 있어야 한다")
+    notes.append(f"아이템 {len(items)}개, 발동 방식 {len(MODES) - len(missing_modes)}/{len(MODES)}가지")
 
     characters = load_kind(root, "Character", problems)
     for stem, data in characters:
@@ -108,10 +122,13 @@ def check(root):
             "def": (lambda v: is_num(v) and 0 <= v <= 0.8, "0~0.8이어야 한다"),
             "startItem": (is_text, "Item id여야 한다"),
             "color": (lambda v: isinstance(v, str) and COLOR.fullmatch(v), "#rrggbb여야 한다"),
+            "sprite": (lambda v: isinstance(v, str), "글자여야 한다(비면 임시 도형)"),
         }, problems)
         start = data.get("startItem")
         if is_text(start) and start not in item_ids:
             problems.append(f"{label}: startItem '{start}'인 Item이 없다")
+        elif is_text(start) and item_modes.get(start) == "passive":
+            problems.append(f"{label}: startItem '{start}'의 발동 방식이 passive다 — 시작 아이템은 발동 아이템이어야 한다")
     check_ids("Character", characters, problems)
     if len(characters) != CHARACTER_COUNT:
         problems.append(f"Character: {len(characters)}개 — {CHARACTER_COUNT}개여야 한다(원정대 4명 고정, 기획서 A3)")
@@ -159,7 +176,6 @@ def check(root):
             "memberSpots": (lambda v: isinstance(v, list) and all(
                 isinstance(p, dict) and is_num(p.get("x")) and is_num(p.get("y")) for p in v),
                 "{x, y} 목록이어야 한다"),
-            "weapon": (lambda v: isinstance(v, dict), "객체여야 한다"),
             "enemy": (lambda v: isinstance(v, dict), "객체여야 한다"),
             "spawnCount": (lambda v: is_int(v) and v >= 0, "0 이상 정수여야 한다"),
             "spawnMargin": (lambda v: is_num(v) and v >= 0, "0 이상이어야 한다"),
@@ -168,12 +184,8 @@ def check(root):
         spots = combat.get("memberSpots")
         if isinstance(spots, list) and len(spots) != len(characters):
             problems.append(f"{label}: memberSpots {len(spots)}개 — 캐릭터 수({len(characters)})와 같아야 한다")
-        if isinstance(combat.get("weapon"), dict):
-            check_fields(f"{label} weapon", combat["weapon"], {
-                "damage": (lambda v: is_num(v) and v > 0, "0보다 커야 한다"),
-                "interval": (lambda v: is_num(v) and v > 0, "0보다 큰 초여야 한다"),
-                "range": (lambda v: is_num(v) and v > 0, "0보다 커야 한다"),
-            }, problems)
+        if "weapon" in combat:
+            problems.append(f"{label}: 'weapon' 칸이 남아 있다 — F3이 지웠다(아이템 발동 전투)")
         if isinstance(combat.get("enemy"), dict):
             check_fields(f"{label} enemy", combat["enemy"], {
                 "hp": (lambda v: is_num(v) and v > 0, "0보다 커야 한다"),
@@ -184,7 +196,92 @@ def check(root):
                 "contactGap": (lambda v: is_num(v) and v >= 0, "0 이상이어야 한다"),
                 "color": (lambda v: isinstance(v, str) and COLOR.fullmatch(v), "#rrggbb여야 한다"),
             }, problems)
+
+    rules = load_single(root / "Combat" / "combat_rules.json", problems)
+    if rules is not None:
+        positive = (lambda v: is_num(v) and v > 0, "0보다 커야 한다")
+        spec = {name: positive for name in ("rangeUnit", "hasteCap", "healPeriod", "shieldPeriod", "meleeHalfAngle",
+                                            "sweepHalfAngle", "projectileSpeed", "projectileSpread", "explosionRadius",
+                                            "explosionTriggerGap", "chainHopRange", "firedSeconds")}
+        spec["defCap"] = (lambda v: is_num(v) and 0 < v <= 1, "0보다 크고 1 이하여야 한다")
+        spec["chainBaseHits"] = (lambda v: is_int(v) and v > 0, "0보다 큰 정수여야 한다")
+        check_fields("Combat/combat_rules.json", rules, spec, problems)
     return problems, notes
+
+
+def check_item_combat(label, data, problems):
+    """F3 아이템 칸: mode, shape, power·interval·range, 효과, 대상, 파동 값, icon."""
+    mode = data.get("mode")
+    if mode not in MODES:
+        problems.append(f"{label}: 'mode' = {mode!r} — {'·'.join(MODES)} 중 하나여야 한다")
+    check_shape(label, data.get("shape"), problems)
+    for name in ("power", "interval", "range"):
+        v = data.get(name)
+        if not is_num(v):
+            problems.append(f"{label}: '{name}' = {v!r} — 수여야 한다")
+        elif mode == "passive" and v != 0:
+            problems.append(f"{label}: '{name}' = {v!r} — passive면 0이어야 한다")
+        elif mode in MODES and mode != "passive" and v <= 0:
+            problems.append(f"{label}: '{name}' = {v!r} — 발동 아이템은 0보다 커야 한다")
+    check_effect(label, data, "baseEffect", "baseValue", BASE_EFFECTS, problems)
+    bonus = data.get("bonusEffect")
+    check_effect(label, data, "bonusEffect", "bonusValue", BONUS_EFFECTS, problems)
+    if bonus in COUNT_EFFECTS and is_num(data.get("bonusValue")) and data["bonusValue"] != int(data["bonusValue"]):
+        problems.append(f"{label}: 'bonusValue' = {data['bonusValue']!r} — {bonus}는 정수여야 한다")
+    target = data.get("bonusTarget")
+    if target not in BONUS_TARGETS:
+        problems.append(f"{label}: 'bonusTarget' = {target!r} — \"\", attack, 발동 방식 이름(passive 제외) 중 하나여야 한다")
+    elif bonus == "" and target != "":
+        problems.append(f"{label}: 'bonusTarget' = {target!r} — bonusEffect가 비면 \"\"여야 한다")
+    if not isinstance(data.get("bonusNeedsAdjacent"), bool):
+        problems.append(f"{label}: 'bonusNeedsAdjacent' = {data.get('bonusNeedsAdjacent')!r} — true/false여야 한다")
+    for name in ("effectInterval", "effectRadius"):
+        v = data.get(name)
+        if not is_num(v):
+            problems.append(f"{label}: '{name}' = {v!r} — 수여야 한다")
+        elif bonus == "pulse" and v <= 0:
+            problems.append(f"{label}: '{name}' = {v!r} — pulse면 0보다 커야 한다")
+        elif bonus != "pulse" and v != 0:
+            problems.append(f"{label}: '{name}' = {v!r} — pulse가 아니면 0이어야 한다")
+    if not isinstance(data.get("icon"), str):
+        problems.append(f"{label}: 'icon' = {data.get('icon')!r} — 글자여야 한다(비면 이름 표시)")
+
+
+def check_effect(label, data, kind_field, value_field, allowed, problems):
+    kind, value = data.get(kind_field), data.get(value_field)
+    if kind != "" and kind not in allowed:
+        problems.append(f"{label}: '{kind_field}' = {kind!r} — \"\" 또는 {'·'.join(allowed)} 중 하나여야 한다")
+    if not is_num(value):
+        problems.append(f"{label}: '{value_field}' = {value!r} — 수여야 한다")
+    elif kind == "" and value != 0:
+        problems.append(f"{label}: '{value_field}' = {value!r} — {kind_field}가 비면 0이어야 한다")
+    elif kind != "" and value <= 0:
+        problems.append(f"{label}: '{value_field}' = {value!r} — 0보다 커야 한다")
+
+
+def check_shape(label, shape, problems):
+    """칸 1~16개, 0 ≤ x, y ≤ 3, 겹침 없음, 상하좌우로 이어짐."""
+    if not isinstance(shape, list) or not shape or not all(
+            isinstance(c, dict) and is_int(c.get("x")) and is_int(c.get("y")) for c in shape):
+        problems.append(f"{label}: 'shape' — 정수 {{x, y}} 칸 1개 이상의 목록이어야 한다")
+        return
+    cells = [(c["x"], c["y"]) for c in shape]
+    if len(cells) > SHAPE_MAX_CELLS:
+        problems.append(f"{label}: 'shape' 칸 {len(cells)}개 — {SHAPE_MAX_CELLS}개 이하여야 한다")
+    if any(not (0 <= x < SHAPE_SIZE and 0 <= y < SHAPE_SIZE) for x, y in cells):
+        problems.append(f"{label}: 'shape' {cells} — 4×4 밖 칸이 있다(0 ≤ x, y ≤ 3)")
+    if len(set(cells)) != len(cells):
+        problems.append(f"{label}: 'shape' {cells} — 겹친 칸이 있다")
+    seen, stack = {cells[0]}, [cells[0]]
+    unique = set(cells)
+    while stack:
+        x, y = stack.pop()
+        for n in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+            if n in unique and n not in seen:
+                seen.add(n)
+                stack.append(n)
+    if seen != unique:
+        problems.append(f"{label}: 'shape' {cells} — 상하좌우로 이어지지 않은(끊긴) 칸이 있다")
 
 
 def load_single(path, problems):
@@ -237,8 +334,30 @@ def self_test(root):
     def break_character_count(d):
         sorted((d / "Character").glob("*.json"))[-1].unlink()
 
+    def edit_item(d, name, change):
+        edit_json(d / "Item" / f"{name}.json", change)
+
+    def break_mode(d):
+        edit_item(d, "sword", lambda data: data.update(mode="laser"))
+
+    def break_interval(d):
+        edit_item(d, "shortbow", lambda data: data.update(interval=0))
+
+    def break_shape(d):
+        edit_item(d, "wand", lambda data: data.update(shape=[{"x": 0, "y": 0}, {"x": 2, "y": 0}, {"x": 4, "y": 0}]))
+
+    def break_effect(d):
+        edit_item(d, "ironshield", lambda data: data.update(baseEffect="speed"))
+
+    def break_passive_start(d):
+        first = sorted((d / "Character").glob("*.json"))[0]
+        edit_json(first, lambda data: data.update(startItem="ironshield"))
+
     cases = [("id 중복", break_duplicate, "중복"), ("없는 startItem", break_start_item, "startItem"),
-             ("웨이브 order 빈칸", break_wave_gap, "Wave: order"), ("캐릭터 수 4 아님", break_character_count, "Character: 3개")]
+             ("웨이브 order 빈칸", break_wave_gap, "Wave: order"), ("캐릭터 수 4 아님", break_character_count, "Character: 3개"),
+             ("모르는 mode", break_mode, "'mode'"), ("interval 0인 발동 아이템", break_interval, "'interval'"),
+             ("4×4 밖이거나 끊긴 shape", break_shape, "'shape'"), ("모르는 효과 종류", break_effect, "'baseEffect'"),
+             ("passive 시작 아이템", break_passive_start, "passive")]
     failures = []
     base_problems, _ = check(root)
     if base_problems:
@@ -263,7 +382,7 @@ def self_test(root):
         for f in failures:
             print(f"  - {f}")
         return 1
-    print("SELF-TEST: OK (지금 데이터 통과, 틀린 데이터 4종 모두 실패)")
+    print(f"SELF-TEST: OK (지금 데이터 통과, 틀린 데이터 {len(cases)}종 모두 실패)")
     return 0
 
 

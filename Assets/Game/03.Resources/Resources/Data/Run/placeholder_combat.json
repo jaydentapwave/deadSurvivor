@@ -17,11 +17,6 @@
       "y": 24
     }
   ],
-  "weapon": {
-    "damage": 13,
-    "interval": 0.7,
-    "range": 336
-  },
   "enemy": {
     "hp": 20,
     "damage": 5,

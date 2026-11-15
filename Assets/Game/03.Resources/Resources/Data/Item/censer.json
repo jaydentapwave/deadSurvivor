@@ -1,0 +1,35 @@
+{
+  "id": "censer",
+  "name": "성스러운 향로",
+  "mode": "healArea",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 1,
+      "y": 2
+    }
+  ],
+  "power": 6,
+  "interval": 2.5,
+  "range": 4,
+  "baseEffect": "",
+  "baseValue": 0,
+  "bonusEffect": "",
+  "bonusValue": 0,
+  "bonusTarget": "",
+  "bonusNeedsAdjacent": false,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": ""
+}
