@@ -71,11 +71,9 @@ public class MoveInputPresenter : IInitializable, ITickable, IDisposable
             return;
         }
 
+        // 판정 봇 등 다른 쪽이 넣은 명령이 남아 있을 수 있어 지난 값과 상관없이 0을 보낸다
         _joystickView.UpdateUI(false, Vector2.zero, Vector2.zero);
-        if (_hasSentInput && _sentInput != Vector2.zero)
-        {
-            SendInput(Vector2.zero);
-        }
+        SendInput(Vector2.zero);
     }
 
     private void SendInput(Vector2 input)
