@@ -1,0 +1,18 @@
+{
+ "schema": "2d-identity/1",
+ "id": "mushroom",
+ "ref": "Assets/Game/03.Resources/Art/AIGenerated/Monsters/mushroom/mushroom.png",
+ "ref_sha256": "a5a8e8f813a5f4d33a4e67bf7b7746c61ea3efec8912805dd59934bb5a76dacd",
+ "approved": "2026-11-16 — 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기",
+ "note": "몬스터 사격형 버섯(게임 기획서 A6·F4, 기준서 K12). 슬라임(slime.json) 그림체. 64x64 캔버스, 그림 34x34(키 34px = 캐릭터 48px의 0.7, K13), 피벗 바닥 가운데. 빨간 갓·크림 반점, 갓 위 포자 구멍(#2f1108, 외곽선 색과 같아 부위로 넣지 않음). box_rel은 그림 bbox 기준.",
+ "width_part": "cap",
+ "outline_exclude": ["cap_shade"],
+ "parts": {
+  "cap": {"hex": "#c44334"},
+  "cap_shade": {"hex": "#77211d"},
+  "cap_spots": {"hex": "#fff9ed"},
+  "stem": {"hex": "#e3d7c8"},
+  "stem_shade": {"hex": "#d3ae90"},
+  "eyes": {"hex": "#ffe08a", "fixed": true}
+ }
+}
