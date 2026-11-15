@@ -13,6 +13,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly PartyModel _partyModel;
     private readonly MonsterModel _monsterModel;
     private readonly MonsterService _monsterService;
+    private readonly PartyMoveService _partyMoveService;
     private readonly CharacterRepository _characterRepository;
     private readonly RunRulesData _runRules;
     private readonly PlaceholderCombatData _combatData;
@@ -29,13 +30,14 @@ public class WorldPresenter : IInitializable, ILateTickable
     private Vector2 _viewHalfExtent;
 
     public WorldPresenter(PartyModel partyModel, MonsterModel monsterModel, MonsterService monsterService,
-        CharacterRepository characterRepository, RunRulesData runRules, PlaceholderCombatData combatData,
+        PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
         MonsterViewRegistry monsterViewRegistry, FieldView fieldView, Camera camera, IReadOnlyList<MemberView> memberViewList)
     {
         _partyModel = partyModel;
         _monsterModel = monsterModel;
         _monsterService = monsterService;
+        _partyMoveService = partyMoveService;
         _characterRepository = characterRepository;
         _runRules = runRules;
         _combatData = combatData;
@@ -115,6 +117,7 @@ public class WorldPresenter : IInitializable, ILateTickable
 
         _viewHalfExtent = floorHalfExtent;
         _monsterService.SetViewHalfExtent(floorHalfExtent);
+        _partyMoveService.SetViewHalfExtent(floorHalfExtent);
     }
 
     private void UpdateMemberViews()

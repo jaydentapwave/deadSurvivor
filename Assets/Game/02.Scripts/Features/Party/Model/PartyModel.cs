@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 원정대 상태. 1/30초마다 바뀌는 실체 값이라 R3로 감싸지 않고 Presenter가 프레임마다 읽는다.
-// 쓰는 쪽: PartyService(만들기·피해), BasicWeaponService(무기 쿨 시계).
+// 쓰는 쪽: PartyService(만들기·피해), BasicWeaponService(무기 쿨 시계), PartyMoveService(중심·대원 좌표, F2).
 public class PartyModel
 {
     private readonly List<PartyMember> _memberList = new();
 
     public IReadOnlyList<PartyMember> MemberList => _memberList;
-    // 원정대 중심(바닥 평면). F1은 원점 고정, 이동은 F2
+    // 원정대 중심(바닥 평면). 쓰는 쪽은 PartyMoveService뿐이다(F2)
     public Vector2 Center { get; private set; }
 
     public void SetCenter(Vector2 center) => Center = center;
