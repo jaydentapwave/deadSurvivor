@@ -1,6 +1,6 @@
 # F1 한 판의 뼈대 기획서
 
-- 상태: 초안
+- 상태: 승인 (2026-11-15, 디렉터 확인 — 게임 시작 전 승인 범위 안, director-game autonomy 1절)
 - 서버 필요: 아니오
 - 관련 문서: [게임 기획서](../../game/gdd.md) F1(S4, S8, V1, V2, V3, V4), 판정 단계 G1·G2(이 기능에서 통과), G3~G8(경로 파일에 적기만 함). 참고 분석 문서 없음. 예전 판 코드 `Assets/DeadSurvivor/Runtime/DSGame.Run.cs`·`DSGame.Combat.cs`·`DSUI.cs`와 예전 값 `Assets/DeadSurvivor/Resources/DeadSurvivor/PrototypeData.json`(읽기 전용, 규칙만 옮김). 긴 근거는 [notes.md](notes.md)
 
