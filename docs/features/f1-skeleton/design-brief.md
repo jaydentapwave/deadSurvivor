@@ -102,3 +102,7 @@
 - M4 프레임 모으기 경계 → 일시정지·전투 아님·웨이브 끝·시작 때 규칙과 시험(흐름절).
 - 질문 답: 1 함수 등록(`builder.Register(r => r.Resolve<ResourceService>().LoadJson…)`), 2 `UI/Utils/`로 옮김, 3 금지 사례 → M1처럼.
 - 후속 제안 중 반영: 적 번호 이어 늘리기(F4), 경로 timeout 근거(F2), 로비 빈 원정대(F3), Presenter 생명주기(F10), 봇 찾기(F11), `autoReferenced: false`(F12), 렌더 확인 범위에 URP 전역 설정 더함(F8).
+
+### 시도 2 변경 (algorithm-tester 지적, 424ca5e)
+- 프레임 모으기: 정수 µs 대신 걸음 단위 double로 모으고 1 − 0.0001걸음이면 한 걸음으로 친다. 프레임마다 µs로 반올림하면 1/144초 × 144가 29걸음이 됐다(1초 1번은 30). 경계(일시정지·전투 아님·웨이브 끝 버림·시작 때 0)는 그대로. `RunServiceTests.FrameRateDoesNotChangeStepCount`(144·60·30·3fps).
+- 버닝 추가 생성: 간격(일반 간격 × 0.5)마다 반대쪽 두 방향에서 1마리씩 = 한 번에 2마리(기획서 E절 문장 그대로). 앞서는 예전 `Burning()`처럼 번갈아 1마리였다. `PlaceholderCombatTests.BurningTimeSpawnsExtra`가 간격 수 × 2를 본다.
