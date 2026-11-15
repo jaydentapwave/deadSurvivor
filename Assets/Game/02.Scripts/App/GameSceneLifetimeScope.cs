@@ -8,6 +8,7 @@ public class GameSceneLifetimeScope : LifetimeScope
 {
     private const string RunRulesPath = "Data/Run/run_rules";
     private const string PlaceholderCombatPath = "Data/Run/placeholder_combat";
+    private const string MoveRulesPath = "Data/Party/move_rules";
 
     [SerializeField] private MemberView[] memberViews;
 
@@ -26,18 +27,24 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register<CharacterRepository>(Lifetime.Scoped);
         builder.Register<ItemRepository>(Lifetime.Scoped);
         builder.Register<WaveRepository>(Lifetime.Scoped);
+        builder.Register<FormationRepository>(Lifetime.Scoped);
+        builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<MoveRulesData>(MoveRulesPath), Lifetime.Scoped);
 
         // 모델
         builder.Register<RunModel>(Lifetime.Scoped);
         builder.Register<RunSettingsModel>(Lifetime.Scoped);
         builder.Register<PartyModel>(Lifetime.Scoped);
         builder.Register<MonsterModel>(Lifetime.Scoped);
+        builder.Register<FormationModel>(Lifetime.Scoped);
+        builder.Register<PartyMoveModel>(Lifetime.Scoped);
 
         // 서비스
         builder.Register<RunService>(Lifetime.Scoped);
         builder.Register<PartyService>(Lifetime.Scoped);
         builder.Register<BasicWeaponService>(Lifetime.Scoped);
         builder.Register<MonsterService>(Lifetime.Scoped);
+        builder.Register<FormationService>(Lifetime.Scoped);
+        builder.Register<PartyMoveService>(Lifetime.Scoped);
 
         // 생성·등록부
         builder.Register<MonsterViewFactory>(Lifetime.Scoped);
@@ -50,6 +57,8 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<UI_BattleHudView>();
         builder.RegisterComponentInHierarchy<UI_PrepView>();
         builder.RegisterComponentInHierarchy<UI_ResultView>();
+        builder.RegisterComponentInHierarchy<UI_JoystickView>();
+        builder.RegisterComponentInHierarchy<UI_FormationView>();
         // 같은 형 컴포넌트 여럿은 따로 등록할 수 없어(VContainer 형 충돌) 장면 순서 목록 하나로 넘긴다
         builder.RegisterInstance<IReadOnlyList<MemberView>>(memberViews);
 
@@ -61,5 +70,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterEntryPoint<PrepPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<ResultPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<WorldPresenter>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<MoveInputPresenter>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<FormationPresenter>(Lifetime.Scoped).AsSelf();
     }
 }
