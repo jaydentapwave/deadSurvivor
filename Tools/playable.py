@@ -7,6 +7,7 @@
   python3 -B <유니티 프로젝트>/tools/playable.py                 경로 전체를 밟는다
   python3 -B <유니티 프로젝트>/tools/playable.py --check         경로 파일의 형식만 본다(에디터를 건드리지 않는다)
   python3 -B <유니티 프로젝트>/tools/playable.py --until <번호>  그 단계까지만 밟는다(만드는 중에 쓴다)
+  python3 -B <유니티 프로젝트>/tools/playable.py --self-test     에디터 응답 읽기 자체 시험(에디터를 건드리지 않는다)
 
 선택: --project <유니티 프로젝트>(기본: 이 파일의 윗폴더), --route <파일>(기본: tools/playable/route.json),
       --out <폴더>(기본: <프로젝트>/Logs/playable/latest. 캡처와 report.json이 생긴다)
@@ -38,6 +39,7 @@ C# 식과 문장은 게임이 내놓는 판정용 진입점(.ai/rules/playable-c
 종료 코드: 0 통과, 1 실패(어느 단계에서 끊겼는지 출력), 2 실행할 수 없음(unity 명령·프로젝트·경로 파일 문제, 에디터 미연결).
 환경 변수: PLAYABLE_UNITY(unity 명령, 기본 unity), PLAYABLE_PLAY_TIMEOUT(Play 진입 대기 초, 기본 120).
 """
+import base64
 import json
 import os
 import re
@@ -54,6 +56,13 @@ DEFAULT_SIZES = [[1080, 1920], [1080, 2340], [1080, 2520], [1536, 2048]]  # 9:16
 STEP_KEYS = {"id", "name", "do", "key", "tap", "sleep", "wait", "timeout", "expect", "capture", "allow_errors"}
 ACTIONS = ("do", "key", "tap", "sleep", "wait", "expect", "capture")
 TOP_KEYS = {"schema", "scene", "size", "sizes", "time_scale", "steps"}
+
+
+# Game 뷰 해상도 바꾸기(캡처 화면비)에 쓰는 C# 조각. GameView는 공개 API가 없어 리플렉션으로 부른다
+GAME_VIEW_TYPE = 'System.Type.GetType("UnityEditor.GameView,UnityEditor")'
+GAME_VIEW_EXPR = "UnityEngine.Resources.FindObjectsOfTypeAll(" + GAME_VIEW_TYPE + ")"
+FLAGS = ("System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public"
+         " | System.Reflection.BindingFlags.NonPublic")
 
 
 class CannotRun(Exception):
@@ -140,6 +149,24 @@ def tail(text, n=8):
     return "\n".join(str(text).splitlines()[-n:])
 
 
+def command_result(out):
+    """unity --json command 응답에서 명령 결과(data.result) 사전. 못 읽으면 None.
+
+    Unity CLI 1.0.0-beta.17은 응답 전체를 여러 줄 JSON 봉투({"success", "data": {"result": …}})로 낸다.
+    봉투가 아니면(예전 형식) 마지막 줄의 JSON을 결과로 본다."""
+    try:
+        doc = json.loads(out)
+    except ValueError:
+        try:
+            doc = json.loads(str(out).splitlines()[-1])
+        except (ValueError, IndexError):
+            return None
+        return doc if isinstance(doc, dict) else {"result": doc}
+    if isinstance(doc, dict) and isinstance(doc.get("data"), dict) and "result" in doc["data"]:
+        return doc["data"]["result"] if isinstance(doc["data"]["result"], dict) else {"result": doc["data"]["result"]}
+    return doc if isinstance(doc, dict) else None
+
+
 class Editor:
     def __init__(self, project):
         self.project = project
@@ -155,10 +182,10 @@ class Editor:
         rc, out = self.eval(f"return ({expr});")
         if rc:
             return None, out
-        try:
-            return json.loads(out.splitlines()[-1]), out
-        except (ValueError, IndexError):
+        result = command_result(out)
+        if result is None or "result" not in result:
             return None, out
+        return result["result"], out
 
     def state(self):
         rc, out = unity("status", "--project-path", self.project, timeout=30)
@@ -172,14 +199,14 @@ class Editor:
         """콘솔 오류 수. 읽지 못하면 None."""
         rc, out = self.command("console", "status", timeout=30)
         try:
-            return int((json.loads(out).get("groundTruth") or {})["consoleErrors"])
+            return int((command_result(out).get("groundTruth") or {})["consoleErrors"])
         except (ValueError, KeyError, TypeError, AttributeError):
             return None
 
     def error_lines(self):
         rc, out = self.command("console", "get", "--level", "error", "--tail", "5", timeout=30)
         try:
-            return [str(e.get("message") or e)[:300] for e in json.loads(out).get("entries") or []]
+            return [str(e.get("message") or e)[:300] for e in command_result(out).get("entries") or []]
         except (ValueError, AttributeError):
             return [tail(out, 5)]
 
@@ -192,9 +219,53 @@ class Editor:
             time.sleep(POLL)
         return False
 
+    def game_view_size_indexes(self):
+        """Game 뷰마다 지금 해상도 칸 번호(되돌리기용). 창이 여럿일 수 있고 어느 창이 Play를 그리는지 알 수 없어 모두 다룬다."""
+        v, _ = self.value("System.Array.ConvertAll(" + GAME_VIEW_EXPR + ", view => (int)" + GAME_VIEW_TYPE
+                          + ".GetProperty(\"selectedSizeIndex\", " + FLAGS + ").GetValue(view))")
+        return v if isinstance(v, list) and all(isinstance(i, int) for i in v) else None
+
+    def set_game_view_size_indexes(self, indexes):
+        self.eval("var views = " + GAME_VIEW_EXPR + "; var indexes = new int[] { " + ", ".join(str(int(i)) for i in indexes)
+                  + " }; for (var i = 0; i < views.Length && i < indexes.Length; i++) { " + GAME_VIEW_TYPE
+                  + ".GetProperty(\"selectedSizeIndex\", " + FLAGS + ").SetValue(views[i], indexes[i]); }")
+
+    def set_game_view_resolution(self, size):
+        """모든 Game 뷰를 고정 해상도로 바꾸고 Play 화면이 그 크기로 그려질 때까지 기다린다. 못 바꾸면 (False, 이유)."""
+        w, h = int(size[0]), int(size[1])
+        rc, out = self.eval("var views = " + GAME_VIEW_EXPR + "; if (views.Length == 0) { throw new System.Exception(\"Game 뷰가 없다\"); } "
+                            + "foreach (var view in views) { " + GAME_VIEW_TYPE + ".GetMethod(\"SetCustomResolution\", " + FLAGS
+                            + f").Invoke(view, new object[] {{ new UnityEngine.Vector2({w}, {h}), \"playable\" }}); }}")
+        if rc:
+            return False, tail(out)
+        # 명령은 Play 루프 밖에서 돌아 UnityEngine.Screen이 편집기 창 크기를 낸다. 주 Game 뷰 크기와 그린 프레임 수로 본다
+        start_frame, _ = self.value("UnityEngine.Time.frameCount")
+        end = time.monotonic() + 10
+        while time.monotonic() < end:
+            v, out = self.value("(UnityEngine.Vector2)" + GAME_VIEW_TYPE + ".GetMethod(\"GetSizeOfMainGameView\", "
+                                + "System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic"
+                                + f" | System.Reflection.BindingFlags.Public).Invoke(null, null) == new UnityEngine.Vector2({w}, {h})"
+                                + f" && UnityEngine.Time.frameCount >= {int(start_frame or 0) + 2}")
+            if v is True:
+                return True, ""
+            time.sleep(POLL)
+        return False, f"Game 뷰가 {w}x{h}로 그려지지 않았다:\n" + tail(out, 3)
+
     def capture(self, path, size):
-        return self.command("capture", "game_view", "--width", str(size[0]), "--height", str(size[1]),
-                            "--output-path", str(path), timeout=60)
+        """Game 뷰를 size 해상도로 그려 PNG로 path에 쓴다. capture game_view의 width·height는 Game 뷰가 그린 그림을
+        늘이기만 하므로(화면비가 바뀌지 않는다) Game 뷰 해상도를 먼저 바꾼다. CLI의 save_path는 Assets 아래에만 쓰므로
+        (가져오기·.meta가 생긴다) 그림을 응답의 base64로 받아 여기서 쓴다."""
+        is_sized, reason = self.set_game_view_resolution(size)
+        if not is_sized:
+            return 1, reason
+        rc, out = self.command("capture", "game_view", "--width", str(size[0]), "--height", str(size[1]), timeout=60)
+        if rc:
+            return rc, out
+        data = (command_result(out) or {}).get("base64")
+        if not isinstance(data, str):
+            return 1, "캡처 응답에 그림(base64)이 없다:\n" + tail(out, 5)
+        Path(path).write_bytes(base64.b64decode(data))
+        return 0, out
 
 
 def cs_string(text):
@@ -263,12 +334,16 @@ def run(project, route, out_dir, until=None):
     report = {"schema": 1, "project": project, "started": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
               "result": "fail", "broke_at": None, "reason": "", "steps": []}
     began = time.monotonic()
+    original_size_indexes = None
     try:
         v, _ = ed.value("UnityEngine.Application.isPlaying")
         if v is True:
             ed.command("editor.playmode", "stop")
             if not ed.wait_playing(False, 60):
                 raise CannotRun("이미 켜져 있던 Play를 끄지 못했다")
+        original_size_indexes = ed.game_view_size_indexes()
+        # 포커스가 없는 에디터는 Run In Background가 꺼져 있으면 Play 프레임이 멈춘다. 끝나면 프로젝트 값으로 되돌린다
+        ed.command("editor.playmode", "set_run_in_background", "--enable", "true")
         if route.get("scene"):
             rc, out = ed.eval("UnityEditor.SceneManagement.EditorSceneManager.OpenScene("
                               + cs_string(route["scene"]) + ");")
@@ -311,11 +386,34 @@ def run(project, route, out_dir, until=None):
     finally:
         ed.command("editor.playmode", "stop")
         ed.wait_playing(False, 30)
+        ed.command("editor.playmode", "set_run_in_background", "--enable", "false")
+        if original_size_indexes:
+            ed.set_game_view_size_indexes(original_size_indexes)
         report["seconds"] = round(time.monotonic() - began, 1)
+
+
+def self_test():
+    """응답 읽기 자체 시험(에디터 없이). 실패하면 AssertionError."""
+    envelope = lambda result: json.dumps({"success": True, "command": "command",
+                                          "data": {"command": "x", "result": result}}, indent=2)
+    eval_true = envelope({"output": None, "diagnostics": [], "success": True, "result": True})
+    assert command_result(eval_true)["result"] is True, "여러 줄 봉투의 eval 결과"
+    assert command_result(envelope({"output": None, "success": True, "result": False}))["result"] is False
+    assert command_result(envelope({"result": [1, 2]}))["result"] == [1, 2]
+    status = envelope({"entries": [], "groundTruth": {"consoleErrors": 3}})
+    assert command_result(status)["groundTruth"]["consoleErrors"] == 3, "콘솔 오류 수"
+    assert command_result("log line\n{\"result\": true}")["result"] is True, "예전 형식(마지막 줄 JSON)"
+    assert command_result("not json") is None, "JSON 아님"
+    # 반례: 봉투의 마지막 줄("}")만 읽던 예전 동작은 None을 냈다
+    assert command_result(eval_true.splitlines()[-1]) is None
+    print("playable.py self-test: OK")
+    return 0
 
 
 def main(argv):
     args = argv[1:]
+    if args == ["--self-test"]:
+        return self_test()
 
     def take(flag):
         if flag in args:
