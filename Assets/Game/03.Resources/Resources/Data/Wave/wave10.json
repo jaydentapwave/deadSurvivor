@@ -3,9 +3,9 @@
   "order": 10,
   "duration": 65,
   "hasBurningTime": true,
-  "spawnCount": 270,
-  "hpScale": 1.26,
-  "damageScale": 1.5,
+  "spawnCount": 407,
+  "hpScale": 1.708,
+  "damageScale": 1.9,
   "typeWeights": [
     {
       "monster": "slime",
