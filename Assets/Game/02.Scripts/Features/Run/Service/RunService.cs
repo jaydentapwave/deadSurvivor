@@ -67,7 +67,9 @@ public class RunService
         }
 
         var speed = _runRules.SpeedOptions[_runModel.SpeedIndex.CurrentValue];
-        _accumulatedSteps += (double)frameSeconds * speed / _runRules.SimStep;
+        // simStep(float 0.0333333)으로 나누면 1초가 29.999998걸음이 되어 긴 웨이브에서 모자람이 쌓인다. 초당 걸음 수(정수 30)를 곱한다
+        var stepsPerSecond = Math.Round(1d / _runRules.SimStep);
+        _accumulatedSteps += (double)frameSeconds * speed * stepsPerSecond;
         while (_accumulatedSteps >= 1d - StepTolerance)
         {
             _accumulatedSteps -= 1d;

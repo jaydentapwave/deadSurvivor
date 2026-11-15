@@ -177,6 +177,36 @@ public class RunServiceTests
         Assert.AreEqual(29f, whole.RunModel.RemainingSeconds.CurrentValue, 0.001f);
     }
 
+    // 설계 검토 지적: 65초 웨이브 안에서 1초 × 64와 1/60초 × 3840이 같은 걸음 수(1920)
+    [Test]
+    public void LongWaveSameStepCountForDifferentFrameSplits()
+    {
+        var bySecond = new TestRunContext();
+        var bySixtieth = new TestRunContext();
+        foreach (var context in new[] { bySecond, bySixtieth })
+        {
+            context.RunService.StartRun(1, 0f);
+            while (context.RunModel.Wave.CurrentValue < context.WaveRepository.WaveDataList.Count)
+            {
+                context.StepUntilBattleEnds();
+                context.RunService.NextWave();
+            }
+        }
+
+        Assert.AreEqual(65f, bySecond.RunModel.WaveSeconds.CurrentValue);
+        for (var second = 0; second < 64; second++)
+        {
+            bySecond.RunService.AdvanceFrame(1f);
+            for (var frame = 0; frame < 60; frame++)
+            {
+                bySixtieth.RunService.AdvanceFrame(1f / 60f);
+            }
+        }
+
+        Assert.AreEqual(bySecond.RunModel.RemainingSeconds.CurrentValue, bySixtieth.RunModel.RemainingSeconds.CurrentValue);
+        Assert.AreEqual(1f, bySecond.RunModel.RemainingSeconds.CurrentValue, 0.01f);
+    }
+
     [Test]
     public void SpeedDoubles()
     {

@@ -26,12 +26,12 @@
 ## 흐름 (B·C절)
 - `RunService`: `StartRun(seed, enemyCountScale)`, `AdvanceFrame(frameSeconds)`, `Step(stepSeconds)`, `NextWave()`, `ReturnToLobby()`, `TogglePause()`, `ToggleSpeed()`.
 - **기획서와 다른 자리**: C절은 "BattlePresenter가 프레임 시간 × 배속을 모아 Step"이다. 모으는 코드를 `RunService.AdvanceFrame`에 두고 `BattlePresenter.Tick`은 `Time.deltaTime`을 넘기기만 한다. 이유: AC11의 시험 이름이 `RunServiceTests.PauseStopsTime`·`SpeedDoubles`이고, 엔진 시간 없이 프레임 나누기를 시험해야 한다(`SameSeedSameResultAcrossFrameSplits`). 동작은 같다.
-- 모으기는 정수 마이크로초로 한다(프레임 시간 × 배속을 µs로 반올림해 더하고 `round(simStep × 1e6)` µs씩 뺀다). 한 걸음에 더하는 게임 시간은 `simStep`(float) 그대로다. float를 그대로 더하면 1/60초 60번과 1초 1번의 걸음 수가 29·30으로 갈릴 수 있다(AC11).
-- 모으기의 경계: 일시정지 중이거나 전투가 아니면 쌓지 않는다. 걸음마다 `Phase`를 보고 전투가 끝났으면(정비·결과) 남은 µs를 버리고 멈춘다. `StartRun`·`NextWave`(웨이브 시작)·`ReturnToLobby`에서 0으로 한다. 그래서 웨이브마다 도는 걸음 수가 프레임 나누기와 상관없다(`RunServiceTests.LeftoverFrameTimeIsDroppedAtWaveEnd`, `SameResultAcrossWavesForDifferentFrameSplits`).
+- 모으기는 걸음 단위 double로 한다: 프레임 시간 × 배속 × 초당 걸음 수(`round(1 / simStep)` = 30, 정수)를 더하고 1 − 0.0001이 차면 한 걸음. 한 걸음에 더하는 게임 시간은 `simStep`(float) 그대로다(시도 2 변경 절).
+- 모으기의 경계: 일시정지 중이거나 전투가 아니면 쌓지 않는다. 걸음마다 `Phase`를 보고 전투가 끝났으면(정비·결과) 남은 몫을 버리고 멈춘다. `StartRun`·`NextWave`(웨이브 시작)·`ReturnToLobby`에서 0으로 한다. 그래서 웨이브마다 도는 걸음 수가 프레임 나누기와 상관없다(`RunServiceTests.LeftoverFrameTimeIsDroppedAtWaveEnd`, `SameResultAcrossWavesForDifferentFrameSplits`).
 - 기본 무기 쿨: 쿨이 남았을 때만 줄이고, 그 걸음에 0을 넘어선 몫은 다음 쿨에서 뺀다(간격을 1/30초 걸음으로 정확히 지킴). 표적이 없어 기다리면 0에 둔다.
 - 적 번호는 판이 바뀌어도 이어서 늘린다(같은 프레임 로비 → 출발 때 지난 판 View가 등록부에 남는 경우).
 - `Step` 순서는 C절 ①~⑦ 그대로. 남은 시간을 원본으로 두고(경과 = 웨이브 시간 − 남은 시간) ①에서 `min(걸음, 남은 시간)`을 빼면 마지막 걸음에서 정확히 0이 된다. ⑥ 생존 0 → 패배가 ⑦ 시간 끝보다 먼저다.
-- 생성(E절): 웨이브 시작 때 생성 시계 0(첫 걸음에 1마리), 간격 = (웨이브 시간 − 4) ÷ max(1, 수 − 1). 버닝 추가 생성은 예전 `Burning()`의 "그때까지 나와야 할 수" 방식(간격 × `burningIntervalScale`, 반대쪽 두 방향 번갈아). **수가 0이면(적 수 배율 0) 버닝 추가 생성도 0** — 예전 식은 수 0에서도 1마리를 내지만 AC6의 "적이 없는 판"과 맞지 않는다.
+- 생성(E절): 웨이브 시작 때 생성 시계 0(첫 걸음에 1마리), 간격 = (웨이브 시간 − 4) ÷ max(1, 수 − 1). 버닝 추가 생성은 예전 `Burning()`의 "그때까지 나와야 할 수" 방식으로 세되, 간격(× `burningIntervalScale`)마다 반대쪽 두 방향에서 1마리씩(기획서 E절, 시도 2 변경 절). **수가 0이면(적 수 배율 0) 버닝 추가 생성도 0** — 예전 식은 수 0에서도 1마리를 내지만 AC6의 "적이 없는 판"과 맞지 않는다.
 - 생성 거리 = 보이는 바닥 영역 대각선 절반 + `spawnMargin`. 보이는 영역은 `WorldPresenter`가 카메라(직교 크기·화면비)에서 바닥 단위로 바꿔 `MonsterService.SetViewHalfExtent`로 넘긴다(바뀔 때만). 시험은 640×360 기준값을 직접 넣는다.
 - 기본 무기: 살아 있는 대원마다 쿨 시계를 줄여 0 이하이면 사거리 안 가장 가까운 산 적에게 즉시 `damage × atk`, 시계 += `interval`. 표적이 없으면 시계를 0에 둔다(쌓인 음수로 연사하지 않게). 쓰러진 적은 같은 걸음의 다음 대원이 고르지 않는다. 처치 수 = 무기 뒤 제거된 적 수.
 - 적: 가장 가까운 산 대원에게 직진(접촉 거리에서 멈춤), 거리 ≤ 반지름 + `contactGap`이고 쿨 ≤ 0이면 `PartyService.ApplyDamage`(피해 × (1 − 방어)), 쿨 = `attackInterval`. HP 0 대원은 표적·무기에서 빠진다.
@@ -104,5 +104,5 @@
 - 후속 제안 중 반영: 적 번호 이어 늘리기(F4), 경로 timeout 근거(F2), 로비 빈 원정대(F3), Presenter 생명주기(F10), 봇 찾기(F11), `autoReferenced: false`(F12), 렌더 확인 범위에 URP 전역 설정 더함(F8).
 
 ### 시도 2 변경 (algorithm-tester 지적, 424ca5e)
-- 프레임 모으기: 정수 µs 대신 걸음 단위 double로 모으고 1 − 0.0001걸음이면 한 걸음으로 친다. 프레임마다 µs로 반올림하면 1/144초 × 144가 29걸음이 됐다(1초 1번은 30). 경계(일시정지·전투 아님·웨이브 끝 버림·시작 때 0)는 그대로. `RunServiceTests.FrameRateDoesNotChangeStepCount`(144·60·30·3fps).
+- 프레임 모으기: 정수 µs 대신 걸음 단위 double로 모으고 1 − 0.0001걸음이면 한 걸음으로 친다. 걸음 단위는 `simStep`으로 나누지 않고 초당 걸음 수(정수 30)를 곱한다 — float simStep으로 나누면 1초가 29.999998걸음이라 65초 웨이브에서 1초×64(1919)와 1/60초×3840(1920)이 갈렸다(설계 검토 수정 확인 지적, `LongWaveSameStepCountForDifferentFrameSplits`). 프레임마다 µs로 반올림하면 1/144초 × 144가 29걸음이 됐다(1초 1번은 30). 경계(일시정지·전투 아님·웨이브 끝 버림·시작 때 0)는 그대로. `RunServiceTests.FrameRateDoesNotChangeStepCount`(144·60·30·3fps).
 - 버닝 추가 생성: 간격(일반 간격 × 0.5)마다 반대쪽 두 방향에서 1마리씩 = 한 번에 2마리(기획서 E절 문장 그대로). 앞서는 예전 `Burning()`처럼 번갈아 1마리였다. `PlaceholderCombatTests.BurningTimeSpawnsExtra`가 간격 수 × 2를 본다.
