@@ -59,7 +59,10 @@ public class MonsterSpawnService
             _monsterModel.SpawnClock += _monsterModel.SpawnInterval;
         }
 
-        if (!isBurningTime || _monsterModel.SpawnTarget == 0)
+        // 창이 시작된 뒤에는 창 끝을 넘는 걸음에서도 남은 몫을 낸다(낼 수 식이 창 끝에서 멈춘다, 예전 Burning 규칙).
+        // isBurningTime 깃발만 보면 창을 넘는 걸음의 마지막 몫을 놓친다
+        var hasBurningStarted = isBurningTime || (_waveData.HasBurningTime && elapsedSeconds >= burningStartSeconds);
+        if (!hasBurningStarted || _monsterModel.SpawnTarget == 0)
         {
             return;
         }

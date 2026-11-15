@@ -215,13 +215,14 @@ public class MonsterSpawnTests
             {
                 lastBurning = context.MonsterModel.BurningSpawnedCount;
                 Assert.GreaterOrEqual(elapsed, burningStart - 1e-4f);
-                Assert.Less(elapsed, burningStart + context.RunRules.BurningSeconds + 1e-4f);
+                // 창 끝을 넘는 걸음은 창 안에 들었어야 할 남은 몫을 낸다
+                Assert.Less(elapsed, burningStart + context.RunRules.BurningSeconds + context.RunRules.SimStep + 1e-4f);
             }
         });
 
         var rules = context.MonsterRepository.SpawnRules;
         var interval = Mathf.Max(0.01f, Mathf.Max(0f, waveData.Duration - rules.SpawnEndGap) / (waveData.SpawnCount - 1) * rules.BurningIntervalScale);
-        Assert.AreEqual(Mathf.CeilToInt(context.RunRules.BurningSeconds / interval), context.MonsterModel.BurningSpawnedCount, 1);
+        Assert.AreEqual(Mathf.CeilToInt(context.RunRules.BurningSeconds / interval), context.MonsterModel.BurningSpawnedCount);
         Assert.AreEqual(waveData.SpawnCount, context.MonsterModel.SpawnedCount);
     }
 
