@@ -1,0 +1,13 @@
+{
+  "simStep": 0.0333333333,
+  "burningStartRatio": 0.5,
+  "burningSeconds": 10,
+  "speedOptions": [
+    1,
+    2
+  ],
+  "defaultSeed": 0,
+  "defaultEnemyCountScale": 1,
+  "unitScale": 0.0113,
+  "fieldCells": 64
+}

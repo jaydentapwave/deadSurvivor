@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "sizes": [
+    [
+      1920,
+      1080
+    ],
+    [
+      2340,
+      1080
+    ],
+    [
+      2520,
+      1080
+    ],
+    [
+      2048,
+      1536
+    ]
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "L1",
+      "name": "로비 도착",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "B1",
+      "name": "부활 시드·배율로 출발 → 전투 웨이브 1, 대원마다 시작 아이템 하나가 발동 목록(아이템 칸)에 준비 상태",
+      "do": "PlayableProbe.UseRunSettings(5, 1.5f); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
+      "expect": "PlayableProbe.BattleItemCount(0) == 1 && PlayableProbe.BattleItemCount(1) == 1 && PlayableProbe.BattleItemCount(2) == 1 && PlayableProbe.BattleItemCount(3) == 1 && PlayableProbe.HasBattleItem(0, \"sword\") && PlayableProbe.HasBattleItem(1, \"shortbow\") && PlayableProbe.HasBattleItem(2, \"firestaff\") && PlayableProbe.HasBattleItem(3, \"relic\") && PlayableProbe.ItemState(0, 0) == \"Ready\" && PlayableProbe.ItemState(1, 0) == \"Ready\" && PlayableProbe.ItemState(2, 0) == \"Ready\" && PlayableProbe.ItemState(3, 0) == \"Ready\""
+    },
+    {
+      "id": "FIRE",
+      "name": "장검·단궁·화염 지팡이가 실제로 발동(V2 하단 아이템 칸)",
+      "wait": "PlayableProbe.FireCount(\"sword\") >= 1 && PlayableProbe.FireCount(\"shortbow\") >= 1 && PlayableProbe.FireCount(\"firestaff\") >= 1",
+      "timeout": 45,
+      "capture": "all"
+    },
+    {
+      "id": "DOWN",
+      "name": "대원이 쓰러지면 그 칸이 비활성, 치유 성물이 실제로 발동",
+      "wait": "PlayableProbe.AliveCount <= 3",
+      "timeout": 45,
+      "expect": "PlayableProbe.FireCount(\"relic\") >= 1 && PlayableProbe.ItemState(PlayableProbe.FirstDownMember, 0) == \"Disabled\"",
+      "capture": true
+    },
+    {
+      "id": "PREP",
+      "name": "웨이브 1 끝 → 정비 화면, 쓰러진 대원만 부활할 수 있다(V3 부활 버튼)",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 30,
+      "expect": "PlayableProbe.AliveCount >= 1 && PlayableProbe.AliveCount <= 3 && PlayableProbe.CanRevive(PlayableProbe.FirstDownMember)",
+      "capture": "all"
+    },
+    {
+      "id": "REVIVE",
+      "name": "쓰러진 대원마다 부활 버튼 → 4명, 마지막 부활 대원 HP 최대·준비, 버튼 사라짐",
+      "do": "UnityEngine.Time.timeScale = 1f; for (var i = 0; i < 4; i++) { if (PlayableProbe.CanRevive(i)) { PlayableProbe.PressRevive(i); } }",
+      "wait": "PlayableProbe.AliveCount == 4",
+      "expect": "PlayableProbe.MemberHp(PlayableProbe.LastRevivedMember) == PlayableProbe.MemberMaxHp(PlayableProbe.LastRevivedMember) && PlayableProbe.ItemState(PlayableProbe.LastRevivedMember, 0) == \"Ready\" && !PlayableProbe.CanRevive(PlayableProbe.LastRevivedMember)",
+      "capture": true
+    },
+    {
+      "id": "NEXT",
+      "name": "다음 웨이브 → 웨이브 2가 4명으로 시작, 부활한 대원 칸이 비활성이 아님",
+      "do": "PlayableProbe.PressNextWave();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 2",
+      "expect": "PlayableProbe.AliveCount == 4 && PlayableProbe.ItemState(PlayableProbe.LastRevivedMember, 0) != \"Disabled\""
+    },
+    {
+      "id": "END",
+      "name": "끝까지(봇은 정비만 넘김) → 결과",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120
+    },
+    {
+      "id": "RESTART",
+      "name": "로비로 → 출발: 새 판이 HP 최대·시작 아이템만·칸 준비·발동 수 0·부활 기록 없음",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.UseRunSettings(1, 1f); PlayableProbe.PressToLobby(); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
+      "expect": "PlayableProbe.AliveCount == 4 && PlayableProbe.HasOnlyStartItems && PlayableProbe.FireCount(\"sword\") == 0 && PlayableProbe.LastRevivedMember == -1 && PlayableProbe.MemberHp(0) == PlayableProbe.MemberMaxHp(0) && PlayableProbe.ItemState(0, 0) == \"Ready\" && PlayableProbe.MemberHp(1) == PlayableProbe.MemberMaxHp(1) && PlayableProbe.ItemState(1, 0) == \"Ready\" && PlayableProbe.MemberHp(2) == PlayableProbe.MemberMaxHp(2) && PlayableProbe.ItemState(2, 0) == \"Ready\" && PlayableProbe.MemberHp(3) == PlayableProbe.MemberMaxHp(3) && PlayableProbe.ItemState(3, 0) == \"Ready\""
+    }
+  ]
+}

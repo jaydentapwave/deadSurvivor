@@ -1,0 +1,12 @@
+{
+  "id": "bruno",
+  "order": 1,
+  "name": "브루노",
+  "role": "전사",
+  "hp": 400,
+  "atk": 0.8,
+  "def": 0.15,
+  "startItem": "sword",
+  "color": "#d79b68",
+  "sprite": ""
+}

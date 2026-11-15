@@ -1,0 +1,32 @@
+{
+  "memberSpots": [
+    {
+      "x": -24,
+      "y": -24
+    },
+    {
+      "x": 24,
+      "y": -24
+    },
+    {
+      "x": -24,
+      "y": 24
+    },
+    {
+      "x": 24,
+      "y": 24
+    }
+  ],
+  "enemy": {
+    "hp": 20,
+    "damage": 5,
+    "speed": 63,
+    "radius": 18,
+    "attackInterval": 1,
+    "contactGap": 5,
+    "color": "#819363"
+  },
+  "spawnCount": 98,
+  "spawnMargin": 70,
+  "burningIntervalScale": 0.5
+}

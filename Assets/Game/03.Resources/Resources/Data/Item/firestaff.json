@@ -1,0 +1,35 @@
+{
+  "id": "firestaff",
+  "name": "화염 지팡이",
+  "mode": "explosion",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 1,
+      "y": 2
+    }
+  ],
+  "power": 24,
+  "interval": 1.7,
+  "range": 7,
+  "baseEffect": "",
+  "baseValue": 0,
+  "bonusEffect": "",
+  "bonusValue": 0,
+  "bonusTarget": "",
+  "bonusNeedsAdjacent": false,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": ""
+}

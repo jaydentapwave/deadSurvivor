@@ -1,0 +1,12 @@
+{
+  "id": "lena",
+  "order": 2,
+  "name": "레나",
+  "role": "궁수",
+  "hp": 110,
+  "atk": 1.2,
+  "def": 0.0,
+  "startItem": "shortbow",
+  "color": "#67966e",
+  "sprite": ""
+}
