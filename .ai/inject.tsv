@@ -1,0 +1,19 @@
+# 규칙 주입 표 (탭 구분). 형식: 경로<TAB>라벨<TAB>영문 정규식<TAB>한글 정규식. 빈 칸은 "-"
+.ai/rules/git-workflow.md	Git workflow	(?<![a-z0-9_])(?:(branch|epic|merge|rebase|worktree|pull request|commit|push)(?![a-z0-9_])|claude/)	브랜치|머지|머징|리베이스|워크트리|커밋|푸시|풀리퀘
+./.ai/rules/di-patterns.md	DI patterns (client)	(?<![a-z0-9_])(di|vcontainer|inject|register|lifetime|lifetimescope|istartable|itickable|iinitializable|idisposable)(?![a-z0-9_])	의존성을? ?주입|생성자로? ?주입|컨테이너에? ?등록
+./.ai/rules/reactive-patterns.md	Reactive patterns (client)	(?<![a-z0-9_])(unirx|r3|unitask|reactive|reactiveproperty|subject|observable|subscribe|compositedisposable|addto|cancellationtoken|coroutine)(?![a-z0-9_])	구독|반응형|옵저버블|코루틴
+./.ai/rules/creation-patterns.md	Creation patterns (client)	(?<![a-z0-9_])(factory|pool|poolmanager|registry|spawn|instantiate|prefab)(?![a-z0-9_])	팩토리|풀링|레지스트리|스폰|프리팹
+./.ai/rules/event-bus-rules.md	EventBus rules (client)	(?<![a-z0-9_])(eventbus|gameevent|publish)(?![a-z0-9_])	이벤트버스|이벤트 ?버스|이벤트 발행
+./.ai/rules/architecture.md	Architecture rules (client)	(?<![a-z0-9_])(unity|monobehaviour|scene|prefab|view|presenter|new class|new system)(?![a-z0-9_])	씬|뷰|프리젠터|새 클래스|새 시스템
+./.ai/rules/work-levels.md	Work levels (client)	(?<![a-z0-9_])(l1|l2)(?![a-z0-9_])	설계 ?브리핑|설계 ?검토|상태 ?소유|데이터 ?스키마
+./.ai/rules/data-driven-content.md	Data-driven content (client)	(?<![a-z0-9_])(stage data|level data|master data|sheetdata|data schema|balance|simulator)(?![a-z0-9_])	스테이지|콘텐츠|컨텐츠|밸런스|시뮬레이터|마스터 ?데이터|데이터 ?검사
+./.ai/rules/screen-layout.md	Screen layout (client)	(?<![a-z0-9_])(ui|ugui|canvas|canvasscaler|hud|popup|button|panel|safe ?area|safearea|camera|orthographic|resolution|aspect ratio|orientation|notch)(?![a-z0-9_])	UI|화면|팝업|버튼|판넬|패널|표시줄|캔버스|카메라|해상도|화면비|안전 ?영역|세이프|노치
+./.ai/rules/playable-check.md	Playable check (client)	(?<![a-z0-9_])(playable|play ?mode|playmode|route\.json|title screen|game over|restart|scene flow)(?![a-z0-9_])	플레이 ?가능|한 판|판정 ?경로|시작 ?화면|결과 ?화면|다시 ?시작|화면 ?흐름|게임 ?오버
+# art 팩 규칙 주입 줄 (설치 경로 기준). 형식: 경로<TAB>라벨<TAB>영문 정규식<TAB>한글 정규식. 코드 작업에 걸리지 않게 아트 맥락 단어만 쓴다. 바꾸면 3d-art-setup/scripts/install_test.py의 주입 사례를 돌린다
+.ai/rules/art-decisions.md	Art decisions (art)	(?<![a-z0-9_])(art style|art direction|art reference|art spec|concept art|concept images?|lookdev)(?![a-z0-9_])	아트 ?(스타일|방향|디렉션|기준|작업|레퍼런스|래퍼런스)|기준서|룩데브|화풍|컨셉 ?(이미지|아트)|콘셉트 ?(이미지|아트)|[래레]퍼런스 ?(게임|이미지|스크린샷|렌더|관찰|대로|처럼|와 같|를 따)
+.ai/rules/art-reference-design.md	Reference design (art)	(?<![a-z0-9_])(reference (game|images?|screenshots?|renders?)|official (screenshots?|renders?)|trailer)(?![a-z0-9_])	[래레]퍼런스 ?(게임|이미지|스크린샷|렌더|관찰)|공식 (스크린샷|렌더)|트레일러|관찰 문서
+.ai/rules/art-tools.md	Art tools (art)	(?<![a-z0-9_])(codex|image_gen|imagegen)(?![a-z0-9_])	코덱스|이미지 ?생성 ?도구
+# 2d-art 팩 규칙 주입 줄 (설치 경로 기준). 형식: 경로<TAB>라벨<TAB>영문 정규식<TAB>한글 정규식. 코드 작업에 걸리지 않게 2D 제작 맥락 단어만 쓴다. 바꾸면 scripts/install_test.py의 주입 사례를 돌린다
+.ai/rules/2d-generation.md	2D generation (2d-art)	(?<![a-z0-9_])(sprite (sheets?|generation)|character (sheets?|variants?|poses?)|image_gen|nano banana|pixel art|measure\.py|pixelize\.py|path_tiles\.py|tileprev\.py)(?![a-z0-9_])	스프라이트 ?(생성|만들|뽑)|캐릭터 ?(그림|시안|변형|자세)|그림 ?(뽑|생성|만들)|시안 ?(뽑|만들|다시)|기준 ?이미지|픽셀 ?아트|타일 ?(그림|세트|시안)|이음 ?타일
+.ai/rules/2d-animation.md	2D animation (2d-art)	(?<![a-z0-9_])(sprite animations?|frame animations?|cutout animations?|sprite rigging|frames\.py|exposed\.py)(?![a-z0-9_])	프레임 ?(애니|그림)|스프라이트 ?애니|조각 ?(방식|애니)|대기 ?(모션|동작) ?(그림|프레임)|(스프라이트|캐릭터|2D) ?리깅|영상 ?(프레임|스프라이트)
+.ai/rules/2d-asset-standard.md	2D asset standard (2d-art)	(?<![a-z0-9_])(texture import|import presets?|pixels per unit|sprite atlas|png\.meta)(?![a-z0-9_])	(텍스처|스프라이트) ?(임포트|규격)|임포트 ?(설정|규약)

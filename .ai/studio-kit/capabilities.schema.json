@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "studio-kit/capabilities.schema.json",
+  "title": "capabilities.yaml",
+  "description": "레포가 할 수 있는 일(능력), 통과 기준, 지켜야 할 경계를 선언한다. 레포 루트의 .director/capabilities.yaml에 둔다. 한 프로젝트를 한 레포의 하위 폴더(클라, 서버, 분석, 아트)로 관리하면 이 파일 하나에 모든 능력을 path로 나눠 적는다.",
+  "type": "object",
+  "required": [
+    "schema",
+    "repo",
+    "capabilities"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": 1
+    },
+    "repo": {
+      "type": "string",
+      "minLength": 1,
+      "description": "레포 이름. 디렉터가 단계를 배정할 때 쓰는 이름"
+    },
+    "description": {
+      "type": "string"
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/capability"
+      }
+    },
+    "boundaries": {
+      "$ref": "#/$defs/boundaries"
+    },
+    "handoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inbox": {
+          "type": "string",
+          "description": "다른 단계가 넘긴 파일을 받는 폴더. 기본 .director/inbox/"
+        },
+        "outbox": {
+          "type": "string",
+          "description": "이 레포가 만든 핸드오프 파일을 두는 폴더. 기본 .director/outbox/"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "capability": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+\\.[a-z0-9-]+$",
+          "description": "<분야>.<동작> 형식. 예: unity-client.implement, game-analysis.analyze"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string",
+          "description": "레포 안에서 이 능력이 일하는 폴더. 기본 ."
+        },
+        "mode": {
+          "enum": [
+            "read-write",
+            "read-only"
+          ],
+          "description": "read-only면 참고용으로만 읽고 쓰지 않는다"
+        },
+        "pack": {
+          "type": "string",
+          "description": "기본 작업 방법을 가져올 팩 이름. 예: unity"
+        },
+        "playbooks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "description": "쓸 수 있는 플레이북. studio-kit 스킬 이름(/<이름>). 예: unity-feature"
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "이 능력의 규칙 원본 파일. 팩보다 우선한다. 예: client/CLAUDE.md"
+        },
+        "gates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/gate"
+          }
+        },
+        "boundaries": {
+          "$ref": "#/$defs/boundaries",
+          "description": "이 능력에만 걸리는 경계. 한 레포에 여러 영역(클라, 서버, 분석)이 있을 때 쓴다. no_write 경로는 레포 루트 기준이다. 레포 전체의 boundaries와 함께 적용된다"
+        },
+        "requires_work_level": {
+          "type": "boolean",
+          "description": "새 linked-v1 실행에서 단계 work_level을 명시해야 하는가."
+        }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "properties": {
+        "cmd": {
+          "type": "string",
+          "description": "exit 0이어야 통과하는 명령"
+        },
+        "agent": {
+          "type": "string",
+          "description": "PASS를 받아야 하는 검증 에이전트 이름"
+        },
+        "human": {
+          "type": "string",
+          "description": "사람이 확인해야 하는 것. 예: 기획안 PR 머지"
+        },
+        "evidence": {
+          "type": "string",
+          "description": "핸드오프에 첨부해야 하는 증거. 예: Play Mode 스크린샷"
+        },
+        "when": {
+          "type": "string",
+          "description": "이 관문이 적용되는 조건. 비우면 항상"
+        },
+        "level": {
+          "enum": [
+            "static",
+            "editor",
+            "runtime",
+            "human"
+          ],
+          "description": "확인 수준. static=파일·문법·문서 검사, editor=유니티 에디터 컴파일·테스트, runtime=플레이 동작·화면, human=사람 확인. 낮은 수준의 pass로 높은 수준 관문을 통과시키지 않는다"
+        },
+        "required_for_work_levels": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "L0",
+              "L1",
+              "L2"
+            ]
+          },
+          "description": "해당 작업 규모에서는 review_mode와 무관하게 필수인 관문."
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "cmd"
+          ]
+        },
+        {
+          "required": [
+            "agent"
+          ]
+        },
+        {
+          "required": [
+            "human"
+          ]
+        },
+        {
+          "required": [
+            "evidence"
+          ]
+        }
+      ]
+    },
+    "boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "no_write": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "디렉터가 지시하는 단계가 쓰면 안 되는 경로(glob)"
+        },
+        "export": {
+          "enum": [
+            "unrestricted",
+            "design-reference-only"
+          ],
+          "description": "design-reference-only면 이 레포의 산출물은 기획 단계를 거치지 않고는 구현 단계의 입력이 될 수 없다"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "사람이 읽는 경계 설명. 디렉터가 지시문에 그대로 옮긴다"
+        }
+      }
+    }
+  }
+}

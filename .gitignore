@@ -75,3 +75,14 @@ mono_crash.*
 /.tripo/
 /Assets/output/
 /Assets/output.meta
+# studio-kit 하네스
+.ai/knowledge.conf
+.ai/studio-kit/updates/
+.director/inbox/
+.director/outbox/
+.director/runs/
+.director/queues/
+.director/evidence/
+.director/worktrees/
+output/direction/
+output/2d-art/

@@ -1,0 +1,10 @@
+{
+ "schema": "art-spec-approval/1",
+ "spec": "docs/art/아트-기준서.md",
+ "revision": "",
+ "approved_on": "2026-11-15",
+ "user_quote": "\"48px (추천)\", \"이대로 승인\"",
+ "sha256": "37bc22dc3cfd93044e1bca02ae15529226894438bbc4434dcf94ae8bf45b9931",
+ "recorded_at": "2026-11-15T22:27:56+0900",
+ "note": "director-game 시작 전 승인"
+}

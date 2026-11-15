@@ -1,0 +1,57 @@
+schema: 1
+id: 20261115-pack-expedition-2d
+goal: 배낭 원정대 2D(아이소 도트)를 에디터에서 Play를 누르면 로비 → 10웨이브 → 결과 → 다시 시작까지 한 판이 도는 상태로 만든다
+created: 2026-11-15T22:10:00+09:00
+status: building
+next_action: F1(한 판의 뼈대) 기능 기획서 단계 시작 — 새 세션에서 /director-game 4절
+direction: docs/game/direction.md
+spec:
+  path: docs/game/gdd.md
+  sha256: 9bd56a67b1ad71a969e4bc99999a33d0723eac452938ed1e83b2cf82539ecff1
+art_spec:
+  path: docs/art/아트-기준서.md
+  sha256: 37bc22dc3cfd93044e1bca02ae15529226894438bbc4434dcf94ae8bf45b9931
+start_approval:
+  approved_on: "2026-11-15"
+  quote: '"48px (추천)" / "이대로 승인" / "$200 (추천)" / "16개까지 허용 (추천)"'
+  budget_usd: 200
+  paid_generation: 'Aether 동작 클립 16개까지(캐릭터 4 × 걷기·공격 × 앞뒤) — "16개까지 허용 (추천)". 그림 생성은 Codex(11-15 "6 codex를 활용해")'
+  engine_version: 6000.4.3f1
+  executor: claude
+playable_cmd: python3 -B ./tools/playable.py
+features:
+  - id: F1
+    title: 한 판의 뼈대
+    status: pending
+  - id: F2
+    title: 원정대 이동과 진형
+    depends_on: [F1]
+    status: pending
+  - id: F3
+    title: 자동 전투와 아이템·캐릭터 데이터
+    depends_on: [F1]
+    status: pending
+  - id: F4
+    title: 몬스터 5종과 웨이브 수치
+    depends_on: [F1]
+    status: pending
+  - id: F5
+    title: 가방과 정비, 전리품
+    depends_on: [F3]
+    status: pending
+  - id: F6
+    title: 전투 화면과 피드백
+    depends_on: [F3, F4]
+    status: pending
+content: []
+assumptions:
+  - id: D1
+    text: 구현은 Claude, 판정 중에는 에디터를 쓴다(사용자가 바꾸지 않았다). 엔진은 이 프로젝트의 6000.4.3f1
+    by: director
+    where: 시작 전 승인
+    instead_of: 구현 맡는 쪽·에디터 사용 질문
+checks: []
+feedback: []
+cost_usd: 0
+notes:
+  - "2026-11-15 그림체 시범 r1: Codex 이미지 생성 1회(낮·밤 2장, 사용자 11-15 '6 codex를 활용해', 컨셉 그림 입력은 같은 날 '컨셉 그림을 넣음 (추천)'). 본 캡처: output/art-pilot/r1/check_zoom.png — 36·48px 원정대 확대 낮·밤, check_full.png — 전체 4장, 잘림·깨짐 없음"
