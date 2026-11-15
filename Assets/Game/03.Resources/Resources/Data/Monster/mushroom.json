@@ -1,0 +1,20 @@
+{
+  "id": "mushroom",
+  "behavior": "projectile",
+  "hp": 25,
+  "damage": 8,
+  "speed": 63,
+  "radius": 18,
+  "contactGap": 5,
+  "color": "#a4779f",
+  "projectile": {
+    "range": 252,
+    "approachRatio": 0.92,
+    "retreatRatio": 0.65,
+    "interval": 2,
+    "shotSpeed": 180,
+    "shotTravelScale": 1.5,
+    "shotHitRadius": 15,
+    "shotColor": "#f2d3ff"
+  }
+}

@@ -2,5 +2,14 @@
   "id": "wave02",
   "order": 2,
   "duration": 30,
-  "hasBurningTime": false
+  "hasBurningTime": false,
+  "spawnCount": 98,
+  "hpScale": 0.7,
+  "damageScale": 1.0,
+  "typeWeights": [
+    {
+      "monster": "slime",
+      "weight": 100
+    }
+  ]
 }

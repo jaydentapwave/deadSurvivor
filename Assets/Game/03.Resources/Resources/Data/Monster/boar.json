@@ -1,0 +1,21 @@
+{
+  "id": "boar",
+  "behavior": "charge",
+  "hp": 18,
+  "damage": 8,
+  "speed": 105,
+  "radius": 18,
+  "contactGap": 5,
+  "color": "#eea04c",
+  "charge": {
+    "triggerRange": 280,
+    "rallyRadius": 300,
+    "rallyMax": 15,
+    "windupSeconds": 0.8,
+    "dashSeconds": 0.7,
+    "dashSpeed": 460,
+    "dashHitRadius": 28,
+    "recoverSeconds": 0.8,
+    "cooldown": 2
+  }
+}

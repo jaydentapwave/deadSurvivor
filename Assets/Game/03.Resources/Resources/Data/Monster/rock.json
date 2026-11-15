@@ -1,0 +1,13 @@
+{
+  "id": "rock",
+  "behavior": "armored",
+  "hp": 60,
+  "damage": 12,
+  "speed": 38,
+  "radius": 25,
+  "contactGap": 5,
+  "color": "#7395b6",
+  "contact": {
+    "interval": 1.8
+  }
+}
