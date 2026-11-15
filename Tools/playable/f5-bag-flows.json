@@ -1,0 +1,96 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "sizes": [
+    [
+      1920,
+      1080
+    ],
+    [
+      2340,
+      1080
+    ],
+    [
+      2520,
+      1080
+    ],
+    [
+      2048,
+      1536
+    ]
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "L1",
+      "name": "로비 도착",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "B1",
+      "name": "합성 시드·적 없는 판으로 출발 → 웨이브 1, 보관함 0, 가방에 시작 아이템 4개",
+      "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
+      "expect": "PlayableProbe.StashCount == 0 && PlayableProbe.EquippedItemCount == 4"
+    },
+    {
+      "id": "PREP",
+      "name": "웨이브 1 끝 → 정비 화면, 보관함 전리품 3~5개(V3 가방·보관함, G3 StashCount)",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 30,
+      "expect": "PlayableProbe.StashCount >= 3 && PlayableProbe.StashCount <= 5",
+      "capture": "all"
+    },
+    {
+      "id": "PLACE",
+      "name": "보관함 첫 아이템을 가방 빈 칸에 놓기(집기 → 놓기, G4 PlaceFirstStashItem)",
+      "do": "UnityEngine.Time.timeScale = 1f; PlayableProbe.PlaceFirstStashItem();",
+      "wait": "PlayableProbe.LastPlacedMember >= 0",
+      "expect": "PlayableProbe.BagItemCount(PlayableProbe.LastPlacedMember) == 2 && PlayableProbe.EquippedItemCount == 5",
+      "capture": true
+    },
+    {
+      "id": "NEXT",
+      "name": "다음 웨이브 → 웨이브 2에서 놓은 아이템이 그 대원의 발동 목록에 있다(G4 IsPlacedItemActive)",
+      "do": "PlayableProbe.PressNextWave();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 2",
+      "expect": "PlayableProbe.IsPlacedItemActive"
+    },
+    {
+      "id": "PREP2",
+      "name": "웨이브 2 끝 → 정비 화면, 합성할 수 있는 쌍이 있다",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 2",
+      "timeout": 30,
+      "expect": "PlayableProbe.HasMergePair"
+    },
+    {
+      "id": "MERGE",
+      "name": "첫 합성 쌍을 합성 → 등급이 오른다",
+      "do": "UnityEngine.Time.timeScale = 1f; PlayableProbe.MergeFirstPair();",
+      "wait": "PlayableProbe.MaxItemGrade >= 1",
+      "capture": true
+    },
+    {
+      "id": "AUTO",
+      "name": "자동 장착 봇(Equip) + 다음 웨이브 → 10웨이브 승리, 가방 아이템 8개 이상(G7 깃발)",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.Equip | PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120,
+      "expect": "PlayableProbe.Outcome == \"Win\" && PlayableProbe.WavesSurvived == 10 && PlayableProbe.EquippedItemCount >= 8",
+      "capture": "all"
+    },
+    {
+      "id": "RESTART",
+      "name": "로비로 → 출발: 새 판이 시작 아이템만·보관함 0·등급 0",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.UseRunSettings(1, 1f); PlayableProbe.PressToLobby(); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
+      "expect": "PlayableProbe.StashCount == 0 && PlayableProbe.EquippedItemCount == 4 && PlayableProbe.HasOnlyStartItems && PlayableProbe.MaxItemGrade == 0"
+    }
+  ]
+}
