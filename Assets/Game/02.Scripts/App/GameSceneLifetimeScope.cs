@@ -10,6 +10,8 @@ public class GameSceneLifetimeScope : LifetimeScope
     private const string PlaceholderCombatPath = "Data/Run/placeholder_combat";
 
     [SerializeField] private MemberView[] memberViews;
+    [SerializeField] private EnemyShotView enemyShotPrefab;
+    [SerializeField] private Transform enemyShotParent;
 
     protected override void Configure(IContainerBuilder builder)
     {
@@ -26,6 +28,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register<CharacterRepository>(Lifetime.Scoped);
         builder.Register<ItemRepository>(Lifetime.Scoped);
         builder.Register<WaveRepository>(Lifetime.Scoped);
+        builder.Register<MonsterRepository>(Lifetime.Scoped);
 
         // 모델
         builder.Register<RunModel>(Lifetime.Scoped);
@@ -38,10 +41,20 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register<PartyService>(Lifetime.Scoped);
         builder.Register<BasicWeaponService>(Lifetime.Scoped);
         builder.Register<MonsterService>(Lifetime.Scoped);
+        builder.Register<MonsterSpawnService>(Lifetime.Scoped);
+        builder.Register<MonsterRecycleService>(Lifetime.Scoped);
+        builder.Register<MonsterBehaviorService>(Lifetime.Scoped);
+        builder.Register<ContactBehavior>(Lifetime.Scoped).As<IMonsterBehavior>();
+        builder.Register<ProjectileBehavior>(Lifetime.Scoped).As<IMonsterBehavior>();
+        builder.Register<ChargeBehavior>(Lifetime.Scoped).As<IMonsterBehavior>();
+        builder.Register<BombBehavior>(Lifetime.Scoped).As<IMonsterBehavior>();
+        builder.Register<EnemyShotService>(Lifetime.Scoped);
 
         // 생성·등록부
         builder.Register<MonsterViewFactory>(Lifetime.Scoped);
         builder.Register<MonsterViewRegistry>(Lifetime.Scoped);
+        builder.Register<EnemyShotViewFactory>(Lifetime.Scoped).WithParameter(enemyShotPrefab).WithParameter(enemyShotParent);
+        builder.Register<EnemyShotViewRegistry>(Lifetime.Scoped);
 
         // 장면 컴포넌트
         builder.RegisterComponentInHierarchy<Camera>();
@@ -61,5 +74,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterEntryPoint<PrepPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<ResultPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<WorldPresenter>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<MonsterStatePresenter>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<EnemyShotPresenter>(Lifetime.Scoped).AsSelf();
     }
 }

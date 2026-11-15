@@ -203,7 +203,7 @@ public class RunService
         _runModel.SetRemainingSeconds(waveData.Duration);
         _runModel.SetBurningTime(false);
         _basicWeaponService.ResetClocks();
-        _monsterService.BeginWave(waveData.Duration, _enemyCountScale);
+        _monsterService.BeginWave(waveData, _enemyCountScale);
         _runModel.SetPhase(RunPhase.Battle);
     }
 

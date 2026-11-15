@@ -25,7 +25,6 @@ public class WorldPresenter : IInitializable, ILateTickable
 
     private readonly HashSet<int> _aliveMonsterIdSet = new();
     private readonly List<int> _releaseIdList = new();
-    private Sprite _monsterSprite;
     private Vector2 _viewHalfExtent;
 
     public WorldPresenter(PartyModel partyModel, MonsterModel monsterModel, MonsterService monsterService,
@@ -51,9 +50,6 @@ public class WorldPresenter : IInitializable, ILateTickable
     {
         BuildField();
         InitializeMemberViews();
-        var monsterPixels = Mathf.Max(1, Mathf.RoundToInt(_combatData.Enemy.Radius * 2f * _runRules.UnitScale * Const.PixelsPerUnit));
-        _monsterSprite = _placeholderSpriteFactory.CreateDiamond(monsterPixels, monsterPixels,
-            _placeholderSpriteFactory.ParseColor(_combatData.Enemy.Color), FootPivot);
         UpdateViewExtent();
     }
 
@@ -151,7 +147,7 @@ public class WorldPresenter : IInitializable, ILateTickable
             _aliveMonsterIdSet.Add(monster.Id);
             if (!_monsterViewRegistry.TryGet(monster.Id, out var view))
             {
-                view = _monsterViewFactory.Create(monster.Id, _monsterSprite, null);
+                view = _monsterViewFactory.Create(monster, null);
             }
 
             view.UpdateView(IsoProjection.FloorToWorld(monster.Position, _runRules.UnitScale));
