@@ -9,10 +9,22 @@ public class UI_PrepView : MonoBehaviour
     [SerializeField] private Text[] memberTexts;
     [SerializeField] private Button nextWaveButton;
     [SerializeField] private UI_ReviveView[] reviveViews;
+    // F5 가방·보관함·설명, 회전·선택 취소(BagPresenter가 그린다)
+    [SerializeField] private UI_BagView[] bagViews;
+    [SerializeField] private UI_StashView stashView;
+    [SerializeField] private UI_ItemInfoView itemInfoView;
+    [SerializeField] private Button rotateButton;
+    [SerializeField] private Button cancelButton;
 
     public Button NextWaveButton => nextWaveButton;
     // 대원 자리 순서(F3 RevivePresenter가 그린다)
     public IReadOnlyList<UI_ReviveView> ReviveViews => reviveViews;
+    // 대원 자리 순서
+    public IReadOnlyList<UI_BagView> BagViews => bagViews;
+    public UI_StashView StashView => stashView;
+    public UI_ItemInfoView ItemInfoView => itemInfoView;
+    public Button RotateButton => rotateButton;
+    public Button CancelButton => cancelButton;
 
     public void UpdateUI(int completedWave, IReadOnlyList<string> memberLineList)
     {
