@@ -9,12 +9,18 @@ internal class TestRunContext
     public readonly CharacterRepository CharacterRepository;
     public readonly ItemRepository ItemRepository;
     public readonly WaveRepository WaveRepository;
+    public readonly FormationRepository FormationRepository;
+    public readonly MoveRulesData MoveRules;
     public readonly RunModel RunModel = new();
     public readonly PartyModel PartyModel = new();
     public readonly MonsterModel MonsterModel = new();
+    public readonly FormationModel FormationModel = new();
+    public readonly PartyMoveModel PartyMoveModel = new();
     public readonly PartyService PartyService;
     public readonly BasicWeaponService BasicWeaponService;
     public readonly MonsterService MonsterService;
+    public readonly FormationService FormationService;
+    public readonly PartyMoveService PartyMoveService;
     public readonly RunService RunService;
 
     // 기준 화면 640×360px(PPU 48)이 보는 바닥 영역의 반 크기(바닥 단위)
@@ -28,11 +34,17 @@ internal class TestRunContext
         CharacterRepository = new CharacterRepository(ResourceService);
         ItemRepository = new ItemRepository(ResourceService);
         WaveRepository = new WaveRepository(ResourceService);
-        PartyService = new PartyService(PartyModel, CharacterRepository, CombatData);
+        FormationRepository = new FormationRepository(ResourceService);
+        MoveRules = ResourceService.LoadJson<MoveRulesData>("Data/Party/move_rules");
+        PartyService = new PartyService(PartyModel, CharacterRepository);
         BasicWeaponService = new BasicWeaponService(PartyModel, MonsterModel, CharacterRepository, CombatData);
         MonsterService = new MonsterService(MonsterModel, PartyModel, PartyService, CombatData, RunRules);
-        RunService = new RunService(RunModel, WaveRepository, RunRules, PartyService, BasicWeaponService, MonsterService);
+        FormationService = new FormationService(FormationModel, FormationRepository, RunModel);
+        PartyMoveService = new PartyMoveService(PartyModel, PartyMoveModel, FormationService, MoveRules, RunRules);
+        RunService = new RunService(RunModel, WaveRepository, RunRules, PartyService, BasicWeaponService, MonsterService,
+            FormationService, PartyMoveService);
         MonsterService.SetViewHalfExtent(ReferenceViewHalfExtent);
+        PartyMoveService.SetViewHalfExtent(ReferenceViewHalfExtent);
     }
 
     // 전투가 끝날 때까지(정비·결과) 걸음을 돌리고 돈 걸음 수를 돌려준다
