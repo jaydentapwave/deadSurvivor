@@ -20,6 +20,7 @@ public class PlayableMetricsRecorder : MonoBehaviour
     private string _path;
     private int _realTimeWave;
     private RunRecord _currentRun;
+    private PlayableBot _bot;
 
     public bool IsSpawnCountAsData => LastRun != null && LastRun.IsSpawnCountAsData;
     public float BurningFrameMsP95 => LastRun != null ? LastRun.Burning.P95Ms : -1f;
@@ -34,6 +35,13 @@ public class PlayableMetricsRecorder : MonoBehaviour
             return;
         }
 
+        // 전투 중 쓴 봇 모드를 걸음마다 모은다(웨이브 중 Move를 쓰다 바꿔도 "Move가 한 번도 없던 판"이 아니게, 기획서 D·E절)
+        if (_bot == null)
+        {
+            _bot = FindAnyObjectByType<PlayableBot>();
+        }
+
+        _currentRun.AddBotModes(_bot != null ? _bot.Mode : PlayableProbe.BotMode.None);
         var aliveCount = PlayableProbe.Resolve<MonsterService>().AliveCount;
         _currentRun.NoteAlive(aliveCount);
         var runModel = PlayableProbe.Resolve<RunModel>();
@@ -180,8 +188,6 @@ public class PlayableMetricsRecorder : MonoBehaviour
         var isReachedEnd = phase == RunPhase.Prep || runModel.Outcome.CurrentValue == RunOutcome.Win;
         _currentRun.AddWave(new WaveRecord(wave, isReachedEnd, PlayableProbe.Resolve<MonsterModel>(),
             Mathf.RoundToInt(waveData.SpawnCount * _currentRun.EnemyCountScale)));
-        var bot = FindAnyObjectByType<PlayableBot>();
-        _currentRun.AddBotModes(bot != null ? bot.Mode : PlayableProbe.BotMode.None);
         if (phase == RunPhase.Result)
         {
             _currentRun.Finish(runModel.Outcome.CurrentValue, runModel.WavesSurvived.CurrentValue);
