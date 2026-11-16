@@ -33,7 +33,7 @@
     {
       "id": "B1",
       "name": "부활 시드·배율로 출발 → 전투 웨이브 1, 대원마다 시작 아이템 하나가 발동 목록(아이템 칸)에 준비 상태",
-      "do": "PlayableProbe.UseRunSettings(5, 1.5f); PlayableProbe.PressDepart();",
+      "do": "PlayableProbe.UseRunSettings(5, 3f); PlayableProbe.PressDepart();",
       "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
       "expect": "PlayableProbe.BattleItemCount(0) == 1 && PlayableProbe.BattleItemCount(1) == 1 && PlayableProbe.BattleItemCount(2) == 1 && PlayableProbe.BattleItemCount(3) == 1 && PlayableProbe.HasBattleItem(0, \"sword\") && PlayableProbe.HasBattleItem(1, \"shortbow\") && PlayableProbe.HasBattleItem(2, \"firestaff\") && PlayableProbe.HasBattleItem(3, \"relic\") && PlayableProbe.ItemState(0, 0) == \"Ready\" && PlayableProbe.ItemState(1, 0) == \"Ready\" && PlayableProbe.ItemState(2, 0) == \"Ready\" && PlayableProbe.ItemState(3, 0) == \"Ready\""
     },
