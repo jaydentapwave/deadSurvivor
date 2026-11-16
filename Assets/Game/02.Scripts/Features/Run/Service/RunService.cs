@@ -211,7 +211,7 @@ public class RunService
         _runModel.SetRemainingSeconds(waveData.Duration);
         _runModel.SetBurningTime(false);
         _combatService.PrepareWave();
-        _monsterService.BeginWave(waveData.Duration, _enemyCountScale);
+        _monsterService.BeginWave(waveData, _enemyCountScale);
         _formationService.ApplyPending();
         _partyMoveService.StartWave();
         _runModel.SetPhase(RunPhase.Battle);

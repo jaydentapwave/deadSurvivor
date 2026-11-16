@@ -41,7 +41,9 @@ public class DataLoadTests
         Assert.AreEqual(1f / 30f, context.RunRules.SimStep, 1e-6f);
         CollectionAssert.AreEqual(new[] { 1f, 2f }, context.RunRules.SpeedOptions.ToArray());
         Assert.AreEqual(64, context.RunRules.FieldCells);
-        Assert.AreEqual("#819363", context.CombatData.Enemy.Color);
-        Assert.AreEqual(98, context.CombatData.SpawnCount);
+        // F4: 임시 적 칸은 지워졌다. 같은 값이 생성 규칙(70, 0.5)과 웨이브 파일(98)에 있다
+        Assert.AreEqual(70f, context.MonsterRepository.SpawnRules.SpawnMargin);
+        Assert.AreEqual(0.5f, context.MonsterRepository.SpawnRules.BurningIntervalScale);
+        Assert.AreEqual(98, context.WaveRepository.WaveDataList[0].SpawnCount);
     }
 }

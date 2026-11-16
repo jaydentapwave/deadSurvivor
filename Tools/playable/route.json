@@ -57,10 +57,10 @@
     {
       "id": "G5",
       "name": "봇 이동을 멈추고 가만히 버팀 → 결과 패배, 버틴 웨이브 10 미만, 생존 0",
-      "do": "PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "do": "PlayableProbe.StartWaveMetrics(\"Logs/playable/latest/wave-metrics.json\"); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
       "wait": "PlayableProbe.Screen == \"Result\"",
       "timeout": 60,
-      "expect": "PlayableProbe.Outcome == \"Lose\" && PlayableProbe.WavesSurvived < 10 && PlayableProbe.AliveCount == 0",
+      "expect": "PlayableProbe.Outcome == \"Lose\" && PlayableProbe.WavesSurvived < 10 && PlayableProbe.AliveCount == 0 && PlayableProbe.WavesSurvived >= 1 && PlayableProbe.WavesSurvived <= 4",
       "capture": "all"
     },
     {
@@ -72,10 +72,10 @@
     {
       "id": "G7",
       "name": "고정 시드, 자동 이동 + 전리품 자동 장착 봇으로 10웨이브 → 결과 승리, 버틴 웨이브 10, 생존 1명 이상(M1 435±2초)",
-      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.Move | PlayableProbe.BotMode.Equip | PlayableProbe.BotMode.AutoNext);",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.Move | PlayableProbe.BotMode.Equip | PlayableProbe.BotMode.AutoNext); PlayableProbe.UseRealTimeAtWave(10);",
       "wait": "PlayableProbe.Screen == \"Result\"",
-      "timeout": 120,
-      "expect": "PlayableProbe.Outcome == \"Win\" && PlayableProbe.WavesSurvived == 10 && PlayableProbe.AliveCount >= 1 && Math.Abs(PlayableProbe.TotalBattleSeconds - 435) <= 2"
+      "timeout": 185,
+      "expect": "PlayableProbe.Outcome == \"Win\" && PlayableProbe.WavesSurvived == 10 && PlayableProbe.AliveCount >= 1 && Math.Abs(PlayableProbe.TotalBattleSeconds - 435) <= 2 && PlayableProbe.IsSpawnCountNear(98, 407, 0.05f) && PlayableProbe.FirstWaveOf(\"projectile\") == 3 && PlayableProbe.FirstWaveOf(\"charge\") == 4 && PlayableProbe.FirstWaveOf(\"armored\") == 5 && PlayableProbe.FirstWaveOf(\"bomb\") == 6 && PlayableProbe.BurningFrameMsP95 >= 0 && PlayableProbe.BurningFrameMsP95 <= 16.7f"
     },
     {
       "id": "G8",

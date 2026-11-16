@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""게임 데이터 검사(에디터 없이). 스키마: docs/features/f1-skeleton/plan.md·f2-movement/plan.md·f3-combat/plan.md "데이터 스키마".
+"""게임 데이터 검사(에디터 없이). 스키마: docs/features/f1-skeleton/plan.md·f2-movement/plan.md·f3-combat/plan.md·f4-monsters/plan.md "데이터 스키마".
 
   python3 -B ./tools/check_data.py              지금 데이터를 검사한다. 문제가 있으면 줄마다 출력하고 exit 1
-  python3 -B ./tools/check_data.py --root <폴더> 다른 데이터 폴더를 검사한다(Character/ Item/ Wave/ Run/ 이 있는 곳)
-  python3 -B ./tools/check_data.py --self-test  지금 데이터가 통과하고, 틀린 데이터 13종(F1: id 중복, 없는 startItem,
+  python3 -B ./tools/check_data.py --root <폴더> 다른 데이터 폴더를 검사한다(Character/ Item/ Wave/ Run/ Monster/ Spawn/ 이 있는 곳)
+  python3 -B ./tools/check_data.py --self-test  지금 데이터가 통과하고, 틀린 데이터 19종(F1: id 중복, 없는 startItem,
                                                 웨이브 order 빈칸, 캐릭터 수 4 아님 / F2: 진형 자리 3개, 진형 order 빈칸,
                                                 자리 평균 ≠ 0, memberSpots 남음 / F3: 모르는 mode, interval 0인 발동 아이템,
-                                                4×4 밖이거나 끊긴 shape, 모르는 효과 종류, passive 시작 아이템)이 각각 실패하는지 본다
+                                                4×4 밖이거나 끊긴 shape, 모르는 효과 종류, passive 시작 아이템 / F4: 없는 몬스터 가중치,
+                                                다섯 밖의 행동, 행동 칸 묶음 빠짐, weight 0, 몬스터 id 중복, 가중치 없는 웨이브)이
+                                                각각 실패하는지 본다
 
 보는 것: JSON 형식, 필수 칸과 형, id = 파일 이름, id 중복, 가리키는 대상(startItem → Item), 웨이브 order 1..N 빈칸 없음,
 개수 범위(캐릭터 4, 아이템 4~40, 웨이브 1~20, 진형 1~6), 진형 자리(수 = 캐릭터 수, 평균 0, 중복 없음)(F2), 값 범위,
@@ -34,6 +36,7 @@ SHAPE_MAX_CELLS = 16
 WAVE_RANGE = (1, 20)
 FORMATION_RANGE = (1, 6)
 MEAN_TOLERANCE = 0.01
+MONSTER_RANGE = (1, 20)
 COLOR = re.compile(r"#[0-9a-fA-F]{6}")
 
 
@@ -157,6 +160,8 @@ def check(root):
     total = sum(d["duration"] for _, d in waves if is_num(d.get("duration")))
     notes.append(f"웨이브 {len(waves)}개, 시간 합 {total:g}초")
 
+    check_monsters(root, waves, problems)
+
     rules_path = root / "Run" / "run_rules.json"
     rules = load_single(rules_path, problems)
     if rules is not None:
@@ -176,26 +181,10 @@ def check(root):
     combat = load_single(combat_path, problems)
     if combat is not None:
         label = "Run/placeholder_combat.json"
-        check_fields(label, combat, {
-            "enemy": (lambda v: isinstance(v, dict), "객체여야 한다"),
-            "spawnCount": (lambda v: is_int(v) and v >= 0, "0 이상 정수여야 한다"),
-            "spawnMargin": (lambda v: is_num(v) and v >= 0, "0 이상이어야 한다"),
-            "burningIntervalScale": (lambda v: is_num(v) and v > 0, "0보다 커야 한다"),
-        }, problems)
         if "memberSpots" in combat:
             problems.append(f"{label}: 'memberSpots' 칸이 남아 있다 — F2 진형(Formation/)이 대체했다(F2 기획서 데이터 스키마)")
         if "weapon" in combat:
             problems.append(f"{label}: 'weapon' 칸이 남아 있다 — F3이 지웠다(아이템 발동 전투)")
-        if isinstance(combat.get("enemy"), dict):
-            check_fields(f"{label} enemy", combat["enemy"], {
-                "hp": (lambda v: is_num(v) and v > 0, "0보다 커야 한다"),
-                "damage": (lambda v: is_num(v) and v >= 0, "0 이상이어야 한다"),
-                "speed": (lambda v: is_num(v) and v > 0, "0보다 커야 한다"),
-                "radius": (lambda v: is_num(v) and v > 0, "0보다 커야 한다"),
-                "attackInterval": (lambda v: is_num(v) and v > 0, "0보다 큰 초여야 한다"),
-                "contactGap": (lambda v: is_num(v) and v >= 0, "0 이상이어야 한다"),
-                "color": (lambda v: isinstance(v, str) and COLOR.fullmatch(v), "#rrggbb여야 한다"),
-            }, problems)
 
     rules = load_single(root / "Combat" / "combat_rules.json", problems)
     if rules is not None:
@@ -330,6 +319,121 @@ def check_shape(label, shape, problems):
         problems.append(f"{label}: 'shape' {cells} — 상하좌우로 이어지지 않은(끊긴) 칸이 있다")
 
 
+def check_monsters(root, waves, problems):
+    """F4: 몬스터 5종 파일, 생성 규칙, 웨이브의 네 칸(spawnCount·hpScale·damageScale·typeWeights)."""
+    positive = (lambda v: is_num(v) and v > 0, "0보다 커야 한다")
+    ratio = (lambda v: is_num(v) and 0 < v <= 1, "0보다 크고 1 이하여야 한다")
+    count = (lambda v: is_int(v) and v >= 1, "1 이상 정수여야 한다")
+    color = (lambda v: isinstance(v, str) and COLOR.fullmatch(v), "#rrggbb여야 한다")
+    groups = {
+        "contact": {"interval": positive},
+        "projectile": {"range": positive, "approachRatio": ratio, "retreatRatio": ratio, "interval": positive,
+                       "shotSpeed": positive, "shotTravelScale": positive, "shotHitRadius": positive, "shotColor": color},
+        "charge": {"triggerRange": positive, "rallyRadius": positive, "rallyMax": count, "windupSeconds": positive,
+                   "dashSeconds": positive, "dashSpeed": positive, "dashHitRadius": positive, "recoverSeconds": positive,
+                   "cooldown": positive},
+        "bomb": {"fuseDistance": positive, "fuseSeconds": positive, "blastRadius": positive, "swarmTriggerRange": positive,
+                 "swarmSeconds": positive, "swarmSpeed": positive, "flockRadius": positive, "separationRadius": positive,
+                 "cohesion": ratio, "alignment": ratio, "separation": positive, "steerRate": positive, "groupSize": count,
+                 "groupSpread": positive},
+    }
+    group_of = {"contact": "contact", "armored": "contact", "projectile": "projectile", "charge": "charge", "bomb": "bomb"}
+
+    monsters = load_kind(root, "Monster", problems)
+    for stem, data in monsters:
+        label = f"Monster/{stem}.json"
+        check_fields(label, data, {
+            "id": (is_text, "글자여야 한다"),
+            "behavior": (lambda v: v in group_of, f"{'·'.join(group_of)} 중 하나여야 한다"),
+            "hp": positive,
+            "damage": (lambda v: is_num(v) and v >= 0, "0 이상이어야 한다"),
+            "speed": positive,
+            "radius": positive,
+            "contactGap": (lambda v: is_num(v) and v >= 0, "0 이상이어야 한다"),
+            "color": color,
+        }, problems)
+        group = group_of.get(data.get("behavior"))
+        if group is None:
+            continue
+        if not isinstance(data.get(group), dict):
+            problems.append(f"{label}: 행동 '{data['behavior']}'에 필요한 '{group}' 칸 묶음이 없다")
+            continue
+        check_fields(f"{label} {group}", data[group], groups[group], problems)
+        if group == "projectile" and all(is_num(data[group].get(k)) for k in ("approachRatio", "retreatRatio")) \
+                and data[group]["retreatRatio"] >= data[group]["approachRatio"]:
+            problems.append(f"{label} projectile: retreatRatio가 approachRatio보다 작아야 한다")
+    monster_ids = check_ids("Monster", monsters, problems)
+    if not MONSTER_RANGE[0] <= len(monsters) <= MONSTER_RANGE[1]:
+        problems.append(f"Monster: {len(monsters)}개 — {MONSTER_RANGE[0]}~{MONSTER_RANGE[1]}개여야 한다")
+
+    def check_weights(label, weights):
+        if not isinstance(weights, list) or not weights:
+            problems.append(f"{label}: 가중치가 1개 이상인 목록이어야 한다")
+            return
+        seen = set()
+        for entry in weights:
+            if not isinstance(entry, dict):
+                problems.append(f"{label}: {entry!r} — {{monster, weight}} 객체여야 한다")
+                continue
+            monster, weight = entry.get("monster"), entry.get("weight")
+            if monster in seen:
+                problems.append(f"{label}: 몬스터 '{monster}'가 두 번 있다")
+            seen.add(monster)
+            if monster not in monster_ids:
+                problems.append(f"{label}: 가리키는 몬스터 '{monster}'가 없다")
+            if not (is_num(weight) and weight > 0):
+                problems.append(f"{label}: '{monster}' weight = {weight!r} — 0보다 커야 한다")
+
+    for stem, data in waves:
+        label = f"Wave/{stem}.json"
+        check_fields(label, data, {
+            "spawnCount": (lambda v: is_int(v) and v >= 0, "0 이상 정수여야 한다"),
+            "hpScale": positive,
+            "damageScale": positive,
+        }, problems)
+        if "typeWeights" not in data:
+            problems.append(f"{label}: 'typeWeights' 칸이 없다")
+        else:
+            check_weights(f"{label} typeWeights", data["typeWeights"])
+
+    spawn = load_single(root / "Spawn" / "spawn_rules.json", problems)
+    if spawn is None:
+        return
+    label = "Spawn/spawn_rules.json"
+    check_fields(label, spawn, {
+        "spawnMargin": (lambda v: is_num(v) and v >= 0, "0 이상이어야 한다"),
+        "spawnEndGap": (lambda v: is_num(v) and v >= 0, "0 이상인 초여야 한다"),
+        "initialAttackDelay": (lambda v: is_num(v) and v >= 0, "0 이상인 초여야 한다"),
+        "burningIntervalScale": positive,
+        "burningSpread": (lambda v: is_num(v) and v >= 0, "0 이상인 라디안이어야 한다"),
+        "heading": (lambda v: isinstance(v, dict), "객체여야 한다"),
+        "recycle": (lambda v: isinstance(v, dict), "객체여야 한다"),
+    }, problems)
+    if "burningTypeWeights" not in spawn:
+        problems.append(f"{label}: 'burningTypeWeights' 칸이 없다")
+    else:
+        check_weights(f"{label} burningTypeWeights", spawn["burningTypeWeights"])
+    heading = spawn.get("heading")
+    if isinstance(heading, dict):
+        share = (lambda v: is_num(v) and 0 <= v <= 1, "0~1이어야 한다")
+        check_fields(f"{label} heading", heading, {"front": share, "left": share, "right": share, "back": share,
+                                                   "jitter": (lambda v: is_num(v) and v >= 0, "0 이상인 라디안이어야 한다")},
+                     problems)
+        parts = [heading.get(k) for k in ("front", "left", "right", "back")]
+        if all(is_num(v) for v in parts) and abs(sum(parts) - 1) > 1e-6:
+            problems.append(f"{label} heading: front+left+right+back = {sum(parts):g} — 1이어야 한다")
+    recycle = spawn.get("recycle")
+    if isinstance(recycle, dict):
+        check_fields(f"{label} recycle", recycle, {
+            "outsideMargin": (lambda v: is_num(v) and v >= 0, "0 이상이어야 한다"),
+            "holdSeconds": positive,
+            "placeMargin": (lambda v: is_num(v) and v >= 0, "0 이상이어야 한다"),
+            "maxPerCheck": count,
+            "checkInterval": positive,
+            "minAttackDelay": (lambda v: is_num(v) and v >= 0, "0 이상인 초여야 한다"),
+        }, problems)
+
+
 def load_single(path, problems):
     label = f"{path.parent.name}/{path.name}"
     if not path.is_file():
@@ -360,7 +464,7 @@ def report(root):
 
 
 def self_test(root):
-    """틀린 데이터 4종이 각각 실패하고, 지금 데이터는 통과하는지."""
+    """틀린 데이터가 종류마다 실패하고, 지금 데이터는 통과하는지."""
     def edit_json(path, change):
         data = json.loads(path.read_text(encoding="utf-8"))
         change(data)
@@ -413,6 +517,24 @@ def self_test(root):
         edit_json(d / "Run" / "placeholder_combat.json",
                   lambda data: data.update(memberSpots=[{"x": 0, "y": 0}] * 4))
 
+    def break_weight_target(d):
+        edit_json(d / "Wave" / "wave01.json", lambda data: data["typeWeights"].append({"monster": "no_such_monster", "weight": 1}))
+
+    def break_behavior(d):
+        edit_json(d / "Monster" / "slime.json", lambda data: data.update(behavior="fly"))
+
+    def break_behavior_group(d):
+        edit_json(d / "Monster" / "mushroom.json", lambda data: data.pop("projectile"))
+
+    def break_weight_zero(d):
+        edit_json(d / "Wave" / "wave01.json", lambda data: data["typeWeights"][0].update(weight=0))
+
+    def break_monster_duplicate(d):
+        shutil.copy(d / "Monster" / "slime.json", d / "Monster" / "slime_copy.json")
+
+    def break_wave_weights(d):
+        edit_json(d / "Wave" / "wave03.json", lambda data: data.pop("typeWeights"))
+
     cases = [("id 중복", break_duplicate, "중복"), ("없는 startItem", break_start_item, "startItem"),
              ("웨이브 order 빈칸", break_wave_gap, "Wave: order"), ("캐릭터 수 4 아님", break_character_count, "Character: 3개"),
              ("진형 자리 3개", break_formation_slot_count, "slots 3개"),
@@ -421,7 +543,13 @@ def self_test(root):
              ("memberSpots 남음", break_member_spots, "memberSpots"),
              ("모르는 mode", break_mode, "'mode'"), ("interval 0인 발동 아이템", break_interval, "'interval'"),
              ("4×4 밖이거나 끊긴 shape", break_shape, "'shape'"), ("모르는 효과 종류", break_effect, "'baseEffect'"),
-             ("passive 시작 아이템", break_passive_start, "passive")]
+             ("passive 시작 아이템", break_passive_start, "passive"),
+             ("없는 몬스터를 가리키는 가중치", break_weight_target, "몬스터 'no_such_monster'가 없다"),
+             ("다섯 밖의 행동", break_behavior, "'behavior' = 'fly'"),
+             ("행동 칸 묶음 빠짐", break_behavior_group, "'projectile' 칸 묶음이 없다"),
+             ("weight 0", break_weight_zero, "weight = 0"),
+             ("몬스터 id 중복", break_monster_duplicate, "Monster: id 'slime' 중복"),
+             ("가중치 없는 웨이브", break_wave_weights, "wave03.json: 'typeWeights' 칸이 없다")]
     failures = []
     base_problems, _ = check(root)
     if base_problems:

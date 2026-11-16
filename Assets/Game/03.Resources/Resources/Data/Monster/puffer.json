@@ -1,0 +1,26 @@
+{
+  "id": "puffer",
+  "behavior": "bomb",
+  "hp": 14,
+  "damage": 14,
+  "speed": 135,
+  "radius": 18,
+  "contactGap": 5,
+  "color": "#e56e6e",
+  "bomb": {
+    "fuseDistance": 65,
+    "fuseSeconds": 1.2,
+    "blastRadius": 90,
+    "swarmTriggerRange": 300,
+    "swarmSeconds": 1.4,
+    "swarmSpeed": 225,
+    "flockRadius": 260,
+    "separationRadius": 38,
+    "cohesion": 0.65,
+    "alignment": 0.35,
+    "separation": 1.8,
+    "steerRate": 7,
+    "groupSize": 6,
+    "groupSpread": 0.24
+  }
+}

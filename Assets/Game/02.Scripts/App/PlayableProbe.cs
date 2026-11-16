@@ -193,6 +193,64 @@ public static class PlayableProbe
         }
     }
 
+    // F4 — 몬스터 5종·웨이브 목표값(F4 기획서 E절). 기록은 PlayableMetricsRecorder가 맡는다
+    // 지금 살아 있는 몬스터의 행동 종류 수
+    public static int AliveBehaviorKinds
+    {
+        get
+        {
+            var kindSet = new System.Collections.Generic.HashSet<MonsterBehavior>();
+            foreach (var monster in Resolve<MonsterModel>().MonsterList)
+            {
+                if (monster.IsAlive)
+                {
+                    kindSet.Add(monster.Behavior);
+                }
+            }
+
+            return kindSet.Count;
+        }
+    }
+
+    // 지금 날아가는 적 투사체 수
+    public static int EnemyShotCount
+    {
+        get
+        {
+            var count = 0;
+            foreach (var shot in Resolve<MonsterModel>().EnemyShotList)
+            {
+                if (shot.IsAlive)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    public static bool IsSpawnCountAsData => Recorder != null && Recorder.IsSpawnCountAsData;
+    public static float BurningFrameMsP95 => Recorder != null ? Recorder.BurningFrameMsP95 : -1f;
+    public static int MaxAliveEnemies => Recorder != null ? Recorder.MaxAliveEnemies : 0;
+
+    // 기록기를 만들고 이후 모든 판을 기록한다. 웨이브 끝·판 끝마다 path에 파일 전체를 다시 쓴다
+    public static void StartWaveMetrics(string path) => GetOrCreateRecorder().StartRecording(path);
+
+    // 다음에 그 웨이브 전투가 시작되면 Time.timeScale = 1, Application.runInBackground = true(한 번만)
+    public static void UseRealTimeAtWave(int wave) => GetOrCreateRecorder().UseRealTimeAtWave(wave);
+
+    // 마지막 기록 판의 그 웨이브 정규 생성 수(기록 없으면 −1)
+    public static int SpawnedCountOf(int wave) => Recorder != null ? Recorder.SpawnedCountOf(wave) : -1;
+
+    // 마지막 기록 판의 모든 웨이브가 끝까지 갔고 각 생성 수가 first → last 직선 목표 ± tolerance 안(M2)
+    public static bool IsSpawnCountNear(int first, int last, float tolerance) =>
+        Recorder != null && Recorder.IsSpawnCountNear(first, last, tolerance);
+
+    // 웨이브 1부터 기록한 마지막 판에서 그 행동(contact·projectile·charge·armored·bomb)이 처음 나온 웨이브, 없으면 0(M3)
+    public static int FirstWaveOf(string behavior) =>
+        Recorder != null ? Recorder.FirstWaveOf(behavior) : 0;
+
     public static void PressDepart() => Resolve<LobbyPresenter>().OnDepartClicked();
 
     public static void PressNextWave() => Resolve<PrepPresenter>().OnNextWaveClicked();
@@ -254,6 +312,14 @@ public static class PlayableProbe
         }
     }
 
+    private static PlayableMetricsRecorder Recorder => Object.FindAnyObjectByType<PlayableMetricsRecorder>();
+
+    private static PlayableMetricsRecorder GetOrCreateRecorder()
+    {
+        var recorder = Recorder;
+        return recorder != null ? recorder : new GameObject(nameof(PlayableMetricsRecorder)).AddComponent<PlayableMetricsRecorder>();
+    }
+
     internal static T Resolve<T>()
     {
         var scope = Object.FindAnyObjectByType<GameSceneLifetimeScope>();
@@ -285,6 +351,8 @@ public class PlayableBot : MonoBehaviour
     private const float MoveCenterDeadZone = 1f;
     // 바닥 방향 → 화면 방향(아이소 바닥은 세로가 절반으로 그려진다)
     private const float FloorToScreenVertical = 0.5f;
+
+    public PlayableProbe.BotMode Mode => _mode;
 
     private PlayableProbe.BotMode _mode;
 

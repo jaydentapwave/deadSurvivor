@@ -2,5 +2,26 @@
   "id": "wave05",
   "order": 5,
   "duration": 40,
-  "hasBurningTime": false
+  "hasBurningTime": false,
+  "spawnCount": 235,
+  "hpScale": 1.148,
+  "damageScale": 1.4,
+  "typeWeights": [
+    {
+      "monster": "slime",
+      "weight": 60
+    },
+    {
+      "monster": "mushroom",
+      "weight": 20
+    },
+    {
+      "monster": "boar",
+      "weight": 12
+    },
+    {
+      "monster": "rock",
+      "weight": 8
+    }
+  ]
 }

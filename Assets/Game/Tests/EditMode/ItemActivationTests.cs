@@ -270,11 +270,11 @@ public class ItemActivationTests
             members[i].Position += new Vector2(1000f, 1000f);
         }
 
-        var monster = context.AddMonster(1, bruno.Position + new Vector2(-30f, -30f), context.CombatData.Enemy.Hp);
+        var monster = context.AddMonster(1, bruno.Position + new Vector2(-30f, -30f), context.MonsterRepository.Get("slime").Hp);
         context.CombatService.Step(context.RunRules.SimStep);
 
         Assert.AreEqual(0, context.CombatModel.GetFireCount("sword"));
-        Assert.AreEqual(context.CombatData.Enemy.Hp, monster.Hp);
+        Assert.AreEqual(context.MonsterRepository.Get("slime").Hp, monster.Hp);
     }
 
     [Test]

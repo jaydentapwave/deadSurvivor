@@ -1,0 +1,32 @@
+{
+  "spawnMargin": 70,
+  "spawnEndGap": 4,
+  "initialAttackDelay": 1,
+  "burningIntervalScale": 0.5,
+  "burningSpread": 0.3,
+  "burningTypeWeights": [
+    {
+      "monster": "slime",
+      "weight": 80
+    },
+    {
+      "monster": "boar",
+      "weight": 20
+    }
+  ],
+  "heading": {
+    "front": 0.5,
+    "left": 0.15,
+    "right": 0.15,
+    "back": 0.2,
+    "jitter": 1.5708
+  },
+  "recycle": {
+    "outsideMargin": 300,
+    "holdSeconds": 3,
+    "placeMargin": 150,
+    "maxPerCheck": 2,
+    "checkInterval": 0.5,
+    "minAttackDelay": 1
+  }
+}
