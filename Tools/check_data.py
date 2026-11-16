@@ -3,19 +3,22 @@
 
   python3 -B ./tools/check_data.py              지금 데이터를 검사한다. 문제가 있으면 줄마다 출력하고 exit 1
   python3 -B ./tools/check_data.py --root <폴더> 다른 데이터 폴더를 검사한다(Character/ Item/ Wave/ Run/ Monster/ Spawn/ 이 있는 곳)
-  python3 -B ./tools/check_data.py --self-test  지금 데이터가 통과하고, 틀린 데이터 23종(F1: id 중복, 없는 startItem,
+  python3 -B ./tools/check_data.py --art-root <폴더> 그림 폴더(AIGenerated/가 있는 곳). 기본은 데이터 폴더 기준 ../../Art
+  python3 -B ./tools/check_data.py --self-test  지금 데이터가 통과하고, 틀린 데이터 32종(F1: id 중복, 없는 startItem,
                                                 웨이브 order 빈칸, 캐릭터 수 4 아님 / F2: 진형 자리 3개, 진형 order 빈칸,
                                                 자리 평균 ≠ 0, memberSpots 남음 / F3: 모르는 mode, interval 0인 발동 아이템,
                                                 4×4 밖이거나 끊긴 shape, 모르는 효과 종류, passive 시작 아이템 / F4: 없는 몬스터 가중치,
                                                 다섯 밖의 행동, 행동 칸 묶음 빠짐, weight 0, 몬스터 id 중복, 가중치 없는 웨이브 / F5: 등급 배수 줄어듦,
                                                 minCount > maxCount, 모든 lootWeight 0, 가방에 안 들어가는 시작 아이템 / F6: 피해 숫자 maxActive 0,
-                                                다섯 밖의 alwaysShowBehaviors, 색 형식 틀림)이
-                                                각각 실패하는지 본다
+                                                다섯 밖의 alwaysShowBehaviors, 색 형식 틀림 / 그림 넣기: 그림 파일이 없는 캐릭터 키,
+                                                뒤 그림만 없는 캐릭터 키, 그림 파일이 없는 몬스터 키, 형식이 틀린 키, sprite 칸이 없는 몬스터,
+                                                모르는 moveStyle)이 각각 실패하는지 본다
 
 보는 것: JSON 형식, 필수 칸과 형, id = 파일 이름, id 중복, 가리키는 대상(startItem → Item), 웨이브 order 1..N 빈칸 없음,
 개수 범위(캐릭터 4, 아이템 4~40, 웨이브 1~20, 진형 1~6), 진형 자리(수 = 캐릭터 수, 평균 0, 중복 없음)(F2), 값 범위,
 아이템 발동 방식·효과·칸 모양(F3), 전투 규칙 파일(F3),
-등급·가방 규칙·전리품 규칙 파일과 아이템 lootWeight(F5), 피드백 규칙 파일(F6). 모르는 칸은 통과시킨다(뒤 기능이 같은 파일에 칸을 더한다).
+등급·가방 규칙·전리품 규칙 파일과 아이템 lootWeight(F5), 피드백 규칙 파일(F6), 캐릭터·몬스터 그림 키와 그림 파일·
+몬스터 moveStyle·AIGenerated/ PNG 이름 유일성(그림 넣기 D절). 모르는 칸은 통과시킨다(뒤 기능이 같은 파일에 칸을 더한다).
 종료 코드: 0 통과, 1 문제 있음, 2 실행할 수 없음(데이터 폴더 없음).
 """
 import json
@@ -41,6 +44,8 @@ FORMATION_RANGE = (1, 6)
 MEAN_TOLERANCE = 0.01
 MONSTER_RANGE = (1, 20)
 COLOR = re.compile(r"#[0-9a-fA-F]{6}")
+SPRITE_KEY = re.compile(r"[a-z0-9_]*")
+MOVE_STYLES = ("squash", "hop")
 
 
 def is_int(v):
@@ -99,9 +104,15 @@ def check_ids(kind, entries, problems):
     return set(seen)
 
 
-def check(root):
+def default_art_root(root):
+    """데이터 폴더(…/03.Resources/Resources/Data) 기준 ../../Art."""
+    return root.parent.parent / "Art"
+
+
+def check(root, art_root=None):
     """문제 목록과 요약 줄 목록."""
     problems, notes = [], []
+    art_root = default_art_root(root) if art_root is None else art_root
 
     items = load_kind(root, "Item", problems)
     for stem, data in items:
@@ -132,7 +143,7 @@ def check(root):
             "def": (lambda v: is_num(v) and 0 <= v <= 0.8, "0~0.8이어야 한다"),
             "startItem": (is_text, "Item id여야 한다"),
             "color": (lambda v: isinstance(v, str) and COLOR.fullmatch(v), "#rrggbb여야 한다"),
-            "sprite": (lambda v: isinstance(v, str), "글자여야 한다(비면 임시 도형)"),
+            "sprite": (lambda v: isinstance(v, str) and SPRITE_KEY.fullmatch(v), "비거나 [a-z0-9_]+여야 한다(비면 임시 도형)"),
         }, problems)
         start = data.get("startItem")
         if is_text(start) and start not in item_ids:
@@ -164,6 +175,8 @@ def check(root):
     notes.append(f"웨이브 {len(waves)}개, 시간 합 {total:g}초")
 
     check_monsters(root, waves, problems)
+    # 몬스터 파일 형식 문제는 check_monsters가 이미 적었다
+    check_sprites(art_root, characters, load_kind(root, "Monster", []), problems, notes)
 
     rules_path = root / "Run" / "run_rules.json"
     rules = load_single(rules_path, problems)
@@ -534,6 +547,44 @@ def check_monsters(root, waves, problems):
         }, problems)
 
 
+def check_sprites(art_root, characters, monsters, problems, notes):
+    """그림 넣기 D절: 그림 키 형식, 키가 있으면 그림 파일, 몬스터 sprite 칸 필수와 moveStyle, AIGenerated/ PNG 이름 유일성."""
+    generated = art_root / "AIGenerated"
+    character_filled = 0
+    for stem, data in characters:
+        key = data.get("sprite")
+        if not (isinstance(key, str) and SPRITE_KEY.fullmatch(key)) or key == "":
+            continue
+        character_filled += 1
+        for side in ("front", "back"):
+            path = generated / "Characters" / key / side / f"{key}_{side}.png"
+            if not path.is_file():
+                problems.append(f"Character/{stem}.json: sprite '{key}'의 그림 {path.relative_to(art_root)}이 없다")
+    monster_filled = 0
+    for stem, data in monsters:
+        label = f"Monster/{stem}.json"
+        if "sprite" not in data:
+            problems.append(f"{label}: 'sprite' 칸이 없다(비면 임시 도형, 칸은 모든 몬스터 파일에 있어야 한다)")
+        else:
+            key = data["sprite"]
+            if not (isinstance(key, str) and SPRITE_KEY.fullmatch(key)):
+                problems.append(f"{label}: 'sprite' = {key!r} — 비거나 [a-z0-9_]+여야 한다")
+            elif key != "":
+                monster_filled += 1
+                path = generated / "Monsters" / key / f"{key}.png"
+                if not path.is_file():
+                    problems.append(f"{label}: sprite '{key}'의 그림 {path.relative_to(art_root)}이 없다")
+        if data.get("moveStyle") not in MOVE_STYLES:
+            problems.append(f"{label}: 'moveStyle' = {data.get('moveStyle')!r} — {'·'.join(MOVE_STYLES)} 중 하나여야 한다")
+    seen = {}
+    for path in sorted(generated.rglob("*.png")) if generated.is_dir() else []:
+        if path.name in seen:
+            problems.append(f"AIGenerated: 그림 이름 '{path.name}' 중복 — {seen[path.name]}, {path.relative_to(art_root)}")
+        else:
+            seen[path.name] = path.relative_to(art_root)
+    notes.append(f"그림 키 캐릭터 {character_filled}/{len(characters)}, 몬스터 {monster_filled}/{len(monsters)}")
+
+
 FEEDBACK_BEHAVIORS = ("contact", "projectile", "charge", "armored", "bomb")
 
 
@@ -598,8 +649,8 @@ def load_single(path, problems):
     return data
 
 
-def report(root):
-    problems, notes = check(root)
+def report(root, art_root):
+    problems, notes = check(root, art_root)
     for line in notes:
         print(line)
     if problems:
@@ -611,8 +662,8 @@ def report(root):
     return 0
 
 
-def self_test(root):
-    """틀린 데이터가 종류마다 실패하고, 지금 데이터는 통과하는지."""
+def self_test(root, art_root):
+    """틀린 데이터가 종류마다 실패하고, 지금 데이터는 통과하는지. 임시 폴더에 Resources/Data 사본과 Art/AIGenerated의 빈 PNG 자리를 만든다."""
     def edit_json(path, change):
         data = json.loads(path.read_text(encoding="utf-8"))
         change(data)
@@ -704,6 +755,27 @@ def self_test(root):
     def break_feedback_color(d):
         edit_json(d / "Feedback" / "feedback_rules.json", lambda data: data["hpLoss"].update(color="red"))
 
+    def tmp_art(d):
+        return default_art_root(d) / "AIGenerated"
+
+    def break_character_art(d):
+        edit_json(d / "Character" / "bruno.json", lambda data: data.update(sprite="nobody"))
+
+    def break_character_back(d):
+        (tmp_art(d) / "Characters" / "lena" / "back" / "lena_back.png").unlink()
+
+    def break_monster_art(d):
+        edit_json(d / "Monster" / "slime.json", lambda data: data.update(sprite="ghost"))
+
+    def break_sprite_key(d):
+        edit_json(d / "Monster" / "slime.json", lambda data: data.update(sprite="../slime"))
+
+    def break_monster_sprite_field(d):
+        edit_json(d / "Monster" / "boar.json", lambda data: data.pop("sprite"))
+
+    def break_move_style(d):
+        edit_json(d / "Monster" / "puffer.json", lambda data: data.update(moveStyle="fly"))
+
     cases = [("id 중복", break_duplicate, "중복"), ("없는 startItem", break_start_item, "startItem"),
              ("웨이브 order 빈칸", break_wave_gap, "Wave: order"), ("캐릭터 수 4 아님", break_character_count, "Character: 3개"),
              ("진형 자리 3개", break_formation_slot_count, "slots 3개"),
@@ -723,15 +795,25 @@ def self_test(root):
              ("모든 lootWeight 0", break_loot_weight, "lootWeight > 0"), ("시작 칸 (3, 3)", break_start_cell, "시작 칸 (3, 3)"),
              ("피해 숫자 maxActive 0", break_feedback_max, "damageNumber: 'maxActive'"),
              ("다섯 밖의 alwaysShowBehaviors", break_feedback_behavior, "alwaysShowBehaviors 'boss'"),
-             ("색 형식 틀림", break_feedback_color, "hpLoss: 'color'")]
+             ("색 형식 틀림", break_feedback_color, "hpLoss: 'color'"),
+             ("그림 파일이 없는 캐릭터 키", break_character_art, "sprite 'nobody'의 그림"),
+             ("뒤 그림만 없는 캐릭터 키", break_character_back, "lena_back.png이 없다"),
+             ("그림 파일이 없는 몬스터 키", break_monster_art, "sprite 'ghost'의 그림"),
+             ("형식이 틀린 키(../slime)", break_sprite_key, "'sprite' = '../slime'"),
+             ("sprite 칸이 없는 몬스터", break_monster_sprite_field, "boar.json: 'sprite' 칸이 없다"),
+             ("모르는 moveStyle", break_move_style, "'moveStyle' = 'fly'")]
     failures = []
-    base_problems, _ = check(root)
+    base_problems, _ = check(root, art_root)
     if base_problems:
         failures.append("지금 데이터가 통과하지 않는다: " + "; ".join(base_problems))
     for name, breaker, expected in cases:
         with tempfile.TemporaryDirectory() as tmp:
-            copy = Path(tmp) / "Data"
+            copy = Path(tmp) / "Resources" / "Data"
             shutil.copytree(root, copy, ignore=shutil.ignore_patterns("*.meta"))
+            for png in (art_root / "AIGenerated").rglob("*.png"):
+                place = tmp_art(copy) / png.relative_to(art_root / "AIGenerated")
+                place.parent.mkdir(parents=True, exist_ok=True)
+                place.touch()
             breaker(copy)
             problems, _ = check(copy)
             hit = [p for p in problems if expected in p]
@@ -755,6 +837,14 @@ def self_test(root):
 def main(argv):
     args = argv[1:]
     root = DEFAULT_ROOT
+    art_root = None
+    if "--art-root" in args:
+        i = args.index("--art-root")
+        if i + 1 >= len(args):
+            print("--art-root 뒤에 폴더가 없다", file=sys.stderr)
+            return 2
+        art_root = Path(args[i + 1]).resolve()
+        del args[i:i + 2]
     if "--root" in args:
         i = args.index("--root")
         if i + 1 >= len(args):
@@ -771,7 +861,8 @@ def main(argv):
     if not root.is_dir():
         print(f"데이터 폴더가 없다: {root}", file=sys.stderr)
         return 2
-    return self_test(root) if is_self_test else report(root)
+    art_root = default_art_root(root) if art_root is None else art_root
+    return self_test(root, art_root) if is_self_test else report(root, art_root)
 
 
 if __name__ == "__main__":

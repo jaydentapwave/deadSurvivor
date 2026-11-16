@@ -7,6 +7,8 @@
   "radius": 18,
   "contactGap": 5,
   "color": "#e56e6e",
+  "sprite": "puffer",
+  "moveStyle": "hop",
   "bomb": {
     "fuseDistance": 65,
     "fuseSeconds": 1.2,

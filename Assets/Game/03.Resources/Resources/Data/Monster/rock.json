@@ -7,6 +7,8 @@
   "radius": 25,
   "contactGap": 5,
   "color": "#7395b6",
+  "sprite": "rock",
+  "moveStyle": "squash",
   "contact": {
     "interval": 1.8
   }

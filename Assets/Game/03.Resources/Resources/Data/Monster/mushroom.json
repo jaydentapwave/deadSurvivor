@@ -7,6 +7,8 @@
   "radius": 18,
   "contactGap": 5,
   "color": "#a4779f",
+  "sprite": "mushroom",
+  "moveStyle": "hop",
   "projectile": {
     "range": 252,
     "approachRatio": 0.92,
