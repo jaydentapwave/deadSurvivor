@@ -9586,7 +9586,7 @@ MonoBehaviour:
   - {fileID: 86455502}
   - {fileID: 750279768}
   - {fileID: 1715137770}
-  previewScale: 0.6
+  previewScale: 0.9
   selectedButtonColor: {r: 0.95, g: 0.75, b: 0.3, a: 1}
   normalButtonColor: {r: 0.3, g: 0.3, b: 0.35, a: 1}
   aliveMarkerColor: {r: 0.85, g: 0.85, b: 0.85, a: 1}
