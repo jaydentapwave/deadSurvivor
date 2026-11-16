@@ -31,7 +31,8 @@ public class MonsterDataTests
         var context = new TestRunContext();
         var waves = context.WaveRepository.WaveDataList;
 
-        CollectionAssert.AreEqual(new[] { 98, 98, 167, 167, 167, 270, 270, 270, 270, 270 }, waves.Select(w => w.SpawnCount).ToArray());
+        // 대표 웨이브 1·3·6(기획서 C절). 나머지 7개는 콘텐츠 대기열이 채운다(MA1, 5c33b44..0c5d324)
+        CollectionAssert.AreEqual(new[] { 98, 167, 270 }, new[] { waves[0].SpawnCount, waves[2].SpawnCount, waves[5].SpawnCount });
         foreach (var wave in waves)
         {
             Assert.Greater(wave.HpScale, 0f, wave.Id);

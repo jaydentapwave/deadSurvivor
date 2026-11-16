@@ -59,6 +59,12 @@ public class MonsterBehaviorTests
         var members = context.PartyModel.MemberList;
         var bruno = members[0];
         bruno.Hp = 0f;
+        // F2부터 CreateParty는 모든 대원을 원점에 둔다(자리는 진형이 웨이브 시작에 정한다). 산 대원을 브루노 오른쪽으로 벌려 둔다
+        for (var i = 1; i < members.Count; i++)
+        {
+            members[i].Position = bruno.Position + Vector2.right * (48f * i);
+        }
+
         var slime = context.MonsterRepository.Get("slime");
         var monster = context.CreateMonster(1, "slime", bruno.Position + Vector2.left * (slime.Radius + slime.ContactGap));
         context.MonsterModel.Add(monster);
