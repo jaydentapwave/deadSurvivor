@@ -1,6 +1,6 @@
 ---
 name: spec-reviewer
-description: 구현이 승인된 기획서를 지켰는지 보는 리뷰 담당. 디렉터 단계나 기능 구현을 마친 뒤, 품질 리뷰(validator-*)보다 먼저 호출. 리뷰는 Codex가 하고 이 에이전트는 중계만 한다. 파일 수정 불가.
+description: 구현이 승인된 기획서를 지켰는지 보는 리뷰 담당. 디렉터 단계나 기능 구현을 마친 뒤, 마감 리뷰로 품질 리뷰(validator-*)와 한꺼번에 병렬로 호출. 리뷰는 Codex가 하고 이 에이전트는 중계만 한다. 파일 수정 불가.
 tools: Bash, Read
 model: sonnet
 effort: medium

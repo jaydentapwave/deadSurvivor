@@ -114,23 +114,23 @@ Create missing folders if needed. Always specify target file path.
 
 ### validator-client (검증 위임 — fresh context 적대 리뷰)
 - 아키텍처·DI 등록·레이어 계약에 영향 주는 변경 후 호출. diff를 요구사항 대비 검증 + VContainer 순환 의존 추적.
-- FAIL 지적사항의 수정은 메인이 직접 수행 후 필요 시 재검증. 순수 리네이밍·로컬 편집은 생략.
+- 기능 하나에 마감 리뷰 한 번: 구현·명령 관문이 끝난 뒤 `spec-reviewer`·`algorithm-tester`(해당 시)와 한꺼번에 병렬로 부른다. 지적을 모아 메인이 고치고, FAIL이었던 리뷰만 수정 확인 한 번. 그래도 남으면 멈추고 일을 시킨 쪽에 묻는다. 순수 리네이밍·로컬 편집은 생략.
 
 ### design-reviewer (구현 전 설계 검토 위임)
-- 상태 소유권·데이터 스키마·도메인 경계를 바꾸는 L2 작업에서 설계 브리핑을 쓴 뒤 호출. 규모 분류는 `.ai/rules/work-levels.md`.
+- 구조가 크게 바뀌는 L2에서만 설계 브리핑을 쓴 뒤 호출: 첫 기능(Core 기반·DI 뼈대·판정 진입점), 이미 있는 시스템의 상태 소유권·DI 구조·세이브 형식 변경, 렌더 파이프라인 설정 변경. 새 도메인 폴더를 더하고 공유 파일에 등록 줄·칸만 더하는 기능은 부르지 않는다(짧은 브리핑을 마감 리뷰에 넘긴다). 규모 분류는 `.ai/rules/work-levels.md`.
 - 필수 지적을 해소한 뒤 구현한다. 수정은 메인이 직접 수행.
 
 ### algorithm-tester (실행 검증)
-- **알고리즘 코드**(loop·branch·state machine·generator·shuffle·sort·packing) 변경 후 호출.
+- **알고리즘 코드**(loop·branch·state machine·generator·shuffle·sort·packing) 변경 후 마감 리뷰 묶음 안에서 호출.
 - 순수 C# 로직은 **실제 실행으로 검증** (standalone 추출 → 실행 → 3-5 케이스 결과 비교). Unity API에 얽힌 코드만 hand-trace 폴백.
-- FAIL → 메인이 수정 → tester 재검증. 사용자 보고 시 케이스별 결과 제시.
+- FAIL → 메인이 수정 → tester 수정 확인 한 번. 사용자 보고 시 케이스별 결과 제시.
 - **Skip** for View/DI-only/rename/comment changes.
 
 ### 대량 기계 작업 (예외적 쓰기 위임)
 - 독립적·기계적 반복 작업(수십 파일 일괄 마이그레이션 등)만 병렬 위임 (파일 충돌 시 worktree 격리). 설계 판단이 필요한 구현은 위임하지 않는다.
 
-### Agent teams (병렬 기능 개발)
-- **파일이 겹치지 않는 독립 기능 여러 개**를 동시에 진행할 때만 agent teams 사용 (worktree 격리). 같은 파일·같은 기능을 쪼개서 나누는 것은 금지 (컨텍스트 분절).
+### 기능은 하나씩
+- 기능 하나의 구현(코드·테스트)과 에디터 확인(컴파일·EditMode·Play·판정 경로·캡처)은 레포 루트의 한 실행에서 끝낸다. 에디터가 하나라 기능을 나란히 구현하지 않는다(worktree에서 코드만 쓰고 에디터 확인을 미뤄 합치지 않는다). 나란히 돌려도 되는 것은 기획서와 그림 생산처럼 에디터를 쓰지 않는 일뿐이다.
 
 ### Release audit
 - 릴리즈 전 pre-build 체크리스트(빌드 설정, 광고·결제 키, 로그 비활성화, 버전 코드 등)를 병렬 에이전트로 나눠 검증하는 것을 권장한다.
