@@ -21,8 +21,11 @@ public class HitReactionPresenter : IInitializable, ILateTickable, IDisposable
     private int _shakeStep;
     private Vector3 _basePosition;
     private Vector3 _lastAppliedPosition;
+    // 마지막으로 얹은 오프셋. 일시정지(시계 0) 중에는 이것을 그대로 다시 얹는다
+    private Vector2 _offset;
 
-    public bool IsShaking => _shakeRemaining > 0f;
+    // 남은 시간이 있거나 카메라에 아직 오프셋이 얹혀 있다(끝나는 프레임은 마지막 오프셋이 남고 다음 프레임에 0이 된다)
+    public bool IsShaking => _shakeRemaining > 0f || _offset != Vector2.zero;
 
     public HitReactionPresenter(RunModel runModel, CombatFeedbackModel combatFeedbackModel,
         FeedbackRulesRepository feedbackRulesRepository, HapticService hapticService, CameraShakeView cameraShakeView)
@@ -67,18 +70,21 @@ public class HitReactionPresenter : IInitializable, ILateTickable, IDisposable
         ApplyCamera(deltaSeconds);
     }
 
-    // 흔들리는 중이면 기준 + 오프셋, 끝났으면 기준 그대로(오프셋 0)
+    // 흔들리는 중이면 기준 + 오프셋, 끝났으면 기준 그대로(오프셋 0). 시계가 멈춘 프레임은 지난 오프셋을 그대로 둔다
     private void ApplyCamera(float deltaSeconds)
     {
         _basePosition = ShakeMath.ResolveBase(_cameraShakeView.Position, _lastAppliedPosition, _basePosition);
-        var offset = ShakeMath.GetOffset(_shakeRemaining, _rules.Seconds, _rules.AmplitudePx, _shakeStep);
-        if (_shakeRemaining > 0f && deltaSeconds > 0f)
+        if (deltaSeconds > 0f)
         {
-            _shakeRemaining = Mathf.Max(0f, _shakeRemaining - deltaSeconds);
-            _shakeStep++;
+            _offset = ShakeMath.GetOffset(_shakeRemaining, _rules.Seconds, _rules.AmplitudePx, _shakeStep);
+            if (_shakeRemaining > 0f)
+            {
+                _shakeRemaining = Mathf.Max(0f, _shakeRemaining - deltaSeconds);
+                _shakeStep++;
+            }
         }
 
-        _lastAppliedPosition = _basePosition + (Vector3)offset;
+        _lastAppliedPosition = _basePosition + (Vector3)_offset;
         _cameraShakeView.SetPosition(_lastAppliedPosition);
     }
 
@@ -97,15 +103,16 @@ public class HitReactionPresenter : IInitializable, ILateTickable, IDisposable
         _lastShakeStart = float.NegativeInfinity;
     }
 
-    // 흔드는 중이었으면 카메라를 기준 위치로 되돌린다
+    // 오프셋이 얹혀 있으면 카메라를 기준 위치로 되돌린다
     private void StopShake()
     {
-        if (_shakeRemaining > 0f)
+        if (IsShaking)
         {
             _cameraShakeView.SetPosition(_basePosition);
             _lastAppliedPosition = _basePosition;
         }
 
         _shakeRemaining = 0f;
+        _offset = Vector2.zero;
     }
 }
