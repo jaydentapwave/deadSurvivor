@@ -28,6 +28,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register<PoolManager>(Lifetime.Scoped);
         builder.Register<EventBus>(Lifetime.Scoped);
         builder.Register<PlaceholderSpriteFactory>(Lifetime.Scoped);
+        builder.Register<SpriteAtlasService>(Lifetime.Scoped);
 
         // 데이터
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<RunRulesData>(RunRulesPath), Lifetime.Scoped);

@@ -13,6 +13,7 @@ public class LobbyPresenter : IInitializable, IDisposable
     private readonly CharacterRepository _characterRepository;
     private readonly ItemRepository _itemRepository;
     private readonly PlaceholderSpriteFactory _placeholderSpriteFactory;
+    private readonly SpriteAtlasService _spriteAtlasService;
     private readonly UI_LobbyView _lobbyView;
     private readonly CompositeDisposable _disposables = new();
 
@@ -21,7 +22,7 @@ public class LobbyPresenter : IInitializable, IDisposable
 
     public LobbyPresenter(RunModel runModel, RunSettingsModel runSettingsModel, RunService runService,
         CharacterRepository characterRepository, ItemRepository itemRepository,
-        PlaceholderSpriteFactory placeholderSpriteFactory, UI_LobbyView lobbyView)
+        PlaceholderSpriteFactory placeholderSpriteFactory, SpriteAtlasService spriteAtlasService, UI_LobbyView lobbyView)
     {
         _runModel = runModel;
         _runSettingsModel = runSettingsModel;
@@ -29,6 +30,7 @@ public class LobbyPresenter : IInitializable, IDisposable
         _characterRepository = characterRepository;
         _itemRepository = itemRepository;
         _placeholderSpriteFactory = placeholderSpriteFactory;
+        _spriteAtlasService = spriteAtlasService;
         _lobbyView = lobbyView;
     }
 
@@ -42,13 +44,16 @@ public class LobbyPresenter : IInitializable, IDisposable
 
         var startItemNameList = new List<string>(characterDataList.Count);
         var colorList = new List<Color>(characterDataList.Count);
+        // 초상 = 앞 그림(그림 넣기 F절). 키가 비면 null → F1 색 칸
+        var portraitSpriteList = new List<Sprite>(characterDataList.Count);
         foreach (var data in characterDataList)
         {
             startItemNameList.Add(_itemRepository.Get(data.StartItem).Name);
             colorList.Add(_placeholderSpriteFactory.ParseColor(data.Color));
+            portraitSpriteList.Add(string.IsNullOrEmpty(data.Sprite) ? null : _spriteAtlasService.Get(data.Sprite + SpriteAtlasService.FrontSuffix));
         }
 
-        _lobbyView.UpdateUI(characterDataList, startItemNameList, colorList);
+        _lobbyView.UpdateUI(characterDataList, startItemNameList, colorList, portraitSpriteList);
         CardCount = Mathf.Min(characterDataList.Count, _lobbyView.CardSlotCount);
         _lobbyView.DepartButton.OnClickAsObservable().Subscribe(_ => OnDepartClicked()).AddTo(_disposables);
     }

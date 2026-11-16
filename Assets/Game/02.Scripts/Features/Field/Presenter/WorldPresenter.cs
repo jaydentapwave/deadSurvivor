@@ -4,6 +4,10 @@ using UnityEngine;
 using VContainer.Unity;
 
 // 바닥 평면 모델 → 월드 그림(기획서 E·F절): 바닥 깔기, 원정대·적 그림 위치, 카메라 중심, 보이는 바닥 영역을 생성기에 알림.
+// 그림 넣기(기획서 E절): 대원·몬스터 그림 초기화, 프레임 이동량 → 방향·움직임, 대원 HP 감소 → 흰 번쩍임.
+// 움직임 시계는 전투 중·일시정지 아님일 때만 흐르고, 멈춘 프레임에는 방향·움직임을 그대로 둔다(판 시작 리셋·쓰러진 대원 정리는 늘).
+// 이동량은 시뮬레이션(30Hz 고정 걸음)이 진행된 프레임에만 본다. 걸음이 없는 그리기 프레임은 이동량이 0이라 멈춤으로 보면
+// 걷는 중에도 대기·hop 오프셋이 프레임마다 깜빡이므로, 그 프레임은 지난 방향·이동 여부를 그대로 쓴다.
 public class WorldPresenter : IInitializable, ILateTickable
 {
     private static readonly Vector2 HpBarPivot = new(0f, 0.5f);
@@ -20,6 +24,8 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly PlaceholderSpriteFactory _placeholderSpriteFactory;
     private readonly MonsterViewFactory _monsterViewFactory;
     private readonly MonsterViewRegistry _monsterViewRegistry;
+    private readonly SpriteAtlasService _spriteAtlasService;
+    private readonly RunModel _runModel;
     private readonly FieldView _fieldView;
     private readonly Camera _camera;
     private readonly IReadOnlyList<MemberView> _memberViewList;
@@ -27,11 +33,25 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly HashSet<int> _aliveMonsterIdSet = new();
     private readonly List<int> _releaseIdList = new();
     private Vector2 _viewHalfExtent;
+    private readonly float[] _lastHps;
+    private readonly HitFlash[] _hitFlashes;
+    private float _motionClock;
+    private float _lastRemainingSeconds;
+    private readonly bool[] _isMemberMovings;
+    private readonly HashSet<int> _movingMonsterIdSet = new();
+    private int _lastRunCount = -1;
+    private int _idleOffsetSeenMask;
+
+    // 판정 진입점용(이번 판): 번쩍임 시작 수, 끝난 번쩍임 한 번이 켜져 있던 최대 시간(없으면 −1), 대원 0이 지난 대기 오프셋 종류 수
+    public int MemberHitFlashTotal { get; private set; }
+    public float MemberFlashMaxSeconds { get; private set; } = -1f;
+    public int IdleOffsetsSeen => (_idleOffsetSeenMask & 1) + ((_idleOffsetSeenMask >> 1) & 1);
 
     public WorldPresenter(PartyModel partyModel, MonsterModel monsterModel, MonsterService monsterService,
         PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
-        MonsterViewRegistry monsterViewRegistry, FieldView fieldView, Camera camera, IReadOnlyList<MemberView> memberViewList)
+        MonsterViewRegistry monsterViewRegistry, SpriteAtlasService spriteAtlasService, RunModel runModel, FieldView fieldView,
+        Camera camera, IReadOnlyList<MemberView> memberViewList)
     {
         _partyModel = partyModel;
         _monsterModel = monsterModel;
@@ -43,9 +63,14 @@ public class WorldPresenter : IInitializable, ILateTickable
         _placeholderSpriteFactory = placeholderSpriteFactory;
         _monsterViewFactory = monsterViewFactory;
         _monsterViewRegistry = monsterViewRegistry;
+        _spriteAtlasService = spriteAtlasService;
+        _runModel = runModel;
         _fieldView = fieldView;
         _camera = camera;
         _memberViewList = memberViewList;
+        _lastHps = new float[memberViewList.Count];
+        _hitFlashes = new HitFlash[memberViewList.Count];
+        _isMemberMovings = new bool[memberViewList.Count];
     }
 
     public void Initialize()
@@ -60,8 +85,23 @@ public class WorldPresenter : IInitializable, ILateTickable
         UpdateViewExtent();
         var center = IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale);
         _camera.transform.position = new Vector3(center.x, center.y, _camera.transform.position.z);
-        UpdateMemberViews();
-        SyncMonsterViews();
+        var isRunning = _runModel.Phase.CurrentValue == RunPhase.Battle && !_runModel.IsPaused.CurrentValue;
+        var lastClock = _motionClock;
+        _motionClock = SpriteMotion.Advance(_motionClock, Time.deltaTime, isRunning);
+        // 남은 시간은 시뮬레이션 걸음마다 줄어든다
+        var hasStepped = _runModel.RemainingSeconds.CurrentValue != _lastRemainingSeconds;
+        _lastRemainingSeconds = _runModel.RemainingSeconds.CurrentValue;
+        var isRunStarted = _runModel.RunCount.CurrentValue != _lastRunCount;
+        _lastRunCount = _runModel.RunCount.CurrentValue;
+        if (isRunStarted)
+        {
+            MemberHitFlashTotal = 0;
+            MemberFlashMaxSeconds = -1f;
+            _idleOffsetSeenMask = 0;
+        }
+
+        UpdateMemberViews(isRunning, hasStepped, _motionClock - lastClock, isRunStarted);
+        SyncMonsterViews(isRunning, hasStepped);
     }
 
     private void BuildField()
@@ -93,10 +133,26 @@ public class WorldPresenter : IInitializable, ILateTickable
                 continue;
             }
 
-            var bodySprite = _placeholderSpriteFactory.CreateCircle(view.BodyDiameterPixels,
-                _placeholderSpriteFactory.ParseColor(characterDataList[i].Color));
+            // 그림 키가 있으면 앞·뒤 그림, 비었거나 하나라도 없으면 F1 임시 원
+            var key = characterDataList[i].Sprite;
+            Sprite frontSprite = null;
+            Sprite backSprite = null;
+            if (!string.IsNullOrEmpty(key))
+            {
+                frontSprite = _spriteAtlasService.Get(key + SpriteAtlasService.FrontSuffix);
+                backSprite = _spriteAtlasService.Get(key + SpriteAtlasService.BackSuffix);
+            }
+
+            var hasArt = frontSprite != null && backSprite != null;
+            if (!hasArt)
+            {
+                frontSprite = _placeholderSpriteFactory.CreateCircle(view.BodyDiameterPixels,
+                    _placeholderSpriteFactory.ParseColor(characterDataList[i].Color));
+                backSprite = frontSprite;
+            }
+
             var hpBarSprite = _placeholderSpriteFactory.CreateBox(view.HpBarPixels.x, view.HpBarPixels.y, Color.white, HpBarPivot);
-            view.Initialize(bodySprite, hpBarSprite);
+            view.Initialize(frontSprite, backSprite, hpBarSprite, hasArt);
         }
     }
 
@@ -116,7 +172,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         _partyMoveService.SetViewHalfExtent(floorHalfExtent);
     }
 
-    private void UpdateMemberViews()
+    private void UpdateMemberViews(bool isRunning, bool hasStepped, float deltaSeconds, bool isRunStarted)
     {
         var memberList = _partyModel.MemberList;
         var count = Math.Min(memberList.Count, _memberViewList.Count);
@@ -130,14 +186,89 @@ public class WorldPresenter : IInitializable, ILateTickable
             }
 
             var member = memberList[i];
+            var position = IsoProjection.FloorToWorld(member.Position, _runRules.UnitScale);
+            var delta = position - (Vector2)view.transform.localPosition;
             view.SetVisible(true);
-            view.UpdateView(IsoProjection.FloorToWorld(member.Position, _runRules.UnitScale), member.Hp / member.MaxHp,
-                member.IsAlive);
+            view.UpdateView(position, member.Hp / member.MaxHp, member.IsAlive);
+            if (isRunStarted)
+            {
+                // 판 시작: 앞·오른쪽, 첫 표시의 자리 점프는 방향을 바꾸지 않는다
+                _lastHps[i] = member.Hp;
+                _hitFlashes[i].Stop();
+                _isMemberMovings[i] = false;
+                view.ApplyMotion(SpriteFacing.Front, Vector2Int.zero, false);
+                continue;
+            }
+
+            if (!member.IsAlive)
+            {
+                // 쓰러진 대원: 방향은 쓰러질 때 그대로, 번쩍임 끔·오프셋 0(시계와 상관없이)
+                _lastHps[i] = member.Hp;
+                _hitFlashes[i].Stop();
+                view.ApplyMotion(view.Facing, Vector2Int.zero, false);
+                continue;
+            }
+
+            if (!isRunning)
+            {
+                // 멈춘 시계: 방향·오프셋·번쩍임은 마지막 값. 그동안의 HP 변화(부활·정비 회복)는 피격이 아니다
+                _lastHps[i] = member.Hp;
+                continue;
+            }
+
+            UpdateMemberMotion(i, view, member.Hp, hasStepped, delta, deltaSeconds);
         }
     }
 
+    // 번쩍임은 먼저 흘리고(이번 프레임에 끝나면 기록) 그다음 새 피격으로 시작한다 — 시작한 프레임에는 반드시 켜진 채 그려진다
+    private void UpdateMemberMotion(int index, MemberView view, float hp, bool hasStepped, Vector2 delta, float deltaSeconds)
+    {
+        var flash = _hitFlashes[index];
+        if (flash.Advance(deltaSeconds))
+        {
+            RecordFlashSeconds(flash.Elapsed);
+        }
+
+        if (hp < _lastHps[index])
+        {
+            if (flash.IsOn)
+            {
+                RecordFlashSeconds(flash.Elapsed);
+            }
+
+            flash.Start(view.HitFlashSeconds);
+            MemberHitFlashTotal++;
+        }
+
+        _lastHps[index] = hp;
+        _hitFlashes[index] = flash;
+
+        var facing = view.Facing;
+        if (hasStepped)
+        {
+            var minMove = view.MinMovePixels / Const.PixelsPerUnit;
+            facing = SpriteFacing.Next(view.Facing, delta, minMove, view.FacingAxisRatio, true);
+            _isMemberMovings[index] = Mathf.Abs(delta.x) >= minMove || Mathf.Abs(delta.y) >= minMove;
+        }
+
+        var idleOffsetY = 0;
+        if (!_isMemberMovings[index])
+        {
+            idleOffsetY = SpriteMotion.GetIdleOffsetY(_motionClock, view.IdlePeriodSeconds, index * view.IdleStaggerSeconds);
+            if (index == 0)
+            {
+                _idleOffsetSeenMask |= 1 << idleOffsetY;
+            }
+        }
+
+        var offset = new Vector2Int(SpriteMotion.GetHitOffsetX(flash.IsOn, facing.IsFlipped), idleOffsetY);
+        view.ApplyMotion(facing, offset, flash.IsOn);
+    }
+
+    private void RecordFlashSeconds(float seconds) => MemberFlashMaxSeconds = Mathf.Max(MemberFlashMaxSeconds, seconds);
+
     // 모델의 산 적마다 그림 하나. 새 적은 풀에서 꺼내고 사라진 적의 그림은 풀로 돌린다
-    private void SyncMonsterViews()
+    private void SyncMonsterViews(bool isRunning, bool hasStepped)
     {
         _aliveMonsterIdSet.Clear();
         foreach (var monster in _monsterModel.MonsterList)
@@ -148,12 +279,20 @@ public class WorldPresenter : IInitializable, ILateTickable
             }
 
             _aliveMonsterIdSet.Add(monster.Id);
-            if (!_monsterViewRegistry.TryGet(monster.Id, out var view))
+            var isNew = !_monsterViewRegistry.TryGet(monster.Id, out var view);
+            if (isNew)
             {
                 view = _monsterViewFactory.Create(monster, null);
             }
 
-            view.UpdateView(IsoProjection.FloorToWorld(monster.Position, _runRules.UnitScale));
+            var position = IsoProjection.FloorToWorld(monster.Position, _runRules.UnitScale);
+            // 새로 꺼낸 그림은 이동량 0으로 본다(풀에 있던 자리에서 뛰지 않게)
+            var delta = isNew ? Vector2.zero : position - (Vector2)view.transform.localPosition;
+            view.UpdateView(position);
+            if (isRunning)
+            {
+                UpdateMonsterMotion(view, monster, hasStepped, delta);
+            }
         }
 
         _releaseIdList.Clear();
@@ -168,6 +307,35 @@ public class WorldPresenter : IInitializable, ILateTickable
         foreach (var id in _releaseIdList)
         {
             _monsterViewFactory.Release(id);
+            _movingMonsterIdSet.Remove(id);
         }
+    }
+
+    // 좌우 반전(늘 앞)과 이동 중 hop/squash. 시작은 (번호 × stagger) mod 주기로 어긋낸다(결정적)
+    private void UpdateMonsterMotion(MonsterView view, Monster monster, bool hasStepped, Vector2 delta)
+    {
+        var isFlipped = view.IsFlipped;
+        if (hasStepped)
+        {
+            var minMove = view.MinMovePixels / Const.PixelsPerUnit;
+            isFlipped = SpriteFacing.Next(new SpriteFacing(false, isFlipped), delta, minMove, view.FacingAxisRatio, false).IsFlipped;
+            if (Mathf.Abs(delta.x) >= minMove || Mathf.Abs(delta.y) >= minMove)
+            {
+                _movingMonsterIdSet.Add(monster.Id);
+            }
+            else
+            {
+                _movingMonsterIdSet.Remove(monster.Id);
+            }
+        }
+
+        var offsetY = 0;
+        if (_movingMonsterIdSet.Contains(monster.Id))
+        {
+            var startOffset = Mathf.Repeat(monster.Id * view.StaggerSeconds, view.MovePeriodSeconds);
+            offsetY = SpriteMotion.GetMoveOffsetY(monster.Data.MoveStyle, _motionClock, view.MovePeriodSeconds, startOffset);
+        }
+
+        view.ApplyMotion(isFlipped, offsetY);
     }
 }

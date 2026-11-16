@@ -13,12 +13,16 @@ public class MonsterData : ISerializationCallbackReceiver
     [SerializeField] private float radius;
     [SerializeField] private float contactGap;
     [SerializeField] private string color;
+    // 그림 키(비면 F1 임시 마름모)와 이동 움직임(그림 넣기 기획서 D절)
+    [SerializeField] private string sprite;
+    [SerializeField] private string moveStyle;
     [SerializeField] private MonsterContactData contact;
     [SerializeField] private MonsterProjectileData projectile;
     [SerializeField] private MonsterChargeData charge;
     [SerializeField] private MonsterBombData bomb;
 
     private MonsterBehavior _behavior;
+    private MonsterMoveStyle _moveStyle;
 
     public string Id => id;
     public MonsterBehavior Behavior => _behavior;
@@ -28,6 +32,8 @@ public class MonsterData : ISerializationCallbackReceiver
     public float Radius => radius;
     public float ContactGap => contactGap;
     public string Color => color;
+    public string Sprite => sprite;
+    public MonsterMoveStyle MoveStyle => _moveStyle;
     public MonsterContactData Contact => contact;
     public MonsterProjectileData Projectile => projectile;
     public MonsterChargeData Charge => charge;
@@ -37,12 +43,17 @@ public class MonsterData : ISerializationCallbackReceiver
     {
     }
 
-    // behavior 글자를 열거형으로 한 번 푼다. 다섯 밖이면 오류(데이터 검사 check_data.py가 먼저 막는다)
+    // behavior·moveStyle 글자를 열거형으로 한 번 푼다. 모르는 값이면 오류(데이터 검사 check_data.py가 먼저 막는다)
     public void OnAfterDeserialize()
     {
         if (!Enum.TryParse(behavior, true, out _behavior))
         {
             GameLogger.LogError($"[MonsterData] {id}: unknown behavior {behavior}");
+        }
+
+        if (!Enum.TryParse(moveStyle, true, out _moveStyle))
+        {
+            GameLogger.LogError($"[MonsterData] {id}: unknown moveStyle {moveStyle}");
         }
     }
 }

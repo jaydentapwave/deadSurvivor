@@ -456,6 +456,75 @@ public static class PlayableProbe
     public static int FrameSamplesSinceMark => FrameSampler != null ? FrameSampler.SampleCount : 0;
     // MarkFrameStats 뒤 살아 있는 몬스터 최대 수
     public static int EnemyPeakSinceMark => FrameSampler != null ? FrameSampler.EnemyPeak : 0;
+    // 그림 넣기(기획서 I절). Presenter·View를 읽기만 한다
+    public static int CardPortraitCount => Resolve<UI_LobbyView>().PortraitCount;
+    // 그림을 그리는 산 대원 수
+    public static int MemberSpriteCount
+    {
+        get
+        {
+            var count = 0;
+            var memberList = Resolve<PartyModel>().MemberList;
+            var memberViewList = Resolve<IReadOnlyList<MemberView>>();
+            for (var i = 0; i < memberList.Count && i < memberViewList.Count; i++)
+            {
+                if (memberList[i].IsAlive && memberViewList[i].gameObject.activeSelf && memberViewList[i].HasArt)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    // "front-right"·"front-left"·"back-right"·"back-left"
+    public static string MemberFacing(int member) => Resolve<IReadOnlyList<MemberView>>()[member].Facing.Label;
+    public static int IdleOffsetsSeen => Resolve<WorldPresenter>().IdleOffsetsSeen;
+    public static int MemberHitFlashTotal => Resolve<WorldPresenter>().MemberHitFlashTotal;
+    public static float MemberFlashMaxSeconds => Resolve<WorldPresenter>().MemberFlashMaxSeconds;
+
+    // 그림을 그리는 산 몬스터 수
+    public static int MonsterSpriteCount => CountMonsterViews(true);
+
+    // 임시 도형을 그리는 산 대원·몬스터 수
+    public static int PlaceholderBodyCount
+    {
+        get
+        {
+            var count = CountMonsterViews(false);
+            var memberList = Resolve<PartyModel>().MemberList;
+            var memberViewList = Resolve<IReadOnlyList<MemberView>>();
+            for (var i = 0; i < memberList.Count && i < memberViewList.Count; i++)
+            {
+                if (memberList[i].IsAlive && memberViewList[i].gameObject.activeSelf && !memberViewList[i].HasArt)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+    }
+
+    private static int CountMonsterViews(bool hasArt)
+    {
+        var registry = Resolve<MonsterViewRegistry>();
+        var count = 0;
+        foreach (var monster in Resolve<MonsterModel>().MonsterList)
+        {
+            if (monster.IsAlive && registry.TryGet(monster.Id, out var view) && view.HasArt == hasArt)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    // MarkFrameStats 뒤 그리기 호출·set-pass 95백분위(그림 넣기 I절), 표본 없으면 −1
+    public static float RenderBatchesP95 => FrameSampler != null ? FrameSampler.BatchesP95 : -1f;
+    public static float SetPassCallsP95 => FrameSampler != null ? FrameSampler.SetPassCallsP95 : -1f;
 
     // 프레임 표본을 새로 모은다
     public static void MarkFrameStats()
@@ -661,38 +730,29 @@ public class PlayableBot : MonoBehaviour
         }
     }
 }
-// 판정용 프레임 시간·적 수 표본(F6 기획서 H절 MarkFrameStats). 표시 뒤 매 프레임 Time.unscaledDeltaTime과 살아 있는 몬스터 수를 모은다
+// 판정용 프레임 시간·적 수·그리기 호출 표본(F6 기획서 H절 MarkFrameStats, 그림 넣기 기획서 I절). 표시 뒤 매 프레임
+// Time.unscaledDeltaTime, 살아 있는 몬스터 수, 직전 프레임의 UnityStats.drawCalls(Unity 6.4에는 batches가 없다)·setPassCalls를 모은다
 public class PlayableFrameSampler : MonoBehaviour
 {
     private const float Percentile = 0.95f;
 
     private readonly List<float> _frameMsList = new();
+    private readonly List<float> _batchesList = new();
+    private readonly List<float> _setPassCallsList = new();
     private readonly List<float> _sortedList = new();
     private bool _isMarked;
 
     public int SampleCount => _frameMsList.Count;
     public int EnemyPeak { get; private set; }
-
-    // 가장 가까운 순위(ceil(n × p)번째), 표본 없으면 −1(PlayableMetricsRecorder와 같은 백분위)
-    public float FrameMsP95
-    {
-        get
-        {
-            if (_frameMsList.Count == 0)
-            {
-                return -1f;
-            }
-
-            _sortedList.Clear();
-            _sortedList.AddRange(_frameMsList);
-            _sortedList.Sort();
-            return _sortedList[Mathf.Clamp(Mathf.CeilToInt(_sortedList.Count * Percentile) - 1, 0, _sortedList.Count - 1)];
-        }
-    }
+    public float FrameMsP95 => GetP95(_frameMsList);
+    public float BatchesP95 => GetP95(_batchesList);
+    public float SetPassCallsP95 => GetP95(_setPassCallsList);
 
     public void Mark()
     {
         _frameMsList.Clear();
+        _batchesList.Clear();
+        _setPassCallsList.Clear();
         EnemyPeak = 0;
         _isMarked = true;
     }
@@ -705,7 +765,23 @@ public class PlayableFrameSampler : MonoBehaviour
         }
 
         _frameMsList.Add(Time.unscaledDeltaTime * 1000f);
+        _batchesList.Add(UnityEditor.UnityStats.drawCalls);
+        _setPassCallsList.Add(UnityEditor.UnityStats.setPassCalls);
         EnemyPeak = Mathf.Max(EnemyPeak, PlayableProbe.EnemyCount);
+    }
+
+    // 가장 가까운 순위(ceil(n × p)번째), 표본 없으면 −1(PlayableMetricsRecorder와 같은 백분위)
+    private float GetP95(List<float> sampleList)
+    {
+        if (sampleList.Count == 0)
+        {
+            return -1f;
+        }
+
+        _sortedList.Clear();
+        _sortedList.AddRange(sampleList);
+        _sortedList.Sort();
+        return _sortedList[Mathf.Clamp(Mathf.CeilToInt(_sortedList.Count * Percentile) - 1, 0, _sortedList.Count - 1)];
     }
 }
 #endif
