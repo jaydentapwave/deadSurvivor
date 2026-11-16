@@ -15,6 +15,8 @@ public class RunService
     private readonly MonsterService _monsterService;
     private readonly FormationService _formationService;
     private readonly PartyMoveService _partyMoveService;
+    private readonly BagService _bagService;
+    private readonly LootService _lootService;
 
     // 프레임 시간 × 배속을 걸음 단위(double)로 모은다. 프레임마다 반올림하면 같은 시간을 다르게 나눴을 때 걸음 수가 갈린다(AC11)
     private double _accumulatedSteps;
@@ -25,7 +27,7 @@ public class RunService
 
     public RunService(RunModel runModel, WaveRepository waveRepository, RunRulesData runRules, PartyService partyService,
         CombatService combatService, MonsterService monsterService, FormationService formationService,
-        PartyMoveService partyMoveService)
+        PartyMoveService partyMoveService, BagService bagService, LootService lootService)
     {
         _runModel = runModel;
         _waveRepository = waveRepository;
@@ -35,6 +37,8 @@ public class RunService
         _monsterService = monsterService;
         _formationService = formationService;
         _partyMoveService = partyMoveService;
+        _bagService = bagService;
+        _lootService = lootService;
     }
 
     // seed 0 = 시작 시각에서 뽑는다(A11)
@@ -52,6 +56,9 @@ public class RunService
         _partyService.CreateParty();
         _formationService.ResetForRun();
         _partyMoveService.ResetForRun();
+        // 가방을 장착 목록으로 만든다(F5 A6). 전투 칸의 등급 배수가 가방을 읽으므로 CombatService.ResetRun보다 먼저
+        _bagService.ResetRun();
+        _lootService.ResetRun(runSeed);
         _combatService.ResetRun();
         _monsterService.BeginRun(runSeed);
         _runModel.SetRunCount(_runModel.RunCount.CurrentValue + 1);
@@ -165,6 +172,7 @@ public class RunService
         _monsterService.ClearMonsters();
         _combatService.ClearProjectiles();
         _partyService.ClearParty();
+        _bagService.Clear();
         _runModel.SetWave(0);
         _runModel.SetCompletedWave(0);
         _runModel.SetWaveSeconds(0f);
@@ -232,6 +240,8 @@ public class RunService
         _combatService.ClearProjectiles();
         _runModel.SetBurningTime(false);
         _runModel.SetCompletedWave(wave);
+        // 전리품 3~5개를 보관함에(F5 B1). 마지막 웨이브·전멸은 여기를 지나지 않는다
+        _lootService.GrantWaveLoot(wave);
         _runModel.SetPhase(RunPhase.Prep);
     }
 

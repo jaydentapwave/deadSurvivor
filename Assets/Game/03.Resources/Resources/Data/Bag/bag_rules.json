@@ -1,0 +1,6 @@
+{
+  "bagWidth": 4,
+  "bagHeight": 4,
+  "startCell": { "x": 0, "y": 0 },
+  "autoEquip": { "hpWeight": 0.05, "shieldWeight": 0.1 }
+}

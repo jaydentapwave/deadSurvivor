@@ -1,0 +1,9 @@
+{
+  "minCount": 3,
+  "maxCount": 5,
+  "earlyWaveMax": 3,
+  "earlyBonusFactor": 2,
+  "mergeWaveMin": 4,
+  "mergeFactor": 1.5,
+  "lootSeedOffset": 7919
+}

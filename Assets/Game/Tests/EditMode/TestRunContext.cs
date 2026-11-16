@@ -36,6 +36,12 @@ internal class TestRunContext
     public readonly MonsterService MonsterService;
     public readonly FormationService FormationService;
     public readonly PartyMoveService PartyMoveService;
+    public readonly GradeRepository GradeRepository;
+    public readonly BagRulesRepository BagRulesRepository;
+    public readonly LootRulesRepository LootRulesRepository;
+    public readonly BagModel BagModel;
+    public readonly BagService BagService;
+    public readonly LootService LootService;
     public readonly RunService RunService;
 
     // 기준 화면 640×360px(PPU 48)이 보는 바닥 영역의 반 크기(바닥 단위)
@@ -44,8 +50,9 @@ internal class TestRunContext
 
     public CombatRulesData CombatRules => CombatRulesRepository.Rules;
 
-    // itemRepository·placementInfo: 시험용 아이템 목록·가짜 배치 정보(없으면 실제 데이터 파일·가방 없음)
-    public TestRunContext(ItemRepository itemRepository = null, IItemPlacementInfo placementInfo = null)
+    // itemRepository·placementInfo: 시험용 아이템 목록·가짜 배치 정보(없으면 실제 데이터 파일·가방 없음).
+    // bagModel: 배치 정보 시험이 BagPlacementInfo와 같은 가방 모델을 쓸 때(없으면 새로)
+    public TestRunContext(ItemRepository itemRepository = null, IItemPlacementInfo placementInfo = null, BagModel bagModel = null)
     {
         RunRules = ResourceService.LoadJson<RunRulesData>("Data/Run/run_rules");
         CombatData = ResourceService.LoadJson<PlaceholderCombatData>("Data/Run/placeholder_combat");
@@ -76,8 +83,15 @@ internal class TestRunContext
         ReviveService = new ReviveService(RunModel, PartyModel, CombatService);
         FormationService = new FormationService(FormationModel, FormationRepository, RunModel);
         PartyMoveService = new PartyMoveService(PartyModel, PartyMoveModel, FormationService, MoveRules, RunRules);
+        GradeRepository = new GradeRepository(ResourceService);
+        BagRulesRepository = new BagRulesRepository(ResourceService);
+        LootRulesRepository = new LootRulesRepository(ResourceService);
+        BagModel = bagModel ?? new BagModel();
+        BagService = new BagService(BagModel, RunModel, PartyModel, PartyService, ItemRepository, GradeRepository,
+            BagRulesRepository);
+        LootService = new LootService(BagModel, BagService, PartyModel, ItemRepository, LootRulesRepository);
         RunService = new RunService(RunModel, WaveRepository, RunRules, PartyService, CombatService, MonsterService,
-            FormationService, PartyMoveService);
+            FormationService, PartyMoveService, BagService, LootService);
         MonsterService.SetViewHalfExtent(ReferenceViewHalfExtent);
         PartyMoveService.SetViewHalfExtent(ReferenceViewHalfExtent);
     }

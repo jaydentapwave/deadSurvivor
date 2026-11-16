@@ -43,4 +43,11 @@ public class PartyMember
     }
 
     public void Equip(string itemId) => _equippedItemIdList.Add(itemId);
+
+    // 가방 목록 순서대로 장착 목록을 다시 쓴다(F5 A2). 쓰는 쪽은 BagService뿐
+    public void SetEquippedItemIdList(IEnumerable<string> itemIds)
+    {
+        _equippedItemIdList.Clear();
+        _equippedItemIdList.AddRange(itemIds);
+    }
 }

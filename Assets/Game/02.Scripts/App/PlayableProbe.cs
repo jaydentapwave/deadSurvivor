@@ -11,6 +11,9 @@ using Object = UnityEngine.Object;
 // 승패·단계를 써 넣지 않는다. 게임 코드는 이 클래스를 모른다.
 public static class PlayableProbe
 {
+    private static int _lastPlacedMember = -1;
+    private static string _lastPlacedItemId;
+
     [Flags]
     public enum BotMode
     {
@@ -251,6 +254,188 @@ public static class PlayableProbe
     public static int FirstWaveOf(string behavior) =>
         Recorder != null ? Recorder.FirstWaveOf(behavior) : 0;
 
+    // F5 가방·전리품(기획서 H절). 읽기는 BagModel·Presenter를 읽기만, 조작은 BagPresenter 처리 메서드(사람이 누르는 길)만 부른다
+    public static int StashCount => Resolve<BagModel>().StashList.Count;
+
+    public static int BagItemCount(int member) => Resolve<BagModel>().GetBag(member).Count;
+
+    // 원정대 전체 가방 아이템 수
+    public static int EquippedItemCount
+    {
+        get
+        {
+            var bagModel = Resolve<BagModel>();
+            var count = 0;
+            for (var member = 0; member < bagModel.MemberCount; member++)
+            {
+                count += bagModel.GetBag(member).Count;
+            }
+
+            return count;
+        }
+    }
+
+    // 가방·보관함 전체에서 가장 높은 등급 번호(아이템이 없으면 −1)
+    public static int MaxItemGrade
+    {
+        get
+        {
+            var bagModel = Resolve<BagModel>();
+            var maxGrade = -1;
+            for (var member = 0; member < bagModel.MemberCount; member++)
+            {
+                foreach (var item in bagModel.GetBag(member))
+                {
+                    maxGrade = Mathf.Max(maxGrade, item.Grade);
+                }
+            }
+
+            foreach (var item in bagModel.StashList)
+            {
+                maxGrade = Mathf.Max(maxGrade, item.Grade);
+            }
+
+            return maxGrade;
+        }
+    }
+
+    // PlaceFirstStashItem이 놓은 대원(없으면 −1)과 아이템 id. 판정 경로 안에서만 쓰는 진입점 기록
+    public static int LastPlacedMember => _lastPlacedMember;
+
+    // 놓은 아이템이 다음 웨이브 그 대원의 발동 목록(전투 아이템 칸)에 있고, 칸 수가 가방 아이템 수와 같다
+    public static bool IsPlacedItemActive => _lastPlacedMember >= 0 && HasBattleItem(_lastPlacedMember, _lastPlacedItemId)
+        && BattleItemCount(_lastPlacedMember) == BagItemCount(_lastPlacedMember);
+
+    // 보관함 아이템과 합성할 수 있는 살아 있는 대원 가방·보관함 아이템이 있다
+    public static bool HasMergePair => FindMergePair(out _, out _);
+
+    // 보관함 첫 아이템을 살아 있는 대원 순 × 회전 0~3 × y·x 순으로 처음 빈 칸 놓기가 되는 곳에 놓는다
+    public static void PlaceFirstStashItem()
+    {
+        var bagModel = Resolve<BagModel>();
+        if (bagModel.StashList.Count == 0)
+        {
+            GameLogger.LogWarning("[PlayableProbe] PlaceFirstStashItem: stash is empty");
+            return;
+        }
+
+        var uid = bagModel.StashList[0].Uid;
+        var itemId = bagModel.StashList[0].ItemId;
+        var bagService = Resolve<BagService>();
+        var bagRules = Resolve<BagRulesRepository>().Rules;
+        var memberList = Resolve<PartyModel>().MemberList;
+        for (var member = 0; member < memberList.Count; member++)
+        {
+            if (!memberList[member].IsAlive)
+            {
+                continue;
+            }
+
+            for (var rotation = 0; rotation < 4; rotation++)
+            {
+                for (var y = 0; y < bagRules.BagHeight; y++)
+                {
+                    for (var x = 0; x < bagRules.BagWidth; x++)
+                    {
+                        if (!bagService.CanPlace(bagModel, uid, member, x, y, rotation))
+                        {
+                            continue;
+                        }
+
+                        PressDrop(uid, rotation, BagTarget.Cell(member, x, y));
+                        _lastPlacedMember = member;
+                        _lastPlacedItemId = itemId;
+                        return;
+                    }
+                }
+            }
+        }
+
+        GameLogger.LogWarning($"[PlayableProbe] PlaceFirstStashItem: no empty place for {itemId}");
+    }
+
+    // HasMergePair의 첫 쌍을 같은 길(집기 → 대상에 놓기)로 합성한다
+    public static void MergeFirstPair()
+    {
+        if (!FindMergePair(out var sourceUid, out var target))
+        {
+            GameLogger.LogWarning("[PlayableProbe] MergeFirstPair: no merge pair");
+            return;
+        }
+
+        PressDrop(sourceUid, 0, target);
+    }
+
+    // 집기 → 회전 rotation번 맞추기 → 대상에 놓기(드래그 놓기와 같은 처리)
+    internal static void PressDrop(int uid, int rotation, BagTarget target)
+    {
+        var bagPresenter = Resolve<BagPresenter>();
+        bagPresenter.OnItemPressed(uid);
+        for (var i = 0; i < 4 && bagPresenter.PickedRotation != rotation; i++)
+        {
+            bagPresenter.OnRotateClicked();
+        }
+
+        bagPresenter.OnItemDropped(target);
+    }
+
+    // 합성 대상을 놓을 대상으로: 가방 아이템이면 그 아이템이 차지한 첫 칸(놓기가 그 칸 아이템과 합성으로 간다), 보관함이면 그 항목
+    internal static BagTarget GetMergeTarget(int targetUid)
+    {
+        var bagModel = Resolve<BagModel>();
+        var target = bagModel.FindItem(targetUid, out var owner);
+        if (owner < 0)
+        {
+            return BagTarget.StashItem(targetUid);
+        }
+
+        var cellList = new System.Collections.Generic.List<Vector2Int>();
+        BagRules.GetItemCells(target, Resolve<ItemRepository>(), cellList);
+        return BagTarget.Cell(owner, cellList[0].x, cellList[0].y);
+    }
+
+    // 보관함 앞에서부터, 대상 = 살아 있는 대원 가방(대원 순, 목록 순) → 보관함의 다른 아이템
+    private static bool FindMergePair(out int sourceUid, out BagTarget target)
+    {
+        var bagModel = Resolve<BagModel>();
+        var lastGrade = Resolve<GradeRepository>().LastGrade;
+        var memberList = Resolve<PartyModel>().MemberList;
+        foreach (var source in bagModel.StashList)
+        {
+            for (var member = 0; member < bagModel.MemberCount && member < memberList.Count; member++)
+            {
+                if (!memberList[member].IsAlive)
+                {
+                    continue;
+                }
+
+                foreach (var item in bagModel.GetBag(member))
+                {
+                    if (BagRules.CanMerge(source, item, lastGrade))
+                    {
+                        sourceUid = source.Uid;
+                        target = GetMergeTarget(item.Uid);
+                        return true;
+                    }
+                }
+            }
+
+            foreach (var item in bagModel.StashList)
+            {
+                if (BagRules.CanMerge(source, item, lastGrade))
+                {
+                    sourceUid = source.Uid;
+                    target = BagTarget.StashItem(item.Uid);
+                    return true;
+                }
+            }
+        }
+
+        sourceUid = -1;
+        target = default;
+        return false;
+    }
+
     public static void PressDepart() => Resolve<LobbyPresenter>().OnDepartClicked();
 
     public static void PressNextWave() => Resolve<PrepPresenter>().OnNextWaveClicked();
@@ -341,10 +526,11 @@ public static class PlayableProbe
     }
 }
 
-// 판정용 자동 플레이. Move(F2)·AutoNext를 한다. 없는 동작(Equip)이 들어오면 경고를 남기고 무시한다.
+// 판정용 자동 플레이. Move(F2)·Equip(F5)·AutoNext를 한다. 없는 동작이 들어오면 경고를 남기고 무시한다.
 public class PlayableBot : MonoBehaviour
 {
-    private const PlayableProbe.BotMode SupportedModes = PlayableProbe.BotMode.Move | PlayableProbe.BotMode.AutoNext;
+    private const PlayableProbe.BotMode SupportedModes =
+        PlayableProbe.BotMode.Move | PlayableProbe.BotMode.AutoNext | PlayableProbe.BotMode.Equip;
     // 들판 가운데(원점, FieldView.Build)를 도는 원의 반지름(바닥 단위, F2 H절)
     private const float MoveCircleRadius = 600f;
     // 가운데에서 이 거리 미만이면 오른쪽으로 간다
@@ -355,6 +541,8 @@ public class PlayableBot : MonoBehaviour
     public PlayableProbe.BotMode Mode => _mode;
 
     private PlayableProbe.BotMode _mode;
+    // 자동 장착을 마친 정비 화면(판 번호, 끝난 웨이브). 한 정비 화면에 한 번
+    private (int, int) _equippedPrep = (-1, -1);
 
     public void SetMode(PlayableProbe.BotMode mode)
     {
@@ -375,6 +563,12 @@ public class PlayableBot : MonoBehaviour
     private void Update()
     {
         var screen = PlayableProbe.Screen;
+        // 자동 장착(F5 E절): 정비 화면에 들어온 뒤 한 번, AutoNext보다 먼저
+        if ((_mode & PlayableProbe.BotMode.Equip) != 0 && screen == nameof(RunPhase.Prep))
+        {
+            EquipOnce();
+        }
+
         if ((_mode & PlayableProbe.BotMode.Move) != 0 && screen == nameof(RunPhase.Battle))
         {
             SendCircleMove();
@@ -402,6 +596,34 @@ public class PlayableBot : MonoBehaviour
 
         var screenDirection = new Vector2(floorDirection.x, floorDirection.y * FloorToScreenVertical).normalized;
         PlayableProbe.SetMove(screenDirection.x, screenDirection.y);
+    }
+
+    // 부활 → 합성 → 점수 최대 빈 칸 놓기. 계획은 AutoEquipPlanner, 실행은 BagPresenter 처리 메서드
+    private void EquipOnce()
+    {
+        var prep = (PlayableProbe.RunCount, PlayableProbe.CompletedWave);
+        if (_equippedPrep == prep)
+        {
+            return;
+        }
+
+        _equippedPrep = prep;
+        var planner = PlayableProbe.Resolve<AutoEquipPlanner>();
+        foreach (var member in planner.GetReviveMemberList())
+        {
+            PlayableProbe.PressRevive(member);
+        }
+
+        foreach (var step in planner.Plan())
+        {
+            if (step.Kind == BagPlanStepKind.Merge)
+            {
+                PlayableProbe.PressDrop(step.Uid, 0, PlayableProbe.GetMergeTarget(step.TargetUid));
+                continue;
+            }
+
+            PlayableProbe.PressDrop(step.Uid, step.Rotation, BagTarget.Cell(step.Member, step.X, step.Y));
+        }
     }
 }
 #endif
