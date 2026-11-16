@@ -13,6 +13,8 @@ public class RunService
     private readonly PartyService _partyService;
     private readonly CombatService _combatService;
     private readonly MonsterService _monsterService;
+    private readonly FormationService _formationService;
+    private readonly PartyMoveService _partyMoveService;
 
     // 프레임 시간 × 배속을 걸음 단위(double)로 모은다. 프레임마다 반올림하면 같은 시간을 다르게 나눴을 때 걸음 수가 갈린다(AC11)
     private double _accumulatedSteps;
@@ -22,7 +24,8 @@ public class RunService
     private WaveData CurrentWave => _waveRepository.WaveDataList[_runModel.Wave.CurrentValue - 1];
 
     public RunService(RunModel runModel, WaveRepository waveRepository, RunRulesData runRules, PartyService partyService,
-        CombatService combatService, MonsterService monsterService)
+        CombatService combatService, MonsterService monsterService, FormationService formationService,
+        PartyMoveService partyMoveService)
     {
         _runModel = runModel;
         _waveRepository = waveRepository;
@@ -30,6 +33,8 @@ public class RunService
         _partyService = partyService;
         _combatService = combatService;
         _monsterService = monsterService;
+        _formationService = formationService;
+        _partyMoveService = partyMoveService;
     }
 
     // seed 0 = 시작 시각에서 뽑는다(A11)
@@ -45,6 +50,8 @@ public class RunService
         _enemyCountScale = enemyCountScale;
         _finishedWaveSeconds = 0f;
         _partyService.CreateParty();
+        _formationService.ResetForRun();
+        _partyMoveService.ResetForRun();
         _combatService.ResetRun();
         _monsterService.BeginRun(runSeed);
         _runModel.SetRunCount(_runModel.RunCount.CurrentValue + 1);
@@ -109,6 +116,9 @@ public class RunService
 
         // ③ 적 생성(버닝 타임 포함)
         _monsterService.TickSpawn(deltaSeconds, elapsed, isBurningTime, burningStart);
+
+        // ③-1 원정대 이동(F2)
+        _partyMoveService.Step(deltaSeconds);
 
         // ④ 전투 진행: 대원 순서대로 지속 효과 → 장착 순서대로 발동 → 투사체 이동·명중(F3 B절)
         _combatService.Step(deltaSeconds);
@@ -202,6 +212,8 @@ public class RunService
         _runModel.SetBurningTime(false);
         _combatService.PrepareWave();
         _monsterService.BeginWave(waveData.Duration, _enemyCountScale);
+        _formationService.ApplyPending();
+        _partyMoveService.StartWave();
         _runModel.SetPhase(RunPhase.Battle);
     }
 

@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-"""게임 데이터 검사(에디터 없이). 스키마: docs/features/f1-skeleton/plan.md·f3-combat/plan.md "데이터 스키마".
+"""게임 데이터 검사(에디터 없이). 스키마: docs/features/f1-skeleton/plan.md·f2-movement/plan.md·f3-combat/plan.md "데이터 스키마".
 
   python3 -B ./tools/check_data.py              지금 데이터를 검사한다. 문제가 있으면 줄마다 출력하고 exit 1
   python3 -B ./tools/check_data.py --root <폴더> 다른 데이터 폴더를 검사한다(Character/ Item/ Wave/ Run/ 이 있는 곳)
-  python3 -B ./tools/check_data.py --self-test  지금 데이터가 통과하고, 틀린 데이터 9종(F1: id 중복, 없는 startItem,
-                                                웨이브 order 빈칸, 캐릭터 수 4 아님 / F3: 모르는 mode, interval 0인 발동 아이템,
+  python3 -B ./tools/check_data.py --self-test  지금 데이터가 통과하고, 틀린 데이터 13종(F1: id 중복, 없는 startItem,
+                                                웨이브 order 빈칸, 캐릭터 수 4 아님 / F2: 진형 자리 3개, 진형 order 빈칸,
+                                                자리 평균 ≠ 0, memberSpots 남음 / F3: 모르는 mode, interval 0인 발동 아이템,
                                                 4×4 밖이거나 끊긴 shape, 모르는 효과 종류, passive 시작 아이템)이 각각 실패하는지 본다
 
 보는 것: JSON 형식, 필수 칸과 형, id = 파일 이름, id 중복, 가리키는 대상(startItem → Item), 웨이브 order 1..N 빈칸 없음,
-개수 범위(캐릭터 4, 아이템 4~40, 웨이브 1~20), 값 범위, 아이템 발동 방식·효과·칸 모양(F3), 전투 규칙 파일(F3). 모르는 칸은 통과시킨다(뒤 기능이 같은 파일에 칸을 더한다).
+개수 범위(캐릭터 4, 아이템 4~40, 웨이브 1~20, 진형 1~6), 진형 자리(수 = 캐릭터 수, 평균 0, 중복 없음)(F2), 값 범위,
+아이템 발동 방식·효과·칸 모양(F3), 전투 규칙 파일(F3). 모르는 칸은 통과시킨다(뒤 기능이 같은 파일에 칸을 더한다).
 종료 코드: 0 통과, 1 문제 있음, 2 실행할 수 없음(데이터 폴더 없음).
 """
 import json
@@ -30,6 +32,8 @@ BONUS_TARGETS = ("", "attack") + tuple(m for m in MODES if m != "passive")
 SHAPE_SIZE = 4
 SHAPE_MAX_CELLS = 16
 WAVE_RANGE = (1, 20)
+FORMATION_RANGE = (1, 6)
+MEAN_TOLERANCE = 0.01
 COLOR = re.compile(r"#[0-9a-fA-F]{6}")
 
 
@@ -173,17 +177,13 @@ def check(root):
     if combat is not None:
         label = "Run/placeholder_combat.json"
         check_fields(label, combat, {
-            "memberSpots": (lambda v: isinstance(v, list) and all(
-                isinstance(p, dict) and is_num(p.get("x")) and is_num(p.get("y")) for p in v),
-                "{x, y} 목록이어야 한다"),
             "enemy": (lambda v: isinstance(v, dict), "객체여야 한다"),
             "spawnCount": (lambda v: is_int(v) and v >= 0, "0 이상 정수여야 한다"),
             "spawnMargin": (lambda v: is_num(v) and v >= 0, "0 이상이어야 한다"),
             "burningIntervalScale": (lambda v: is_num(v) and v > 0, "0보다 커야 한다"),
         }, problems)
-        spots = combat.get("memberSpots")
-        if isinstance(spots, list) and len(spots) != len(characters):
-            problems.append(f"{label}: memberSpots {len(spots)}개 — 캐릭터 수({len(characters)})와 같아야 한다")
+        if "memberSpots" in combat:
+            problems.append(f"{label}: 'memberSpots' 칸이 남아 있다 — F2 진형(Formation/)이 대체했다(F2 기획서 데이터 스키마)")
         if "weapon" in combat:
             problems.append(f"{label}: 'weapon' 칸이 남아 있다 — F3이 지웠다(아이템 발동 전투)")
         if isinstance(combat.get("enemy"), dict):
@@ -206,7 +206,53 @@ def check(root):
         spec["defCap"] = (lambda v: is_num(v) and 0 < v <= 1, "0보다 크고 1 이하여야 한다")
         spec["chainBaseHits"] = (lambda v: is_int(v) and v > 0, "0보다 큰 정수여야 한다")
         check_fields("Combat/combat_rules.json", rules, spec, problems)
+
+    check_formations(root, len(characters), problems, notes)
+
+    move_rules = load_single(root / "Party" / "move_rules.json", problems)
+    if move_rules is not None:
+        check_fields("Party/move_rules.json", move_rules, {
+            "moveSpeed": (lambda v: is_num(v) and v > 0, "0보다 커야 한다(바닥 단위/초)"),
+            "followRate": (lambda v: is_num(v) and v > 0, "0보다 커야 한다(1/초)"),
+            "joystickRadius": (lambda v: is_num(v) and v > 0, "0보다 커야 한다(캔버스 단위)"),
+        }, problems)
     return problems, notes
+
+
+def check_formations(root, slot_count, problems, notes):
+    """진형(F2): 개수 1~6, order 1..N 빈칸 없음, slots 수 = 캐릭터 수, 자리 평균 (0, 0) ±0.01, 같은 자리 두 번 없음."""
+    formations = load_kind(root, "Formation", problems)
+    for stem, data in formations:
+        label = f"Formation/{stem}.json"
+        check_fields(label, data, {
+            "id": (is_text, "글자여야 한다"),
+            "order": (is_int, "정수여야 한다"),
+            "name": (is_text, "글자여야 한다"),
+            "slots": (lambda v: isinstance(v, list) and all(
+                isinstance(p, dict) and is_num(p.get("x")) and is_num(p.get("y")) for p in v),
+                "{x, y} 목록이어야 한다"),
+        }, problems)
+        slots = data.get("slots")
+        if not isinstance(slots, list) or not all(
+                isinstance(p, dict) and is_num(p.get("x")) and is_num(p.get("y")) for p in slots):
+            continue
+        if len(slots) != slot_count:
+            problems.append(f"{label}: slots {len(slots)}개 — 캐릭터 수({slot_count})와 같아야 한다")
+        if slots:
+            mean_x = sum(p["x"] for p in slots) / len(slots)
+            mean_y = sum(p["y"] for p in slots) / len(slots)
+            if abs(mean_x) > MEAN_TOLERANCE or abs(mean_y) > MEAN_TOLERANCE:
+                problems.append(f"{label}: 자리 평균 ({mean_x:g}, {mean_y:g}) — (0, 0) ±{MEAN_TOLERANCE}여야 한다")
+        points = [(p["x"], p["y"]) for p in slots]
+        if len(set(points)) != len(points):
+            problems.append(f"{label}: 같은 자리가 두 번 있다 {points}")
+    check_ids("Formation", formations, problems)
+    if not FORMATION_RANGE[0] <= len(formations) <= FORMATION_RANGE[1]:
+        problems.append(f"Formation: {len(formations)}개 — {FORMATION_RANGE[0]}~{FORMATION_RANGE[1]}개여야 한다")
+    formation_orders = sorted(d["order"] for _, d in formations if is_int(d.get("order")))
+    if formation_orders != list(range(1, len(formations) + 1)):
+        problems.append(f"Formation: order {formation_orders} — 1..{len(formations)} 중복·빈칸 없이여야 한다")
+    notes.append(f"진형 {len(formations)}개")
 
 
 def check_item_combat(label, data, problems):
@@ -353,8 +399,26 @@ def self_test(root):
         first = sorted((d / "Character").glob("*.json"))[0]
         edit_json(first, lambda data: data.update(startItem="ironshield"))
 
+
+    def break_formation_slot_count(d):
+        edit_json(d / "Formation" / "balanced.json", lambda data: data["slots"].pop())
+
+    def break_formation_order_gap(d):
+        edit_json(d / "Formation" / "line.json", lambda data: data.update(order=5))
+
+    def break_formation_mean(d):
+        edit_json(d / "Formation" / "wedge.json", lambda data: data["slots"][0].update(y=60))
+
+    def break_member_spots(d):
+        edit_json(d / "Run" / "placeholder_combat.json",
+                  lambda data: data.update(memberSpots=[{"x": 0, "y": 0}] * 4))
+
     cases = [("id 중복", break_duplicate, "중복"), ("없는 startItem", break_start_item, "startItem"),
              ("웨이브 order 빈칸", break_wave_gap, "Wave: order"), ("캐릭터 수 4 아님", break_character_count, "Character: 3개"),
+             ("진형 자리 3개", break_formation_slot_count, "slots 3개"),
+             ("진형 order 빈칸", break_formation_order_gap, "Formation: order"),
+             ("자리 평균 ≠ 0", break_formation_mean, "자리 평균"),
+             ("memberSpots 남음", break_member_spots, "memberSpots"),
              ("모르는 mode", break_mode, "'mode'"), ("interval 0인 발동 아이템", break_interval, "'interval'"),
              ("4×4 밖이거나 끊긴 shape", break_shape, "'shape'"), ("모르는 효과 종류", break_effect, "'baseEffect'"),
              ("passive 시작 아이템", break_passive_start, "passive")]

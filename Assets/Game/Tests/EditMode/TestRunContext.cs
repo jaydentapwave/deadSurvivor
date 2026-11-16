@@ -3,15 +3,25 @@ using UnityEngine;
 // 시험용 한 판 객체 묶음. 실제 데이터 파일(Resources)을 읽어 GameSceneLifetimeScope와 같은 의존으로 만든다.
 internal class TestRunContext
 {
+    // F1 임시 4자리(F2가 placeholder_combat에서 지운 칸). SetupParty로 만드는 F3 시험의 대원 배치를 그대로 둔다
+    private static readonly Vector2[] F1MemberSpots =
+    {
+        new(-24f, -24f), new(24f, -24f), new(-24f, 24f), new(24f, 24f),
+    };
+
     public readonly ResourceService ResourceService = new();
     public readonly RunRulesData RunRules;
     public readonly PlaceholderCombatData CombatData;
     public readonly CharacterRepository CharacterRepository;
     public readonly ItemRepository ItemRepository;
     public readonly WaveRepository WaveRepository;
+    public readonly FormationRepository FormationRepository;
+    public readonly MoveRulesData MoveRules;
     public readonly RunModel RunModel = new();
     public readonly PartyModel PartyModel = new();
     public readonly MonsterModel MonsterModel = new();
+    public readonly FormationModel FormationModel = new();
+    public readonly PartyMoveModel PartyMoveModel = new();
     public readonly PartyService PartyService;
     public readonly CombatRulesRepository CombatRulesRepository;
     public readonly CombatModel CombatModel = new();
@@ -19,6 +29,8 @@ internal class TestRunContext
     public readonly CombatService CombatService;
     public readonly ReviveService ReviveService;
     public readonly MonsterService MonsterService;
+    public readonly FormationService FormationService;
+    public readonly PartyMoveService PartyMoveService;
     public readonly RunService RunService;
 
     // 기준 화면 640×360px(PPU 48)이 보는 바닥 영역의 반 크기(바닥 단위)
@@ -36,15 +48,21 @@ internal class TestRunContext
         ItemRepository = itemRepository ?? new ItemRepository(ResourceService);
         CombatRulesRepository = new CombatRulesRepository(ResourceService);
         WaveRepository = new WaveRepository(ResourceService);
-        PartyService = new PartyService(PartyModel, CharacterRepository, CombatData);
+        FormationRepository = new FormationRepository(ResourceService);
+        MoveRules = ResourceService.LoadJson<MoveRulesData>("Data/Party/move_rules");
+        PartyService = new PartyService(PartyModel, CharacterRepository);
         MonsterService = new MonsterService(MonsterModel, PartyModel, PartyService, CombatData, RunRules);
         EquipmentStatService = new EquipmentStatService(ItemRepository, CombatRulesRepository,
             placementInfo ?? new NoBagPlacementInfo());
         CombatService = new CombatService(CombatModel, PartyModel, PartyService, MonsterModel, MonsterService, ItemRepository,
             CharacterRepository, EquipmentStatService, CombatRulesRepository);
         ReviveService = new ReviveService(RunModel, PartyModel, CombatService);
-        RunService = new RunService(RunModel, WaveRepository, RunRules, PartyService, CombatService, MonsterService);
+        FormationService = new FormationService(FormationModel, FormationRepository, RunModel);
+        PartyMoveService = new PartyMoveService(PartyModel, PartyMoveModel, FormationService, MoveRules, RunRules);
+        RunService = new RunService(RunModel, WaveRepository, RunRules, PartyService, CombatService, MonsterService,
+            FormationService, PartyMoveService);
         MonsterService.SetViewHalfExtent(ReferenceViewHalfExtent);
+        PartyMoveService.SetViewHalfExtent(ReferenceViewHalfExtent);
     }
 
     // 데이터 순서의 캐릭터로 대원을 만들어(F1 자리) 각자 itemIds를 장착하고 전투 판·웨이브를 연다
@@ -54,7 +72,7 @@ internal class TestRunContext
         for (var i = 0; i < itemIdsPerMember.Length; i++)
         {
             var data = CharacterRepository.CharacterDataList[i];
-            var member = new PartyMember(data.Id, data.Hp, data.Def, CombatData.MemberSpots[i]);
+            var member = new PartyMember(data.Id, data.Hp, data.Def, F1MemberSpots[i]);
             foreach (var itemId in itemIdsPerMember[i])
             {
                 member.Equip(itemId);

@@ -1,6 +1,8 @@
 #if UNITY_EDITOR
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using VContainer;
 using Object = UnityEngine.Object;
 
@@ -13,13 +15,21 @@ public static class PlayableProbe
     public enum BotMode
     {
         None = 0,
-        // 조이스틱 입력과 같은 이동 명령(F2가 채운다)
+        // 조이스틱 입력과 같은 이동 명령으로 들판 가운데를 원으로 돈다(F2)
         Move = 1,
         // 보관함 전리품 자동 장착(F5가 채운다)
         Equip = 2,
         // 정비 화면이면 다음 웨이브를 누른다
         AutoNext = 4,
     }
+
+    // 판정 진입점이 조이스틱 포인터 처리에 쓰는 포인터 번호
+    private const int ProbePointerId = 0;
+
+    // MarkPositions가 기억한 원정대 중심·대원 좌표·생존(F2 H절). 편집기 판정 전용 상태
+    private static Vector2 _markCenter;
+    private static readonly List<Vector2> _markPositionList = new();
+    private static readonly List<bool> _markAliveList = new();
 
     // 장면이 아직 없으면 "None"
     public static string Screen
@@ -120,6 +130,69 @@ public static class PlayableProbe
     // 부활 버튼 onClick과 같은 길
     public static void PressRevive(int member) => Resolve<RevivePresenter>().OnReviveClicked(member);
 
+    // 진형 id(F2)
+    public static string Formation => Resolve<FormationModel>().CurrentId.CurrentValue;
+    public static string PendingFormation => Resolve<FormationModel>().PendingId.CurrentValue;
+    // 원정대 중심(바닥 좌표)
+    public static float PartyX => Resolve<PartyModel>().Center.x;
+    public static float PartyY => Resolve<PartyModel>().Center.y;
+    // MarkPositions 뒤 중심 변화
+    public static float PartyDeltaX => PartyX - _markCenter.x;
+    public static float PartyDeltaY => PartyY - _markCenter.y;
+    public static float PartyMovedSinceMark => (Resolve<PartyModel>().Center - _markCenter).magnitude;
+    public static bool IsJoystickShown => Resolve<UI_JoystickView>().IsShown;
+
+    // 살아 있는 대원과 (중심 + 지금 진형 자리)의 최대 거리
+    public static float MaxSlotError
+    {
+        get
+        {
+            var partyModel = Resolve<PartyModel>();
+            var formationService = Resolve<FormationService>();
+            var memberList = partyModel.MemberList;
+            var maxError = 0f;
+            for (var i = 0; i < memberList.Count; i++)
+            {
+                if (memberList[i].IsAlive)
+                {
+                    var slotPosition = partyModel.Center + formationService.GetSlot(i);
+                    maxError = Mathf.Max(maxError, Vector2.Distance(memberList[i].Position, slotPosition));
+                }
+            }
+
+            return maxError;
+        }
+    }
+
+    // 표시 때도 지금도 쓰러진 대원이 표시 뒤 움직인 최대 거리. 없으면 0
+    public static float MaxDeadMoved
+    {
+        get
+        {
+            var memberList = Resolve<PartyModel>().MemberList;
+            var maxMoved = 0f;
+            for (var i = 0; i < memberList.Count && i < _markPositionList.Count; i++)
+            {
+                if (!_markAliveList[i] && !memberList[i].IsAlive)
+                {
+                    maxMoved = Mathf.Max(maxMoved, Vector2.Distance(memberList[i].Position, _markPositionList[i]));
+                }
+            }
+
+            return maxMoved;
+        }
+    }
+
+    // 카메라 중심과 IsoProjection(원정대 중심)의 월드 거리
+    public static float CameraError
+    {
+        get
+        {
+            var expected = IsoProjection.FloorToWorld(Resolve<PartyModel>().Center, Resolve<RunRulesData>().UnitScale);
+            return Vector2.Distance(Resolve<Camera>().transform.position, expected);
+        }
+    }
+
     public static void PressDepart() => Resolve<LobbyPresenter>().OnDepartClicked();
 
     public static void PressNextWave() => Resolve<PrepPresenter>().OnNextWaveClicked();
@@ -128,6 +201,36 @@ public static class PlayableProbe
 
     // 다음 판 설정(게임의 시작 입력). 로비 출발이 이 값을 쓴다
     public static void UseRunSettings(int seed, float enemyCountScale) => Resolve<RunSettingsModel>().Set(seed, enemyCountScale);
+
+    // 입력 Presenter와 같은 이동 명령(화면 기준 x 오른쪽, y 위)
+    public static void SetMove(float x, float y) => Resolve<PartyMoveService>().SetMoveInput(new Vector2(x, y));
+
+    // 조이스틱 포인터(화면 0~1 비율, 왼쪽 아래 0,0). EventSystem처럼 UI_JoystickView의 포인터 처리 메서드를 부른다
+    public static void JoystickDown(float x, float y) => Resolve<UI_JoystickView>().OnPointerDown(CreatePointer(x, y));
+
+    public static void JoystickDrag(float x, float y) => Resolve<UI_JoystickView>().OnDrag(CreatePointer(x, y));
+
+    public static void JoystickUp()
+    {
+        var view = Resolve<UI_JoystickView>();
+        view.OnPointerUp(CreatePointer(view.CurrentPosition.x / UnityEngine.Screen.width,
+            view.CurrentPosition.y / UnityEngine.Screen.height));
+    }
+
+    public static void PressFormation(string id) => Resolve<FormationPresenter>().OnFormationClicked(id);
+
+    // 지금 중심·대원 좌표·생존을 기억한다(PartyDelta*, PartyMovedSinceMark, MaxDeadMoved의 기준)
+    public static void MarkPositions()
+    {
+        _markCenter = Resolve<PartyModel>().Center;
+        _markPositionList.Clear();
+        _markAliveList.Clear();
+        foreach (var member in Resolve<PartyModel>().MemberList)
+        {
+            _markPositionList.Add(member.Position);
+            _markAliveList.Add(member.IsAlive);
+        }
+    }
 
     public static void StartBot(BotMode mode)
     {
@@ -145,7 +248,9 @@ public static class PlayableProbe
         var bot = Object.FindAnyObjectByType<PlayableBot>();
         if (bot != null)
         {
-            Object.Destroy(bot.gameObject);
+            // Move가 빠지면 0을 한 번 보낸다. 같은 식에서 바로 StartBot을 부르면 새 봇을 만들도록 즉시 지운다
+            bot.SetMode(BotMode.None);
+            Object.DestroyImmediate(bot.gameObject);
         }
     }
 
@@ -159,12 +264,27 @@ public static class PlayableProbe
 
         return scope.Container.Resolve<T>();
     }
+
+    private static PointerEventData CreatePointer(float x, float y)
+    {
+        return new PointerEventData(EventSystem.current)
+        {
+            pointerId = ProbePointerId,
+            position = new Vector2(x * UnityEngine.Screen.width, y * UnityEngine.Screen.height),
+        };
+    }
 }
 
-// 판정용 자동 플레이. F1은 AutoNext만 한다. 없는 동작(Move·Equip)이 들어오면 경고를 남기고 무시한다.
+// 판정용 자동 플레이. Move(F2)·AutoNext를 한다. 없는 동작(Equip)이 들어오면 경고를 남기고 무시한다.
 public class PlayableBot : MonoBehaviour
 {
-    private const PlayableProbe.BotMode SupportedModes = PlayableProbe.BotMode.AutoNext;
+    private const PlayableProbe.BotMode SupportedModes = PlayableProbe.BotMode.Move | PlayableProbe.BotMode.AutoNext;
+    // 들판 가운데(원점, FieldView.Build)를 도는 원의 반지름(바닥 단위, F2 H절)
+    private const float MoveCircleRadius = 600f;
+    // 가운데에서 이 거리 미만이면 오른쪽으로 간다
+    private const float MoveCenterDeadZone = 1f;
+    // 바닥 방향 → 화면 방향(아이소 바닥은 세로가 절반으로 그려진다)
+    private const float FloorToScreenVertical = 0.5f;
 
     private PlayableProbe.BotMode _mode;
 
@@ -176,20 +296,44 @@ public class PlayableBot : MonoBehaviour
             GameLogger.LogWarning($"[PlayableBot] Not implemented yet, ignored: {unsupported}");
         }
 
+        var isMoveDropped = (_mode & PlayableProbe.BotMode.Move) != 0 && (mode & PlayableProbe.BotMode.Move) == 0;
         _mode = mode & SupportedModes;
+        if (isMoveDropped)
+        {
+            PlayableProbe.SetMove(0f, 0f);
+        }
     }
 
     private void Update()
     {
-        if ((_mode & PlayableProbe.BotMode.AutoNext) == 0)
+        var screen = PlayableProbe.Screen;
+        if ((_mode & PlayableProbe.BotMode.Move) != 0 && screen == nameof(RunPhase.Battle))
         {
-            return;
+            SendCircleMove();
         }
 
-        if (PlayableProbe.Screen == nameof(RunPhase.Prep))
+        if ((_mode & PlayableProbe.BotMode.AutoNext) != 0 && screen == nameof(RunPhase.Prep))
         {
             PlayableProbe.PressNextWave();
         }
+    }
+
+    // 시계 방향 접선에 원 쪽으로 돌아가는 성분을 섞은 바닥 방향을 화면 방향으로 바꿔 세기 1로 넣는다
+    private static void SendCircleMove()
+    {
+        var center = new Vector2(PlayableProbe.PartyX, PlayableProbe.PartyY);
+        var distance = center.magnitude;
+        var floorDirection = Vector2.right;
+        if (distance >= MoveCenterDeadZone)
+        {
+            var outward = center / distance;
+            var clockwise = new Vector2(outward.y, -outward.x);
+            var correction = Mathf.Clamp((distance - MoveCircleRadius) / MoveCircleRadius, -1f, 1f);
+            floorDirection = (clockwise - outward * correction).normalized;
+        }
+
+        var screenDirection = new Vector2(floorDirection.x, floorDirection.y * FloorToScreenVertical).normalized;
+        PlayableProbe.SetMove(screenDirection.x, screenDirection.y);
     }
 }
 #endif

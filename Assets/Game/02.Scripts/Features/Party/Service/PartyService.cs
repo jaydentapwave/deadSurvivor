@@ -1,11 +1,10 @@
 using UnityEngine;
 
-// 원정대 편성(S8)과 피해. 자리는 원정대 중심 둘레 고정 4자리(임시 규칙, 기획서 E절 — F2가 진형으로 바꾼다).
+// 원정대 편성(S8)과 피해. 대원 자리·원정대 중심은 PartyMoveService가 정한다(F2).
 public class PartyService
 {
     private readonly PartyModel _partyModel;
     private readonly CharacterRepository _characterRepository;
-    private readonly PlaceholderCombatData _combatData;
 
     public int AliveCount
     {
@@ -24,30 +23,21 @@ public class PartyService
         }
     }
 
-    public PartyService(PartyModel partyModel, CharacterRepository characterRepository, PlaceholderCombatData combatData)
+    public PartyService(PartyModel partyModel, CharacterRepository characterRepository)
     {
         _partyModel = partyModel;
         _characterRepository = characterRepository;
-        _combatData = combatData;
     }
 
-    // 데이터 order 순서로 만들고 HP를 최대로, 장착 목록에 시작 아이템 하나
+    // 데이터 order 순서로 만들고 HP를 최대로, 장착 목록에 시작 아이템 하나. 좌표는 PartyMoveService.ResetForRun이 정한다
     public void CreateParty()
     {
         _partyModel.Clear();
-        _partyModel.SetCenter(Vector2.zero);
         var characterDataList = _characterRepository.CharacterDataList;
-        var spots = _combatData.MemberSpots;
-        if (spots.Count < characterDataList.Count)
-        {
-            GameLogger.LogError($"[PartyService] memberSpots {spots.Count} < characters {characterDataList.Count}");
-            return;
-        }
-
         for (var i = 0; i < characterDataList.Count; i++)
         {
             var data = characterDataList[i];
-            var member = new PartyMember(data.Id, data.Hp, data.Def, _partyModel.Center + spots[i]);
+            var member = new PartyMember(data.Id, data.Hp, data.Def, Vector2.zero);
             member.Equip(data.StartItem);
             _partyModel.Add(member);
         }
