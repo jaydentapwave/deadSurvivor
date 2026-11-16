@@ -8537,6 +8537,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 407475244}
   m_CullTransparentMesh: 1
+--- !u!1 &414812674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 414812675}
+  m_Layer: 0
+  m_Name: EnemyShots
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &414812675
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414812674}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &416644728
 GameObject:
   m_ObjectHideFlags: 0
@@ -25533,6 +25564,8 @@ MonoBehaviour:
   - {fileID: 427318046}
   - {fileID: 478387602}
   combatEffectRoot: {fileID: 1597054723}
+  enemyShotPrefab: {fileID: 6676608647409959933, guid: 4fb5b4e6cbf3849448349222e6f65751, type: 3}
+  enemyShotParent: {fileID: 414812675}
 --- !u!4 &1240027428
 Transform:
   m_ObjectHideFlags: 0
@@ -44131,3 +44164,4 @@ SceneRoots:
   - {fileID: 617719578}
   - {fileID: 1644079267}
   - {fileID: 1597054723}
+  - {fileID: 414812675}
