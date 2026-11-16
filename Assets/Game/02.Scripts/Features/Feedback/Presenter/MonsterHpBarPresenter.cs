@@ -57,6 +57,7 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
         }
 
         _runModel.Phase.Where(phase => phase != RunPhase.Battle).Subscribe(_ => OnBattleLeft()).AddTo(_disposables);
+        _runModel.RunCount.Skip(1).Subscribe(_ => OnRunStarted()).AddTo(_disposables);
     }
 
     public void Dispose() => _disposables.Dispose();
@@ -228,14 +229,19 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
         }
     }
 
-    // 몬스터 그림 발 피벗 위 몸통 꼭대기(지름 × unitScale) + offsetPx
+    // 몬스터 머리 위: 위로 (몬스터 반지름 × unitScale + offsetPx ÷ PPU)(기획서 E절 식 그대로)
     private Vector2 GetBarPosition(Monster monster)
     {
         var foot = IsoProjection.FloorToWorld(monster.Position, _runRules.UnitScale);
-        return foot + Vector2.up * (monster.Data.Radius * 2f * _runRules.UnitScale + _rules.OffsetPx / Const.PixelsPerUnit);
+        return foot + Vector2.up * (monster.Data.Radius * _runRules.UnitScale + _rules.OffsetPx / Const.PixelsPerUnit);
     }
 
-    private void OnBattleLeft()
+    private void OnBattleLeft() => ReleaseAll();
+
+    private void OnRunStarted() => ReleaseAll();
+
+    // 막대를 모두 풀로, 마지막 공격 기록·상한 누락 수를 비운다
+    private void ReleaseAll()
     {
         _removeIdList.Clear();
         _removeIdList.AddRange(_monsterHpBarViewRegistry.MonsterIds);

@@ -112,11 +112,11 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
         }
     }
 
-    // 맞은 바닥 좌표의 월드 자리 + 몸통 꼭대기(그림 발 피벗에서 지름 × unitScale) + offsetPx
+    // 맞은 바닥 좌표의 월드 자리 + 위로 (몬스터 반지름 × unitScale + offsetPx ÷ PPU)(기획서 B절 식 그대로)
     private Vector2 GetStartPosition(MonsterHitRecord hit)
     {
         var foot = IsoProjection.FloorToWorld(hit.Position, _runRules.UnitScale);
-        return foot + Vector2.up * (hit.Radius * 2f * _runRules.UnitScale + _rules.OffsetPx / Const.PixelsPerUnit);
+        return foot + Vector2.up * (hit.Radius * _runRules.UnitScale + _rules.OffsetPx / Const.PixelsPerUnit);
     }
 
     private void ReleaseAll()

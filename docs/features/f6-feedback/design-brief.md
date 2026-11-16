@@ -6,7 +6,7 @@
 
 ## 이번에 사용할 수 있게 될 산출물·완료 조건
 - 전투 화면(V2)에 몬스터 피해 숫자, 원정대 HP 막대(머리 위·하단) 빨간 구간, 카메라 정수 픽셀 흔들림, 진동 호출(에디터는 셈만), 강한 적·공격 중인 적 HP 막대.
-- 완료 조건: AC1~AC14 확인(AC15 사람, AC16 기기는 not-run), 기존 EditMode 189개 기대값 그대로 통과.
+- 완료 조건: AC1~AC14 확인(결과는 핸드오프 criteria)(AC15 사람, AC16 기기는 not-run), 기존 EditMode 189개 기대값 그대로 통과.
 
 ## 요구와 제외 범위
 - 제외: 회복 숫자, 화면을 덮는 연출, 모든 몬스터 HP 막대, 몬스터 막대의 빨간 구간, 기기별 약한 진동(FA5 후속), `RunService`·`GameEvent.cs`·`UI_BattleHudView`·`BattleHudPresenter`·`placeholder_combat.json`·`route.json` 수정.
@@ -109,4 +109,4 @@
 ## 설계 검토 결과와 해소한 지적
 - 1차(Codex design-reviewer): FAIL — 필수 DR-01(흐름 경로의 PressToLobby가 Result 밖에서 거부됨) → 위 "흐름 경로" 절로 해소(연결 단계 4개, 기획서 단계 식 무변경). 후속 DR-02(흔들림·진동 간격 독립) → HitReactionPresenter 문장에 명시, DR-04(접촉 여유) → MonsterHpBarRule 문장에 명시·경계 시험, DR-03(부하 구간) → 후속으로 남김.
 - 수정 확인(Codex design-reviewer): PASS — DR-01·02·04 설계상 해소, DR-03 후속 유지.
-- 구현 중 더한 차이: 피해 숫자·몬스터 HP 막대 자리를 "반지름 × unitScale"이 아니라 "지름 × unitScale"(몸통 그림이 발 피벗이라 반지름 높이는 몸통 가운데) + offsetPx로 했다. `HapticService`는 `HapticRulesData`를 직접 받는다(꺼짐 시험용, LifetimeScope가 저장소에서 꺼내 등록).
+- 구현 중 더한 차이: 피해 숫자·몬스터 HP 막대 자리는 spec-reviewer 지적으로 기획서 식(반지름 × unitScale + offsetPx) 그대로 되돌렸다. 몸통 그림이 발 피벗이라 이 높이는 몸통 위쪽에 걸친다 — 바꿀지는 열린 질문. `HapticService`는 `HapticRulesData`를 직접 받는다(꺼짐 시험용, LifetimeScope가 저장소에서 꺼내 등록).
