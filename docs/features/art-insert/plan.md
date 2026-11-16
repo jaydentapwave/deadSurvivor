@@ -1,6 +1,6 @@
 # 캐릭터·몬스터 그림 넣기 기획서
 
-- 상태: 초안
+- 상태: 승인 (2026-11-16, 디렉터 확인 — 게임 시작 전 승인 범위 안, director-game autonomy 1절)
 - 서버 필요: 아니오
 - 관련 문서: [게임 기획서](../../game/gdd.md) 5절 C3(몬스터 유형 — 그림)·C4(캐릭터 — 그림), 6절 V1·V2, 판정 단계 G1·G2(이 기능에서 회귀 통과). [아트 기준서](../../art/아트-기준서.md) 3.1·3.2·3.3·3.6·3.10, K12~K14. 앞선 기능 [F1](../f1-skeleton/plan.md)(D절 "그림 키 등 칸 추가", G절 V1 "카드 그림(아트)", `PlaceholderSpriteFactory`), [F2](../f2-movement/plan.md) FA8, [F3](../f3-combat/plan.md) CA10(`sprite` 칸), [F4](../f4-monsters/plan.md) MA14·데이터 스키마("아트 갈래가 같은 파일에 그림 키 칸을 더한다")·F절 상태 표시, [F6](../f6-feedback/plan.md) F절(같은 `MemberView`에 칸을 더함). 참고 분석 문서 없음
 - 그림 원본: 그림 브랜치 `claude/pack-expedition-2d-art`의 13장(아래 A절). 구현 단계가 그 브랜치를 합쳐 가져온다
