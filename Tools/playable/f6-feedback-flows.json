@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "sizes": [
+    [
+      1920,
+      1080
+    ],
+    [
+      2340,
+      1080
+    ],
+    [
+      2520,
+      1080
+    ],
+    [
+      2048,
+      1536
+    ]
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "L1",
+      "name": "로비 도착",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "HIT",
+      "name": "웨이브 1에서 몬스터 피해 숫자가 뜨고 상한 안, HP 막대 규칙 위반 0",
+      "do": "PlayableProbe.UseRunSettings(5, 3f); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1 && PlayableProbe.DamageNumberCount >= 1",
+      "timeout": 30,
+      "expect": "PlayableProbe.DamageNumberCount <= PlayableProbe.DamageNumberMaxActive && PlayableProbe.MonsterHpBarRuleViolations == 0",
+      "capture": "all"
+    },
+    {
+      "id": "HURT",
+      "name": "원정대가 맞으면 빨간 구간·흔들림·진동 호출",
+      "wait": "PlayableProbe.MemberWithHpLoss >= 0",
+      "timeout": 30,
+      "expect": "PlayableProbe.HpLossRatio(PlayableProbe.MemberWithHpLoss) > 0 && PlayableProbe.ShakeCount >= 1 && PlayableProbe.HapticCount >= 1 && PlayableProbe.HapticCount <= PlayableProbe.ShakeCount + 1",
+      "capture": true
+    },
+    {
+      "id": "MHP",
+      "name": "공격 중인 몬스터에 HP 막대, 규칙 위반 0",
+      "wait": "PlayableProbe.MonsterHpBarCount >= 1",
+      "timeout": 30,
+      "expect": "PlayableProbe.MonsterHpBarRuleViolations == 0",
+      "capture": true
+    },
+    {
+      "id": "HITEND",
+      "name": "(연결) HIT 판을 결과까지 — 로비로는 결과 화면에서만 된다(RunService.ReturnToLobby)",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 180
+    },
+    {
+      "id": "STRONG",
+      "name": "웨이브 5(1배 시간) 중장갑은 거리와 상관없이 HP 막대",
+      "do": "PlayableProbe.StopBot(); PlayableProbe.UseRunSettings(5, 0.3f); PlayableProbe.UseRealTimeAtWave(5); UnityEngine.Time.timeScale = 20f; PlayableProbe.PressToLobby(); PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 5 && PlayableProbe.AlwaysShownHpBarCount >= 1",
+      "timeout": 120,
+      "expect": "PlayableProbe.MonsterHpBarRuleViolations == 0",
+      "capture": true
+    },
+    {
+      "id": "PREPCLEAR",
+      "name": "전투를 벗어나면 숫자·막대·빨간 구간·흔들림이 없다",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen != \"Battle\"",
+      "timeout": 60,
+      "expect": "PlayableProbe.DamageNumberCount == 0 && PlayableProbe.MonsterHpBarCount == 0 && PlayableProbe.MemberWithHpLoss == -1 && !PlayableProbe.IsShaking"
+    },
+    {
+      "id": "STRONGEND",
+      "name": "(연결) STRONG 판을 결과까지",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 180
+    },
+    {
+      "id": "LOAD",
+      "name": "적 300마리 이상 + 피드백에서 피해 숫자 상한, 프레임 시간 p95 16.7ms 이하(1배 시간)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.UseRunSettings(2, 6f); PlayableProbe.PressToLobby(); PlayableProbe.PressDepart(); PlayableProbe.MarkFrameStats();",
+      "wait": "PlayableProbe.EnemyPeakSinceMark >= 300 || PlayableProbe.Screen != \"Battle\"",
+      "timeout": 40,
+      "expect": "PlayableProbe.EnemyPeakSinceMark >= 300 && PlayableProbe.DamageNumberPeak <= PlayableProbe.DamageNumberMaxActive && PlayableProbe.FrameMsP95SinceMark >= 0 && PlayableProbe.FrameMsP95SinceMark <= 16.7f",
+      "capture": true
+    },
+    {
+      "id": "LOADEND",
+      "name": "(연결) LOAD 판을 결과까지",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 180
+    },
+    {
+      "id": "RESET",
+      "name": "새 판은 피드백 셈 0으로 시작",
+      "do": "UnityEngine.Time.timeScale = 1f; PlayableProbe.UseRunSettings(1, 1f); PlayableProbe.PressToLobby(); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
+      "expect": "PlayableProbe.DamageNumberCount == 0 && PlayableProbe.DamageNumberShownTotal == 0 && PlayableProbe.ShakeCount == 0 && PlayableProbe.HapticCount == 0 && PlayableProbe.MonsterHpBarCount == 0 && PlayableProbe.MemberWithHpLoss == -1"
+    },
+    {
+      "id": "RESETEND",
+      "name": "(연결) RESET 판을 결과까지",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 180
+    },
+    {
+      "id": "LOBBY",
+      "name": "로비로",
+      "do": "PlayableProbe.PressToLobby();",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    }
+  ]
+}
