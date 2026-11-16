@@ -79,13 +79,19 @@
 ### 판정
 - `PlayableProbe`: H절 읽기·조작 멤버(Model·Presenter·Service를 읽고 부르기만, HP·Phase·Outcome 대입 없음). 봇 무변경
 - `Tools/playable/f3-combat-flows.json`: H절 표 그대로. `<부활 시드>`·`<부활 배율>`은 에디터 명령으로 서비스만 만들어 웨이브 1을 돌려 "1~3명 쓰러지고 나머지 끝까지" 값을 찾음
-- `Tools/playable/f1-flows.json`: `LOSE` 배율 값 하나만 필요하면 바꿈
+- `Tools/playable/f1-flows.json`: `LOSE` 배율 값 하나만 필요하면 바꿈. 시도 2 예외(디렉터 답 2026-11-16): `P1` 단계 `timeout` 45→120 — 에디터 백그라운드 속도 때문. 단계·확인·expect는 그대로. `LOSE` 배율은 바꾸지 않았다
 - `Tools/check_data.py`: 아이템 새 칸·허용 값·shape(1~16칸, 0..3, 겹침 없음, 상하좌우 연결)·개수 4~40·방식 8가지 모두 있음, 캐릭터 `sprite`·시작 아이템 passive 아님, `combat_rules.json`, placeholder `weapon` 검사 삭제, `--self-test` 5종 추가
 
 ### 테스트
 - 새: plan 클라 변경 "테스트" 8개 파일. 시험 아이템은 테스트 안에서 JSON 문자열을 `JsonUtility.FromJson<ItemData>`로 만든다(실제 읽기 경로 그대로). 배치 정보는 시험용 가짜 `IItemPlacementInfo`
 - `TestRunContext`: `BasicWeaponService` → `CombatRulesRepository`·`CombatModel`·`EquipmentStatService`·`CombatService`·`ReviveService`. 시험 아이템을 받는 `ItemRepository`가 필요해 `ItemRepository`에 시험용 생성자(목록을 받는)를 하나 더할지 → 아래 미정 1
 - 기존 시험 기대 변경은 plan "기대 변경 허용" 표 안에서만: `PlaceholderCombatTests`의 기본 무기 시험 2개(`DeadMemberDoesNotAttackAndIsNotTargeted`, `AliveMemberAttacksNearestMonsterInRange`) → 같은 문장을 아이템 발동으로 확인하도록 `ItemActivationTests`로 옮김, `SameSeedSameResultAcrossFrameSplits`는 그대로 둠(이제 아이템 전투로 돈다), `DataLoadTests.RunRulesAndPlaceholderCombatLoad`의 `Weapon.Range` 줄 삭제
+
+### 시도 2 보완(설계 확인 DR2-01): 아이템 칸의 두 시계
+- `BattleItemSlot.RemainingCooldown` = 발동 쿨(발동 아이템, B5), `PulseCooldown` = 파동 쿨(추가 효과 pulse, B6). 둘은 따로 돈다. 쓰는 곳은 `CombatService`만이다
+- 하단 칸 표시(`DisplayCooldown`)는 발동 아이템이면 발동 쿨, 지속 아이템이면 파동 쿨이다. 마지막 주기·"발동!" 표시는 지속 아이템의 파동일 때만 파동이 쓴다
+- 경계: 새 판·장착 목록이 바뀐 대원·부활은 두 시계를 모두 0으로 한다(`ResetCooldown` 또는 칸 새로 만들기). 같은 장착으로 웨이브를 넘으면 둘 다 이어 간다
+- 투사체는 한 걸음 이동을 남은 사거리로 자른다(사거리 밖 선분을 지나지 않음). 폭발 도달 판정은 예전 판 순서(이동한 뒤 거리 < 이번 걸음 이동 + 5, 디렉터 답 5)
 
 ## 재사용 후보와 신설 이유
 - 적 찾기·피해: F1 `BasicWeaponService.FindNearestAliveInRange`를 `CombatService`로 옮김(파일 삭제)
@@ -126,4 +132,5 @@
 
 ## 설계 검토 결과와 해소한 지적
 - 1회차 FAIL(Codex): DR-01 작성자 충돌 → `ReviveService`는 조건만, 상태는 `CombatService.ReviveMember` + 필드별 작성 권한 표. DR-02 → `ReadOnlyReactiveProperty` 노출·Model Dispose. 후속 DR-03(목록 생성자 채택), DR-04(ILateTickable 동의), DR-05(채움 값 따로 둠), DR-06(생성자 의존·AC15 구성 명시) 반영
+- 시도 2 설계 확인 PASS(Codex, a8ed065..3912865): 작성 권한·스키마·DI 위반 없음. 후속 DR2-01(두 시계 명시)·DR2-02(AC6 timeout 예외 기록)를 이 문서에 반영
 - 2회차 수정 확인 PASS(Codex): DR-01·DR-02 해소, 새 순환·충돌 없음. 후속 DR-03 문서 정합성 → 미정 1을 결정으로 통일
