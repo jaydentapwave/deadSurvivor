@@ -113,6 +113,7 @@ def metric_rows(waves, metrics):
     if not isinstance(runs, list):
         raise InputError("기록 파일에 runs 목록이 없다")
     wave_count = len(waves)
+    check_runs(runs, wave_count)
     rows = []
     as_data = []
     for k, run in enumerate(runs, 1):
@@ -167,6 +168,31 @@ def metric_rows(waves, metrics):
                    f"{p95:.2f}ms", f"≤{M7_LIMIT_MS}ms", OK if p95 <= M7_LIMIT_MS else FAIL))
     rows += m7 or [("M7", "배율 1 판의 마지막 웨이브 버닝", "-", f"≤{M7_LIMIT_MS}ms", UNMEASURED)]
     return rows
+
+
+def check_runs(runs, wave_count):
+    """기록 형식(기획서 D절: 형식 오류는 exit 2). 판정이 읽는 칸의 타입과 웨이브 범위만 본다."""
+    def is_num(v):
+        return isinstance(v, (int, float)) and not isinstance(v, bool)
+
+    def is_int(v):
+        return isinstance(v, int) and not isinstance(v, bool)
+
+    for k, run in enumerate(runs, 1):
+        if not isinstance(run, dict):
+            raise InputError(f"기록 판 {k}: 객체가 아니다")
+        for key, ok in (("enemyCountScale", is_num), ("firstWave", is_int), ("botModes", is_int),
+                        ("wavesSurvived", is_int), ("waves", lambda v: isinstance(v, list))):
+            if key in run and not ok(run[key]) or key in ("enemyCountScale", "waves") and key not in run:
+                raise InputError(f"기록 판 {k}: '{key}' 칸이 없거나 형식이 틀렸다")
+        for w in run["waves"]:
+            if not isinstance(w, dict) or not is_int(w.get("wave")) or not 1 <= w["wave"] <= wave_count \
+                    or not is_int(w.get("spawned")) or not isinstance(w.get("reachedEnd"), bool):
+                raise InputError(f"기록 판 {k}: 웨이브 기록 {w!r} — wave 1~{wave_count} 정수, spawned 정수, reachedEnd true/false여야 한다")
+        burning = run.get("burning")
+        if burning is not None and (not isinstance(burning, dict) or not is_int(burning.get("samples", 0))
+                                    or burning.get("samples", 0) > 0 and not is_num(burning.get("p95Ms"))):
+            raise InputError(f"기록 판 {k}: 'burning' 형식이 틀렸다")
 
 
 def judge(root, selected_text, metrics_path, required):
@@ -255,6 +281,9 @@ def self_test(root):
     def bad_frame(d, m):
         m["runs"][0]["burning"]["p95Ms"] = 20.0
 
+    def bad_record(d, m):
+        m["runs"][0]["waves"][0]["wave"] = 11
+
     cases = [
         ("맞는 데이터·기록", None, [], 0, None),
         ("적 수 웨이브 2 목표 +6%", bad_count, [], 1, "M2 웨이브 2 140"),
@@ -263,6 +292,7 @@ def self_test(root):
         ("가만히 선 판이 웨이브 1에서 짐", bad_stand, [], 1, "M5 판 2 진 웨이브 1"),
         ("프레임 95백분위 20ms", bad_frame, [], 1, "M7 판 1"),
         ("--require M5, 기록 없음", "no-metrics", ["--require", "M5"], 1, "M5 --require"),
+        ("기록 웨이브 번호가 범위 밖(11)", bad_record, [], 2, "돌릴 수 없음: 기록 판 1"),
     ]
     failures = []
     for name, breaker, extra, expected_exit, expected_line in cases:
@@ -280,7 +310,10 @@ def self_test(root):
                 args += ["--metrics", str(metrics_path), "--require", "M5,M7"]
             result = subprocess.run(args, capture_output=True, text=True)
             lines = result.stdout.splitlines()
-            if expected_line is None:
+            if expected_exit == 2:
+                lines = result.stderr.splitlines()
+                hit = [l for l in lines if l.startswith(expected_line)]
+            elif expected_line is None:
                 hit = [l for l in lines if l.startswith("TARGETS: OK")]
             else:
                 hit = [l for l in lines if l.startswith(expected_line) and l.endswith(FAIL)]
