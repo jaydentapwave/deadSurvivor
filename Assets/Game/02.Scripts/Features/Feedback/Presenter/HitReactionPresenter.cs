@@ -24,7 +24,7 @@ public class HitReactionPresenter : IInitializable, ILateTickable, IDisposable
     // 마지막으로 얹은 오프셋. 일시정지(시계 0) 중에는 이것을 그대로 다시 얹는다
     private Vector2 _offset;
 
-    // 남은 시간이 있거나 카메라에 아직 오프셋이 얹혀 있다(끝나는 프레임은 마지막 오프셋이 남고 다음 프레임에 0이 된다)
+    // 남은 시간이 있거나 카메라에 아직 오프셋이 얹혀 있다(시간이 다 하는 프레임에 오프셋은 바로 0이 된다)
     public bool IsShaking => _shakeRemaining > 0f || _offset != Vector2.zero;
 
     public HitReactionPresenter(RunModel runModel, CombatFeedbackModel combatFeedbackModel,
