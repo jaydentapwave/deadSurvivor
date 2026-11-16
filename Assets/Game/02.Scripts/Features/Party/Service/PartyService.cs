@@ -5,6 +5,7 @@ public class PartyService
 {
     private readonly PartyModel _partyModel;
     private readonly CharacterRepository _characterRepository;
+    private readonly CombatFeedbackModel _combatFeedbackModel;
 
     public int AliveCount
     {
@@ -23,10 +24,11 @@ public class PartyService
         }
     }
 
-    public PartyService(PartyModel partyModel, CharacterRepository characterRepository)
+    public PartyService(PartyModel partyModel, CharacterRepository characterRepository, CombatFeedbackModel combatFeedbackModel)
     {
         _partyModel = partyModel;
         _characterRepository = characterRepository;
+        _combatFeedbackModel = combatFeedbackModel;
     }
 
     // 데이터 order 순서로 만들고 HP를 최대로, 장착 목록에 시작 아이템 하나. 좌표는 PartyMoveService.ResetForRun이 정한다
@@ -45,13 +47,15 @@ public class PartyService
 
     public void ClearParty() => _partyModel.Clear();
 
-    // 받는 피해 = 피해 × (1 − 유효 방어), 보호막이 먼저 흡수(기획서 B4)
+    // 받는 피해 = 피해 × (1 − 유효 방어), 보호막이 먼저 흡수(기획서 B4). 끝에 피드백 기록 한 줄(F6 A절, 계산은 그대로)
     public void ApplyDamage(PartyMember member, float damage)
     {
+        var hpBefore = member.Hp;
         var received = damage * (1f - member.Defense);
         var absorbed = Mathf.Min(member.Shield, received);
         member.Shield -= absorbed;
         member.Hp = Mathf.Max(0f, member.Hp - (received - absorbed));
+        _combatFeedbackModel.AddMemberHit(IndexOf(member), received, hpBefore, member.Hp);
     }
 
     // 쓰러지지 않은 대원만 최대 HP까지(기획서 B4)
@@ -89,5 +93,21 @@ public class PartyService
         }
 
         return nearest;
+    }
+
+    // 원정대 목록 안 위치(피드백 기록의 대원 번호)
+    private int IndexOf(PartyMember member)
+    {
+        var memberList = _partyModel.MemberList;
+        for (var i = 0; i < memberList.Count; i++)
+        {
+            if (memberList[i] == member)
+            {
+                return i;
+            }
+        }
+
+        GameLogger.LogError($"[PartyService] Member {member.CharacterId} is not in the party");
+        return -1;
     }
 }

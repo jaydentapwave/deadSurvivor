@@ -436,6 +436,41 @@ public static class PlayableProbe
         return false;
     }
 
+    // F6 전투 피드백(기획서 H절). Model·Registry·Presenter·Service를 읽기만 한다
+    public static int DamageNumberCount => Resolve<DamageNumberViewRegistry>().Count;
+    public static int DamageNumberShownTotal => Resolve<CombatFeedbackModel>().DamageNumberShownTotal;
+    public static int DamageNumberPeak => Resolve<CombatFeedbackModel>().DamageNumberPeak;
+    public static int DamageNumberMaxActive => Resolve<FeedbackRulesRepository>().Rules.DamageNumber.MaxActive;
+    // 빨간 구간이 보이는 가장 앞 대원, 없으면 −1
+    public static int MemberWithHpLoss => Resolve<HpLossPresenter>().MemberWithHpLoss;
+    public static float HpLossRatio(int member) => Resolve<HpLossPresenter>().GetLossRatio(member);
+    public static int ShakeCount => Resolve<CombatFeedbackModel>().ShakeCount;
+    public static bool IsShaking => Resolve<HitReactionPresenter>().IsShaking;
+    public static int HapticCount => Resolve<HapticService>().PlayCount;
+    public static int MonsterHpBarCount => Resolve<MonsterHpBarViewRegistry>().Count;
+    public static int AlwaysShownHpBarCount => Resolve<MonsterHpBarPresenter>().AlwaysShownCount;
+    public static int MonsterHpBarRuleViolations => Resolve<MonsterHpBarPresenter>().CountRuleViolations();
+    public static int MonsterHpBarHiddenByCap => Resolve<MonsterHpBarPresenter>().HiddenByCapCount;
+    // MarkFrameStats 뒤 Time.unscaledDeltaTime 95백분위(ms), 표본 없으면 −1
+    public static float FrameMsP95SinceMark => FrameSampler != null ? FrameSampler.FrameMsP95 : -1f;
+    public static int FrameSamplesSinceMark => FrameSampler != null ? FrameSampler.SampleCount : 0;
+    // MarkFrameStats 뒤 살아 있는 몬스터 최대 수
+    public static int EnemyPeakSinceMark => FrameSampler != null ? FrameSampler.EnemyPeak : 0;
+
+    // 프레임 표본을 새로 모은다
+    public static void MarkFrameStats()
+    {
+        var sampler = FrameSampler;
+        if (sampler == null)
+        {
+            sampler = new GameObject(nameof(PlayableFrameSampler)).AddComponent<PlayableFrameSampler>();
+        }
+
+        sampler.Mark();
+    }
+
+    private static PlayableFrameSampler FrameSampler => Object.FindAnyObjectByType<PlayableFrameSampler>();
+
     public static void PressDepart() => Resolve<LobbyPresenter>().OnDepartClicked();
 
     public static void PressNextWave() => Resolve<PrepPresenter>().OnNextWaveClicked();
@@ -624,6 +659,53 @@ public class PlayableBot : MonoBehaviour
 
             PlayableProbe.PressDrop(step.Uid, step.Rotation, BagTarget.Cell(step.Member, step.X, step.Y));
         }
+    }
+}
+// 판정용 프레임 시간·적 수 표본(F6 기획서 H절 MarkFrameStats). 표시 뒤 매 프레임 Time.unscaledDeltaTime과 살아 있는 몬스터 수를 모은다
+public class PlayableFrameSampler : MonoBehaviour
+{
+    private const float Percentile = 0.95f;
+
+    private readonly List<float> _frameMsList = new();
+    private readonly List<float> _sortedList = new();
+    private bool _isMarked;
+
+    public int SampleCount => _frameMsList.Count;
+    public int EnemyPeak { get; private set; }
+
+    // 가장 가까운 순위(ceil(n × p)번째), 표본 없으면 −1(PlayableMetricsRecorder와 같은 백분위)
+    public float FrameMsP95
+    {
+        get
+        {
+            if (_frameMsList.Count == 0)
+            {
+                return -1f;
+            }
+
+            _sortedList.Clear();
+            _sortedList.AddRange(_frameMsList);
+            _sortedList.Sort();
+            return _sortedList[Mathf.Clamp(Mathf.CeilToInt(_sortedList.Count * Percentile) - 1, 0, _sortedList.Count - 1)];
+        }
+    }
+
+    public void Mark()
+    {
+        _frameMsList.Clear();
+        EnemyPeak = 0;
+        _isMarked = true;
+    }
+
+    private void Update()
+    {
+        if (!_isMarked || PlayableProbe.Screen != nameof(RunPhase.Battle))
+        {
+            return;
+        }
+
+        _frameMsList.Add(Time.unscaledDeltaTime * 1000f);
+        EnemyPeak = Mathf.Max(EnemyPeak, PlayableProbe.EnemyCount);
     }
 }
 #endif

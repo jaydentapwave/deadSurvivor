@@ -23,6 +23,7 @@ internal class TestRunContext
     public readonly MonsterModel MonsterModel = new();
     public readonly FormationModel FormationModel = new();
     public readonly PartyMoveModel PartyMoveModel = new();
+    public readonly CombatFeedbackModel CombatFeedbackModel = new();
     public readonly PartyService PartyService;
     public readonly CombatRulesRepository CombatRulesRepository;
     public readonly CombatModel CombatModel = new();
@@ -62,7 +63,7 @@ internal class TestRunContext
         WaveRepository = new WaveRepository(ResourceService);
         FormationRepository = new FormationRepository(ResourceService);
         MoveRules = ResourceService.LoadJson<MoveRulesData>("Data/Party/move_rules");
-        PartyService = new PartyService(PartyModel, CharacterRepository);
+        PartyService = new PartyService(PartyModel, CharacterRepository, CombatFeedbackModel);
         MonsterRepository = new MonsterRepository(ResourceService);
         MonsterSpawnService = new MonsterSpawnService(MonsterModel, PartyModel, MonsterRepository, RunRules);
         MonsterRecycleService = new MonsterRecycleService(MonsterModel, PartyModel, MonsterRepository, MonsterSpawnService);
@@ -75,7 +76,7 @@ internal class TestRunContext
         });
         EnemyShotService = new EnemyShotService(MonsterModel, PartyModel, PartyService);
         MonsterService = new MonsterService(MonsterModel, MonsterSpawnService, MonsterRecycleService, MonsterBehaviorService,
-            EnemyShotService);
+            EnemyShotService, CombatFeedbackModel);
         EquipmentStatService = new EquipmentStatService(ItemRepository, CombatRulesRepository,
             placementInfo ?? new NoBagPlacementInfo());
         CombatService = new CombatService(CombatModel, PartyModel, PartyService, MonsterModel, MonsterService, ItemRepository,

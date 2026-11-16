@@ -15,6 +15,11 @@ public class GameSceneLifetimeScope : LifetimeScope
     [SerializeField] private Transform combatEffectRoot;
     [SerializeField] private EnemyShotView enemyShotPrefab;
     [SerializeField] private Transform enemyShotParent;
+    // 피해 숫자·몬스터 HP 막대 프리팹과 풀 부모(F6)
+    [SerializeField] private DamageNumberView damageNumberPrefab;
+    [SerializeField] private Transform damageNumberParent;
+    [SerializeField] private MonsterHpBarView monsterHpBarPrefab;
+    [SerializeField] private Transform monsterHpBarParent;
 
     protected override void Configure(IContainerBuilder builder)
     {
@@ -38,6 +43,8 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register<GradeRepository>(Lifetime.Scoped);
         builder.Register<BagRulesRepository>(Lifetime.Scoped);
         builder.Register<LootRulesRepository>(Lifetime.Scoped);
+        builder.Register<FeedbackRulesRepository>(Lifetime.Scoped);
+        builder.Register(resolver => resolver.Resolve<FeedbackRulesRepository>().Rules.Haptic, Lifetime.Scoped);
 
         // 모델
         builder.Register<RunModel>(Lifetime.Scoped);
@@ -48,6 +55,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register<FormationModel>(Lifetime.Scoped);
         builder.Register<PartyMoveModel>(Lifetime.Scoped);
         builder.Register<BagModel>(Lifetime.Scoped);
+        builder.Register<CombatFeedbackModel>(Lifetime.Scoped);
 
         // 서비스
         builder.Register<RunService>(Lifetime.Scoped);
@@ -72,6 +80,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register<LootService>(Lifetime.Scoped);
         // 판정 봇(PlayableBot)과 시험이 쓰는 자동 장착 계획(F5 E절)
         builder.Register<AutoEquipPlanner>(Lifetime.Scoped);
+        builder.Register<HapticService>(Lifetime.Scoped);
 
         // 생성·등록부
         builder.Register<MonsterViewFactory>(Lifetime.Scoped);
@@ -80,6 +89,10 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register<ProjectileViewRegistry>(Lifetime.Scoped);
         builder.Register<EnemyShotViewFactory>(Lifetime.Scoped).WithParameter(enemyShotPrefab).WithParameter(enemyShotParent);
         builder.Register<EnemyShotViewRegistry>(Lifetime.Scoped);
+        builder.Register<DamageNumberViewFactory>(Lifetime.Scoped).WithParameter(damageNumberPrefab).WithParameter(damageNumberParent);
+        builder.Register<DamageNumberViewRegistry>(Lifetime.Scoped);
+        builder.Register<MonsterHpBarViewFactory>(Lifetime.Scoped).WithParameter(monsterHpBarPrefab).WithParameter(monsterHpBarParent);
+        builder.Register<MonsterHpBarViewRegistry>(Lifetime.Scoped);
 
         // 장면 컴포넌트
         builder.RegisterComponentInHierarchy<Camera>();
@@ -90,6 +103,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<UI_ResultView>();
         builder.RegisterComponentInHierarchy<UI_JoystickView>();
         builder.RegisterComponentInHierarchy<UI_FormationView>();
+        builder.RegisterComponentInHierarchy<CameraShakeView>();
         // 같은 형 컴포넌트 여럿은 따로 등록할 수 없어(VContainer 형 충돌) 장면 순서 목록 하나로 넘긴다
         builder.RegisterInstance<IReadOnlyList<MemberView>>(memberViews);
 
@@ -109,5 +123,10 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterEntryPoint<MonsterStatePresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<EnemyShotPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<BagPresenter>(Lifetime.Scoped).AsSelf();
+        // F6 피드백. 흔들림은 카메라를 옮기는 WorldPresenter 뒤(같은 프레임 LateTick 순서)
+        builder.RegisterEntryPoint<DamageNumberPresenter>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<HpLossPresenter>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<HitReactionPresenter>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<MonsterHpBarPresenter>(Lifetime.Scoped).AsSelf();
     }
 }

@@ -319,7 +319,7 @@ public class CombatService
             {
                 if (monster.IsAlive && Vector2.Distance(member.Position, monster.Position) <= item.EffectRadius)
                 {
-                    monster.Hp -= damage;
+                    _monsterService.ApplyDamage(monster, damage);
                 }
             }
         }
@@ -458,7 +458,7 @@ public class CombatService
             var offset = monster.Position - origin;
             if (monster.IsAlive && offset.magnitude <= range && Vector2.Angle(direction, offset) <= halfAngle)
             {
-                monster.Hp -= power;
+                _monsterService.ApplyDamage(monster, power);
             }
         }
 
@@ -474,7 +474,7 @@ public class CombatService
         for (var n = 0; n < hitCount && next != null; n++)
         {
             _chainHitIdSet.Add(next.Id);
-            next.Hp -= power;
+            _monsterService.ApplyDamage(next, power);
             AddBurst(next.Position, PointBurstRadius);
             next = FindNearestMonster(next.Position, _rules.ChainHopRange, _chainHitIdSet);
         }
@@ -524,7 +524,7 @@ public class CombatService
 
                 if (GetSegmentDistance(from, projectile.Position, monster.Position) < _monsterService.GetRadius(monster))
                 {
-                    monster.Hp -= projectile.Damage;
+                    _monsterService.ApplyDamage(monster, projectile.Damage);
                     projectile.HitMonsterIdSet.Add(monster.Id);
                     if (projectile.HitMonsterIdSet.Count > projectile.Pierce)
                     {
@@ -549,7 +549,7 @@ public class CombatService
         {
             if (monster.IsAlive && Vector2.Distance(projectile.Position, monster.Position) < projectile.ExplosionRadius)
             {
-                monster.Hp -= projectile.Damage;
+                _monsterService.ApplyDamage(monster, projectile.Damage);
             }
         }
 

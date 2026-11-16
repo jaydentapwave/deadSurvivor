@@ -1,0 +1,111 @@
+using System;
+using R3;
+using UnityEngine;
+using VContainer.Unity;
+
+// 원정대 피격 → 카메라 정수 픽셀 흔들림·진동(F6 기획서 D절). 피격 깃발을 프레임마다 한 번 읽고, 흔들림과 진동은 각자의 간격으로 따로 판정한다.
+// 카메라 기준 위치는 다른 쪽(WorldPresenter)이 이번 프레임에 옮겼으면 그 위치, 아니면 지난 기준(ShakeMath.ResolveBase) — 오프셋이 쌓이지 않는다.
+public class HitReactionPresenter : IInitializable, ILateTickable, IDisposable
+{
+    private readonly RunModel _runModel;
+    private readonly CombatFeedbackModel _combatFeedbackModel;
+    private readonly ShakeRulesData _rules;
+    private readonly HapticService _hapticService;
+    private readonly CameraShakeView _cameraShakeView;
+    private readonly CompositeDisposable _disposables = new();
+
+    // 피드백 시계(전투 중·일시정지 아님일 때만 흐름)
+    private float _clock;
+    private float _lastShakeStart = float.NegativeInfinity;
+    private float _shakeRemaining;
+    private int _shakeStep;
+    private Vector3 _basePosition;
+    private Vector3 _lastAppliedPosition;
+
+    public bool IsShaking => _shakeRemaining > 0f;
+
+    public HitReactionPresenter(RunModel runModel, CombatFeedbackModel combatFeedbackModel,
+        FeedbackRulesRepository feedbackRulesRepository, HapticService hapticService, CameraShakeView cameraShakeView)
+    {
+        _runModel = runModel;
+        _combatFeedbackModel = combatFeedbackModel;
+        _rules = feedbackRulesRepository.Rules.Shake;
+        _hapticService = hapticService;
+        _cameraShakeView = cameraShakeView;
+    }
+
+    public void Initialize()
+    {
+        _runModel.Phase.Where(phase => phase != RunPhase.Battle).Subscribe(_ => OnBattleLeft()).AddTo(_disposables);
+        _runModel.RunCount.Skip(1).Subscribe(_ => OnRunStarted()).AddTo(_disposables);
+    }
+
+    public void Dispose() => _disposables.Dispose();
+
+    public void LateTick()
+    {
+        if (_runModel.Phase.CurrentValue != RunPhase.Battle)
+        {
+            return;
+        }
+
+        var deltaSeconds = _runModel.IsPaused.CurrentValue ? 0f : Time.deltaTime;
+        _clock += deltaSeconds;
+        if (_combatFeedbackModel.ConsumeHitReaction())
+        {
+            if (ShakeMath.CanStart(_clock, _lastShakeStart, _rules.MinInterval))
+            {
+                _lastShakeStart = _clock;
+                _shakeRemaining = _rules.Seconds;
+                _shakeStep = 0;
+                _combatFeedbackModel.AddShake();
+            }
+
+            _hapticService.TryPlay(_clock);
+        }
+
+        ApplyCamera(deltaSeconds);
+    }
+
+    // 흔들리는 중이면 기준 + 오프셋, 끝났으면 기준 그대로(오프셋 0)
+    private void ApplyCamera(float deltaSeconds)
+    {
+        _basePosition = ShakeMath.ResolveBase(_cameraShakeView.Position, _lastAppliedPosition, _basePosition);
+        var offset = ShakeMath.GetOffset(_shakeRemaining, _rules.Seconds, _rules.AmplitudePx, _shakeStep);
+        if (_shakeRemaining > 0f && deltaSeconds > 0f)
+        {
+            _shakeRemaining = Mathf.Max(0f, _shakeRemaining - deltaSeconds);
+            _shakeStep++;
+        }
+
+        _lastAppliedPosition = _basePosition + (Vector3)offset;
+        _cameraShakeView.SetPosition(_lastAppliedPosition);
+    }
+
+    private void OnBattleLeft()
+    {
+        StopShake();
+        _combatFeedbackModel.ConsumeHitReaction();
+    }
+
+    private void OnRunStarted()
+    {
+        StopShake();
+        _combatFeedbackModel.ConsumeHitReaction();
+        _combatFeedbackModel.ResetShakeCount();
+        _hapticService.ResetRun();
+        _lastShakeStart = float.NegativeInfinity;
+    }
+
+    // 흔드는 중이었으면 카메라를 기준 위치로 되돌린다
+    private void StopShake()
+    {
+        if (_shakeRemaining > 0f)
+        {
+            _cameraShakeView.SetPosition(_basePosition);
+            _lastAppliedPosition = _basePosition;
+        }
+
+        _shakeRemaining = 0f;
+    }
+}

@@ -8,11 +8,14 @@ public class UI_MemberStatusView : MonoBehaviour
     [SerializeField] private Text nameText;
     [SerializeField] private Text hpText;
     [SerializeField] private RectTransform hpFill;
+    // HP 막대 안 채움 뒤의 빨간 구간(F6)
+    [SerializeField] private UI_HpLossView hpLossView;
     [SerializeField] private UI_BattleItemView[] battleItemViews;
     [SerializeField] private Color aliveNameColor = Color.white;
     [SerializeField] private Color downedNameColor = new(0.5f, 0.5f, 0.5f, 1f);
 
     public IReadOnlyList<UI_BattleItemView> BattleItemViews => battleItemViews;
+    public UI_HpLossView HpLossView => hpLossView;
 
     public void UpdateUI(string characterName, float hp, float maxHp, bool isAlive)
     {

@@ -9,6 +9,7 @@ public class MonsterService
     private readonly MonsterRecycleService _monsterRecycleService;
     private readonly MonsterBehaviorService _monsterBehaviorService;
     private readonly EnemyShotService _enemyShotService;
+    private readonly CombatFeedbackModel _combatFeedbackModel;
 
     // 살아 있는 몬스터 수(HUD 위협). 적 투사체는 세지 않는다
     public int AliveCount
@@ -29,13 +30,15 @@ public class MonsterService
     }
 
     public MonsterService(MonsterModel monsterModel, MonsterSpawnService monsterSpawnService,
-        MonsterRecycleService monsterRecycleService, MonsterBehaviorService monsterBehaviorService, EnemyShotService enemyShotService)
+        MonsterRecycleService monsterRecycleService, MonsterBehaviorService monsterBehaviorService, EnemyShotService enemyShotService,
+        CombatFeedbackModel combatFeedbackModel)
     {
         _monsterModel = monsterModel;
         _monsterSpawnService = monsterSpawnService;
         _monsterRecycleService = monsterRecycleService;
         _monsterBehaviorService = monsterBehaviorService;
         _enemyShotService = enemyShotService;
+        _combatFeedbackModel = combatFeedbackModel;
     }
 
     // 카메라가 보는 바닥 영역의 반 크기(바닥 단위). 생성 거리 = 이 대각선 + 생성 여유, 재배치 상자도 이 값
@@ -74,6 +77,19 @@ public class MonsterService
         _enemyShotService.Tick(deltaSeconds);
         _monsterModel.RemoveDead();
         _monsterModel.RemoveDeadShots();
+    }
+
+    // 무기·파동·폭발이 적에게 주는 피해(F3가 부르는 곳). 이미 쓰러진 적은 무시하고 기록도 남기지 않는다.
+    // 끝에 피드백 기록 한 줄(F6 A절: 준 값, 맞은 순간의 바닥 좌표, 숫자 자리를 정할 반지름)
+    public void ApplyDamage(Monster monster, float amount)
+    {
+        if (!monster.IsAlive)
+        {
+            return;
+        }
+
+        monster.Hp -= amount;
+        _combatFeedbackModel.AddMonsterHit(monster.Id, amount, monster.Position, monster.Data.Radius);
     }
 
     // 적 반지름(투사체 명중). 몬스터 종류별 값(F4)

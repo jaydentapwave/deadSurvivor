@@ -6,6 +6,8 @@ public class MemberView : MonoBehaviour
     [SerializeField] private SpriteRenderer bodyRenderer;
     [SerializeField] private SpriteRenderer hpBackRenderer;
     [SerializeField] private SpriteRenderer hpFillRenderer;
+    // HP 바탕의 자식, 빨간 구간(F6)
+    [SerializeField] private HpLossBarView hpLossBarView;
     [SerializeField] private int bodyDiameterPixels = 14;
     [SerializeField] private Vector2Int hpBarPixels = new(14, 2);
     [SerializeField] private int hpBarGapPixels = 2;
@@ -15,6 +17,7 @@ public class MemberView : MonoBehaviour
 
     public int BodyDiameterPixels => bodyDiameterPixels;
     public Vector2Int HpBarPixels => hpBarPixels;
+    public HpLossBarView HpLossBarView => hpLossBarView;
 
     // hpBarSprite: 피벗이 왼쪽 가운데인 흰 상자
     public void Initialize(Sprite bodySprite, Sprite hpBarSprite)
