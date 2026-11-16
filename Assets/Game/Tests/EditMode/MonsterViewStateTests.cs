@@ -23,7 +23,7 @@ public class MonsterViewStateTests
         serialized.FindProperty("dashLineRenderer").objectReferenceValue = line;
         serialized.FindProperty("blastAreaRenderer").objectReferenceValue = area;
         serialized.ApplyModifiedPropertiesWithoutUndo();
-        _view.Initialize(CreateSprite(8, 8, new Vector2(0.5f, 0f)), CreateSprite(4, 2, new Vector2(0f, 0.5f)),
+        _view.Initialize(CreateSprite(8, 8, new Vector2(0.5f, 0f)), false, CreateSprite(4, 2, new Vector2(0f, 0.5f)),
             CreateSprite(64, 64, new Vector2(0.5f, 0f)), 322f, 90f, 0.0113f);
     }
 
@@ -67,6 +67,41 @@ public class MonsterViewStateTests
             Assert.IsFalse(_view.IsDashLineVisible, phase.ToString());
             Assert.IsFalse(_view.IsBlastAreaVisible, phase.ToString());
         }
+    }
+
+    // 그림 넣기 AC8 — 그림 몸은 배율 1·Sort Point Pivot, 반전·오프셋은 ApplyMotion, 풀에서 다시 Initialize하면 초기화
+    [Test]
+    public void ArtBodyFlipsAndResetsOnReinitialize()
+    {
+        var bodyRenderer = _root.GetComponent<SpriteRenderer>();
+        var art = CreateSprite(64, 64, new Vector2(0.5f, 0f));
+        _view.Initialize(art, true, CreateSprite(4, 2, new Vector2(0f, 0.5f)), CreateSprite(64, 64, new Vector2(0.5f, 0f)), 0f, 0f,
+            0.0113f);
+
+        Assert.IsTrue(_view.HasArt);
+        Assert.AreSame(art, bodyRenderer.sprite);
+        Assert.AreEqual(Vector3.one, bodyRenderer.transform.localScale);
+
+        _view.ApplyMotion(true, -1);
+        Assert.IsTrue(_view.IsFlipped);
+        Assert.AreEqual(-1f, _view.BodyOffset.y * Const.PixelsPerUnit, 1e-5f);
+
+        _view.Initialize(art, true, CreateSprite(4, 2, new Vector2(0f, 0.5f)), CreateSprite(64, 64, new Vector2(0.5f, 0f)), 0f, 0f,
+            0.0113f);
+        Assert.IsFalse(_view.IsFlipped);
+        Assert.AreEqual(Vector3.zero, _view.BodyOffset);
+    }
+
+    [Test]
+    public void PrefabBodyIsChildWithPivotSortPoint()
+    {
+        var prefab = AssetDatabase.LoadAssetAtPath<MonsterView>("Assets/Game/03.Resources/Resources/Prefab/MonsterView.prefab");
+        var body = (SpriteRenderer)new SerializedObject(prefab).FindProperty("bodyRenderer").objectReferenceValue;
+
+        Assert.AreNotSame(prefab.gameObject, body.gameObject);
+        Assert.AreSame(prefab.transform, body.transform.parent);
+        Assert.AreEqual(SpriteSortPoint.Pivot, body.spriteSortPoint);
+        Assert.IsNull(prefab.GetComponent<SpriteRenderer>());
     }
 
     private static Sprite CreateSprite(int width, int height, Vector2 pivot)

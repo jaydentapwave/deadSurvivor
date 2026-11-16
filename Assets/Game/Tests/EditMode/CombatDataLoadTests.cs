@@ -72,7 +72,7 @@ public class CombatDataLoadTests
             Assert.AreEqual(row.atk, character.Atk, 1e-6f);
             Assert.AreEqual(row.def, character.Def, 1e-6f);
             Assert.AreEqual(row.startItem, character.StartItem);
-            Assert.AreEqual("", character.Sprite, row.id);
+            Assert.AreEqual(row.id, character.Sprite, row.id);
         }
     }
 
