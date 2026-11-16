@@ -111,17 +111,25 @@
       "expect": "PlayableProbe.RenderBatchesP95 >= 0 && PlayableProbe.RenderBatchesP95 <= 50"
     },
     {
+      "id": "END2",
+      "name": "웨이브 6 판 끝까지 → 결과",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120
+    },
+    {
       "id": "HIT",
-      "name": "피격 번쩍임 1회 이상, 한 번이 0.11초 이하",
-      "wait": "PlayableProbe.MemberHitFlashTotal >= 1 && PlayableProbe.MemberFlashMaxSeconds > 0f",
+      "name": "1배 시간 새 판(시드 5, 적 수 배율 3)에서 피격 번쩍임 1회 이상, 한 번이 0.11초 이하",
+      "do": "PlayableProbe.StopBot(); PlayableProbe.PressToLobby(); UnityEngine.Time.timeScale = 1f; PlayableProbe.UseRunSettings(5, 3f); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.MemberHitFlashTotal >= 1 && PlayableProbe.MemberFlashMaxSeconds > 0f",
       "timeout": 60,
       "expect": "PlayableProbe.MemberFlashMaxSeconds > 0f && PlayableProbe.MemberFlashMaxSeconds <= 0.11f",
       "capture": true
     },
     {
-      "id": "END2",
-      "name": "웨이브 6 판 끝까지 → 결과",
-      "do": "UnityEngine.Time.timeScale = 20f;",
+      "id": "END3",
+      "name": "HIT 판 끝까지 → 결과",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
       "wait": "PlayableProbe.Screen == \"Result\"",
       "timeout": 120
     },
