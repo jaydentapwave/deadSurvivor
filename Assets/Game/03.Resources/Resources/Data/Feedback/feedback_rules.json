@@ -1,0 +1,36 @@
+{
+  "damageNumber": {
+    "lifetime": 0.65,
+    "risePx": 12,
+    "fadeStartRatio": 0.6,
+    "offsetPx": 4,
+    "fontSizePx": 8,
+    "maxActive": 40,
+    "textColor": "#ffffff",
+    "outlineColor": "#000000"
+  },
+  "hpLoss": {
+    "holdSeconds": 0.4,
+    "shrinkSeconds": 0.35,
+    "color": "#d8433c"
+  },
+  "shake": {
+    "amplitudePx": 2,
+    "seconds": 0.15,
+    "minInterval": 0.25
+  },
+  "haptic": {
+    "enabled": true,
+    "minInterval": 0.3
+  },
+  "monsterHp": {
+    "alwaysShowBehaviors": ["armored"],
+    "lingerSeconds": 1,
+    "maxActive": 40,
+    "widthPx": 16,
+    "heightPx": 2,
+    "offsetPx": 4,
+    "fillColor": "#d8433c",
+    "backColor": "#2a1f1f"
+  }
+}

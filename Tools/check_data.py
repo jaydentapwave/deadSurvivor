@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""게임 데이터 검사(에디터 없이). 스키마: docs/features/f1-skeleton/plan.md·f2-movement/plan.md·f3-combat/plan.md·f4-monsters/plan.md·f5-bag/plan.md "데이터 스키마".
+"""게임 데이터 검사(에디터 없이). 스키마: docs/features/f1-skeleton/plan.md·f2-movement/plan.md·f3-combat/plan.md·f4-monsters/plan.md·f5-bag/plan.md·f6-feedback/plan.md "데이터 스키마".
 
   python3 -B ./tools/check_data.py              지금 데이터를 검사한다. 문제가 있으면 줄마다 출력하고 exit 1
   python3 -B ./tools/check_data.py --root <폴더> 다른 데이터 폴더를 검사한다(Character/ Item/ Wave/ Run/ Monster/ Spawn/ 이 있는 곳)
@@ -8,13 +8,14 @@
                                                 자리 평균 ≠ 0, memberSpots 남음 / F3: 모르는 mode, interval 0인 발동 아이템,
                                                 4×4 밖이거나 끊긴 shape, 모르는 효과 종류, passive 시작 아이템 / F4: 없는 몬스터 가중치,
                                                 다섯 밖의 행동, 행동 칸 묶음 빠짐, weight 0, 몬스터 id 중복, 가중치 없는 웨이브 / F5: 등급 배수 줄어듦,
-                                                minCount > maxCount, 모든 lootWeight 0, 가방에 안 들어가는 시작 아이템)이
+                                                minCount > maxCount, 모든 lootWeight 0, 가방에 안 들어가는 시작 아이템 / F6: 피해 숫자 maxActive 0,
+                                                다섯 밖의 alwaysShowBehaviors, 색 형식 틀림)이
                                                 각각 실패하는지 본다
 
 보는 것: JSON 형식, 필수 칸과 형, id = 파일 이름, id 중복, 가리키는 대상(startItem → Item), 웨이브 order 1..N 빈칸 없음,
 개수 범위(캐릭터 4, 아이템 4~40, 웨이브 1~20, 진형 1~6), 진형 자리(수 = 캐릭터 수, 평균 0, 중복 없음)(F2), 값 범위,
 아이템 발동 방식·효과·칸 모양(F3), 전투 규칙 파일(F3),
-등급·가방 규칙·전리품 규칙 파일과 아이템 lootWeight(F5). 모르는 칸은 통과시킨다(뒤 기능이 같은 파일에 칸을 더한다).
+등급·가방 규칙·전리품 규칙 파일과 아이템 lootWeight(F5), 피드백 규칙 파일(F6). 모르는 칸은 통과시킨다(뒤 기능이 같은 파일에 칸을 더한다).
 종료 코드: 0 통과, 1 문제 있음, 2 실행할 수 없음(데이터 폴더 없음).
 """
 import json
@@ -209,6 +210,7 @@ def check(root):
         }, problems)
 
     check_bag_loot(root, items, characters, problems, notes)
+    check_feedback(root, problems)
     return problems, notes
 
 
@@ -532,6 +534,54 @@ def check_monsters(root, waves, problems):
         }, problems)
 
 
+FEEDBACK_BEHAVIORS = ("contact", "projectile", "charge", "armored", "bomb")
+
+
+def check_feedback(root, problems):
+    """Feedback/feedback_rules.json(F6 데이터 스키마): 칸 모두, 범위, 색 형식, alwaysShowBehaviors."""
+    rules = load_single(root / "Feedback" / "feedback_rules.json", problems)
+    if rules is None:
+        return
+    label = "Feedback/feedback_rules.json"
+    positive = (lambda v: is_num(v) and v > 0, "0보다 커야 한다")
+    non_negative = (lambda v: is_num(v) and v >= 0, "0 이상이어야 한다")
+    color = (lambda v: isinstance(v, str) and COLOR.fullmatch(v), "#rrggbb여야 한다")
+    groups = {
+        "damageNumber": {
+            "lifetime": positive, "risePx": non_negative,
+            "fadeStartRatio": (lambda v: is_num(v) and 0 <= v <= 1, "0~1이어야 한다"),
+            "offsetPx": (is_num, "수여야 한다"), "fontSizePx": positive,
+            "maxActive": (lambda v: is_int(v) and 1 <= v <= 200, "1~200 정수여야 한다"),
+            "textColor": color, "outlineColor": color,
+        },
+        "hpLoss": {"holdSeconds": non_negative, "shrinkSeconds": positive, "color": color},
+        "shake": {"amplitudePx": (lambda v: is_int(v) and 0 <= v <= 4, "0~4 정수여야 한다"),
+                  "seconds": non_negative, "minInterval": non_negative},
+        "haptic": {"enabled": (lambda v: isinstance(v, bool), "true/false여야 한다"), "minInterval": non_negative},
+        "monsterHp": {
+            "alwaysShowBehaviors": (lambda v: isinstance(v, list) and all(isinstance(b, str) for b in v), "글자 목록이어야 한다"),
+            "lingerSeconds": non_negative,
+            "maxActive": (lambda v: is_int(v) and 0 <= v <= 400, "0~400 정수여야 한다"),
+            "widthPx": (lambda v: is_int(v) and v > 0, "0보다 큰 정수여야 한다"),
+            "heightPx": (lambda v: is_int(v) and v > 0, "0보다 큰 정수여야 한다"),
+            "offsetPx": (is_num, "수여야 한다"), "fillColor": color, "backColor": color,
+        },
+    }
+    for group, spec in groups.items():
+        data = rules.get(group)
+        if not isinstance(data, dict):
+            problems.append(f"{label}: '{group}' 칸 묶음이 없다")
+            continue
+        check_fields(f"{label} {group}", data, spec, problems)
+    behaviors = (rules.get("monsterHp") or {}).get("alwaysShowBehaviors")
+    if isinstance(behaviors, list):
+        for b in behaviors:
+            if b not in FEEDBACK_BEHAVIORS:
+                problems.append(f"{label} monsterHp: alwaysShowBehaviors '{b}' — {list(FEEDBACK_BEHAVIORS)} 중 하나여야 한다")
+        if len(set(behaviors)) != len(behaviors):
+            problems.append(f"{label} monsterHp: alwaysShowBehaviors {behaviors} — 중복이 없어야 한다")
+
+
 def load_single(path, problems):
     label = f"{path.parent.name}/{path.name}"
     if not path.is_file():
@@ -645,6 +695,15 @@ def self_test(root):
     def break_start_cell(d):
         edit_json(d / "Bag" / "bag_rules.json", lambda data: data.update(startCell={"x": 3, "y": 3}))
 
+    def break_feedback_max(d):
+        edit_json(d / "Feedback" / "feedback_rules.json", lambda data: data["damageNumber"].update(maxActive=0))
+
+    def break_feedback_behavior(d):
+        edit_json(d / "Feedback" / "feedback_rules.json", lambda data: data["monsterHp"].update(alwaysShowBehaviors=["boss"]))
+
+    def break_feedback_color(d):
+        edit_json(d / "Feedback" / "feedback_rules.json", lambda data: data["hpLoss"].update(color="red"))
+
     cases = [("id 중복", break_duplicate, "중복"), ("없는 startItem", break_start_item, "startItem"),
              ("웨이브 order 빈칸", break_wave_gap, "Wave: order"), ("캐릭터 수 4 아님", break_character_count, "Character: 3개"),
              ("진형 자리 3개", break_formation_slot_count, "slots 3개"),
@@ -661,7 +720,10 @@ def self_test(root):
              ("몬스터 id 중복", break_monster_duplicate, "Monster: id 'slime' 중복"),
              ("가중치 없는 웨이브", break_wave_weights, "wave03.json: 'typeWeights' 칸이 없다"),
              ("등급 배수 줄어듦", break_grade_mult, "'mult'"), ("minCount > maxCount", break_loot_count, "minCount"),
-             ("모든 lootWeight 0", break_loot_weight, "lootWeight > 0"), ("시작 칸 (3, 3)", break_start_cell, "시작 칸 (3, 3)")]
+             ("모든 lootWeight 0", break_loot_weight, "lootWeight > 0"), ("시작 칸 (3, 3)", break_start_cell, "시작 칸 (3, 3)"),
+             ("피해 숫자 maxActive 0", break_feedback_max, "damageNumber: 'maxActive'"),
+             ("다섯 밖의 alwaysShowBehaviors", break_feedback_behavior, "alwaysShowBehaviors 'boss'"),
+             ("색 형식 틀림", break_feedback_color, "hpLoss: 'color'")]
     failures = []
     base_problems, _ = check(root)
     if base_problems:
