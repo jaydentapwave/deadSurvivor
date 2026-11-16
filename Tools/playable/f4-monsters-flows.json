@@ -33,7 +33,7 @@
     {
       "id": "LOAD",
       "name": "낮은 적 수 배율로 10웨이브 → 승리, 생성 수 = 데이터, 웨이브 10 버닝 프레임 기록(1배 시간)",
-      "do": "PlayableProbe.StartWaveMetrics(\"Logs/playable/latest/f4-metrics.json\"); PlayableProbe.UseRunSettings(3, 0.1f); PlayableProbe.UseRealTimeAtWave(10); UnityEngine.Time.timeScale = 20f; PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "do": "PlayableProbe.StartWaveMetrics(\"Logs/playable/latest/f4-metrics.json\"); PlayableProbe.UseRunSettings(3, 0.05f); PlayableProbe.UseRealTimeAtWave(10); UnityEngine.Time.timeScale = 20f; PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
       "wait": "PlayableProbe.Screen == \"Result\"",
       "timeout": 180,
       "expect": "PlayableProbe.Outcome == \"Win\" && PlayableProbe.WavesSurvived == 10 && PlayableProbe.IsSpawnCountAsData && PlayableProbe.FirstWaveOf(\"contact\") == 1 && PlayableProbe.BurningFrameMsP95 > 0 && PlayableProbe.MaxAliveEnemies >= 1 && !PlayableProbe.IsSpawnCountNear(98, 407, 0.05f)",
@@ -42,7 +42,7 @@
     {
       "id": "SHOW",
       "name": "웨이브 6(1배 시간)에 몬스터 5종과 적 투사체가 함께 있다",
-      "do": "PlayableProbe.StopBot(); PlayableProbe.UseRunSettings(13, 0.4f); PlayableProbe.UseRealTimeAtWave(6); UnityEngine.Time.timeScale = 20f; PlayableProbe.PressToLobby(); PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "do": "PlayableProbe.StopBot(); PlayableProbe.UseRunSettings(13, 0.2f); PlayableProbe.UseRealTimeAtWave(6); UnityEngine.Time.timeScale = 20f; PlayableProbe.PressToLobby(); PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
       "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 6 && PlayableProbe.AliveBehaviorKinds == 5 && PlayableProbe.EnemyShotCount >= 1",
       "timeout": 120,
       "capture": "all"
