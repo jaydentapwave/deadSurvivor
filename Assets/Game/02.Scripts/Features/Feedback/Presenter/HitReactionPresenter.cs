@@ -76,7 +76,9 @@ public class HitReactionPresenter : IInitializable, ILateTickable, IDisposable
         _basePosition = ShakeMath.ResolveBase(_cameraShakeView.Position, _lastAppliedPosition, _basePosition);
         if (deltaSeconds > 0f)
         {
-            _offset = ShakeMath.GetOffset(_shakeRemaining, _rules.Seconds, _rules.AmplitudePx, _shakeStep);
+            // 이 프레임에 남은 시간이 다 하면 오프셋 0(seconds 뒤 0, 끝난 흔들림의 오프셋이 일시정지 동안 남지 않게)
+            var isEnding = _shakeRemaining - deltaSeconds <= 0f;
+            _offset = isEnding ? Vector2.zero : ShakeMath.GetOffset(_shakeRemaining, _rules.Seconds, _rules.AmplitudePx, _shakeStep);
             if (_shakeRemaining > 0f)
             {
                 _shakeRemaining = Mathf.Max(0f, _shakeRemaining - deltaSeconds);
