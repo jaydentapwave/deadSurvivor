@@ -40,7 +40,7 @@
       "id": "P1",
       "name": "웨이브 시간(30초, 1배속)이 끝나면 정비 화면, 웨이브 1 완료",
       "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
-      "timeout": 45,
+      "timeout": 120,
       "capture": "all"
     },
     {

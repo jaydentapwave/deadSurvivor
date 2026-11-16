@@ -282,6 +282,7 @@ public class ItemActivationTests
     {
         // F1 "10초에 처치 1 이상"을 시작 아이템 발동으로 옮김. 적이 생성 거리(약 960)에서 단궁 사거리 336까지 걷는 데
         // 약 10초가 걸리고(속도 63), F1 기본 무기와 달리 사거리 336은 단궁 하나뿐이며 투사체가 날아가므로 15초로 본다
+        // (첫 처치 약 11초. 15초로 바꾸는 것은 디렉터 답 2026-11-16으로 허용됨)
         var context = new TestRunContext();
         context.RunService.StartRun(1, context.RunRules.DefaultEnemyCountScale);
 
