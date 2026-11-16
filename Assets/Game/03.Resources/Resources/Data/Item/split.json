@@ -1,0 +1,31 @@
+{
+  "id": "split",
+  "name": "갈래 화살촉",
+  "mode": "passive",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 1,
+      "y": 1
+    }
+  ],
+  "power": 0,
+  "interval": 0,
+  "range": 0,
+  "baseEffect": "attack",
+  "baseValue": 0.05,
+  "bonusEffect": "extraShots",
+  "bonusValue": 1,
+  "bonusTarget": "projectile",
+  "bonusNeedsAdjacent": true,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": ""
+}

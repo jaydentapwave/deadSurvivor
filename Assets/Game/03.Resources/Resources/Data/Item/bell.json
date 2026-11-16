@@ -1,0 +1,31 @@
+{
+  "id": "bell",
+  "name": "축복의 종",
+  "mode": "passive",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 1,
+      "y": 1
+    }
+  ],
+  "power": 0,
+  "interval": 0,
+  "range": 0,
+  "baseEffect": "heal",
+  "baseValue": 3.3,
+  "bonusEffect": "share",
+  "bonusValue": 1,
+  "bonusTarget": "",
+  "bonusNeedsAdjacent": false,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": ""
+}
