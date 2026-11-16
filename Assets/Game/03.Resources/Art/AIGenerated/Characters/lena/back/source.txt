@@ -1,0 +1,62 @@
+# lena_back.png — 출처
+
+- 무엇: 레나(궁수, 게임 기획서 A1) 뒤 3/4 그림(오른쪽 위를 봄, 아트 기준서 K14). 같은 캐릭터의 앞 기준 그림은 ../front/lena_front.png (identity lena).
+- 규격: 64x64 캔버스, 그림 33x48(키 48px = 앞모습과 같음, 캔버스 y 16~63), 피벗 = 발 가운데 = 캔버스 아래 가운데(신발 가운데 x 32, 바닥 63줄). 알파 0/255만.
+- sha256: 67746a3eac73681260884f3e788c9f3a68ef36cde90a25430300afd271694fbe
+- 만든 날: 2026-11-16, 대기열 20261116-art-batch2 항목 lena-back(시도 1), bruno-back과 같은 방법("기준 그림이 없는 새 종류" 길: 측정은 참고, 판독 + 사람 판정)
+- 채택: 디렉터 대신 채택(대기열 자동 실행, fringe PASS + 다른 계열 판독 1위), 사용자 판정 대기
+
+## 도구
+- 생성: codex-cli 0.167.2, 모델 gpt-6.1-sol (model_reasoning_effort medium), 내장 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1dfbe-fbf6-70b3-bfe2-5855fe186240 (1회차 설정 A, 00:06 시작), 결과 2장 중 1번째 (lena_r1a_1.png)
+- 설정 B 세션: 01a1dfbe-fbf6-74f2-bff2-b28397e50831
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c 'model_reasoning_effort="medium"' -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null
+
+## 참고 그림 (sha256, 넣은 순서)
+1. 채택된 레나 앞 그림 lena_front.png d5b59624d31febe35a2736b7901ce6b26276ca3f67768a52adfbc82d0c79e0ab
+   → 자홍 배경 16배 확대(1024x1024) ref1_lena_front_x16.png a1aa93a321ec9492163cb228fd03b1e188bed5938c3fd02fab2931482a8b2880 (캐릭터·그림체)
+2. 채택된 브루노 뒤 그림 bruno_back.png 63412b437e51646ccfbf07ea17326a0dabcd9e5c4aee603ae1661411efc4c5ab
+   → 자홍 배경 16배 확대 ref2_bruno_back_x16.png 9f5b859b3203879fadb678702c1c8631905757d57a69391170cbd5953da8b6c6 (뒤 3/4 자세·배낭 모양)
+3. 컨셉 PE-G003 docs/game/concept-20261112/3-직업4종.jpg d96f1997c089f2453e1c8ef003879c07571924015c1bca30a6825dd0c9378e20
+   의 궁수 부분 (460,190,800,680) a3861fd64ddac66d96613add704a8c7bc05efb1a32b9a1c6d9ed7236af58d6d6 (상세 디자인)
+4. (설정 B만) 앞 그림 실루엣 회색 16배 guide_silhouette_x16.png 461435b3719638e40f41e7a0e657082e13907dd165b9db8de1d2709f65b37c18
+
+## 최종 프롬프트 (1회차 설정 A, Codex에 보낸 그대로)
+[lena-back-r1a] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. Three images are attached: the first is our adopted game sprite of the archer (front view), the second is our adopted sprite of another character seen from the back (pose reference only), the third is the concept art of the same archer.
+Copy the two results from the generated images folder into the current working folder as lena_r1a_1.png and lena_r1a_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Draw the SAME character as the first reference, the green-hooded elf archer girl, seen from the BACK in a 3/4 back view: she has turned around and faces toward the upper-right of the picture (away from the viewer), standing idle, both feet on the ground. Character, colours, art style, proportions and outline come from the first image. The second image shows the 3/4 back pose of another character from our game in the same art style: copy its pose, its angle (turned toward the upper-right) and the way the big backpack covers the middle of the back. The third image is the concept art of the same archer for extra design detail.
+The first reference is a 64x64 pixel sprite enlarged so that every pixel is one 16x16 flat block (canvas 1024x1024). Use exactly this pixel grid: the same block size, the same canvas, the same head size and body proportions (big head), and the same feet position. The archer is exactly 48 blocks tall (from the soles of the boots on the bottom row to the top of the hood), exactly as tall as in the first reference, and about 30-36 blocks wide, centered like the first reference.
+What is seen from behind: the back of the green hood (#4f7a2e, light #7fa040, dark #3a3721) covering the back of the head, with its leaf ornament; a little light-brown hair (#d5833a) at the sides under the hood; no eyes and no mouth visible (at most the tip of one pointed elf ear at the right edge of the head); the green cape on the shoulders; the big brown leather backpack (#af642e, #774c3b) now covers the middle of her back and is the main shape of the torso; the quiver with white-feathered arrows sticks up behind one shoulder next to the backpack; the wooden short bow (a clear continuous curved line with a string) held in her hand appears on the RIGHT side of the picture; brown gloves; dark trousers; brown boots (#77211d), seen from the heels.
+Pixel rules: every block is ONE flat colour; no detail smaller than one block; no anti-aliasing, no gradients, no dithering, no soft edges. A 1-block dark brown outline (#34140e, not black) around the whole figure. Flat 2-3 tone shading.
+Background: flat solid #ff00ff everywhere outside the character. No grid lines, no text, no UI, no ground, no cast shadow.
+
+## 생성 원본 (Git 밖, output/2d-art/lena-back/)
+- r1a (참고 1·2·3): lena_r1a_1.png c965d37d3c1a964928a932d6acbda1bfa2c88db9c4df68260713aa4552d332da (채택, 격자 33x48), lena_r1a_2.png 4478e21f… (격자 31x47)
+- r1b (참고 1·2·3·4): lena_r1b_1.png 479f9057… (32x48), lena_r1b_2.png fdfaa9fd… (32x48)
+- 모두 1254x1254
+
+## 후처리
+1. pixelize.py grid --size 34x48 --bg-tol 100 → native grid 33x48 (block 19.6px, score 0.67). 키 48칸 그대로.
+2. pixelize.py one --size 33x48 --palette <앞 그림과 같은 팔레트: 기준서 3.5 36색 + 강철 3색, output/2d-art/lena-back/palette.json> --bg-tol 100
+   → adabfb9cb34979b51cb5e6c27618700d9adf60b2c5a44d0b9d0828be0072200f
+3. 64x64 캔버스에 놓기(bruno-back의 place.py 그대로): 맨 아래 3줄(신발) 가로 범위 가운데를 x 32에, 신발 바닥을 63줄에. 오프셋 (19,16). 다른 편집 없음.
+   (r1a_2는 47칸이라 다리 한 줄을 복제해 48로 늘렸다 — 채택본에는 이 처리가 없다)
+
+## 판정
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0). 후보 4장 모두 PASS
+- 키: 48px, 앞모습과 같은 줄(y 16)에서 두건 끝, 63줄에 발 — 확인
+- measure.py compare --id lena --pose: FAIL — 참고 기록만(지시문: 뒷모습은 얼굴·앞쪽 부위가 가려져 채택 판정에 쓰지 않음).
+  색은 잡힌 부위 모두 PASS(hood 3.56, cape 0.93, skin 5.98, backpack 3.25, bow 5.08, boots 0.0, outline 색 1.15 / 허용 8).
+  FAIL: outline:stroke_ratio 0.1528 (ref 0.2566, tol 0.003) — 4후보 모두 FAIL(0.137~0.166, bruno-back과 같은 양상).
+  hair NOT_ASSESSED(두건 뒤로 머리가 14px만 보임), parts NOT_ASSESSED(identity에 fixed 부위 없음). 전체: output/2d-art/lena-back/review/measure_adopted.txt, 시트 칸.
+- 다른 계열 판독(Claude sonnet 하위 에이전트, references/part-check.md, 이름 가린 cand_1~4, 채택본 = cand_2): PASS, 4후보 중 1위.
+  읽힌 것: 같은 캐릭터의 뒷모습, 잎 장식 초록 두건, 오른쪽 가장자리에 머리·귀, 등에 갈색 배낭(버클), 왼쪽 어깨 화살통(흰 깃), 오른쪽에 줄 있는 곡선 단궁,
+  갈색 신발, 오른쪽 위를 보는 3/4가 4장 중 가장 분명, 얼굴처럼 보이는 무늬 없음, 같은 그림체. 지적: 망토 가장자리가 조금 거칠다(허용 수준).
+  다른 후보: r1b_1 PASS 2위(두건 뒤 주황 점, 활이 작음), r1b_2 PASS 3위(신발이 빨강, 배낭 노란 패치가 눈처럼 보임), r1a_2 PASS 4위(빨간 신발, 활 옆 잡선).
+  판독은 x6 그림만 열었고 게임 크기(x2) 판독은 x6 모양에서 추정했다고 밝혔다.
+- 만든 쪽 확인: 채택본 x6과 시트를 직접 열어 봄 — 두건·배낭·화살통·활이 보이고 앞모습과 키가 같다.
+- PASS = 기준과 어긋나지 않음. 자연스러움과 같은 캐릭터로 보이는지는 사람 판정이 본다.
+- 사용자 판정: 대기(게임 화면 짧은 Play·자리 적용은 이 항목 범위 밖)
+- 시트: docs/art/sheets/lena-back.png (sheet.py pairs --ref lena_front.png --size 144 --unverified "<뒷모습 측정은 참고 기록>") — 앞 채택본과 후보 4장

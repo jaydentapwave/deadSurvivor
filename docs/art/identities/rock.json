@@ -1,0 +1,17 @@
+{
+ "schema": "2d-identity/1",
+ "id": "rock",
+ "ref": "Assets/Game/03.Resources/Art/AIGenerated/Monsters/rock/rock.png",
+ "ref_sha256": "917ee78b436c2c37f211343bda1df7428c4f3f4447236f4703830885cd3103ea",
+ "approved": "2026-11-16 — 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기",
+ "note": "몬스터 중장갑 가시 바위(게임 기획서 A6·F4, 기준서 K12). 슬라임과 같은 그림체. 64x64 캔버스, 그림 52x51(키 51px = 캐릭터 48px의 1.06, K13 1.0~1.2, 다섯 중 가장 큼), 피벗 바닥 가운데. 회색 바위 몸·가시(PE-G001 가시 바위). box_rel은 그림 bbox 기준.",
+ "width_part": "body",
+ "outline_exclude": ["body_shade"],
+ "parts": {
+  "body": {"hex": "#786868"},
+  "body_light": {"hex": "#a89898"},
+  "body_shade": {"hex": "#5c493c"},
+  "highlight": {"hex": "#c8b8b8"},
+  "eyes": {"hex": "#ffe08a", "fixed": true}
+ }
+}

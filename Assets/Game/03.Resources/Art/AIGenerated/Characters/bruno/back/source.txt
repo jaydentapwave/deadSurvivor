@@ -1,0 +1,59 @@
+# bruno_back.png — 출처
+
+- 무엇: 브루노(전사, 게임 기획서 A1) 뒤 3/4 그림(오른쪽 위를 봄, 아트 기준서 K14). 같은 캐릭터의 앞 기준 그림은 ../front/bruno_front.png (identity bruno).
+- 규격: 64x64 캔버스, 그림 37x48(키 48px = 앞모습과 같음, 캔버스 y 16~63), 피벗 = 발 가운데 = 캔버스 아래 가운데(신발 가운데 x 32, 바닥 63줄). 알파 0/255만.
+  폭이 앞모습(31)보다 넓은 것은 뒤에서 방패 테두리(왼쪽)와 칼(오른쪽)이 몸 양옆으로 보이기 때문이다.
+- sha256: 63412b437e51646ccfbf07ea17326a0dabcd9e5c4aee603ae1661411efc4c5ab
+- 만든 날: 2026-11-15, 대기열 20261115-art-characters 항목 bruno-back(시도 1), /2d-art-produce "기준 그림이 없는 새 종류" 길(측정은 참고, 판독 + 사람 판정)
+- 채택: 디렉터 대신 채택(대기열 자동 실행, 다른 계열 판독 1위), 사용자 판정 대기
+
+## 도구
+- 생성: codex-cli 0.167.2, 모델 gpt-6.1-sol (model_reasoning_effort medium), 내장 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1dfb1-744d-7372-aeeb-181788a3f1fc (1회차 설정 B, 23:51 시작), 결과 2장 중 2번째 (bruno_r1b_2.png)
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c 'model_reasoning_effort="medium"' -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null
+
+## 참고 그림 (sha256, 넣은 순서)
+1. 채택된 브루노 앞 그림 bruno_front.png 75ebc8c3c00ac046495e460f903b8ce5669f97d57dcb94473e3003793a1c89ee
+   → 자홍 배경에 놓고 16배 확대(1024x1024) ref1_bruno_front_x16.png 55966cfa2e540095395525af36c6f409ea6e9653e66a60cc7c4efae8f769acac (캐릭터·그림체)
+2. 컨셉 PE-G003 docs/game/concept-20261112/3-직업4종.jpg d96f1997c089f2453e1c8ef003879c07571924015c1bca30a6825dd0c9378e20
+   의 전사 부분 자른 것 (22,165,462,692) 5bd123dc2db36e8e501bea2ba0bdbb17182083a58b231c894f4b88c634c8ebde (상세 디자인)
+3. (설정 B만) 앞 그림의 실루엣을 회색 덩어리로 칠해 16배 확대 guide_silhouette_x16.png 56552e08c780408f2c105ea076dbc7844d3c5541bd56c0c4b0bbc03df4465258 (키·자리 안내)
+
+## 최종 프롬프트 (1회차 설정 B, Codex에 보낸 그대로)
+[bruno-back-r1b] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. Three images are attached: the first is our adopted game sprite of the warrior (front view), the second is the concept art of the same warrior, the third is a grey block silhouette on the same 1024x1024 grid that marks the space and height the figure must fill.
+Copy the two results from the generated images folder into the current working folder as bruno_r1b_1.png and bruno_r1b_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Draw the SAME character as the first reference, the red-haired warrior, seen from the BACK in a 3/4 back view: he has turned around and faces toward the upper-right of the picture (away from the viewer), standing idle, both feet on the ground. Character, colours, art style, proportions and outline come from the first image; the second image is the concept art of the same warrior for extra design detail.
+The first reference is a 64x64 pixel sprite enlarged so that every pixel is one 16x16 flat block (canvas 1024x1024). Use exactly this pixel grid: the same block size, the same canvas, the same head size and body proportions (about 2.4 heads tall, big head), and the same feet position. The warrior is exactly 48 blocks tall (from the soles of the boots on the bottom row to the top of the hair), exactly as tall as in the first reference, and about 28-34 blocks wide, centered like the first reference.
+What is seen from behind: the back of the spiky red hair (#c44334, shading #77211d) covering the back of the head, no eyes and no mouth visible (at most a tiny part of one ear or cheek at the right edge of the head); the red scarf at the neck; the big brown leather backpack (#af642e, #774c3b) with the rolled bedroll on top now covers the middle of his back and is the main shape of the torso; the red cape hangs below the backpack; grey steel shoulder plates (#c8b8b8, #a89898, #786868) show at both sides of the backpack; the round wooden shield with gold rim on his left arm now appears on the LEFT side of the picture, seen from its back (wood and straps); the straight steel long sword in his right hand appears on the RIGHT side of the picture, held low; brown leather belt; grey steel knee plates; brown boots, seen from the heels.
+Pixel rules: every block is ONE flat colour; no detail smaller than one block; no anti-aliasing, no gradients, no dithering, no soft edges. A 1-block dark brown outline (#34140e, not black) around the whole figure. Flat 2-3 tone shading.
+Background: flat solid #ff00ff everywhere outside the character. No grid lines, no text, no UI, no ground, no cast shadow.
+Keep the figure inside roughly the grey silhouette area of the third image (same height 48 blocks, same feet row, same width); the inner shapes are repainted as the back view described above.
+
+## 생성 원본 (Git 밖, output/2d-art/bruno-back/)
+- r1a (참고 1·2): bruno_r1a_1.png fd7eae7e…, bruno_r1a_2.png de6893d7… — 1254x1254, 격자 37x47
+- r1b (참고 1·2·3): bruno_r1b_1.png ab6e8f47…, bruno_r1b_2.png 45d229b4805a635b3f9a7ce8c83db6e023a4bb5088466dccf3213b7ad10b15bf (채택) — 1254x1254, 격자 37x48
+
+## 후처리
+1. pixelize.py grid --size 31x48 --bg-tol 100 → native grid 37x48 (block 19.6px, score 0.50). 31은 앞모습 폭이라 GRID_MISMATCH로 찍혔지만 키 48칸은 일치,
+   폭 37은 뒷모습에서 방패·칼이 양옆으로 나와서다(bbox 픽셀 723x941 / 19.6 = 36.9x48.0). 그래서 본래 격자 37x48로 내림.
+2. pixelize.py one --size 37x48 --palette <앞 그림과 같은 팔레트: 기준서 3.5 36색 + 강철 3색 #c8b8b8 #a89898 #786868> --bg-tol 100
+   → 2325a6cbf860a65e157a0a91da8e1a1bbaf3aca9211d3ddb68887f6dd2e01cbe
+3. 64x64 캔버스에 놓기(앞 그림과 같은 place.py): 맨 아래 3줄(신발) 가로 범위 가운데를 x 32에, 신발 바닥을 63줄에. 오프셋 (16,16). 다른 편집 없음.
+   (r1a 두 장은 47칸이라 다리 한 줄을 복제해 48로 늘렸다 — 채택본에는 이 처리가 없다)
+
+## 판정
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0)
+- 키: 48px, 앞모습과 같은 줄(y 16)에서 머리 끝, 63줄에 발 — 확인
+- measure.py compare --id bruno --pose: FAIL — 참고 기록만(지시문: 뒷모습은 얼굴·앞쪽 부위가 가려져 채택 판정에 쓰지 않음).
+  색은 판정된 부위 모두 PASS(hair 0.0, scarf 0.0, cape 0.0, red_shade 0.0, skin 2.27, steel 2.26, backpack 1.28, boots 0.79, outline 색 0.43 / 허용 8).
+  FAIL 항목: outline:stroke_ratio 0.4 (ref 0.1667, tol 0.003) — 4후보 모두 FAIL(0.15~0.40). shield NOT_ASSESSED(뒤에서는 방패 앞면 빨간색이 안 보임),
+  parts NOT_ASSESSED(identity에 fixed 부위가 없음). 전체 기록: output/2d-art/bruno-back/review/measure_adopted.txt, 시트 칸.
+- 다른 계열 판독(Claude sonnet 하위 에이전트, references/part-check.md, 이름 가린 cand_1~4, 채택본 = cand_3): PASS, 4후보 중 1위.
+  읽힌 것: 브루노의 뒷모습, 배낭이 몸통의 주된 모양으로 등에 있음, 빨간 망토, 양 어깨 회색 갑옷, 왼쪽에 방패 테두리, 오른손 장검(오른쪽), 신발 2, 키 같음,
+  같은 그림체(어두운 갈색 1px 외곽선, 평면 음영). 오른쪽 위를 보는 3/4로 가장 잘 읽힘(머리·어깨가 비켜 있음). 머리색이 기준에 가장 가까움. 깨진 외곽선·잡티 없음.
+  다른 후보: r1b_1 PASS 2위, r1a_1 PASS 3위(거의 정면 뒤), r1a_2 FAIL(배낭 무늬가 얼굴처럼 읽힘).
+- PASS = 기준과 어긋나지 않음. 자연스러움과 같은 캐릭터로 보이는지는 사람 판정이 본다.
+- 사용자 판정: 대기(게임 화면 짧은 Play·자리 적용은 이 항목 범위 밖)
+- 시트: docs/art/sheets/bruno-back.png (sheet.py pairs --ref bruno_front.png --size 144 --unverified "<뒷모습 측정은 참고 기록>") — 앞 채택본과 후보 4장

@@ -1,0 +1,50 @@
+# rock.png — 출처
+
+- 무엇: 몬스터 중장갑 가시 바위(게임 기획서 A6·F4, 아트 기준서 K12 가시 바위). 슬라임(slime.png)과 같은 그림체. identity docs/art/identities/rock.json 의 ref.
+- 규격: 64x64 캔버스, 그림 52x51(키 51px = 캐릭터 키 48px의 1.06, 기준서 K13 1.0~1.2, F4 AC18 다섯 중 가장 큼), 피벗 = 바닥 가운데(바닥 3줄 가로 범위 가운데를 x 32, 맨 아래 줄 63). 알파 0/255만. 회색 바위 몸(#786868·#a89898·#c8b8b8, 아래 그늘 #5c493c)과 회색 원뿔 가시 5개, 노란 눈(#ffe08a).
+- sha256: 917ee78b436c2c37f211343bda1df7428c4f3f4447236f4703830885cd3103ea
+- 만든 날: 2026-11-16, 대기열 20261116-art-batch2 항목 monster-rock(시도 1), /2d-art-produce "기준 그림이 없는 새 종류" 길(monster-slime과 같은 방법)
+- 채택: 2026-11-16 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기
+
+## 도구
+- 생성: codex-cli, 모델 gpt-6.1-sol(추론 medium), 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1dff1-a969-7c50-84eb-f44d465def8e (1회차 설정 B), 결과 2장 중 1번째
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256, -i 순서)
+1. 회색 실루엣 안내(64x64, 키 51·폭 54, 가시 5개, 외곽선 #34140e, 16배, #ff00ff 바탕) guide_silhouette_x16.png 33ae466ad643b96ee0da83ec3fc35d96a7bd315e4db9d10d4c2810fae443d9d1 — 고칠 그림(output/2d-art/monster-rock/tools/guide.py)
+2. 슬라임 채택본 Assets/.../Monsters/slime/slime.png 17f9171cf8aa1319c686e9f6fc0d68d693a19dbb60bad08acd287e4204e20eaf → 16배 ref1_slime_x16.png 03a97e53afc82e6ccdb34eb442f052660c695b54dc66a2616892ad8371abcc8f — 몬스터 그림체
+3. 브루노 앞 채택본 Assets/.../Characters/bruno/front/bruno_front.png 75ebc8c3c00ac046495e460f903b8ce5669f97d57dcb94473e3003793a1c89ee → 16배 ref2_bruno_front_x16.png 55966cfa2e540095395525af36c6f409ea6e9653e66a60cc7c4efae8f769acac — 크기 비교·외곽선
+4. 컨셉 PE-G001 docs/game/concept-20261112/1-들판길-낮-전투.jpg 5b1dd2341dbd988d8c7ce84cbdbd39d033c7bd2d177be5afe211f73aaca10a0d, 자른 것 (1340,320,1640,540) 3배 ref3_rock_concept.png 71c1b508e1e382ff5cc4ba3642b477ce5b5626ffe9f4cb5716dbce033cfe0f74 — 오른쪽 가시 바위
+  (manifest external_send: 게임 그림 생산에 Codex 참고 그림으로 사용 허용, 2026-11-15 "넣는다 (추천)")
+
+## 최종 프롬프트 (1회차 설정 B, Codex에 보낸 그대로)
+[monster-rock-r1b] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. Four images are attached: the first is the image to edit (a grey silhouette guide), the second is our adopted slime monster sprite (the monster art style to match exactly), the third is our adopted warrior hero sprite (size comparison and outline style), the fourth is a crop of a concept painting that shows a spiky rock monster.
+Copy the two results from the generated images folder into the current working folder as rock_r1b_1.png and rock_r1b_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Edit the first reference image. It is a 64x64 pixel sprite enlarged so that every pixel is one 16x16 flat block (canvas 1024x1024). Keep exactly this pixel grid: the same block size, the same canvas, the same silhouette and the same position. The grey silhouette is exactly 51 blocks tall (bottom row of the canvas up to the tip of the highest spike) and 54 blocks wide; keep that size, do not shrink it. It is the biggest and heaviest of our monsters, bigger than the warrior in the third reference. Paint the grey area as a heavy armoured spiked rock monster, like the spiky rock creature in the fourth reference: a big round hard boulder body in warm stone grey (#786868, lit top #a89898, highlight #c8b8b8, dark shade #5c493c along the bottom), with a few flat-faced rock facets and one or two small cracks drawn as short dark lines, and thick cone-shaped stone spikes on its back and top (the same grey stone as the body but lighter on the lit side (#c8b8b8) and #5c493c on the shaded side). Two glowing yellow eyes (#ffe08a), each 2 blocks wide and 4 blocks tall, close together on the front, slightly right of centre (it looks toward the lower-right, isometric 3/4 view like the second and third references). No mouth, no arms; two short stubby rock feet at the bottom. It must look solid, hard and very heavy, not soft or jelly-like. Keep the 1-block dark brown outline (#34140e, not black) around the whole figure, the same outline and the same flat 2-3 tone shading as the slime in the second reference.
+Pixel rules: every block is ONE flat colour; no detail smaller than one block; no anti-aliasing, no gradients, no dithering, no soft edges.
+Background: flat solid #ff00ff everywhere outside the monster. No grid lines, no text, no UI, no ground, no grass, no cast shadow, no particles.
+
+## 생성 원본
+- output/2d-art/monster-rock/r1b/rock_r1b_1.png (Git 밖) a555729776cb0e344109be440fd0ae9a270b28816fea38323e83920ae8f571c4
+
+## 후처리
+1. pixelize.py grid --bg-tol 100 --size 54x51 → native grid 54x51 (block 19.6px, score 0.77) — 목표와 일치
+2. pixelize.py one --size 54x51 --palette <slime·mushroom과 같은 팔레트 39색(기준서 3.5 36색 + 강철 3색)> --bg-tol 100 → 팔레트 밖 색 없음(7색)
+3. 64x64 캔버스에 놓기(tools/place.py, 바닥 3줄 기준): 오프셋 (5,13), bbox x 5..58 y 13..63
+4. 손질: 안내 실루엣의 가장 넓은 줄에서 좌우로 1px 튀어나온 외곽선 점 2개((5,46), (58,46))를 투명으로(판독 지적). 그 뒤 bbox x 6..57(폭 52), 높이 51 그대로. matte fix 없음
+
+## 판정
+- 격자: 54x51 일치
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0)
+- 부위 대조(다른 계열: Claude sonnet 하위 에이전트, references/part-check.md, 이름 가린 cand_A): PASS, 4후보 중 1위.
+  판독: 가시 돋은 바위·바위 골렘으로 읽힘, 컨셉의 가시 바위와 맞음. 면 하이라이트·금·무거운 밑동으로 가장 단단하고 무거워 보임. 키 약 영웅의 1.15배로 다섯 중 가장 큼(판독자 추정, 실측 1.06). 외곽선·픽셀 크기·노란 눈이 슬라임과 같음.
+  지적: 슬라임(2~3톤)보다 톤이 많고(4~6) 금이 있어 조금 더 복잡함, 컨셉의 어두운 얼굴 부분이 없음, 좌우 1px 외곽선 돌기(→ 손질 4로 지움), 바위 안 붉은 점 몇 개(#774c3b 5px, 게임 크기에서 안 보임 — 그대로 둠).
+  다른 후보: 회색 r1b_2 경계(갈색 얼룩이 지저분), 파란 몸 r1a_1·r1a_2 FAIL(젤리처럼 읽혀 슬라임과 섞임).
+- identity 등록: measure.py identity --id rock PASS (부위 5개 모두 잡힘, 겹침 없음)
+- measure.py compare --id rock --img rock.png: PASS (기준 그림 자기 대조. 기준 그림이 없는 새 종류라 참고 기록)
+- PASS = 기준과 어긋나지 않음. 자연스러움·중장갑으로 보이는지는 판독과 사용자 판정이 본다.
+- 시트: docs/art/sheets/monster-rock.png (sheet.py grid --candidates --size 144) — 브루노 앞, 슬라임, 채택본, 회색 후보 r1b_2
+- 사용자 판정: 대기

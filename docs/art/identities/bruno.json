@@ -1,0 +1,77 @@
+{
+ "schema": "2d-identity/1",
+ "id": "bruno",
+ "ref": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bruno/front/bruno_front.png",
+ "ref_sha256": "75ebc8c3c00ac046495e460f903b8ce5669f97d57dcb94473e3003793a1c89ee",
+ "approved": "2026-11-15 — 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기",
+ "note": "브루노(전사, 게임 기획서 A1) 앞 3/4(오른쪽 아래를 봄, 기준서 K14). 64x64 캔버스, 키 48px, 피벗 발 가운데(캔버스 아래 가운데). 기준 그림은 게임 해상도 도트 그림 자체다(도트 그림이라 고해상도 원본이 따로 없음). box_rel은 그림 bbox(31x48) 기준.",
+ "width_part": "hair",
+ "outline_exclude": [
+  "red_shade"
+ ],
+ "parts": {
+  "hair": {
+   "hex": "#c44334",
+   "box_rel": [
+    0.0,
+    0.0,
+    1.0,
+    0.28
+   ]
+  },
+  "scarf": {
+   "hex": "#c44334",
+   "box_rel": [
+    0.35,
+    0.33,
+    0.8,
+    0.5
+   ]
+  },
+  "cape": {
+   "hex": "#c44334",
+   "box_rel": [
+    0.0,
+    0.7,
+    0.35,
+    0.9
+   ]
+  },
+  "shield": {
+   "hex": "#c44334",
+   "box_rel": [
+    0.74,
+    0.5,
+    1.0,
+    0.75
+   ]
+  },
+  "red_shade": {
+   "hex": "#77211d"
+  },
+  "skin": {
+   "hex": "#f8daac"
+  },
+  "steel": {
+   "hex": "#a89898"
+  },
+  "backpack": {
+   "hex": "#af642e",
+   "box_rel": [
+    0.0,
+    0.29,
+    0.33,
+    0.75
+   ]
+  },
+  "boots": {
+   "hex": "#af642e",
+   "box_rel": [
+    0.15,
+    0.85,
+    0.9,
+    1.0
+   ]
+  }
+ }
+}

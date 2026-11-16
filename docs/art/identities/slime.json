@@ -1,0 +1,17 @@
+{
+ "schema": "2d-identity/1",
+ "id": "slime",
+ "ref": "Assets/Game/03.Resources/Art/AIGenerated/Monsters/slime/slime.png",
+ "ref_sha256": "17f9171cf8aa1319c686e9f6fc0d68d693a19dbb60bad08acd287e4204e20eaf",
+ "approved": "2026-11-16 — 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기",
+ "note": "몬스터 일반형 슬라임(게임 기획서 C3·F4, 기준서 K12). 몬스터 다섯의 그림체 기준. 64x64 캔버스, 그림 31x24(키 24px = 캐릭터 48px의 0.5, K13), 피벗 바닥 가운데. 보라(PE-G001 보라 슬라임). box_rel은 그림 bbox 기준.",
+ "width_part": "body",
+ "outline_exclude": ["body_shade"],
+ "parts": {
+  "body": {"hex": "#7a4a9e"},
+  "body_light": {"hex": "#b07fd0"},
+  "body_shade": {"hex": "#2b3566"},
+  "eyes": {"hex": "#ffe08a", "fixed": true},
+  "shine": {"hex": "#ffffff"}
+ }
+}

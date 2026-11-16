@@ -1,0 +1,59 @@
+# bolt_front.png — 출처
+
+- 무엇: 볼트(사제, 게임 기획서 A1, 직업색 흰·금, 치유 성물) 앞 3/4 기준 그림(오른쪽 아래를 봄, 아트 기준서 K14). identity docs/art/identities/bolt.json 의 ref.
+- 규격: 64x64 캔버스, 그림 30x48(키 48px, 기준서 3.1 48px 열, 두건 끝~신발 바닥), 피벗 = 발 가운데 = 캔버스 아래 가운데(x 32, 맨 아래 줄). 알파 0/255만.
+- sha256: 1bf294037b5cd5661b8f05c3d8d68c5325d7f049ae610ae82546bc20151d3e37
+- 만든 날: 2026-11-15, 대기열 20261115-art-characters 항목 bolt-front(시도 1), /2d-art-produce "새 캐릭터" 경로, bruno-front·lena-front·mira-front와 같은 방법
+- 채택: 2026-11-15 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기
+- 치유 성물: 게임 기획서 A1 "치유 성물"을 컨셉 PE-G003대로 두 손으로 든 금빛 등불(십자 창)로 그렸다. 배낭 위 촛불도 컨셉대로.
+
+## 도구
+- 생성: codex-cli 0.167.2, 모델 gpt-6.1-sol(추론 medium), 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1dfac-283b-7382-9ad3-45340c8ec24d (2회차 설정 A), 결과 2장 중 2번째
+- 계보의 1회차 세션: 01a1dfa9-da68-7122-9983-a35801c7bbd3 (1회차 설정 A), 결과 2장 중 1번째(bolt_r1a_1)
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256)
+- 1회차 첫째 참고(그림체·비율·외곽선): 채택된 브루노 Assets/Game/03.Resources/Art/AIGenerated/Characters/bruno/front/bruno_front.png 75ebc8c3c00ac046495e460f903b8ce5669f97d57dcb94473e3003793a1c89ee
+  - #ff00ff 바탕에 놓고 16배 확대(1024x1024) ref1_bruno_x16.png 55966cfa2e540095395525af36c6f409ea6e9653e66a60cc7c4efae8f769acac
+- 1회차 둘째 참고(직업 외형): 컨셉 PE-G003 docs/game/concept-20261112/3-직업4종.jpg d96f1997c089f2453e1c8ef003879c07571924015c1bca30a6825dd0c9378e20
+  (manifest external_send: Codex 참고 그림 사용 허용, 2026-11-15 "넣는다 (추천)")
+  - 사제만 자른 것 (1200,190,1530,680, 컨셉 관찰 표의 범위): 7232008b60ef93324b4d2a486ec5e8667d9c3df90ba8de6a50751ea40cfd419f (설정 A)
+  - 같은 것을 좌우 뒤집은 것(우리 시선 오른쪽 아래·배낭 왼쪽에 맞춤): 70471fa2ec4da8eb791bc4963eff80fc4443ae3fc273f92cfa1a7df9d900bb48 (설정 B)
+  - 4장 모두 배치(배낭·촛불 왼쪽, 등불 오른쪽 앞)가 맞았다. 격자는 30x47 / 30x47 / 29x48 / 31x47(칸 19.6px).
+- 2회차 첫째 참고(고칠 그림) guide.png 8a72dc8436d4e7a32df8fec0682879fc9adb094fb904637f19a3032b368e0c76
+  — 1회차 결과 bolt_r1a_1(131aaf29…ea7db7ea)을 pixelize.py one --size auto(30x47, 브루노와 같은 팔레트)로 내리고 stretch_row.py로 35번 줄을 한 번 더 넣어 30x48, 64x64 캔버스에 놓고 16배 확대(배경 #ff00ff)
+- 2회차 둘째 참고(설정 A, 채택본): 1회차 원본 bolt_r1a_1(131aaf29e065281f4dc8566cdbc5a92adb2c542dd2474dc7226444f0ea8db7ea). 설정 B는 뒤집은 컨셉 자른 것.
+
+## 최종 프롬프트 (2회차 설정 A, Codex에 보낸 그대로)
+[bolt-front-r2a] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. Two images are attached: the first is the image to edit, the second is a higher-detail drawing of the same priest.
+Copy the two results from the generated images folder into the current working folder as bolt_r2a_1.png and bolt_r2a_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Edit the first reference image. It is a 64x64 pixel sprite enlarged so that every pixel is one 16x16 flat block (canvas 1024x1024). Keep exactly this pixel grid: the same block size, the same canvas, the same silhouette and the same position. The character stays exactly 48 blocks tall (from the soles of the shoes on the bottom row to the top of the hood) and about 30 blocks wide including the backpack and candle. Repaint the blocks inside the silhouette cleanly so the character matches the second reference: the muddy, broken blocks (especially on the hood, face, hands, lantern, robe and backpack) become clean readable shapes with the right colours.
+Character details (take them from the second reference): a white hood (#fff9ed, shade #e3d7c8) with a gold trim band (#e4b67e, dark #c2864d) and one small gold cross on the front; golden-blonde hair (#e4b87d, shade #cfa36c) framing the face; big amber-brown eyes (each eye 2 blocks wide and 2-3 blocks tall) with a white highlight; a small open smiling mouth; a long white robe with wide sleeves, gold trim along the edges and a gold cross on the lower front; both small hands together in front of the chest holding the handle of a glowing golden lantern (#ffe08a, #d6c074) with a cross window, hanging in front of the body toward the right side of the picture; small light-brown shoes; a big brown backpack (#7b6038, #5c493c) on the left side of the picture with a lit white candle on a gold holder rising above it. The priest faces toward the lower-right of the picture, standing idle.
+Pixel rules: every block is ONE flat colour; no detail smaller than one block; no anti-aliasing, no gradients, no dithering, no soft edges. A 1-block dark brown outline (#34140e, not black) around the whole figure. Flat 2-3 tone shading; keep the white robe mostly white with few gold lines, not a busy pattern.
+Background: flat solid #ff00ff everywhere outside the character. No grid lines, no text, no UI, no ground, no cast shadow.
+
+## 생성 원본
+- output/2d-art/bolt-front/r2a/bolt_r2a_2.png (Git 밖) 1254x1254, 31db24499883fe9f6813a562d6ca2f8d2b9b7c587eeee5c0b14273c53a47d2a0
+
+## 후처리
+1. pixelize.py grid --bg-tol 100 --size 30x48 → native grid 30x47 (block 19.5px, score 0.74).
+2. pixelize.py one --size 30x47 --palette <브루노·레나·미라와 같은 팔레트: 기준서 3.5 36색 + 강철 3색 #c8b8b8 #a89898 #786868> --bg-tol 100 → 30x47 (fac6cd0ca204080d79d196f56427a78914ccbfcdc28d582580ec6d74027fe10b)
+3. 키 48px 맞추기(레나와 같은 일회성 스크립트 stretch_row.py): 다리 높이(70~85%) 안에서 아래 줄과 가장 비슷한 36번 줄(차이 11px)을 한 번 더 넣음 → 30x48 (2dd3b915465af8fb884474b9ac6c89503585e855d569ecc33721f6a153467ecd). 다리가 1px 길어진다.
+4. 64x64 캔버스에 놓기(bruno-front의 place.py 그대로): 맨 아래 3줄의 가로 범위 가운데를 x 32에, 신발 바닥을 63줄에. 오프셋 (16,16).
+5. 다른 편집 없음.
+
+## 판정
+- 격자: 30x47 본래 격자 + 1줄 반복(48)
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0)
+- 부위 대조(다른 계열: Claude 하위 에이전트 sonnet, references/part-check.md, 이름 가린 cand_A~D, 브루노는 그림체 참고로만 줌): PASS, 4후보 중 1위(cand_B).
+  같음: 흰 두건과 금 테·십자 2개, 금발, 작은 벌린 입, 두 손으로 턱 앞에 든 십자 창 등불(컨셉과 같음), 흰 로브와 금 테·밑단 십자, 배낭과 위의 촛불, 발 2. 그림체: 브루노와 같은 비율·외곽선·오른쪽 아래 시선.
+  게임 크기 판독: "등불을 가슴 앞에 든 두건 쓴 작은 여행자"(2배 그림은 열지 않고 10배에서 추론했다고 밝힘).
+  지적(가벼움): 눈이 컨셉의 호박색이 아니라 붉은색(브루노도 붉은 눈), 촛불 불꽃 쪽 붉은 점 몇 개.
+- 탈락: r2b_1(cand_A, 두건 테·얼굴 주황 얼룩, 손 하나), r2b_2(cand_C, 눈이 찌그러진 굵은 선·볼에 주황 줄). r2a_1(cand_D)은 PASS 2위(로브 가운데 올리브 띠, 손이 외곽선에 묻힘).
+- identity 등록: measure.py identity --id bolt PASS (부위 6개 모두 잡힘, 겹치는 쌍 없음; 금발·피부 lab_tol 5)
+- measure.py compare --id bolt --img bolt_front.png: PASS (기준 그림 자기 대조)
+- PASS = 기준과 어긋나지 않음. 자연스러움·사제로 보이는지·브루노와 같은 그림체인지는 판독과 사용자 판정이 본다.
+- 사용자 판정: 대기(게임 화면 짧은 Play·자리 적용은 이 항목 범위 밖)
