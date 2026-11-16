@@ -19,7 +19,7 @@
 
 | 항목 | 값 | 비고 |
 |---|---|---|
-| 임포트 프리셋 | (경로) | Preset Manager 경로 필터. 기본 PPU·피벗·필터·압축 |
+| 임포트 프리셋 | `Assets/Game/03.Resources/Art/Presets/AIGeneratedSprite.preset` | Preset Manager 경로 필터 `glob:"Assets/Game/03.Resources/Art/AIGenerated/**"`. Sprite Single, PPU 48, 피벗 아래 가운데, Point, 압축 없음, 밉맵 끔, Android·iOS RGBA32 덮어쓰기(그림 넣기 기획서 B절) |
 | 월드 그림 배율 | 혼자 서는 그림은 배율 1(원본 크기). 이어지거나 붙는 그림(타일·울타리·말풍선 안 아이콘)은 저작 배율 유지 | 캐릭터 부속은 몸과 같은 비율 |
 | 파일명 유일성 | 코드가 이름 키로 고르는 그림은 이 폴더 전체에서 유일 | 범위를 좁히면 적는다 |
 
