@@ -529,6 +529,478 @@
           "installed_version": "0.21.0"
         }
       }
+    },
+    "scratchpad/tpl3d:docs/art": {
+      "kit_version_seen": "0.21.0",
+      "files": {
+        ".ai/rules/3d-animation.md": {
+          "candidate_sha256": "44b9bd0b0ee5f4209f3d79c402d7890360c6fdb232cd4ba0c7a6e54a0470e3fb",
+          "current_sha256": "44b9bd0b0ee5f4209f3d79c402d7890360c6fdb232cd4ba0c7a6e54a0470e3fb",
+          "baseline_sha256": "44b9bd0b0ee5f4209f3d79c402d7890360c6fdb232cd4ba0c7a6e54a0470e3fb",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/rules/3d-asset-standard.md": {
+          "candidate_sha256": "88c2ca3d8823477ab450b11020b227ad24dbb6eb0ac1692fe42a0ba96b0c5f32",
+          "current_sha256": "88c2ca3d8823477ab450b11020b227ad24dbb6eb0ac1692fe42a0ba96b0c5f32",
+          "baseline_sha256": "88c2ca3d8823477ab450b11020b227ad24dbb6eb0ac1692fe42a0ba96b0c5f32",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/rules/3d-performance.md": {
+          "candidate_sha256": "2ce6d80104932575b47b4fc5710fa6b2bf52e15545a80afffbc99e358f958a38",
+          "current_sha256": "2ce6d80104932575b47b4fc5710fa6b2bf52e15545a80afffbc99e358f958a38",
+          "baseline_sha256": "2ce6d80104932575b47b4fc5710fa6b2bf52e15545a80afffbc99e358f958a38",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/rules/3d-scene-builders.md": {
+          "candidate_sha256": "fa7720b544b06b0a4c44c7481b724599a254b35bc8db5f5952cc848b4ff503ef",
+          "current_sha256": "fa7720b544b06b0a4c44c7481b724599a254b35bc8db5f5952cc848b4ff503ef",
+          "baseline_sha256": "fa7720b544b06b0a4c44c7481b724599a254b35bc8db5f5952cc848b4ff503ef",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/rules/3d-tools.md": {
+          "candidate_sha256": "4abbfc0d8a012581d792fa983b253e0bdef5c350644fa6fccf1026dd804a0f2e",
+          "current_sha256": "4abbfc0d8a012581d792fa983b253e0bdef5c350644fa6fccf1026dd804a0f2e",
+          "baseline_sha256": "4abbfc0d8a012581d792fa983b253e0bdef5c350644fa6fccf1026dd804a0f2e",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/rules/3d-tripo-generation-standard.md": {
+          "candidate_sha256": "be376e61a1e57c431edc2ebc592ef0f63ec4a1d365f3731df26c6cc483738ef3",
+          "current_sha256": "be376e61a1e57c431edc2ebc592ef0f63ec4a1d365f3731df26c6cc483738ef3",
+          "baseline_sha256": "be376e61a1e57c431edc2ebc592ef0f63ec4a1d365f3731df26c6cc483738ef3",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "3dkit.config.json": {
+          "candidate_sha256": "a3c31857482b818722446269c9dbbfe00bd9008dcd43bb1578704a541f3720de",
+          "current_sha256": "bac299c6d6415b54b90c72f06ddea80ed12c6595b3cddb9c6fdf41fe24b1a687",
+          "baseline_sha256": null,
+          "status": "untracked",
+          "installed_version": null
+        },
+        "docs/art/asset-catalog.json": {
+          "candidate_sha256": "2bdcb8199cd5c4c11ccd0c99225ddd7c93c9d51f2625a3359def0d536b60cd30",
+          "current_sha256": "1110782ae655ea1b42c192fa7f1aafb4c88de9f1ee3f330274d63ae720a87ddb",
+          "baseline_sha256": null,
+          "status": "untracked",
+          "installed_version": null
+        },
+        "docs/art/replay-cases.json": {
+          "candidate_sha256": "45de90e37a13df4fbe9273560c38bda1d5e3759122066c0d4eec4dd204b25e76",
+          "current_sha256": "45de90e37a13df4fbe9273560c38bda1d5e3759122066c0d4eec4dd204b25e76",
+          "baseline_sha256": "45de90e37a13df4fbe9273560c38bda1d5e3759122066c0d4eec4dd204b25e76",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/inject.tsv": {
+          "candidate_sha256": "eaf28482cd7ddcaa5acc0c2cb9f9c9d8dc163ccd59b72d6970c7879b8a4ad0ae",
+          "current_sha256": "e4a6b2eafd7a9093b7efa768f0a3e85764d4cd1aa870987a123b7c0bd23985fd",
+          "baseline_sha256": null,
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".gitignore": {
+          "candidate_sha256": "77f4450686b7a3ecf142d85e13fc4628fa2c1e8ca357103d4913f75fd606e8ff",
+          "current_sha256": "de9ade4f546344c21a2f1c2b4e2db223b2b9c640d8e820b5835a3d0ee0ac8eeb",
+          "baseline_sha256": null,
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".director/capabilities.yaml": {
+          "candidate_sha256": "4d1241fd9d3ac95049978f535fcb6f48f0a7eb1d7b1c52584e258a7b8440894f",
+          "current_sha256": "a7d6be640c836f793ad8f306a75f4617c9d1a28b9c914fc4b9ff286c8509bd74",
+          "baseline_sha256": null,
+          "status": "current",
+          "installed_version": "0.21.0"
+        }
+      }
+    },
+    "3d-art-setup/payload:.": {
+      "kit_version_seen": "0.21.0",
+      "files": {
+        ".ai/3d-art/profiles/lowpoly.json": {
+          "candidate_sha256": "d7209e508d453eab1165d8c4a0b68cc5629ebb858fc4a94ce95deab844dd9e4b",
+          "current_sha256": "d7209e508d453eab1165d8c4a0b68cc5629ebb858fc4a94ce95deab844dd9e4b",
+          "baseline_sha256": "d7209e508d453eab1165d8c4a0b68cc5629ebb858fc4a94ce95deab844dd9e4b",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/profiles/midpoly.json": {
+          "candidate_sha256": "46db0363ae2cc8da92315c111a14528be49105efd0097698ea7991501f479645",
+          "current_sha256": "46db0363ae2cc8da92315c111a14528be49105efd0097698ea7991501f479645",
+          "baseline_sha256": "46db0363ae2cc8da92315c111a14528be49105efd0097698ea7991501f479645",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/assets.py": {
+          "candidate_sha256": "b3a812118bc106456a5035586a692c2df726ad5d83b8a541a2ceb4820a5db73c",
+          "current_sha256": "b3a812118bc106456a5035586a692c2df726ad5d83b8a541a2ceb4820a5db73c",
+          "baseline_sha256": "b3a812118bc106456a5035586a692c2df726ad5d83b8a541a2ceb4820a5db73c",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/blender/anim_fbxcheck.py": {
+          "candidate_sha256": "ae9c67efa4489622f0bb0b470019e6d75d632f6b8f87f6ab78c9f5e3fd038175",
+          "current_sha256": "ae9c67efa4489622f0bb0b470019e6d75d632f6b8f87f6ab78c9f5e3fd038175",
+          "baseline_sha256": "ae9c67efa4489622f0bb0b470019e6d75d632f6b8f87f6ab78c9f5e3fd038175",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/blender/attach_props.py": {
+          "candidate_sha256": "6a9aa2332d3b9f7911c2a24df79f88c54f8c355a97c47a3bb913cbb6b8f4649b",
+          "current_sha256": "6a9aa2332d3b9f7911c2a24df79f88c54f8c355a97c47a3bb913cbb6b8f4649b",
+          "baseline_sha256": "6a9aa2332d3b9f7911c2a24df79f88c54f8c355a97c47a3bb913cbb6b8f4649b",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/blender/convert_glb.py": {
+          "candidate_sha256": "92661d6d5750d2a1996699bb1a4859ec1accf63ba2ce13b58abbf4cbdd832512",
+          "current_sha256": "92661d6d5750d2a1996699bb1a4859ec1accf63ba2ce13b58abbf4cbdd832512",
+          "baseline_sha256": "92661d6d5750d2a1996699bb1a4859ec1accf63ba2ce13b58abbf4cbdd832512",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/blender/fit_module.py": {
+          "candidate_sha256": "0428ae73dc94973ad8e9382cd617e7a75f4841cd5a38974e44d94f629fda35f3",
+          "current_sha256": "0428ae73dc94973ad8e9382cd617e7a75f4841cd5a38974e44d94f629fda35f3",
+          "baseline_sha256": "0428ae73dc94973ad8e9382cd617e7a75f4841cd5a38974e44d94f629fda35f3",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/blender/fix_arm_swing.py": {
+          "candidate_sha256": "15044f336e63e38c3478517ab677f1117ee785094c075b7bdeff6935ce3eb0e5",
+          "current_sha256": "15044f336e63e38c3478517ab677f1117ee785094c075b7bdeff6935ce3eb0e5",
+          "baseline_sha256": "15044f336e63e38c3478517ab677f1117ee785094c075b7bdeff6935ce3eb0e5",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/blender/rig_build.py": {
+          "candidate_sha256": "0f0a5ae9facd8b16e074cb92c98ddf573e0f5b08664c576e6b65e607bced92d3",
+          "current_sha256": "0f0a5ae9facd8b16e074cb92c98ddf573e0f5b08664c576e6b65e607bced92d3",
+          "baseline_sha256": "0f0a5ae9facd8b16e074cb92c98ddf573e0f5b08664c576e6b65e607bced92d3",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/blender/rig_legged.py": {
+          "candidate_sha256": "da0400fd3c210cc19180a2a898514c3657d1ba6718262d93bc7f0f694fedaf00",
+          "current_sha256": "da0400fd3c210cc19180a2a898514c3657d1ba6718262d93bc7f0f694fedaf00",
+          "baseline_sha256": "da0400fd3c210cc19180a2a898514c3657d1ba6718262d93bc7f0f694fedaf00",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/blender/split_bands.py": {
+          "candidate_sha256": "eb67c97a41d0ff3feb718b39506257e631702eb6d6e9831112ae565e56660969",
+          "current_sha256": "eb67c97a41d0ff3feb718b39506257e631702eb6d6e9831112ae565e56660969",
+          "baseline_sha256": "eb67c97a41d0ff3feb718b39506257e631702eb6d6e9831112ae565e56660969",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/blender/uv_geometry.py": {
+          "candidate_sha256": "67b10a5f88c745c9e135367de605ef8b7b196cd6372d5766c1ed8c04f34031b6",
+          "current_sha256": "67b10a5f88c745c9e135367de605ef8b7b196cd6372d5766c1ed8c04f34031b6",
+          "baseline_sha256": "67b10a5f88c745c9e135367de605ef8b7b196cd6372d5766c1ed8c04f34031b6",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/gate.py": {
+          "candidate_sha256": "e9121fd5b601327a1834e7ebeb04bc119f3da3c44345d93908d2dc220253adc9",
+          "current_sha256": "e9121fd5b601327a1834e7ebeb04bc119f3da3c44345d93908d2dc220253adc9",
+          "baseline_sha256": "e9121fd5b601327a1834e7ebeb04bc119f3da3c44345d93908d2dc220253adc9",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/guard.py": {
+          "candidate_sha256": "2ac144124f69467a5af50e3a3da4d1d9323a7ebb86c1dca433518369a1e9b88c",
+          "current_sha256": "2ac144124f69467a5af50e3a3da4d1d9323a7ebb86c1dca433518369a1e9b88c",
+          "baseline_sha256": "2ac144124f69467a5af50e3a3da4d1d9323a7ebb86c1dca433518369a1e9b88c",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/anim.py": {
+          "candidate_sha256": "ed52b49e65b73de1ba4c86629b5bb24f5bf48b281f3de6e5db16e546818e4bf4",
+          "current_sha256": "ed52b49e65b73de1ba4c86629b5bb24f5bf48b281f3de6e5db16e546818e4bf4",
+          "baseline_sha256": "ed52b49e65b73de1ba4c86629b5bb24f5bf48b281f3de6e5db16e546818e4bf4",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/blender.py": {
+          "candidate_sha256": "4e3e61faa1ab951285605cfb7bf680a8816b5f1047985ac1bf5323e3db095053",
+          "current_sha256": "4e3e61faa1ab951285605cfb7bf680a8816b5f1047985ac1bf5323e3db095053",
+          "baseline_sha256": "4e3e61faa1ab951285605cfb7bf680a8816b5f1047985ac1bf5323e3db095053",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/config.py": {
+          "candidate_sha256": "aa73d3560719051306218f12287516f55b8d9fcc656e6b34346deab37ae0cd7a",
+          "current_sha256": "aa73d3560719051306218f12287516f55b8d9fcc656e6b34346deab37ae0cd7a",
+          "baseline_sha256": "aa73d3560719051306218f12287516f55b8d9fcc656e6b34346deab37ae0cd7a",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/editor_lock.py": {
+          "candidate_sha256": "9c25ea891c14fe42af36c4e466f3e04ded598d0694b46b06a9c6e8221fac4af5",
+          "current_sha256": "9c25ea891c14fe42af36c4e466f3e04ded598d0694b46b06a9c6e8221fac4af5",
+          "baseline_sha256": "9c25ea891c14fe42af36c4e466f3e04ded598d0694b46b06a9c6e8221fac4af5",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/errors.py": {
+          "candidate_sha256": "44dd2fa1bcb474f0b2648a76be165c7e93b520db253811cf0dfc4d65ec2ec5c5",
+          "current_sha256": "44dd2fa1bcb474f0b2648a76be165c7e93b520db253811cf0dfc4d65ec2ec5c5",
+          "baseline_sha256": "44dd2fa1bcb474f0b2648a76be165c7e93b520db253811cf0dfc4d65ec2ec5c5",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/evidence.py": {
+          "candidate_sha256": "62622a01d894db247206de9bdf298a0af6943de09d0ffde6c00cf08cf573f2c7",
+          "current_sha256": "62622a01d894db247206de9bdf298a0af6943de09d0ffde6c00cf08cf573f2c7",
+          "baseline_sha256": "62622a01d894db247206de9bdf298a0af6943de09d0ffde6c00cf08cf573f2c7",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/genqc.py": {
+          "candidate_sha256": "bafb16d85577cf6ac83eb30d297ab267abc34e261626366bb25c6b61057cf859",
+          "current_sha256": "bafb16d85577cf6ac83eb30d297ab267abc34e261626366bb25c6b61057cf859",
+          "baseline_sha256": "bafb16d85577cf6ac83eb30d297ab267abc34e261626366bb25c6b61057cf859",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/metrics.py": {
+          "candidate_sha256": "3c496bdb1743c354c90bb6b5f98bfe6e699eb430318fa071682edb0b4c2140ef",
+          "current_sha256": "3c496bdb1743c354c90bb6b5f98bfe6e699eb430318fa071682edb0b4c2140ef",
+          "baseline_sha256": "3c496bdb1743c354c90bb6b5f98bfe6e699eb430318fa071682edb0b4c2140ef",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/modfit.py": {
+          "candidate_sha256": "1b9b69ec8a90c9d3144ce2bad9f204fdc956d6c743fc572a5a490495ed5c480e",
+          "current_sha256": "1b9b69ec8a90c9d3144ce2bad9f204fdc956d6c743fc572a5a490495ed5c480e",
+          "baseline_sha256": "1b9b69ec8a90c9d3144ce2bad9f204fdc956d6c743fc572a5a490495ed5c480e",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/motionvis.py": {
+          "candidate_sha256": "d4277ad651e5cb875ec95e0321e4716f49201c780ffe7dd0e39c3a9a5b71dc08",
+          "current_sha256": "d4277ad651e5cb875ec95e0321e4716f49201c780ffe7dd0e39c3a9a5b71dc08",
+          "baseline_sha256": "d4277ad651e5cb875ec95e0321e4716f49201c780ffe7dd0e39c3a9a5b71dc08",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/pipeline.py": {
+          "candidate_sha256": "ae0ce022b6211be2c02eb35fd013573cae79854f13ba2532058efc476ddbeb0d",
+          "current_sha256": "ae0ce022b6211be2c02eb35fd013573cae79854f13ba2532058efc476ddbeb0d",
+          "baseline_sha256": "ae0ce022b6211be2c02eb35fd013573cae79854f13ba2532058efc476ddbeb0d",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/schema.py": {
+          "candidate_sha256": "9bd5c46818ee1e49e3de19a11fb1452a8a2f489ae5a22a2de7c29f2b73c0c65e",
+          "current_sha256": "9bd5c46818ee1e49e3de19a11fb1452a8a2f489ae5a22a2de7c29f2b73c0c65e",
+          "baseline_sha256": "9bd5c46818ee1e49e3de19a11fb1452a8a2f489ae5a22a2de7c29f2b73c0c65e",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/texture.py": {
+          "candidate_sha256": "dbfb941328032a2d81f58b5824e989cd1b60096d19ab5a2d792bed8132aca88e",
+          "current_sha256": "dbfb941328032a2d81f58b5824e989cd1b60096d19ab5a2d792bed8132aca88e",
+          "baseline_sha256": "dbfb941328032a2d81f58b5824e989cd1b60096d19ab5a2d792bed8132aca88e",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/tripo.py": {
+          "candidate_sha256": "858a1839a51fa83329af2827fd90b8de0a4d8632c85cba58c66552424561a3aa",
+          "current_sha256": "858a1839a51fa83329af2827fd90b8de0a4d8632c85cba58c66552424561a3aa",
+          "baseline_sha256": "858a1839a51fa83329af2827fd90b8de0a4d8632c85cba58c66552424561a3aa",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/kitlib/unity.py": {
+          "candidate_sha256": "a58fbac99cad37a97326de8d5e8e4a049250444bceb82cb4ad07ebd1681037fc",
+          "current_sha256": "a58fbac99cad37a97326de8d5e8e4a049250444bceb82cb4ad07ebd1681037fc",
+          "baseline_sha256": "a58fbac99cad37a97326de8d5e8e4a049250444bceb82cb4ad07ebd1681037fc",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/play_check.py": {
+          "candidate_sha256": "c7e6684531ca4aa59838f2c40dffe1c88524546da415a6f400248e9680cb04d7",
+          "current_sha256": "c7e6684531ca4aa59838f2c40dffe1c88524546da415a6f400248e9680cb04d7",
+          "baseline_sha256": "c7e6684531ca4aa59838f2c40dffe1c88524546da415a6f400248e9680cb04d7",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/protect.py": {
+          "candidate_sha256": "64e48488c2f3cb99f2b17c01048e096223853e7fc635e034c12fc8ab33b982a2",
+          "current_sha256": "64e48488c2f3cb99f2b17c01048e096223853e7fc635e034c12fc8ab33b982a2",
+          "baseline_sha256": "64e48488c2f3cb99f2b17c01048e096223853e7fc635e034c12fc8ab33b982a2",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/replay-sample.json": {
+          "candidate_sha256": "9beb1966218c1756ba0522b42518e49c3eef95b71811153ef044aa10010a746e",
+          "current_sha256": "9beb1966218c1756ba0522b42518e49c3eef95b71811153ef044aa10010a746e",
+          "baseline_sha256": "9beb1966218c1756ba0522b42518e49c3eef95b71811153ef044aa10010a746e",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/replay.py": {
+          "candidate_sha256": "582b6f69630777bedab48154d4da79bd524a35bf74312b427d9fc322520b9711",
+          "current_sha256": "582b6f69630777bedab48154d4da79bd524a35bf74312b427d9fc322520b9711",
+          "baseline_sha256": "582b6f69630777bedab48154d4da79bd524a35bf74312b427d9fc322520b9711",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/schemas/catalog.schema.json": {
+          "candidate_sha256": "d10a148b102dd00e157a0612b5f9cb393ab6b9282b2aee2b31e577015b4bf8e3",
+          "current_sha256": "d10a148b102dd00e157a0612b5f9cb393ab6b9282b2aee2b31e577015b4bf8e3",
+          "baseline_sha256": "d10a148b102dd00e157a0612b5f9cb393ab6b9282b2aee2b31e577015b4bf8e3",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/schemas/config.schema.json": {
+          "candidate_sha256": "211fe179efb5a48cf8aa0cfe8251a143928406147fe4801f7ef4032c8d854d73",
+          "current_sha256": "211fe179efb5a48cf8aa0cfe8251a143928406147fe4801f7ef4032c8d854d73",
+          "baseline_sha256": "211fe179efb5a48cf8aa0cfe8251a143928406147fe4801f7ef4032c8d854d73",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/schemas/replay-cases.schema.json": {
+          "candidate_sha256": "5f733e310c2833a50041f293ac69099415a94f26b4511d87287e8a41ac0dc6a1",
+          "current_sha256": "5f733e310c2833a50041f293ac69099415a94f26b4511d87287e8a41ac0dc6a1",
+          "baseline_sha256": "5f733e310c2833a50041f293ac69099415a94f26b4511d87287e8a41ac0dc6a1",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/selftest_tripo.py": {
+          "candidate_sha256": "2578c3ed798bf6156941036b7b82e82e4a0bc496ce489ea8e3aee52e8762d606",
+          "current_sha256": "2578c3ed798bf6156941036b7b82e82e4a0bc496ce489ea8e3aee52e8762d606",
+          "baseline_sha256": "2578c3ed798bf6156941036b7b82e82e4a0bc496ce489ea8e3aee52e8762d606",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        ".ai/3d-art/tools/session_time.py": {
+          "candidate_sha256": "fbf1c5306c3a24fe173bbb47d055dd51c3015c5fd0e4923dd24b4b24c9ea4962",
+          "current_sha256": "fbf1c5306c3a24fe173bbb47d055dd51c3015c5fd0e4923dd24b4b24c9ea4962",
+          "baseline_sha256": "fbf1c5306c3a24fe173bbb47d055dd51c3015c5fd0e4923dd24b4b24c9ea4962",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/AnimProbe.cs": {
+          "candidate_sha256": "f804de0aee5ffaf51f92e02c7c6f39795aacf5c6cf964751e9a40301655b7c06",
+          "current_sha256": "f804de0aee5ffaf51f92e02c7c6f39795aacf5c6cf964751e9a40301655b7c06",
+          "baseline_sha256": "f804de0aee5ffaf51f92e02c7c6f39795aacf5c6cf964751e9a40301655b7c06",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/AnimProbe.cs.meta": {
+          "candidate_sha256": "d254b03f73c39139b8e96b404024ea6b1a200f6447f3659b260df6e3489a352c",
+          "current_sha256": "d254b03f73c39139b8e96b404024ea6b1a200f6447f3659b260df6e3489a352c",
+          "baseline_sha256": "d254b03f73c39139b8e96b404024ea6b1a200f6447f3659b260df6e3489a352c",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/AssetPipeline.cs": {
+          "candidate_sha256": "6299a31907d5d65660ec2ce567ad451a631d394b5230a5af6ccab889000cf8c9",
+          "current_sha256": "6299a31907d5d65660ec2ce567ad451a631d394b5230a5af6ccab889000cf8c9",
+          "baseline_sha256": "6299a31907d5d65660ec2ce567ad451a631d394b5230a5af6ccab889000cf8c9",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/AssetPipeline.cs.meta": {
+          "candidate_sha256": "7d12606267de9480331353ab5e1132ba3cdd3ff5e7544533abdbd4db79795d5a",
+          "current_sha256": "7d12606267de9480331353ab5e1132ba3cdd3ff5e7544533abdbd4db79795d5a",
+          "baseline_sha256": "7d12606267de9480331353ab5e1132ba3cdd3ff5e7544533abdbd4db79795d5a",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/IKit3DProjectHooks.cs": {
+          "candidate_sha256": "35fba1c50c61637d1220c6d9f34bea5feabd440dcaa174b91c7e75cb187d194f",
+          "current_sha256": "35fba1c50c61637d1220c6d9f34bea5feabd440dcaa174b91c7e75cb187d194f",
+          "baseline_sha256": "35fba1c50c61637d1220c6d9f34bea5feabd440dcaa174b91c7e75cb187d194f",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/IKit3DProjectHooks.cs.meta": {
+          "candidate_sha256": "ab8ff86589bc86f25c3ace013b1e6db187e2047334323c5111d51b50145b6ccf",
+          "current_sha256": "ab8ff86589bc86f25c3ace013b1e6db187e2047334323c5111d51b50145b6ccf",
+          "baseline_sha256": "ab8ff86589bc86f25c3ace013b1e6db187e2047334323c5111d51b50145b6ccf",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/KeyPlay/KeyPlaySession.cs": {
+          "candidate_sha256": "b19752643373c7f0916067e6818dfc822524a91afec8869134c63a84738e66da",
+          "current_sha256": "b19752643373c7f0916067e6818dfc822524a91afec8869134c63a84738e66da",
+          "baseline_sha256": "b19752643373c7f0916067e6818dfc822524a91afec8869134c63a84738e66da",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/KeyPlay/KeyPlaySession.cs.meta": {
+          "candidate_sha256": "a638b648110ca92cdc6cc95c21d6723c67a54b7e2a12519c52d2215941b4228b",
+          "current_sha256": "a638b648110ca92cdc6cc95c21d6723c67a54b7e2a12519c52d2215941b4228b",
+          "baseline_sha256": "a638b648110ca92cdc6cc95c21d6723c67a54b7e2a12519c52d2215941b4228b",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/KeyPlay/Kit3D.KeyPlay.Editor.asmdef": {
+          "candidate_sha256": "8d298eeadf07dfb0bc43a7b3dbc095a84f8c4387d4aa6b2b7cb589a3c93f356b",
+          "current_sha256": "8d298eeadf07dfb0bc43a7b3dbc095a84f8c4387d4aa6b2b7cb589a3c93f356b",
+          "baseline_sha256": "8d298eeadf07dfb0bc43a7b3dbc095a84f8c4387d4aa6b2b7cb589a3c93f356b",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/KeyPlay/Kit3D.KeyPlay.Editor.asmdef.meta": {
+          "candidate_sha256": "841d269398a72c9035fa3086ece49df2a9128a9a240fd3753ef887a340d9e395",
+          "current_sha256": "841d269398a72c9035fa3086ece49df2a9128a9a240fd3753ef887a340d9e395",
+          "baseline_sha256": "841d269398a72c9035fa3086ece49df2a9128a9a240fd3753ef887a340d9e395",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/KeyPlay.meta": {
+          "candidate_sha256": "94c72f056b6a811d010e9aefae3e7efc2f766edac0fd10f4c8432fd5a4ae45c6",
+          "current_sha256": "94c72f056b6a811d010e9aefae3e7efc2f766edac0fd10f4c8432fd5a4ae45c6",
+          "baseline_sha256": "94c72f056b6a811d010e9aefae3e7efc2f766edac0fd10f4c8432fd5a4ae45c6",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/Kit3D.Editor.asmdef": {
+          "candidate_sha256": "803d95ae4f08b6061e970aca4c413ee66a16d3f5a965ef91ab19c396137d6009",
+          "current_sha256": "803d95ae4f08b6061e970aca4c413ee66a16d3f5a965ef91ab19c396137d6009",
+          "baseline_sha256": "803d95ae4f08b6061e970aca4c413ee66a16d3f5a965ef91ab19c396137d6009",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor/Kit3D.Editor.asmdef.meta": {
+          "candidate_sha256": "67ff3358465d24a0a304d615120ddade23ad227dd4fbeabca4c74711e75ad50c",
+          "current_sha256": "67ff3358465d24a0a304d615120ddade23ad227dd4fbeabca4c74711e75ad50c",
+          "baseline_sha256": "67ff3358465d24a0a304d615120ddade23ad227dd4fbeabca4c74711e75ad50c",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/Editor.meta": {
+          "candidate_sha256": "a5f06b4970625583755ff2b08ab81de16454ea534d2835a8a322c17c49bee0fc",
+          "current_sha256": "a5f06b4970625583755ff2b08ab81de16454ea534d2835a8a322c17c49bee0fc",
+          "baseline_sha256": "a5f06b4970625583755ff2b08ab81de16454ea534d2835a8a322c17c49bee0fc",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/package.json": {
+          "candidate_sha256": "93833e0adf770c49af5d6308a355b4bb1a86c8131121230e02fec9bf502a08d5",
+          "current_sha256": "93833e0adf770c49af5d6308a355b4bb1a86c8131121230e02fec9bf502a08d5",
+          "baseline_sha256": "93833e0adf770c49af5d6308a355b4bb1a86c8131121230e02fec9bf502a08d5",
+          "status": "current",
+          "installed_version": "0.21.0"
+        },
+        "Packages/com.studiokit.kit3d/package.json.meta": {
+          "candidate_sha256": "b3a624706721ed29003e4ab02752fca87e61b69daad6ba9a83108f701b4b9a78",
+          "current_sha256": "b3a624706721ed29003e4ab02752fca87e61b69daad6ba9a83108f701b4b9a78",
+          "baseline_sha256": "b3a624706721ed29003e4ab02752fca87e61b69daad6ba9a83108f701b4b9a78",
+          "status": "current",
+          "installed_version": "0.21.0"
+        }
+      }
     }
   }
 }

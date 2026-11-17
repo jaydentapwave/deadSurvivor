@@ -17,3 +17,9 @@
 .ai/rules/2d-generation.md	2D generation (2d-art)	(?<![a-z0-9_])(sprite (sheets?|generation)|character (sheets?|variants?|poses?)|image_gen|nano banana|pixel art|measure\.py|pixelize\.py|path_tiles\.py|tileprev\.py)(?![a-z0-9_])	스프라이트 ?(생성|만들|뽑)|캐릭터 ?(그림|시안|변형|자세)|그림 ?(뽑|생성|만들)|시안 ?(뽑|만들|다시)|기준 ?이미지|픽셀 ?아트|타일 ?(그림|세트|시안)|이음 ?타일
 .ai/rules/2d-animation.md	2D animation (2d-art)	(?<![a-z0-9_])(sprite animations?|frame animations?|cutout animations?|sprite rigging|frames\.py|exposed\.py)(?![a-z0-9_])	프레임 ?(애니|그림)|스프라이트 ?애니|조각 ?(방식|애니)|대기 ?(모션|동작) ?(그림|프레임)|(스프라이트|캐릭터|2D) ?리깅|영상 ?(프레임|스프라이트)
 .ai/rules/2d-asset-standard.md	2D asset standard (2d-art)	(?<![a-z0-9_])(texture import|import presets?|pixels per unit|sprite atlas|png\.meta)(?![a-z0-9_])	(텍스처|스프라이트) ?(임포트|규격)|임포트 ?(설정|규약)
+# 3d-art 팩 규칙 주입 줄 (설치 경로 기준). 형식: 경로<TAB>라벨<TAB>영문 정규식<TAB>한글 정규식. 코드 작업에 걸리지 않게 3D 제작 맥락 단어만 쓴다. 바꾸면 scripts/install_test.py의 주입 사례를 돌린다
+.ai/rules/3d-asset-standard.md	3D asset standard (3d-art)	(?<![a-z0-9_])(tripo|glb|fbx|face_limit|assets\.py|3d (assets?|models?)|retopo\w*|rigging)(?![a-z0-9_])	트리포|3[dD] ?(에셋|모델)|모델링|리깅|폴리곤|삼각형 ?(수|예산|상한)|면 ?수 ?(제한|상한|예산)
+.ai/rules/3d-tripo-generation-standard.md	Tripo generation (3d-art)	(?<![a-z0-9_])tripo(?![a-z0-9_])	트리포|유료 ?생성|생성 크레딧
+.ai/rules/3d-tools.md	3D tools (3d-art)	(?<![a-z0-9_])(blender|tripo)(?![a-z0-9_])	블렌더|트리포|뼈대 ?(제작|만들)
+.ai/rules/3d-scene-builders.md	Scene builders (3d-art)	(?<![a-z0-9_])(scene builders?|lookdev)(?![a-z0-9_])	장면 ?빌더|씬 ?빌더|룩데브
+.ai/rules/3d-performance.md	3D performance (3d-art)	(?<![a-z0-9_])(draw ?calls?|set-?pass|triangle budget|performance line)(?![a-z0-9_])	성능 한 ?줄|드로우 ?콜|그리기 호출|삼각형 예산

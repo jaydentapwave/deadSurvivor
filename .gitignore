@@ -86,3 +86,16 @@ mono_crash.*
 .director/worktrees/
 output/direction/
 output/2d-art/
+# 3d-art 팩: 작업 폴더(<work_root>의 상위, 기본 output/)는 결과물이라 제외하고, 제작 스크립트만 다시 포함한다.
+# 채택된 원본 바이너리(.blend 등)와 스크립트 입력 json은 `git add -f`로 골라 넣는다. 규칙: .ai/rules/3d-asset-standard.md 6절
+/output/**
+!/output/**/
+!/output/**/*.py
+!/output/**/*.sh
+!/output/**/*.cs
+# 외부 도구 설치·상태 폴더는 스크립트가 있어도 제외
+/output/tools/
+/output/tripo-state/
+/output/hook-state/
+# 3d-art 도구가 만드는 파일: 파이썬 캐시, 카탈로그 쓰기 잠금
+.catalog.lock

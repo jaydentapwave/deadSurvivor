@@ -67,6 +67,13 @@ Codex·Claude 등 어느 에이전트를 쓰든 이 절이 원본이다. 에이�
 | 2D 애니메이션 | `.ai/rules/2d-animation.md` |
 | 스프라이트 임포트·폴더·이름 | `.ai/rules/2d-asset-standard.md`, `Assets/Game/03.Resources/Art/CLAUDE.md` |
 | 사용자에게 그림 보이기 | `.ai/2d-art/tools/sheet.py`만(검증된 그림만 들어간다) |
+| HD-2D 3D 배경·소품 에셋 규격·제작 경로 | `.ai/rules/3d-asset-standard.md`, `.ai/rules/3d-tripo-generation-standard.md`, 플레이북 `/3d-art-produce` |
+| 3D 성능 예산·측정 | `.ai/rules/3d-performance.md` |
+| 장면·자산을 코드로 다시 만드는 빌더 | `.ai/rules/3d-scene-builders.md` |
+| 외부 도구(Unity CLI·Tripo·Blender) | `.ai/rules/3d-tools.md` |
+| 3D 동작(뼈대·클립) — 3D 모델에만. 2D 캐릭터 동작은 `2d-animation.md` | `.ai/rules/3d-animation.md` |
+
+- 3d-art 팩(2026-11-18 설치)은 HD-2D 배경의 3D 소품용이다. 루트 `3dkit.config.json`은 예전 3dkit 설정이라 고치지 않았다: 3d-art 도구(`.ai/3d-art/tools/`)는 그 파일을 읽으면 예전 값(lowpoly, `Assets/DeadSurvivor`)을 쓰고 예전 카탈로그(`docs/art/asset-catalog.json`)는 새 스키마에 맞지 않는다. 새 작업은 루트에 HD-2D용 설정·카탈로그를 따로 두고 `KIT3D_CONFIG`로 가리켜야 한다(2026-11-18 설치 때는 아직 만들지 않음). 3d-art 훅(`guard.py`)은 기존 `Tools/Hooks/claude_guard.py`와 겹쳐 `.claude/settings.json`에 넣지 않았다 — Codex는 `< /dev/null`과 시간 상한을 직접 붙인다.
 
 - 2D 아트 팩에는 Codex 입력 닫기 훅(3d-art의 `guard.py`)이 없다. Codex를 부를 때는 `< /dev/null`과 시간 상한을 직접 붙인다.
 - 아래 절과 다음 "검사 누락 방지" 절은 예전 3D 작업(`Assets/DeadSurvivor`)의 절차다. 2D 작업에는 [핵심 규칙](docs/workflows/core-rules.md)의 0·3·4·5·6절만 적용한다.

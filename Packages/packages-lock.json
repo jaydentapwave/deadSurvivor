@@ -17,9 +17,9 @@
       "hash": "2e993ff18f28c931602a07292df0b0804eebef99"
     },
     "com.studiokit.kit3d": {
-      "version": "file:../3dkit/unity",
+      "version": "file:com.studiokit.kit3d",
       "depth": 0,
-      "source": "local",
+      "source": "embedded",
       "dependencies": {
         "com.unity.nuget.newtonsoft-json": "3.2.1"
       }

@@ -1,0 +1,10 @@
+{
+  "name": "com.studiokit.kit3d",
+  "version": "0.1.0",
+  "displayName": "3dkit",
+  "description": "3dkit asset pipeline, Editor side: texture import, material, model import, prefab, Mesh LOD, check measurement and line-up capture, driven by request JSON from .ai/3d-art/tools/assets.py. Project-specific work goes through IKit3DProjectHooks.",
+  "unity": "6000.2",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  }
+}
