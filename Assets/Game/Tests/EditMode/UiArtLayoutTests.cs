@@ -62,7 +62,7 @@ public class UiArtLayoutTests
                         }
                     }
 
-                    Assert.That(run, Is.AnyOf(0, 2));
+                    Assert.That(run == 0 || run == 2, Is.True, $"{size} axis {axis} side {side} last run {run}");
                     Assert.That(count, Is.EqualTo(2 * ((length - 14) / 4)));
                 }
             }
