@@ -1,0 +1,37 @@
+native grid: 32x16 (block 16.1px, score 0.81)
+/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+  return Image.fromarray(out, 'RGBA')
+native grid: 32x16 (block 16.1px, score 0.81)
+/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/Assets/Game/03.Resources/Art/AIGenerated/UI/button.png
+native grid: 48x48 (block 16.1px, score 0.81)
+/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+  return Image.fromarray(out, 'RGBA')
+native grid: 48x48 (block 16.1px, score 0.81)
+/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/Assets/Game/03.Resources/Art/AIGenerated/UI/panel.png
+native grid: 16x16 (block 16.2px, score 0.81)
+/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)
+  return Image.fromarray(out, 'RGBA')
+native grid: 16x16 (block 16.2px, score 0.81)
+/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/Assets/Game/03.Resources/Art/AIGenerated/UI/bag_cell.png
+SHEET /Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/docs/art/sheets/ui-frames.png (9 shown, 0 left out)
+PASS destination stitch rails 634x64: dash=2 gap=2; all four corner seams included
+PASS destination stitch rails 181x130: dash=2 gap=2; all four corner seams included
+PASS destination stitch rails 181x130: dash=2 gap=2; all four corner seams included
+PASS destination stitch rails 280x60: dash=2 gap=2; all four corner seams included
+PASS destination stitch rails 156x50: dash=2 gap=2; all four corner seams included
+PASS destination stitch rails 155x50: dash=2 gap=2; all four corner seams included
+PASS destination stitch rails 155x50: dash=2 gap=2; all four corner seams included
+PASS destination stitch rails 156x50: dash=2 gap=2; all four corner seams included
+PASS exported camp 634x64: full rails + 8x8 corners; old layout fails as expected
+PASS exported camp 181x130: full rails + 8x8 corners; old layout fails as expected
+PASS exported camp 181x130: full rails + 8x8 corners; old layout fails as expected
+PASS exported camp 280x60: full rails + 8x8 corners; old layout already periodic at this size
+PASS exported battle 156x50: full rails + 8x8 corners; old layout fails as expected
+PASS exported battle 155x50: full rails + 8x8 corners; old layout fails as expected
+PASS exported battle 155x50: full rails + 8x8 corners; old layout fails as expected
+PASS exported battle 156x50: full rails + 8x8 corners; old layout fails as expected
+PASS: 파일 3개, 팔레트 57색, 실패 0건
+PASS button.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)
+PASS panel.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)
+PASS bag_cell.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)
+PASS fringe: 3 pictures, 0 with key colour left on the rim
