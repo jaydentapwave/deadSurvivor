@@ -17,6 +17,7 @@ public class UI_BagCellView : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
     private UI_BagView _owner;
     private int _uid = -1;
+    private UI_ItemIconView _iconView;
 
     public BagTarget Target { get; private set; }
 
@@ -28,6 +29,12 @@ public class UI_BagCellView : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
     public void UpdateUI(BagCellDisplay display, bool isDown)
     {
+        // 비활성 정비 화면도 Presenter가 먼저 갱신하므로 Awake에 기대지 않는다.
+        if (_iconView == null)
+        {
+            _iconView = ItemIconUtils.Create(transform);
+        }
+
         _uid = display.Uid;
         var hasItem = display.Uid >= 0;
         var color = display.Mark == BagCellMark.Valid ? validColor
@@ -38,6 +45,9 @@ public class UI_BagCellView : MonoBehaviour, IPointerDownHandler, IDragHandler, 
         border.gameObject.SetActive(hasItem);
         border.color = isDown ? display.GradeColor * downTint : display.GradeColor;
         labelText.text = display.Label;
+        labelText.enabled = display.Icon == null;
+        _iconView.UpdateUI(display.Icon, display.Rotation, display.IconUv,
+            isDown ? downTint : Color.white);
     }
 
     // 빈 칸이면 −1(Presenter가 이번 누름의 뜻을 새로 정한다)
@@ -66,7 +76,7 @@ public enum BagCellMark
     Invalid,
 }
 
-// 칸 하나의 표시 값. Uid −1 = 빈 칸. Label은 아이템의 첫 칸에만(아이콘이 없으면 이름 2자)
+// 칸 하나의 표시 값. IconUv는 회전한 전체 그림에서 이 칸의 영역, Label은 그림이 없을 때 첫 칸만.
 public struct BagCellDisplay
 {
     public int Uid;
@@ -74,4 +84,7 @@ public struct BagCellDisplay
     public Color GradeColor;
     public BagCellMark Mark;
     public bool IsPicked;
+    public Sprite Icon;
+    public Rect IconUv;
+    public int Rotation;
 }

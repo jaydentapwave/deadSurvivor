@@ -18,6 +18,7 @@ public class UI_StashItemView : MonoBehaviour, IPointerDownHandler, IDragHandler
     [SerializeField] private Color shapeOffColor = new(0.35f, 0.25f, 0.15f, 0.15f);
 
     private UI_StashView _owner;
+    private UI_ItemIconView _iconView;
 
     public int Uid { get; private set; } = -1;
 
@@ -25,15 +26,26 @@ public class UI_StashItemView : MonoBehaviour, IPointerDownHandler, IDragHandler
 
     public void UpdateUI(StashItemDisplay display)
     {
+        if (_iconView == null)
+        {
+            // 기존 4×4 미리보기 영역에 전체 그림을 그려 칸 사이 틈으로 끊기지 않게 한다.
+            _iconView = ItemIconUtils.Create(shapeCells[0].transform.parent);
+            _iconView.gameObject.AddComponent<LayoutElement>().ignoreLayout = true;
+        }
+
         Uid = display.Uid;
         background.color = display.IsPicked ? pickedColor : itemColor;
         border.color = display.GradeColor;
         nameText.text = display.Name;
         newMark.SetActive(display.IsNew);
+        var hasIcon = display.Icon != null;
+        _iconView.UpdateUI(display.Icon, display.Rotation, new Rect(0f, 0f, 1f, 1f), Color.white);
         for (var i = 0; i < shapeCells.Length; i++)
         {
             var cell = new Vector2Int(i % 4, i / 4);
-            shapeCells[i].color = display.CellList.Contains(cell) ? shapeOnColor : shapeOffColor;
+            var hasCell = display.CellList.Contains(cell);
+            shapeCells[i].enabled = !hasIcon;
+            shapeCells[i].color = hasCell ? shapeOnColor : shapeOffColor;
         }
     }
 
@@ -60,7 +72,7 @@ public class UI_StashItemView : MonoBehaviour, IPointerDownHandler, IDragHandler
     }
 }
 
-// 보관함 항목 하나의 표시 값. CellList = 회전 0 칸 모양
+// 전리품 선택·합성에 함께 쓰는 보관함 항목. CellList는 Rotation을 반영한 모양.
 public struct StashItemDisplay
 {
     public int Uid;
@@ -69,4 +81,6 @@ public struct StashItemDisplay
     public List<Vector2Int> CellList;
     public bool IsNew;
     public bool IsPicked;
+    public Sprite Icon;
+    public int Rotation;
 }

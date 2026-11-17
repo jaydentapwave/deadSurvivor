@@ -3,6 +3,7 @@
     "rootNamespace": "",
     "references": [
         "Game",
+        "UnityEngine.UI",
         "R3.Unity",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"

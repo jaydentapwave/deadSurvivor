@@ -21,6 +21,7 @@ public class BagPresenter : IInitializable, IDisposable
     private readonly PartyModel _partyModel;
     private readonly CombatModel _combatModel;
     private readonly ItemRepository _itemRepository;
+    private readonly SpriteAtlasService _spriteAtlasService;
     private readonly GradeRepository _gradeRepository;
     private readonly CharacterRepository _characterRepository;
     private readonly CombatRulesRepository _combatRulesRepository;
@@ -54,7 +55,7 @@ public class BagPresenter : IInitializable, IDisposable
         PartyModel partyModel, CombatModel combatModel, ItemRepository itemRepository, GradeRepository gradeRepository,
         CharacterRepository characterRepository, CombatRulesRepository combatRulesRepository,
         EquipmentStatService equipmentStatService, BagRulesRepository bagRulesRepository, PoolManager poolManager,
-        UI_PrepView prepView)
+        UI_PrepView prepView, SpriteAtlasService spriteAtlasService)
     {
         _bagModel = bagModel;
         _bagService = bagService;
@@ -63,6 +64,7 @@ public class BagPresenter : IInitializable, IDisposable
         _partyModel = partyModel;
         _combatModel = combatModel;
         _itemRepository = itemRepository;
+        _spriteAtlasService = spriteAtlasService;
         _gradeRepository = gradeRepository;
         _characterRepository = characterRepository;
         _combatRulesRepository = combatRulesRepository;
@@ -375,10 +377,12 @@ public class BagPresenter : IInitializable, IDisposable
         }
     }
 
-    // 아이템이 차지한 칸을 칠하고 첫 칸에 이름 2자(아이콘 그림은 아트 단계)
+    // 회전된 아이콘의 각 점유 칸만 그린다. 입력·등급·미리보기는 기존 칸에 남긴다.
     private void FillItemCells(BagItem item)
     {
         var itemData = _itemRepository.Get(item.ItemId);
+        var icon = GetIcon(itemData);
+        var size = icon != null ? ItemIconUtils.GetSize(icon, item.Rotation) : Vector2Int.one;
         BagRules.GetItemCells(item, _itemRepository, _cellList);
         for (var i = 0; i < _cellList.Count; i++)
         {
@@ -393,6 +397,9 @@ public class BagPresenter : IInitializable, IDisposable
             {
                 Uid = item.Uid,
                 Label = i == 0 ? GetShortName(itemData) : "",
+                Icon = icon,
+                IconUv = ItemIconUtils.GetCellUv(new Vector2Int(cell.x - item.X, cell.y - item.Y), size),
+                Rotation = item.Rotation,
                 GradeColor = GetGradeColor(item.Grade),
                 IsPicked = item.Uid == _pickedUid,
             };
@@ -413,11 +420,14 @@ public class BagPresenter : IInitializable, IDisposable
         {
             var itemData = _itemRepository.Get(item.ItemId);
             var cellList = new List<Vector2Int>();
-            BagRules.GetCells(itemData.Shape, 0, cellList);
+            var rotation = item.Uid == _pickedUid ? _pickedRotation : item.Rotation;
+            BagRules.GetCells(itemData.Shape, rotation, cellList);
             _stashDisplayList.Add(new StashItemDisplay
             {
                 Uid = item.Uid,
                 Name = itemData.Name,
+                Icon = GetIcon(itemData),
+                Rotation = rotation,
                 GradeColor = GetGradeColor(item.Grade),
                 CellList = cellList,
                 IsNew = _bagModel.LastGrantedUidList.Contains(item.Uid),
@@ -461,7 +471,10 @@ public class BagPresenter : IInitializable, IDisposable
             }
         }
 
-        _prepView.ItemInfoView.UpdateUI(description, preview, hasMoreLines, _isDetailShown && hasMoreLines);
+        var infoItem = _bagModel.FindItem(_infoUid, out _);
+        var icon = infoItem != null ? GetIcon(_itemRepository.Get(infoItem.ItemId)) : null;
+        var rotation = infoItem != null ? infoItem.Uid == _pickedUid ? _pickedRotation : infoItem.Rotation : 0;
+        _prepView.ItemInfoView.UpdateUI(description, preview, hasMoreLines, _isDetailShown && hasMoreLines, icon, rotation);
     }
 
     // 이름, 등급, 발동 방식, 피해·회복량(× 등급 배수)·간격·사거리(× 사거리 단위), 기본·추가 효과와 조건, 지금 상태
@@ -546,6 +559,9 @@ public class BagPresenter : IInitializable, IDisposable
 
     private Color GetGradeColor(int grade) =>
         grade >= 0 && grade < _gradeColorList.Count ? _gradeColorList[grade] : Color.white;
+
+    private Sprite GetIcon(ItemData itemData) =>
+        string.IsNullOrEmpty(itemData.Icon) ? null : _spriteAtlasService.Get(itemData.Icon);
 
     private static string GetShortName(ItemData itemData) =>
         itemData.Name.Length <= 2 ? itemData.Name : itemData.Name.Substring(0, 2);
