@@ -1,0 +1,71 @@
+# banner production source — 판독 대기
+
+제작일: 2026-11-17. Codex 세션: 01a1e8bd-c1bc-79d1-83c8-11c5c6a4b15d.
+
+도구: 이 세션의 image_gen 직접 호출. 내부 이미지 모델명은 도구 미노출로 확인 불가. codex exec/Aether 호출 없음. Aether 크레딧 0, 구독/토큰 비용 미계측.
+
+시작 HEAD: 2c3a51c. 기준: 아트 기준서 r5 3.3/3.5/3.7, K5/K11/K16, docs/features/f3-combat/plan.md C2.
+
+분류: 기준 그림이 없는 새 종류. identity 없음, measure.py compare 미사용. 1회차 ×4장(설정 A 2장 + B 2장), 2회차 없음.
+
+명세: canvas=[32, 48], 1칸 16px, shape=C2. 외곽선은 게임 크기 1px(K5), 생성 블록 기준 1칸. 팔레트 r5 그대로(extra 없음). PPU/Point 임포트는 기존 Preset 대상이며 실제 적용은 게임 쪽 실행 범위.
+
+입력 역할: 첫째 채택 시작 아이콘=그림체, 둘째 PE-G004=양피지 가방 문맥, 셋째 완성 도트 안내 그림=고칠 대상과 형태. 컨셉 전체는 사용자 지시로 붙였으며 원본 장면/새/문장 복제 금지.
+
+input 1: Assets/Game/03.Resources/Art/AIGenerated/Items/sword/sword.png
+sha256: be5acae1e2c1425e69f560bf20d78fbe5a96224aadc9452af23e355fd2801c09
+
+input 2: docs/game/concept-20261112/4-야영-가방.jpg
+sha256: a59d728c1bb98800efa9854f7e0e8c040a2e45e747e9251bd943cf0a6e86a3f5
+
+input 3: output/2d-art/icons-warrior/banner-guide.png
+sha256: 9b67edd0f4d9d4e6c5d1095bccf09414562e3ae545d9bac4ab1c439e8e7d2d46
+
+선택: candidates/r1-1.png -> banner.png
+최종 sha256: 52e276132ee8ab5c231167a878bd8a8a235c20822ae1a2f018fdf24ab8dab645
+
+선택 이유: 큰 십자와 단순한 붉은 천의 접힘을 유지한 r1-1. r1-2보다 접힘 대비가 분명하고 B 두 후보보다 면이 단순함.
+
+이름 가린 자기 판독: items-warrior-blind.png 중립 N번호 시트를 직접 열어 본 결과: 세로 깃대에 붙은 붉은 십자 깃발. 제작자는 의도를 이미 알므로 독립/진정한 블라인드 판독이 아니며 다른 계열 PASS를 대신하지 않음.
+
+다른 계열 판독: NOT_RUN. 사용자 실행 환경 규칙에 따라 리뷰 에이전트 호출 금지. Claude 마감 리뷰에서 2d-art-produce/references/part-check.md 방식으로 이름/shape/시작 견본 그림체 판독 필요. human 최종 판정 NOT_RUN.
+
+후처리: pixelize.py content_bbox의 원본 캔버스 대비 좌표를 논리 칸으로 환산. grid --size는 투명 여백을 뺀 내용물 칸 크기로 검사하고 실제 블록 간격을 캔버스/목표 격자와 대조. pixelize.py one --size <내용물 칸> --palette r5 실행 후 원래 크기 투명 캔버스의 원래 칸 오프셋에 붙임. 억지 확대/금지 칸 잘라내기/선 깎기 없음. alpha는 0/255만 있어 반투명 정리 불필요.
+
+후보별 검사(실제 출력과 지문/좌표는 docs/art/sheets/items-warrior-checks.json):
+
+r1-1: grid exit=0; block=32.03px, expected=[32.0, 32.0]; fringe exit=0; outside=0; cell_pixels={'0,0': 140, '0,1': 192, '0,2': 168, '1,2': 129}; colors=9; alpha=[0, 255]; raw_sha256=8f07d787623337b44ba40974f40c3567ebcb195a328cd98e27eae74497e5ad11; processed_sha256=52e276132ee8ab5c231167a878bd8a8a235c20822ae1a2f018fdf24ab8dab645
+
+r1-2: grid exit=0; block=32.03px, expected=[32.0, 32.0]; fringe exit=0; outside=0; cell_pixels={'0,0': 141, '0,1': 190, '0,2': 157, '1,2': 130}; colors=8; alpha=[0, 255]; raw_sha256=c61cccd93df41ec23f39fec9e278f98c1c5aee066907e01252175dce864b944b; processed_sha256=cfb1c15aa838517daa9cd88c9df68769168cfadda62453840e9d99bd0e2a9875
+
+r1-3: grid exit=0; block=31.97px, expected=[32.0, 32.0]; fringe exit=0; outside=0; cell_pixels={'0,0': 142, '0,1': 192, '0,2': 175, '1,2': 136}; colors=11; alpha=[0, 255]; raw_sha256=7b1d453a3640ca79ce6f8dd4ac4874cf39be055ac039ecf4ad83ab9077ac1d6a; processed_sha256=9f67e380051789cccc30138be13071f12639bdf0dcb1cdbeedbf6c9d11a4e5a4
+
+r1-4: grid exit=0; block=32.03px, expected=[32.0, 32.0]; fringe exit=0; outside=0; cell_pixels={'0,0': 141, '0,1': 186, '0,2': 159, '1,2': 131}; colors=10; alpha=[0, 255]; raw_sha256=d806d2e6d8444bb2da6ea13451bb675dc87d4cf7ce50a820755d8e4b38836711; processed_sha256=7c5d59d8e7f6b3f5028a183a3c25f2d74f82a6bf2b58859eaee8c9b55f9aedb0
+
+버림: 선택 이외 3장은 candidates/와 전체 시트에 보존. whetstone/gauntlet/ring의 B(r1-3/4) 6장은 실제 블록이 1/2 또는 1/3로 세분돼 GRID_MISMATCH, 선택 대상에서 제외. 나머지 버림은 격자/fringe 통과했으나 선택본보다 형태 또는 면 대비가 덜 명확함.
+
+격자 측정 주의: 이 도구는 내용물 bbox를 잰다. 전체 16×16 목표를 그대로 비교하면 투명 여백 때문에 불일치가 날 수 있음. whetstone r1-1은 실제 내용물 15×14, 기대 블록 78.375px/실측78.32px. 여백을 늘려 실측을 맞춘 것이 아님.
+
+AC1: 목표 캔버스, shape 모든 칸 픽셀>0, shape 밖0, palette r5 내 색만, alpha 0/255, fringe PASS. AC2: docs/art/sheets/items-warrior.png에 선택4+버림12, 48×48 비교 캔버스에 원본을 중앙 배치한 ×3(144px), sheet.py --props(수치 기준 없음 띠). 완성 시트와 이름 가린 시트 직접 열어 확인함. AC3: Claude 판독 대기.
+
+게임 전체 확인: 채택 시작 견본과 같은 종류 입력 확인; 양피지 위에 놓이는 가방 UI 아이콘(월드 카메라 기울기 적용 대상 아님); 크기/shape 확인. 게임 동작/이웃 겹침/화면비/실제 성능/Unity Play NOT_RUN. 디렉터 명시로 2d-art-produce 7~9절 제외, icon 데이터/장면 연결은 게임 쪽 실행.
+
+지난 문제 점검: 쇠붙이는 올리브가 아닌 강철 회색; 완성 도트 안내 그림으로 격자 유지; 칸 누락/금지 칸0 확인. 새 문제: B의 미세 재질선이 격자를 세분함. 워크플로우 갱신 후보: 작은 아이콘은 B에도 세부선 추가 금지, 면 변화만 지시. 공통 규칙은 범위 밖이라 미반영. 검사 추가/삭제 없음.
+
+시간: guide 생성 2026-11-17T09:03:34.969608+00:00; 정리/검사 2026-11-17T09:11:20.307600+00:00. 준비 읽기 시작 시각 미계측. 상세 생성 시각은 output 원본 mtime. session_time.py --markdown --session 현재 Codex id 실행은 FAIL(FileNotFoundError: Claude 세션 로그 전용). 현재 실행 토큰 수 미노출로 NOT_AVAILABLE, 하위 에이전트 0. 다른 세션 수치로 대체하지 않음.
+
+실행기 차이: 기본 python3에는 numpy가 없어 도구 실행 실패, 지정된 /usr/bin/python3에는 numpy/Pillow가 있어 실제 검사 수행. source 기록 첫 stdin 쓰기는 UTF-8 decode 오류로 미생성되어 UTF-8 파일 실행으로 재작성. 그림/검사 도구 변경 없음.
+
+프롬프트(호출별 원문):
+
+--- r1-1 ---
+Use case: style-transfer. Asset: tiny pixel inventory icon for our original warm fantasy game. Input 1 is the approved sword icon STYLE reference. Input 2 is our concept painting, only parchment inventory material context; DO NOT reproduce its scene/UI/bird. Input 3 is the EDIT TARGET, a complete pixel guide. Refine the third image while preserving its exact block grid, silhouette placement and cell occupancy. Subject: a single crimson protective banner on a tall pole; narrow hanging flag in the left column, cloth flares naturally to the right ONLY in the bottom row. Top-right and middle-right 16x16 cells MUST stay pure magenta. Keep it one connected item; gold cross on the cloth. Exactly 32x48 pixel grid; every pixel is one 32x32 flat block; canvas 1024x1536. 1 logical pixel dark brown outline #34140e, not black. Warm high-bit pixel art, flat 2-3 tone shading, no anti-aliasing, no gradients, no glow. Gray metal #c8b8b8 #a89898 #786868; gold #f8b828 #f8c838; red #c44334 #77211d. Pure #ff00ff background, no cast shadow, no text, no UI, no coins, no logos, no extra objects. Setting A: retain the guide's simple chunky planes and minimal details. Variant 1; deliver one image containing one icon only.
+
+--- r1-2 ---
+Use case: style-transfer. Asset: tiny pixel inventory icon for our original warm fantasy game. Input 1 is the approved sword icon STYLE reference. Input 2 is our concept painting, only parchment inventory material context; DO NOT reproduce its scene/UI/bird. Input 3 is the EDIT TARGET, a complete pixel guide. Refine the third image while preserving its exact block grid, silhouette placement and cell occupancy. Subject: a single crimson protective banner on a tall pole; narrow hanging flag in the left column, cloth flares naturally to the right ONLY in the bottom row. Top-right and middle-right 16x16 cells MUST stay pure magenta. Keep it one connected item; gold cross on the cloth. Exactly 32x48 pixel grid; every pixel is one 32x32 flat block; canvas 1024x1536. 1 logical pixel dark brown outline #34140e, not black. Warm high-bit pixel art, flat 2-3 tone shading, no anti-aliasing, no gradients, no glow. Gray metal #c8b8b8 #a89898 #786868; gold #f8b828 #f8c838; red #c44334 #77211d. Pure #ff00ff background, no cast shadow, no text, no UI, no coins, no logos, no extra objects. Setting A: retain the guide's simple chunky planes and minimal details. Variant 2; deliver one image containing one icon only.
+
+--- r1-3 ---
+Use case: style-transfer. Asset: tiny pixel inventory icon for our original warm fantasy game. Input 1 is the approved sword icon STYLE reference. Input 2 is our concept painting, only parchment inventory material context; DO NOT reproduce its scene/UI/bird. Input 3 is the EDIT TARGET, a complete pixel guide. Refine the third image while preserving its exact block grid, silhouette placement and cell occupancy. Subject: a single crimson protective banner on a tall pole; narrow hanging flag in the left column, cloth flares naturally to the right ONLY in the bottom row. Top-right and middle-right 16x16 cells MUST stay pure magenta. Keep it one connected item; gold cross on the cloth. Exactly 32x48 pixel grid; every pixel is one 32x32 flat block; canvas 1024x1536. 1 logical pixel dark brown outline #34140e, not black. Warm high-bit pixel art, flat 2-3 tone shading, no anti-aliasing, no gradients, no glow. Gray metal #c8b8b8 #a89898 #786868; gold #f8b828 #f8c838; red #c44334 #77211d. Pure #ff00ff background, no cast shadow, no text, no UI, no coins, no logos, no extra objects. Setting B: retain identical silhouette/grid but add a restrained single lighter facet and clearer material seams. Variant 1; deliver one image containing one icon only.
+
+--- r1-4 ---
+Use case: style-transfer. Asset: tiny pixel inventory icon for our original warm fantasy game. Input 1 is the approved sword icon STYLE reference. Input 2 is our concept painting, only parchment inventory material context; DO NOT reproduce its scene/UI/bird. Input 3 is the EDIT TARGET, a complete pixel guide. Refine the third image while preserving its exact block grid, silhouette placement and cell occupancy. Subject: a single crimson protective banner on a tall pole; narrow hanging flag in the left column, cloth flares naturally to the right ONLY in the bottom row. Top-right and middle-right 16x16 cells MUST stay pure magenta. Keep it one connected item; gold cross on the cloth. Exactly 32x48 pixel grid; every pixel is one 32x32 flat block; canvas 1024x1536. 1 logical pixel dark brown outline #34140e, not black. Warm high-bit pixel art, flat 2-3 tone shading, no anti-aliasing, no gradients, no glow. Gray metal #c8b8b8 #a89898 #786868; gold #f8b828 #f8c838; red #c44334 #77211d. Pure #ff00ff background, no cast shadow, no text, no UI, no coins, no logos, no extra objects. Setting B: retain identical silhouette/grid but add a restrained single lighter facet and clearer material seams. Variant 2; deliver one image containing one icon only.
