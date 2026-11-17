@@ -1,0 +1,26 @@
+[
+  {
+    "id": "scope",
+    "exit": 1,
+    "stdout": "REF  orange S0.77/V0.97  neutral S0.10/V0.66\nFAIL scope.png: orange S0.45/V0.89(96%)[dS-0.33 dV-0.08]  (orange dS-0.33 dV-0.08 over \u00b10.05)\nFAIL paint: 1 pictures, 1 off the references -> paint.py pull --family <name> --s/--v <reference value>\n",
+    "stderr": ""
+  },
+  {
+    "id": "crystal",
+    "exit": 2,
+    "stdout": "REF  orange S0.77/V0.97  neutral S0.10/V0.66\nNO_PAINT: crystal.png: no paint pixels in any family (alpha >= 250, luma >= 110)\n",
+    "stderr": ""
+  },
+  {
+    "id": "spellbook",
+    "exit": 1,
+    "stdout": "REF  orange S0.77/V0.97  neutral S0.10/V0.66\nFAIL spellbook.png: orange S0.45/V0.89(76%)[dS-0.33 dV-0.08]  (orange dS-0.33 dV-0.08 over \u00b10.05)\nFAIL paint: 1 pictures, 1 off the references -> paint.py pull --family <name> --s/--v <reference value>\n",
+    "stderr": ""
+  },
+  {
+    "id": "hat",
+    "exit": 2,
+    "stdout": "REF  orange S0.77/V0.97  neutral S0.10/V0.66\nNO_PAINT: hat.png: no paint pixels in any family (alpha >= 250, luma >= 110)\n",
+    "stderr": ""
+  }
+]
