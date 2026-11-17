@@ -164,7 +164,29 @@
       "mask_cleanup_pixels": 0
     }
   },
-  "review": "NOT_RUN: Claude session pending",
+  "review": {
+    "status": "PASS",
+    "evidence": "VERDICT: PASS",
+    "reviewer": "general-purpose (Claude opus, medium), independent name-blind part-check reader",
+    "source": "사용자가 이 대화로 전달한 Claude 리뷰 결과; 판정 기록은 훅에 기록되었다고 전달받음(훅 파일 직접 검증 아님)",
+    "recorded_utc": "2026-11-17T08:33:41.951713+00:00",
+    "reviewed_commit": "fcaed34b45968f2b59b16dbc91cb953f38fa6539",
+    "criteria": {
+      "IW1": "PASS",
+      "IW2": "PASS",
+      "IW3": "PASS with notes",
+      "IW4": "NOT_ASSESSED: user adoption outside scope"
+    },
+    "blind_matches": "4/4; axe low confidence",
+    "fringe_rerun_by_reader": false,
+    "followups": [
+      "axe: 도끼 판독 신뢰도 낮음, 넓은 초승달 날 또는 자루 끝 조정 후보",
+      "crossbow: 외곽선 비율0.82, 활대 끝·시위가 거칠게 보임",
+      "axe/crossbow/wand: 시작 견본보다 차갑고 탁한 나무색",
+      "censer: 통풍구 두 개가 눈처럼 보일 수 있음"
+    ],
+    "must_fix": []
+  },
   "human": "NOT_RUN",
   "sheet": "docs/art/sheets/items-weapons.png",
   "sheet_count": 20,

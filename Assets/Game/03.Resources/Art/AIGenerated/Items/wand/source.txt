@@ -1,4 +1,4 @@
-아이템 아이콘 생산 — wand (후보 선정, Claude 독립 판독 대기)
+아이템 아이콘 생산 — wand (후보 선정, Claude 독립 판독 PASS; 사용자 채택 대기)
 제작: Codex 세션 / 내장 image_gen 도구. 호스트 지정 gpt-6.1-sol; 이미지 백엔드 세부 모델은 도구 미노출.
 세션: 01a1e898-dc30-7981-b0e6-6600514eef59
 기준 커밋: 7e18ebe (전체 SHA는 docs/art/sheets/items-weapons-checks.json)
@@ -23,5 +23,7 @@ measure.py compare: NOT_RUN — 새 종류 identity 없음, 사용자 지시로 
 paint.py / shape.py fit: NOT_RUN — 직접 팔레트 포함 검사와 shape 셀 마스크/채움 실측으로 기록. 스타일 판정은 독립 리뷰 몫.
 이름을 가린 자기 판독: items-weapons-blind.png(qNN 중립 이름, 순서 섞음)를 열어 확인. 수평 나무 완드, 파란 끝의 번개 문양. 만든 쪽의 사전지식은 남으므로 독립 블라인드 리뷰가 아님.
 후보 선택 근거: 셀 모양을 채움, 번짐 PASS, 게임 크기3배 시트에서 형태가 읽힘; A보다 B의 나무/쇠/금 밝은면 구분이 선명. B4보다 B3의 밝은면이 단순해 채택 아이콘 2~3단 음영과 더 가까움.
-다른 계열 판독: NOT_RUN. 이 세션은 리뷰 에이전트 호출 금지; Claude 마감 세션에 references/part-check.md 이름 가림 판독 요청.
+다른 계열 판독: PASS. 사용자 전달 Claude general-purpose(opus, medium) 독립 name-blind part-check 결과. 초기 제작 시 NOT_RUN이었고, 마감 리뷰에서 IW1/IW2/IW3 PASS, 4/4 이름 일치(axe 신뢰도 낮음). 리뷰는 fringe를 재실행하지 않았고 제작 단계 실행 기록을 확인했다.
+리뷰 관문 evidence: VERDICT: PASS
+비필수 후속 의견은 docs/art/sheets/items-weapons-checks.json과 항목 보고서에 기록. 그림 수정 없음.
 사용자 human: NOT_RUN(모아서 판정). 게임 데이터 icon, Unity 임포트/장면/Play: 범위 밖, NOT_RUN.
