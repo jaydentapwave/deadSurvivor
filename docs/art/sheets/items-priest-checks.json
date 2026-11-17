@@ -1610,7 +1610,28 @@
     }
   ],
   "paint_output": "rosary/amulet: NO_PAINT exit2 (family min50px). vestment: FAIL orange dS-0.46 dV-0.15, neutral dS-0.02 dV+0.34. lantern: FAIL orange dS+0.06. Reference sword is gold hilt/steel blade; this comparison is informational, no paint recoloring or gate bypass.",
-  "review": "NOT_RUN: Claude closing review pending",
+  "review": {
+    "status": "PASS",
+    "agent": "general-purpose",
+    "model": "Claude Opus",
+    "effort": "medium",
+    "method": "blind visual read per part-check.md",
+    "evidence": "VERDICT: PASS",
+    "mandatory_fixes": [],
+    "criteria": {
+      "AC1": "PASS",
+      "AC2": "PASS"
+    },
+    "reviewed_commit": "12c2df4c278e1fd851766eee763e0470883c0983",
+    "fingerprints_matched": true,
+    "human": "NOT_RUN",
+    "followups": [
+      "F1 rosary: 구슬 내부 채움",
+      "F2 amulet: 끈 고리 연결과 새김 명확화",
+      "F3 lantern: 불꽃/유리방 확대와 손잡이 축소",
+      "F4 vestment/lantern: 검보다 평평한 음영"
+    ]
+  },
   "sheets_opened": [
     "docs/art/sheets/items-priest.png",
     "docs/art/sheets/items-priest-blind.png"
