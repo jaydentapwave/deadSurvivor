@@ -583,7 +583,7 @@
       ]
     }
   ],
-  "review": "수신 VERDICT: FAIL; leather 수정 뒤 수정확인 NOT_RUN",
+  "review": "수정 확인 두 리뷰 PASS (사용자 전달); 최초 FAIL 기록은 review_history에 보존",
   "human": "NOT_RUN",
   "misses": [
     {
@@ -922,7 +922,7 @@
         ]
       }
     ],
-    "independent_review": "NOT_RUN: 수정확인1회대기",
+    "independent_review": "PASS: 사용자 전달 Claude 이름 가림 판독과 spec-reviewer Codex gpt-6.1-sol 수정 확인",
     "generation_seconds": 51.2,
     "tokens": "미노출, 추정치기록안함",
     "candidate_budget": "사용자FAIL 수정지시로새구성 재개; 수정2회차8장으로종료",
@@ -936,7 +936,7 @@
       "exposed_fill_boundary": 0,
       "stray_fill_at_4_2": false,
       "components": 1,
-      "leather_tones": 3,
+      "leather_tones": 2,
       "outline_color": "#34140e",
       "alpha": "binary",
       "fringe_exit": 0,
@@ -950,6 +950,34 @@
       "helmet"
     ],
     "elapsed_minutes_from_guide": 4.36,
-    "timing_note": "새가이드작성 이후 정리/문서/검사까지 벽시계. 읽기시간은 제외. 세부 생성은51.2초; 정확한토큰 미노출."
-  }
+    "timing_note": "새가이드작성 이후 정리/문서/검사까지 벽시계. 읽기시간은 제외. 세부 생성은51.2초; 정확한토큰 미노출.",
+    "review_evidence": [
+      {
+        "agent": "Claude 이름 가림 판독 (general-purpose opus medium, part-check)",
+        "evidence": "VERDICT: PASS",
+        "source": "사용자 전달 최종 결과: 두 수정 확인 모두 PASS",
+        "criteria": [
+          "ID3"
+        ],
+        "scope": "가죽 조끼 이름·그림체·기존 필수 지적 수정 확인"
+      },
+      {
+        "agent": "spec-reviewer Codex gpt-6.1-sol",
+        "evidence": "VERDICT: PASS",
+        "source": "사용자 전달 수정 확인 결과",
+        "criteria": [
+          "ID1",
+          "ID2",
+          "ID3"
+        ],
+        "findings": "필수 수정 없음. 조끼 판독, 빈 칸 투명, 외곽선 칠 노출0, (4,2) 투명, 시트28개 정확히3배"
+      }
+    ],
+    "record_correction": "최종 가죽2톤(#774c3b,#d3ae90)+외곽선1색(#34140e). 생성 허용팔레트 가죽3색과 실제 사용2색을 혼동한 기록을 바로잡음.",
+    "followups": [
+      "주머니 윗 외곽선 y17–18의2px 부분을1px로 맞추는 일: 비필수, PASS 그림 유지.",
+      "Unity 임포트/연결/Play와 사용자 human 판정은 범위 밖, NOT_RUN."
+    ]
+  },
+  "completed_record_utc": "2026-11-17T09:00:47.243718+00:00"
 }
