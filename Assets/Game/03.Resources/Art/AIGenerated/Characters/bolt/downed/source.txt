@@ -1,0 +1,58 @@
+# bolt_downed.png — 출처
+
+- 무엇: 볼트(사제, 게임 기획서 A1) 쓰러진(사망) 그림. 기준서 3.3 "캐릭터 쓰러진 그림", 3.10 사망(이 그림으로 바꾸고 0.3초 어둡게). identity docs/art/identities/bolt.json(기준 그림 front/bolt_front.png)의 새 자세.
+- 규격: 64x64 캔버스, 그림 52x23(랜턴 포함), 알파 0/255만. 피벗 = 캔버스 아래 가운데(앞 그림과 같은 프리셋. .meta는 mira_downed의 것을 복사하고 GUID·spriteID만 새로 만듦, 폴더 downed.meta도 같음).
+  그림은 x 10~61, y 41~63(바닥 63줄). 신발~후드 끝 약 42px로 서 있는 키 48px 이하. 몸 가운데(배낭)는 x 약 21~37로 피벗(x 32) 근처, 랜턴은 오른쪽 손 옆 바닥.
+- sha256: d208d1dbb64bcf7ca693d8a1827d3c19ed3f8c74725f45728bcffbd3ee7776a0
+- 만든 날: 2026-11-17, 대기열 20261117-art-chars 항목 downed-bolt(시도 1), /2d-art-produce "캐릭터 변형 — 새 자세" 경로. downed-bruno의 방법·자세를 따름
+- 채택: 대기열 세션이 디렉터 대신 채택(판독 조건 충족), 사용자 판정 대기
+
+## 자세 (downed-bruno 기준과 같음)
+엎드려 쓰러짐(얼굴이 바닥). 흰 두건(금 십자) 머리 오른쪽, 금발이 두건 밑으로 조금 보임, 신발 왼쪽. 배낭(위에 흰 초)은 등 위. 주황 십자가 있는 흰 로브가 몸·다리를 덮음. 오른쪽으로 뻗은 손 옆 바닥에 랜턴(옆으로 누움).
+
+## 도구
+- 생성: codex-cli 0.167.2, codex exec -m gpt-6.1-sol, model_reasoning_effort=medium, 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 생성 세션: 01a1e7e3-7e41-7682-a50c-51902c5208b2 (1회차, 4장: 설정 A 2장, 설정 B 2장). 채택본 = 설정 B 1번째(r1b_1) + 테두리 1px 보정. 2회차는 쓰지 않음
+- 실행: perl alarm 1500 + codex exec -s workspace-write -C <결과 폴더> "<프롬프트>" -i ref1 ref2 ref3 < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256)
+- 첫째(캐릭터·그림체): bolt_front.png 1bf294037b5cd5661b8f05c3d8d68c5325d7f049ae610ae82546bc20151d3e37
+  → 배경 #ff00ff 위 16배(1024x1024) ref1_character.png 64fca1abd26f5c14c0a6e885a260439670e3d8109e5b8b7b513253e773cde261
+- 둘째(자세): 마네킹 러프 rough_a.png 48c8fa1b23a3d97a1f01c8b7e1093c41d23be395f51043d60c06bc66a0c7f3fe
+  (identity 색으로 칠한 두건·머리카락·로브(주황 십자)·배낭(초)·신발·팔·랜턴 덩어리, 일회성 스크립트 output/2d-art/bolt-downed/tools/rough.py)
+  → 16배 ref2_pose.png 94a97bb0e87229cd44d56a3ae6fc83cf2a0036e3aafd01589879aa05f9fd0b0c
+- 셋째(설정 B만): 채택된 브루노 쓰러진 그림 bruno_downed.png b6657ecb5160f854fd07bd4de4d07736878143f720817385b949002f2bba25e1
+  → 16배 ref3_sibling.png 67b6dc13ad45be87986769a4e635c1df7cdbdc18916dea2326b23a8d2a122384
+  (앞 항목들의 설정 B = 컨셉 그림 조각은 배낭이 얼굴로 읽히는 문제가 반복돼, 이번에는 같은 게임의 쓰러진 그림을 "배치·크기·도트 예시, 색·장비는 따라 하지 않음"으로 넣음)
+
+## 러프 판독 (생성 전, 이름 가림, 다른 계열: Codex gpt-6.1-sol, 결과 output/2d-art/bolt-downed/blind/readout-r001.md)
+- 두 칸(앞 그림 | 러프), 파일 이름 pair_1~3(순서 섞음: 1=b, 2=a, 3=c), 동작 이름 알리지 않음.
+- b: "엎드려 쓰러짐 / 엎드려 쉬는 중" / a: "옆으로 쓰러짐 / 옆으로 누워 잠" / c: "옆으로 쓰러짐 / 옆으로 누워 잠". 세 안 모두 쓰러짐으로 읽힘, 배낭은 모두 등 위.
+  브루노·레나·미라 채택 자세와 같은 구도인 a를 고름.
+
+## 최종 프롬프트
+output/2d-art/bolt-downed/gen/prompt.txt(Git 밖) 전체. 설정 A 이미지 프롬프트 요지:
+The character and the art style come from the first image; the pose comes from the second image. ... young blonde priest in a white hooded robe ... lying flat on the front, body horizontal, head on the RIGHT side resting face-down (back of the white hood with its gold cross and a little blonde hair, no face), legs to the LEFT with both tan shoes, long white robe with small orange crosses, the brown leather backpack with the white candle still strapped ON THE BACK (rounded soft leather bag, no lock, no two light spots side by side), one arm reaching forward to the right, the golden lantern lying on its side just beyond that hand. About 42 blocks long, at most 52 x 18-24 blocks, bottom of canvas. Colours from the first image (hex 목록), 1-block outline #2f1108, flat 2-3 tone, background flat #ff00ff.
+설정 B = A + "the third image shows a DIFFERENT hero of the same game already drawn in this downed pose at the same scale. Use it only as an example of the layout, size and pixel style; do NOT copy his colours, hair, armour, shield or sword."
+
+## 생성 원본
+- output/2d-art/bolt-downed/gen/r1b_1.png (Git 밖) 1254x1254, d77af0179645e7a57a2042f2e5c20b4ea4f0cf208a34b978298bca6ac92599dd
+  (pixelize.py grid 추정 52x23 block 19.5px score 0.40 LOW. 앞 그림과 같은 블록 약 19.6px로 bbox 1023x442 → 52x23, 추정과 일치)
+
+## 후처리
+1. pixelize.py one --size 52x23 --palette <기준서 3.5 r2 팔레트, output/2d-art/bolt-downed/palette.json> --bg-tol 100 → 4227d1deb2ed0d2fb837777f9434301559708a8e05c06ab20d679b730208b1d1
+2. 64x64 캔버스에 놓기: 바닥 63줄, x 10~61(가운데 놓기에서 오른쪽으로 4px, 몸 가운데를 피벗 쪽으로).
+3. matte.py fix --key '#ff00ff': 테두리 1px((52,61), 키 색이 섞인 가장자리)을 안쪽 색으로 다시 칠함. 그 밖 손질 없음.
+
+## 판정 (PASS = 기준과 어긋나지 않음. 자연스러움은 판독·사용자 판정)
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill·edge·stray 0)
+- measure.py compare --id bolt --pose: 도구 판정 FAIL. 항목별:
+  - 색 PASS: robe 1.20, backpack 3.78 (허용 8), 외곽선 색 PASS 0.89, haze PASS
+  - part:lantern:color FAIL 12.32: identity의 lantern box_rel(서 있는 그림 bbox 기준 x 0.63~0.9, y 0.56~0.78)이 누운 그림 bbox에서는 x 약 43~57, y 약 54~59 = 두건·머리카락 자리라 랜턴이 아닌 곳의 색을 잰다. 랜턴 안 픽셀 4개를 바꿔 다시 재도 12.32 그대로여서 확인함(바꾼 것은 되돌림)
+  - hood·hair·skin NOT_ASSESSED(같은 이유: box_rel 위 17% 자리에 배낭·초가 있음), outline:stroke_ratio NOT_ASSESSED(기준 부위 hood를 못 찾음). 외곽선 굵기는 measure.py와 같은 식으로 따로 재면 앞 그림 2.000, 이 그림 2.000(mira-downed/tools/stroke_diag.py, 판정 도구는 고치지 않음)
+  - parts NOT_ASSESSED: bolt identity에 "fixed" 부위가 없어 --pose 판정은 어떤 그림이든 NOT_ASSESSED
+- 부위 대조(다른 계열: Claude Opus 하위 에이전트, references/part-check.md, 이름 가린 cand_1~4 = r1b_2, r1a_1, r1b_1, r1a_2, 동작 이름 알리지 않음):
+  이 후보(cand_3) PASS, 유일한 PASS — 첫 해석 "face-down collapse, knocked out", 둘째 "lying down asleep". 두건·금발·로브(십자)·배낭(등 위, 덮개 있는 가방, 얼굴로 읽히지 않음)·초·랜턴 같음, 손 1(랜턴 쪽), 신발 1. 이상한 곳 없음. 남은 지적(필수 아님): 랜턴이 작아 십자가 잘 안 읽힘, 신발 1개만 보임.
+- 다른 후보: r1a_1(cand_2) FAIL(배낭 띠·틈이 얼굴로 읽힘), r1b_2(cand_1) FAIL(배낭 점·선이 얼굴, 몸이 4덩어리), r1a_2(cand_4) FAIL(배낭이 둥근 돔, 빨간 점이 눈처럼, 몸이 덩어리로 갈라짐).
+- 시트 docs/art/sheets/bolt-downed.png(#1 채택본, #2~#4 버린 후보, #5~#7 러프, 앞 그림 --against, --size 192, --unverified: measure 도구 판정이 위 이유로 FAIL이라 --candidates로는 빠짐)
+- 사용자 판정·게임 화면 확인: 대기(자리 적용·짧은 Play는 이 항목 범위 밖)
