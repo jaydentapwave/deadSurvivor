@@ -98,7 +98,7 @@ Assets/Game/03.Resources/Art/AIGenerated/UI/bag_cell.png 0a5372e5fba5098f842c5a0
 Assets/Game/03.Resources/Art/AIGenerated/UI/button.png 1536b54d26c3cf89b65400b6c47c697245c47eb3b9e100c3db4755d65b123714
 Assets/Game/03.Resources/Art/AIGenerated/UI/panel.png c0e001e1f18b8168ad0cf83c3dce0e59dd221f7edbf6bbe7dd957748d6340ccf
 
-초기 독립 리뷰 FAIL 수신 후 수정 확인 대기: needs-review. 항목 보고서는 수정 확인 판정 뒤 지정 경로에 작성한다.
+마감 상태: 수정 확인 spec-reviewer/validator-client PASS 수신. 항목 보고서 작성 완료. AC2 독립 Claude 판독은 not-run 유지.
 
 추가 자기 판독 근거: docs/art/sheets/ui-frames-blind.png를 직접 열었다.
 이름을 01/02/03으로 가린 그림은 각각 밝은 사각 슬롯, 어두운 가죽 창틀, 금속 모서리 가죽 버튼으로 읽혔다.
@@ -139,3 +139,18 @@ check_sprites 재실행 PASS(3개·57색·실패0), pixelize grid/one 재실행 
 docs/art/sheets/ui-frames-camp.png f37d294282558e8c4a0984f24e432f0eefe1208a437b790ccaa1a588dd1136b0
 docs/art/sheets/ui-frames-battle.png 60040a73c4d053c42be7317a4b52e246ff3e74e9579b00361b08cc9276bd3d3f
 docs/art/sheets/ui-frames-yellow-ground.png c0ba26073a9e255cfabd23ac9d58f917a9836dbd59ef3e7920d52f0160609455
+
+수정 확인 최종 판정 수신 (2026-11-17, 사용자 전달한 Claude 리뷰 세션 결과):
+기준 3b9b301 → 수정 20b2525. 늦게 도착한 spec-reviewer 결과는 PASS로 정정됨. 재리뷰 없음.
+리뷰 관문 evidence (사용자 전달 최종 표의 판정):
+spec-reviewer: VERDICT: PASS
+validator-client: VERDICT: PASS
+필수 수정 없음. AC3·AC4 통과. AC2는 이번 PASS 판정에서 제외되었으며 NOT ASSESSED/not-run을 유지.
+Claude 독립 시각 판독 에이전트: VERDICT: NOT ASSESSED
+사유: 해당 Claude 에이전트가 없으며 기존 4개 중계는 모두 Codex. 사용자에게 전달된 Codex 리뷰를 Claude 판독으로 세지 않음.
+리뷰어 실행 범위: verify_exports() 읽기 전용 검사 및 지정 check_sprites PASS. 전체 빌드 명령·Unity 검증 미실행.
+비필수 후속: 저장된 합성 모서리도 검사하도록 강화(현재 자동 모서리 검사는 다시 만든 조각 기준).
+두 리뷰어가 별도로 저장 합성의 모서리를 비교했을 때 기준 커밋과 동일했음. 이번에는 추가 구현하지 않음.
+Unity 넣기 후속: 목적 좌표에 맞춘 바늘땀 변 배치 필요, 기본 Tiled/Sliced만으로 동일 결과가 나오지 않음.
+항목 보고: .director/queues/20261117-art-prod/reports/ui-frames-1.md (기존 생성 실패 보고를 현재 결과로 갱신, 과거 중단 요약 보존).
+마감 활동 시작 19:51:04 KST. 문서만 갱신하며 아트·코드 변경 없음. 토큰 실측 불가, 리뷰 대기 제외.
