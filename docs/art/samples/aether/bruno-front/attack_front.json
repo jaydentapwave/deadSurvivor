@@ -1,0 +1,187 @@
+{
+ "base": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bruno/front/bruno_front.png",
+ "weapon": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bruno/parts/arm_front_hand_sword.png",
+ "weapon_pivot": [
+  25,
+  51
+ ],
+ "head": {
+  "top": 16,
+  "bottom": 35,
+  "full_rows_to": 29,
+  "x_min_low": 25,
+  "clear_pad": 2
+ },
+ "shield": {
+  "rows": [
+   38,
+   50
+  ],
+  "x_min": 39
+ },
+ "out_dir": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bruno/attack_front",
+ "prefix": "bruno_attack_front",
+ "hit_frame": 2,
+ "frames": [
+  {
+   "src": "output/2d-art/bruno-aether/dot5/attack/attack_01.png",
+   "cell": 15,
+   "erase_segments": [
+    [
+     [
+      18,
+      13
+     ],
+     [
+      10,
+      -5
+     ],
+     1.6
+    ]
+   ],
+   "weapon": {
+    "tf": "antitranspose",
+    "at": [
+     19,
+     16
+    ]
+   },
+   "erase_boxes": [
+    [
+     0,
+     0,
+     63,
+     11
+    ]
+   ],
+   "front_boxes": [
+    [
+     17,
+     15,
+     20,
+     30
+    ]
+   ]
+  },
+  {
+   "src": "output/2d-art/bruno-aether/dot5/attack/attack_02.png",
+   "cell": 20,
+   "erase_segments": [
+    [
+     [
+      44,
+      21
+     ],
+     [
+      50,
+      -1
+     ],
+     1.6
+    ]
+   ],
+   "weapon": {
+    "tf": "rot270",
+    "at": [
+     43,
+     22
+    ]
+   },
+   "erase_boxes": [
+    [
+     0,
+     0,
+     63,
+     13
+    ]
+   ],
+   "keep_boxes": [
+    [
+     38,
+     20,
+     44,
+     29
+    ]
+   ]
+  },
+  {
+   "src": "output/2d-art/bruno-aether/dot5/attack/attack_03.png",
+   "cell": 22,
+   "erase_boxes": [
+    [
+     45,
+     0,
+     63,
+     38
+    ],
+    [
+     52,
+     39,
+     63,
+     48
+    ]
+   ],
+   "erase_segments": [
+    [
+     [
+      52,
+      41
+     ],
+     [
+      63,
+      41
+     ],
+     2
+    ]
+   ],
+   "weapon": {
+    "tf": "flipy",
+    "at": [
+     50,
+     42
+    ]
+   }
+  },
+  {
+   "src": "output/2d-art/bruno-aether/dot5/attack/attack_04.png",
+   "cell": 25,
+   "erase_boxes": [
+    [
+     52,
+     43,
+     63,
+     49
+    ]
+   ],
+   "weapon": {
+    "tf": "id",
+    "at": [
+     50,
+     46
+    ]
+   }
+  },
+  {
+   "src": "output/2d-art/bruno-aether/dot5/attack/attack_04.png",
+   "cell": 25,
+   "erase_boxes": [
+    [
+     52,
+     43,
+     63,
+     49
+    ]
+   ],
+   "weapon": {
+    "tf": "transpose",
+    "at": [
+     50,
+     46
+    ]
+   }
+  },
+  {
+   "src": "base",
+   "cell": null
+  }
+ ]
+}
