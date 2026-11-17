@@ -6,7 +6,8 @@
         "UnityEngine.UI",
         "R3.Unity",
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "HD2D.View"
     ],
     "includePlatforms": [
         "Editor"

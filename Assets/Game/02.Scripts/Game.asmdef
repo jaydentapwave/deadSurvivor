@@ -8,7 +8,8 @@
         "Unity.RenderPipelines.Universal.Runtime",
         "Unity.InputSystem",
         "UnityEngine.UI",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "HD2D.View"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

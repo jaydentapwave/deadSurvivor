@@ -1,0 +1,8 @@
+{
+    "name": "HD2D.View",
+    "references": [
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.RenderPipelines.Core.Runtime"
+    ],
+    "autoReferenced": false
+}
