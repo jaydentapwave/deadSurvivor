@@ -1,0 +1,188 @@
+{
+  "at": "2026-11-17T08:41:49.463010+00:00",
+  "base": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/back/bolt_back.png",
+  "base_sha256": "fe2a3da398f614860d1718313d10c21ea0388b5fbf4d82fc5db37f3e7169219c",
+  "spec_sha256": "563b1e48d8f5f665567fd0bc748633006e26bb35dfd3db267ae5c73d160449e5",
+  "checker_sha256": "4d2ce59516476ae0c2541fa95cb1f898ee10a53258973b44fbc07a8cb3b4bbd9",
+  "head_exclude_sha256": "50b4e4c679adf003916f91c19fc6266ec10555c17a6f4b981b8cc10e7696e1d9",
+  "precheck": {
+    "head_pixels": 342,
+    "same_ratio": 1,
+    "occlusion": 0
+  },
+  "clips": {
+    "walk": {
+      "command": [
+        "/usr/bin/python3",
+        "Tools/check_motion.py",
+        "--base",
+        "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/back/bolt_back.png",
+        "--kind",
+        "walk",
+        "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/walk_back"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS walk 7장 Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/walk_back\n",
+      "frames": [
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/walk_back/bolt_walk_back_00.png",
+          "sha256": "094c510fe7908dfc25c6e4228ced705ea52e810dfbbf8ed4234b0e87147948cb",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            -1,
+            -1
+          ],
+          "foot": 63
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/walk_back/bolt_walk_back_01.png",
+          "sha256": "222289bd611a9c1a81fa8aa4f4ca65d85db9be83ca5a7bb9215e6c5b331997e3",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            -1,
+            -1
+          ],
+          "foot": 63
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/walk_back/bolt_walk_back_02.png",
+          "sha256": "df044f4ece79c18f23111878bbf416b08ce5411b962951395f72eebbfe4e067c",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            -1,
+            -2
+          ],
+          "foot": 63
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/walk_back/bolt_walk_back_03.png",
+          "sha256": "260812c88a5ea1a0531c09c4f5aea81ae3f2551fc37608f88ab26829236d0fe8",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            -1,
+            -1
+          ],
+          "foot": 63
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/walk_back/bolt_walk_back_04.png",
+          "sha256": "d72c2403dbc1d82d732abd61a03e69b47f019f5a8a7b008e20bae01499ceab70",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            -1,
+            -1
+          ],
+          "foot": 63
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/walk_back/bolt_walk_back_05.png",
+          "sha256": "01e8095a7939e0d991f063f06c593d2453fa73599f0c3be9bb0a38d03d7d0d7c",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            -1,
+            -1
+          ],
+          "foot": 63
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/walk_back/bolt_walk_back_06.png",
+          "sha256": "3531995c7af507ba548c18ab999903790e70ce447a1cbd8ebf47705cab1fa7cc",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            -1,
+            -1
+          ],
+          "foot": 63
+        }
+      ]
+    },
+    "attack": {
+      "command": [
+        "/usr/bin/python3",
+        "Tools/check_motion.py",
+        "--base",
+        "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/back/bolt_back.png",
+        "--kind",
+        "attack",
+        "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/attack_back"
+      ],
+      "exit_code": 0,
+      "stdout": "PASS attack 6장 Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/attack_back\n",
+      "frames": [
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/attack_back/bolt_attack_back_00.png",
+          "sha256": "891bb7499e06be557680b03d86ecc486da76480208d762b90a32a55b81bba322",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            0,
+            0
+          ],
+          "foot": 63
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/attack_back/bolt_attack_back_01.png",
+          "sha256": "737bda330095570fac848ff4f1998830c3701fa71b527c0106030f3f393e8a28",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            0,
+            0
+          ],
+          "foot": 63
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/attack_back/bolt_attack_back_02.png",
+          "sha256": "20d9686882427a5b543182af8737d7a820ecf8f48c426b50cb765d13e05fb182",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            0,
+            -1
+          ],
+          "foot": 63
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/attack_back/bolt_attack_back_03.png",
+          "sha256": "7889739574e7d0a29c8751088ee82d9818eac96888e04eb1af83aadeb05431d9",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            0,
+            0
+          ],
+          "foot": 63
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/attack_back/bolt_attack_back_04.png",
+          "sha256": "737bda330095570fac848ff4f1998830c3701fa71b527c0106030f3f393e8a28",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            0,
+            0
+          ],
+          "foot": 63
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/attack_back/bolt_attack_back_05.png",
+          "sha256": "fe2a3da398f614860d1718313d10c21ea0388b5fbf4d82fc5db37f3e7169219c",
+          "head_same": 1.0,
+          "head_occlusion": 0.0,
+          "head_shift": [
+            0,
+            0
+          ],
+          "foot": 63
+        }
+      ]
+    }
+  }
+}

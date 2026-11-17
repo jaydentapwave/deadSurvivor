@@ -1,0 +1,322 @@
+FAIL         bolt_walk_back_00.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 4.2305 tol 8
+  INFO         part:robe:area           ref 120.0 value 50.04 tol 0.05  ±58.3% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 9.0 tol 0.05  ±50.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 4.8 tol 0.05  ±40.0% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.2522 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 11 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 12 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 4.7391 tol 8
+  INFO         part:backpack:area       ref 57.0 value 36.36 tol 0.05  ±36.2% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 4.8 tol 0.05  ±20.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 10.2 tol 0.05  ±240.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1713 tol 0.03  pose change: shown only
+  PASS         part:lantern:color       ref 0.0 value 6.2061 tol 8
+  INFO         part:lantern:area        ref 39.0 value 6.84 tol 0.05  ±82.5% pose change: shown only
+  INFO         part:lantern:w           ref 9.0 value 6.0 tol 0.05  ±33.3% pose change: shown only
+  INFO         part:lantern:h           ref 10.0 value 7.2 tol 0.05  ±28.0% pose change: shown only
+  INFO         part:lantern:offset      ref 0.0 value 0.1877 tol 0.03  pose change: shown only
+  PASS         outline:color            ref 0.0 value 1.7846 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1337 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
+FAIL         bolt_walk_back_01.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 5.3868 tol 8
+  INFO         part:robe:area           ref 120.0 value 56.52 tol 0.05  ±52.9% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 10.2 tol 0.05  ±70.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 6.6 tol 0.05  ±17.5% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.2582 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 11 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 10 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 4.4069 tol 8
+  INFO         part:backpack:area       ref 57.0 value 33.84 tol 0.05  ±40.6% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 4.8 tol 0.05  ±20.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 9.6 tol 0.05  ±220.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1764 tol 0.03  pose change: shown only
+  FAIL         part:lantern:color       ref 0.0 value 8.5869 tol 8
+  INFO         part:lantern:area        ref 39.0 value 6.12 tol 0.05  ±84.3% pose change: shown only
+  INFO         part:lantern:w           ref 9.0 value 6.0 tol 0.05  ±33.3% pose change: shown only
+  INFO         part:lantern:h           ref 10.0 value 6.6 tol 0.05  ±34.0% pose change: shown only
+  INFO         part:lantern:offset      ref 0.0 value 0.19 tol 0.03  pose change: shown only
+  PASS         outline:color            ref 0.0 value 1.7875 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1338 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
+FAIL         bolt_walk_back_02.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 3.5195 tol 8
+  INFO         part:robe:area           ref 120.0 value 55.8 tol 0.05  ±53.5% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 10.8 tol 0.05  ±80.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 5.4 tol 0.05  ±32.5% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.2535 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 11 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 13 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 4.2608 tol 8
+  INFO         part:backpack:area       ref 57.0 value 34.56 tol 0.05  ±39.4% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 3.6 tol 0.05  ±10.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 10.2 tol 0.05  ±240.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1699 tol 0.03  pose change: shown only
+  PASS         part:lantern:color       ref 0.0 value 6.3119 tol 8
+  INFO         part:lantern:area        ref 39.0 value 5.4 tol 0.05  ±86.2% pose change: shown only
+  INFO         part:lantern:w           ref 9.0 value 6.0 tol 0.05  ±33.3% pose change: shown only
+  INFO         part:lantern:h           ref 10.0 value 6.0 tol 0.05  ±40.0% pose change: shown only
+  INFO         part:lantern:offset      ref 0.0 value 0.1883 tol 0.03  pose change: shown only
+  PASS         outline:color            ref 0.0 value 1.8713 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1333 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
+FAIL         bolt_walk_back_03.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 3.0446 tol 8
+  INFO         part:robe:area           ref 120.0 value 64.8 tol 0.05  ±46.0% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 11.4 tol 0.05  ±90.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 7.2 tol 0.05  ±10.0% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.2539 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 11 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 12 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 4.5911 tol 8
+  INFO         part:backpack:area       ref 57.0 value 36.0 tol 0.05  ±36.8% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 4.8 tol 0.05  ±20.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 10.2 tol 0.05  ±240.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1724 tol 0.03  pose change: shown only
+  PASS         part:lantern:color       ref 0.0 value 5.8047 tol 8
+  INFO         part:lantern:area        ref 39.0 value 5.76 tol 0.05  ±85.2% pose change: shown only
+  INFO         part:lantern:w           ref 9.0 value 6.0 tol 0.05  ±33.3% pose change: shown only
+  INFO         part:lantern:h           ref 10.0 value 5.4 tol 0.05  ±46.0% pose change: shown only
+  INFO         part:lantern:offset      ref 0.0 value 0.2028 tol 0.03  pose change: shown only
+  PASS         outline:color            ref 0.0 value 1.9998 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1338 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
+FAIL         bolt_walk_back_04.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 3.6495 tol 8
+  INFO         part:robe:area           ref 120.0 value 65.88 tol 0.05  ±45.1% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 12.0 tol 0.05  ±100.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 7.2 tol 0.05  ±10.0% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.2525 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 11 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 13 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 5.4158 tol 8
+  INFO         part:backpack:area       ref 57.0 value 36.72 tol 0.05  ±35.6% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 4.8 tol 0.05  ±20.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 10.2 tol 0.05  ±240.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.173 tol 0.03  pose change: shown only
+  PASS         part:lantern:color       ref 0.0 value 2.8397 tol 8
+  INFO         part:lantern:area        ref 39.0 value 4.68 tol 0.05  ±88.0% pose change: shown only
+  INFO         part:lantern:w           ref 9.0 value 6.0 tol 0.05  ±33.3% pose change: shown only
+  INFO         part:lantern:h           ref 10.0 value 5.4 tol 0.05  ±46.0% pose change: shown only
+  INFO         part:lantern:offset      ref 0.0 value 0.2058 tol 0.03  pose change: shown only
+  PASS         outline:color            ref 0.0 value 1.7477 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1333 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
+FAIL         bolt_walk_back_05.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 5.3245 tol 8
+  INFO         part:robe:area           ref 120.0 value 64.8 tol 0.05  ±46.0% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 12.0 tol 0.05  ±100.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 6.0 tol 0.05  ±25.0% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.2478 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 11 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 9 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 4.6685 tol 8
+  INFO         part:backpack:area       ref 57.0 value 38.88 tol 0.05  ±31.8% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 4.8 tol 0.05  ±20.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 10.8 tol 0.05  ±260.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1677 tol 0.03  pose change: shown only
+  PASS         part:lantern:color       ref 0.0 value 5.9369 tol 8
+  INFO         part:lantern:area        ref 39.0 value 5.04 tol 0.05  ±87.1% pose change: shown only
+  INFO         part:lantern:w           ref 9.0 value 6.0 tol 0.05  ±33.3% pose change: shown only
+  INFO         part:lantern:h           ref 10.0 value 4.8 tol 0.05  ±52.0% pose change: shown only
+  INFO         part:lantern:offset      ref 0.0 value 0.2073 tol 0.03  pose change: shown only
+  PASS         outline:color            ref 0.0 value 2.075 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1333 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
+FAIL         bolt_walk_back_06.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 6.4278 tol 8
+  INFO         part:robe:area           ref 120.0 value 54.72 tol 0.05  ±54.4% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 10.2 tol 0.05  ±70.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 6.0 tol 0.05  ±25.0% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.2539 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 11 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 9 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 4.1599 tol 8
+  INFO         part:backpack:area       ref 57.0 value 37.08 tol 0.05  ±34.9% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 4.8 tol 0.05  ±20.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 10.2 tol 0.05  ±240.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1708 tol 0.03  pose change: shown only
+  FAIL         part:lantern:color       ref 0.0 value 8.8665 tol 8
+  INFO         part:lantern:area        ref 39.0 value 6.48 tol 0.05  ±83.4% pose change: shown only
+  INFO         part:lantern:w           ref 9.0 value 6.0 tol 0.05  ±33.3% pose change: shown only
+  INFO         part:lantern:h           ref 10.0 value 7.2 tol 0.05  ±28.0% pose change: shown only
+  INFO         part:lantern:offset      ref 0.0 value 0.187 tol 0.03  pose change: shown only
+  PASS         outline:color            ref 0.0 value 1.8662 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1333 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
+FAIL         bolt_attack_back_00.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 1.4388 tol 8
+  INFO         part:robe:area           ref 120.0 value 63.72 tol 0.05  ±46.9% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 12.0 tol 0.05  ±100.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 6.0 tol 0.05  ±25.0% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.2542 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 11 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 6 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 2.6249 tol 8
+  INFO         part:backpack:area       ref 57.0 value 25.56 tol 0.05  ±55.2% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 4.8 tol 0.05  ±20.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 5.4 tol 0.05  ±80.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1751 tol 0.03  pose change: shown only
+  PASS         part:lantern:color       ref 0.0 value 2.1613 tol 8
+  INFO         part:lantern:area        ref 39.0 value 7.56 tol 0.05  ±80.6% pose change: shown only
+  INFO         part:lantern:w           ref 9.0 value 4.2 tol 0.05  ±53.3% pose change: shown only
+  INFO         part:lantern:h           ref 10.0 value 6.0 tol 0.05  ±40.0% pose change: shown only
+  INFO         part:lantern:offset      ref 0.0 value 0.2171 tol 0.03  pose change: shown only
+  PASS         outline:color            ref 0.0 value 2.1104 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1333 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
+FAIL         bolt_attack_back_01.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 0.7307 tol 8
+  INFO         part:robe:area           ref 120.0 value 64.44 tol 0.05  ±46.3% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 11.4 tol 0.05  ±90.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 6.0 tol 0.05  ±25.0% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.253 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 12 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 10 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 7.0314 tol 8
+  INFO         part:backpack:area       ref 57.0 value 38.52 tol 0.05  ±32.4% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 6.6 tol 0.05  ±65.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 10.2 tol 0.05  ±240.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1741 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:lantern             ref 39 value 2 tol None  part not identified in the candidate
+  PASS         outline:color            ref 0.0 value 1.9137 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1333 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
+FAIL         bolt_attack_back_02.png
+  PASS         part:hood:color          ref 0.0 value 0.7301 tol 8
+  INFO         part:hood:area           ref 64.0 value 33.84 tol 0.05  ±47.1% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 0.7378 tol 8
+  INFO         part:robe:area           ref 120.0 value 66.6 tol 0.05  ±44.5% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 12.0 tol 0.05  ±100.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 6.0 tol 0.05  ±25.0% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.2468 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 11 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 13 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 5.7547 tol 8
+  INFO         part:backpack:area       ref 57.0 value 40.32 tol 0.05  ±29.3% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 6.6 tol 0.05  ±65.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 10.8 tol 0.05  ±260.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1703 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:lantern             ref 39 value 0 tol None  part not identified in the candidate
+  PASS         outline:color            ref 0.0 value 1.9501 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1333 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
+FAIL         bolt_attack_back_03.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 1.4598 tol 8
+  INFO         part:robe:area           ref 120.0 value 65.52 tol 0.05  ±45.4% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 12.0 tol 0.05  ±100.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 6.0 tol 0.05  ±25.0% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.2531 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 11 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 12 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 6.8092 tol 8
+  INFO         part:backpack:area       ref 57.0 value 38.52 tol 0.05  ±32.4% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 6.6 tol 0.05  ±65.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 10.2 tol 0.05  ±240.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1798 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:lantern             ref 39 value 0 tol None  part not identified in the candidate
+  PASS         outline:color            ref 0.0 value 1.8126 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1333 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
+FAIL         bolt_attack_back_04.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 0.7307 tol 8
+  INFO         part:robe:area           ref 120.0 value 64.44 tol 0.05  ±46.3% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 11.4 tol 0.05  ±90.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 6.0 tol 0.05  ±25.0% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.253 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 12 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 10 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 7.0314 tol 8
+  INFO         part:backpack:area       ref 57.0 value 38.52 tol 0.05  ±32.4% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 6.6 tol 0.05  ±65.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 10.2 tol 0.05  ±240.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1741 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:lantern             ref 39 value 2 tol None  part not identified in the candidate
+  PASS         outline:color            ref 0.0 value 1.9137 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1333 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
+FAIL         bolt_attack_back_05.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 1.4388 tol 8
+  INFO         part:robe:area           ref 120.0 value 63.72 tol 0.05  ±46.9% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 12.0 tol 0.05  ±100.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 6.0 tol 0.05  ±25.0% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.2542 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 11 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 6 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 3.563 tol 8
+  INFO         part:backpack:area       ref 57.0 value 26.28 tol 0.05  ±53.9% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 4.8 tol 0.05  ±20.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 5.4 tol 0.05  ±80.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1777 tol 0.03  pose change: shown only
+  PASS         part:lantern:color       ref 0.0 value 1.1175 tol 8
+  INFO         part:lantern:area        ref 39.0 value 7.56 tol 0.05  ±80.6% pose change: shown only
+  INFO         part:lantern:w           ref 9.0 value 4.2 tol 0.05  ±53.3% pose change: shown only
+  INFO         part:lantern:h           ref 10.0 value 6.0 tol 0.05  ±40.0% pose change: shown only
+  INFO         part:lantern:offset      ref 0.0 value 0.2171 tol 0.03  pose change: shown only
+  PASS         outline:color            ref 0.0 value 2.9271 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1333 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002
