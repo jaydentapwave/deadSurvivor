@@ -55,3 +55,32 @@ Background: flat solid #ff00ff everywhere outside the monster. No grid lines, no
 - PASS = 기준과 어긋나지 않음. 자연스러움·터질 것처럼 보이는지는 판독과 사용자 판정이 본다.
 - 시트: docs/art/sheets/monster-puffer.png (sheet.py grid --candidates --size 144) — 브루노 앞, 슬라임, 채택본, 후보 r2b_1(2위). 청록 2장은 판독 FAIL이라 뺐다
 - 사용자 판정: 대기
+
+---
+
+# puffer_inflate.png — 출처
+
+- 무엇: 가시복(자폭형) 자폭 직전 부푼 그림(아트 기준서 3.3 몬스터 "돌진 예고·자폭 부풂 그림", 3.10 예고: 예고 그림 + 좌우 1px 흔들림 0.5초 — 흔들림은 게임 쪽). 채택된 puffer.png를 고친 그림(/2d-art-produce 0절 "기존 그림 고치기" 길: 3, 4, 6).
+- 규격: puffer.png와 같은 64x64 캔버스, 피벗 바닥 가운데(맨 아래 줄 63). bbox x 16..47 y 32..63 = 32x32(가시 포함, 평소 26x25 → 가로 1.23배, 세로 1.28배, 몸통만 약 1.25배). 알파 0/255만.
+- sha256: ae0689b871992ce39cf37c92bac6c2c00d2670d955f960ec3706e5d459cac546
+- 기준 그림: Assets/Game/03.Resources/Art/AIGenerated/Monsters/puffer/puffer.png c2e83a86ed7f96b024d5b8f7f96f99844a53ef7ba8e16d4f6771005b8946af37 (identity docs/art/identities/puffer.json)
+- 만든 날: 2026-11-17, 대기열 20261117-art-chars 항목 inflate-puffer(시도 1)
+- 채택: 대기열 항목 결과(디렉터 판단, 사용자 판정 대기)
+
+## 도구·방법
+- 픽셀 직접 손질(Codex 편집 대신 고름: 26x25 픽셀아트라 다시 그리면 얼굴·외곽선까지 흔들린다. 멧돼지 예고 그림과 같은 방법). 스크립트 output/2d-art/puffer-inflate/tools/(stretch.py, render.py, map_final.txt — Git 밖). 정수 픽셀 복사·이동과 칠하기만, 확대 보간·회전 없음(2d-animation.md 5절). 유료 크레딧 0. 1회차.
+- 바꾼 것:
+  1. 부풂: 몸통의 평범한 세로줄 2개(원본 x 27, x 31)와 가로줄 2개(원본 y 49, y 56)를 각각 3번 더 복사해 끼움(가로 +6, 세로 +6). 복사한 줄 안의 빨강(가시·점)은 몸 색으로 바꿔 가시·점이 늘어나지 않게 함. 바닥 줄 63 기준, 가로 가운데로 다시 놓음. 얼굴(눈·볼·눈썹·입)은 복사 줄 밖이라 원본 픽셀 그대로 이동만.
+  2. 곤두선 가시: 위 가시 둘을 1px 더 길게, 위 가운데 골에 새 가시 1개, 어깨 가시 둘 1px 더 길게, 늘어난 옆면에 작은 가시 4개(왼 2, 오른 2). 복사로 생긴 두 겹 외곽선(왼쪽 어깨)과 넓어진 바닥 가시는 원래 모양으로 되돌림.
+  3. 달아오름(기준서 3.5 r2 불 색): 몸 #d5833a → #d81808, 밝은 면 #cfa36c·#c9a264 → #f88808, 그늘 #af642e → #77211d(원래 팔레트의 짙은 빨강), 가시·경고 점 #c44334 → #f8d818(빛나는 노랑). 외곽선·배·얼굴 노랑(#ffe08a)·흰 반짝임·크림 반사는 그대로.
+  4. 다른 계열 판독 뒤 손질 1건: 오른쪽 위 옆 가시가 "가로 막대처럼 보임" 지적 → 2px 가시를 1px로 줄임.
+
+## 판정
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0)
+- frames.py holes --ref puffer.png: PASS (조각 1, 구멍 0, 좁은 틈 +7 = 늘린 위 가시 사이, 의도)
+- measure.py compare --id puffer --changed body,body_shade,body_light,spikes,belly,shine: FAIL — same_outside(바뀐 영역 밖 64px 다름: 몸 전체가 커져 얼굴 둘레·외곽선이 옮겨짐), body·body_shade·spikes는 색을 바꿔서 "부위 못 찾음"(NOT_ASSESSED). belly·face·shine 색, 외곽선 색, haze는 PASS. 크기·색을 바꾸는 이 그림의 의도상 이 판정은 통과할 수 없다(face는 fixed라 --changed에 넣을 수 없음).
+- 다른 계열 판독(Codex gpt-6.1-sol medium, 이름 가림, 평소/두 번째 10배 + 3배 나란히): PASS. 1순위 "몸이 과열·팽창해 곧 폭발하거나 터짐", 2순위 "불속성 강화·분노 상태로 공격·돌진". 같은 캐릭터로 보임, 떨어진 조각·끊긴 외곽선 없음. 결과 output/2d-art/puffer-inflate/review/codex.log(Git 밖).
+  후속 제안(반영 안 함): 위 긴 가시를 1px 줄이고 좌우 몸을 1px씩 더 부풀려 "불꽃"보다 "팽창"을 강조, 눈을 좁히거나 입을 벌려 긴장감.
+- PASS = 기준과 어긋나지 않음. 곧 터질 것으로 읽히는지는 판독과 사용자 판정이 본다.
+- 시트: docs/art/sheets/monster-puffer-inflate.png (sheet.py grid --candidates --against puffer.png --size 192 --unverified "...") — measure가 PASS가 아니라 빨간 UNVERIFIED 띠로 보인다.
+- 넣기(자리 적용)·짧은 Play·사용자 판정: 이 항목 범위 밖(에디터 없는 worktree). .meta는 puffer.png.meta를 복사해 guid·spriteID만 새로 만들었다(같은 임포트 설정).
