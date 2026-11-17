@@ -1,0 +1,54 @@
+{
+ "schema": "3dkit-asset-catalog/2",
+ "_comment": "HD-2D 3D 배경 소품 카탈로그(3d-art 팩, 설정 3dkit.hd2d.config.json). 예전 docs/art/asset-catalog.json(3dkit)과 따로 둔다.",
+ "assets": [
+  {
+   "id": "hd2d_bridge",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "개울 위 나무 다리. 기준서 K28: 4.0 x 1.8m, 높이 0.75m 이하. 명세 output/assets/hd2d-bridge/spec.md, 채택 컨셉 concept.png(bridge_E). 모양만 쓰고 질감은 도트 질감으로 다시 칠함",
+   "tripo": {
+    "asset": "hd2d_bridge",
+    "budget": "hd2d_props",
+    "seed": 20261118,
+    "face_limit": 600,
+    "concept": "output/assets/hd2d-bridge/concept.png",
+    "work_dir": "output/assets/hd2d-bridge/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-bridge/post/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_tent",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "야영지 A자 천막. 기준서 K28: 2.0 x 2.0 x 1.6m. 명세 output/assets/hd2d-tent/spec.md, 채택 컨셉 concept.png(tent_B). 모양만 쓰고 질감은 도트 질감으로 다시 칠함",
+   "tripo": {
+    "asset": "hd2d_tent",
+    "budget": "hd2d_props",
+    "seed": 20261118,
+    "face_limit": 500,
+    "concept": "output/assets/hd2d-tent/concept.png",
+    "work_dir": "output/assets/hd2d-tent/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-tent/final2/model.fbx"
+   }
+  }
+ ],
+ "budgets": {
+  "hd2d_props": {
+   "cap": 1000,
+   "approval": "2026-11-18 사용자 \"다리 천막 관련해서는 나한테 묻질말고 작업진행해줘\", \"그냥 상한 없앨테니 계속해서 해줘\" — 사용자가 상한을 없앰. cap 1000은 도구 형식(정수 필수)과 오작동 방지용 값이며 사용자 상한이 아니다. 쓴 크레딧은 작업 기록에 요청별로 적는다",
+   "assets": [
+    "hd2d_bridge",
+    "hd2d_tent"
+   ]
+  }
+ }
+}

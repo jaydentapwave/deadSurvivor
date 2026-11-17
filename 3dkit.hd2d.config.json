@@ -1,0 +1,33 @@
+{
+ "schema": "3dkit-config/1",
+ "_comment": "HD-2D 3D 배경 소품용 3d-art 팩 설정(2026-11-18). 예전 3dkit의 루트 3dkit.config.json과 따로 둔다: KIT3D_CONFIG=3dkit.hd2d.config.json 으로 가리켜 쓴다. 프로필 lowpoly(smart_low_poly, 소품 삼각형 수백 개 목표). 생성 질감은 버리고 배경 도트 질감으로 다시 칠한다(기준서 K28, 명세 output/assets/hd2d-*/spec.md).",
+ "unity": {"version": "6000.4.3f1"},
+ "assets": {
+  "profile": "lowpoly",
+  "catalog": "docs/art/asset-catalog-hd2d.json",
+  "content_root": "Assets/Game",
+  "art_root": "Assets/Game/03.Resources/Art/HD2D",
+  "work_root": "output/assets",
+  "spec": "docs/art/아트-기준서.md",
+  "shaders": {},
+  "capture": {"background": [0.31, 0.61, 0.2]}
+ },
+ "tripo": {
+  "cli": "output/tools/tripo/node_modules/.bin/tripo",
+  "home": "output/tripo-state",
+  "key_env_file": ".env.local",
+  "key_env": "TRIPO_API_KEY",
+  "new_work_root": "output/assets",
+  "timezone": "Asia/Seoul"
+ },
+ "blender": "/Applications/Blender.app/Contents/MacOS/Blender",
+ "harness": {
+  "python": "/usr/bin/python3",
+  "problem_log": "docs/art/문제-피드백-기록.md",
+  "metrics": "docs/art/metrics-hd2d.jsonl",
+  "replay_cases": "docs/art/replay-cases.json",
+  "full_override_env": "FULL_REASON",
+  "review": {"max_rounds_per_topic": 2, "override_env": "REVIEW_OK"},
+  "side_effect_files": []
+ }
+}
