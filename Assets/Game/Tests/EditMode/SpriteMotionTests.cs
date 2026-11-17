@@ -28,12 +28,47 @@ public class SpriteMotionTests
             Assert.That(width, Is.GreaterThan(0).And.LessThan(texture.width));
             var scale = SpriteMotion.GetShadowScale(width, 24);
             Assert.That(scale, Is.GreaterThanOrEqualTo(1));
-            Assert.That(24f * scale / width, Is.InRange(0.7f, 1.4f));
+            Assert.That(24f * scale / width, Is.InRange(0.65f, 1.4f));
         }
         finally
         {
             Object.DestroyImmediate(texture);
         }
+    }
+
+    [TestCase(35, 1)]
+    [TestCase(36, 1)] // 1.5배는 작은 쪽
+    [TestCase(37, 2)]
+    [TestCase(47, 2)]
+    [TestCase(52, 2)]
+    [TestCase(60, 2)] // 2.5배도 작은 쪽
+    [TestCase(61, 3)]
+    public void ShadowScaleChoosesSmallerAtExactHalf(int bodyWidth, int expected)
+    {
+        Assert.AreEqual(expected, SpriteMotion.GetShadowScale(bodyWidth, 24));
+    }
+
+    [Test]
+    public void AllFourMembersUseSameShadowScale()
+    {
+        var scales = new System.Collections.Generic.List<int>();
+        foreach (var character in new CharacterRepository(new ResourceService()).CharacterDataList)
+        {
+            var texture = new Texture2D(2, 2);
+            try
+            {
+                texture.LoadImage(System.IO.File.ReadAllBytes(
+                    $"Assets/Game/03.Resources/Art/AIGenerated/Characters/{character.Sprite}/front/{character.Sprite}_front.png"));
+                var width = SpriteMotion.GetVisibleWidth(texture.GetPixels32(), texture.width);
+                scales.Add(SpriteMotion.GetShadowScale(width, 24));
+            }
+            finally
+            {
+                Object.DestroyImmediate(texture);
+            }
+        }
+
+        CollectionAssert.AreEqual(new[] { 1, 1, 1, 1 }, scales);
     }
 
     [Test]

@@ -38,9 +38,9 @@ public static class SpriteMotion
         return isFlipped ? 1 : -1;
     }
 
-    // 캔버스 여백을 제외한 몸 폭에 가장 가까운 그림자 정수 배율.
+    // 캔버스 여백을 제외한 몸 폭에 가장 가까운 그림자 정수 배율. 정확히 중간이면 작은 쪽.
     public static int GetShadowScale(float bodyWidthPixels, float shadowWidthPixels) =>
-        Mathf.Max(1, Mathf.RoundToInt(bodyWidthPixels / shadowWidthPixels));
+        Mathf.Max(1, Mathf.CeilToInt(bodyWidthPixels / shadowWidthPixels - 0.5f));
 
     public static int GetVisibleWidth(Color32[] pixels, int width)
     {
