@@ -1,0 +1,7 @@
+F8 field background
+Rock: built-in OpenAI image_gen, text-only generation; no external reference supplied.
+Original path and SHA256, final native grid and palette: rock-provenance.json.
+Quantization: .ai/2d-art/tools/pixelize.py one --size 52x42 --bg #000000 --palette [#34140e,#403d2a,#9d9778,#d8d3a9].
+Ground: existing grass_01~04 native marks, fixed seed181108, random patch coordinates, rotations and reflections.
+Tree/bush: existing tree_01 leaf clusters; no new external source.
+Density:48 PPU; sprite scale1; each native pixel occupies2 display pixels at1080.

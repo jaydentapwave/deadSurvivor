@@ -1,0 +1,23 @@
+{
+  "tool": "OpenAI built-in image_gen",
+  "externalReferenceInputs": [],
+  "originalGeneratedPath": "/Users/hyeongwoo/.codex/generated_images/01a1ea33-246b-7be3-a6eb-9c496584d6ad/exec-43b89500-9070-4777-bb82-4ab3035baaf9.png",
+  "archivedOriginal": "Assets/Game/03.Resources/Art/HD2D/Round8/GeneratedRockOriginal.png",
+  "originalSha256": "8e43d4586992cb62d31625c7acc074da4ee5c1e05ac5f388634ea460479f831b",
+  "spriteSha256": "a1397d54263fbdcfaa3e659236323e6014d6b6f791005141d523dd607fe0a0c6",
+  "nativeSize": [
+    52,
+    42
+  ],
+  "pixelsPerUnit": 48,
+  "screenScale": 2,
+  "palette": [
+    "#34140e",
+    "#403d2a",
+    "#9d9778",
+    "#d8d3a9"
+  ],
+  "process": "pixelize.py one --size 52x42 --bg #000000 --palette; dominant-color cell reduction and palette snapping. Original native-grid pitch not estimated; final exact grid is explicitly quantized.",
+  "promptSummary": "One asymmetrical grounded chipped field boulder, transparent, 3 flat paint values, one native brown outline; upper-left daylight, orthographic 30-degree view. No grass, backdrop, text or baked cast shadow.",
+  "nativeOutlineCleanup": "Quantized alpha silhouette boundary (4-neighbor, 1 native pixel) assigned #34140e; restores 13 highlight-touched edge pixels. Dimensions and alpha silhouette unchanged."
+}
