@@ -1,0 +1,42 @@
+{
+ "base": "Assets/Game/03.Resources/Art/AIGenerated/Characters/mira/back/mira_back.png",
+ "head": {
+  "top": 16,
+  "bottom": 35,
+  "full_rows_to": 29,
+  "x_min_low": 21,
+  "clear_pad": 2
+ },
+ "out_dir": "Assets/Game/03.Resources/Art/AIGenerated/Characters/mira/walk_back",
+ "prefix": "mira_walk_back",
+ "frames": [
+  {
+   "src": "output/2d-art/mira-back-aether/dot/walk3/walk_00.png",
+   "cell": 12
+  },
+  {
+   "src": "output/2d-art/mira-back-aether/dot/walk3/walk_01.png",
+   "cell": 14
+  },
+  {
+   "src": "output/2d-art/mira-back-aether/dot/walk3/walk_02.png",
+   "cell": 16
+  },
+  {
+   "src": "output/2d-art/mira-back-aether/dot/walk3/walk_03.png",
+   "cell": 18
+  },
+  {
+   "src": "output/2d-art/mira-back-aether/dot/walk3/walk_04.png",
+   "cell": 20
+  },
+  {
+   "src": "output/2d-art/mira-back-aether/dot/walk3/walk_05.png",
+   "cell": 22
+  },
+  {
+   "src": "output/2d-art/mira-back-aether/dot/walk3/walk_06.png",
+   "cell": 24
+  }
+ ]
+}
