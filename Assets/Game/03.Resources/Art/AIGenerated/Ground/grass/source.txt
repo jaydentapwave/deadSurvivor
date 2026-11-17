@@ -1,0 +1,52 @@
+# 바닥 풀 마름모 타일 변형 4장 — 출처·판정 (대기열 20261117-art-prod 항목 ground-grass, 시도 1, 2026-11-17)
+
+- 무엇: grass_01~04.png, 48×24 마름모(K6), 바깥 투명. 기준서 r5 3.3 바닥 행 "풀 마름모 타일 변형 4", K6·K7, 3.4 바닥 선 0(외곽선 없음).
+- 상태: 양산 — 사용자 판정 대기. identity 없는 종류라 measure.py 판정 없음(시트 --unverified "양산 — 사용자 판정").
+  PASS = 기준과 어긋나지 않음. 자연스러움·무늬 반복은 판독과 사용자 판정.
+- 회차: 1/2. Codex 1건(후보 4장) 약 6분, 전체 약 40분. 유료 크레딧 없음.
+
+## 생성
+- codex-cli 0.167.2, gpt-6.1-sol(추론 medium), 내장 이미지 도구. 세션 01a1e833-683c-7ee1-b5ba-164900814f1b. Tag GG-R1.
+  `perl alarm 1500 codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <r1> "<prompt.txt>" -i ref1 ref2 < /dev/null`
+- 참고 1 = 채택 견본 docs/art/samples/ground/s3/grass.png (sha256 3d58df8e92c5bbd2…), 참고 2 = 컨셉 조각 concept_PE-G001_field_path.png (d1ed729f0cd90bf2…).
+- 프롬프트(전문): 견본 s3 프롬프트의 공통부(128×128 격자·8px 블록·1024 캔버스·이음·금지 목록, + "no dirt road") +
+  "Image 1 is the adopted grass style sample … copy its rendering style exactly — dense grass made of many small hand-drawn pixel blade tufts in 3 tones with darker gaps, occasional tiny white and yellow flower dots of 1-2 pixels. Image 2 is the concept art: match the colour feel of its grass field (slightly greener and more beige than image 1), not its objects. Colours: mix warm yellow-green grass #c2ad5f, #a1985d, #d6c074 with slightly greener olive grass #b3a954, #918c4b, and darker gaps #70683e, #6f6c46. Roughly half of the grass area in the greener olive tones, spread as soft irregular patches of 6-20 pixels, never stripes."
+  4장 요청(2장은 초록 덩어리를 조금 크게). 원본: 레포 밖 output/2d-art/ground-grass/r1/(git 무시).
+- 후보 원본 sha256: a 8d5d88716438e1f6… b b7fbc8a43e041132… c 17b4a0e8db1f4e1f… d 2f599195aa1af9a9…
+
+## 도트 정리(K11)·거르기
+| 후보 | pixelize.py grid (목표 128) | 처리 | fringe(--whole --key #ff00ff, 타일 4장) | 이름 가린 판독 | 결과 |
+|---|---|---|---|---|---|
+| a | 105×105 (0.21 LOW, MISMATCH) | --size auto → 105×105 | PASS 0px | Z: 풀·들꽃, 꽃점 많고 세로 줄무늬 반복 3/3 | 버림(시트 #5·6) |
+| b | 105×105 (0.29 LOW, MISMATCH) | --size auto → 105×105 | PASS 0px | X: 디더 같은 잔 무늬, 대각 띠 2/3 | 버림(시트 #7·8) |
+| c | 78×78 (0.20 LOW, MISMATCH) | --size auto → 78×78 (sha256 d0271bc30fd6c9ee…) | PASS 0px | Y: 견본과 가장 같은 풀, 그림체 같음, 반복 2/3(견본 자체도 2/3) | **채택** |
+| d | NOT_ESTIMATED | 격자 확인 실패 → 제외 | — | — | 버림 |
+- 고른 것: 다시 생성하지 않고 본래 격자로 내렸다(견본 s1·s2 선례). 텍스처라 원천 크기는 상관없고 도트 1칸 = 게임 1px.
+- 팔레트: 기준서 3.5 r5 안의 풀 부분집합 ["#c2ad5f","#a1985d","#d6c074","#6f6c46","#b3a954","#918c4b","#70683e","#fff9ed","#f8c838"]. 추가 색 없음.
+  채택본 색 비율: #b3a954 43.3% · #c2ad5f 31.2% · #918c4b 15.5% · #6f6c46 7.5% · #d6c074 1.6% · #f8c838 0.5% · #a1985d 0.4%(K7 기존 풀 + r5 초록 풀 섞임).
+- 판독: Claude 하위 에이전트(opus, medium), 후보 이름 X/Y/Z로 가림, 견본 들판 조각과 나란히. 만든 쪽(Codex)과 다른 계열.
+
+## 조립 (docs/art/sheets/ground-grass-build.py)
+- 견본 build_ground.py의 마름모 격자 주기 조립(lattice_tile)을 그대로 쓴다. 원천에서 64×64 창을 잘라 쓴다(감싸 읽기 없음).
+- 변형 1 = 바탕(원천 가운데 창). 변형 2~4 = 안쪽만 원천의 다른 창(모서리 쪽, 2·4는 좌우 뒤집기)에서 가져오고,
+  마름모 거리 r ≥ 0.85인 테두리 띠는 바탕과 같은 픽셀. 0.73~0.85는 픽셀별 확률 선택(디더)으로 넘어간다. 그래서 어떤 두 장이 맞닿아도 변 픽셀은 견본처럼 이어진다.
+- 실행: `/usr/bin/python3 docs/art/sheets/ground-grass-build.py output/2d-art/ground-grass/r1/px_c.png <이 폴더> output/2d-art/ground-grass/r1/final px_a.png px_b.png`
+- 타일 sha256: 01 59510af1e901779a… 02 fb3160ee31182722… 03 4455dd27c981b343… 04 fe93dac1177ab9af…
+
+## 측정 (4장을 무작위로 섞어 깐 640×360 들판, HUD 사이 22~306줄, 칸 변 621개)
+| 항목 | 기준 | 섞어 깐 들판 | 대조: 한 장만 깐 들판 | 판정 |
+|---|---|---|---|---|
+| C5 이음 띠 어긋남 중앙값 | 1px 이하 | 0px | 1px | PASS |
+| C5 어긋남 평균 | — | 0.65px (칸 안 가짜 변 0.79) | 0.54px | 칸 안과 같은 수준 |
+| C5 어긋남 최대 | — | 3px (견본 s3도 3) | 2px | 참고(측정 잡음: 칸 안 가짜 변에서도 나옴) |
+| C5 변 가로지른 색 차 / 칸 안 색 차 | 1에 가까울수록 이음 없음 | 1.005 | 1.011 (견본 이음 없는 자르기 대조군 1.73) | PASS |
+| C3 바닥 대표색(Lab 중앙값) | K7 색에서 ΔE 12 이내 | L68.5 a−7.7 b42.5, 가장 가까운 #b3a954 ΔE 2.1 | — | PASS |
+- 측정은 합성에서 잰 값이다. 게임에 넣은 뒤 게임 캡처로 다시 잰다(기준서 3.2).
+
+## 시트·합성 (만든 쪽이 직접 열어 봄)
+- docs/art/sheets/ground-grass.png: REF 견본 grass.png | #1~4 채택 grass_01~04 | #5·6 버린 a | #7·8 버린 b, 게임 크기 3배(72px), UNVERIFIED "양산 — 사용자 판정".
+  본 것: 4장이 같은 풀로 읽힘, 견본보다 초록 쪽, 낱장 안 꽃점 적음. 버린 b는 더 어둡고 잔 무늬.
+- docs/art/sheets/ground-grass-field.png: "합성 — 게임 화면 아님". 최신 전투 캡처 10-MON-1920x1080.png를 640×360으로 내려 바닥 자리만 들판으로 바꾸고
+  캐릭터 4(앞모습)·몬스터 3(슬라임·멧돼지·버섯)을 실제 크기로 올린 뒤 ×3.
+  본 것: 마름모 격자선·이음 안 보임. 약한 대각 결(풀 덩어리 방향)이 화면 전체에 있으나 칸 크기 반복으로는 안 보임. 캐릭터·몬스터가 바닥보다 또렷함.
+  HUD 글자는 1/3로 내렸다 다시 키워 깨져 보인다(합성 방식 탓, 게임과 무관).
