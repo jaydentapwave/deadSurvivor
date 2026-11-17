@@ -1,0 +1,69 @@
+# 장식 식물 — 꽃 3·풀 덤불 2·나무 1: 출처·프롬프트·회차·판독·팔레트 (대기열 20261117-art-prod 항목 decor-plants, 시도 1, 2026-11-17)
+
+- 종류: 소품(장식 식물). 기준서 r5 3.3 장식 행(꽃 3, 풀 2, 나무 1 — 돌 2·울타리 1은 이 항목 밖), 3.4 장식 크기(8~40px, 나무만 약 80px), 3.4 선 굵기 1(K5 외곽선 #34140e 1px).
+  identity가 없는 종류라 measure.py 판정은 없다. 채택은 다른 계열 판독 + 사용자 판정. 시트는 --props(NOT MEASURED 띠).
+  PASS = 기준과 어긋나지 않음, 자연스러움은 판독·사용자 판정.
+- 그림체: 기준서 3.7 채택 견본 장식 행 "식물 2번" = docs/art/samples/decor/s2/(flower.png, tree.png). 생성 입력 첫째 = 견본, 둘째 = 컨셉 조각 concept_PE-G001_flower.png / concept_PE-G001_tree.png.
+- 회차: 꽃·풀·나무 모두 1/2회차, 회차마다 후보 4장(꽃은 한 장에 흰·노랑·보라 3포기, 풀은 한 장에 작은·큰 덤불 2개). 유료 크레딧 0.
+
+## 채택본
+| 파일 | 게임 크기 px(가상 640×360, 배율 1) | 쓴 색(모두 r5 팔레트 안) | 원 후보 | sha256 앞 16자 |
+|---|---|---|---|---|
+| flower_01.png (흰 데이지) | 17×16 | #34140e #3a3721 #4f7a2e #7fa040 #d5833a #f8b828 #ffe08a #fff9ed | flowers/cand_4 왼쪽 | a4ffd36e35e9b2e2 |
+| flower_02.png (노랑) | 18×17 | #34140e #4f7a2e #7fa040 #d5833a #f8b828 #ffe08a | flowers/cand_1 가운데 | a9990c095fc90935 |
+| flower_03.png (보라) | 18×17 | #34140e #3a3721 #4f7a2e #7a4a9e #7fa040 #b07fd0 #f8b828 #fff9ed | flowers/cand_1 오른쪽 | ef65538fa83fd62c |
+| grass_tuft_01.png (작은 덤불) | 13×8 | #34140e #3a3721 #4f7a2e #7fa040 #a8c828 #b3a954 | grass/cand_3 왼쪽 | 077fdea5e4728717 |
+| grass_tuft_02.png (큰 덤불) | 18×14 | #34140e #3a3721 #4f7a2e #70683e #7fa040 #918c4b #a8c828 #b3a954 | grass/cand_2 오른쪽 | ecfd74ad32be1775 |
+| tree_01.png (나무) | 75×81 | 잎 #838a55 #6e7b53 #414e3f #31362f, 줄기 #774c3b #5c493c #7b6038, 선 #34140e #2f1108 | tree/cand_1 | 23034a85c231c48c |
+
+- 원 후보 sha256 앞 16자: flowers/cand_4 0017a18bd6a343b0, flowers/cand_1 26779d71cf6787a1, grass/cand_3 bb7d4b26b0d5d574, grass/cand_2 9a806fb63177e5be, tree/cand_1 e066883b08a81c3b.
+- 피벗: 바닥 접점(3.1) = 그림 맨 아래 줄 가운데. 그림은 불투명 bbox로 잘라 맨 아래 줄이 땅에 닿는 줄이다(투명 여백 없음). 임포트 때 피벗 Bottom Center(임포트는 범위 밖).
+- 알파 0·255뿐(이진). 외곽선 1px #34140e(나무 줄기 가장 어두운 곳 #2f1108).
+- 크기 고른 이유: 꽃은 견본(12×11)보다 조금 크다(16~17) — 생성 격자가 약 28~32칸이라 14로 내리면 꽃잎이 뭉개졌고 16에서 꽃 모양이 남았다(8~24 범위 안).
+  풀은 작은 덤불 약 13×8, 큰 덤불 폭 18. 나무는 키 81(완료 조건 70~90, 기준서 r5 "약 80px"). 폭 75 — 생성 그림의 수관이 거의 둥글게 나와 컨셉 비율(폭/키 0.66)보다 넓다. 기준서 3.4 "캐릭터 48px 대비 약 88px 폭"과는 가깝다.
+- 세트로 고른 이유: 꽃 3장은 판독자가 "같은 손으로 그린 한 세트"(같은 크기·선)로 묶은 후보에서 색마다 1위를 골랐다. flower_02·03은 같은 후보 장(cand_1), flower_01은 cand_4지만 같은 묶음.
+
+## 생성
+- 도구: codex-cli, 모델 gpt-6.1-sol, 추론 medium, 내장 이미지 도구. 실행 폴더 레포 밖(git 무시) output/2d-art/decor-plants/<flowers|grass|tree>/.
+  명령: `perl alarm 1500 + codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <폴더> "$(cat prompt.txt)" -i ref1_*.png ref2_*.png < /dev/null`. 3건 모두 exit 0, 후보 4장씩.
+  세션 id: 01a1e86d-c9f5-79c2-b122-c3362a833e97, 01a1e86d-c9f5-7321-96c8-837d00a8dcc4, 01a1e86d-c9f5-76d2-993b-5205712e7571(꽃·풀·나무 3건, 실행 폴더 codex.log에 각각).
+- 참고 그림(넣은 순서): 첫째 견본 s2/flower.png ×40(꽃·풀) / s2/tree.png ×16(나무), 자홍 바탕(sha256 앞 16자 e0968b2e15a6cbd3 / 19a1000a7a5cf138). 둘째 컨셉 조각 concept_PE-G001_flower.png(528c4e1be5a63926) / concept_PE-G001_tree.png(a58a78a4fc00326d). 캐릭터·몬스터 그림은 넣지 않았다.
+- 프롬프트 전문: 각 실행 폴더 prompt.txt. 공통 꼬리(태그 DS-DECOR-PLANTS): 견본 그림체에서 컨셉 쪽 중간, 3단 음영, 1px #34140e 외곽선(검정 아님), 안티앨리어싱·그라데이션 없음, 평평한 블록, 3/4 내려다보기, 피벗 바닥 가운데, 그림자·흙·글자·캐릭터·로고·기존 게임 것 금지. 후보 1·2는 같은 문구, 3·4는 컨셉 쪽으로 조금 더.
+  - 꽃: "THREE separate small field-flower clumps in one row … left WHITE daisies (#fff9ed, centres #ffe08a/#f8b828), middle YELLOW (#ffe08a #f8b828 #d5833a), right PURPLE (#b07fd0 #7a4a9e) … stems #7fa040 #4f7a2e #3a3721 … one set", 64×24 격자·블록 24·캔버스 1536×576, 바탕 #00ffff(보라 꽃이 자홍 키와 겹쳐서 — 견본 보고 '남긴 것').
+  - 풀: "TWO separate grass tufts (no flowers) … left about 12×9, right about 18×13 … greens #a8c828 #7fa040 #4f7a2e #3a3721 + #b3a954 #918c4b … greener and darker than the floor #c2ad5f", 48×24 격자·블록 32, 바탕 #ff00ff.
+  - 나무: "ONE big round leafy field tree … short trunk with root flare, large wavy clustered crown … about 60 px wide and 80 px tall … leaf ONLY #838a55 #6e7b53 #414e3f #31362f — NOT yellow-green; trunk #774c3b #5c493c", 72×88 격자·블록 12, 바탕 #ff00ff.
+- 견본 보고(sample-decor-1 '남긴 것')에서 지킨 것: 보라 꽃은 #00ffff 키, 나무는 r5 청록빛 잎 4색과 약 80px(r5 개정으로 기준서 반영됨), 나머지 꽃 2·풀 2를 이 항목에서 만듦.
+  paint.py(가족당 50px 하한, 4배 사본 필요)는 이번에 돌리지 않았다 — 팔레트를 r5 부분 팔레트로 고정해 내렸으므로 칠 색은 팔레트 값 그대로다(아래 '하지 않은 것').
+
+## 도트 정리(K11)
+- 스크립트 output/2d-art/decor-plants/proc.py: 바탕색 거리(채널 합 > 90) 마스크의 열 투영으로 포기·덤불을 나눠 자르고(+6px), 한 장 안에서는 같은 배율로
+  `pixelize.py one <잘린 그림> --size WxH --palette <부분 팔레트> --bg <키>`. 꽃은 가장 큰 포기 높이 16, 풀은 큰 덤불 폭 18, 나무는 키 80(여백 포함 81) 기준. 강조색 추가 없음.
+  부분 팔레트(모두 r5 3.5 안): 꽃 #34140e #3a3721 #4f7a2e #7fa040 #fff9ed #ffffff #ffe08a #f8b828 #d5833a #b07fd0 #7a4a9e / 풀 #34140e #3a3721 #4f7a2e #7fa040 #a8c828 #b3a954 #918c4b #70683e / 나무 #34140e #2f1108 #838a55 #6e7b53 #414e3f #31362f #774c3b #5c493c #7b6038.
+- 본래 격자(pixelize.py grid): 꽃 27~35칸(일부 LOW), 풀 16~62칸, 나무 NOT_ESTIMATED(블록 4px 미만 또는 규칙 블록 없음). 모두 GRID_MISMATCH — 생성기가 블록 지시를 따르지 않았다.
+  다시 생성하지 않은 이유: 내린 그림을 4~8배로 보았을 때 채택본에서 모양이 뭉개진 곳이 없었다(확대 눈 확인, 판독도 결함 없음).
+- 테두리 번짐 `matte.py fringe --whole`: 꽃 후보 12장 중 1장 FAIL(cand_1 흰 꽃, 가장자리 1px — 버림, 판독·시트에 올리지 않음), 나머지 11장·풀 8장·나무 4장 PASS. 채택본 6장 다시 재서 PASS(0px).
+
+## 다른 계열 판독(Claude 하위 에이전트, Opus 5.5 medium. 생성은 GPT 계열)
+- 방식: 후보 23장(꽃 11·풀 8·나무 4)을 섞어 번호만 붙여 6배로, 들판 풀색 바탕에 보였다. 견본 s2 꽃·나무(6배)와 컨셉 조각 둘을 따로 보였다. 파일 이름·무엇인지는 알리지 않았다. 대응표 output/2d-art/decor-plants/blind_map.json.
+- 결과: 23장 모두 의도한 물건(흰·노랑/주황·보라 꽃, 작은·큰 풀 덤불, 둥근 나무)으로 읽혔다.
+- 고른 것(모두 판독자의 그 묶음 1위):
+  - 흰 꽃 = #13(flowers/cand_4 왼쪽): "white daisy cluster | yes | none, crisp"
+  - 노랑 꽃 = #14(flowers/cand_1 가운데): "yellow-orange flower cluster | yes | none"
+  - 보라 꽃 = #20(flowers/cand_1 오른쪽): "purple flower cluster | yes | none"
+  - 작은 풀 = #4(grass/cand_3 왼쪽): "small low grass tuft | yes | none"
+  - 큰 풀 = #6(grass/cand_2 오른쪽): "taller grass tuft | yes/partly | small brown patch at the lower right" (#918c4b·#70683e 풀색 그늘. 남은 후보는 모두 더 얼룩졌다)
+  - 나무 = #10(tree/cand_1): "round oak with a short trunk | partly | cleanest of the four trees, no blotches"
+- 판독 공통 지적: 나무 넷 모두 견본(평칠 3단)보다 단이 많고 칠한 느낌이라 "partly" — 컨셉 나무 쪽에 가깝다. 다른 나무 후보 #7·#8에는 수관에 갈색 얼룩이 있었다. 풀 후보 여럿은 밑동이 갈색으로 얼룩졌다.
+- 버린 후보: 꽃 8장(흐림·꽃끼리 뭉침·흰색이 누렇게), 풀 6장(밑동 얼룩, 튀는 잎 한 줄, 어둡고 뭉툭함), 나무 3장(갈색 얼룩 2장, 가지 보이는 #3은 깨끗하나 1위가 아님).
+
+## 시트·합성(직접 열어 본 것)
+- docs/art/sheets/decor-plants.png: `sheet.py grid --size 246 --numbered --props --unverified "양산 — 사용자 판정" --against <견본 flower·tree>` — 모든 그림을 76×82 투명 판 바닥 가운데에 놓아 게임 크기 ×3 같은 축척. 23칸 보임, 빠진 것 0. 머리 NOT MEASURED.
+  순서: REF 견본 꽃·나무 | #1~#6 채택(흰·노랑·보라 꽃, 작은·큰 풀, 나무) | #7~#23 버린 후보(꽃 8, 풀 6, 나무 3).
+  열어 본 것: 채택 꽃 셋은 같은 크기·같은 줄기로 색만 다르다. 견본 꽃(12×11)보다 조금 크고 꽃잎이 또렷하다. 풀은 견본에 없는 종류라 견본 꽃의 줄기 초록과 비교 — 같은 초록·같은 선. 나무는 견본 나무(34×38, 노란 초록)보다 두 배 넘게 크고 청록빛 어두운 초록, 잎 덩이가 많다.
+- docs/art/sheets/decor-plants-field.png: **합성 — 게임 화면 아님.** 전투 캡처 10-MON-1920x1080(/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/evidence/20261117-screen-fixes/2/1/art-flows/, 읽기 전용)을 640×360으로 내리고 장식을 가장자리(왼·오른 띠, 위 띠)에만 게임 크기·바닥 접점 피벗으로 얹은 뒤 ×3, 아래에 왼쪽 위 일부(x0~240, y40~260) ×4. 스크립트 output/2d-art/decor-plants/build_comp.py.
+  열어 본 것: 가운데 전투 자리(대원·몬스터)는 비었다. 나무 둘은 캐릭터(약 48px)보다 확실히 크고 들판 노란 풀 위에서 청록 초록이 또렷이 갈린다. 꽃 셋은 흰·주황·보라로 서로 구분되고 작은 크기에서도 꽃으로 읽힌다. 풀 덤불은 바닥보다 진한 초록이라 보이지만 작은 덤불(13×8)은 1배에서 아주 작다. 오른쪽 나무 왼쪽에 흰 꽃이 겹쳐 놓였다(합성 배치 탓). 테두리에 키 색 점 없음(확대 보기).
+
+## 하지 않은 것 / 미확인
+- paint.py 칠 색 측정, shape.py 형태 판정: 하지 않음(장식 식물의 형태 규격 틀이 있는 종류는 돌·울타리 shape.json뿐이고, 팔레트를 부분 팔레트로 고정해 내림). 미확인.
+- Unity 임포트(.meta)·피벗 설정·장면 배치·게임 화면 캡처: 범위 밖(레포 루트 게임 쪽 실행). 게임 화면 확인 미확인.
+- 사용자 판정: 미판정(human 검사 "꽃·풀·나무가 견본(식물 2번)처럼 보이고 나무 크기가 들판에 어울리는가").
