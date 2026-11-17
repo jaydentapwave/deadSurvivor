@@ -640,6 +640,106 @@ public static class PlayableProbe
         return count;
     }
 
+    // T1~T5: 실제 풀에서 표시한 횟수와 현재 카메라 안 그림 수. 짧은 효과는 상태 숫자와 함께 확인한다.
+    public static int EffectShownCount(string spriteName) => Resolve<CombatWorldPresenter>().GetShownCount(spriteName);
+
+    public static int EffectVisibleCount(string spriteName)
+    {
+        var count = 0;
+        var registry = Resolve<ProjectileViewRegistry>();
+        foreach (var id in registry.ProjectileIds)
+        {
+            registry.TryGetProjectile(id, out var view);
+            if (IsEffectVisible(view.BodyRenderer, spriteName) && IsProjectileAwayFromParty(view.BodyRenderer))
+            {
+                count++;
+            }
+        }
+
+        foreach (var id in registry.BurstIds)
+        {
+            registry.TryGetBurst(id, out var view);
+            if (IsEffectVisible(view.BodyRenderer, spriteName))
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public static bool IsEffectCaptureReady => EffectSampler != null && EffectSampler.IsCaptured;
+
+    private static PlayableEffectSampler EffectSampler => Object.FindAnyObjectByType<PlayableEffectSampler>();
+
+    public static void ArmEffectCapture(string spriteName, string evidenceDirectory)
+    {
+        var sampler = EffectSampler;
+        if (sampler == null)
+        {
+            sampler = new GameObject(nameof(PlayableEffectSampler)).AddComponent<PlayableEffectSampler>();
+        }
+
+        sampler.Arm(spriteName, evidenceDirectory);
+        Time.timeScale = 1f;
+    }
+
+    // 효과 확인용 장비 입력: 정비 중 전리품 지급 API → 기존 집기/드롭 입력. HP·쿨·피해는 직접 쓰지 않는다.
+    public static void GrantAndEquipEffectTrialItem(string itemId, int member)
+    {
+        if (Screen != nameof(RunPhase.Prep))
+        {
+            throw new InvalidOperationException("[PlayableProbe] Effect trial equipment requires Prep");
+        }
+
+        var bagService = Resolve<BagService>();
+        var bagModel = Resolve<BagModel>();
+        bagService.AddLoot(new[] { itemId });
+        var uid = bagModel.LastGrantedUidList[0];
+        var rules = Resolve<BagRulesRepository>().Rules;
+        for (var rotation = 0; rotation < 4; rotation++)
+        {
+            for (var y = 0; y < rules.BagHeight; y++)
+            {
+                for (var x = 0; x < rules.BagWidth; x++)
+                {
+                    if (bagService.CanPlace(bagModel, uid, member, x, y, rotation))
+                    {
+                        PressDrop(uid, rotation, BagTarget.Cell(member, x, y));
+                        return;
+                    }
+                }
+            }
+        }
+
+        throw new InvalidOperationException($"[PlayableProbe] No equipment space for {itemId}");
+    }
+
+    // 투사체가 발사자 몸과 겹친 첫 프레임 대신, 궤적을 읽을 수 있는 비행 중 프레임을 잡는다.
+    private static bool IsProjectileAwayFromParty(SpriteRenderer renderer)
+    {
+        var rules = Resolve<RunRulesData>();
+        foreach (var member in Resolve<PartyModel>().MemberList)
+        {
+            var foot = IsoProjection.FloorToWorld(member.Position, rules.UnitScale);
+            var center = (Vector2)renderer.bounds.center;
+            if (Mathf.Abs(center.x - foot.x) < 24f / Const.PixelsPerUnit
+                && center.y > foot.y && center.y < foot.y + 52f / Const.PixelsPerUnit)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static bool IsEffectVisible(SpriteRenderer renderer, string spriteName)
+    {
+        var point = Resolve<Camera>().WorldToViewportPoint(renderer.bounds.center);
+        return renderer.sprite.name == spriteName + "(Clone)" && renderer.color.a > 0f
+            && point.z > 0f && point.x > 0f && point.x < 1f && point.y > 0f && point.y < 1f;
+    }
+
     // MarkFrameStats 뒤 그리기 호출·set-pass 95백분위(그림 넣기 I절), 표본 없으면 −1
     public static float RenderBatchesP95 => FrameSampler != null ? FrameSampler.BatchesP95 : -1f;
     public static float SetPassCallsP95 => FrameSampler != null ? FrameSampler.SetPassCallsP95 : -1f;
@@ -1029,6 +1129,42 @@ public class PlayableWarningSampler : MonoBehaviour
         _resultDict[shown.spriteName] = result;
         _logBuilder.AppendLine(
             $"{shown.spriteName} monster={monsterId} start={shown.startTime:F3} end={Time.time:F3} shown={Time.time - shown.startTime:F3} returned={isReturned}");
+    }
+}
+// 짧은 효과는 CLI 폴링 주기와 발동 주기가 겹칠 수 있어 프레임 끝에서 포착한다.
+[DefaultExecutionOrder(10000)]
+public class PlayableEffectSampler : MonoBehaviour
+{
+    public bool IsCaptured { get; private set; }
+    private string _spriteName;
+    private string _evidenceDirectory;
+
+    public void Arm(string spriteName, string evidenceDirectory)
+    {
+        _spriteName = spriteName;
+        _evidenceDirectory = evidenceDirectory;
+        IsCaptured = false;
+    }
+
+    private void LateUpdate()
+    {
+        if (_spriteName == null || IsCaptured)
+        {
+            return;
+        }
+
+        var count = PlayableProbe.EffectVisibleCount(_spriteName);
+        if (count < 1)
+        {
+            return;
+        }
+
+        Time.timeScale = 0f;
+        IsCaptured = true;
+        var directory = System.IO.Path.GetFullPath(_evidenceDirectory);
+        System.IO.Directory.CreateDirectory(directory);
+        System.IO.File.AppendAllText(System.IO.Path.Combine(directory, _spriteName + ".txt"),
+            $"utc={DateTime.UtcNow:O} frame={Time.frameCount} gameTime={Time.time:F4} visible={count} shown={PlayableProbe.EffectShownCount(_spriteName)}\n");
     }
 }
 #endif

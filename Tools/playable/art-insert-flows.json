@@ -274,6 +274,134 @@
       "name": "로비로",
       "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.PressToLobby();",
       "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "FXPREP",
+      "name": "효과 확인 장비 준비: 정상 웨이브 1 종료 → 정비(검증용 전리품은 다음 단계에서 지급)",
+      "do": "PlayableProbe.UseRunSettings(13, 1f); UnityEngine.Time.timeScale = 20f; PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 45
+    },
+    {
+      "id": "FXGEAR",
+      "name": "도끼·쇠뇌·번개·향로: 전리품 지급 API와 가방 드롭 입력으로 장착(기존 시작 장비 유지)",
+      "do": "PlayableProbe.GrantAndEquipEffectTrialItem(\"axe\", 0); PlayableProbe.GrantAndEquipEffectTrialItem(\"crossbow\", 1); PlayableProbe.GrantAndEquipEffectTrialItem(\"wand\", 2); PlayableProbe.GrantAndEquipEffectTrialItem(\"censer\", 3); PlayableProbe.MarkWarnings(); PlayableProbe.UseRealTimeAtWave(2); PlayableProbe.PressNextWave(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 2",
+      "timeout": 60,
+      "expect": "PlayableProbe.HasBattleItem(0,\"axe\") && PlayableProbe.HasBattleItem(1,\"crossbow\") && PlayableProbe.HasBattleItem(2,\"wand\") && PlayableProbe.HasBattleItem(3,\"censer\")"
+    },
+    {
+      "id": "FX1",
+      "name": "효과 화면 확인: slash_sword (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"slash_sword\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"slash_sword\") > 0 && PlayableProbe.EffectShownCount(\"slash_sword\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX2",
+      "name": "효과 화면 확인: slash_axe (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"slash_axe\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"slash_axe\") > 0 && PlayableProbe.EffectShownCount(\"slash_axe\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX3",
+      "name": "효과 화면 확인: arrow (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"arrow\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"arrow\") > 0 && PlayableProbe.EffectShownCount(\"arrow\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX4",
+      "name": "효과 화면 확인: crossbow_bolt (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"crossbow_bolt\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"crossbow_bolt\") > 0 && PlayableProbe.EffectShownCount(\"crossbow_bolt\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX5",
+      "name": "효과 화면 확인: fireball (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"fireball\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"fireball\") > 0 && PlayableProbe.EffectShownCount(\"fireball\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX6",
+      "name": "효과 화면 확인: explosion (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"explosion\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"explosion\") > 0 && PlayableProbe.EffectShownCount(\"explosion\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX7",
+      "name": "효과 화면 확인: lightning (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"lightning\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"lightning\") > 0 && PlayableProbe.EffectShownCount(\"lightning\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX8",
+      "name": "효과 화면 확인: hit_star (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"hit_star\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"hit_star\") > 0 && PlayableProbe.EffectShownCount(\"hit_star\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FXHIT2",
+      "name": "피격 별 연속 표본: 0.05초 진행 뒤 같은 화면의 남은 별",
+      "do": "PlayableProbe.ArmEffectCapture(\"hit_star\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "expect": "PlayableProbe.EffectVisibleCount(\"hit_star\") > 0",
+      "capture": true,
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 30
+    },
+    {
+      "id": "FX9",
+      "name": "효과 화면 확인: heal_single (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"heal_single\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"heal_single\") > 0 && PlayableProbe.EffectShownCount(\"heal_single\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX10",
+      "name": "효과 화면 확인: heal_area (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"heal_area\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"heal_area\") > 0 && PlayableProbe.EffectShownCount(\"heal_area\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FXEND",
+      "name": "효과 확인 판 끝까지",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120
+    },
+    {
+      "id": "FXLOBBY",
+      "name": "로비로, 효과 풀 반환",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.PressToLobby();",
+      "wait": "PlayableProbe.Screen == \"Lobby\"",
+      "expect": "PlayableProbe.EffectVisibleCount(\"hit_star\") == 0 && PlayableProbe.EffectVisibleCount(\"lightning\") == 0"
     }
   ]
 }
