@@ -101,6 +101,7 @@ Create missing folders if needed. Always specify target file path.
 - Codex는 어디서 부르든(이미지 생성, 검토, 구현 실행기) 모델 `gpt-6.1-sol`, 추론 medium: `codex exec -m gpt-6.1-sol -c 'model_reasoning_effort="medium"' ...`. 실행기는 `codex-step.py --model gpt-6.1-sol --effort medium`, 대기열은 `--model gpt-6.1-sol --effort medium`. `~/.codex/config.toml`(다른 프로젝트와 같이 쓰는 설정)은 바꾸지 않았다.
 - **리뷰 담당 4종(design-reviewer, spec-reviewer, validator-client, algorithm-tester)은 Codex가 한다.** `.claude/agents/<이름>.md`는 받은 브리핑을 `Tools/codex_review.py`로 Codex에 넘기고 답을 그대로 돌려주는 중계다(Sonnet, medium). Codex가 따르는 역할 지침은 `.ai/reviewers/<이름>.md`(원래 에이전트 본문). 판정 기록 훅은 중계 답의 `VERDICT:` 줄을 그대로 기록한다. studio-kit을 다시 깔거나 올리면 `.claude/agents/`가 덮어써질 수 있으니 이 절대로 되돌린다.
 - 리뷰가 이미 다른 모델 계열(Codex)이므로 디렉터의 "다른 모델 계열 마감 검증"(director-run 5절 3-2)은 따로 돌리지 않는다.
+- **구현·생산은 Codex가 한다(2026-11-17 사용자 "너 구현할떄 이제 codex를 최대한 활용해줘").** 디렉터가 띄우는 구현 단계는 `codex-step.py --model gpt-6.1-sol --effort medium`(director-run `references/runner.md` "Codex로 실행하는 단계"), 대기열은 `workqueue.py run ... --executor codex --model gpt-6.1-sol --effort medium`(Aether 항목도 — Codex에 Aether MCP가 연결돼 있다). 리뷰 세션·기획·아트 방향 결정은 그대로 Claude(리뷰 4종은 Codex 중계).
 
 ## Subagent Routing
 
