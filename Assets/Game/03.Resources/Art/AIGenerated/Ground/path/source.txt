@@ -1,0 +1,84 @@
+# 바닥 흙길 마름모 타일 9장 — 출처·판정 (대기열 20261117-art-prod 항목 ground-path, 시도 1, 2026-11-17)
+
+- 무엇: 48×24 마름모(K6), 바깥 투명. 기준서 r5 3.3 흙길 표(직선 ↗·↘ 2, 꺾임 4, 끝 4), K7 흙길 색, 3.4 바닥 선 0(외곽선 없음).
+- 상태: 양산 — 사용자 판정 대기. identity 없는 종류라 measure.py 판정 없음(시트 --unverified "양산 — 사용자 판정").
+  PASS = 기준과 어긋나지 않음. 자연스러움·무늬는 판독과 사용자 판정.
+- 회차: 1/2. Codex 1건(흙 원천 후보 4장) 약 15분, 전체 약 45분. 유료 크레딧 없음.
+
+## 기준서 에셋 목록 대조(3.3 흙길 행)
+| 이음 | 기준서 | 이번 | 파일 |
+|---|---|---|---|
+| 직선 ↗ | 새로 그림 | 만듦 | path_ne.png |
+| 직선 ↘ | ↗ 좌우 반전 | 파생(게임이 path_ne를 좌우 반전) | — |
+| 꺾임 4 | 새로 그림 | 만듦 | path_corner_n/e/s/w.png |
+| 끝 4 | 새로 그림 | 만듦 | path_end_ne/se/sw/nw.png |
+| 갈림(T·十) | 목록에 없음 | 범위 밖(기준서 3.3에 없음) | — |
+
+## 이웃 네 칸 → 고를 타일 (3.3 고르는 규칙)
+이웃 = 마름모 변을 맞댄 네 칸. ↗ = 오른쪽 위 변, ↘ = 오른쪽 아래 변, ↙ = 왼쪽 아래 변, ↖ = 왼쪽 위 변.
+꺾임 이름 = 길이 지나는 두 변이 만나는 마름모 꼭짓점(n 위, e 오른쪽, s 아래, w 왼쪽). 끝 이름 = 길이 이어지는 변.
+| 길인 이웃 | 타일 | 반전 |
+|---|---|---|
+| ↗ ↙ | path_ne | 아니오 |
+| ↖ ↘ | path_ne | 좌우 반전 |
+| ↗ ↖ | path_corner_n | 아니오 |
+| ↗ ↘ | path_corner_e | 아니오 |
+| ↘ ↙ | path_corner_s | 아니오 |
+| ↙ ↖ | path_corner_w | 아니오 |
+| ↗ 만 | path_end_ne | 아니오 |
+| ↘ 만 | path_end_se | 아니오 |
+| ↙ 만 | path_end_sw | 아니오 |
+| ↖ 만 | path_end_nw | 아니오 |
+| 없음(외딴 칸) | 타일 없음 — 지도에 두지 않는다(풀 타일) | — |
+| 셋·넷(갈림) | 타일 없음 — 기준서 3.3 범위 밖. 지도에 두지 않는다 | — |
+같은 표가 docs/art/sheets/ground-path-build.py의 pick()에 코드로 있다(시험 지도·합성이 이 표로 깔렸다).
+
+## 생성 (흙 원천 텍스처)
+- codex-cli, gpt-6.1-sol(추론 medium), 내장 이미지 도구. 세션 01a1e83a-85cc-7761-9c13-793ee0dd8d4e. Tag GP-R1.
+  `perl alarm 1500 codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <r1> "<prompt.txt>" -i ref1_sample.png ref2_concept.png < /dev/null`
+- 참고 1 = 채택 견본 docs/art/samples/ground/s3/path_ne.png(8배 확대, sha256 6da152d33dbe79f8…), 참고 2 = 컨셉 조각 concept_PE-G001_field_path.png (d1ed729f0cd90bf2…).
+- 프롬프트(요지): 견본 s3 공통부(128×128 격자, 8px 블록, 1024 캔버스, 이음, 금지 목록 + no grass, no road edges) +
+  "Image 1 … its dirt road band is the surface to copy — packed dirt road with mottled lighter and darker spots and small grey-brown pebbles of 2-4 pixels. Image 2 … match the rendering and colour feel of its dirt road" +
+  색 #e4b87d #cfa36c #c9a264, 짙은 #a58751, 자갈 #dec694 #bda46f #8e7a54. 4장(2장은 자갈 적고 얼룩 부드럽게). 원본·전문: 레포 밖 output/2d-art/ground-path/r1/(git 무시).
+- 원본 sha256: a d6988d13577c78b0…(채택 원천), b 7ffedcece05476e4…, c 7c09af7f6300609e…, d 1918f4c3178ee7b9…
+
+## 도트 정리(K11)·거르기
+| 후보 | pixelize grid(목표 128) | 처리 | 9장 조립 후 fringe(--whole --key #ff00ff) | 이름 가린 판독 | 결과 |
+|---|---|---|---|---|---|
+| a | 105×105 (0.25 LOW, MISMATCH) | --size auto → 105 (sha256 995abf338c896d09…) | PASS 0 | Q: 흙길, 견본과 가장 가까운 중간 얼룩, 1위 | **채택** |
+| b | 107×107 (0.23 LOW) | --size auto | PASS 0 | R: 잔 점, 가장 밋밋 | 버림(시트 #10) |
+| c | 99×99 (0.37 LOW) | --size auto | PASS 0 | S: 큰 짙은 얼룩, 위장무늬 같음, 4위 | 버림(시트 #11) |
+| d | 102×102 (0.34 LOW) | --size auto | PASS 0 | T: Q와 S 사이, 2위 | 버림(시트 #12) |
+- 격자: 다시 생성하지 않고 본래 격자로 내렸다(풀 항목·견본 선례: 텍스처라 원천 크기와 무관, 도트 1칸 = 게임 1px).
+- 흙 팔레트(--palette, 기준서 3.5 r5 안): ["#e4b87d","#cfa36c","#c9a264","#a58751","#dec694","#d2b68f","#bda46f","#8e7a54","#5b4933","#e4b67e","#c2864d","#7b6038"]. 추가 색 없음.
+  채택 원천 색 비율: #e4b67e 50% · #cfa36c 43% · #c9a264 6% · 나머지(자갈) 1% 미만. 길 가장자리는 #6f6c46(견본 s3), 풀은 grass_01 그대로.
+- 판독: Claude 하위 에이전트(opus, medium), 후보 Q/R/S/T로 가림, 견본 들판(s3/field.png)·컨셉 조각과 나란히, 시험 지도 3배. 만든 쪽(Codex)과 다른 계열.
+  공통 지적: 흙길로 읽힘·걸을 수 있음, 바깥 꺾임·끝 이음 안 보임, 안쪽 꺾임이 조금 좁아짐, 가장자리 짙은 선이 견본보다 또렷해 보임, 흙이 견본보다 조금 밝고 분홍 쪽.
+
+## 조립 (docs/art/sheets/ground-path-build.py)
+- 견본 build_ground.py의 흙길 방식: 풀 타일 위에 마름모 격자 주기 흙(lattice_tile, 원천 가운데 64×64 창)을 띠로 얹고 띠 바깥 0.045는 #6f6c46.
+- 풀 부분 = grass_01.png의 같은 자리 픽셀(타일마다 grass_01과 다른 픽셀은 띠·가장자리 안에만 있다). 풀 타일 4장은 테두리 띠가 grass_01과 같아 어느 풀 타일과 맞닿아도 이어진다.
+- 띠: 반폭 0.34(견본과 같음), 굴곡 ±0.05는 변에서 0이 되는 함수만 써서 어떤 두 길 타일이 맞닿아도 변 위 띠가 같다.
+  꺾임 = 그 꼭짓점을 중심으로 한 반지름 0.5의 호(변과 직각으로 만남). 끝 = 변에서 칸 가운데까지 온 뒤 반원으로 닫힘.
+- 변 대조(변 바로 안쪽 0.03 띠에서 직선 타일과 흙/가장자리 픽셀 위치가 다른 수): 0~2px(호와 직선의 곡률 차이, 이음 아님).
+- 실행: `/usr/bin/python3 docs/art/sheets/ground-path-build.py output/2d-art/ground-path/r1/px_a.png <이 폴더> output/2d-art/ground-path/r1/final px_b.png px_c.png px_d.png`
+- 타일 sha256: ne d35ea0fb31419616… corner_n 419d549b9704087a… corner_e 253d4394fe9be4cc… corner_s b5a46fe7b979fab8… corner_w 073f2c7d41b28d2b…
+  end_ne bab9384801e4145c… end_se 66eee0f4d1a5c935… end_sw 5ed4d8d3fa9e5764… end_nw 4dae8e7601657783…
+
+## 측정 (합성 들판 640×360, HUD 사이 22~306줄, 칸 변 621개)
+| 항목 | 흙길 깐 들판 | 대조: 풀만 | 판정 |
+|---|---|---|---|
+| C5 이음 띠 어긋남 중앙값 | 0px | 0px | PASS(1px 이하) |
+| C5 어긋남 평균 / 칸 안 가짜 변 | 0.63 / 0.77px | 0.65 / 0.79px | 칸 안과 같은 수준 |
+| C5 변 가로지른 색차 ÷ 칸 안 색차 | 1.026 | 1.005 | PASS(길 가장자리 몫만큼 오름) |
+- check_sprites.py(--palette 기준서 --size 48x24 --count 9 --binary-alpha): PASS, 실패 0.
+
+## 시트·합성 (만든 쪽이 직접 열어 봄)
+- docs/art/sheets/ground-path.png: REF 견본 s3/path_ne | #1~9 채택 9장 | #10~12 버린 b·c·d로 만든 직선, 게임 크기 3배(72px), UNVERIFIED "양산 — 사용자 판정".
+  본 것: 9장 모두 같은 흙·같은 가장자리, 꺾임은 꼭짓점 쪽으로 휘고 끝은 둥글게 닫힘. 견본보다 흙이 밝고 짙은 녹슨 점이 적다.
+- docs/art/sheets/ground-path-map.png: "이음 시험 지도 — 게임 화면 아님". 고리(꺾임 n·e·s·w, 직선 ↗·↘ 반전) + 막힌 길 둘(끝 4).
+  본 것: 바깥 꺾임·직선·끝 사이 이음 안 보임. 고리의 위·아래 안쪽 모서리가 뾰족하게 좁아짐(호 안쪽 반지름 0.16).
+- docs/art/sheets/ground-path-field.png: "합성 — 게임 화면 아님". 최신 전투 캡처 10-MON-1920x1080.png를 640×360으로 내려 바닥 자리를 바꾸고
+  캐릭터 4·몬스터 3을 실제 크기로 올린 뒤 ×3. 길: 끝 → ↗ 5칸 → 꺾임 s → ↘ 4칸(직선 좌우 반전) → 꺾임 n → ↗ 화면 밖.
+  본 것: 길로 읽히고 꺾임 두 곳·끝이 풀과 이어짐. 반전한 ↘ 구간 옆 풀에서 이음은 이 크기에서 눈에 띄지 않음(따로 재지는 않음).
+  HUD 글자는 1/3로 내렸다 다시 키워 깨져 보인다(합성 방식 탓).

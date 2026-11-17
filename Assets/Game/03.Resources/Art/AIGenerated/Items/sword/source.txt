@@ -1,0 +1,31 @@
+# sword.png — 출처
+
+- 무엇: 시작 아이템 장검(sword) 가방 아이콘. 아이콘 그림체 견본 묶음(sword·shortbow·firestaff·relic) 중 하나. 칸 모양 (0,0)(1,0)(2,0)(docs/features/f3-combat/plan.md C절), 밑그림 docs/art/items/sword.svg.
+- 규격: 48x16 캔버스(1칸 16x16), 칸 모양에 없는 칸은 투명. 외곽선 #34140e 1px(K5), 기준서 3.5 r2 팔레트 색만 씀. 알파 0/255만.
+- sha256: be5acae1e2c1425e69f560bf20d78fbe5a96224aadc9452af23e355fd2801c09
+- 만든 날: 2026-11-17, 대기열 20261117-art-samples 항목 icons-start(시도 1), /2d-art-produce "기준 그림이 없는 새 종류" 길
+- 채택: 2026-11-17 디렉터 대신 후보 고르기(director-game autonomy 3절: 격자 확인·fringe PASS·이름 가림 판독 PASS 중 최선), 사용자 판정 대기
+- 새 방식 2회차(v4) 설정 A, 결과 2장 중 2번째
+
+## 도구
+- 생성: codex-cli 0.167.2, 모델 gpt-6.1-sol(추론 medium), 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1e7fc-97ab-7d72-bb1c-28e021268ee1
+- 원본: output/2d-art/items-start/v3/gen4/sword_A/sword_v4a_2.png sha256 2ae6324960de171f12e80921f8982603bc7501f1eaa8b47b0175206d62959a5c
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256, -i 순서)
+1. output/2d-art/items-start/v3/guide4_sword.png 8a765bbc322759dffcc66ff63c5df5aadc05b9c8609f8dd900586489db7d70a0 — 고칠 그림: v3 1회차 sword_v3a_1을 48x16으로 내린 것을 32배로 1536x1024 가운데 띠(y 256~767)에 놓음
+2. output/2d-art/items-start/v3/gen/sword_A/sword_v3a_1.png 68d873dce736b0f2042547fb96b104e89a399c51b334a2fa7e4fac6a96dc42d4 — v3 1회차 원본(디자인 참고)
+
+## 최종 프롬프트 (Codex에 보낸 그대로)
+[items-start-sword-v4A] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. 2 images are attached: the first is the image to edit (already the final pixel art enlarged 32x), the second is an earlier painting of the same sword for design reference only.
+Copy the two results from the generated images folder into the current working folder as sword_v4a_1.png and sword_v4a_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Edit the first reference image. It is a 48x32 block canvas (1536x1024) where every pixel is one 32x32 flat block; the item, a 48x16-pixel inventory icon, sits only in the middle band (block rows 8 to 23, pixels y 256 to 767), the top 8 and bottom 8 block rows stay empty flat magenta. Keep exactly this canvas size, this 32x32 block grid, this silhouette and this position. Do NOT add any detail smaller than one 32x32 block: no thin lines, no small highlights, no sub-block shading; every block stays one single flat colour. Only clean up the blocks: a straight steel long sword lying horizontally, hilt on the left, pointed tip at the right edge; blade neutral steel grey (#c8b8b8, #a89898, #786868; not olive, not beige) with a one-block light highlight row, gold crossguard (#f8b828, #f8c838), brown leather grip, round gold pommel, a symmetric tip. 1-block dark brown outline (#34140e, not black) around the whole item, flat 2-3 tone shading, no anti-aliasing, no gradients. Flat solid #ff00ff magenta background everywhere outside the item, one exact flat colour. No text, no UI, no frame, no grid lines.
+
+## 후처리
+- pixelize.py one (1536x1024 캔버스의 가운데 띠 y 256~767을 잘라 --size 48x16, --palette 기준서 3.5 r2 팔레트 45색, 추가색 없음) → 칸 밖 투명
+- 확인: pixelize.py grid — 칸 크기 32px 격자에 맞음(원본 블록 약 32px). matte.py fringe --key '#ff00ff': PASS sword.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)
+- measure.py는 쓰지 않음(아이콘 그림체 identity 없음, 지시대로). 판정: 이름 가림 판독 PASS(c7, 같은 묶음 최선): "Short sword: round gold pommel, brown grip, gold crossguard, long grey blade" — 3칸 모두 채움, 한 물건, 외곽선 깨끗
+- 판독: Claude(Opus) 하위 에이전트, 파일 이름 가림, 칸 격자·빗금(칸 모양 밖) 위 10배 그림. PASS = 기준과 어긋나지 않음, 자연스러움·그림체 채택은 사용자 판정

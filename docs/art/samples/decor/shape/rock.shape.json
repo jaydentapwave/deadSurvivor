@@ -1,0 +1,35 @@
+{
+ "schema": "2d-shape-out/1",
+ "id": "rock",
+ "name": "돌(낮은 바위)",
+ "unit_px": 48.0,
+ "projection": {
+  "depth": 0.5,
+  "height": 1.0
+ },
+ "width_cells": 0.4,
+ "height_cells": 0.22,
+ "aspect": 1.81818,
+ "size_px": [
+  19,
+  11
+ ],
+ "pivot_px": [
+  9.6,
+  10.6
+ ],
+ "gen_px": [
+  1198,
+  659
+ ],
+ "gen_canvas": [
+  1536,
+  1024
+ ],
+ "key": "#ff00ff",
+ "slots_cells": [],
+ "slots_px": [],
+ "mask": "mask_rock.png",
+ "gen": "gen_rock.png",
+ "sheet": "tmpl_rock.png"
+}

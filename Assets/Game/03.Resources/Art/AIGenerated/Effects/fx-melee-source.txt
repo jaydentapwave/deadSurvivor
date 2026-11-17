@@ -1,0 +1,85 @@
+# 전투 효과 — 장검 베기·도끼 베기·피격 별: 출처·프롬프트·회차·판독·팔레트 (대기열 20261117-art-prod 항목 fx-melee, 시도 1, 2026-11-17)
+
+- 종류: 효과(기준서 r5 3.3 효과 행, K15. 3.4 효과 선 굵기 0 = 외곽선 없음). identity가 없는 종류여서 measure.py 판정은 없다.
+  채택은 다른 계열 판독과 사용자 판정으로 한다. 시트는 `--unverified "양산 — 사용자 판정"`로 만들었다.
+  PASS는 "기준과 어긋나지 않음"이라는 뜻일 뿐이다. 자연스러운지는 판독과 사용자가 정한다.
+- 그림체: 기준서 3.7 채택 견본의 효과 행(3단계 docs/art/samples/fx/s3/, "3번 (Recommended)")을 따랐다. 빛 번짐은 그림에 넣지 않았다(Light2D 몫).
+- 움직임: 한 장짜리 그림이다. 회전·크기·사라짐은 게임이 변환으로 준다(3.3 "변환"). 프레임 묶음은 만들지 않았다.
+- 회차: 그림마다 1/2회차, 후보 4장씩. Codex 3건을 동시에 돌려 약 6분 걸렸다. 유료 크레딧은 쓰지 않았다.
+
+## 채택본
+| 파일 | 크기(게임 화면 px, 가상 640×360 기준, 배율 1) | 쓴 색(모두 r5 팔레트 안) | 원 후보 | sha256 앞 16자 |
+|---|---|---|---|---|
+| slash_sword.png | 48×44 | #fff9ed #ffe08a #f8d818 #f8c838 #f8b828 | sword/cand_1 (원본 a47996ce6ac6ea4b) | 3a54b93d9d831f0a |
+| slash_axe.png | 38×36 | #fff9ed #ffe08a #f8d818 #f8c838 #f8b828 #f88808 | axe/cand_4 (원본 b25bdb23b52aad15) | 2eaee39697f4a6b5 |
+| hit_star.png | 15×15 | #ffffff #fff9ed #ffe08a #f8d818 #f8c838 | star/cand_4 (원본 a28008ba5b89cdd2) | c3f19e8cf9cea60e |
+
+- 크기를 정한 이유:
+  - 장검: 견본 3번 베기(54×44)와 같은 축척에서 출발해 높이를 44로 맞췄다. 폭은 생성 그림의 비율을 따라 48이 됐다.
+  - 도끼: 장검보다 짧고 두껍게 높이를 36으로 정했다. 가운데 두께는 장검의 약 2배이고 바깥 테에 주황 #f88808이 있다.
+  - 피격 별: 캐릭터 키 48의 약 1/3인 15로 정했다. 맞은 자리에서 0.1초 뜨는 작은 별이다.
+- 방향: 베기 둘 다 열린 쪽이 오른쪽이다(휘두르는 사람이 오른쪽에 선다). 반대쪽은 게임이 좌우 뒤집기로 준다(합성의 도끼는 뒤집어 놓았다).
+
+## 생성
+- 도구: codex-cli 0.167.2, 모델 gpt-6.1-sol, 추론 medium, 내장 이미지 도구. 실행 폴더는 레포 밖(git 무시) output/2d-art/fx-melee/<sword|axe|star>/.
+  실행 명령: `perl alarm 1200 + codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <폴더> "$(cat prompt.txt)" -i ref1_sample_slash.png ref2_concept_slash.png < /dev/null`
+  세션 id(로그 순서 axe·star·sword): 01a1e84b-26b6-72b3-b04b-4bec2dc00204 / 01a1e84b-26b7-7f11-bcd1-ff426d62aa3d / 01a1e84b-26b6-7822-9d29-ad6af1ffa0f2. 세 건 모두 exit 0이고 후보는 4장씩 나왔다.
+- 참고 그림:
+  - 첫째는 채택 견본 docs/art/samples/fx/s3/slash.png(sha256 64927cc2cab1e665)다.
+  - 둘째는 컨셉 조각 docs/art/samples/fx/concept_slash.png(2384b344c88966d7)다.
+  - 견본 fireball.png는 넣지 않았다. 이번 세 그림에 불꽃 형태가 없고, 화염구가 들어가면 꼬리 모양이 섞일 수 있어서다.
+  - 캐릭터·몬스터 그림은 그림체 입력으로 넣지 않았다.
+- 공통 프롬프트(세 그림 모두 끝에 붙임):
+  Use the image generation tool FOUR times to make four separate candidate images, then copy them into the current working directory as cand_1.png … cand_4.png and report each file path, pixel size and sha256. Candidates 1-2 use the same wording; for candidates 3-4 follow the second reference picture (concept art) a little more closely. Style: the attached first picture ref1_sample_slash.png is our ADOPTED effect style sample (match its pixel-art look, colours and the white-hot leading edge fading to gold with thin streak lines breaking into dashes and dots at the tail); the second picture ref2_concept_slash.png is our concept art for mood. Each image: ONE effect only, centered, on a flat solid #ff00ff magenta background (no shadow, no ground, no character, no weapon, no hand, no glow halo, no soft bloom - light is added by the game engine). Glowing surfaces, NO outline lines at all (no dark outline), no anti-aliasing, no smooth gradients, flat colour blocks only. Pixel grid: exactly 48x32 pixel grid, every pixel is one 32x32 flat block, canvas 1536x1024. Exclude: no text, no UI, no characters, no creatures, no gems or coins, no logos, nothing from existing games.
+- 그림별 앞부분(모두 "Make a pixel-art battle EFFECT sprite for a top-down 3/4 view 2D party survival game (characters are 48 pixels tall). Subject: …"로 시작):
+  - 장검: LONGSWORD SLASH, the single strongest frame of a sword sweep: a crescent arc of light like the style sample, open side facing RIGHT, bulging to the LEFT, medium thickness in the middle tapering to sharp points at both ends, fills about 34x28 of the 48x32 grid. Colours only: #fff9ed #ffe08a #f8d818 #f8c838 #f8b828.
+  - 도끼: AXE CHOP, a SHORT, THICK, heavy crescent arc of light (clearly thicker and shorter than the sword slash in the style sample - about twice as thick in the middle, covering only a quarter-circle), open side facing RIGHT, blunt chunky ends, a few short heavy streak chunks at the tail; fills about 30x24. Colours only: #fff9ed #ffe08a #f8d818 #f8c838 #f8b828 #f88808.
+  - 피격 별: HIT STAR, the small impact spark that flashes for 0.1 second where an attack lands: a sharp 4- or 8-pointed star burst with a white core and yellow points, slightly uneven spikes, plus 2-4 tiny loose spark pixels; fills only about 14x14 in the centre. Colours only: #ffffff #fff9ed #ffe08a #f8d818.
+- 견본 보고(sample-fx-1 "남긴 것")에서 지킨 것:
+  - 캔버스를 생성기가 지원하는 1536×1024로 지시했다(48×32 격자, 블록 32px).
+  - 원본을 마젠타 거리(채널 합 > 90)로 먼저 잘라 6px 여백을 두었다. 그 뒤에 pixelize했다.
+  - 판독자가 지적한 "빛 번짐 없음"은 기준서 r5 3.7 결정대로 그림에 넣지 않았다.
+
+## 도트 정리(K11)
+- `pixelize.py one <잘린 그림> --size <W>x<H> --palette <효과 부분 팔레트> --bg #ff00ff`를 썼다. 높이는 장검 44, 도끼 36으로 고정했고 별은 긴 변 15에 맞췄다.
+- 효과 부분 팔레트는 r5 팔레트(3.5)의 부분집합이다. 강조색은 더하지 않았다.
+  - 장검: #fff9ed #ffffff #ffe08a #f8d818 #f8c838 #f8b828
+  - 도끼: 장검 팔레트 + #f88808
+  - 별: #ffffff #fff9ed #ffe08a #f8d818 #f8c838
+- 본래 격자(`pixelize.py grid`, 잘린 그림 기준): 생성기는 블록 32px 지시를 따르지 않고 13~24px 블록으로 그렸다. 그래서 12장 모두 GRID_MISMATCH가 나왔다.
+  | 채택본 | 본래 격자 | 내린 크기 | 차이 |
+  |---|---|---|---|
+  | 장검 cand_1 | 53×48 (블록 17px, LOW) | 48×44 | 10% 줄임 |
+  | 도끼 cand_4 | 62×58 (블록 13px, LOW) | 38×36 | 63% 줄임 — 본래 블록이 작아 형태는 뭉개지지 않았다 |
+  | 별 cand_4 | 18×19 (블록 17px, 0.46) | 15×15 | 27% 줄임 |
+  다시 생성하지 않은 이유는 두 가지다. 하나는 2회차를 아끼기 위해서다. 다른 하나는 내린 그림을 5배·6배로 보았을 때 뭉개진 곳이 없었기 때문이다(확대 눈 확인). 견본과 같은 처리다.
+- 테두리 번짐(`matte.py fringe --key #ff00ff --whole`):
+  - 처음 결과: 별 4장은 PASS였다. 베기 8장은 edge FAIL(1~50px)이었다.
+  - 걸린 픽셀은 반투명이 0이고 팔레트 금색 #f8b828·#f8c838이었다. 안쪽 흰색보다 붉은 테두리 금색을 키 쪽으로 당긴 색으로 읽은 것이다. 견본 s3 베기와 같은 경우다.
+  - `matte.py fix --key #ff00ff`로 안쪽 색을 다시 칠했다. 이때 섞인 색 14px(장검 9, 도끼 5)가 생겨 효과 부분 팔레트의 가장 가까운 색으로 다시 맞췄다.
+  - 그 뒤 12장 모두 fringe PASS, check_sprites PASS였다. 채택본에서 fix가 바꾼 픽셀은 장검 5px(그 가운데 9px를 팔레트로 되돌림), 도끼 3px다. 고친 쪽이 안쪽 색으로 조금 밝아졌다.
+- 알파는 0·255뿐이고, 외곽선·어두운 색은 쓰지 않았다(3.4).
+
+## 다른 계열 판독(Claude 하위 에이전트, Opus 5.5 medium. 생성은 GPT 계열)
+- 방식: 12장을 섞어 번호만 붙이고 6배로 보였다. 파일 이름과 무슨 효과인지는 알려 주지 않았다. 견본 s3 베기와 컨셉 조각을 함께 주었다.
+  번호와 파일의 대응은 output/2d-art/fx-melee/blind_map.json에 있다.
+- 판독자 묶음: 피격 불꽃(2,4,5,7) = 별 4장 / 짧은 초승달 베기(1,6,10,12) = 도끼 4장 / 길게 휘는 베기(3,8,9,11) = 장검 4장.
+  12장 모두 의도한 물건으로 읽혔다.
+- 고른 것과 판독 원문 요약:
+  - 장검 = 9번(cand_1): "Open slash arc, medium size, thick white back. Style: yes. Very close to the reference shape. Defects: a few scattered dots inside, minor." 판독자가 이 묶음에서 1위로 꼽았다(8번이 2위).
+  - 도끼 = 1번(cand_4): "Crescent slash arc, compact and closed. Style: partly — orange outer rim, white sits inside the arc. Defects: none, solid shape." 이 묶음 1위다.
+    "partly"는 주황 테 때문이다. 도끼를 장검과 가르려고 지시한 색이라 그대로 두었다. 사용자 판정 항목이다.
+  - 별 = 2번(cand_4): "Small 4-point sparkle / hit spark. Style: yes. Defects: none. Small but readable." 이 묶음 1위다.
+- 버린 후보: 장검 cand_2·3·4(3·11은 1배에서 가늘고 줄이 많아 흩어진다), 도끼 cand_1·2·3(6은 안쪽이 갉아먹힌 듯 구멍, 10은 달처럼 덩어리, 12는 아래 끝 잡점), 별 cand_1·2·3(한쪽 빛줄기만 길거나 잡점, 덩어리진 가운데).
+
+## 시트·합성(직접 열어 본 것)
+- docs/art/sheets/fx-melee.png: `sheet.py grid --numbered --size 144 --against s3/slash.png s3/fireball.png --unverified "양산 — 사용자 판정"`로 만들었다.
+  - 그림마다 64×48 투명 판에 가운데로 놓았다. 그래서 칸마다 게임 크기 ×3이 같은 축척으로 보인다.
+  - 순서: REF 견본 베기·화염구 | #1~#3 채택(장검·도끼·별) | #4~#12 버린 후보.
+  - 열어 본 것: 장검은 견본과 같은 흰 앞날·금색 꼬리 줄무늬다. 도끼는 더 짧고 두꺼우며 주황 테가 있다. 별은 견본 베기 높이의 약 1/3이다. 12칸 모두 표시됐고 빠진 것은 0이다.
+- docs/art/sheets/fx-melee-battle.png: **합성 — 게임 화면 아님.** 전투 캡처 10-MON-1920x1080(.director/evidence/20261117-screen-fixes/2/1/art-flows/, 읽기 전용)을 640×360으로 내리고 효과를 게임 크기로 얹었다. 그 뒤 ×3로 키웠고, 아래에 일부 ×4 확대를 붙였다.
+  합성 스크립트는 output/2d-art/fx-melee/build_comp.py다.
+  - 장검 베기: 브루노(앞줄 왼쪽 위) 앞 왼쪽에 놓았다. 브루노 몸을 가리지 않고 앞 공간에 펼쳐진다. 높이는 캐릭터 키와 거의 같다.
+  - 도끼 베기: 멧돼지 위에 좌우를 뒤집어 놓았다. 멧돼지 몸의 약 절반을 덮는다. 머리·뿔과 다리는 보인다.
+  - 피격 별: 위쪽 슬라임 머리 위에 놓았다. 보라 몸 위에서 흰·노랑으로 또렷하다. 멧돼지 위의 별은 도끼 베기와 겹쳐 잘 갈리지 않는다.
+- 사용자 판정 대기: 베기 둘과 피격 별이 견본 3번 그림체인지, 캐릭터·몬스터를 지나치게 가리지 않는지(대기열 human 검사).

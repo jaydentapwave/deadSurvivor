@@ -1,0 +1,6 @@
+Pixel art ground texture for a top-down isometric 2D game (warm high-bit pixel art, day, flat 2-3 tone shading, no anti-aliasing, no gradients, no outline lines on the ground). Exactly 128x128 pixel grid, every pixel is one 8x8 flat block, canvas 1024x1024. The texture fills the whole canvas edge to edge, evenly distributed with no focal point, no vignette, no lighting gradient, and should tile seamlessly. No text, no UI, no characters, no monsters, no gems or coins, no fences, no signs, no rocks bigger than 4 pixels, no logos.
+Make TWO separate images with the image generation tool and copy them into the current folder with these exact names:
+1) grass.png — grass field. Colours: warm yellow-green grass #c2ad5f, #a1985d, #d6c074 (base), darker accent #6f6c46.
+2) dirt.png — packed dirt road surface. Colours: #e4b87d, #cfa36c, #c9a264 (base), darker accent #a58751.
+After saving, print the path and sha256 of each file. Tag: SG-S2
+STRENGTH 2 (middle between the current plain floor and the concept art in image 1): grass has scattered small tufts of 2-4 pixel blades in 2-3 tones over soft patches, a few tiny pale yellow flower dots (1 pixel, rare). Dirt has gentle mottling and a few small pebbles of 2-3 pixels. Medium-low contrast; the ground must stay calmer than characters.

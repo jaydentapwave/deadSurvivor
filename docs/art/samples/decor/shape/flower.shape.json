@@ -1,0 +1,35 @@
+{
+ "schema": "2d-shape-out/1",
+ "id": "flower",
+ "name": "꽃 덤불(작은 꽃 무더기)",
+ "unit_px": 48.0,
+ "projection": {
+  "depth": 0.5,
+  "height": 1.0
+ },
+ "width_cells": 0.3,
+ "height_cells": 0.27,
+ "aspect": 1.11111,
+ "size_px": [
+  14,
+  13
+ ],
+ "pivot_px": [
+  7.2,
+  13.0
+ ],
+ "gen_px": [
+  933,
+  840
+ ],
+ "gen_canvas": [
+  1536,
+  1024
+ ],
+ "key": "#ff00ff",
+ "slots_cells": [],
+ "slots_px": [],
+ "mask": "mask_flower.png",
+ "gen": "gen_flower.png",
+ "sheet": "tmpl_flower.png"
+}

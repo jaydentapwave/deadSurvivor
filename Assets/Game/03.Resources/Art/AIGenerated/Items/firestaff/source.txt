@@ -1,0 +1,32 @@
+# firestaff.png — 출처
+
+- 무엇: 시작 아이템 화염 지팡이(firestaff) 가방 아이콘. 아이콘 그림체 견본 묶음(sword·shortbow·firestaff·relic) 중 하나. 칸 모양 (0,0)(0,1)(0,2)(1,2)(docs/features/f3-combat/plan.md C절), 밑그림 docs/art/items/firestaff.svg.
+- 규격: 32x48 캔버스(1칸 16x16), 칸 모양에 없는 칸은 투명. 외곽선 #34140e 1px(K5), 기준서 3.5 r2 팔레트 색만 씀. 알파 0/255만.
+- sha256: 0970b5b474cc7bd469a50d61086e2d0fab85dcf0630db5647e0dc6bf366e8594
+- 만든 날: 2026-11-17, 대기열 20261117-art-samples 항목 icons-start(시도 1), /2d-art-produce "기준 그림이 없는 새 종류" 길
+- 채택: 2026-11-17 디렉터 대신 후보 고르기(director-game autonomy 3절: 격자 확인·fringe PASS·이름 가림 판독 PASS 중 최선), 사용자 판정 대기
+- 새 방식 1회차(v3) 설정 B, 결과 2장 중 1번째
+
+## 도구
+- 생성: codex-cli 0.167.2, 모델 gpt-6.1-sol(추론 medium), 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1e7f9-b56c-7922-870c-50c6fffd6600
+- 원본: output/2d-art/items-start/v3/gen/firestaff_B/firestaff_v3b_1.png sha256 a18aa8be6aa2533b0663be007be5cd56123a3d09dee401cf3146ac1ec7a44e62
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256, -i 순서)
+1. output/2d-art/items-start/v3/guide3_firestaff.png 10380649dd769ee76690bfbec65b9673cd83babfa0b6b276cb1885560a1fdda9 — 고칠 그림: 지난 시도 firestaff_r2a_1(32x48)의 윗부분 + 오른쪽으로 꺾인 지팡이 발(ㄱ자 끝 칸, 기준서 3.3 r2)을 32배
+2. output/2d-art/items-start/gen2/firestaff_A/firestaff_r2a_1.png d70ab43fe1f50d05c57f64ce09732ccd1eb6c3980467ff3a1dd0a58babb9bd46 — 지난 시도 원본(디자인 참고)
+3. output/2d-art/items-start/ref1_bag_panel.png c3e0d73c910ef8e7581bef33c0d3843d38a167ce6759daeb915c876d01e437ac — 컨셉 PE-G004 가방 화면 조각(아이콘 그림체 참고)
+
+## 최종 프롬프트 (Codex에 보낸 그대로)
+[items-start-firestaff-v3B] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. 3 images are attached: the first is the image to edit (a pixel layout guide), the second is an earlier detailed painting of the same item for design reference only. The third image is a concept picture of the game's bag screen: take the icon art style from its item icons (chunky readable pixel shapes, warm colours, dark brown outline); do not copy its parchment or frame.
+Copy the two results from the generated images folder into the current working folder as firestaff_v3b_1.png and firestaff_v3b_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Edit the first reference image. It is a 32x48-pixel inventory icon enlarged so every pixel is one 32x32 flat block (canvas 1024x1536). Keep exactly this canvas size (1024x1536), the same 32x32 block size and the same silhouette and position; every final pixel must be one clean 32x32 single-colour block aligned to the grid, never smaller details, never thinner than one block. Repaint the blocks cleanly as: a fire mage staff shaped like an L: a twisted brown wooden staff standing in the left 16-block column with a burning flame orb (#f8d818, #f88808, #d81808) held in a forked wooden head at the top; at the bottom the same wooden staff BENDS 90 degrees to the right and runs along the bottom to the bottom-right corner, ending in a short upturned curled tip, like a hockey stick or a bent root. The bent foot is one continuous piece of the same wood as the shaft, clearly part of the staff (not a separate object, no gem or crystal on it, no cord). The top-right and middle-right areas stay empty magenta. Wood colours #774c3b, #af642e, #d5833a with orange flame-like wrap on the shaft. 1-block dark brown outline (#34140e, not black) around the whole item, flat 2-3 tone shading, no anti-aliasing, no gradients, slight top-left light. Flat solid #ff00ff magenta background everywhere outside the item, one exact flat colour. No text, no UI, no frame, no grid lines, no parchment.
+
+## 후처리
+- pixelize.py one (--size 32x48, --palette 기준서 3.5 r2 팔레트 45색, 추가색 없음) → 칸 모양 밖 칸 투명
+- 확인: pixelize.py grid — 칸 크기 32px 격자에 맞음(원본 블록 약 32px). matte.py fringe --key '#ff00ff': PASS firestaff.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)
+- measure.py는 쓰지 않음(아이콘 그림체 identity 없음, 지시대로). 판정: 이름 가림 판독 PASS(c12, 같은 묶음 최선): "Wooden staff with a fire orb in a claw at the top… turns right into a foot (L or hockey-stick shape)" — 4칸 모두 씀, 한 물건, 외곽선 깨끗(구슬 받침에 빨간 점 2개)
+- 판독: Claude(Opus) 하위 에이전트, 파일 이름 가림, 칸 격자·빗금(칸 모양 밖) 위 10배 그림. PASS = 기준과 어긋나지 않음, 자연스러움·그림체 채택은 사용자 판정

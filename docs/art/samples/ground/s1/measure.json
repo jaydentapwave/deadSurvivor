@@ -1,0 +1,55 @@
+{
+ "strength": 1,
+ "C5_seam_contrast_ratio": 1.228,
+ "C5_grass_only_ratio": 1.223,
+ "C5_grass_only_shift_max": 1,
+ "C5_grass_only_shift_median": 0.0,
+ "C5_control_naive_ratio": 1.67,
+ "C5_control_naive_shift_max": 3,
+ "C5_control_naive_shift_median": 1.0,
+ "C5_band_shift_px_max": 1,
+ "C5_band_shift_px_median": 0.0,
+ "C5_edges_measured": 567,
+ "C5_band_shift_px_mean": 0.02,
+ "C5_pseudo_edge_shift_median": 0.0,
+ "C5_pseudo_edge_shift_mean": 0.04,
+ "C5_grass_only_shift_mean": 0.02,
+ "C5_control_naive_shift_mean": 0.61,
+ "C3_grass_lab": [
+  71.0,
+  -2.6,
+  42.5
+ ],
+ "C3_grass_dE_to_K7": 0.0,
+ "C3_dirt_lab": [
+  68.9,
+  6.7,
+  37.5
+ ],
+ "C3_dirt_dE_to_K7": 4.0,
+ "C3_grass_mean_dE_to_K7": 3.4,
+ "C3_dirt_mean_dE_to_K7": 4.1,
+ "floor_hue": 47.3,
+ "C4_monsters": {
+  "slime": {
+   "hue": 274.3,
+   "dhue": 133.0
+  },
+  "mushroom": {
+   "hue": 7.3,
+   "dhue": 40.0
+  },
+  "boar": {
+   "hue": 17.0,
+   "dhue": 30.3
+  },
+  "puffer": {
+   "hue": 28.3,
+   "dhue": 19.0
+  },
+  "rock": {
+   "hue": 0.0,
+   "dhue": 47.3
+  }
+ }
+}
