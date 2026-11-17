@@ -14,6 +14,7 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
     private readonly RunRulesData _runRules;
     private readonly DamageNumberViewFactory _damageNumberViewFactory;
     private readonly DamageNumberViewRegistry _damageNumberViewRegistry;
+    private readonly MonsterViewFactory _monsterViewFactory;
     private readonly CompositeDisposable _disposables = new();
 
     private readonly List<MonsterHitRecord> _mergedHitList = new(256);
@@ -21,7 +22,7 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
 
     public DamageNumberPresenter(RunModel runModel, CombatFeedbackModel combatFeedbackModel,
         FeedbackRulesRepository feedbackRulesRepository, RunRulesData runRules, DamageNumberViewFactory damageNumberViewFactory,
-        DamageNumberViewRegistry damageNumberViewRegistry)
+        DamageNumberViewRegistry damageNumberViewRegistry, MonsterViewFactory monsterViewFactory)
     {
         _runModel = runModel;
         _combatFeedbackModel = combatFeedbackModel;
@@ -29,6 +30,7 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
         _runRules = runRules;
         _damageNumberViewFactory = damageNumberViewFactory;
         _damageNumberViewRegistry = damageNumberViewRegistry;
+        _monsterViewFactory = monsterViewFactory;
     }
 
     public void Initialize()
@@ -112,11 +114,11 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
         }
     }
 
-    // 맞은 바닥 좌표의 월드 자리 + 위로 (몬스터 반지름 × unitScale + offsetPx ÷ PPU)(기획서 B절 식 그대로)
+    // 맞은 바닥 좌표의 월드 자리 + 위로 (몸 그림 높이 + offsetPx ÷ PPU)(20261117-screen-fixes T5, HP 막대와 같은 머리 기준)
     private Vector2 GetStartPosition(MonsterHitRecord hit)
     {
         var foot = IsoProjection.FloorToWorld(hit.Position, _runRules.UnitScale);
-        return foot + Vector2.up * (hit.Radius * _runRules.UnitScale + _rules.OffsetPx / Const.PixelsPerUnit);
+        return foot + Vector2.up * (_monsterViewFactory.GetHeadHeight(hit.Data) + _rules.OffsetPx / Const.PixelsPerUnit);
     }
 
     private void ReleaseAll()

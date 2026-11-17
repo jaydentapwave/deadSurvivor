@@ -16,7 +16,7 @@ public static class DamageNumberMotion
             if (indexDict.TryGetValue(record.MonsterId, out var index))
             {
                 var first = resultList[index];
-                resultList[index] = new MonsterHitRecord(first.MonsterId, first.Amount + record.Amount, first.Position, first.Radius);
+                resultList[index] = new MonsterHitRecord(first.MonsterId, first.Amount + record.Amount, first.Position, first.Data);
                 continue;
             }
 

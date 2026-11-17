@@ -89,7 +89,7 @@ public class MonsterService
         }
 
         monster.Hp -= amount;
-        _combatFeedbackModel.AddMonsterHit(monster.Id, amount, monster.Position, monster.Data.Radius);
+        _combatFeedbackModel.AddMonsterHit(monster.Id, amount, monster.Position, monster.Data);
     }
 
     // 적 반지름(투사체 명중). 몬스터 종류별 값(F4)

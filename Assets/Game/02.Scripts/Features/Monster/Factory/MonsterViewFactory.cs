@@ -24,6 +24,7 @@ public class MonsterViewFactory
     private readonly RunRulesData _runRules;
 
     private readonly Dictionary<string, (Sprite sprite, bool hasArt)> _bodySpriteDict = new();
+    private readonly Dictionary<string, float> _headHeightDict = new();
     private MonsterView _prefab;
     private Sprite _dashLineSprite;
     private Sprite _blastAreaSprite;
@@ -68,6 +69,24 @@ public class MonsterViewFactory
 
         _monsterViewRegistry.Unregister(monsterId);
         _poolManager.Release(PoolKey, view);
+    }
+
+    // 발(피벗)에서 몸 그림 윗변까지 높이(월드 유닛). 촘촘한 메시 꼭짓점의 가장 높은 y = 불투명 픽셀 윗줄(+ 메시 여유)
+    public float GetHeadHeight(MonsterData data)
+    {
+        if (_headHeightDict.TryGetValue(data.Id, out var height))
+        {
+            return height;
+        }
+
+        height = 0f;
+        foreach (var vertex in GetBodySprite(data).sprite.vertices)
+        {
+            height = Mathf.Max(height, vertex.y);
+        }
+
+        _headHeightDict.Add(data.Id, height);
+        return height;
     }
 
     // 그림: 키 이름 그대로(배율 1). 마름모: 지름 = 반지름 × 2(바닥 단위) × unitScale × PPU(F1 임시 적과 같은 식)

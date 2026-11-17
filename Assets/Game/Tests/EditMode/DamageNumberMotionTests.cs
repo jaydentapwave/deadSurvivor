@@ -12,10 +12,10 @@ public class DamageNumberMotionTests
     {
         var recordList = new List<MonsterHitRecord>
         {
-            new(7, 1.2f, new Vector2(10f, 20f), 18f),
-            new(8, 4f, new Vector2(50f, 60f), 18f),
-            new(7, 2.3f, new Vector2(11f, 21f), 18f),
-            new(7, 0.6f, new Vector2(12f, 22f), 18f),
+            new(7, 1.2f, new Vector2(10f, 20f), null),
+            new(8, 4f, new Vector2(50f, 60f), null),
+            new(7, 2.3f, new Vector2(11f, 21f), null),
+            new(7, 0.6f, new Vector2(12f, 22f), null),
         };
         var resultList = new List<MonsterHitRecord>();
 
