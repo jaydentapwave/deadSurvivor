@@ -1,57 +1,383 @@
 schema: 1
 id: 20261115-pack-expedition-2d
 goal: 배낭 원정대 2D(아이소 도트)를 에디터에서 Play를 누르면 로비 → 10웨이브 → 결과 → 다시 시작까지 한 판이 도는 상태로 만든다
-created: 2026-11-15T22:10:00+09:00
-status: building
-next_action: F1(한 판의 뼈대) 기능 기획서 단계 시작 — 새 세션에서 /director-game 4절
+created: 2026-11-15 22:10:00+09:00
+status: playable
+next_action: '2026-11-17 21:30 — 1단 아트 넣기 끝, 마지막 확인(D30) 통과(고치기 2회). 6절 넘기기 보고함 — 사용자 플레이·의견 대기(7절). 미리보기 output/1단-미리보기/final/index.html. 사용자가 에디터에서 플레이하는 동안 판정·테스트·장면 명령을 보내지 않는다. 비용 상한: cost_usd $516.26 넘으면 새 실행 전에 멈추고 묻기'
 direction: docs/game/direction.md
 spec:
   path: docs/game/gdd.md
   sha256: 9bd56a67b1ad71a969e4bc99999a33d0723eac452938ed1e83b2cf82539ecff1
 art_spec:
   path: docs/art/아트-기준서.md
-  sha256: 37bc22dc3cfd93044e1bca02ae15529226894438bbc4434dcf94ae8bf45b9931
+  sha256: 670ea9a1d6663a7d40dbb0203f110ecc6f2a4514f32ef6a1482cf5b618586c20
 start_approval:
-  approved_on: "2026-11-15"
+  approved_on: '2026-11-15'
   quote: '"48px (추천)" / "이대로 승인" / "$200 (추천)" / "16개까지 허용 (추천)"'
   budget_usd: 200
-  paid_generation: 'Aether 동작 클립 16개까지(캐릭터 4 × 걷기·공격 × 앞뒤) — "16개까지 허용 (추천)". 그림 생성은 Codex(11-15 "6 codex를 활용해")'
+  paid_generation: Aether 동작 클립 16개까지(캐릭터 4 × 걷기·공격 × 앞뒤) — "16개까지 허용 (추천)". 그림 생성은 Codex(11-15 "6 codex를 활용해")
   engine_version: 6000.4.3f1
   executor: claude
 playable_cmd: python3 -B ./tools/playable.py
 features:
-  - id: F1
-    title: 한 판의 뼈대
-    status: pending
-  - id: F2
-    title: 원정대 이동과 진형
-    depends_on: [F1]
-    status: pending
-  - id: F3
-    title: 자동 전투와 아이템·캐릭터 데이터
-    depends_on: [F1]
-    status: pending
-  - id: F4
-    title: 몬스터 5종과 웨이브 수치
-    depends_on: [F1]
-    status: pending
-  - id: F5
-    title: 가방과 정비, 전리품
-    depends_on: [F3]
-    status: pending
-  - id: F6
-    title: 전투 화면과 피드백
-    depends_on: [F3, F4]
-    status: pending
-content: []
+- id: F1
+  title: 한 판의 뼈대
+  status: done
+  run: .director/runs/20261115-f1-skeleton
+  plan: docs/features/f1-skeleton/plan.md
+- id: F2
+  title: 원정대 이동과 진형
+  depends_on:
+  - F1
+  status: done
+  run: .director/runs/20261115-f2-movement
+  plan: docs/features/f2-movement/plan.md
+- id: F3
+  title: 자동 전투와 아이템·캐릭터 데이터
+  depends_on:
+  - F1
+  status: done
+  run: .director/runs/20261115-f3-combat
+  plan: docs/features/f3-combat/plan.md
+- id: F4
+  title: 몬스터 5종과 웨이브 수치
+  depends_on:
+  - F1
+  status: done
+  run: .director/runs/20261115-f4-monsters
+  plan: docs/features/f4-monsters/plan.md
+- id: F5
+  title: 가방과 정비, 전리품
+  depends_on:
+  - F3
+  status: done
+  run: .director/runs/20261115-f5-bag
+  plan: docs/features/f5-bag/plan.md
+- id: F6
+  title: 전투 화면과 피드백
+  depends_on:
+  - F3
+  - F4
+  status: done
+  run: .director/runs/20261115-f6-feedback
+  plan: docs/features/f6-feedback/plan.md
+content:
+- queue: .director/worktrees/20261115-art-characters/.director/queues/20261115-art-characters/queue.yaml
+  covers:
+  - C4
+  status: stopped
+  notes:
+  - '2026-11-16 00:02 5항목 모두 review(사람 판정 대기), pending 0, 보류 0, 합계 $17.16. 브랜치 claude/pack-expedition-2d-art 커밋 45472be·1302983·8d2c556·93f3d0b·cc72e7c. 디렉터가 시트 직접 봄: lena-front — 초록 두건 궁수, 단궁·갈색 배낭, 브루노와
+    같은 도트·외곽선, 버린 후보 3장; mira-front — 파란 고깔모자·은발 마법사, 푸른 구슬 지팡이, 작은 배낭; bolt-front — 흰 두건·로브 사제, 등불, 배낭; bruno-back — 등에 큰 갈색 배낭, 빨간 머리, 칼끝이 위로(앞과 칼 자세 다름), 측정은 참고 기록(외곽선 비율 0.40 vs 0.167 FAIL, 뒤라 판정 안
+    씀) → 빨간 UNVERIFIED 띠. 채택은 디렉터 대신(autonomy 3절, 다른 계열 판독 1위), 사람 판정은 넘기기 보고에서'
+  - 아트 기준서 3.3 캐릭터 기준 그림 첫 묶음(4명 앞 + 브루노 뒤, 5항목). worktree 브랜치 claude/pack-expedition-2d-art(3b70082에서), 에디터 없이 그림·identity·시트만. 넣기·짧은 Play는 F1 뒤 따로(디렉터 판단). 러너 --max-hours 1.8로 띄움, 끝나면 같은 명령으로 이어 돌림
+  - 사람 판정(human:)은 모아서 보기로 쌓인다 — 넘기기 보고에서 보여 준다
+  - '2026-11-15 1차 실행(xhigh): bruno-front 채택 → 사람 판정 대기(review), $6.55. 디렉터가 시트 docs/art/sheets/bruno-front.png 직접 봄 — 빨간 머리 SD 전사, 방패·망토·갈색 배낭, 64칸 안 잘림 없음, 버린 후보 3장 나란히. 하네스 커밋을 cherry-pick(3dbbcf9) 뒤
+    나머지 4항목을 --claude Tools/claude_medium.sh로 다시 띄움'
+- queue: .director/worktrees/20261115-art-characters/.director/queues/20261116-art-batch2/queue.yaml
+  covers:
+  - C3
+  - C4
+  status: stopped
+  notes:
+  - '2026-11-16 01:27 8항목 모두 review, 보류 0, $17.96, 커밋 c5e6574..513a6d2. 디렉터가 시트 직접 봄: lena-back(초록 두건·배낭·활), mira-back(파란 모자·은발·지팡이·배낭), bolt-back(흰 두건·등불·배낭) — 앞과 같은 캐릭터로 읽힘, 측정은 참고(UNVERIFIED 띠); monster-slime
+    보라 덩어리 노란 눈, mushroom 빨간 갓 흰 점, rock 회색 가시 바위(가장 큼), boar 갈색 뿔 멧돼지(오른쪽 봄), puffer 주황 가시 공. 보고된 키 24·34·48~58·34·24px(K13). 버린 후보 나란히. puffer 주황은 노랑 풀 위 대비가 낮을 수 있음(넣은 뒤 캡처로 확인)'
+  - '2026-11-16 00:20 기준서 3.3 두 번째 묶음 8항목: 레나·미라·볼트 뒤 3/4, 몬스터 5종(slime 계약 → mushroom·rock·boar·puffer) 그림·identity. 같은 art worktree·브랜치, 러너 --max-hours 3 --claude Tools/claude_medium.sh, 상한 $60. 바닥 타일(풀
+    4·흙길)은 뺐다 — 마름모 이음은 게임 캡처로만 판정(기준서 3.2·C5)이라 F1 바닥이 들어간 뒤 에디터 있는 묶음으로(디렉터 판단)'
+- queue: .director/worktrees/20261115-f4-monsters-2/.director/queues/20261116-waves/queue.yaml
+  covers:
+  - C1
+  status: done
+  notes:
+  - '2026-11-16 04:0x 7항목 모두 done, 보류 0, $4.19, 커밋 5c33b44..0c5d324(F4 worktree 브랜치). 디렉터가 wave_targets.py 전체 실행: TARGETS OK(행 16, FAIL 0) — M2 웨이브 1~10 모두 ±5% 안, M3 사격 3·돌진 4·중장갑 5·자폭 6. M5·M7은 플레이 기록이
+    있어야 해 미측정'
+  - 2026-11-16 03:40 웨이브 7개(02·04·05·07~10) 예전 값, F4 worktree 브랜치에서(F4 데이터 스키마·wave_targets.py), 항목 검사 wave_targets --waves N, 에디터 불필요
+- queue: .director/worktrees/20261116-items/.director/queues/20261116-items/queue.yaml
+  covers:
+  - C2
+  status: done
+  notes:
+  - 2026-11-16 16:0x F5 시도 2가 루트에 합침(233500f), check_item_table 같음 32
+  - '2026-11-16 04:3x 5항목 모두 done, 보류 0, $4.38, 커밋 ef7d4a7..7daccef(브랜치 claude/pack-expedition-2d-items). 디렉터가 직접 돌림: check_item_table.py --require-all → ITEM-TABLE OK(같음 32, 다름 0, 없음 0), check_data.py
+    → DATA OK. 아이템 파일 32개. EditMode·플레이는 루트에 합친 뒤'
+  - 2026-11-16 03:45 아이템 24종(계열 4묶음 × 6) + 계약 항목 Tools/check_item_table.py(기획서 C1·C2 표 대조). worktree 브랜치 claude/pack-expedition-2d-items(e175cee에서), 에디터 불필요. EditMode는 합친 뒤 회귀에서
+- queue: .director/worktrees/20261115-art-characters/.director/queues/20261116-art-icons/queue.yaml
+  covers:
+  - C2
+  status: stopped
+  notes:
+  - 2026-11-17 남은 7항목(28개)은 양산 대기열 20261117-art-prod로 옮김(시작 4개는 견본 대기열에서 채택). 이 대기열은 더 돌리지 않는다
+  - '2026-11-16 04:1x 멈춤: 첫 항목 icons-start 보류(회차 2회 상한, $3.78), 나머지 7개는 그 항목에 의존해 시작 못 함. 보류 이유 = 사람이 정할 것 3: (1) 칼·활·지팡이 3회째 시도 허용(방식 바꿔서), (2) 화염 지팡이 L자 칸의 오른쪽 아래 칸을 지팡이 일부(꺾인 발)로 할지 매단 장식으로 할지, (3) 기준서
+    3.5 팔레트에 브루노의 강철 회색 3색과 불·금·초록 강조색을 더할지(지금은 칼날이 올리브색이 됨 — bruno-front 보고도 같은 지적). 아트 방향·기준서 변경이라 디렉터가 대신하지 않고 넘기기 보고에서 묻는다. 게임 판정에는 아이콘이 필요 없다(이름 두 글자 표시, 가정 D12)'
+  - 2026-11-16 04:45 아이템 아이콘 32개(4개씩 8항목, 시작 아이템 묶음이 그림체 기준). art 브랜치에 작업 브랜치를 합쳐(기획서 표의 칸 모양) 같은 worktree에서, 러너 --max-hours 4, 상한 $80. 아이템 데이터 icon 칸·장면 연결은 넣기 실행 몫
+- queue: .director/worktrees/20261115-art-characters/.director/queues/20261117-art-samples/queue.yaml
+  covers:
+  - C2
+  - C5
+  status: done
+  notes:
+  - '2026-11-17 15:2x 사용자가 미리보기 output/1단-미리보기/samples.html로 고름: 바닥 "3번", 장식 "식물 2번 · 돌 3번", 효과 "3번", UI "3번", 아이콘 시작 4 "둘 다 이대로 채택", 색 "초록·베이지 더해 컨셉처럼", 나무 "컨셉처럼 크게(약 80px)", 판넬 안쪽 "지금처럼 어두운 가죽"(모두 Recommended). 5항목 accept, 합계 $20.22. 기준서 r5 250c52c. 디렉터가 시트 5장과 페이지 렌더를 직접 봄'
+  - '2026-11-17 1단 아트 — 새 종류 그림체 견본 5항목(바닥·장식·효과·UI·아이콘 시작 4개). autonomy 3절: 그림체 견본은 사람이 고른다 → 모두 human 검사로 모아서 보기. 고른 뒤 양산 대기열. art worktree(브랜치 claude/pack-expedition-2d-art, 72419e5로 빨리감기), 러너 --claude
+    Tools/claude_medium.sh(Opus 5.5 medium), 상한 $45'
+- queue: .director/worktrees/20261117-art-chars/.director/queues/20261117-art-chars/queue.yaml
+  covers:
+  - C3
+  - C4
+  status: stopped
+  notes:
+  - 2026-11-17 1단 아트 ⑤ — 쓰러진 그림 4(브루노가 기준), 멧돼지 돌진 예고·가시복 자폭 부풂. 새 worktree(브랜치 claude/pack-expedition-2d-art-chars, 72419e5), 러너 Opus 5.5 medium, 상한 $55. 브루노 칼날은 이미 강철 회색(identity steel 부위, 앞 79px) — 고칠
+    것 없음(디렉터가 시트 docs/art/sheets/bruno-front-x3.png 봄)
+  - 2026-11-17 15:2x 사용자 "둘 다 이대로 채택 (Recommended)"(견본 페이지 6번) → 6항목 accept. 작업 브랜치에 합침 cad5f89. 넣기 실행 20261117-insert-extras
+  - '2026-11-17 6항목 모두 review, 보류 0, $18.31, 커밋 10dd2ba..aaaf251. 디렉터가 채택본과 평소 그림을 4배로 나란히 직접 봄(scratchpad chars-extras.png): 쓰러진 4명 — 엎드려 머리 오른쪽, 배낭이 등 위에 보임, 머리·옷 색으로 누구인지 읽힘, 브루노·미라는 칼·지팡이 끝이 캔버스 오른쪽
+    끝(x63)에 닿음(잘림 가능성, 넣을 때 확인); 멧돼지 예고 — 머리 낮춤·앞발 흙먼지, 평소와 차이가 작음(흔들림과 같이 봐야 함); 가시복 부풂 — 1.3배 크기, 빨갛게 달아오르고 노란 가시 테, 화난 눈 — "곧 터진다"로 잘 읽힘. 사람 판정은 모아서 보기에'
+- queue: .director/worktrees/20261117-art-motion/.director/queues/20261117-art-motion/queue.yaml
+  covers:
+  - C4
+  status: stopped
+  notes:
+  - 2026-11-17 걷기·공격 16클립(8항목, 앞·뒤 한 항목) 도트 조각 방식 — 사용자 "도트 조각 방식 (Recommended)", 아트 기준서 r3(5c91d10). Aether 16개 유료 승인은 쓰지 않음(0개). 새 worktree 브랜치 claude/pack-expedition-2d-art-motion. 먼저 브루노 걷기·공격 2항목만(--max-items
+    2) → 사용자가 본 뒤 나머지 6항목
+  - '2026-11-17 15:3x 브루노 걷기(앞·뒤 6프레임)·공격(앞·뒤 5프레임, hit_frame 1) 채택 $7.21, 커밋 a113365·6e3b40c. 디렉터가 GIF 디코딩 프레임 직접 봄: 걷기 — 다리 1~3px 들고 내림, 01·04 몸 1px 올림, 색 깨짐 없음(프레임 6, 100ms, 팔레트 같음), 판독 "제자리 걷기/행진",
+    앞모습 번갈음 약함; 공격 — 앞: 칼 뒤로 든 예비 → 수평 휘두름 → 회복, 뒤: 칼 세움 → 수평 → 세움. 미리보기 output/1단-미리보기/bruno-motion.html. 사용자 "이대로 나머지 진행" → accept, 나머지 6항목 러너 띄움'
+  - '2026-11-17 브루노 공격 팔 전체 판 c648506(review, 대기열 합계 $13.00). 디렉터가 앞·뒤 5프레임을 4배로 직접 봄: 앞 — 팔을 머리 뒤로 들어 칼 세움 → 앞으로 넘김 → 앞으로 뻗어 찌르듯 벰 → 내림 → 대기; 뒤 — 팔이 머리 위 → 앞으로 뻗음 → 수평 → 내림. 팔이 칼과 함께 움직임(앞모습은 팔 색이 어두워
+    몸과 섞여 보임). hit_frame 2로 바뀜. GIF 5프레임 정상. 레나 걷기 review(아직 안 봄). 남은 5항목은 Aether 비교 판정 뒤'
+  - 2026-11-17 조각 방식 중단(사용자 "Aether로 (손질 포함)", "리깅은 너무 부자연스러워"). 남은 5항목은 돌리지 않는다. 브루노 걷기·공격(조각)과 레나 걷기(조각, review)는 쓰지 않는 기록으로 둔다
+- queue: .director/worktrees/20261115-art-characters/.director/queues/20261117-art-prod/queue.yaml
+  covers:
+  - C2
+  - C5
+  status: running
+  notes:
+  - '2026-11-17 16:4x 첫 5항목 모두 통과(sprite-check done, ground-grass·ground-path·fx-melee·fx-projectile review), $12.26, 커밋 21a7623..65c354c. 디렉터가 직접 봄: ground-path-field.png — 초록빛 섞인 풀 위로 흙길이 끝 → ↗ → 꺾임 → ↘ → 꺾임 → ↗, 이음 안 보임; fx-melee.png — 장검·도끼 금색 호, 피격 별 15px; fx-projectile.png — 화살·볼트·화염구·폭발. r5 승인 기록 e2ab32c 커밋 뒤 나머지 12항목 러너 띄움'
+  - '2026-11-17 15:5x 1단 양산 17항목: contract sprite-check(Tools/check_sprites.py 크기·개수·팔레트·투명도, 자체 시험) / content 바닥 2(풀 4·흙길 9), 효과 3(10장), 장식 2(식물 6·돌 2·울타리·그림자), 아이콘 7(28개, 예전 20261116-art-icons 항목 옮김), UI 2(틀 3·막대·조이스틱·숫자). 견본 = 기준서 r5 3.7. art worktree에 작업 브랜치 합침 1496c91. 러너 --claude Tools/claude_medium.sh, 상한 $80, 처음 --max-items 5'
+- queue: .director/worktrees/20261117-aether-trial/.director/queues/20261117-art-aether/queue.yaml
+  covers:
+  - C4
+  status: done
+  notes:
+  - '2026-11-17 18:1x 9항목 모두 done(볼트 앞·뒤는 Codex 실행기). 16클립 + 미라 앞 공격 재생성 1 = 생성 17. 디렉터가 미라·볼트 프레임 직접 봄(미라 지팡이 들어 내밂, 볼트 등불 들어 올림, 같은 캐릭터), GIF 16개를 공통 팔레트로 다시 만들어 풀어 원본과 픽셀 차 0 확인. 미리보기 output/1단-미리보기/motion16.html → 사용자 "이대로 채택하고 넣기 (Recommended)" → 7항목 accept. 합계 $27.82(Codex분 제외). 다음: insert-fx 끝난 뒤 aether 브랜치(claude/pack-expedition-2d-art-aether)를 작업 브랜치에 합치고 걷기·공격 넣기(Codex 단계)'
+  - '2026-11-17 17:0x 1차 러너 멈춤(보류율 2/6): bruno-back·lena-front·lena-back review(디렉터가 프레임 3배로 직접 봄 — 다리 번갈아, 브루노 칼 들어 벰, 레나 활 당겨 쏨, 얼굴·옷 기준 그대로), mira-front·mira-back 보류(지팡이 끝이 머리 높이라 머리 95% 검사에 걸림, 미라 공격 영상이 수염 난 늙은 마법사로 나옴, 걷기 7장은 keep에 보관). 생성 10/16 사용, 잔액 842. 사용자 답: "Aether로 한 번 더 생성 (Recommended)"(16클립 + 1 = 17, 9크레딧), "물건 자리는 빼고 검사 (Recommended)" → contract 항목 check-motion-held 추가(Tools/check_motion.py + head-exclude.json), 미라·볼트 항목이 그 뒤로, 미라 2항목 unpark, 러너 다시 띄움. 합계 $20.34'
+  - '2026-11-17 16:3x bruno-front-fix review→accept(사용자 "이대로 나머지 진행 (Recommended)", 미리보기 output/1단-미리보기/bruno-aether-fix.html), $3.59, 커밋 8ebae2e. 디렉터가 프레임 13장(4배)과 GIF 디코딩 프레임을 직접 봄: 걷기 7장 다리 번갈아·칼·방패 있음·얼굴 같음, 공격 6장 머리 위 → 내려침 → 뻗음 → 칼끝 내림 → 대기, 색 깨짐 없음. 나머지 7항목 러너 띄움. r5 승인 기록 63010d1을 이 worktree에도 커밋'
+  - '2026-11-17 16:0x 대기열 8항목(contract bruno-front-fix: 받은 시트 다시 처리 크레딧 0 + 동작 검사 도구 Tools/check_motion.py + 손질 기준 문서 / content 7: bruno-back, lena·mira·bolt 앞·뒤, 각 걷기·공격 2클립 = 14클립). worktree에 작업 브랜치를 합침 4bd843e(기준서 r5). 러너 --claude Tools/claude_medium_aether.sh, 상한 $55. bruno-front-fix만 --max-items 1로 먼저 → 사용자가 손질 기준 본 뒤 나머지'
+  - '계획: 대기열 러너 --claude Tools/claude_medium_aether.sh(Opus 5.5 medium + 세션에만 Aether MCP, fc04141). 항목: (1) bruno-front-fix — 받은 시트 다시 처리(크레딧 0, output/2d-art/bruno-aether/receipt_*.json·dl/*_sheet.png):
+    걷기에 칼·방패 되살리기, 공격 칼 길이를 기준 그림 칼 길이로·흰 궤적 지우기, 머리·얼굴을 기준 그림 픽셀로 덮어 깜빡임 0, 64칸 안에 들어오게 → 사용자에게 먼저 보임(손질 기준). (2) bruno-back 걷기·공격 2클립, (3) lena·mira·bolt 각 앞·뒤 걷기·공격 4클립 = 12. 새 생성 14건(시작 승인 16 중 2 사용),
+    약 126크레딧, 잔액 914. 다시 생성은 클립당 0(결과 나쁘면 보고). 손질 기준은 bruno-front-fix 결과를 사용자가 본 뒤 고정'
 assumptions:
-  - id: D1
-    text: 구현은 Claude, 판정 중에는 에디터를 쓴다(사용자가 바꾸지 않았다). 엔진은 이 프로젝트의 6000.4.3f1
-    by: director
-    where: 시작 전 승인
-    instead_of: 구현 맡는 쪽·에디터 사용 질문
-checks: []
-feedback: []
-cost_usd: 0
+- id: D1
+  text: 구현은 Claude, 판정 중에는 에디터를 쓴다(사용자가 바꾸지 않았다). 엔진은 이 프로젝트의 6000.4.3f1
+  by: director
+  where: 시작 전 승인
+  instead_of: 구현 맡는 쪽·에디터 사용 질문
+- id: D2
+  text: F1 기능 기획서(docs/features/f1-skeleton/plan.md)를 디렉터가 시작 전 승인 범위 안으로 확인해 승인
+  by: director
+  where: F1 1단계
+  instead_of: 기능 기획서 승인
+- id: D3
+  text: 'F1 가정: 배속은 ×1·×2 두 가지, 화면은 가로 두 방향만(세로 회전 없음), 임시 무기·적 값은 예전 단궁(13 피해, 0.7초)·일반형(HP 20), 웨이브마다 임시 적 98마리, 전투는 1/30초 고정 간격 — F3·F4가 무기·적 값을 대체'
+  by: step
+  where: F1 1단계 기획서 가정 FA1~FA9
+- id: D4
+  text: F2·F3·F4 기획서를 F1 구현과 나란히 worktree에서 쓰고, 구현은 F1 뒤 나란히(코드·테스트는 worktree, 에디터 확인은 차례로)
+  by: director
+  where: 사용자 11-15 "병렬로 작업이 가능하지 않아?"
+- id: D5
+  text: F3 기능 기획서(docs/features/f3-combat/plan.md)를 디렉터가 시작 전 승인 범위 안으로 확인해 승인
+  by: director
+  where: F3 1단계
+  instead_of: 기능 기획서 승인
+- id: D6
+  text: 'F3 가정: 부활은 정비 화면에서만, 비용·횟수 제한 없음. 웨이브 사이에 HP는 회복되지 않고 아이템 쿨은 이어진다(장착을 바꾼 대원·부활한 대원만 초기화). 보호막 양은 화면에 안 보임. 첫 판 아이템은 대표 8종이고 나머지 24종은 콘텐츠 대기열이 넣는다'
+  by: step
+  where: F3 1단계 기획서 가정 CA1~CA10
+- id: D7
+  text: F2 기능 기획서(docs/features/f2-movement/plan.md)를 디렉터가 시작 전 승인 범위 안으로 확인해 승인. 들판 경계(원정대가 들판 끝에서 멈춤)는 이동에 필요한 최소 규칙으로 범위 안으로 봄
+  by: director
+  where: F2 1단계
+  instead_of: 기능 기획서 승인
+- id: D8
+  text: 'F2 가정: 조이스틱은 누른 자리에 생기는 떠다니는 방식(반지름 화면 높이의 5%), PC는 WASD만, 화면에서 민 방향 그대로 움직여 세로 이동이 가로의 절반 속도로 보임, 카메라는 늦추지 않고 바로 따라감, 진형 간격은 예전 값이라 48px 그림이 들어가면 대원이 겹쳐 보일 수 있음(그림 뒤 데이터로 조정)'
+  by: step
+  where: F2 1단계 기획서 가정 FA1~FA11
+- id: D9
+  text: F4 기능 기획서(docs/features/f4-monsters/plan.md)를 디렉터가 시작 전 승인 범위 안으로 확인해 승인
+  by: director
+  where: F4 1단계
+  instead_of: 기능 기획서 승인
+- id: D10
+  text: 'F4 가정: 몬스터 id는 slime·mushroom·boar·rock·puffer, 수치는 예전 값. 웨이브는 1·3·6만 예전 값이고 나머지 7개는 콘텐츠 대기열이 채울 때까지 임시값. 몬스터끼리 밀어내지 않음(겹쳐 보일 수 있음). 돌진형은 접촉 공격 없음, 자폭으로 사라진 몬스터는 처치 수에 안 듦. 돌진 예고는 반투명 선, 자폭 점화는
+    반투명 원(그림 전 임시)'
+  by: step
+  where: F4 1단계 기획서 가정 MA1~MA16
+- id: D11
+  text: F5 기능 기획서(docs/features/f5-bag/plan.md)를 디렉터가 시작 전 승인 범위 안으로 확인해 승인
+  by: director
+  where: F5 1단계
+  instead_of: 기능 기획서 승인
+- id: D12
+  text: 'F5 가정: 보관함 개수 제한·버리기 없음, 시작 아이템도 전리품으로 나옴(같은 것끼리 합성하는 길), 등급 5단계(일반 1·고급 1.4·희귀 2·영웅 3·전설 4.5배), 같은 가방 안에서 옮기면 그 대원 쿨이 다음 웨이브에 초기화, 정비 가방 칸 22px, 그림 없는 아이템은 이름 두 글자로 표시'
+  by: step
+  where: F5 1단계 기획서 가정 BA1~BA9
+- id: D13
+  text: F6 기능 기획서(docs/features/f6-feedback/plan.md)를 디렉터가 시작 전 승인 범위 안으로 확인해 승인
+  by: director
+  where: F6 1단계
+  instead_of: 기능 기획서 승인
+- id: D14
+  text: 'F6 가정: 피해 숫자는 몬스터가 맞을 때만(회복 숫자 없음), 원정대 피격은 빨간 구간·화면 2px 흔들림·진동, 진동은 기본 진동(세기 고정), 피해 숫자 동시 40개까지'
+  by: step
+  where: F6 1단계 기획서 가정 FA1~FA8
+- id: D15
+  text: 'F2 AC16: 이동 수치(속도 140·따라가기 12, 예전 값)를 그대로 두고, "1초 뒤 자리 5 이내"는 멈춘 경우에 적용한다. 이동 중 뒤처짐(약 7)은 A절 계산값으로 본다'
+  by: director
+  where: F2 2단계 열린 질문
+  instead_of: 따라가기 수치나 기준을 사람이 고르기
+- id: D16
+  text: 'F4 돌진형: 다시 모이기까지 2초는 회복 시작부터 센다(기획서 A절·예전 판). AC7 문장을 이 뜻으로 읽는다'
+  by: director
+  where: F4 2단계 열린 질문
+  instead_of: 돌진 간격 기준을 사람이 고르기
+- id: D17
+  text: 그림 넣기 기획서(docs/features/art-insert/plan.md, 플랜 브랜치)를 디렉터가 시작 전 승인 범위 안으로 확인해 승인
+  by: director
+  where: 20261116-art-insert 1단계
+  instead_of: 기능 기획서 승인
+- id: D18
+  text: '그림 넣기 가정: 멈추면 마지막 방향 유지·새 판은 앞 오른쪽, 몬스터 이동은 slime·rock 눌림·mushroom·boar·puffer 통통 뛰기, 피격은 0.1초 흰 번쩍임 + 보는 쪽 반대 1px, 로비 초상은 머리~허리 36×36 창, 진형 겹침은 재서 기록만(데이터는 사람이 본 뒤)'
+  by: step
+  where: 20261116-art-insert 1단계 기획서 가정 AI1~AI7
+- id: D19
+  text: '화면 문제 할 일의 수치 기준: 이웃 대원 그림 겹침 25% 이하, 아래 판넬 화면 높이 15% 이하·불투명, 몬스터 HP 색 대원 빨강과 색상 차 30° 이상, 정비 바탕 불투명도 0.75 이상, HP 막대·피해 숫자 그림 머리 위 2px 이상'
+  by: director
+  where: 20261117-screen-fixes 할 일 목록
+  instead_of: 1단 작업 범위 5절 "높이를 줄이거나 불투명하게" 등의 구체 값을 사람이 고르기
+- id: D20
+  text: 새 종류(바닥·장식·효과·UI·아이콘)는 그림체 견본을 먼저 만들어 사람이 고른 뒤 87개를 양산한다(1단 문서에는 없는 중간 확인 — director-game autonomy 3절 규칙)
+  by: director
+  where: 1단 아트 그림 갈래
+  instead_of: 견본 없이 바로 양산
+- id: D21
+  text: Aether 단계 세션은 프로젝트 MCP 설정을 바꾸지 않고 --mcp-config(Tools/aether-mcp.json, 이미 인증된 계정)로만 Aether를 붙인다
+  by: director
+  where: 20261117-aether-trial
+  instead_of: 프로젝트에 Aether MCP를 등록할지 묻기
+- id: D22
+  text: 몬스터 300마리 장면(M7)의 그리기 호출 37~62는 이번에 맞추지 않는다. T6 기준(웨이브 6 P95 50 이하 → 22, M7 프레임 16.7ms 이하 → 7.87ms)은 통과했고, 맞추려면 효과 겹 순서(기준서 3.2)를 바꿔야 해 범위 밖. 후속 목록
+  by: director
+  where: 20261117-screen-fixes 2단계 열린 질문
+  instead_of: 300마리 장면도 50 이하로 맞출지 사람이 고르기
+- id: D23
+  text: 1단 양산은 종류별 묶음 17항목(검사 도구 1 + 바닥 2·효과 3·장식 2·아이콘 7·UI 2). 후보 채택은 다른 계열 판독 1위(autonomy 3절), 사람 판정은 모아서 보기. 기준서 3.3 UI 행의 "피해 숫자 글꼴"은 0~9 도트 글자 10장으로 만든다
+  by: director
+  where: 대기열 20261117-art-prod
+  instead_of: 항목 나누기·글꼴 방식을 사람이 고르기
+- id: D24
+  text: 쓰러짐·예고 넣기는 할 일 목록 T1~T4로(기획서 없이), 판정 경로 art-insert-flows에 확인 단계를 더하는 것(T4)까지 포함
+  by: director
+  where: 실행 20261117-insert-extras
+  instead_of: 넣기 기획서 승인
+- id: D25
+  text: 쓰러짐·예고 넣기 T2의 "돌진 뒤 평소 그림으로 돌아온 캡처"는 따로 찍지 않는다(멧돼지가 돌진으로 화면 밖). 돌아온 것은 판정 기록으로 확인, 예고 그림 0.5초 이상은 캡처로 확인
+  by: director
+  where: 20261117-insert-extras 1단계 열린 질문
+  instead_of: 돌진 끝 순간을 멈춰 찍는 단계를 더할지 사람이 고르기
+- id: D26
+  text: 사용자가 구현을 Codex로 정함 — 구현 단계는 codex-step.py(gpt-6.1-sol medium), 대기열은 --executor codex(Aether 항목 포함, Codex에 Aether MCP 있음). 이미 돌던 Claude 단계(바닥 넣기)와 각 대기열의 진행 중 항목은 그대로 끝내고(STOP 파일), 다음부터 Codex. 리뷰 세션은 Claude(리뷰 4종 Codex 중계)
+  by: director
+  where: 사용자 2026-11-17 "너 구현할떄 이제 codex를 최대한 활용해줘"를 실행 방식으로 옮김
+- id: D27
+  text: 바닥 이음 기준(1px 이하)은 게임 캡처의 중앙값으로 보고, 최대값은 이음이 없는 타일 안쪽 측정값보다 크지 않으면 측정 잡음으로 본다(중앙값 0px, 최대 2px = 안쪽 2~3px). 최종은 기준서 C5대로 사용자가 플레이로 본다
+  by: director
+  where: 20261117-insert-ground 1단계 열린 질문
+  instead_of: 이음 기준을 중앙값·최대값 중 사람이 고르기
+- id: D28
+  text: '넣기 남은 묶음(걷기·공격, 장식·그림자, 아이콘, UI)은 가볍게 — 단계마다 고치기 → 컴파일 0 오류 → 짧은 Play 캡처 1~2장 → 커밋 → 사용자에게 캡처. EditMode 전체·리뷰 에이전트·판정 경로 여러 개·성능 측정은 단계마다 하지 않고, 넣기를 다 마친 뒤 한 번(넘기기 전 판정). 이미 돌던 insert-fx는 그대로 끝낸다'
+  by: director
+  where: 사용자 2026-11-17 "테스트 및 검증을 매번하는게 아니라 조금씩 수정해가면서 업데이트를해줘"를 실행 방식으로 옮김
+  instead_of: 단계마다 전체 관문(컴파일·EditMode·리뷰 3종·판정 경로 3~4개·성능)
+- id: D29
+  text: '넣기 남은 묶음은 넣기마다 캡처·Play 없이 코드·데이터만 만들고, 갈래 A(걷기·공격+발밑 그림자)·B(들판 장식)·C(아이콘)를 worktree에서 Codex로 나란히 돌린다. 에디터가 하나라 합칠 때 루트에서 하나씩 그림 가져오기·컴파일만 확인. D(UI)는 UI 그림(ui-frames·ui-bars 보류) 정리 뒤. D28의 "단계마다 짧은 Play 캡처"를 대신한다'
+  by: director
+  where: 사용자 2026-11-17 "넣기 매번 캡처하지말고 전체 다 넣고 난다음로 변경하자, 그래서 병렬로 작업을 했으면 좋겠는데" / "너의 추천대로 우선은 진행해보고 그래도 오래걸리면 수정을해야할것 같아"
+  instead_of: 넣기마다 루트 에디터에서 한 실행씩(구현+에디터 확인), CLAUDE.md "기능은 하나씩"
+- id: D30
+  text: '넣기를 모두 합친 뒤 한 번만 확인: 컴파일, EditMode 1번, 한 판 판정(playable.py) 1번, 성능 수치 1번(작업 범위 8절), 리뷰 묶음(spec·validator·algorithm) 1번, Play 캡처를 디렉터가 직접 연다. UI가 바뀌므로 화면비 4개 캡처는 이 한 번에만(screen-layout). 전투·피드백 경로 따로 돌리기는 뺀다. 시간은 docs/game/작업-시간-기록.md에 적고, 그래도 오래 걸리면 방식을 다시 고친다'
+  by: director
+  where: 사용자 2026-11-17 "너의 추천대로 우선은 진행해보고"
+  instead_of: 19시 인수인계 4절의 마지막 확인(경로 f2~f6 전부, perf_probe·wave_targets 둘 다)
+- id: D31
+  text: 'D30 1회차 실패 7건(EditMode 5 = 테스트 기대값, UI_ArtSurface 16px 미만 좌표, 그림자 2~3배, 전투 위 표시줄 반투명·회색 글자, 정비 화면 잘림 3곳)을 할 일 목록 하나로 모아 Codex 실행 하나(20261117-d30-fix)로 고친다. 리뷰는 FAIL이던 validator·algorithm 수정 확인만. G1 캡처 중 2520·2048 화면비가 전투 화면으로 찍힌 것은 판정 도구 쪽 순서라 고치지 않는다(도구 고치기는 사용자에게 묻고)'
+  by: director
+  where: 마지막 확인 D30 1회차
+  instead_of: 고칠 일 목록의 사람 확인(autonomy 2절)
+checks:
+- at: '2026-11-17T21:28:51+09:00'
+  result: pass
+  reason: '고치기 실행 20261117-d30-fix 뒤. 87e5735에서 G1~G8 8/8(143.7초), EditMode 395/395, 수정 확인 validator·algorithm PASS. 2072dee(그림자 배율 .5 내림, 한 줄)에서 EditMode 403/403, --until G2. 성능: 웨이브 6 그리기 호출 P95 12(이전 22, 목표 50 이하)·set-pass 9·프레임 4.16ms, wave_targets 42행 OK·M7 8.44ms. 디렉터가 캡처 직접 봄: 1/2/playable/02-G2-2340x1080 — 대원 4명 그림자 같은 크기로 발밑, 위 표시줄 불투명 가죽+흰 시간; 1/1/03-G3 4화면비 — 보관함 카드·새 표시·진형 칩 잘림 없음(칩 글자 7px로 작음)'
+  report: .director/evidence/20261117-d30-fix/1/1/report.json
+- at: '2026-11-17T21:02:55+09:00'
+  result: pass
+  reason: 'G1~G8 8/8, 154.5초, 커밋 f5cb4d1(넣기 4갈래 합친 뒤). EditMode 375/380(실패 5 — 테스트 기대값·리플렉션), 리뷰 spec PASS·validator FAIL·algorithm FAIL. 디렉터가 캡처 16장(4화면 × 4화면비) 직접 봄: 02-G2-2340x1080 — 가죽 위 표시줄(반투명, 회색 글자, 뒤 몬스터 비침)·조이스틱·대원 4명 HP 막대·화살, 슬라임·대원 그림자가 몸의 2~3배; 03-G3-1920x1080 — 가방 아이콘(장검 3칸·활·화염 지팡이 ㄱ자·날개 부적), 보관함 셋째 카드가 판넬 밖, "새" 글자 잘림, 진형 칩 "브루노" 넘침; 01-G1 로비 카드 4장 가죽 틀; 05-G5 패배 가죽 판넬. 고치기 D31'
+  report: .director/evidence/game/check-3/report.json
+- at: '2026-11-16T17:27:48+09:00'
+  result: pass
+  reason: 'G1~G8 8/8, 152.1초, 커밋 ba5fd08(F1~F6 합침, 그림 넣기 전). wave_targets --metrics TARGETS OK 42행(M2 웨이브 1~10 ±5%, M3 3·4·5·6, M5 진 웨이브 3, M7 버닝 4.93ms 적 최대 322). 디렉터가 캡처 직접 봄: 01-G1-2340x1080 — 로비 카드
+    4장(색 띠·이름·직업·HP·공격·방어·시작 아이템)·출발 버튼, 잘림 없음; 05-G5-2048x1536 — 패배·버틴 웨이브 2/10·처치 114·전투 시간 1:31·로비로'
+  report: .director/evidence/game/check-1/report.json
+- at: '2026-11-16T18:45:42+09:00'
+  result: pass
+  reason: 'G1~G8 8/8, 150.4초, 커밋 66e4b9e(그림 넣은 뒤). wave_targets TARGETS OK 42행, M5 진 웨이브 3, M7 버닝 3.10ms 적 최대 319. 디렉터가 캡처 직접 봄: 03-G3-2520x1080 — 정비 화면 21:9, 가방·보관함·버튼·진형 판넬 잘림 없음, 원정대 그림이 가방 사이로 보이고 서로
+    겹침'
+  report: .director/evidence/game/check-2/report.json
+feedback:
+- text: '/Users/hyeongwoo/Downloads/배낭원정대-1단-아트-작업범위.md 를 진행해줘, 단 서브에이전트도 동일하게 opus5.5 meduem으로 작업을진행해줘 (2026-11-17, 문서는 docs/game/1단-아트-작업범위.md로 옮김. 7절 답: 1~4 "추천대로 전부 (Recommended)", 5 "추가 $300에서 멈추고
+    묻기 (Recommended)")'
+  kind: tune
+  handled_by: '1단 아트: 대기열 20261117-art-samples·20261117-art-chars, 실행 20261117-screen-fixes, 아트 기준서 r2'
+  status: running
+- text: 이거 이제보니깐 공격이 팔이 가만히 있는데 개선해줘 (2026-11-17, 브루노 조각 공격)
+  kind: fix
+  handled_by: 대기열 20261117-art-motion attack-bruno 다시(팔 전체가 움직이게) — c648506 팔 전체 판(조각). 이후 방식은 Aether로 바뀜
+  status: done
+- text: 그리고 에테르로 두 가지다 한번 애니메이션형태로 뽑아볼래 (2026-11-17)
+  kind: tune
+  handled_by: 실행 20261117-aether-trial(브루노 앞 걷기·공격, 유료 2건, 크레딧 상한 25) — 18크레딧(932→914), 비교 output/1단-미리보기/motion-compare.html. 사용자 판정 "Aether로 (손질 포함)" → 기준서 r4(03289c9)
+  status: done
+- text: 에테르가 정말 잘 나왔는데, 리깅은 너무 부자연스러워 이걸 에테르 애니메이션처럼 극대화 시킬수는 없나 (2026-11-17)
+  kind: tune
+  handled_by: 4명 걷기·공격 16클립 모두 Aether + 손질(기준서 r4). 조각 방식은 버림
+  status: open
+- text: 고치는 김에 캐릭터랑 몬스터 그림자도 좀 줄여줘 크기에 맞게끔 (2026-11-17 21:2x)
+  kind: fix
+  handled_by: 실행 20261117-d30-fix T5(87e5735 보이는 몸 폭 기준 정수 배율) + 2회차(2072dee .5는 작은 쪽 → 대원 4명 같은 배율 1, 멧돼지·바위 2). 비율 0.67~1.02. 디렉터가 캡처 .director/evidence/20261117-d30-fix/1/2/playable/02-G2-2340x1080.png 직접 봄
+  status: done
+cost_usd: 427.78
 notes:
-  - "2026-11-15 그림체 시범 r1: Codex 이미지 생성 1회(낮·밤 2장, 사용자 11-15 '6 codex를 활용해', 컨셉 그림 입력은 같은 날 '컨셉 그림을 넣음 (추천)'). 본 캡처: output/art-pilot/r1/check_zoom.png — 36·48px 원정대 확대 낮·밤, check_full.png — 전체 4장, 잘림·깨짐 없음"
+- '2026-11-15 그림체 시범 r1: Codex 이미지 생성 1회(낮·밤 2장, 사용자 11-15 ''6 codex를 활용해'', 컨셉 그림 입력은 같은 날 ''컨셉 그림을 넣음 (추천)''). 본 캡처: output/art-pilot/r1/check_zoom.png — 36·48px 원정대 확대 낮·밤, check_full.png — 전체 4장, 잘림·깨짐
+  없음'
+- 2026-11-15 예전 3D pre-commit gate 연결 끊음(사용자 "2D에선 끄기 (추천)"), 작업 브랜치 epic/pack-expedition-2d → claude/pack-expedition-2d, 기준 커밋 f9c54c8
+- 2026-11-15 사용자 "비용상한 고려하지말고 우선 작업을 진행해줘" — 시작 승인의 $200 상한과 80% 멈춤을 적용하지 않는다. 비용은 기록만 하고 넘기기 보고에 합계를 적는다. 유료 생성(Aether 16클립) 상한은 별개로 유지
+- 2026-11-15 사용자 "디렉터를 제외하고는 웬만하면 medium", "리뷰 담당을 codex로", "codex 모델은 gpt 6.1 sol로" — 커밋 a9768bb. 단계 세션 --effort medium, 러너 --claude Tools/claude_medium.sh, Codex -m gpt-6.1-sol medium, 리뷰 4종 = Codex 중계(Tools/codex_review.py).
+  이미 돌던 세션(F1 구현, F2~F4 기획서, 그림 첫 항목)은 xhigh로 끝난다
+- '2026-11-16 15:1x 그림 넣기 실행 20261116-art-insert 시작: 캐릭터 앞뒤 8·몬스터 5(그림 브랜치, review 상태 — autonomy 3절 디렉터 채택), 그림 키 칸은 F1·F4 기획서가 아트 갈래에 넘긴 칸이라 기능 기획서 경로로(할 일 목록 아님). 걷기·공격 클립(Aether 16 승인)·쓰러진 그림·바닥 타일·아이콘은
+  이번 범위 밖'
+- '2026-11-16 19:0x 사용자 플레이 뒤 원문: "플레이를 해봤어, 우선은 엄청 오랜시간동안 작업이 진행된것 같아, 그런데 거기에비해서 나온 아웃풋은 작은것 같아, 어떤작업들을 하는데에 시간을 많이 소모하였는지 전체적인 플로우와 , 다른것들을 정리해볼래" — 진행 방식 회고 요청(게임 의견 아님). 디렉터가 기록(run logs .before/.json
+  시각, 세션 로그, 리뷰 기록)으로 시간 분석해 보고'
+- '2026-11-16 19:4x 진행 방식 2·3·4번 적용 끝($3.83): kit 브랜치 feat/lean-flow b76c95d(0.20.0, push 안 함 — 사용자 확인 대기), 프로젝트 ae1ebff(work-levels L2 좁힘·마감 리뷰 한 번, CLAUDE.md Subagent Routing, capabilities 관문 문구, 리뷰 에이전트
+  설명). 디렉터가 diff 직접 봄: work-levels 표·마감 리뷰 문장, director-game 4절 보이는 것 먼저·같이 돌릴 수 있는 것. 남은 것: install-state.json 해시는 0.19.0 그대로(doctor 문제 없음)'
+- '2026-11-17 1단 아트 시작. 추가 비용 상한 $300(사용자 "추가 $300에서 멈추고 묻기 (Recommended)") — 기준 합계 $276.26, cost_usd가 $516.26(=276.26+240, 80%)을 넘으면 새 실행 전에 멈추고 묻는다. 하위 세션·서브에이전트 Opus 5.5 medium(커밋 6084f28, Tools/claude_medium.sh).
+  아트 기준서 r2(팔레트 9색, 화염 지팡이 칸) 승인 기록. 키트 2d-art 도구 올림(72419e5: paint·shape·states). Aether MCP가 이 컴퓨터에 연결돼 있지 않음(프로젝트 MCP는 scenario뿐)·2d-art-aether가 도트 그림을 받지 않음 → 걷기·공격 방식 사용자에게 물음'
+- '2026-11-17 걷기·공격 방식: Aether MCP 미연결·도트 미지원 → 사용자 "도트 조각 방식 (Recommended)". 기준서 r3 커밋 5c91d10, approval 기록. 유료 생성 0'
+- '2026-11-17 14:1x Aether: 프로젝트 설정은 그대로 두고 단계 세션에 --mcp-config(https://api.aetherforgeai.com/mcp, 이미 인증됨)로 붙임. get_credit 잔액 932. 시험 실행 20261117-aether-trial 띄움(worktree 브랜치 claude/pack-expedition-2d-art-aether).
+  도트를 확대해 올리고 다시 도트로 내리는 시험 길(2d-art-aether는 is_pixel 거부). 동작 대기열은 STOP — 레나 걷기까지 끝나면 멈추고 attack-bruno를 팔 움직임으로 다시 → 비교 본 뒤 나머지'
+- 2026-11-17 Aether 시험 18크레딧(932→914), 커밋 d95d860(브랜치 claude/pack-expedition-2d-art-aether). 사용자 "Aether로 (손질 포함)", "에테르가 정말 잘 나왔는데, 리깅은 너무 부자연스러워". 기준서 r4 03289c9. 실행 감싸개 fc04141. 대화 맥락 48만 토큰 넘어 여기서 인수인계
+  — 다음 세션이 Aether 대기열을 만든다
+- '2026-11-17 14:5x 비용 합: 1단 새 비용 $65.26(art-samples 진행 중 값, screen-fixes 2단계 미포함) → cost_usd 341.52. 멈춤 기준 $516.26'
+- '2026-11-17 16:1x 비용 합: screen-fixes 2단계 $8.33 더함 → 349.85(art-samples 최종 $20.22). 멈춤 기준 $516.26까지 약 $166. 걸어 둔 상한: Aether $55 + 양산 $80 + 넣기 $20 = $155 — 다 쓰면 넣기 다음 실행부터 묻기'
+- '2026-11-17 16:3x 비용 합: insert-extras $8.83 + Aether bruno-front-fix $3.59 + 양산 첫 5항목 $12.26 → 374.53. 멈춤 기준 $516.26'
+- '2026-11-17 17:1x 사용자 "너 구현할떄 이제 codex를 최대한 활용해줘" → CLAUDE.md 모델 절·메모리에 기록. 대기열 두 개에 STOP 파일(지금 항목 뒤 멈춤) → STOP 지우고 --executor codex --model gpt-6.1-sol --effort medium으로 다시 띄울 것. 다음 넣기 단계부터 codex-step.py'
+- '2026-11-17 17:2x 비용 합: insert-ground $8.06 + Aether 대기열 $27.82(앞에 3.59 더함 → +24.23) + 양산 $21.58(앞에 12.26 → +9.32) → 416.14(Codex 실행분은 요금제라 리뷰분만 잡힘). 멈춤 기준 $516.26'
+- '2026-11-17 18:3x 다른 세션(deadsurvivor-5e)이 사용자 지시로 studio-kit 0.21.0 마이그레이션(루트 b89446c, 아트 규칙 5개). 양산 대기열 20261117-art-prod에 STOP — 지금 항목(icons-arcane) 뒤 멈추고 그 세션이 b89446c를 art worktree에 cherry-pick한 뒤 다시 띄운다(이쪽은 다시 띄우지 않음). insert-fx 시작 커밋 e90b87c 뒤에 b89446c가 루트에 들어감'
+- '2026-11-17 18:4x 비용 합: 양산 대기열 $29.07(앞에 21.58 → +7.49) → 423.63. insert-fx 리뷰 비용은 끝난 뒤 record-result로 더함. 19시 인수인계 docs/현재상태.md'
+- '2026-11-17 19:0x deadsurvivor-5e가 b89446c를 art worktree에 cherry-pick(391e555), STOP 지우고 양산 대기열 재시작(icons-mystic부터, 완료 알림은 그 세션)'
+- '2026-11-17 18:5x insert-fx 끝남 partial(효과 10장 들어감, 리뷰 $2.80 → cost 426.43). verify-step FIX 3(validator FAIL·T1·예외 관문) + 열린 질문(대각선 투사체 그림). 판단·캡처 확인은 새 세션(docs/현재상태.md 19시 절)'
