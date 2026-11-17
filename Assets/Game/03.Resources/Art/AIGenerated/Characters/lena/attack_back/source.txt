@@ -1,0 +1,37 @@
+# lena_attack_back_00..05 — 레나 뒤 3/4 공격(활 당겨 쏘기) (Aether 영상 프레임 → 64칸 도트 + 손질)
+
+- 만든 날: 2026-11-17, 대기열 20261117-art-aether 항목 lena-back(시도 1), /2d-art-aether 절차, 손질 기준 docs/art/samples/aether/손질-기준.md
+- 승인: "16개까지 허용 (추천)"(2026-11-15) 안 — 이 항목 2건 18크레딧까지, 클립당 1회, 다시 생성 없음
+- 기준 그림: lena/back/lena_back.png sha256 67746a3eac73681260884f3e788c9f3a68ef36cde90a25430300afd271694fbe
+
+## 끝 그림 (생성 아님)
+- 뒤 공격 끝 그림이 없어 기준 그림에 당긴 시위(흰 1px)·메긴 화살(갈색 1px, 쇠 촉, 깃)을 손으로 찍음: docs/art/samples/aether/lena-back/make_end.py (앞 판 lena-front/make_end.py와 같은 방식). 활은 기준 자리, 당긴 손 (40,39), 화살 촉 x54 → output/2d-art/lena-back-aether/inputs/attack_end_back.png sha256 539daf203a9a8433210341ff0e85889e569417a938906be673dc5ed53af514e7
+
+## 생성
+- job id 2a2fed69-11c2-43b7-b98f-76665cda5457, sprite_zenith 36장 first_last_frame, is_pixel false, 프롬프트 보강 끔
+- 입력: 기준 그림 ×8 → 끝 그림 ×8 (최근접, 512×512)
+- 시트 dl/attack_sheet.png sha256 185fdd81fb3162cba9f5e00a274cb9e82f3774ee74239c16d4a9eb171446028a
+- 키 색 자홍 [255,0,255]
+- 크레딧: 9. 서비스 잔액 시작 전 878 → 두 건 뒤 860 (걷기·공격 합계 18)
+- 프롬프트: "Isometric 3/4 back view, the character faces away toward the upper-right. Raises the short bow forward to the right with the whole bow arm, nocks an arrow, then draws the string back toward the shoulder with the other arm, shoulder, elbow and hand moving together, ending in the end picture pose with the bow drawn and the arrow aimed to the right. Feet stay planted. Locked camera, same size, keep the green hood, quiver and big backpack on the back. The last frame has the same hood, bow, arrow and hands as the end picture. Solid magenta background, no ground, shadows, added objects, trails or motion blur."
+
+## 처리 (작업 폴더 output/2d-art/lena-back-aether/, git 밖)
+- 영상: 칸 1~8은 활을 화면 왼쪽으로 돌려 듦(쓰지 않음), 9~17 화살을 들어 메기기, 18~26 활을 들어 당기기, 27~35 크게 당긴 자세(활이 기준보다 훨씬 큼)
+- 표시: 끝 자세 불일치(33~35칸: shape 0.31, inside 0.14, 키 1.06배 — 활을 끝 그림보다 크게 앞으로 뻗음), 키 검토 필요(팔·다리 사이 틈, 손질 뒤 자홍 0)
+- 클립 크기: analyze 두건 면적 0.936배 → gain 1.0681(run2)이 도트 키 52px(기준 48)로 나와, 키 기준으로 다시 잡음: 1.0681×48.5/52 = 0.9962(run4, 크레딧 0). 브루노 뒤와 같은 양상(뒤 그림은 면적 배율이 틀림). 결과 키 48~49px
+- 부위별 색 되돌리기 RESTORED: ΔE 전→후 hood 8.8~9.0→0.2~0.3, hair 13.7~14.3→0.6~1.2, skin 6.1~9.3→1.7~2.2, outline 5.4~6.2→0.4~0.5. output_fringe PASS
+- 도트: bruno-front/to_dot.py(기준서 3.5 r5 팔레트, 발 맨 아래 줄 63), 출력 96 폭 → 64×64(피벗 x32, 잘린 픽셀 02에서 1)
+- 쓴 원본 칸: 12(예비: 활을 든 채 당기는 팔을 어깨 위로), 17(메기기), 22(당기기), 29(끝까지 당김 = 타격), 24(풀기), 그리고 기준 그림(대기)
+- hit_frame: 3 (lena_attack_back_03)
+- 손질: docs/art/samples/aether/lena-back/fix_lena_back.py attack_back.json
+  - 기준 머리 덮기(걷기와 같은 줄), 머리 이동 [-2,-1]/[-2,0]/[-2,-1]/[-3,0]/[-3,-1]
+  - 활: 영상의 당긴 활은 기준보다 길고(세로 약 40px) 팔을 캔버스 오른쪽 밖까지 뻗어서, 기준 활+활 쥔 손 조각을 기준 자리 + 머리 이동에 붙이고(길이 그대로) 영상 활·뻗은 팔 끝은 x>=44+이동 안에서 지움(65~264px/장). 끝 그림과 같은 "활은 제자리, 시위만 당김" 자세
+  - 시위·화살: 01·02·03에 끝 그림과 같은 방식으로 찍음. 당긴 손(기준 좌표) 01 (43,39), 02 (41,39), 03 (40,39) → 이동 뒤 (41,39), (39,38), (37,39). 시위는 활 두 끝 (49,26)·(45,51)+이동에서 그 점까지, 화살은 촉 x54+이동까지. 00·04는 시위를 당기지 않은 활
+  - 영상 그림에서 가져오는 것: 몸통·당기는 팔·망토·다리(움직임), 두건·활·시위·화살은 기준 그림/손 픽셀
+- 기준서와 다른 점: 시위와 화살은 영상 픽셀이 아니라 손으로 찍은 1px 선(앞 판 끝 그림과 같은 색)
+
+## 확인
+- Tools/check_motion.py --kind attack(기본값): PASS 6장. 첫 시도(영상 활 그대로)는 머리 같은 픽셀 92.8~95.0%로 FAIL — 활 윗날개가 머리 판정 줄에 들어가기 때문
+- 완성 GIF docs/art/samples/aether/lena-back/attack.gif(sheet.py anim 10fps, 높이 400, UNVERIFIED 띠)를 디코딩해 6장을 순서대로 직접 봄: 활을 든 채 당기는 팔을 어깨 위로 → 화살을 메기고 시위를 조금 당김 → 더 당김 → 끝까지 당겨 오른쪽을 겨눔(타격) → 시위를 놓은 활 → 대기. 당기는 팔(어깨·팔꿈치)은 영상 그대로 움직이고 발은 제자리. 두건 뒷모습은 모든 장 같음
+- 알려진 한계: 01·02의 당긴 손 자리는 손으로 정한 점이라 영상의 손과 1~3px 어긋날 수 있음, 활 쥔 팔은 기준 자리에 고정(앞으로 뻗지 않음), 화살통 깃 도트가 몇 장에서 흩어짐, 04→05는 자세가 한 번에 바뀜
+- 사람 판정(같은 캐릭터로 자연스러운가): 대기

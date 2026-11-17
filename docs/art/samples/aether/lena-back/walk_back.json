@@ -1,0 +1,69 @@
+{
+ "base": "Assets/Game/03.Resources/Art/AIGenerated/Characters/lena/back/lena_back.png",
+ "head": {
+  "top": 16,
+  "bottom": 35,
+  "full_rows_to": 29,
+  "x_min_low": 22,
+  "clear_pad": 2
+ },
+ "erase_box": [
+  44,
+  0,
+  63,
+  52
+ ],
+ "bow_boxes": [
+  [
+   44,
+   22,
+   53,
+   52
+  ],
+  [
+   41,
+   53,
+   43,
+   57
+  ]
+ ],
+ "bow_tips": [
+  [
+   49,
+   26
+  ],
+  [
+   45,
+   51
+  ]
+ ],
+ "arrow_to": 54,
+ "out_dir": "Assets/Game/03.Resources/Art/AIGenerated/Characters/lena/walk_back",
+ "prefix": "lena_walk_back",
+ "frames": [
+  {
+   "src": "output/2d-art/lena-back-aether/dot/walk/walk_00.png",
+   "cell": 11
+  },
+  {
+   "src": "output/2d-art/lena-back-aether/dot/walk/walk_01.png",
+   "cell": 13
+  },
+  {
+   "src": "output/2d-art/lena-back-aether/dot/walk/walk_02.png",
+   "cell": 15
+  },
+  {
+   "src": "output/2d-art/lena-back-aether/dot/walk/walk_03.png",
+   "cell": 17
+  },
+  {
+   "src": "output/2d-art/lena-back-aether/dot/walk/walk_04.png",
+   "cell": 19
+  },
+  {
+   "src": "output/2d-art/lena-back-aether/dot/walk/walk_05.png",
+   "cell": 21
+  }
+ ]
+}
