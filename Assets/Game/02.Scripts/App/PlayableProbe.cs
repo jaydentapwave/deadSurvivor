@@ -574,6 +574,34 @@ public static class PlayableProbe
     public static int MemberHitFlashTotal => Resolve<WorldPresenter>().MemberHitFlashTotal;
     public static float MemberFlashMaxSeconds => Resolve<WorldPresenter>().MemberFlashMaxSeconds;
 
+    // 바닥(바닥 넣기 T1·T5): 그림 이름이 spritePrefix로 시작하는 타일 수(isOnScreenOnly면 칸 가운데가 화면 안인 것만).
+    // 빈 접두어는 모든 타일. 임시 마름모 = 풀(grass_)·흙길(path_) 그림이 아닌 타일
+    public static int GroundTileCount(string spritePrefix, bool isOnScreenOnly)
+    {
+        var tilemap = Resolve<FieldView>().Tilemap;
+        var camera = Resolve<Camera>();
+        var count = 0;
+        foreach (var position in tilemap.cellBounds.allPositionsWithin)
+        {
+            var sprite = tilemap.GetSprite(position);
+            if (sprite == null || !sprite.name.StartsWith(spritePrefix, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var viewport = camera.WorldToViewportPoint(tilemap.GetCellCenterWorld(position));
+            if (!isOnScreenOnly || (viewport.x > 0f && viewport.x < 1f && viewport.y > 0f && viewport.y < 1f))
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public static int PlaceholderGroundTileCount =>
+        GroundTileCount(string.Empty, false) - GroundTileCount("grass_", false) - GroundTileCount("path_", false);
+
     // 그림을 그리는 산 몬스터 수
     public static int MonsterSpriteCount => CountMonsterViews(true);
 
