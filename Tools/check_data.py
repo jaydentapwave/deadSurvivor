@@ -4,7 +4,7 @@
   python3 -B ./tools/check_data.py              지금 데이터를 검사한다. 문제가 있으면 줄마다 출력하고 exit 1
   python3 -B ./tools/check_data.py --root <폴더> 다른 데이터 폴더를 검사한다(Character/ Item/ Wave/ Run/ Monster/ Spawn/ 이 있는 곳)
   python3 -B ./tools/check_data.py --art-root <폴더> 그림 폴더(AIGenerated/가 있는 곳). 기본은 데이터 폴더 기준 ../../Art
-  python3 -B ./tools/check_data.py --self-test  지금 데이터가 통과하고, 틀린 데이터 32종(F1: id 중복, 없는 startItem,
+  python3 -B ./tools/check_data.py --self-test  지금 데이터가 통과하고, 틀린 데이터 36종(F1: id 중복, 없는 startItem,
                                                 웨이브 order 빈칸, 캐릭터 수 4 아님 / F2: 진형 자리 3개, 진형 order 빈칸,
                                                 자리 평균 ≠ 0, memberSpots 남음 / F3: 모르는 mode, interval 0인 발동 아이템,
                                                 4×4 밖이거나 끊긴 shape, 모르는 효과 종류, passive 시작 아이템 / F4: 없는 몬스터 가중치,
@@ -12,7 +12,7 @@
                                                 minCount > maxCount, 모든 lootWeight 0, 가방에 안 들어가는 시작 아이템 / F6: 피해 숫자 maxActive 0,
                                                 다섯 밖의 alwaysShowBehaviors, 색 형식 틀림 / 그림 넣기: 그림 파일이 없는 캐릭터 키,
                                                 뒤 그림만 없는 캐릭터 키, 그림 파일이 없는 몬스터 키, 형식이 틀린 키, sprite 칸이 없는 몬스터,
-                                                모르는 moveStyle)이 각각 실패하는지 본다
+                                                모르는 moveStyle / 장식: 중앙·흙길 위·없는 그림·자리 중복)이 각각 실패하는지 본다
 
 보는 것: JSON 형식, 필수 칸과 형, id = 파일 이름, id 중복, 가리키는 대상(startItem → Item), 웨이브 order 1..N 빈칸 없음,
 개수 범위(캐릭터 4, 아이템 4~40, 웨이브 1~20, 진형 1~6), 진형 자리(수 = 캐릭터 수, 평균 0, 중복 없음)(F2), 값 범위,
@@ -224,7 +224,59 @@ def check(root, art_root=None):
 
     check_bag_loot(root, items, characters, problems, notes)
     check_feedback(root, problems)
+    check_field_decor(root, art_root, problems, notes)
     return problems, notes
+
+
+def check_field_decor(root, art_root, problems, notes):
+    """장식 T1: 배치 스키마·이름 참조·가장자리·흙길 여유. 실행 시 좌표를 고치거나 거르지 않는다."""
+    label = "Field/decor.json"
+    data = load_single(root / label, problems)
+    rules = load_single(root / "Run/run_rules.json", problems)
+    path = load_single(root / "Field/ground_path.json", problems)
+    if data is None or rules is None or path is None:
+        return
+    cells = rules.get("fieldCells")
+    band = data.get("edgeBandCells")
+    if not is_int(cells) or not is_int(band) or not 0 < band < cells // 2:
+        problems.append(f"{label}: edgeBandCells는 0보다 크고 들판 반폭보다 작은 정수여야 한다")
+        return
+    placements = data.get("placements")
+    if not isinstance(placements, list) or not placements:
+        problems.append(f"{label}: placements는 비지 않은 목록이어야 한다")
+        return
+    half = cells // 2
+    path_cells = [(c["x"], c["y"]) for c in path["cells"]]
+    seen = set()
+    for i, placement in enumerate(placements):
+        item_label = f"{label} placements[{i}]"
+        if not isinstance(placement, dict):
+            problems.append(f"{item_label}: 객체여야 한다")
+            continue
+        before = len(problems)
+        check_fields(item_label, placement, {
+            "sprite": (lambda v: is_text(v) and SPRITE_KEY.fullmatch(v), "[a-z0-9_]+여야 한다"),
+            "x": (is_int, "칸 좌표 정수여야 한다"),
+            "y": (is_int, "칸 좌표 정수여야 한다"),
+            "isGround": (lambda v: isinstance(v, bool), "bool이어야 한다"),
+            "isFlipped": (lambda v: isinstance(v, bool), "bool이어야 한다"),
+            "pivotOffsetXPixels": (is_int, "정수 픽셀이어야 한다"),
+        }, problems)
+        if len(problems) != before:
+            continue
+        x, y = placement["x"], placement["y"]
+        if not -half <= x < cells - half or not -half <= y < cells - half:
+            problems.append(f"{item_label}: 들판 밖이다")
+        elif min(x + half, y + half, cells - half - 1 - x, cells - half - 1 - y) >= band:
+            problems.append(f"{item_label}: 가장자리 띠 밖이다")
+        if any(max(abs(x - px), abs(y - py)) < 3 for px, py in path_cells):
+            problems.append(f"{item_label}: 흙길과 3칸 이상 떨어져야 한다")
+        if (x, y) in seen:
+            problems.append(f"{item_label}: 같은 자리 중복이다")
+        seen.add((x, y))
+        if not (art_root / "AIGenerated/Decor" / (placement["sprite"] + ".png")).is_file():
+            problems.append(f"{item_label}: 장식 그림이 없다")
+    notes.append(f"장식 {len(placements)}개, 가장자리 띠 {band}칸")
 
 
 def check_formations(root, slot_count, problems, notes):
@@ -776,6 +828,18 @@ def self_test(root, art_root):
     def break_move_style(d):
         edit_json(d / "Monster" / "puffer.json", lambda data: data.update(moveStyle="fly"))
 
+    def break_decor_center(d):
+        edit_json(d / "Field/decor.json", lambda data: data["placements"][0].update(x=0, y=0))
+
+    def break_decor_path(d):
+        edit_json(d / "Field/decor.json", lambda data: data["placements"][0].update(x=-24, y=2))
+
+    def break_decor_sprite(d):
+        edit_json(d / "Field/decor.json", lambda data: data["placements"][0].update(sprite="nobody_decor"))
+
+    def break_decor_duplicate(d):
+        edit_json(d / "Field/decor.json", lambda data: data["placements"].append(dict(data["placements"][0])))
+
     cases = [("id 중복", break_duplicate, "중복"), ("없는 startItem", break_start_item, "startItem"),
              ("웨이브 order 빈칸", break_wave_gap, "Wave: order"), ("캐릭터 수 4 아님", break_character_count, "Character: 3개"),
              ("진형 자리 3개", break_formation_slot_count, "slots 3개"),
@@ -801,7 +865,11 @@ def self_test(root, art_root):
              ("그림 파일이 없는 몬스터 키", break_monster_art, "sprite 'ghost'의 그림"),
              ("형식이 틀린 키(../slime)", break_sprite_key, "'sprite' = '../slime'"),
              ("sprite 칸이 없는 몬스터", break_monster_sprite_field, "boar.json: 'sprite' 칸이 없다"),
-             ("모르는 moveStyle", break_move_style, "'moveStyle' = 'fly'")]
+             ("모르는 moveStyle", break_move_style, "'moveStyle' = 'fly'"),
+             ("중앙 장식", break_decor_center, "가장자리 띠 밖"),
+             ("흙길 위 장식", break_decor_path, "흙길과 3칸"),
+             ("없는 장식 그림", break_decor_sprite, "장식 그림이 없다"),
+             ("장식 자리 중복", break_decor_duplicate, "같은 자리 중복")]
     failures = []
     base_problems, _ = check(root, art_root)
     if base_problems:

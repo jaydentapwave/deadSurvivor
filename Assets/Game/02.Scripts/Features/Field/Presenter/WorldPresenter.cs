@@ -23,6 +23,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly CharacterRepository _characterRepository;
     private readonly RunRulesData _runRules;
     private readonly GroundPathData _groundPath;
+    private readonly FieldDecorData _fieldDecor;
     private readonly PlaceholderCombatData _combatData;
     private readonly PlaceholderSpriteFactory _placeholderSpriteFactory;
     private readonly MonsterViewFactory _monsterViewFactory;
@@ -52,7 +53,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     public int IdleOffsetsSeen => (_idleOffsetSeenMask & 1) + ((_idleOffsetSeenMask >> 1) & 1);
 
     public WorldPresenter(PartyModel partyModel, MonsterModel monsterModel, MonsterService monsterService,
-        PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, PlaceholderCombatData combatData,
+        PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, FieldDecorData fieldDecor, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
         MonsterViewRegistry monsterViewRegistry, SpriteAtlasService spriteAtlasService, RunModel runModel, FieldView fieldView,
         Camera camera, IReadOnlyList<MemberView> memberViewList)
@@ -64,6 +65,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         _characterRepository = characterRepository;
         _runRules = runRules;
         _groundPath = groundPath;
+        _fieldDecor = fieldDecor;
         _combatData = combatData;
         _placeholderSpriteFactory = placeholderSpriteFactory;
         _monsterViewFactory = monsterViewFactory;
@@ -82,6 +84,12 @@ public class WorldPresenter : IInitializable, ILateTickable
     public void Initialize()
     {
         BuildField();
+        foreach (var placement in _fieldDecor.Placements)
+        {
+            var sprite = _spriteAtlasService.Get(placement.Sprite, SpriteAtlasService.GroundAtlasPath);
+            _fieldView.AddDecor(sprite, placement);
+        }
+
         InitializeMemberViews();
         UpdateViewExtent();
     }
