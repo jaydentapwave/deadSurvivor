@@ -8,5 +8,12 @@
   "def": 0.0,
   "startItem": "shortbow",
   "color": "#67966e",
-  "sprite": "lena"
+  "sprite": "lena",
+  "motion": {
+    "fps": 10,
+    "walkFrames": 6,
+    "attackFrames": 6,
+    "hitFront": 3,
+    "hitBack": 3
+  }
 }

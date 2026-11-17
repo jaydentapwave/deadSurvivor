@@ -8,5 +8,12 @@
   "def": 0.05,
   "startItem": "firestaff",
   "color": "#8475ad",
-  "sprite": "mira"
+  "sprite": "mira",
+  "motion": {
+    "fps": 10,
+    "walkFrames": 7,
+    "attackFrames": 6,
+    "hitFront": 3,
+    "hitBack": 3
+  }
 }

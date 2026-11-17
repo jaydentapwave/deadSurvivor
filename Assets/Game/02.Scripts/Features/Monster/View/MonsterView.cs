@@ -21,6 +21,7 @@ public class MonsterView : MonoBehaviour
     private float _unitScale;
     private Sprite _bodySprite;
     private Sprite _warningSprite;
+    private FootShadowView _shadow;
 
     public bool IsDashLineVisible => dashLineRenderer.enabled;
     public bool IsBlastAreaVisible => blastAreaRenderer.enabled;
@@ -59,6 +60,18 @@ public class MonsterView : MonoBehaviour
         areaTransform.localScale = new Vector3(areaSize.x / spriteSize.x, areaSize.y / spriteSize.y, 1f);
         areaTransform.localPosition = new Vector3(0f, -areaSize.y * 0.5f, 0f);
         UpdateState(MonsterPhase.Approach, Vector2.zero);
+    }
+
+    public void InitializeShadow(Sprite sprite)
+    {
+        if (_shadow == null)
+        {
+            var child = new GameObject("Shadow");
+            child.transform.SetParent(transform, false);
+            _shadow = child.AddComponent<FootShadowView>();
+        }
+
+        _shadow.Initialize(sprite, _bodySprite.bounds.size.x * _bodySprite.pixelsPerUnit, bodyRenderer.sortingLayerID);
     }
 
     public void UpdateView(Vector2 worldPosition) => transform.localPosition = worldPosition;

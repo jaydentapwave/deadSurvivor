@@ -8,5 +8,12 @@
   "def": 0.05,
   "startItem": "relic",
   "color": "#c2ac6f",
-  "sprite": "bolt"
+  "sprite": "bolt",
+  "motion": {
+    "fps": 10,
+    "walkFrames": 7,
+    "attackFrames": 6,
+    "hitFront": 2,
+    "hitBack": 2
+  }
 }

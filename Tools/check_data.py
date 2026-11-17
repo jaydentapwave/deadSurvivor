@@ -612,6 +612,27 @@ def check_sprites(art_root, characters, monsters, problems, notes):
             path = generated / "Characters" / key / side / f"{key}_{side}.png"
             if not path.is_file():
                 problems.append(f"Character/{stem}.json: sprite '{key}'의 그림 {path.relative_to(art_root)}이 없다")
+        motion = data.get("motion")
+        label = f"Character/{stem}.json: motion"
+        if not isinstance(motion, dict):
+            problems.append(f"{label}은 클립 fps·장 수·타격 프레임 묶음이어야 한다")
+            continue
+        valid = (is_int(motion.get("fps")) and motion["fps"] > 0
+                 and is_int(motion.get("walkFrames")) and 6 <= motion["walkFrames"] <= 8
+                 and is_int(motion.get("attackFrames")) and 4 <= motion["attackFrames"] <= 6)
+        if not valid:
+            problems.append(f"{label}: fps > 0, walkFrames 6~8, attackFrames 4~6 정수가 필요하다")
+            continue
+        for field in ("hitFront", "hitBack"):
+            if not (is_int(motion.get(field)) and 0 <= motion[field] < motion["attackFrames"]):
+                problems.append(f"{label}.{field}: 공격 프레임 범위 안 정수여야 한다(0부터)")
+        for clip, count in (("walk", motion["walkFrames"]), ("attack", motion["attackFrames"])):
+            for side in ("front", "back"):
+                folder = generated / "Characters" / key / f"{clip}_{side}"
+                expected = {f"{key}_{clip}_{side}_{i:02}.png" for i in range(count)}
+                actual = {p.name for p in folder.glob("*.png")}
+                if actual != expected:
+                    problems.append(f"{label}: {clip}_{side} 프레임 목록이 데이터와 다르다")
     monster_filled = 0
     for stem, data in monsters:
         label = f"Monster/{stem}.json"
@@ -840,6 +861,15 @@ def self_test(root, art_root):
     def break_decor_duplicate(d):
         edit_json(d / "Field/decor.json", lambda data: data["placements"].append(dict(data["placements"][0])))
 
+    def break_motion_fps(d):
+        edit_json(d / "Character" / "bruno.json", lambda data: data["motion"].update(fps=0))
+
+    def break_motion_hit(d):
+        edit_json(d / "Character" / "bruno.json", lambda data: data["motion"].update(hitBack=6))
+
+    def break_motion_frames(d):
+        (tmp_art(d) / "Characters/bruno/walk_front/bruno_walk_front_00.png").unlink()
+
     cases = [("id 중복", break_duplicate, "중복"), ("없는 startItem", break_start_item, "startItem"),
              ("웨이브 order 빈칸", break_wave_gap, "Wave: order"), ("캐릭터 수 4 아님", break_character_count, "Character: 3개"),
              ("진형 자리 3개", break_formation_slot_count, "slots 3개"),
@@ -869,7 +899,10 @@ def self_test(root, art_root):
              ("중앙 장식", break_decor_center, "가장자리 띠 밖"),
              ("흙길 위 장식", break_decor_path, "흙길과 3칸"),
              ("없는 장식 그림", break_decor_sprite, "장식 그림이 없다"),
-             ("장식 자리 중복", break_decor_duplicate, "같은 자리 중복")]
+             ("장식 자리 중복", break_decor_duplicate, "같은 자리 중복"),
+             ("동작 fps 0", break_motion_fps, "fps > 0"),
+             ("동작 타격 프레임 범위 밖", break_motion_hit, "hitBack"),
+             ("동작 프레임 빠짐", break_motion_frames, "walk_front 프레임 목록")]
     failures = []
     base_problems, _ = check(root, art_root)
     if base_problems:

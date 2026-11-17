@@ -18,7 +18,7 @@ public class ItemActivationTests
         var outCone = context.AddMonster(3, origin + Polar(60f, 100f), Hp);
         var outRange = context.AddMonster(4, origin + new Vector2(140f, 0f), Hp);
 
-        context.CombatService.Step(context.RunRules.SimStep);
+        StepToFirstHit(context);
 
         Assert.AreEqual(Hp - Hit, target.Hp, 1e-3f);
         Assert.AreEqual(Hp - Hit, inCone.Hp, 1e-3f);
@@ -35,7 +35,7 @@ public class ItemActivationTests
         var inCone = context.AddMonster(2, origin + Polar(80f, 100f), Hp);
         var outCone = context.AddMonster(3, origin + Polar(100f, 100f), Hp);
 
-        context.CombatService.Step(context.RunRules.SimStep);
+        StepToFirstHit(context);
 
         Assert.AreEqual(Hp - Hit, inCone.Hp, 1e-3f);
         Assert.AreEqual(Hp, outCone.Hp);
@@ -73,7 +73,7 @@ public class ItemActivationTests
         var origin = context.PartyModel.MemberList[0].Position;
         context.AddMonster(1, origin + new Vector2(0f, 100f), Hp);
 
-        context.CombatService.Step(context.RunRules.SimStep);
+        StepToFirstHit(context);
 
         var projectiles = context.CombatModel.ProjectileList;
         Assert.AreEqual(2, projectiles.Count);
@@ -121,7 +121,7 @@ public class ItemActivationTests
                 monsters[i] = context.AddMonster(i + 1, origin + new Vector2(100f * (i + 1), 0f), Hp);
             }
 
-            context.CombatService.Step(context.RunRules.SimStep);
+            StepToFirstHit(context);
 
             var expectedHits = hasHat ? 5 : 3;
             // 마법사 모자 기본 효과 공격 +0.05
@@ -137,7 +137,7 @@ public class ItemActivationTests
         var a = gapped.AddMonster(1, gappedOrigin + new Vector2(100f, 0f), Hp);
         var b = gapped.AddMonster(2, gappedOrigin + new Vector2(200f, 0f), Hp);
         var c = gapped.AddMonster(3, gappedOrigin + new Vector2(360f, 0f), Hp);
-        gapped.CombatService.Step(gapped.RunRules.SimStep);
+        StepToFirstHit(gapped);
         Assert.AreEqual(Hp - Hit, a.Hp, 1e-3f);
         Assert.AreEqual(Hp - Hit, b.Hp, 1e-3f);
         Assert.AreEqual(Hp, c.Hp, "160 > 150 hop");
@@ -146,7 +146,7 @@ public class ItemActivationTests
         var pairOrigin = pair.PartyModel.MemberList[0].Position;
         var p1 = pair.AddMonster(1, pairOrigin + new Vector2(100f, 0f), Hp);
         var p2 = pair.AddMonster(2, pairOrigin + new Vector2(150f, 0f), Hp);
-        pair.CombatService.Step(pair.RunRules.SimStep);
+        StepToFirstHit(pair);
         Assert.AreEqual(Hp - Hit, p1.Hp, 1e-3f, "no double hit");
         Assert.AreEqual(Hp - Hit, p2.Hp, 1e-3f, "no double hit");
     }
@@ -162,7 +162,7 @@ public class ItemActivationTests
         members[3].Hp = 60f;
         var before = new[] { members[0].Hp, members[1].Hp, members[2].Hp, members[3].Hp };
 
-        single.CombatService.Step(single.RunRules.SimStep);
+        StepToFirstHit(single);
 
         Assert.AreEqual(before[0], members[0].Hp, "full member not chosen");
         Assert.AreEqual(before[1], members[1].Hp);
@@ -176,7 +176,7 @@ public class ItemActivationTests
         areaMembers[3].Hp = 50f;
         areaMembers[3].Position += new Vector2(1000f, 0f);
 
-        area.CombatService.Step(area.RunRules.SimStep);
+        StepToFirstHit(area);
 
         Assert.AreEqual(areaMembers[0].MaxHp, areaMembers[0].Hp);
         Assert.AreEqual(60f, areaMembers[1].Hp, 1e-3f);
@@ -249,7 +249,7 @@ public class ItemActivationTests
         var first = context.AddMonster(1, origin + new Vector2(0f, 60f), Hp);
         var second = context.AddMonster(2, origin + new Vector2(0f, -60f), Hp);
 
-        context.StepCombat(10, context.RunRules.SimStep);
+        context.StepCombat(20, context.RunRules.SimStep);
 
         Assert.AreEqual(Hp - Hit, first.Hp, 1e-3f);
         Assert.AreEqual(Hp, second.Hp);
@@ -315,6 +315,20 @@ public class ItemActivationTests
             CombatTestItems.Action("t_melee_pulse", "melee", 10f, 1f, 3f, "pulse", 5f, 3f, 100f)), placement);
         context.SetupParty(itemIdsPerMember);
         return context;
+    }
+
+    // 타격 시점까지 고정 걸음으로 진행한다. 피해량·대상 기대값은 그대로 유지한다.
+    private static void StepToFirstHit(TestRunContext context)
+    {
+        context.CombatService.Step(0f);
+        var motion = context.CombatModel.MemberStateList[0].AttackMotion;
+        Assert.IsTrue(motion.IsPreparing);
+        for (var i = 0; i < 30 && !motion.HasHit; i++)
+        {
+            context.CombatService.Step(context.RunRules.SimStep);
+        }
+
+        Assert.IsTrue(motion.HasHit, "타격 프레임까지 진행");
     }
 
     private static Vector2 Polar(float degrees, float distance)
