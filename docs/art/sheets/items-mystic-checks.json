@@ -859,7 +859,17 @@
     }
   },
   "verification_utc": "2026-11-17T09:58:19Z",
-  "review": "NOT_RUN: Claude closing session required",
+  "review": "VERDICT: PASS",
+  "review_evidence": {
+    "reviewer": "general-purpose (Claude Opus, medium)",
+    "origin": "사용자가 전달한 Claude 리뷰 세션 결과; 훅 판정 기록",
+    "criteria": {"AC1": "PASS", "AC2": "PASS", "AC3": "PASS"},
+    "blind_read": "16/16 및 선택본 4/4 이름 일치",
+    "required_fixes": [],
+    "followups": ["선택 bell 식별 확신 중상", "버린 N16은 주교관/왕관으로도 읽힐 여지", "가방에서 spellbook과 scripture 구별 미확인"],
+    "human": "NOT_RUN",
+    "unity_connection_play": "NOT_RUN: 항목 범위 밖"
+  },
   "timing": {
     "preparation": "09:48~09:52 UTC approximate",
     "generation_cleanup_checks": "09:52~09:58 UTC",

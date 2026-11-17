@@ -1,4 +1,4 @@
-# scripture production source — Claude 판독 대기
+# scripture production source — Claude 판독 PASS
 
 제작일: 2026-11-17. 시작 HEAD: 391e555. 생성 스레드: 01a1e8ea-50a3-7e20-9924-76367098799f.
 도구: 현재 Codex 세션 image_gen 직접 사용. Codex 실행기 gpt-6.1-sol medium; 이미지 도구 내부 모델명은 미노출로 확인 불가. codex exec/Aether 호출 없음. Aether 크레딧 0, 구독/이미지 호출 비용·토큰 미계측.
@@ -25,8 +25,10 @@ sha256: 38b9bec9080e76d5bb0e5268b27bf795dedbabca593039b7d6fef36ccc331701
 칠 색 참고: paint.py measure --ref sword.png: robe/scripture/bell orange S0.77 V0.97, dS0 dV0 PASS. orb cyan S0.39 V0.82는 견본에 cyan이 없어 NOT_ASSESSED. 묶음 출력은 'FAIL paint: 4 pictures, 1 off the references'(exit0)이며 구슬 색 측정 PASS로 해석하지 않음. 처음 고른 robe r1-1은 orange dS+0.06 FAIL이라 형태·격자도 통과하고 색 참고도 통과한 r1-2로 바꿈. paint.py pull은 쓰지 않음.
 형태 검사: shape.py fit은 직사각 시설용 틀 대신 아이템 셀 점유 실측을 사용. 채택된 shape 모든 칸 픽셀>0, 금지 칸0. 원래 생성 캔버스 위치를 보존해 검사. 별도 shape.py 판정을 실행했다고 주장하지 않음.
 이름 가린 자기 판독: docs/art/sheets/items-mystic-blind.png를 열어 확인: N07: 금 십자가 장식이 있는 가죽 성서/성전 책. 제작자는 의도를 알고 있으므로 독립/진정한 블라인드 판독이 아니며 Claude 판독을 대신하지 않음.
-다른 계열 판독: NOT_RUN — 이 Codex 실행기는 리뷰 에이전트를 부를 수 없으므로 마감 Claude 리뷰 세션에 part-check.md 이름 가림 판독을 요청. VERDICT 미수신, human 최종 판정 NOT_RUN.
-AC1: 크기·shape·fringe 확인. AC2: docs/art/sheets/items-mystic.png 선택4+버림12, 각각48×48 여백 캔버스에 원본32×32를 중앙 배치 후 ×3(그림 자체96px), sheet.py --props의 NOT MEASURED 띠. 두 시트 완성 파일을 직접 열어 확인. AC3: 독립 판독 대기. PASS는 기술 기준과 어긋나지 않음이며 읽힘·그림체 최종 판정은 Claude/human 대기.
+다른 계열 판독: Claude 리뷰 세션 general-purpose(Claude Opus, medium)가 이름 가림 판독·품질 리뷰 수행. 사용자 전달 결과: 16개 및 선택본 4개 모두 이름 판독 일치, AC1/AC2/AC3 PASS, 필수 수정 없음. 이 Codex 세션이 호출한 리뷰가 아님. human 최종 판정 NOT_RUN.
+VERDICT: PASS
+후속 참고(필수 수정 아님): 선택 bell의 식별 확신은 중상으로 다른 셋보다 낮음. 버린 bell r1-4(N16)는 주교관/왕관으로도 읽힐 여지. 기존 spellbook과 scripture를 가방에서 구별할 수 있는지는 미확인, 사용자 판정 때 나란히 볼 것.
+AC1: 크기·shape·fringe 확인. AC2: docs/art/sheets/items-mystic.png 선택4+버림12, 각각48×48 여백 캔버스에 원본32×32를 중앙 배치 후 ×3(그림 자체96px), sheet.py --props의 NOT MEASURED 띠. 두 시트 완성 파일을 직접 열어 확인. AC3: Claude 독립 판독 PASS. 기술 검사와 이름·그림체 판독을 충족하며 human 최종 판정은 대기.
 게임 전체 확인: 그림체=3.7 채택 sword 입력/시트 이웃 비교; 카메라=가방 UI 아이콘으로 월드 아이소 기울기 적용 대상 아님; 크기=plan C2 shape×16 확인; 게임 동작=shape 빈칸 투명 확인, 데이터 icon 연결은 범위 밖; 같은 화면/화면비=최신 게임 Play/합성 미확인(에디터 없는 worktree 지시상 7~9절 제외); 닿는 곳=장면·데이터·캐릭터 손의 그림 변경 없음. K16 양피지 문맥 입력만 사용, 가방 UI 자체는 그리지 않음.
 지난 문제 점검: 격자 세분화(시작 아이콘 보고) => 모든 후보 실측 약39.2px/기대39.1875; 떨어진 끝 칸(시작 아이콘 보고) => L모양이 단일 robe/bell로 이어짐 자기확인, 독립 판독대기; 쇠붙이 올리브색 => 이번 네 종은 강철 부품을 주제로 삼지 않음; 생성/게임 연결 혼동 => 에셋 제작만, 실제 게임·기기 확인 NOT_RUN.
 놓친 것/워크플로우 갱신 후보: 기본 python3에는 numpy가 없어 도구 도움말이 실패. /usr/bin/python3 의존성 확인 후 지정 명령 사용. 단일 회고 파일을 추가하지 않고 이 source에 기록(범위 제한); 기존 검사 추가·삭제 없음. 기본 해석기 확인을 향후 작업 시작 출력에 포함하는 후보, 전역 워크플로우 미반영. paint의 NOT_ASSESSED가 묶음 FAIL로 출력되는 점은 기록만 남기고 도구 변경 안 함.
