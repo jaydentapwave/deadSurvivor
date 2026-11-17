@@ -116,7 +116,7 @@ Create missing folders if needed. Always specify target file path.
 
 ### validator-client (검증 위임 — fresh context 적대 리뷰)
 - 아키텍처·DI 등록·레이어 계약에 영향 주는 변경 후 호출. diff를 요구사항 대비 검증 + VContainer 순환 의존 추적.
-- 기능 하나에 마감 리뷰 한 번: 구현·명령 관문이 끝난 뒤 `spec-reviewer`·`algorithm-tester`(해당 시)와 한꺼번에 병렬로 부른다. 지적을 모아 메인이 고치고, FAIL이었던 리뷰만 수정 확인 한 번. 그래도 남으면 멈추고 일을 시킨 쪽에 묻는다. 순수 리네이밍·로컬 편집은 생략.
+- 기능 하나에 마감 리뷰 한 번: 구현·명령 관문이 끝난 뒤 `spec-reviewer`·`algorithm-tester`(해당 시)와 한꺼번에 병렬로 부른다. 지적을 모아 메인이 고치고, FAIL이었던 리뷰만 수정 확인. 그래도 남으면 묻지 않고 고쳐서 다시 확인한다(`AGENTS.md` "판정에 못 미치면 다시 돈다", 2026-11-17 사용자 지정). 순수 리네이밍·로컬 편집은 생략.
 
 ### design-reviewer (구현 전 설계 검토 위임)
 - 구조가 크게 바뀌는 L2에서만 설계 브리핑을 쓴 뒤 호출: 첫 기능(Core 기반·DI 뼈대·판정 진입점), 이미 있는 시스템의 상태 소유권·DI 구조·세이브 형식 변경, 렌더 파이프라인 설정 변경. 새 도메인 폴더를 더하고 공유 파일에 등록 줄·칸만 더하는 기능은 부르지 않는다(짧은 브리핑을 마감 리뷰에 넘긴다). 규모 분류는 `.ai/rules/work-levels.md`.
