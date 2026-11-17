@@ -38,6 +38,26 @@ public static class SpriteMotion
         return isFlipped ? 1 : -1;
     }
 
+    // 캔버스 여백을 제외한 몸 폭에 가장 가까운 그림자 정수 배율.
+    public static int GetShadowScale(float bodyWidthPixels, float shadowWidthPixels) =>
+        Mathf.Max(1, Mathf.RoundToInt(bodyWidthPixels / shadowWidthPixels));
+
+    public static int GetVisibleWidth(Color32[] pixels, int width)
+    {
+        var left = width;
+        var right = -1;
+        for (var i = 0; i < pixels.Length; i++)
+        {
+            if (pixels[i].a > 0)
+            {
+                left = Mathf.Min(left, i % width);
+                right = Mathf.Max(right, i % width);
+            }
+        }
+
+        return Mathf.Max(0, right - left + 1);
+    }
+
     public static Vector3 ToUnits(Vector2Int pixels) =>
         new(pixels.x / (float)Const.PixelsPerUnit, pixels.y / (float)Const.PixelsPerUnit, 0f);
 }

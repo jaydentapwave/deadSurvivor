@@ -56,7 +56,7 @@ public class MonsterViewFactory
         var view = _poolManager.Get(PoolKey, _prefab, parent);
         var body = GetBodySprite(data);
         view.Initialize(body.sprite, body.warningSprite, body.hasArt, _dashLineSprite, _blastAreaSprite, dashLength, blastRadius, _runRules.UnitScale);
-        view.InitializeShadow(_spriteAtlasService.Get("shadow"));
+        view.InitializeShadow(_spriteAtlasService.Get("shadow"), _spriteAtlasService.GetVisibleWidth(body.sprite));
         _monsterViewRegistry.Register(monster.Id, view);
         return view;
     }

@@ -195,8 +195,8 @@ public class MemberViewSpriteTests
     public void ShadowIsCreatedOnlyOnceAndStaysAtFeetDuringMotion()
     {
         _view.Initialize(_front, _back, _downed, _bar, _bar, true);
-        _view.InitializeShadow(_bar);
-        _view.InitializeShadow(_bar);
+        _view.InitializeShadow(_bar, _front.rect.width);
+        _view.InitializeShadow(_bar, _front.rect.width);
         Assert.AreEqual(1, _root.GetComponentsInChildren<FootShadowView>().Length);
         var shadow = _root.GetComponentInChildren<FootShadowView>();
         var position = shadow.transform.localPosition;

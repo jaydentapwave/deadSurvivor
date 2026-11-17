@@ -91,6 +91,59 @@ public class UiArtLayoutTests
         }
     }
 
+    [TestCase(12)]
+    [TestCase(15)]
+    [TestCase(16)]
+    [TestCase(17)]
+    [TestCase(40)]
+    public void SmallPanelQuadsCoverRectWithoutInversionOrOverlap(int size)
+    {
+        var texture = new Texture2D(48, 48);
+        var sprite = Sprite.Create(texture, new Rect(0, 0, 48, 48), Vector2.one / 2, 48);
+        var go = new GameObject("SmallPanel", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        var image = go.GetComponent<Image>();
+        image.sprite = sprite;
+        var surface = go.AddComponent<UI_ArtSurface>();
+        surface.Initialize("panel");
+        using (var vertices = new VertexHelper())
+        {
+            try
+            {
+                foreach (var dimensions in new[] { new Vector2(size, 40), new Vector2(40, size), new Vector2(size, size) })
+                {
+                    image.rectTransform.sizeDelta = dimensions;
+                    surface.ModifyMesh(vertices);
+                    var a = new UIVertex();
+                    var c = new UIVertex();
+                    var area = 0f;
+                    // 처음 25조각은 5×5 바탕. 땀은 그 뒤에 덧그린다.
+                    for (var i = 0; i < 100; i += 4)
+                    {
+                        vertices.PopulateUIVertex(ref a, i);
+                        vertices.PopulateUIVertex(ref c, i + 2);
+                        var width = c.position.x - a.position.x;
+                        var height = c.position.y - a.position.y;
+                        Assert.That(width, Is.GreaterThanOrEqualTo(0));
+                        Assert.That(height, Is.GreaterThanOrEqualTo(0));
+                        Assert.That(a.position.x, Is.InRange(-dimensions.x / 2, dimensions.x / 2));
+                        Assert.That(c.position.x, Is.InRange(-dimensions.x / 2, dimensions.x / 2));
+                        Assert.That(a.position.y, Is.InRange(-dimensions.y / 2, dimensions.y / 2));
+                        Assert.That(c.position.y, Is.InRange(-dimensions.y / 2, dimensions.y / 2));
+                        area += width * height;
+                    }
+
+                    Assert.That(area, Is.EqualTo(dimensions.x * dimensions.y).Within(0.001f));
+                }
+            }
+            finally
+            {
+                Object.DestroyImmediate(go);
+                Object.DestroyImmediate(sprite);
+                Object.DestroyImmediate(texture);
+            }
+        }
+    }
+
     [TestCase(0, "0")]
     [TestCase(7, "7")]
     [TestCase(101, "101")]

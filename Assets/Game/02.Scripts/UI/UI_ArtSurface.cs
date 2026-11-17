@@ -75,9 +75,10 @@ public class UI_ArtSurface : BaseMeshEffect
 
     private static float[] PanelAxis(float start, float length)
     {
-        var extension = Mathf.Min(4f, (length - 16f) / 2);
-        return new[] { start, start + 8, start + 8 + extension,
-            start + length - 8 - extension, start + length - 8, start + length };
+        var corner = Mathf.Min(8f, length / 2f);
+        var extension = Mathf.Min(4f, (length - corner * 2f) / 2f);
+        return new[] { start, start + corner, start + corner + extension,
+            start + length - corner - extension, start + length - corner, start + length };
     }
 
     private static void DrawStitches(VertexHelper vh, Rect rect, Vector4 uv, Vector2 size, Color color)

@@ -53,7 +53,7 @@ public static class UiArtSceneUtils
             if (!isTinted)
             {
                 // 입력·딤의 alpha는 유지한다. 가죽에 임시 갈색을 곱하지 않는다.
-                image.color = new Color(1f, 1f, 1f, image.color.a);
+                image.color = new Color(1f, 1f, 1f, image.name == "TopBar" ? 1f : image.color.a);
             }
 
             var surface = image.GetComponent<UI_ArtSurface>();
@@ -84,14 +84,40 @@ public static class UiArtSceneUtils
             SetColor(item, "firedTextColor", new Color(1f, 0.75f, 0.3f, 1f));
         }
 
+        foreach (var stash in canvas.GetComponentsInChildren<UI_StashView>(true))
+        {
+            // 180px 판넬의 양쪽 8px 테두리 안에 3열(52×3 + 간격4×2)을 넣는다.
+            var viewport = (RectTransform)stash.Content.parent;
+            Undo.RecordObject(viewport, "Stash art inset");
+            viewport.offsetMin = new Vector2(8f, viewport.offsetMin.y);
+            viewport.offsetMax = new Vector2(-8f, viewport.offsetMax.y);
+            var grid = stash.Content.GetComponent<GridLayoutGroup>();
+            Undo.RecordObject(grid, "Stash card width");
+            grid.cellSize = new Vector2(52f, grid.cellSize.y);
+        }
+
         foreach (var item in canvas.GetComponentsInChildren<UI_StashItemView>(true))
         {
             SetColor(item, "itemColor", Color.white);
+            var name = (RectTransform)item.transform.Find("Name");
+            Undo.RecordObject(name, "Stash name width");
+            name.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 46f);
+            var mark = (RectTransform)item.transform.Find("New");
+            Undo.RecordObject(mark, "New label padding");
+            mark.sizeDelta = new Vector2(18f, 16f);
         }
 
         foreach (var formation in canvas.GetComponentsInChildren<UI_FormationView>(true))
         {
             SetColor(formation, "normalButtonColor", Color.white);
+            foreach (var text in formation.transform.Find("Preview").GetComponentsInChildren<Text>(true))
+            {
+                // 30px 칩의 양쪽 4px 가죽 테두리 안에 한글 세 글자를 넣는다.
+                Undo.RecordObject(text, "Formation marker text inset");
+                text.fontSize = 7;
+                text.horizontalOverflow = HorizontalWrapMode.Wrap;
+                text.verticalOverflow = VerticalWrapMode.Truncate;
+            }
         }
     }
 

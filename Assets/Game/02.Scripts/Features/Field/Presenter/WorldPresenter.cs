@@ -217,7 +217,7 @@ public class WorldPresenter : IInitializable, ILateTickable
 
             var hpBarSprite = _spriteAtlasService.GetUi("hp_bar_bg");
             view.Initialize(frontSprite, backSprite, downedSprite, hpBarSprite, _spriteAtlasService.GetUi("hp_bar_fill"), hasArt);
-            view.InitializeShadow(_spriteAtlasService.Get("shadow"));
+            view.InitializeShadow(_spriteAtlasService.Get("shadow"), _spriteAtlasService.GetVisibleWidth(frontSprite));
             var motion = characterDataList[i].Motion;
             if (hasArt && motion != null)
             {

@@ -17,6 +17,8 @@ public class SpriteAtlasService : IDisposable
     public const string CharactersAtlasPath = "Art/Characters";
     public const string GroundAtlasPath = "Art/Ground";
 
+    private readonly Dictionary<Sprite, int> _visibleWidthDict = new();
+    private Texture2D _readback;
     private readonly ResourceService _resourceService;
     private readonly Dictionary<string, Sprite> _spriteDict = new();
     private readonly Dictionary<string, SpriteAtlas> _atlasDict = new();
@@ -69,6 +71,45 @@ public class SpriteAtlasService : IDisposable
         return sprite;
     }
 
+    // 아틀라스는 읽기 불가 텍스처다. 잘린 영역만 최초 한 번 읽고 풀 재사용 시 폭을 재사용한다.
+    public int GetVisibleWidth(Sprite sprite)
+    {
+        if (_visibleWidthDict.TryGetValue(sprite, out var width))
+        {
+            return width;
+        }
+
+        var rect = sprite.textureRect;
+        var texture = sprite.texture;
+        var target = RenderTexture.GetTemporary(Mathf.RoundToInt(rect.width), Mathf.RoundToInt(rect.height), 0,
+            RenderTextureFormat.ARGB32);
+        var previous = RenderTexture.active;
+        try
+        {
+            Graphics.Blit(texture, target, new Vector2(rect.width / texture.width, rect.height / texture.height),
+                new Vector2(rect.x / texture.width, rect.y / texture.height));
+            RenderTexture.active = target;
+            if (_readback == null)
+            {
+                _readback = new Texture2D(target.width, target.height, TextureFormat.RGBA32, false);
+            }
+            else
+            {
+                _readback.Reinitialize(target.width, target.height);
+            }
+
+            _readback.ReadPixels(new Rect(0, 0, target.width, target.height), 0, 0);
+            width = SpriteMotion.GetVisibleWidth(_readback.GetPixels32(), target.width);
+            _visibleWidthDict.Add(sprite, width);
+            return width;
+        }
+        finally
+        {
+            RenderTexture.active = previous;
+            RenderTexture.ReleaseTemporary(target);
+        }
+    }
+
     public Sprite[] GetMemberFrames(string key, string clip, int frameCount)
     {
         var frames = new Sprite[frameCount];
@@ -88,5 +129,7 @@ public class SpriteAtlasService : IDisposable
         }
 
         _spriteDict.Clear();
+        _visibleWidthDict.Clear();
+        Object.Destroy(_readback);
     }
 }

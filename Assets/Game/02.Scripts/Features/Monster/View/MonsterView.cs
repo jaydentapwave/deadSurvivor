@@ -62,7 +62,7 @@ public class MonsterView : MonoBehaviour
         UpdateState(MonsterPhase.Approach, Vector2.zero);
     }
 
-    public void InitializeShadow(Sprite sprite)
+    public void InitializeShadow(Sprite sprite, float bodyWidthPixels)
     {
         if (_shadow == null)
         {
@@ -71,7 +71,7 @@ public class MonsterView : MonoBehaviour
             _shadow = child.AddComponent<FootShadowView>();
         }
 
-        _shadow.Initialize(sprite, _bodySprite.bounds.size.x * _bodySprite.pixelsPerUnit, bodyRenderer.sortingLayerID);
+        _shadow.Initialize(sprite, bodyWidthPixels, bodyRenderer.sortingLayerID);
     }
 
     public void UpdateView(Vector2 worldPosition) => transform.localPosition = worldPosition;

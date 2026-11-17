@@ -106,7 +106,7 @@ public class MemberView : MonoBehaviour
         _attackBackFrames = attackBack;
     }
 
-    public void InitializeShadow(Sprite sprite)
+    public void InitializeShadow(Sprite sprite, float bodyWidthPixels)
     {
         if (_shadow == null)
         {
@@ -115,7 +115,7 @@ public class MemberView : MonoBehaviour
             _shadow = child.AddComponent<FootShadowView>();
         }
 
-        _shadow.Initialize(sprite, _frontSprite.bounds.size.x * _frontSprite.pixelsPerUnit, bodyRenderer.sortingLayerID);
+        _shadow.Initialize(sprite, bodyWidthPixels, bodyRenderer.sortingLayerID);
     }
 
     // 프레임 선택만 한다. 공격 시계·발동은 CombatService 소유.

@@ -15,7 +15,7 @@ public class FootShadowView : MonoBehaviour
         _renderer.sprite = sprite;
         _renderer.sortingLayerID = sortingLayerId;
         _renderer.sortingOrder = -10;
-        var scale = Mathf.Max(1, Mathf.RoundToInt(bodyWidthPixels / sprite.rect.width));
+        var scale = SpriteMotion.GetShadowScale(bodyWidthPixels, sprite.rect.width);
         transform.localScale = new Vector3(scale, scale, 1f);
         // 아래 가운데 피벗을 발 중심에 맞춘다(정수 px, 24×12면 -6px).
         transform.localPosition = new Vector3(0f, -sprite.rect.height * scale * 0.5f / sprite.pixelsPerUnit, 0f);

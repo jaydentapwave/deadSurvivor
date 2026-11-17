@@ -9,6 +9,46 @@ public class SpriteMotionTests
     private const float FlashSeconds = 0.1f;
     private const float Frame = 1f / 60f;
 
+    [TestCase("Characters/bruno/front/bruno_front")]
+    [TestCase("Characters/lena/front/lena_front")]
+    [TestCase("Characters/mira/front/mira_front")]
+    [TestCase("Characters/bolt/front/bolt_front")]
+    [TestCase("Monsters/slime/slime")]
+    [TestCase("Monsters/mushroom/mushroom")]
+    [TestCase("Monsters/boar/boar")]
+    [TestCase("Monsters/rock/rock")]
+    [TestCase("Monsters/puffer/puffer")]
+    public void ShadowMatchesOpaqueBodyWidth(string path)
+    {
+        var texture = new Texture2D(2, 2);
+        try
+        {
+            texture.LoadImage(System.IO.File.ReadAllBytes($"Assets/Game/03.Resources/Art/AIGenerated/{path}.png"));
+            var width = SpriteMotion.GetVisibleWidth(texture.GetPixels32(), texture.width);
+            Assert.That(width, Is.GreaterThan(0).And.LessThan(texture.width));
+            var scale = SpriteMotion.GetShadowScale(width, 24);
+            Assert.That(scale, Is.GreaterThanOrEqualTo(1));
+            Assert.That(24f * scale / width, Is.InRange(0.7f, 1.4f));
+        }
+        finally
+        {
+            Object.DestroyImmediate(texture);
+        }
+    }
+
+    [Test]
+    public void OpaqueWidthIgnoresTransparentMarginsAndIncludesBothEdges()
+    {
+        var pixels = new Color32[24];
+        pixels[9] = new Color32(0, 0, 0, 1);
+        pixels[20] = new Color32(0, 0, 0, 255);
+        Assert.AreEqual(4, SpriteMotion.GetVisibleWidth(pixels, 8));
+        Assert.AreEqual(0, SpriteMotion.GetVisibleWidth(new Color32[8], 8));
+        Assert.AreEqual(1, SpriteMotion.GetShadowScale(12, 24));
+        Assert.AreEqual(1, SpriteMotion.GetShadowScale(24, 24));
+        Assert.AreEqual(2, SpriteMotion.GetShadowScale(48, 24));
+    }
+
     [TestCase(0f, 0)]
     [TestCase(0.39f, 0)]
     [TestCase(0.4f, 1)]
