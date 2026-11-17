@@ -1,0 +1,8 @@
+NOT_ASSESSED 7 frames
+  PASS         hood:color           value 0.4079 tol 8
+  PASS         robe:color           value 1.8216 tol 8
+  PASS         hair:color           value 0.0 tol 8
+  PASS         skin:color           value 0.0 tol 8
+  PASS         backpack:color       value 1.4232 tol 8
+  PASS         lantern:color        value 2.7138 tol 8
+  NOT_ASSESSED parts                value None tol None  no part shape judged (no parts, or all moving)

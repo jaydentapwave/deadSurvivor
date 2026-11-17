@@ -1,0 +1,225 @@
+{
+  "base": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/front/bolt_front.png",
+  "out_dir": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/walk_front",
+  "prefix": "bolt_walk_front",
+  "frames": [
+    {
+      "src": "output/2d-art/bolt-front-aether/dot/walk/walk_00.png",
+      "cell": 9,
+      "lantern_shift": [
+        -1,
+        0
+      ],
+      "erase_boxes": [
+        [
+          33,
+          41,
+          42,
+          51
+        ]
+      ],
+      "keep_boxes": [
+        [
+          14,
+          14,
+          24,
+          36
+        ]
+      ],
+      "head_shift": [
+        0,
+        -3
+      ]
+    },
+    {
+      "src": "output/2d-art/bolt-front-aether/dot/walk/walk_01.png",
+      "cell": 11,
+      "lantern_shift": [
+        2,
+        -2
+      ],
+      "erase_boxes": [
+        [
+          36,
+          39,
+          45,
+          49
+        ]
+      ],
+      "keep_boxes": [
+        [
+          14,
+          14,
+          24,
+          36
+        ]
+      ],
+      "head_shift": [
+        0,
+        -4
+      ]
+    },
+    {
+      "src": "output/2d-art/bolt-front-aether/dot/walk/walk_02.png",
+      "cell": 13,
+      "lantern_shift": [
+        3,
+        -2
+      ],
+      "erase_boxes": [
+        [
+          37,
+          39,
+          46,
+          49
+        ]
+      ],
+      "keep_boxes": [
+        [
+          14,
+          14,
+          24,
+          36
+        ]
+      ],
+      "head_shift": [
+        0,
+        -4
+      ]
+    },
+    {
+      "src": "output/2d-art/bolt-front-aether/dot/walk/walk_03.png",
+      "cell": 15,
+      "lantern_shift": [
+        4,
+        0
+      ],
+      "erase_boxes": [
+        [
+          38,
+          41,
+          47,
+          51
+        ]
+      ],
+      "keep_boxes": [
+        [
+          14,
+          14,
+          24,
+          36
+        ]
+      ],
+      "head_shift": [
+        0,
+        -3
+      ],
+      "fill_px": [
+        [
+          22,
+          21,
+          [
+            47,
+            17,
+            8,
+            255
+          ]
+        ],
+        [
+          22,
+          22,
+          [
+            47,
+            17,
+            8,
+            255
+          ]
+        ]
+      ]
+    },
+    {
+      "src": "output/2d-art/bolt-front-aether/dot/walk/walk_04.png",
+      "cell": 17,
+      "lantern_shift": [
+        3,
+        0
+      ],
+      "erase_boxes": [
+        [
+          37,
+          41,
+          46,
+          51
+        ]
+      ],
+      "keep_boxes": [
+        [
+          14,
+          14,
+          24,
+          36
+        ]
+      ],
+      "head_shift": [
+        0,
+        -3
+      ]
+    },
+    {
+      "src": "output/2d-art/bolt-front-aether/dot/walk/walk_05.png",
+      "cell": 19,
+      "lantern_shift": [
+        1,
+        -1
+      ],
+      "erase_boxes": [
+        [
+          35,
+          40,
+          44,
+          50
+        ]
+      ],
+      "keep_boxes": [
+        [
+          14,
+          14,
+          24,
+          36
+        ]
+      ],
+      "head_shift": [
+        0,
+        -4
+      ]
+    },
+    {
+      "src": "output/2d-art/bolt-front-aether/dot/walk/walk_06.png",
+      "cell": 21,
+      "lantern_shift": [
+        0,
+        0
+      ],
+      "erase_boxes": [
+        [
+          34,
+          41,
+          43,
+          51
+        ]
+      ],
+      "keep_boxes": [
+        [
+          14,
+          14,
+          24,
+          36
+        ]
+      ],
+      "head_shift": [
+        0,
+        -3
+      ]
+    }
+  ]
+}

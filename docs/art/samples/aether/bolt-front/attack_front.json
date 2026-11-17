@@ -1,0 +1,169 @@
+{
+  "base": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/front/bolt_front.png",
+  "out_dir": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/attack_front",
+  "prefix": "bolt_attack_front",
+  "frames": [
+    {
+      "src": "output/2d-art/bolt-front-aether/dot/attack/attack_01.png",
+      "cell": 3,
+      "lantern_shift": [
+        0,
+        0
+      ],
+      "erase_boxes": [
+        [
+          34,
+          41,
+          43,
+          51
+        ]
+      ],
+      "keep_boxes": [
+        [
+          14,
+          14,
+          24,
+          36
+        ]
+      ],
+      "erase_px": [
+        [
+          44,
+          42
+        ],
+        [
+          44,
+          43
+        ],
+        [
+          44,
+          44
+        ],
+        [
+          44,
+          45
+        ]
+      ]
+    },
+    {
+      "src": "output/2d-art/bolt-front-aether/dot/attack/attack_03.png",
+      "cell": 9,
+      "lantern_shift": [
+        9,
+        -7
+      ],
+      "erase_boxes": [
+        [
+          43,
+          34,
+          52,
+          44
+        ]
+      ],
+      "keep_boxes": [
+        [
+          14,
+          14,
+          24,
+          36
+        ]
+      ],
+      "erase_px": [
+        [
+          46,
+          46
+        ]
+      ]
+    },
+    {
+      "src": "output/2d-art/bolt-front-aether/dot/attack/attack_05.png",
+      "cell": 15,
+      "lantern_shift": [
+        14,
+        -15
+      ],
+      "erase_boxes": [
+        [
+          48,
+          26,
+          57,
+          36
+        ]
+      ],
+      "keep_boxes": [
+        [
+          14,
+          14,
+          24,
+          36
+        ]
+      ]
+    },
+    {
+      "src": "output/2d-art/bolt-front-aether/dot/attack/attack_09.png",
+      "cell": 27,
+      "lantern_shift": [
+        14,
+        -12
+      ],
+      "erase_boxes": [
+        [
+          48,
+          29,
+          57,
+          39
+        ]
+      ],
+      "keep_boxes": [
+        [
+          14,
+          14,
+          24,
+          36
+        ]
+      ]
+    },
+    {
+      "src": "output/2d-art/bolt-front-aether/dot/attack/attack_02.png",
+      "cell": 6,
+      "lantern_shift": [
+        3,
+        -3
+      ],
+      "erase_boxes": [
+        [
+          37,
+          38,
+          46,
+          48
+        ]
+      ],
+      "keep_boxes": [
+        [
+          14,
+          14,
+          24,
+          36
+        ]
+      ],
+      "erase_px": [
+        [
+          47,
+          40
+        ],
+        [
+          47,
+          41
+        ],
+        [
+          47,
+          42
+        ]
+      ]
+    },
+    {
+      "src": "base"
+    }
+  ],
+  "hit_frame": 2
+}
