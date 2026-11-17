@@ -67,6 +67,8 @@ public class MemberCombatState
 
     // 대원 전체 능력치(B3, 발동 아이템 없음)
     public CombatStats Stats { get; set; }
+    public MemberAttackMotion AttackMotion { get; } = new();
+    public List<PendingCombatAction> PendingActionList { get; } = new();
     // 주기 보호막 채움 값(B6, 상한 Stats.Shield와 따로)
     public float ShieldRefill { get; set; }
     // 나눔 추가 효과가 켜져 있는가(B6)
@@ -92,6 +94,8 @@ public class MemberCombatState
 
     public void ResetClocks()
     {
+        AttackMotion.Stop();
+        PendingActionList.Clear();
         HealClock = 0f;
         ShieldClock = 0f;
         ShareClock = 0f;
@@ -132,5 +136,27 @@ public class BattleItemSlot
         PulseCooldown = 0f;
         LastPeriod = 0f;
         FiredSeconds = 0f;
+    }
+}
+
+// 발동 때 확정한 능력치·방향·대상. 타격 전 쓰러지거나 웨이브가 끝나면 취소한다.
+public class PendingCombatAction
+{
+    public BattleItemSlot Slot { get; }
+    public float Range { get; }
+    public float Power { get; }
+    public UnityEngine.Vector2 Direction { get; }
+    public Monster Target { get; }
+    public List<PartyMember> HealTargetList { get; }
+
+    public PendingCombatAction(BattleItemSlot slot, float range, float power, UnityEngine.Vector2 direction,
+        Monster target, List<PartyMember> healTargetList)
+    {
+        Slot = slot;
+        Range = range;
+        Power = power;
+        Direction = direction;
+        Target = target;
+        HealTargetList = healTargetList;
     }
 }

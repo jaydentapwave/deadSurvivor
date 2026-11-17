@@ -90,7 +90,15 @@ public class CombatService
         _combatModel.ClearProjectiles();
     }
 
-    public void ClearProjectiles() => _combatModel.ClearProjectiles();
+    public void ClearProjectiles()
+    {
+        _combatModel.ClearProjectiles();
+        foreach (var state in _combatModel.MemberStateList)
+        {
+            state.AttackMotion.Stop();
+            state.PendingActionList.Clear();
+        }
+    }
 
     // 무료 부활의 상태 초기화(기획서 E절). 조건 확인은 ReviveService가 한다
     public void ReviveMember(int memberIndex)
@@ -116,12 +124,24 @@ public class CombatService
         for (var i = 0; i < memberList.Count; i++)
         {
             var member = memberList[i];
+            var state = _combatModel.MemberStateList[i];
             if (!member.IsAlive)
             {
+                state.AttackMotion.Stop();
+                state.PendingActionList.Clear();
                 continue;
             }
 
-            var state = _combatModel.MemberStateList[i];
+            if (state.AttackMotion.Advance(deltaSeconds))
+            {
+                foreach (var action in state.PendingActionList)
+                {
+                    ResolveAction(member, action);
+                }
+
+                state.PendingActionList.Clear();
+            }
+
             foreach (var slot in state.SlotList)
             {
                 slot.FiredSeconds = Mathf.Max(0f, slot.FiredSeconds - deltaSeconds);
@@ -132,7 +152,7 @@ public class CombatService
             {
                 if (slot.Item.Mode != ItemMode.Passive)
                 {
-                    StepAction(member, slot, deltaSeconds);
+                    StepAction(member, state, slot, deltaSeconds);
                 }
             }
         }
@@ -326,7 +346,7 @@ public class CombatService
     }
 
     // 발동 아이템 한 칸(B5)
-    private void StepAction(PartyMember member, BattleItemSlot slot, float deltaSeconds)
+    private void StepAction(PartyMember member, MemberCombatState state, BattleItemSlot slot, float deltaSeconds)
     {
         slot.RemainingCooldown -= deltaSeconds;
         if (slot.RemainingCooldown > 0f)
@@ -336,8 +356,11 @@ public class CombatService
 
         var item = slot.Item;
         var range = _equipmentStatService.GetRange(item, slot.Stats);
-        var power = _equipmentStatService.GetPower(item, slot.GradeMultiplier, _characterRepository.Get(member.CharacterId),
-            slot.Stats);
+        var character = _characterRepository.Get(member.CharacterId);
+        var power = _equipmentStatService.GetPower(item, slot.GradeMultiplier, character, slot.Stats);
+        Monster nearest = null;
+        List<PartyMember> healTargetList = null;
+        var direction = Vector2.zero;
         if (item.IsHealMode)
         {
             FindHealTargets(member.Position, range);
@@ -346,31 +369,83 @@ public class CombatService
                 return;
             }
 
-            MarkFired(slot);
-            if (item.Mode == ItemMode.Heal)
+            healTargetList = new List<PartyMember>(_healTargetList);
+            direction = (healTargetList[0].Position - member.Position).normalized;
+        }
+        else
+        {
+            nearest = FindNearestMonster(member.Position, range, null);
+            if (nearest == null)
             {
-                _partyService.Heal(_healTargetList[0], power);
-                AddBurst(_healTargetList[0].Position, PointBurstRadius, item.Id, BurstEffectKind.Heal);
                 return;
             }
 
-            foreach (var target in _healTargetList)
-            {
-                _partyService.Heal(target, power);
-            }
-
-            AddBurst(member.Position, range, item.Id, BurstEffectKind.HealArea);
-            return;
-        }
-
-        var nearest = FindNearestMonster(member.Position, range, null);
-        if (nearest == null)
-        {
-            return;
+            direction = (nearest.Position - member.Position).normalized;
         }
 
         MarkFired(slot);
-        var direction = (nearest.Position - member.Position).normalized;
+        var action = new PendingCombatAction(slot, range, power, direction, nearest, healTargetList);
+        // 그림 키가 없는 임시 도형은 종전처럼 즉시 실행한다.
+        if (character.Motion == null)
+        {
+            ResolveAction(member, action);
+            return;
+        }
+
+        if (!state.AttackMotion.IsPreparing)
+        {
+            var shortestPeriod = float.MaxValue;
+            foreach (var equipped in state.SlotList)
+            {
+                if (equipped.Item.Mode != ItemMode.Passive)
+                {
+                    shortestPeriod = Mathf.Min(shortestPeriod, _equipmentStatService.GetPeriod(equipped.Item, equipped.Stats));
+                }
+            }
+
+            // 목표 쪽으로 공격. 자기 치유는 마지막 공격 방향(초기 앞)을 유지한다.
+            var facing = SpriteFacing.Next(state.AttackMotion.Facing, IsoProjection.FloorToWorld(direction, 1f), 0.001f, 0.25f, true);
+            state.AttackMotion.Start(character.Motion, facing, shortestPeriod);
+        }
+
+        state.PendingActionList.Add(action);
+    }
+
+    private void ResolveAction(PartyMember member, PendingCombatAction action)
+    {
+        var slot = action.Slot;
+        var item = slot.Item;
+        var power = action.Power;
+        var range = action.Range;
+        if (item.IsHealMode)
+        {
+            foreach (var target in action.HealTargetList)
+            {
+                if (target.IsAlive)
+                {
+                    _partyService.Heal(target, power);
+                    if (item.Mode == ItemMode.Heal)
+                    {
+                        AddBurst(target.Position, PointBurstRadius, item.Id, BurstEffectKind.Heal);
+                    }
+                }
+
+                if (item.Mode == ItemMode.Heal)
+                {
+                    break;
+                }
+            }
+
+            if (item.Mode == ItemMode.HealArea)
+            {
+                AddBurst(member.Position, range, item.Id, BurstEffectKind.HealArea);
+            }
+
+            return;
+        }
+
+        var direction = action.Direction;
+        var nearest = action.Target;
         switch (item.Mode)
         {
             case ItemMode.Melee:
@@ -380,7 +455,10 @@ public class CombatService
                 HitCone(member.Position, direction, range, _rules.SweepHalfAngle, power, item.Id);
                 break;
             case ItemMode.Chain:
-                HitChain(member.Position, nearest, slot.Stats.Chain, power, item.Id);
+                if (nearest.IsAlive)
+                {
+                    HitChain(member.Position, nearest, slot.Stats.Chain, power, item.Id);
+                }
                 break;
             case ItemMode.Projectile:
                 ShootProjectiles(member.Position, direction, slot.Stats, power, range, item.Id);

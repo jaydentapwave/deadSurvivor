@@ -155,6 +155,58 @@ public class MemberViewSpriteTests
         Assert.AreEqual(Color.white, _body.color);
     }
 
+    [TestCase(false, false)]
+    [TestCase(false, true)]
+    [TestCase(true, false)]
+    [TestCase(true, true)]
+    public void WalkLoopsAttackOverridesIdleAndDownedOverridesBoth(bool isBack, bool isFlipped)
+    {
+        var data = JsonUtility.FromJson<MemberMotionData>("{\"fps\":10,\"walkFrames\":2,\"attackFrames\":2,\"hitFront\":1,\"hitBack\":1}");
+        var facing = new SpriteFacing(isBack, isFlipped);
+        var attack = new MemberAttackMotion();
+        _view.Initialize(_front, _back, _downed, _bar, true);
+        _view.InitializeClips(data, new[] { _front, _bar }, new[] { _back, _bar },
+            new[] { _downed, _bar }, new[] { _downed, _bar });
+        _view.ApplyMotion(facing, Vector2Int.zero, false);
+        _view.ApplyAnimation(true, 0.1f, attack);
+        Assert.AreSame(_bar, _body.sprite);
+        _view.ApplyAnimation(true, 0.2f, attack);
+        Assert.AreSame(isBack ? _back : _front, _body.sprite);
+        _view.ApplyAnimation(false, 0.1f, attack);
+        Assert.AreSame(isBack ? _back : _front, _body.sprite);
+        attack.Start(data, facing, 1f);
+        _view.ApplyAnimation(true, 0.1f, attack);
+        Assert.AreSame(_downed, _body.sprite); // 공격 0번(구분용 그림)
+        attack.Advance(0.1f);
+        _view.ApplyAnimation(false, 0f, attack);
+        Assert.AreSame(_bar, _body.sprite);
+        _view.UpdateView(Vector2.zero, 0f, false, 0f);
+        _view.ApplyAnimation(true, 0.1f, attack);
+        Assert.AreSame(_downed, _body.sprite);
+        Assert.AreSame(_body.sprite, _flash.sprite);
+        Assert.AreEqual(isFlipped, _body.flipX);
+        attack.Stop();
+        _view.UpdateView(Vector2.zero, 1f, true, 0f);
+        _view.ApplyAnimation(false, 0f, attack);
+        Assert.AreSame(isBack ? _back : _front, _body.sprite);
+    }
+
+    [Test]
+    public void ShadowIsCreatedOnlyOnceAndStaysAtFeetDuringMotion()
+    {
+        _view.Initialize(_front, _back, _downed, _bar, true);
+        _view.InitializeShadow(_bar);
+        _view.InitializeShadow(_bar);
+        Assert.AreEqual(1, _root.GetComponentsInChildren<FootShadowView>().Length);
+        var shadow = _root.GetComponentInChildren<FootShadowView>();
+        var position = shadow.transform.localPosition;
+        _view.ApplyMotion(SpriteFacing.Front, Vector2Int.one, true);
+        Assert.AreEqual(position, shadow.transform.localPosition);
+        Assert.Less(shadow.GetComponent<SpriteRenderer>().sortingOrder, _body.sortingOrder);
+        var scale = shadow.transform.localScale.x;
+        Assert.AreEqual(Mathf.Round(scale), scale);
+    }
+
     private static SpriteRenderer CreateChild(string name, Transform parent)
     {
         var child = new GameObject(name).AddComponent<SpriteRenderer>();

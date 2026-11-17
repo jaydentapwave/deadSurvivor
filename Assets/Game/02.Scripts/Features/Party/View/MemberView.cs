@@ -31,6 +31,13 @@ public class MemberView : MonoBehaviour
     private Sprite _frontSprite;
     private Sprite _backSprite;
     private Sprite _downedSprite;
+    private Sprite _motionSprite;
+    private Sprite[] _walkFrontFrames;
+    private Sprite[] _walkBackFrames;
+    private Sprite[] _attackFrontFrames;
+    private Sprite[] _attackBackFrames;
+    private MemberMotionData _motionData;
+    private FootShadowView _shadow;
 
     public int BodyDiameterPixels => bodyDiameterPixels;
     public Vector2Int HpBarPixels => hpBarPixels;
@@ -51,6 +58,7 @@ public class MemberView : MonoBehaviour
     // 그림이 없으면 frontSprite = backSprite = downedSprite = 임시 원, hasArt = false. hpBarSprite: 피벗이 왼쪽 가운데인 흰 상자
     public void Initialize(Sprite frontSprite, Sprite backSprite, Sprite downedSprite, Sprite hpBarSprite, bool hasArt)
     {
+        _motionSprite = null;
         _frontSprite = frontSprite;
         _backSprite = backSprite;
         _downedSprite = downedSprite;
@@ -93,12 +101,55 @@ public class MemberView : MonoBehaviour
         flashRenderer.enabled = isFlashOn;
     }
 
+    public void InitializeClips(MemberMotionData data, Sprite[] walkFront, Sprite[] walkBack, Sprite[] attackFront, Sprite[] attackBack)
+    {
+        _motionData = data;
+        _walkFrontFrames = walkFront;
+        _walkBackFrames = walkBack;
+        _attackFrontFrames = attackFront;
+        _attackBackFrames = attackBack;
+    }
+
+    public void InitializeShadow(Sprite sprite)
+    {
+        if (_shadow == null)
+        {
+            var child = new GameObject("Shadow");
+            child.transform.SetParent(transform, false);
+            _shadow = child.AddComponent<FootShadowView>();
+        }
+
+        _shadow.Initialize(sprite, _frontSprite.bounds.size.x * _frontSprite.pixelsPerUnit, bodyRenderer.sortingLayerID);
+    }
+
+    // 프레임 선택만 한다. 공격 시계·발동은 CombatService 소유.
+    public void ApplyAnimation(bool isMoving, float walkClock, MemberAttackMotion attack)
+    {
+        _motionSprite = null;
+        if (!IsDowned && _motionData != null && HasArt)
+        {
+            if (attack.IsPlaying)
+            {
+                var frames = attack.Facing.IsBack ? _attackBackFrames : _attackFrontFrames;
+                _motionSprite = frames[attack.GetFrame(frames.Length)];
+            }
+            else if (isMoving)
+            {
+                var frames = Facing.IsBack ? _walkBackFrames : _walkFrontFrames;
+                var frame = Mathf.FloorToInt(walkClock * _motionData.Fps + 1e-5f) % frames.Length;
+                _motionSprite = frames[frame];
+            }
+        }
+
+        ApplySprite();
+    }
+
     public void SetVisible(bool isVisible) => gameObject.SetActive(isVisible);
 
     // 쓰러짐이면 쓰러진 그림, 아니면 방향의 앞·뒤 그림. 좌우 반전은 늘 Facing(쓰러진 뒤에는 쓰러질 때 방향)
     private void ApplySprite()
     {
-        var sprite = IsDowned ? _downedSprite : Facing.IsBack ? _backSprite : _frontSprite;
+        var sprite = IsDowned ? _downedSprite : _motionSprite != null ? _motionSprite : Facing.IsBack ? _backSprite : _frontSprite;
         bodyRenderer.sprite = sprite;
         bodyRenderer.flipX = Facing.IsFlipped;
         flashRenderer.sprite = sprite;

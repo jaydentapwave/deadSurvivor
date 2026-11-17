@@ -16,6 +16,8 @@ public class WorldPresenter : IInitializable, ILateTickable
     private static readonly Vector2 FootPivot = new(0.5f, 0f);
     private static readonly Matrix4x4 FlipMatrix = Matrix4x4.Scale(new Vector3(-1f, 1f, 1f));
 
+    private readonly CombatModel _combatModel;
+    private readonly MoveRulesData _moveRules;
     private readonly PartyModel _partyModel;
     private readonly MonsterModel _monsterModel;
     private readonly MonsterService _monsterService;
@@ -42,6 +44,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     private float _lastRemainingSeconds;
     private readonly bool[] _isMemberMovings;
     private readonly float[] _downedSeconds;
+    private readonly float[] _walkClocks;
     private readonly HashSet<int> _movingMonsterIdSet = new();
     private int _lastRunCount = -1;
     private int _idleOffsetSeenMask;
@@ -51,12 +54,14 @@ public class WorldPresenter : IInitializable, ILateTickable
     public float MemberFlashMaxSeconds { get; private set; } = -1f;
     public int IdleOffsetsSeen => (_idleOffsetSeenMask & 1) + ((_idleOffsetSeenMask >> 1) & 1);
 
-    public WorldPresenter(PartyModel partyModel, MonsterModel monsterModel, MonsterService monsterService,
+    public WorldPresenter(CombatModel combatModel, MoveRulesData moveRules, PartyModel partyModel, MonsterModel monsterModel, MonsterService monsterService,
         PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
         MonsterViewRegistry monsterViewRegistry, SpriteAtlasService spriteAtlasService, RunModel runModel, FieldView fieldView,
         Camera camera, IReadOnlyList<MemberView> memberViewList)
     {
+        _combatModel = combatModel;
+        _moveRules = moveRules;
         _partyModel = partyModel;
         _monsterModel = monsterModel;
         _monsterService = monsterService;
@@ -77,6 +82,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         _hitFlashes = new HitFlash[memberViewList.Count];
         _isMemberMovings = new bool[memberViewList.Count];
         _downedSeconds = new float[memberViewList.Count];
+        _walkClocks = new float[memberViewList.Count];
     }
 
     public void Initialize()
@@ -204,6 +210,16 @@ public class WorldPresenter : IInitializable, ILateTickable
 
             var hpBarSprite = _placeholderSpriteFactory.CreateBox(view.HpBarPixels.x, view.HpBarPixels.y, Color.white, HpBarPivot);
             view.Initialize(frontSprite, backSprite, downedSprite, hpBarSprite, hasArt);
+            view.InitializeShadow(_spriteAtlasService.Get("shadow"));
+            var motion = characterDataList[i].Motion;
+            if (hasArt && motion != null)
+            {
+                view.InitializeClips(motion,
+                    _spriteAtlasService.GetMemberFrames(key, "walk_front", motion.WalkFrames),
+                    _spriteAtlasService.GetMemberFrames(key, "walk_back", motion.WalkFrames),
+                    _spriteAtlasService.GetMemberFrames(key, "attack_front", motion.AttackFrames),
+                    _spriteAtlasService.GetMemberFrames(key, "attack_back", motion.AttackFrames));
+            }
         }
     }
 
@@ -248,6 +264,8 @@ public class WorldPresenter : IInitializable, ILateTickable
                 _lastHps[i] = member.Hp;
                 _hitFlashes[i].Stop();
                 _isMemberMovings[i] = false;
+                _walkClocks[i] = 0f;
+                view.ApplyAnimation(false, 0f, _combatModel.MemberStateList[i].AttackMotion);
                 view.ApplyMotion(SpriteFacing.Front, Vector2Int.zero, false);
                 continue;
             }
@@ -257,6 +275,7 @@ public class WorldPresenter : IInitializable, ILateTickable
                 // 쓰러진 대원: 방향은 쓰러질 때 그대로, 번쩍임 끔·오프셋 0(시계와 상관없이)
                 _lastHps[i] = member.Hp;
                 _hitFlashes[i].Stop();
+                view.ApplyAnimation(false, 0f, _combatModel.MemberStateList[i].AttackMotion);
                 view.ApplyMotion(view.Facing, Vector2Int.zero, false);
                 continue;
             }
@@ -265,6 +284,11 @@ public class WorldPresenter : IInitializable, ILateTickable
             {
                 // 멈춘 시계: 방향·오프셋·번쩍임은 마지막 값. 그동안의 HP 변화(부활·정비 회복)는 피격이 아니다
                 _lastHps[i] = member.Hp;
+                if (_runModel.Phase.CurrentValue != RunPhase.Battle)
+                {
+                    view.ApplyAnimation(false, 0f, _combatModel.MemberStateList[i].AttackMotion);
+                }
+
                 continue;
             }
 
@@ -301,10 +325,20 @@ public class WorldPresenter : IInitializable, ILateTickable
             var minMove = view.MinMovePixels / Const.PixelsPerUnit;
             facing = SpriteFacing.Next(view.Facing, delta, minMove, view.FacingAxisRatio, true);
             _isMemberMovings[index] = Mathf.Abs(delta.x) >= minMove || Mathf.Abs(delta.y) >= minMove;
+            if (_isMemberMovings[index])
+            {
+                // 주기를 실제 이동 거리에 묶는다. 정속에서는 source fps, 따라붙기·감속 때 같은 비율로 재생.
+                _walkClocks[index] += IsoProjection.WorldToFloor(delta, _runRules.UnitScale).magnitude / _moveRules.MoveSpeed;
+            }
+            else
+            {
+                _walkClocks[index] = 0f;
+            }
         }
 
         var idleOffsetY = 0;
-        if (!_isMemberMovings[index])
+        var attack = _combatModel.MemberStateList[index].AttackMotion;
+        if (!_isMemberMovings[index] && !attack.IsPlaying)
         {
             idleOffsetY = SpriteMotion.GetIdleOffsetY(_motionClock, view.IdlePeriodSeconds, index * view.IdleStaggerSeconds);
             if (index == 0)
@@ -313,8 +347,14 @@ public class WorldPresenter : IInitializable, ILateTickable
             }
         }
 
+        if (attack.IsPlaying)
+        {
+            facing = attack.Facing;
+        }
+
         var offset = new Vector2Int(SpriteMotion.GetHitOffsetX(flash.IsOn, facing.IsFlipped), idleOffsetY);
         view.ApplyMotion(facing, offset, flash.IsOn);
+        view.ApplyAnimation(_isMemberMovings[index], _walkClocks[index], attack);
     }
 
     private void RecordFlashSeconds(float seconds) => MemberFlashMaxSeconds = Mathf.Max(MemberFlashMaxSeconds, seconds);

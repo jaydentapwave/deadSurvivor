@@ -51,6 +51,17 @@ public class SpriteAtlasService : IDisposable
         return sprite;
     }
 
+    public Sprite[] GetMemberFrames(string key, string clip, int frameCount)
+    {
+        var frames = new Sprite[frameCount];
+        for (var i = 0; i < frameCount; i++)
+        {
+            frames[i] = Get($"{key}_{clip}_{i:00}");
+        }
+
+        return frames;
+    }
+
     public void Dispose()
     {
         foreach (var sprite in _spriteDict.Values)

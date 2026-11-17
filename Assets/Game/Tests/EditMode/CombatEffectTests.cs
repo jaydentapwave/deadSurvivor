@@ -174,6 +174,7 @@ public class CombatEffectTests
         var first = context.AddMonster(1, origin + new Vector2(60f, 0f));
         var second = context.AddMonster(2, origin + new Vector2(180f, 0f));
         context.CombatService.Step(0f);
+        context.StepCombat(6, context.RunRules.SimStep); // 브루노 앞 hit_frame 2 / 10fps
         var bursts = context.CombatModel.BurstList;
         Assert.AreEqual(2, bursts.Count);
         Assert.AreEqual(origin, bursts[0].Position);

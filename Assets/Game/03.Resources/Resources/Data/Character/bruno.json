@@ -8,5 +8,12 @@
   "def": 0.15,
   "startItem": "sword",
   "color": "#d79b68",
-  "sprite": "bruno"
+  "sprite": "bruno",
+  "motion": {
+    "fps": 10,
+    "walkFrames": 7,
+    "attackFrames": 6,
+    "hitFront": 2,
+    "hitBack": 3
+  }
 }
