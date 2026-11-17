@@ -68,6 +68,11 @@ public static class UiArtSceneUtils
             EditorUtility.SetDirty(image);
         }
 
+        foreach (var member in canvas.GetComponentsInChildren<UI_MemberStatusView>(true))
+        {
+            ApplyMemberPortrait(member);
+        }
+
         // 양피지는 가방 칸만. 나머지 가죽 위 글자는 흰색이다.
         foreach (var text in canvas.GetComponentsInChildren<Text>(true))
         {
@@ -121,11 +126,58 @@ public static class UiArtSceneUtils
         }
     }
 
+    private static void ApplyMemberPortrait(UI_MemberStatusView member)
+    {
+        var window = member.transform.Find("PortraitWindow") as RectTransform;
+        if (window == null)
+        {
+            var windowObject = new GameObject("PortraitWindow", typeof(RectTransform), typeof(RectMask2D));
+            Undo.RegisterCreatedObjectUndo(windowObject, "Member portrait window");
+            window = (RectTransform)windowObject.transform;
+            window.SetParent(member.transform, false);
+            window.anchorMin = window.anchorMax = new Vector2(0f, 0.5f);
+            window.pivot = new Vector2(0f, 0.5f);
+            window.anchoredPosition = new Vector2(5f, 0f);
+            window.sizeDelta = new Vector2(36f, 36f);
+            var imageObject = new GameObject("Image", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            Undo.RegisterCreatedObjectUndo(imageObject, "Member portrait image");
+            imageObject.transform.SetParent(window, false);
+            var image = imageObject.GetComponent<Image>();
+            image.raycastTarget = false;
+            var serialized = new SerializedObject(member);
+            serialized.FindProperty("portraitWindow").objectReferenceValue = window;
+            serialized.FindProperty("portraitImage").objectReferenceValue = image;
+            serialized.ApplyModifiedProperties();
+        }
+
+        // 36px 초상과 3px 간격. 이름·HP는 오른쪽 칸을 나누고 16개 칩은 4열을 유지한다.
+        var name = (RectTransform)member.transform.Find("Name");
+        var hp = (RectTransform)member.transform.Find("HpText");
+        Undo.RecordObjects(new UnityEngine.Object[] { name, hp }, "Member portrait text inset");
+        name.anchorMax = new Vector2(0.5f, 1f);
+        name.offsetMin = new Vector2(44f, name.offsetMin.y);
+        name.offsetMax = new Vector2(20f, name.offsetMax.y);
+        hp.anchorMin = new Vector2(0.5f, 1f);
+        hp.offsetMin = new Vector2(20f, hp.offsetMin.y);
+        hp.offsetMax = new Vector2(-3f, hp.offsetMax.y);
+        foreach (var childName in new[] { "HpBar", "Items" })
+        {
+            var rect = (RectTransform)member.transform.Find(childName);
+            Undo.RecordObject(rect, "Member portrait content inset");
+            rect.offsetMin = new Vector2(44f, rect.offsetMin.y);
+        }
+
+        var grid = member.transform.Find("Items").GetComponent<GridLayoutGroup>();
+        Undo.RecordObject(grid, "Member portrait chip width");
+        grid.cellSize = new Vector2(16f, grid.cellSize.y);
+    }
+
     private static string GetKey(Image image)
     {
         var name = image.name;
         // 캐릭터 초상과 아이템은 기존 Presenter가 그림을 결정한다.
-        if (name == "Icon" || name == "Image" && image.GetComponentInParent<UI_CharacterCardView>() != null)
+        if (name == "Icon" || name == "Image" && (image.GetComponentInParent<UI_CharacterCardView>() != null
+            || image.GetComponentInParent<UI_MemberStatusView>() != null))
         {
             return null;
         }

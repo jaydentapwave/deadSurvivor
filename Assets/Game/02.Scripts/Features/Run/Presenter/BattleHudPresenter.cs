@@ -12,12 +12,13 @@ public class BattleHudPresenter : IInitializable, ILateTickable, IDisposable
     private readonly PartyModel _partyModel;
     private readonly MonsterService _monsterService;
     private readonly CharacterRepository _characterRepository;
+    private readonly SpriteAtlasService _spriteAtlasService;
     private readonly UI_BattleHudView _battleHudView;
     private readonly CompositeDisposable _disposables = new();
 
     public BattleHudPresenter(RunModel runModel, RunService runService, RunRulesData runRules, WaveRepository waveRepository,
         PartyModel partyModel, MonsterService monsterService, CharacterRepository characterRepository,
-        UI_BattleHudView battleHudView)
+        SpriteAtlasService spriteAtlasService, UI_BattleHudView battleHudView)
     {
         _runModel = runModel;
         _runService = runService;
@@ -26,6 +27,7 @@ public class BattleHudPresenter : IInitializable, ILateTickable, IDisposable
         _partyModel = partyModel;
         _monsterService = monsterService;
         _characterRepository = characterRepository;
+        _spriteAtlasService = spriteAtlasService;
         _battleHudView = battleHudView;
     }
 
@@ -73,7 +75,10 @@ public class BattleHudPresenter : IInitializable, ILateTickable, IDisposable
             }
 
             var member = memberList[i];
-            statusViews[i].UpdateUI(_characterRepository.Get(member.CharacterId).Name, member.Hp, member.MaxHp, member.IsAlive);
+            var data = _characterRepository.Get(member.CharacterId);
+            var portraitSprite = string.IsNullOrEmpty(data.Sprite) ? null
+                : _spriteAtlasService.Get(data.Sprite + SpriteAtlasService.FrontSuffix);
+            statusViews[i].UpdateUI(data.Name, member.Hp, member.MaxHp, member.IsAlive, portraitSprite);
         }
     }
 }

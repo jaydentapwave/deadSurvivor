@@ -264,7 +264,7 @@ public class UiArtLayoutTests
                     foreach (var image in clone.GetComponentsInChildren<Image>(true))
                     {
                         // 이 두 종류만 기존 Presenter가 아틀라스 그림으로 바꾼다.
-                        if (image.name == "Icon" || image.name == "Image" && image.GetComponentInParent<UI_CharacterCardView>() != null)
+                        if (image.name == "Icon" || image.name == "Image" && (image.GetComponentInParent<UI_CharacterCardView>() != null || image.GetComponentInParent<UI_MemberStatusView>() != null))
                         {
                             continue;
                         }
@@ -284,6 +284,73 @@ public class UiArtLayoutTests
             }
 
             SceneManager.SetActiveScene(previous);
+        }
+    }
+
+    [TestCase(115f)]
+    [TestCase(156f)]
+    [TestCase(190f)]
+    [TestCase(205f)]
+    public void MemberPortraitKeepsInformationSeparateAndDownedNameVisible(float width)
+    {
+        var main = SceneManager.GetSceneByPath("Assets/Game/01.Scene/Main.unity");
+        var wasLoaded = main.isLoaded;
+        if (!wasLoaded)
+        {
+            main = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity", OpenSceneMode.Additive);
+        }
+
+        var source = Array.Find(main.GetRootGameObjects(), root => root.GetComponentInChildren<UI_MemberStatusView>(true) != null)
+            .GetComponentInChildren<UI_MemberStatusView>(true);
+        var clone = Object.Instantiate(source);
+        var texture = new Texture2D(64, 96) { filterMode = FilterMode.Point };
+        var sprite = Sprite.Create(texture, new Rect(0, 0, 64, 96), Vector2.one / 2);
+        try
+        {
+            var rect = (RectTransform)clone.transform;
+            rect.sizeDelta = new Vector2(width, 49f);
+            clone.UpdateUI("테스트", 0f, 400f, false, sprite);
+            var window = (RectTransform)clone.transform.Find("PortraitWindow");
+            var image = window.GetComponentInChildren<Image>();
+            Assert.That(window.GetComponent<RectMask2D>(), Is.Not.Null);
+            Assert.That(window.sizeDelta, Is.EqualTo(new Vector2(36f, 36f)));
+            Assert.That(image.sprite, Is.SameAs(sprite));
+            Assert.That(image.rectTransform.sizeDelta, Is.EqualTo(sprite.rect.size));
+            Assert.That(image.rectTransform.anchoredPosition, Is.EqualTo(new Vector2(0f, -14f)));
+            Assert.That(image.raycastTarget, Is.False);
+            Assert.That(window.anchoredPosition.x, Is.GreaterThanOrEqualTo(0f));
+            Assert.That(window.anchoredPosition.x + window.rect.width, Is.LessThanOrEqualTo(rect.rect.width));
+            Assert.That(window.rect.height, Is.LessThan(rect.rect.height));
+            foreach (var childName in new[] { "Name", "HpText", "HpBar", "Items" })
+            {
+                var child = (RectTransform)clone.transform.Find(childName);
+                var bounds = RectTransformUtility.CalculateRelativeRectTransformBounds(rect, child);
+                // 창 밖의 원본 그림 크기는 마스크가 잘라내므로 창의 오른쪽 경계를 비교한다.
+                var windowRight = rect.rect.xMin + window.anchoredPosition.x + window.rect.width;
+                Assert.That(bounds.min.x, Is.GreaterThan(windowRight), childName);
+            }
+
+            var grid = clone.transform.Find("Items").GetComponent<GridLayoutGroup>();
+            Assert.That(grid.cellSize.x * 4 + grid.spacing.x * 3, Is.LessThanOrEqualTo(((RectTransform)grid.transform).rect.width));
+            var name = clone.transform.Find("Name").GetComponent<Text>();
+            Assert.That(name.text, Is.EqualTo("테스트"));
+            Assert.That(name.color, Is.EqualTo(new Color(0.5f, 0.5f, 0.5f, 1f)));
+            Assert.That(clone.transform.Find("HpText").GetComponent<Text>().text, Is.EqualTo("0/400"));
+            Assert.That(clone.transform.Find("HpBar/Fill").GetComponent<RectTransform>().anchorMax.x, Is.Zero);
+            clone.UpdateUI("테스트", 400f, 400f, true, sprite);
+            Assert.That(name.color, Is.EqualTo(Color.white));
+            clone.UpdateUI("테스트", 400f, 400f, true, null);
+            Assert.That(window.gameObject.activeSelf, Is.False);
+        }
+        finally
+        {
+            Object.DestroyImmediate(clone.gameObject);
+            Object.DestroyImmediate(sprite);
+            Object.DestroyImmediate(texture);
+            if (!wasLoaded)
+            {
+                EditorSceneManager.CloseScene(main, true);
+            }
         }
     }
 
