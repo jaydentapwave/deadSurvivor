@@ -2,7 +2,7 @@
 name: design-reviewer
 description: 구조가 크게 바뀌는 L2의 구현 전 설계 검토(첫 기능의 Core·DI 뼈대·판정 진입점, 기존 시스템의 상태 소유권·DI 구조·세이브 형식, 렌더 파이프라인 설정). 공유 파일에 등록 줄만 더하는 새 기능에는 부르지 않는다. 리뷰는 Codex가 하고 이 에이전트는 중계만 한다. 파일 수정 불가.
 tools: Bash, Read
-model: sonnet
+model: opus
 effort: medium
 maxTurns: 15
 ---

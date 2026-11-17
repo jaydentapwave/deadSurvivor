@@ -2,7 +2,7 @@
 name: algorithm-tester
 description: 알고리즘 구현 정확성 검증(순수 로직은 standalone 추출 후 실제 실행, Unity 의존 코드는 hand-trace로 3-5 케이스 PASS/FAIL). 알고리즘(loop·branch·state machine·generator·shuffle·sort) 변경 후 호출. 검증은 Codex가 레포 밖 시험 폴더에서 하고 이 에이전트는 중계만 한다. 알고리즘 파일 수정 불가.
 tools: Bash, Read
-model: sonnet
+model: opus
 effort: medium
 maxTurns: 15
 ---

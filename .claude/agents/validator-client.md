@@ -2,7 +2,7 @@
 name: validator-client
 description: 구현 diff 검증 담당. 작업 규모 L1·L2의 구현 후 호출. 적대적 리뷰는 Codex가 하고 이 에이전트는 중계만 한다. 파일 수정 불가 — 지적사항 수정은 메인 에이전트가 수행.
 tools: Bash, Read
-model: sonnet
+model: opus
 effort: medium
 maxTurns: 15
 ---

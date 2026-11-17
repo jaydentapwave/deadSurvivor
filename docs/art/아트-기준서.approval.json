@@ -3,8 +3,8 @@
  "spec": "docs/art/아트-기준서.md",
  "revision": "",
  "approved_on": "2026-11-15",
- "user_quote": "\"48px (추천)\", \"이대로 승인\"",
- "sha256": "37bc22dc3cfd93044e1bca02ae15529226894438bbc4434dcf94ae8bf45b9931",
- "recorded_at": "2026-11-15T22:27:56+0900",
- "note": "director-game 시작 전 승인"
+ "user_quote": "\"추천대로 전부 (Recommended)\" (2026-11-17, 1단 작업 범위 7절 1~4번 — r2 팔레트·아이콘 칸) / r1: \"48px (추천)\", \"이대로 승인\" (2026-11-15)",
+ "sha256": "b60a0e3429c9b329e5e28f315640ae115f3d59afe28648ff00df01485ac588b9",
+ "recorded_at": "2026-11-17T13:30:31+0900",
+ "note": "r2 개정: 3.3 아이템 행, 3.5 팔레트 추가 9색. director-game 넘기기 뒤 의견"
 }
