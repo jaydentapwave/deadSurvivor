@@ -57,7 +57,7 @@ public class CombatFeedbackRecordTests
         Assert.AreEqual(5, hitList[0].MonsterId);
         Assert.AreEqual(30f, hitList[0].Amount, 1e-5f);
         Assert.AreEqual(new Vector2(30f, -12f), hitList[0].Position);
-        Assert.AreEqual(monster.Data.Radius, hitList[0].Radius);
+        Assert.AreSame(monster.Data, hitList[0].Data);
     }
 
     [Test]

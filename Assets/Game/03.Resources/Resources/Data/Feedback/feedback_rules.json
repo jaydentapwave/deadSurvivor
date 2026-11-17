@@ -3,7 +3,7 @@
     "lifetime": 0.65,
     "risePx": 12,
     "fadeStartRatio": 0.6,
-    "offsetPx": 4,
+    "offsetPx": 5,
     "fontSizePx": 8,
     "maxActive": 40,
     "textColor": "#ffffff",
@@ -29,8 +29,8 @@
     "maxActive": 40,
     "widthPx": 16,
     "heightPx": 2,
-    "offsetPx": 4,
-    "fillColor": "#d8433c",
+    "offsetPx": 2,
+    "fillColor": "#f0b43c",
     "backColor": "#2a1f1f"
   }
 }
