@@ -1,0 +1,38 @@
+{
+ "base": "Assets/Game/03.Resources/Art/AIGenerated/Characters/mira/back/mira_back.png",
+ "head": {
+  "top": 16,
+  "bottom": 35,
+  "full_rows_to": 29,
+  "x_min_low": 21,
+  "clear_pad": 2
+ },
+ "out_dir": "Assets/Game/03.Resources/Art/AIGenerated/Characters/mira/attack_back",
+ "prefix": "mira_attack_back",
+ "hit_frame": 3,
+ "frames": [
+  {
+   "src": "output/2d-art/mira-back-aether/dot/attack/attack_00.png",
+   "cell": 12
+  },
+  {
+   "src": "output/2d-art/mira-back-aether/dot/attack/attack_01.png",
+   "cell": 16
+  },
+  {
+   "src": "output/2d-art/mira-back-aether/dot/attack/attack_02.png",
+   "cell": 20
+  },
+  {
+   "src": "output/2d-art/mira-back-aether/dot/attack/attack_03.png",
+   "cell": 24
+  },
+  {
+   "src": "output/2d-art/mira-back-aether/dot/attack/attack_04.png",
+   "cell": 30
+  },
+  {
+   "src": "base"
+  }
+ ]
+}

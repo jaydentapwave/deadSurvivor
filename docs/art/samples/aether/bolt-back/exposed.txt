@@ -1,0 +1,16 @@
+reference bolt_back.png: exposed 0.022, run 3px (6.2%), inner run 40px (83.3%), band 2px (measured stroke 2.0px)
+luma_max 60 (아트-기준서.md 2d-measure outline.luma_max); allow ratio +0.02, run +max(3% of height, 1px)  [starting values]
+PASS bolt_walk_back_00.png: exposed 0.017 (3/174 edge px, -0.005), run 3px = 6.2% of 48px (+0px) at (20, 20, 22, 23); inner run 16px (-24px, INFO); band 2px reach 1
+PASS bolt_walk_back_01.png: exposed 0.018 (3/168 edge px, -0.005), run 3px = 6.2% of 48px (+0px) at (20, 20, 22, 23); inner run 16px (-24px, INFO); band 2px reach 1
+PASS bolt_walk_back_02.png: exposed 0.017 (3/174 edge px, -0.005), run 3px = 6.2% of 48px (+0px) at (20, 19, 22, 22); inner run 16px (-24px, INFO); band 2px reach 1
+PASS bolt_walk_back_03.png: exposed 0.018 (3/171 edge px, -0.005), run 3px = 6.2% of 48px (+0px) at (20, 20, 22, 23); inner run 16px (-24px, INFO); band 2px reach 1
+PASS bolt_walk_back_04.png: exposed 0.017 (3/172 edge px, -0.005), run 3px = 6.2% of 48px (+0px) at (20, 20, 22, 23); inner run 16px (-24px, INFO); band 2px reach 1
+PASS bolt_walk_back_05.png: exposed 0.018 (3/171 edge px, -0.005), run 3px = 6.2% of 48px (+0px) at (20, 20, 22, 23); inner run 16px (-24px, INFO); band 2px reach 1
+PASS bolt_walk_back_06.png: exposed 0.017 (3/172 edge px, -0.005), run 3px = 6.2% of 48px (+0px) at (20, 20, 22, 23); inner run 16px (-24px, INFO); band 2px reach 1
+PASS bolt_attack_back_00.png: exposed 0.022 (3/138 edge px, -0.001), run 3px = 6.2% of 48px (+0px) at (21, 21, 23, 24); inner run 40px (+0px, INFO); band 2px reach 1
+PASS bolt_attack_back_01.png: exposed 0.016 (3/190 edge px, -0.007), run 3px = 6.2% of 48px (+0px) at (21, 21, 23, 24); inner run 40px (+0px, INFO); band 2px reach 1
+PASS bolt_attack_back_02.png: exposed 0.014 (3/209 edge px, -0.008), run 3px = 6.2% of 48px (+0px) at (21, 20, 23, 23); inner run 37px (-3px, INFO); band 2px reach 1
+PASS bolt_attack_back_03.png: exposed 0.016 (3/191 edge px, -0.007), run 3px = 6.2% of 48px (+0px) at (21, 21, 23, 24); inner run 41px (+1px, INFO); band 2px reach 1
+PASS bolt_attack_back_04.png: exposed 0.016 (3/190 edge px, -0.007), run 3px = 6.2% of 48px (+0px) at (21, 21, 23, 24); inner run 40px (+0px, INFO); band 2px reach 1
+PASS bolt_attack_back_05.png: exposed 0.022 (3/134 edge px, +0.000), run 3px = 6.2% of 48px (+0px) at (21, 21, 23, 24); inner run 40px (+0px, INFO); band 2px reach 1
+PASS 13 frames, 0 with exposed fill beyond the allowance

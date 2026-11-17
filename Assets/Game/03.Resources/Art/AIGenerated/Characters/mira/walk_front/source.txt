@@ -1,0 +1,26 @@
+# mira_walk_front_00..06 — 미라 앞 3/4 걷기 (Aether 영상 프레임 → 64칸 도트 + 손질)
+
+- 만든 날: 2026-11-17, 대기열 20261117-art-aether 항목 mira-front, /2d-art-aether 절차, 손질 기준 docs/art/samples/aether/손질-기준.md
+- 앞 시도(보류)에서 만든 output/2d-art/mira-front-aether/keep/walk_front를 그대로 씀(디렉터 덧붙임: 사용자 답 2026-11-17, 다시 생성하지 않음, 이번 크레딧 0)
+- 승인: "16개까지 허용 (추천)"(2026-11-15) 안 — 앞 시도 2건 18크레딧, 클립당 1회
+- 기준 그림: mira/front/mira_front.png sha256 c492c97619ea6092bfa00e6e9a5834cf08bb602c48c6c2349b167a415c0ce1ae (identity mira)
+
+## 생성 (앞 시도)
+- job id 196b9ce7-06dc-40c4-b621-0fad205acb8e, sprite_zenith 36장 first_last_frame, is_pixel false, 프롬프트 보강 끔
+- 입력: 기준 그림 최근접 ×8(512×512) → 같은 그림(시작 = 끝 = 서 있는 그림)
+- 시트 sha256 fe657e82d8a2aad5ea31cce5771458287f6b5f6451d349bd8eac5db82940403a, 키 색 자홍(미라는 파란 옷·하늘색 구슬)
+- 크레딧: 9. 서비스 잔액 앞 시도 시작 전 860 → 두 건 뒤 842
+- 프롬프트: "Isometric 3/4 view facing lower-right, walks in place, legs clearly alternate front and back, arms swing, slight body bob. Keep the long wooden staff with the blue orb upright in the right hand, the pointed hat and the backpack on the back. Locked camera, same size. The last frame has the same face (eyes open) and hands as the end picture. Solid magenta background, no ground, shadows, added objects or motion blur."
+
+## 처리
+- gain 0.953(키 기준: 칸 16~29 키 396~412px, 시작 384px. 모자 면적 1.168배는 영상 모자 챙이 넓어서라 쓰지 않음), 클립 전체 한 배율
+- 도트: bruno-front/to_dot.py(기준서 3.5 r5 팔레트, 발 맨 아래 줄 63), 64×64, 피벗 x32
+- 쓴 원본 칸: 16, 18, 20, 22, 24, 26, 28 → _00.._06, 10fps 0.7초
+- 손질: lena-front/fix_lena.py + docs/art/samples/aether/mira-front/walk_front.json — 기준 머리(y16~35, 위 14줄 전부, 아래 6줄 x>=21)를 덮음. 지팡이는 영상 그대로
+- 이번 손질: 지팡이 오른쪽 떨어진 외곽선 점 지움 — _03 (53,27) 1개, _04 (53,28)(53,29)(52,30)(51,31)(49,32) 5개
+- 잘린 픽셀 0
+
+## 확인
+- Tools/check_motion.py --kind walk: PASS 7장
+- 완성 GIF docs/art/samples/aether/mira-front/walk.gif(sheet.py anim 10fps, 높이 400, UNVERIFIED 띠 — measure compare·jitter 기록 없음)를 디코딩해 7장을 순서대로 직접 봄: 로브 아래 발이 장마다 앞뒤로 바뀌어 걷는 걸음으로 보임(로브에 가려 다리 교차는 작음), 지팡이는 모든 장 오른손에 세워 듦, 얼굴·모자는 모든 장 같음
+- 사람 판정(같은 캐릭터로 자연스러운가): 대기

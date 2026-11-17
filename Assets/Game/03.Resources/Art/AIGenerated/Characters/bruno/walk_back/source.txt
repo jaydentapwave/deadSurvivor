@@ -1,0 +1,30 @@
+# bruno walk_back — 뒤 3/4 걷기 7장, Aether 영상 프레임(새 생성) → 64칸 도트 + 손질 (기준서 r4·r5 3.10)
+
+- 만든 날: 2026-11-17, 대기열 20261117-art-aether 항목 bruno-back(시도 1), /2d-art-aether 새 생성 길. 손질 기준: docs/art/samples/aether/손질-기준.md
+- 기준 그림: ../back/bruno_back.png sha256 63412b437e51646ccfbf07ea17326a0dabcd9e5c4aee603ae1661411efc4c5ab (최근접 ×8 = 512×512로 올림, is_pixel false)
+- 승인: "16개까지 허용 (추천)"(2026-11-15) 안, 이 항목 2건·18크레딧까지, 클립당 1회. 다시 생성 0건.
+- 크레딧: 서비스 잔액 시작 전 914 → 두 클립 끝난 뒤 896 (사용 18 = 걷기 9 + 공격 9, sprite_zenith 36장 도구 설명 비용 9). 로컬 예약 18/18.
+- job id a1d9994f-3d2f-474a-94ca-a386c7c103f0, Succeed, 시트 sha256 6d53829546d501b3801d74e678112ffd9b49dddbd524d6082f2692f4de72985d
+- 도구: sprite_zenith 36장 first_last_frame, 시작 = 끝 = 서 있는 그림, 프롬프트 보강 끔, 키 색 초록 [0,255,0](브루노에 초록 없음, init 안쪽 충돌 0, 입력 번짐 0)
+- 프롬프트: "Isometric 3/4 back view, the character faces away toward the upper-right. Walks in place, legs clearly alternate front and back, arms swing, slight body bob. Keep the short sword in the right hand on the right side and the round shield on the left arm. Locked camera, same size, keep the big backpack on the back. The last frame has the same pose, hair and hands as the end picture. Solid green background, no ground, shadows, added objects or motion blur."
+- 작업 폴더(git 밖): output/2d-art/bruno-back-aether/ (request*.json, run~run3, dl/, dot3/, fix_walk.log)
+
+## 처리
+- 클립 크기: analyze 제안 gain 1.141(머리카락 면적 0.876배)을 run2에 썼더니 도트 키 56~58px(기준 48) — 뒤에서 본 머리카락 면적은 크기 부위로 맞지 않음.
+  run3에서 키(발~머리 끝)로 다시 잡아 클립 전체 gain 0.961(=1.141×48/57). 프레임별 배율은 맞추지 않음. 결과 키 47~50px.
+- 색: 부위별 색 되돌리기 RESTORED(hair ΔE 5.5~7.1→0.1~0.5, backpack 9.7~10.8→0.2~0.8, outline 5.2~6.7→0.1~1.5), output_fringe PASS.
+- 분석 표시: "키 검토 필요"(둘러싸인 키 색 영역 지움 = 다리·팔 사이 틈). 축소 시트로 대조해 먹힌 부위는 보지 못함(확대 대조는 미확인).
+- 고른 원본 칸: 6,8,10,12,14,16,18 (반복 후보 1위 start 6 len 14의 한 주기를 한 칸 건너 7장) → _00.._06. 10fps, 0.7초.
+- 도트: bruno-front/to_dot.py(기준서 3.5 r5 팔레트, 발 맨 아래 줄 63).
+
+## 손질 (docs/art/samples/aether/bruno-back/fix_back.py walk_back.json)
+- Aether는 뒤 걷기에서 칼을 지우지 않고 더 길게(약 13px) 그렸다 → 영상 칼날(강철색 가장 긴 덩어리)을 지우고(장마다 37~41px) 기준 칼(parts/arm_back_hand_sword.png, 칼날 21px)을 변환 id(기준 방향)로, 칼날 손잡이 끝을 영상 칼날의 손잡이 끝 자리에 맞춰 붙임. 손잡이 자리: (46,41)(45,40)(45,44)(44,46)(42,48)(44,47)(46,41) — 팔 흔들림을 따라감.
+- 머리: 기준 머리 20줄(y16~35, 위 14줄 전부, 아래 6줄 x>=26) 덮기, 머리 이동 (-2,-1)(-2,0)(-2,1)(-2,0)(-2,1)(-2,0)(-2,-2).
+- 방패: 덮지 않음(뒤 그림 방패는 화면 왼쪽이고 Aether가 팔과 함께 두께를 유지해 그림). 앞 판 손질 기준과 다른 점.
+- 잘린 픽셀 0, 64칸 밖 칼 0, 떨어진 잔조각 지움 04에서 1px. 옛 도트 조각 걷기(_00~_05)는 지우고 바꿈.
+
+## 확인
+- Tools/check_motion.py --kind walk: PASS 7장(머리 줄 기본값)
+- 완성 GIF docs/art/samples/aether/bruno-back/walk.gif(sheet.py anim 10fps, 7장)를 디코딩해 순서대로 직접 봄: 두 다리가 번갈아 앞뒤로 나오고(00·06 왼발 들림 ↔ 03·04 오른발 들림), 오른팔과 칼이 앞뒤로 흔들리며, 몸이 1px쯤 오르내린다. 칼은 모든 장 같은 길이·모양, 머리는 모든 장 같음.
+- 알려진 것: 망토 아랫단이 기준 그림보다 짧고 덜 너덜함(Aether 그림 그대로), 몸통·다리 도트는 장마다 다름. 칼 방향은 기준(거의 수직)이라 영상(약 45°)과 다름.
+- 상태: 기술 처리 PASS / 사용자 채택 NOT_RUN / 게임 적용 NOT_RUN

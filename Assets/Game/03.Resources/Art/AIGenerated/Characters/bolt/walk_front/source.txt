@@ -1,0 +1,131 @@
+볼트 앞 걷기 — Aether 새 생성, 기준서 r4·r5 K17·3.5·3.10
+기록 시각: 2026-11-17T08:18:24.220009+00:00
+만든 쪽: Codex (이 항목의 사람 판정은 나중에 모아서 진행, 독립 에이전트 리뷰 NOT_RUN: 지정 agent 검사 없음)
+기준: Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/front/bolt_front.png
+기준 sha256: 1bf294037b5cd5661b8f05c3d8d68c5325d7f049ae610ae82546bc20151d3e37
+승인 원문: "16개까지 허용 (추천)" (2026-11-15, 실제 시각 미제공)
+범위: bolt-front 두 클립, 각각 1회·9크레딧, 총 18크레딧. 다시 생성 0.
+도구: sprite_zenith, first_last_frame, 36장, is_pixel false, is_prompt_enhancement false
+job id: ca586a3e-9b25-4823-9eb3-6907d8d91bba (Succeed)
+시트 sha256: 6a88140a3b530b193d284038f1ca7997f17247398464153b51b55c57fd217993
+크레딧: 시작 get_credit 815 → 두 건 끝 get_credit 797 (9×2=18); 이 클립 9, 로컬 예약 합계 18.
+입력: 기준 도트 최근접 ×8. 512×512를 오른쪽 128·위 128 투명 여백으로 640×640 정규화.
+입력 변환: source_anchor [256,640], target_anchor [640,660], canvas 1280×720, scale 1.
+키 색: [0,255,0], init 안쪽·가장자리 충돌 0, despill 0. 실제 칸별 키 #08ef13, fringe PASS.
+시작 = 대기; 끝 = 같은 대기.
+프롬프트: Isometric 3/4 front view facing lower-right. Same small blonde priest girl in a cream white hood with gold cross, white and gold robe, large brown backpack with a candle on the back, holding a small golden square holy lantern with a cross in front. Walks in place, legs clearly alternate front and back, arms swing with the held lantern, slight body bob. Keep the small square lantern in her hand. Locked camera, same size. The last frame has the same face (eyes open) and hands as the end picture. Solid green background, no ground, shadows, added objects or motion blur.
+
+처리:
+- 원본 보관: output/2d-art/bolt-front-aether/ (run·run2, 시트·접수 원장·get_job_status 기록). 재처리 크레딧 0.
+- 클립 배율: clip size 0.934x the start input by part area (hood 0.934; median over 35 frames, area-weighted) -> gain 1.0701. 모든 장에 gain 1.0701, offset [0,-16] 하나만 적용. 출력 640×640.
+- to_dot.py: 8×8 블록 최빈색 → 기준서 r5 3.5 팔레트. 발 정렬 후 아래 64줄·왼쪽 64열, 피벗 x32. 고른 장 lost_by_crop 전부 0, 발 맨 아래 63.
+- 고른 원본 칸(0부터): [9, 11, 13, 15, 17, 19, 21]; 7장·10fps. hit_frame 없음(반복)
+- 손질 코드·값: docs/art/samples/aether/bolt-front/fix_bolt.py, docs/art/samples/aether/bolt-front/walk_front.json. 머리 마스크는 check_motion의 기본값과 같은 머리 20줄, 아래 x>=21, 기존 head-exclude.json의 bolt_front 물건 영역 제외. 전체 팔·몸·다리·로브는 영상 픽셀.
+- 기준 머리·얼굴 그대로 덮기: 최종 모든 장 100% 일치·가림 0. 머리 y 이동은 -3/-4 두 값(1px 오르내림)으로 정리.
+- 성물은 기준 그림 x34~41,y41~51 픽셀(등불·손잡이)을 손 자리 따라 정수 이동. 바깥 픽셀 0. 배낭 촛불은 원본 영상 부속을 keep_boxes로 보존(머리 지우기가 촛불 연결을 끊지 않게). 칼·궤적 없음.
+- 부위별 색 보정 ΔE 범위(전→후): {"hood": {"before": [6.61, 7.23], "after": [8.09, 8.77]}, "hair": {"before": [2.28, 2.67], "after": [0.78, 1.07]}, "skin": {"before": [2.47, 2.9], "after": [1.18, 1.29]}, "backpack": {"before": [13.12, 13.67], "after": [11.9, 12.29]}, "lantern": {"before": [6.93, 7.18], "after": [6.78, 7.04]}, "outline": {"before": [3.58, 4.18], "after": [0.27, 0.37]}}. 흰 hood·등불의 자동 보정은 개선되지 않음; 최종 hood는 기준 머리 픽셀, 등불은 기준 픽셀로 덮어 해결. 몸은 팔레트 양자화 그대로.
+- 분석 표시: ["키 검토 필요 — key-coloured areas enclosed by the figure were removed (gaps between limbs, or an eaten part): compare with the sheet; near-key colours inside the figure were kept: check they are paint, not background", "클립 크기 — clip size 0.934x the start input by part area (hood 0.934; median over 35 frames, area-weighted) -> gain 1.0701 (지금 적용된 gain 1.0, 신뢰 OK)"]
+- 키 대조: 원본과 도트 시트를 열어 확인. 팔·다리 사이 배경 제거를 확인했고 몸이 먹힌 부위는 보지 못함. 치유 01 성물 아래 남은 초록점(46,46)은 최종 GIF 확인에서 발견·제거. 원본 치유 끝 구간은 위 MISMATCH를 유지 기록하며, 최종 동작은 성물을 들어 올림 → 회복으로 편집했다(끝 구간 통째로 폐기한 것이 아니라 27칸을 발동 유지로 사용).
+
+검사:
+- 최종 check_motion PASS (7장): 64×64 RGBA·완전 불투명·r5 팔레트·발63·머리100%. 시각과 프레임 sha256: docs/art/samples/aether/bolt-front/verification.json.
+- frames.py holes --ref 기준: 두 클립 합 13/13 PASS. thin gaps는 INFO(걷기 접힌 로브·촛불 주변, 치유 들린 팔과 몸 사이); 시트·GIF에서 이어짐 확인.
+- measure.py compare --id bolt --pose: NOT_ASSESSED(identity에 fixed 부위 없음), 색·외곽선·haze 개별 PASS. frames.py jitter --moving hood,robe,hair,skin,backpack,lantern: NOT_ASSESSED(모양 미판정; 치유 02·03의 등불은 기존 box_rel 밖으로 이동해 미검출). 통과로 보고하지 않음.
+- 미리보기: sheet.py grid --frames·anim --fps 10. NOT_ASSESSED 사유를 UNVERIFIED 띠로 남김. GIF는 단일 색표, 디코딩 색 차이 평균 최악 1.8 수준·크게 다른 픽셀 0%.
+- 완성 GIF를 RGBA PNG로 디코딩해 7장을 순서대로 직접 열어 확인: 발이 번갈아 나오고 팔·등불이 좌우로 흔들린다. 얼굴은 뜬 눈 그대로, 머리 높이 변화 1px, 등불 크기·십자가 유지. 로브 아래 가려지는 다리는 번갈아 보임.
+- 직접 본 파일: docs/art/sheets/bolt-front-motion.png, docs/art/samples/aether/bolt-front/walk.gif의 디코딩 output/2d-art/bolt-front-aether/decoded/walk/00..06.png, 입력·손질 전 시트 output/2d-art/bolt-front-aether/*.png.
+- 기술 처리 PASS / 사용자 채택 NOT_RUN(대기열 human 검사) / Unity 게임 적용·Play NOT_RUN(이번 범위 밖). 새 PNG .meta는 Unity 임포트 때 생성할 대상이며 직접 편집하지 않음.
+
+남은 한계·회고:
+- 원본 몸·로브·배낭 도트는 프레임마다 조금 달라짐. 치유 회복 03→04는 원본 올림 구간을 거꾸로 재사용하므로 완전한 새 회복 영상은 아님.
+- 놓친 것: 머리 주변 지우기가 촛불 연결을 끊고 성물 잔여점을 남김 → holes와 GIF 직접 확인으로 발견. keep_boxes·잔여점 제거로 수정. 워크플로우 갱신 후보: 머리 옆 부속은 물건 제외뿐 아니라 지우기 영역에서도 연결 보존; 키 색 잔여점은 최종 GIF에서 대조. 공통 문서는 범위 밖이라 미반영, 이 항목의 값·코드에는 반영.
+- 추가 검사 비용: 기존 holes만 사용해 실제 끊김을 잡음. 새 검사 추가 없음·뺄 검사 후보 없음.
+- 시간·토큰: 검증 실행 시각은 verification.json, 생성·처리 시각은 output/2d-art/bolt-front-aether/run*/ 원장에 기록. 전체 요청 시작 시각·단계별 소요·Codex 토큰 집계는 호스트에서 미제공(추정하지 않음). Claude·하위 에이전트 호출 0. session_time.py는 Claude 로그 기반이라 본 Codex 요청 집계 NOT_RUN.
+
+손질 로그:
+[
+  {
+    "cell": 9,
+    "src": "output/2d-art/bolt-front-aether/dot/walk/walk_00.png",
+    "lost_by_crop": 0,
+    "head_shift": [
+      0,
+      -3
+    ],
+    "lantern_outside_px": 0,
+    "key_residue_px": 0,
+    "out": "bolt_walk_front_00.png"
+  },
+  {
+    "cell": 11,
+    "src": "output/2d-art/bolt-front-aether/dot/walk/walk_01.png",
+    "lost_by_crop": 0,
+    "head_shift": [
+      0,
+      -4
+    ],
+    "lantern_outside_px": 0,
+    "key_residue_px": 0,
+    "out": "bolt_walk_front_01.png"
+  },
+  {
+    "cell": 13,
+    "src": "output/2d-art/bolt-front-aether/dot/walk/walk_02.png",
+    "lost_by_crop": 0,
+    "head_shift": [
+      0,
+      -4
+    ],
+    "lantern_outside_px": 0,
+    "key_residue_px": 0,
+    "out": "bolt_walk_front_02.png"
+  },
+  {
+    "cell": 15,
+    "src": "output/2d-art/bolt-front-aether/dot/walk/walk_03.png",
+    "lost_by_crop": 0,
+    "head_shift": [
+      0,
+      -3
+    ],
+    "lantern_outside_px": 0,
+    "key_residue_px": 0,
+    "out": "bolt_walk_front_03.png"
+  },
+  {
+    "cell": 17,
+    "src": "output/2d-art/bolt-front-aether/dot/walk/walk_04.png",
+    "lost_by_crop": 0,
+    "head_shift": [
+      0,
+      -3
+    ],
+    "lantern_outside_px": 0,
+    "key_residue_px": 0,
+    "out": "bolt_walk_front_04.png"
+  },
+  {
+    "cell": 19,
+    "src": "output/2d-art/bolt-front-aether/dot/walk/walk_05.png",
+    "lost_by_crop": 0,
+    "head_shift": [
+      0,
+      -4
+    ],
+    "lantern_outside_px": 0,
+    "key_residue_px": 0,
+    "out": "bolt_walk_front_05.png"
+  },
+  {
+    "cell": 21,
+    "src": "output/2d-art/bolt-front-aether/dot/walk/walk_06.png",
+    "lost_by_crop": 0,
+    "head_shift": [
+      0,
+      -3
+    ],
+    "lantern_outside_px": 0,
+    "key_residue_px": 0,
+    "out": "bolt_walk_front_06.png"
+  }
+]

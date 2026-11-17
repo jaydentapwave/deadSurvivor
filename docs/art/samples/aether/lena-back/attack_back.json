@@ -1,0 +1,81 @@
+{
+ "base": "Assets/Game/03.Resources/Art/AIGenerated/Characters/lena/back/lena_back.png",
+ "head": {
+  "top": 16,
+  "bottom": 35,
+  "full_rows_to": 29,
+  "x_min_low": 22,
+  "clear_pad": 2
+ },
+ "erase_box": [
+  44,
+  0,
+  63,
+  52
+ ],
+ "bow_boxes": [
+  [
+   44,
+   22,
+   53,
+   52
+  ],
+  [
+   41,
+   53,
+   43,
+   57
+  ]
+ ],
+ "bow_tips": [
+  [
+   49,
+   26
+  ],
+  [
+   45,
+   51
+  ]
+ ],
+ "arrow_to": 54,
+ "out_dir": "Assets/Game/03.Resources/Art/AIGenerated/Characters/lena/attack_back",
+ "prefix": "lena_attack_back",
+ "hit_frame": 3,
+ "frames": [
+  {
+   "src": "output/2d-art/lena-back-aether/dot/attack/attack_00.png",
+   "cell": 12
+  },
+  {
+   "src": "output/2d-art/lena-back-aether/dot/attack/attack_01.png",
+   "cell": 17,
+   "draw": [
+    43,
+    39
+   ]
+  },
+  {
+   "src": "output/2d-art/lena-back-aether/dot/attack/attack_02.png",
+   "cell": 22,
+   "draw": [
+    41,
+    39
+   ]
+  },
+  {
+   "src": "output/2d-art/lena-back-aether/dot/attack/attack_03.png",
+   "cell": 29,
+   "draw": [
+    40,
+    39
+   ]
+  },
+  {
+   "src": "output/2d-art/lena-back-aether/dot/attack/attack_04.png",
+   "cell": 24
+  },
+  {
+   "src": "base"
+  }
+ ]
+}

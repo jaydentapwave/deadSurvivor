@@ -1,0 +1,31 @@
+# mira_attack_front_00..05 — 미라 앞 3/4 공격(지팡이를 들어 내밀기) (Aether 영상 프레임 → 64칸 도트 + 손질)
+
+- 만든 날: 2026-11-17, 대기열 20261117-art-aether 항목 mira-front, /2d-art-aether 절차, 손질 기준 docs/art/samples/aether/손질-기준.md
+- 승인: 사용자 2026-11-17 "Aether로 한 번 더 생성 (Recommended)" — 시작 승인 16클립에 1건 더한 승인(9크레딧, 1회, 다시 생성 없음)
+- 앞 시도 공격(job 1e5b880c-7736-422d-8a30-4a62b165f125, 9크레딧)은 수염 난 늙은 마법사로 나와 쓰지 않음
+- 기준 그림: mira/front/mira_front.png sha256 c492c97619ea6092bfa00e6e9a5834cf08bb602c48c6c2349b167a415c0ce1ae (identity mira)
+
+## 생성
+- job id accc41f2-ded6-4f62-9348-5513159daa75, sprite_zenith 36장 first_last_frame, is_pixel false, 프롬프트 보강 끔
+- 입력: 시작 = 기준 그림 최근접 ×8, 끝 = 앞 시도 make_end.py 결과(기준 지팡이·손을 (+6,−6) 옮기고 뻗은 소매 2px, 손으로 만든 그림) ×8, 둘 다 768×512(지팡이 내밀 자리)
+- 시트 dl/attack3_sheet.png sha256 0e6495ff4dadb921d58a8316775648d1415fc0a77260db6d0f8b0f0526b8f20c, 키 색 자홍(init 안쪽 충돌 0)
+- 크레딧: 9. 서비스 잔액 생성 전 842 → 생성 뒤 833
+- 프롬프트: "Isometric 3/4 view facing lower-right. The same young girl mage as the start picture: long silver hair, big blue pointed hat with a gold star, blue robe, young face, no beard, small body, brown backpack on the back. She raises the long wooden staff with the blue orb using the whole right arm (shoulder, elbow and hand move together) and holds it up and forward to the upper right, ending exactly in the end picture pose. Feet stay planted. Locked camera, same size. The last frame has the same girl face (eyes open), staff, orb and hands as the end picture. Solid magenta background, no ground, shadows, added objects, magic projectiles, effects, trails or motion blur."
+- 결과: 같은 소녀 마법사(은발, 파란 고깔모자, 수염 없음)로 나옴. 마법탄·궤적 없음. 동작: 지팡이를 가로로 내림(칸 1~5) → 세움(13~16) → 오른팔을 높이 들어 지팡이를 오른쪽 위로 기울여 내밂(19~26) → 세워 앞으로 듦(30~35)
+
+## 처리
+- analyze 표시: 끝 자세 불일치(칸 33~35 shape 0.28, inside 0.23, 키 1.06배 — 끝 그림보다 지팡이를 더 곧게 세우고 팔을 덜 뻗음), 키 검토 필요(팔·지팡이 사이 틈; 손질 뒤 자홍 남은 픽셀 0), 클립 크기 모자 면적 1.159배
+- gain 0.985(키 기준: 칸 1~13 발~모자 끝 386~394px, 시작 384px. 모자 면적은 영상 모자 챙이 넓어 쓰지 않음 — 걷기와 같은 판단), offset y −2(512 캔버스 안에 발), 클립 전체 한 배율. run5(같은 시트 영수증 재처리, 크레딧 0)
+- 색 되돌리기: 요청 color {} — 미보정(도트 팔레트로 내려 기준서 r5 팔레트 색만 씀)
+- 도트: bruno-front/to_dot.py(기준서 3.5 r5 팔레트, 발 맨 아래 줄 63) 96×64 → 왼쪽 64칸(피벗 x32)
+- 쓴 원본 칸: 3(예비: 지팡이 내림), 15(들기: 세움), 21(휘둘러 듦), 23(타격: 오른쪽 위로 내밂), 35(회복: 세워 듦), 기준 그림(대기) → _00.._05, 10fps
+- hit_frame: 3 (mira_attack_front_03, 원본 칸 23)
+- 손질: docs/art/samples/aether/mira-front/fix_mira.py attack_front.json — 기준 머리(y16~35, 위 14줄 전부, 아래 6줄 x>=21)에서 head-exclude.json mira_front 물건 자리(지팡이 윗부분·구슬)를 빼고 덮음. 머리 이동 [-1,-1]/[-1,-1]/[-2,-1]/[-2,-1]/[-1,0], 머리 둘레 지운 픽셀 331~359/장. 그 자리의 영상 지팡이는 남김
+- 지팡이는 기준 조각으로 바꾸지 않음(손질 기준과 다른 점): 영상 지팡이 길이가 기준과 거의 같고(약 50px), 비스듬한 각도를 8방향 정수 변환으로 맞출 수 없음. 02·03에서 지팡이가 모자 챙 뒤를 지나 일부가 가려짐
+- 잘린 픽셀 0, 무기 64칸 밖 0, 키 색 남은 픽셀 0
+
+## 확인
+- Tools/check_motion.py --kind attack: PASS 6장
+- 완성 GIF docs/art/samples/aether/mira-front/attack.gif(sheet.py anim 10fps, 높이 400, UNVERIFIED 띠)를 디코딩해 6장을 순서대로 직접 봄: 지팡이를 가로로 내림 → 세워 듦 → 오른팔을 머리 위로 들어 지팡이를 오른쪽 위로 내밂(02·03, 팔 전체가 지팡이와 함께) → 세워 앞으로 듦 → 대기. 얼굴·모자는 모든 장 같은 미라(뜬 눈), 수염 없음
+- 알려진 것: 몸통·다리 도트는 장마다 다름, 04→05(회복→대기)와 05→00은 자세가 한 번에 바뀜, 끝 그림(지팡이 앞으로 기울임)보다 회복 장이 더 곧음
+- 사람 판정(같은 캐릭터로 자연스러운 마법인가): 대기

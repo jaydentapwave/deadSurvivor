@@ -1,0 +1,31 @@
+# lena_walk_back_00..05 — 레나 뒤 3/4 걷기 (Aether 영상 프레임 → 64칸 도트 + 손질)
+
+- 만든 날: 2026-11-17, 대기열 20261117-art-aether 항목 lena-back(시도 1), /2d-art-aether 절차, 손질 기준 docs/art/samples/aether/손질-기준.md
+- 승인: "16개까지 허용 (추천)"(2026-11-15) 안 — 이 항목 2건 18크레딧까지, 클립당 1회, 다시 생성 없음
+- 기준 그림: lena/back/lena_back.png sha256 67746a3eac73681260884f3e788c9f3a68ef36cde90a25430300afd271694fbe (identity lena, 뒤 3/4 = 화면 오른쪽 위를 봄)
+
+## 생성
+- job id a12e4cac-2788-47ee-b038-3bf0ee6cdb7e, sprite_zenith 36장 first_last_frame, is_pixel false, 프롬프트 보강 끔
+- 입력: 기준 그림 최근접 ×8(512×512) → 같은 그림(시작 = 끝 = 서 있는 그림)
+- 시트 dl/walk_sheet.png sha256 33443a24f6af129219d702be0e19a5aa7b95092e3f779f9fcba5be877befebf4
+- 키 색 자홍 [255,0,255] (레나는 초록 두건·망토라 초록 키 불가, init 안쪽 충돌 0)
+- 크레딧: 9. 서비스 잔액 시작 전 878 → 두 건 뒤 860 (걷기·공격 합계 18)
+- 프롬프트: "Isometric 3/4 back view, the character faces away toward the upper-right. Walks in place, legs clearly alternate front and back, arms swing, slight body bob. Keep the short bow in the hand on the right side, the green hood on the head and the quiver and big backpack on the back. Locked camera, same size. The last frame has the same pose, hood and hands as the end picture. Solid magenta background, no ground, shadows, added objects or motion blur."
+
+## 처리 (작업 폴더 output/2d-art/lena-back-aether/, git 밖)
+- analyze: 클립 크기 0.968배(두건 면적, 신뢰 OK) → gain 1.0328 클립 전체 한 배율. run2는 발이 512 캔버스 밖(아래 514)이라 멈춤 → run3에서 offset y -6(to_dot이 발을 63줄에 다시 맞춤). 같은 시트 영수증 재처리 크레딧 0. 결과 키 49px(기준 48, 몸 들썩 51)
+- 표시: 키 검토 필요(팔·다리 사이 틈) — 손질 뒤 프레임에 자홍 0(check_motion 팔레트 PASS)
+- 부위별 색 되돌리기 RESTORED: ΔE 전→후 hood 8.7~9.3→0.2, hair 12.0~12.7→0.7~1.2, skin 8.1~8.6→1.3~1.6, outline 4.5~5.3→0.3~0.4. output_fringe PASS
+- 도트: bruno-front/to_dot.py(기준서 3.5 r5 팔레트, 발 맨 아래 줄 63), 64×64, 피벗 x32
+- 쓴 원본 칸: 11, 13, 15, 17, 19, 21 (반복 후보 1위 start 11 len 12의 한 주기를 한 칸 걸러 6장) → _00.._05, 10fps 0.6초
+- 손질: docs/art/samples/aether/lena-back/fix_lena_back.py walk_back.json
+  - 기준 머리(맨 위 20줄 y16~35, 위 14줄 전부, 아래 6줄 x>=22)를 머리 이동 [0,-1]/[0,-1]/[0,-2]/[0,-1]/[0,-1]/[0,-2]로 덮음(머리 둘레 지운 픽셀 406~428/장)
+  - 활: 영상 활이 조각나 있어(걷기 내내 끊긴 선) 기준 그림의 활+활 쥔 손 조각(기준 좌표 x44~53·y22~52, x41~43·y53~57)으로 바꿈. 놓는 곳 = 기준 자리 + 머리 이동(hand_dx 0, 길이·모양 그대로). 영상 활과 활 쪽 팔 끝은 x>=44+이동, y<=52+이동 안에서 지움(91~130px/장)
+  - 뒤 그림은 활 윗날개가 머리 줄 안(y24~35)에 있어 check_motion 머리 판정에 활이 함께 들어간다. 그래서 활을 영상 그대로 두면 머리 같은 픽셀 91~94%로 떨어졌다(첫 시도). 기준 활로 바꾼 뒤 PASS
+- 잘린 픽셀 0, 무기 64칸 밖 0
+
+## 확인
+- Tools/check_motion.py --kind walk(기본값, --head-rows·--head-xmin 없음): PASS 6장
+- 완성 GIF docs/art/samples/aether/lena-back/walk.gif(sheet.py anim 10fps, 높이 400, UNVERIFIED 띠 — 뒤 그림 measure compare·jitter 기록 없음)를 디코딩해 6장을 순서대로 직접 봄: 다리가 앞뒤로 번갈아 나오고(00·03에서 앞발이 바뀜) 망토 자락이 흔들리고 몸이 1~2px 오르내림. 활은 모든 장 오른쪽에 같은 모양, 두건 뒷모습·귀는 모든 장 같음(얼굴 안 보임)
+- 알려진 한계: 활과 활 쥔 손이 머리와 같이만 움직여 오른팔 흔들림이 거의 없다(영상의 팔 흔들림을 활과 함께 지움). 몸통·다리 도트는 장마다 다름
+- 사람 판정(같은 캐릭터로 자연스러운가): 대기

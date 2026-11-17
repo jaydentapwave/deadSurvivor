@@ -1,0 +1,8 @@
+NOT_ASSESSED 6 frames
+  PASS         hood:color           value 0.0 tol 8
+  PASS         robe:color           value 2.8803 tol 8
+  PASS         hair:color           value 0.0773 tol 8
+  PASS         skin:color           value 0.0 tol 8
+  PASS         backpack:color       value 6.8748 tol 8
+  NOT_ASSESSED lantern              value None tol None  missing in bolt_attack_front_02.png, bolt_attack_front_03.png
+  NOT_ASSESSED parts                value None tol None  no part shape judged (no parts, or all moving)
