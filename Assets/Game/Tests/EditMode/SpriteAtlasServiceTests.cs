@@ -1,3 +1,4 @@
+using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.U2D;
@@ -29,7 +30,8 @@ public class SpriteAtlasServiceTests
     [Test]
     public void AtlasHoldsCharactersMonstersAndTenEffects()
     {
-        Assert.AreEqual(SpriteNames.Length, Resources.Load<SpriteAtlas>("Art/Characters").spriteCount);
+        var itemCount = new ItemRepository(new ResourceService()).ItemDataList.Count();
+        Assert.AreEqual(SpriteNames.Length + itemCount, Resources.Load<SpriteAtlas>("Art/Characters").spriteCount);
     }
 
     [Test]

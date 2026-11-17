@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using VContainer.Unity;
 
@@ -10,18 +9,17 @@ public class BattleItemListPresenter : ILateTickable
     private readonly PartyModel _partyModel;
     private readonly CombatModel _combatModel;
     private readonly EquipmentStatService _equipmentStatService;
-    private readonly ResourceService _resourceService;
+    private readonly SpriteAtlasService _spriteAtlasService;
     private readonly UI_BattleHudView _battleHudView;
-    private readonly Dictionary<string, Sprite> _iconDict = new();
 
     public BattleItemListPresenter(RunModel runModel, PartyModel partyModel, CombatModel combatModel,
-        EquipmentStatService equipmentStatService, ResourceService resourceService, UI_BattleHudView battleHudView)
+        EquipmentStatService equipmentStatService, SpriteAtlasService spriteAtlasService, UI_BattleHudView battleHudView)
     {
         _runModel = runModel;
         _partyModel = partyModel;
         _combatModel = combatModel;
         _equipmentStatService = equipmentStatService;
-        _resourceService = resourceService;
+        _spriteAtlasService = spriteAtlasService;
         _battleHudView = battleHudView;
     }
 
@@ -84,20 +82,7 @@ public class BattleItemListPresenter : ILateTickable
         return slot.IsPulse ? slot.Item.EffectInterval : _equipmentStatService.GetPeriod(slot.Item, slot.Stats);
     }
 
-    // icon이 비면 null(이름 표시). 처음 한 번 읽어 둔다
-    private Sprite GetIcon(ItemData item)
-    {
-        if (string.IsNullOrEmpty(item.Icon))
-        {
-            return null;
-        }
-
-        if (!_iconDict.TryGetValue(item.Icon, out var icon))
-        {
-            icon = _resourceService.Load<Sprite>(item.Icon);
-            _iconDict.Add(item.Icon, icon);
-        }
-
-        return icon;
-    }
+    // 그림 없는 시험용 아이템은 기존 이름 표시. 실제 32종은 아틀라스 이름 키.
+    private Sprite GetIcon(ItemData item) =>
+        string.IsNullOrEmpty(item.Icon) ? null : _spriteAtlasService.Get(item.Icon);
 }

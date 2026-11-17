@@ -27,6 +27,7 @@ public class UI_BattleItemView : MonoBehaviour
         background.color = isDisabled ? disabledBackgroundColor : backgroundColor;
         iconImage.gameObject.SetActive(hasIcon);
         iconImage.sprite = icon;
+        iconImage.preserveAspect = true;
         iconImage.color = isDisabled ? disabledTextColor : Color.white;
         labelText.gameObject.SetActive(!hasIcon);
         labelText.text = label;
