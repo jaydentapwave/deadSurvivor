@@ -6,9 +6,11 @@ using Object = UnityEngine.Object;
 
 // 임시 도형 스프라이트(원·마름모·상자)와 바닥 타일을 실행 중에 만든다(기획서 F절, 그림 파일 없음).
 // Point 필터, PPU 48. 만든 텍스처·스프라이트·타일은 scope가 끝날 때 지운다.
+// 상자는 같은 (크기, 색, 피벗)이면 한 스프라이트를 같이 쓴다: 같은 텍스처여야 2D 렌더러가 대원 HP 막대들을 한 번에 그린다(화면 고치기 T6).
 public class PlaceholderSpriteFactory : IDisposable
 {
     private readonly List<Object> _createdList = new();
+    private readonly Dictionary<(int, int, Color, Vector2), Sprite> _boxDict = new();
 
     // 피벗 = 아래 가운데(발 가운데, 아트 기준서 3.1)
     public Sprite CreateCircle(int diameterPixels, Color color)
@@ -32,7 +34,14 @@ public class PlaceholderSpriteFactory : IDisposable
 
     public Sprite CreateBox(int widthPixels, int heightPixels, Color color, Vector2 pivot)
     {
-        return CreateSprite(widthPixels, heightPixels, color, pivot, (x, y) => true);
+        var key = (widthPixels, heightPixels, color, pivot);
+        if (!_boxDict.TryGetValue(key, out var sprite))
+        {
+            sprite = CreateSprite(widthPixels, heightPixels, color, pivot, (x, y) => true);
+            _boxDict.Add(key, sprite);
+        }
+
+        return sprite;
     }
 
     public Tile CreateTile(Sprite sprite)
@@ -63,6 +72,7 @@ public class PlaceholderSpriteFactory : IDisposable
         }
 
         _createdList.Clear();
+        _boxDict.Clear();
     }
 
     private Sprite CreateSprite(int width, int height, Color color, Vector2 pivot, Func<int, int, bool> isInside)
