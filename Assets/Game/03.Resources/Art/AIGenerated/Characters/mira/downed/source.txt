@@ -1,0 +1,60 @@
+# mira_downed.png — 출처
+
+- 무엇: 미라(마법사, 게임 기획서 A1) 쓰러진(사망) 그림. 기준서 3.3 "캐릭터 쓰러진 그림", 3.10 사망(이 그림으로 바꾸고 0.3초 어둡게). identity docs/art/identities/mira.json(기준 그림 front/mira_front.png)의 새 자세.
+- 규격: 64x64 캔버스, 그림 57x24(지팡이·모자 포함), 알파 0/255만. 피벗 = 캔버스 아래 가운데(앞 그림과 같은 프리셋, .meta는 lena_downed의 것을 복사하고 GUID·spriteID만 새로 만듦, 폴더 downed.meta도 같음).
+  그림은 x 6~62, 바닥 63줄(브루노처럼 오른쪽으로 붙여 몸 가운데를 피벗 쪽으로). 장화 끝~모자 끝 약 48px, 장화~머리(머리카락) 약 41px로 서 있는 키 48px 이하. 몸 가운데(배낭)는 x 약 20~34로 피벗(x 32) 근처, 지팡이는 오른쪽 손 옆 바닥(구슬이 오른쪽 끝).
+- sha256: b5964d113b86fb618aaf0fb67d965984b12e14fb10fbb0b64225bde966e3c13d
+- 만든 날: 2026-11-17, 대기열 20261117-art-chars 항목 downed-mira(시도 1), /2d-art-produce "캐릭터 변형 — 새 자세" 경로. downed-bruno의 방법·자세를 따름
+- 채택: 대기열 세션이 디렉터 대신 채택(판독 조건 충족), 사용자 판정 대기
+
+## 자세 (downed-bruno 기준과 같음)
+엎드려 쓰러짐(얼굴이 바닥). 머리(은회색 머리카락이 바닥에 퍼짐, 파란 마녀 모자는 머리에 걸친 채 비뚤어져 끝이 오른쪽 위) 오른쪽, 장화 왼쪽. 배낭(두루마리·책·물약 끝이 보임)은 등 위. 파란 로브(금색 테)가 몸·다리를 덮음. 오른쪽으로 뻗은 손 옆 바닥에 지팡이.
+
+## 도구
+- 생성: codex-cli 0.167.2, codex exec -m gpt-6.1-sol, model_reasoning_effort=medium, 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 생성 세션: 01a1e7db-12a9-73c0-ae13-8b1c9f9a5812 (1회차, 4장: 설정 A 2장, 설정 B 2장). 채택본 = 설정 A 1번째(r1a_1) + 4px 손질. 2회차는 쓰지 않음
+- 실행: perl alarm 1500 + codex exec -s workspace-write -C <결과 폴더> "<프롬프트>" -i ref1 ref2 ref3 < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256)
+- 첫째(캐릭터·그림체): mira_front.png c492c97619ea6092bfa00e6e9a5834cf08bb602c48c6c2349b167a415c0ce1ae
+  → 배경 #ff00ff 위 16배(1024x1024) ref1_character.png 516376a633abd9f765eb3ee3aa7681fc36cee1c28353d764a049e2302b968e04
+- 둘째(자세): 마네킹 러프 rough_a.png d73823204dc254eafd46471e45c32226105fe1ddbec6677721e07902055f2f9b
+  (identity 색으로 칠한 모자·머리카락·로브·드레스 끝단·배낭(두루마리 끝)·장화·팔·지팡이 덩어리, 일회성 스크립트 output/2d-art/mira-downed/tools/rough.py)
+  → 16배 ref2_pose.png 4766afcff71861666070b768a07f3419645c742125f9ba1a3aa39298285e29d0
+- 셋째(설정 B만, 채택본 계보에 없음): 컨셉 3-직업4종.jpg d96f1997c089f2453e1c8ef003879c07571924015c1bca30a6825dd0c9378e20 의 마법사 자른 것 (790,130,1210,690) 5aca9335f7737ecf529f31b357f6b56095ec8023dad170bfa3ae74cbfc738a37
+
+## 러프 판독 (생성 전, 이름 가림, 다른 계열: Codex gpt-6.1-sol 세션 01a1e7da-6370-7a83-b359-3f885d4254ba, 결과 output/2d-art/mira-downed/blind/readout-r001.md)
+- 두 칸(앞 그림 | 러프), 파일 이름 pair_1~3(순서 섞음: 1=b, 2=a, 3=c), 동작 이름 알리지 않음.
+- a: "엎드려 쓰러짐 / 엎드려 숨음", 배낭 등 위, 모자 머리에 걸침 / b: "옆으로 쓰러짐 / 누워서 휴식", 배낭 등 위 / c: "엎드려 쓰러짐 / 엎드려 숨음", 배낭 등 위.
+  세 안 모두 쓰러짐으로 읽힘. 브루노·레나 채택 자세와 같은 a를 고름.
+
+## 최종 프롬프트 (설정 A, 이미지 프롬프트 부분)
+The character and the art style come from the first image; the pose comes from the second image. The first image is a 64x64 pixel sprite of a young mage girl enlarged so every pixel is one 16x16 flat block (canvas 1024x1024). The second image is a rough colour mannequin (same scale, same block grid) showing the SAME mage collapsed, lying face-down on the ground, defeated. Draw the mage from the first image in exactly the pose of the second image: lying flat on her front, body horizontal, head on the RIGHT side resting face-down on the ground (we see mostly her long silver-grey hair spread on the ground, no face), her big blue pointed witch hat with the gold star still on her head but knocked askew, its tip pointing up and to the right, legs stretched to the LEFT with both brown boots visible at the left end, the blue robe with gold trim covering her body and legs with a little of the cream dress at the hem, the big brown backpack with scrolls and books sticking out still strapped ON HER BACK and seen on top of the body (not in front of her, not beside her); the backpack is a rounded soft leather bag, no lock, no two light spots side by side, one arm reaching forward to the right on the ground, the wooden staff with the glowing cyan orb lying flat on the ground just beyond that hand, orb end at the right.
+Size: keep the same 16x16 block grid. The lying figure from boot soles to the top of the head is about 42 blocks long and the whole picture including the staff and hat is at most 50 blocks wide and about 20-26 blocks tall, sitting at the bottom of the canvas, horizontally centred.
+Colours and details from the first image: blue hat and robe (#40548b, dark #2b3566), gold trim and star (#e4b87d), silver-grey hair (#c8b8b8, shade #a89898), skin (#f8daac), cream dress (#e3d7c8), brown leather backpack and staff (#af642e, dark #774c3b), cyan orb (#7fd0c8), dark brown boots.
+Pixel rules: every block is ONE flat colour; no detail smaller than one block; no anti-aliasing, no gradients, no dithering, no soft edges. A 1-block very dark brown outline (#34140e, not black) around the whole figure, the hat and the staff. Flat 2-3 tone shading.
+Background: flat solid #ff00ff everywhere outside the character. No grid lines, no text, no UI, no ground, no cast shadow, no sparkles.
+(전체 지시문: output/2d-art/mira-downed/gen/prompt.txt, Git 밖. 레나 항목 보고의 제안대로 "rounded soft leather bag, no lock, no two light spots side by side"를 넣음)
+
+## 생성 원본
+- output/2d-art/mira-downed/gen/r1a_1.png (Git 밖) 1254x1254, f7f0dcf6b42c72bbd28798d26f7101e75d4921258832645699c4fb3d755461b3
+  (pixelize.py grid 추정은 70x29 block 15.8px score 0.30 LOW라 믿지 않고, 앞 그림과 같은 블록 약 19.6px로 그림 bbox 1112x463 → 57x24로 정함)
+
+## 후처리
+1. pixelize.py one --size 57x24 --palette <기준서 3.5 r2 팔레트, output/2d-art/mira-downed/palette.json> --bg-tol 100 → 03261954bad8be46b94737433f7537d1ff0f2413970d0cccc8b278e6d185b6a1
+2. 64x64 캔버스에 놓기: 바닥 63줄, x 6~62(가운데 놓기에서 오른쪽으로 3px).
+3. 손질 1곳: 배낭 아래 양 모서리의 어두운 빨강 #77211d 4px(캔버스 좌표 (21,53)(22,53)(29,53)(30,53))를 #774c3b(팔레트의 어두운 갈색)로.
+   이유: 부위 대조(다른 계열)에서 "배낭 아래 붉은 점 두 개와 덮개 곡선이 볼·웃는 입처럼 살짝 보임". 손질 뒤 다시 판독해 "얼굴이나 생물로 읽히는 곳 없음".
+
+## 판정 (PASS = 기준과 어긋나지 않음. 자연스러움은 판독·사용자 판정)
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (0 with key colour left on the rim)
+- measure.py compare --id mira --pose: 도구 판정 FAIL. 항목별:
+  - 색 6부위 PASS (hat 2.73, robe 0.33, hair 3.60, skin 0.0, backpack 2.14, staff 0.82 / 허용 8), 외곽선 색 PASS 0.42, haze PASS. dress는 NOT_ASSESSED(엎드려 드레스 끝단만 몇 px, box_rel 자리에 없음)
+  - outline:stroke_ratio FAIL (0.50, 기준 0.2526): 기준 부위 hat(width_part)을 box_rel(그림 bbox 위 33%)로 찾는데, 누운 그림에서는 그 자리가 배낭 위·모자 끝이라 폭이 잘못 잡힘. 외곽선 굵기는 measure.py와 같은 식(kit2d.stroke_width)으로 따로 재면 앞 그림 2.013, 이 그림(손질 전) 2.000(=1px 선)으로 같다(output/2d-art/mira-downed/tools/stroke_diag.py, 판정 도구는 고치지 않음)
+  - parts NOT_ASSESSED: mira identity에 "fixed" 부위가 없어 --pose 판정은 어떤 그림이든 NOT_ASSESSED
+  - 부위 면적·치수는 표시만(--pose)
+- 부위 대조(다른 계열: Claude Opus 하위 에이전트, references/part-check.md, 이름 가린 cand_1~4, 동작 이름 알리지 않음): 이 후보(cand_2, 손질 전) PASS — 첫 해석 "Collapsed face-down", 둘째 "knocked out". 모자·머리카락·로브·지팡이 같음, 배낭은 등 위의 둥근 가방, 장화 2개 뚜렷, 손 1(지팡이 쪽). 판독 1위.
+- 손질 뒤 이름 가린 두 칸 판독(Claude Opus 하위 에이전트, 새 대화): 첫 해석 "쓰러져 엎드림(downed/knocked out)", 둘째 "엎드려 기어감". 같은 캐릭터, 배낭 등 위, 얼굴·생물로 읽히는 곳 없음. VERDICT PASS. 남은 지적(필수 아님): 머리카락 덩어리가 크고 줄무늬라 언뜻 털뭉치로도 보일 수 있음, 손이 거의 안 보임, 구슬이 작음.
+- 다른 후보: r1a_2(cand_4) 부위 대조 PASS(판독 2위, 배낭 끈이 다리처럼 보임, 장화 1개만 뚜렷). r1b_1(cand_3)·r1b_2(cand_1)는 부위 대조 FAIL(배낭의 물약·보석이 눈·입으로 읽힘). r1b_2는 hair NOT_ASSESSED.
+- 시트 docs/art/sheets/mira-downed.png(#1 채택본, #2 손질 전, #3~#5 버린 후보, #6~#8 러프, 앞 그림 --against, --size 192, --unverified: measure 도구 판정이 위 이유로 FAIL이라 --candidates로는 빠짐)
+- 사용자 판정·게임 화면 확인: 대기(자리 적용·짧은 Play는 이 항목 범위 밖)
