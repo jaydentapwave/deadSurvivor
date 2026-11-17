@@ -1,0 +1,30 @@
+# shortbow.png — 출처
+
+- 무엇: 시작 아이템 단궁(shortbow) 가방 아이콘. 아이콘 그림체 견본 묶음(sword·shortbow·firestaff·relic) 중 하나. 칸 모양 (0,0)(1,0)(2,0)(docs/features/f3-combat/plan.md C절), 밑그림 docs/art/items/shortbow.svg.
+- 규격: 48x16 캔버스(1칸 16x16), 칸 모양에 없는 칸은 투명. 외곽선 #34140e 1px(K5), 기준서 3.5 r2 팔레트 색만 씀. 알파 0/255만.
+- sha256: e8bf7b64dc776cf2f7d4d4ba4a866e35937b6e8c9d87e0cdbc750fd5c05fa5e3
+- 만든 날: 2026-11-17, 대기열 20261117-art-samples 항목 icons-start(시도 1), /2d-art-produce "기준 그림이 없는 새 종류" 길
+- 채택: 2026-11-17 디렉터 대신 후보 고르기(director-game autonomy 3절: 격자 확인·fringe PASS·이름 가림 판독 PASS 중 최선), 사용자 판정 대기
+- 새 방식 2회차(v4) 설정 B(안내 그림만), 결과 2장 중 2번째
+
+## 도구
+- 생성: codex-cli 0.167.2, 모델 gpt-6.1-sol(추론 medium), 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1e800-1496-7d80-84ad-9d8afab1096e
+- 원본: output/2d-art/items-start/v3/gen4/shortbow_B/shortbow_v4b_2.png sha256 09c5d00aaf1d6bd6ac38e8236440fbc1b8b18ec03a337dc4fec3088630e5df88
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256, -i 순서)
+1. output/2d-art/items-start/v3/guide4_shortbow.png b4dee80e58161396b316f999bcda02f17f7d82f70fadd227ac062af23263461f — 고칠 그림: 손으로 그린 48x16 D자 활 안내(_g_shortbow4.png, 기준서 3.5 팔레트 색)를 32배로 1536x1024 가운데 띠에 놓음
+
+## 최종 프롬프트 (Codex에 보낸 그대로)
+[items-start-shortbow-v4B] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. One image is attached: the image to edit (already the final pixel art enlarged 32x).
+Copy the two results from the generated images folder into the current working folder as shortbow_v4b_1.png and shortbow_v4b_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Edit the first reference image. It is a 48x32 block canvas (1536x1024) where every pixel is one 32x32 flat block; the item, a 48x16-pixel inventory icon, sits only in the middle band (block rows 8 to 23, pixels y 256 to 767), the top 8 and bottom 8 block rows stay empty flat magenta. Keep exactly this canvas size, this 32x32 block grid, this silhouette and this position: a wooden short bow lying on its side as a D shape, the wooden limbs arching up to a red leather grip in the middle, both limb tips coming down to meet a straight pale cream bowstring along the bottom. The bowstring is one block thick and has the dark outline above and below it, and it joins both limb tips. Do NOT add any detail smaller than one 32x32 block; every block stays one single flat colour. Only clean up the blocks: warm brown wood (#d5833a light top edge, #af642e middle, #774c3b shadow), small wood-grain or a thin gold band near the grip allowed if one block wide, red grip (#c44334, #77211d). 1-block dark brown outline (#34140e, not black) around the whole item, flat 2-3 tone shading, no anti-aliasing, no gradients, no speckles. Flat solid #ff00ff magenta background everywhere outside the item, one exact flat colour. No arrow, no text, no UI, no frame, no grid lines.
+
+## 후처리
+- pixelize.py one (1536x1024 캔버스의 가운데 띠 y 256~767을 잘라 --size 48x16, --palette 기준서 3.5 r2 팔레트 45색, 추가색 없음) → 칸 밖 투명
+- 확인: pixelize.py grid — 칸 크기 32px 격자에 맞음(원본 블록 약 32px). matte.py fringe --key '#ff00ff': PASS shortbow.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)
+- measure.py는 쓰지 않음(아이콘 그림체 identity 없음, 지시대로). 판정: 이름 가림 판독 PASS(4장 중 최선 c1): "horizontal recurve bow with a red wrapped grip and gold bands" — 3칸 모두 채움, 양 끝이 시위와 이어진 한 물건. 참고 지적: 시위(어두운 줄+크림 줄)가 조금 두껍다
+- 판독: Claude(Opus) 하위 에이전트, 파일 이름 가림, 칸 격자·빗금(칸 모양 밖) 위 10배 그림. PASS = 기준과 어긋나지 않음, 자연스러움·그림체 채택은 사용자 판정
