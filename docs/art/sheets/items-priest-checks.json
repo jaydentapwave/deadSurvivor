@@ -1,0 +1,2184 @@
+{
+  "checked_at": "2026-11-17T10:16:23.441202+00:00",
+  "base_commit": "990b1c4",
+  "bg_tol": 110,
+  "palette": [
+    "#34140e",
+    "#2f1108",
+    "#5c493c",
+    "#774c3b",
+    "#7b6038",
+    "#a58751",
+    "#d3ae90",
+    "#f8daac",
+    "#fff9ed",
+    "#c44334",
+    "#77211d",
+    "#3a3721",
+    "#4f7a2e",
+    "#7fa040",
+    "#40548b",
+    "#2b3566",
+    "#e3d7c8",
+    "#e4b67e",
+    "#c2864d",
+    "#c2ad5f",
+    "#a1985d",
+    "#d6c074",
+    "#6f6c46",
+    "#e4b87d",
+    "#cfa36c",
+    "#c9a264",
+    "#7a4a9e",
+    "#b07fd0",
+    "#3f9a95",
+    "#7fd0c8",
+    "#050411",
+    "#0c1024",
+    "#af642e",
+    "#d5833a",
+    "#ffe08a",
+    "#ffffff",
+    "#c8b8b8",
+    "#a89898",
+    "#786868",
+    "#f88808",
+    "#f8d818",
+    "#d81808",
+    "#f8b828",
+    "#f8c838",
+    "#a8c828",
+    "#b3a954",
+    "#918c4b",
+    "#70683e",
+    "#838a55",
+    "#6e7b53",
+    "#414e3f",
+    "#31362f",
+    "#dec694",
+    "#d2b68f",
+    "#bda46f",
+    "#8e7a54",
+    "#5b4933"
+  ],
+  "records": [
+    {
+      "item": "rosary",
+      "round": 1,
+      "valid_placement": true,
+      "index": 1,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-a7a4355b-746f-44fb-b609-f53a855b1c93.png",
+      "raw_sha256": "4b3d2aec6abb5d3176efb419c84485e8c9f3ac89707aa69fcadd94562b57e63a",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        49,
+        22,
+        18.909999999999965,
+        0.24381825855952236
+      ],
+      "bbox": [
+        316,
+        289,
+        1250,
+        714
+      ],
+      "content_grid": [
+        29,
+        13
+      ],
+      "offset": [
+        2,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 1,
+      "grid": "native grid: 49x22 (block 18.9px, score 0.24 LOW)\nGRID_MISMATCH target 29x13, drawn on about 49x22 (69% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 49x22 (block 18.9px, score 0.24 LOW)\nGRID_MISMATCH target 29x13, drawn on about 49x22 (69% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/rosary-r1-1-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 92,
+        "1,0": 67
+      },
+      "outside_pixels": 0,
+      "sha256": "4d584f85c0ac75541d2a34845974a2b4dd95a0d29e16e63ae255eda10dfea278",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 9
+    },
+    {
+      "item": "rosary",
+      "round": 1,
+      "valid_placement": true,
+      "index": 2,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-954d6f21-3d98-4b51-a25e-ff00c1a00f7a.png",
+      "raw_sha256": "6da86eccad5a5a496bbe27f4b4e94e81b61c59256a3a24c7f2a9b7364a6302dd",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        88,
+        40,
+        10.639999999999974,
+        0.19811380216851976
+      ],
+      "bbox": [
+        318,
+        289,
+        1250,
+        718
+      ],
+      "content_grid": [
+        29,
+        13
+      ],
+      "offset": [
+        2,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 1,
+      "grid": "native grid: 88x40 (block 10.6px, score 0.20 LOW)\nGRID_MISMATCH target 29x13, drawn on about 88x40 (208% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 88x40 (block 10.6px, score 0.20 LOW)\nGRID_MISMATCH target 29x13, drawn on about 88x40 (208% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/rosary-r1-2-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 99,
+        "1,0": 70
+      },
+      "outside_pixels": 0,
+      "sha256": "abca1cefcd7dca73b3798f32cd873c5ee34a8e35bb1c94c0f56d01e4bbd5b830",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "rosary",
+      "round": 1,
+      "valid_placement": true,
+      "index": 3,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-7178dbe1-ff76-4b69-9987-3b781f382cf3.png",
+      "raw_sha256": "666c60424a48d8ccb736bfc69c532907f1dee0aa6fe74b2cb35488f8051823e8",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        51,
+        23,
+        18.31999999999995,
+        0.1599629631317609
+      ],
+      "bbox": [
+        321,
+        288,
+        1250,
+        708
+      ],
+      "content_grid": [
+        29,
+        13
+      ],
+      "offset": [
+        2,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 1,
+      "grid": "native grid: 51x23 (block 18.3px, score 0.16 LOW)\nGRID_MISMATCH target 29x13, drawn on about 51x23 (77% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 51x23 (block 18.3px, score 0.16 LOW)\nGRID_MISMATCH target 29x13, drawn on about 51x23 (77% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/rosary-r1-3-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 85,
+        "1,0": 63
+      },
+      "outside_pixels": 0,
+      "sha256": "d052a8d271177704760ce914b8c1b5e2e429acb7c2768bf9a35819456a59f309",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7
+    },
+    {
+      "item": "rosary",
+      "round": 1,
+      "valid_placement": true,
+      "index": 4,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-0559701c-2f2a-4ed4-b225-510209c19b7a.png",
+      "raw_sha256": "6be4c847f4b5852b3824f5ff1dfd227ecf406747fc4a9d28f4fc44b99ebb1fd4",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        52,
+        23,
+        17.86999999999996,
+        0.2185718247978699
+      ],
+      "bbox": [
+        325,
+        291,
+        1250,
+        706
+      ],
+      "content_grid": [
+        29,
+        13
+      ],
+      "offset": [
+        2,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 1,
+      "grid": "native grid: 52x23 (block 17.9px, score 0.22 LOW)\nGRID_MISMATCH target 29x13, drawn on about 52x23 (79% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 52x23 (block 17.9px, score 0.22 LOW)\nGRID_MISMATCH target 29x13, drawn on about 52x23 (79% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/rosary-r1-4-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 80,
+        "1,0": 65
+      },
+      "outside_pixels": 0,
+      "sha256": "2ce8339400f290f8ad2db2d202b9b7a331885db204fddf75aa04305fde00da34",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7
+    },
+    {
+      "item": "amulet",
+      "round": 1,
+      "valid_placement": true,
+      "index": 1,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-03df3b38-4567-4bed-b15e-3c544e542940.png",
+      "raw_sha256": "6b7bb8518e942a557a24262a69287351cc41037ef23c3d40e6acb0ce0e0ead93",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native": [
+        20,
+        28,
+        39.11999999999985,
+        0.8454317028593872
+      ],
+      "bbox": [
+        235,
+        77,
+        1019,
+        1176
+      ],
+      "content_grid": [
+        10,
+        14
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 78.375,
+      "grid_exit": 1,
+      "grid": "native grid: 20x28 (block 39.1px, score 0.85)\nGRID_MISMATCH target 10x14, drawn on about 20x28 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 20x28 (block 39.1px, score 0.85)\nGRID_MISMATCH target 10x14, drawn on about 20x28 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/amulet-r1-1-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 88
+      },
+      "outside_pixels": 0,
+      "sha256": "bf8acf524f5e64448e37c6f160768dd77e9c3cccd7e3cb4acf1f61252e1c10c0",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 8
+    },
+    {
+      "item": "amulet",
+      "round": 1,
+      "valid_placement": true,
+      "index": 2,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-a89abf69-0c41-4ed8-836f-b52b206d47f8.png",
+      "raw_sha256": "ba1dbb7828b3da3a7249a665ae11632babd2bfac5b4541509e52bd081e2882fe",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native": [
+        20,
+        28,
+        39.11999999999985,
+        0.8320857425432153
+      ],
+      "bbox": [
+        235,
+        78,
+        1019,
+        1176
+      ],
+      "content_grid": [
+        10,
+        14
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 78.375,
+      "grid_exit": 1,
+      "grid": "native grid: 20x28 (block 39.1px, score 0.83)\nGRID_MISMATCH target 10x14, drawn on about 20x28 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 20x28 (block 39.1px, score 0.83)\nGRID_MISMATCH target 10x14, drawn on about 20x28 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/amulet-r1-2-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 87
+      },
+      "outside_pixels": 0,
+      "sha256": "46158cff0b0d7e97945b266284029bc17067238b6da2cb09aa3b782db454dbd6",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "amulet",
+      "round": 1,
+      "valid_placement": true,
+      "index": 3,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-fa44db8b-3893-4c0b-b69c-8c46ada2ef65.png",
+      "raw_sha256": "a41497a9bbc8a9712ed9cfa6085e2193ccdc688ce4dd2b11560b373048f84495",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native": [
+        20,
+        28,
+        39.11999999999985,
+        0.7168061758469102
+      ],
+      "bbox": [
+        235,
+        78,
+        1019,
+        1176
+      ],
+      "content_grid": [
+        10,
+        14
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 78.375,
+      "grid_exit": 1,
+      "grid": "native grid: 20x28 (block 39.1px, score 0.72)\nGRID_MISMATCH target 10x14, drawn on about 20x28 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 20x28 (block 39.1px, score 0.72)\nGRID_MISMATCH target 10x14, drawn on about 20x28 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/amulet-r1-3-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 87
+      },
+      "outside_pixels": 0,
+      "sha256": "1d7f7fa9a04c448a7149ae4c73291683d63d4a5fb6f814f21846390b4c892903",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "amulet",
+      "round": 1,
+      "valid_placement": true,
+      "index": 4,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-82b1c9e0-4c62-4a5b-a591-194533253afb.png",
+      "raw_sha256": "47d61c991b7911f29e1335376c62ae2542b6b05b71e1cdff72d6d5cca39b2f19",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native": [
+        20,
+        28,
+        39.11999999999985,
+        0.883821038371442
+      ],
+      "bbox": [
+        235,
+        78,
+        1019,
+        1176
+      ],
+      "content_grid": [
+        10,
+        14
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 78.375,
+      "grid_exit": 1,
+      "grid": "native grid: 20x28 (block 39.1px, score 0.88)\nGRID_MISMATCH target 10x14, drawn on about 20x28 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 20x28 (block 39.1px, score 0.88)\nGRID_MISMATCH target 10x14, drawn on about 20x28 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/amulet-r1-4-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 87
+      },
+      "outside_pixels": 0,
+      "sha256": "2839639143930ae5c95e4c532ce3ce7d3e4ec9910f62b169fac6fa150f721008",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 8
+    },
+    {
+      "item": "vestment",
+      "round": 1,
+      "valid_placement": true,
+      "index": 1,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-73935b17-9d97-4fc2-be1f-647556098f4d.png",
+      "raw_sha256": "b4efc23bf0ec0110cd7c172ba0ff3f725d9c71c4d24eb5068210f3f2924043dd",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        46,
+        14,
+        32.00999999999992,
+        0.8839255730611795
+      ],
+      "bbox": [
+        32,
+        288,
+        1504,
+        736
+      ],
+      "content_grid": [
+        46,
+        14
+      ],
+      "offset": [
+        1,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 46x14 (block 32.0px, score 0.88)\n",
+      "pixelize": "native grid: 46x14 (block 32.0px, score 0.88)\noutput/2d-art/icons-priest/vestment-r1-1-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 95,
+        "1,0": 218,
+        "2,0": 95
+      },
+      "outside_pixels": 0,
+      "sha256": "0b32eda694f9619f2df64a93cfa2e76d0179c2786398f398151b2dda62c0aa2f",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "vestment",
+      "round": 1,
+      "valid_placement": true,
+      "index": 2,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-fd2aa084-3f38-4fb2-ad00-d96ef155fb57.png",
+      "raw_sha256": "2cb2ac288ab2dc76d9a955ad3e47c9874f20fb91ef30f58d95b2d7f04ecdd7a1",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        46,
+        14,
+        31.939999999999905,
+        0.8466406689136197
+      ],
+      "bbox": [
+        32,
+        289,
+        1504,
+        735
+      ],
+      "content_grid": [
+        46,
+        14
+      ],
+      "offset": [
+        1,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 46x14 (block 31.9px, score 0.85)\n",
+      "pixelize": "native grid: 46x14 (block 31.9px, score 0.85)\noutput/2d-art/icons-priest/vestment-r1-2-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 96,
+        "1,0": 218,
+        "2,0": 96
+      },
+      "outside_pixels": 0,
+      "sha256": "8d4b3bedb6d2450f1b455f4bd856047be5902e978c34e5f68fcd9f8bbd970fe5",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7
+    },
+    {
+      "item": "vestment",
+      "round": 1,
+      "valid_placement": true,
+      "index": 3,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-2c2f0f56-8cb2-461c-90ae-75e011c9fee2.png",
+      "raw_sha256": "d14d3d79364e3d8cb88e710c1a0e2dcb8da371fd85e2118659252045ba0fec6e",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        46,
+        14,
+        32.00999999999992,
+        0.9050511217837218
+      ],
+      "bbox": [
+        32,
+        288,
+        1504,
+        736
+      ],
+      "content_grid": [
+        46,
+        14
+      ],
+      "offset": [
+        1,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 46x14 (block 32.0px, score 0.91)\n",
+      "pixelize": "native grid: 46x14 (block 32.0px, score 0.91)\noutput/2d-art/icons-priest/vestment-r1-3-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 94,
+        "1,0": 217,
+        "2,0": 94
+      },
+      "outside_pixels": 0,
+      "sha256": "f2772cccae29fed21c138295c58c08597b9f73159f61502f41a955dda993e41d",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "vestment",
+      "round": 1,
+      "valid_placement": true,
+      "index": 4,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-338f5d1c-2d67-40ee-8844-cfb2256210a2.png",
+      "raw_sha256": "90a0f8cd23d11b44466b9094dc5488eeb1eb3232bb450ef17fdbf8f0983d1a5c",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        46,
+        14,
+        32.00999999999992,
+        0.9061612796980408
+      ],
+      "bbox": [
+        32,
+        288,
+        1504,
+        736
+      ],
+      "content_grid": [
+        46,
+        14
+      ],
+      "offset": [
+        1,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 46x14 (block 32.0px, score 0.91)\n",
+      "pixelize": "native grid: 46x14 (block 32.0px, score 0.91)\noutput/2d-art/icons-priest/vestment-r1-4-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 94,
+        "1,0": 218,
+        "2,0": 94
+      },
+      "outside_pixels": 0,
+      "sha256": "7594bf80a4281ffd127475e37331aa72d8a80640b07295f96e6db229b43af25e",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7
+    },
+    {
+      "item": "lantern",
+      "round": 1,
+      "valid_placement": true,
+      "index": 1,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-950d6834-5dce-4565-8214-449e320c3eab.png",
+      "raw_sha256": "c8453fa42304723e08653ee095d5b7971ec8f523f20e15d0cb4071934b794a04",
+      "raw_size": [
+        1024,
+        1536
+      ],
+      "native": [
+        26,
+        46,
+        31.939999999999905,
+        0.9060093307618018
+      ],
+      "bbox": [
+        96,
+        32,
+        928,
+        1504
+      ],
+      "content_grid": [
+        26,
+        46
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 26x46 (block 31.9px, score 0.91)\n",
+      "pixelize": "native grid: 26x46 (block 31.9px, score 0.91)\noutput/2d-art/icons-priest/lantern-r1-1-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 120,
+        "1,0": 0,
+        "0,1": 129,
+        "1,1": 7,
+        "0,2": 182,
+        "1,2": 180
+      },
+      "outside_pixels": 7,
+      "sha256": "e30281ca59881d6744226e271cf36186ab051cbbf606453a6cfb25478cc591f3",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7
+    },
+    {
+      "item": "lantern",
+      "round": 1,
+      "valid_placement": true,
+      "index": 2,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-61c3598d-0a96-4acf-951d-d8b23c208815.png",
+      "raw_sha256": "6b58fe662a75309da8aea29eb56c3c6a9f5e4c415c913b283303681d928965b5",
+      "raw_size": [
+        1024,
+        1536
+      ],
+      "native": [
+        27,
+        46,
+        31.96999999999991,
+        0.9061620269002186
+      ],
+      "bbox": [
+        95,
+        32,
+        961,
+        1504
+      ],
+      "content_grid": [
+        27,
+        46
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 27x46 (block 32.0px, score 0.91)\n",
+      "pixelize": "native grid: 27x46 (block 32.0px, score 0.91)\noutput/2d-art/icons-priest/lantern-r1-2-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 120,
+        "1,0": 0,
+        "0,1": 130,
+        "1,1": 8,
+        "0,2": 179,
+        "1,2": 187
+      },
+      "outside_pixels": 8,
+      "sha256": "fe39ac87c66ccb845cd9384cd0d8f0e251534d63a3a2fed55b5ee876e411d001",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7
+    },
+    {
+      "item": "lantern",
+      "round": 1,
+      "valid_placement": true,
+      "index": 3,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-d2a36de2-e91b-4f35-b367-d336d88a85a3.png",
+      "raw_sha256": "09671b269bc4a8103be7a0b26fc6325331a9cde32b6d35e960b33141c39dcc83",
+      "raw_size": [
+        1024,
+        1536
+      ],
+      "native": [
+        26,
+        46,
+        32.01999999999992,
+        0.9063085571517799
+      ],
+      "bbox": [
+        96,
+        32,
+        928,
+        1504
+      ],
+      "content_grid": [
+        26,
+        46
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 26x46 (block 32.0px, score 0.91)\n",
+      "pixelize": "native grid: 26x46 (block 32.0px, score 0.91)\noutput/2d-art/icons-priest/lantern-r1-3-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 120,
+        "1,0": 0,
+        "0,1": 131,
+        "1,1": 7,
+        "0,2": 182,
+        "1,2": 178
+      },
+      "outside_pixels": 7,
+      "sha256": "28ac6ead2d48f2d6adf2c3818ec7215c9270602f67463fe9fc4bf297e3971ec2",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "lantern",
+      "round": 1,
+      "valid_placement": true,
+      "index": 4,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-289839df-4051-4733-897e-0ffdbd860560.png",
+      "raw_sha256": "a1cbe932d9de7cddcd3d8df566e7bbfc3db4e19f54f42ac8fe18d122daa9f530",
+      "raw_size": [
+        1024,
+        1536
+      ],
+      "native": [
+        27,
+        46,
+        31.939999999999905,
+        0.9059341847131293
+      ],
+      "bbox": [
+        96,
+        32,
+        960,
+        1504
+      ],
+      "content_grid": [
+        27,
+        46
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 27x46 (block 31.9px, score 0.91)\n",
+      "pixelize": "native grid: 27x46 (block 31.9px, score 0.91)\noutput/2d-art/icons-priest/lantern-r1-4-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 120,
+        "1,0": 0,
+        "0,1": 129,
+        "1,1": 8,
+        "0,2": 182,
+        "1,2": 188
+      },
+      "outside_pixels": 8,
+      "sha256": "bce3e6bd8af06f4f79d0cccbebe7b5646092cb9da220771e540b1da54fe0fbc0",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7
+    },
+    {
+      "item": "rosary",
+      "round": 2,
+      "valid_placement": true,
+      "index": 1,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-09e879c9-7bf1-49d8-9d34-c3561e076605.png",
+      "raw_sha256": "60f8ee931cf4d700a1d7ab49410e913d3861d5149f76ccb8a596394c0354b2c9",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        29,
+        13,
+        31.929999999999918,
+        0.8353401926944259
+      ],
+      "bbox": [
+        320,
+        288,
+        1248,
+        704
+      ],
+      "content_grid": [
+        29,
+        13
+      ],
+      "offset": [
+        2,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 29x13 (block 31.9px, score 0.84)\n",
+      "pixelize": "native grid: 29x13 (block 31.9px, score 0.84)\noutput/2d-art/icons-priest/rosary-r2-1-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r2-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 86,
+        "1,0": 80
+      },
+      "outside_pixels": 0,
+      "sha256": "ac2d0d94b35a60f2eccc19fa5e72b6db0b3a2b8233432a2f8fd699352e84180c",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 5
+    },
+    {
+      "item": "rosary",
+      "round": 2,
+      "valid_placement": true,
+      "index": 2,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-f96945e1-ffb2-4b29-8894-4ab04bb058f8.png",
+      "raw_sha256": "ae1daea5b31ee4e5f4765d828bd7a2f21fbe884b09a68ba299dafd2da9f28905",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        29,
+        13,
+        32.00999999999992,
+        0.8999556692196136
+      ],
+      "bbox": [
+        320,
+        288,
+        1248,
+        704
+      ],
+      "content_grid": [
+        29,
+        13
+      ],
+      "offset": [
+        2,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 29x13 (block 32.0px, score 0.90)\n",
+      "pixelize": "native grid: 29x13 (block 32.0px, score 0.90)\noutput/2d-art/icons-priest/rosary-r2-2-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r2-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 89,
+        "1,0": 80
+      },
+      "outside_pixels": 0,
+      "sha256": "658a8502bf68608c98a247263fbb20356a88f83c58121a64bdedd1856ba99eaf",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 5
+    },
+    {
+      "item": "rosary",
+      "round": 2,
+      "valid_placement": true,
+      "index": 3,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-f133bff0-5d41-4d57-a90c-87a2c32ec562.png",
+      "raw_sha256": "0def9bbe2f4b6f738a9cc158fcac1d1b4e602ca49b1d4054f9bcc7e113db5005",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        29,
+        13,
+        31.929999999999918,
+        0.8870039839129893
+      ],
+      "bbox": [
+        320,
+        288,
+        1248,
+        704
+      ],
+      "content_grid": [
+        29,
+        13
+      ],
+      "offset": [
+        2,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 29x13 (block 31.9px, score 0.89)\n",
+      "pixelize": "native grid: 29x13 (block 31.9px, score 0.89)\noutput/2d-art/icons-priest/rosary-r2-3-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r2-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 80,
+        "1,0": 79
+      },
+      "outside_pixels": 0,
+      "sha256": "bcb59e16059d94efef9964f2b1e6b8fc09b550b7543720b59b7d7c970bf22810",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 3
+    },
+    {
+      "item": "rosary",
+      "round": 2,
+      "valid_placement": true,
+      "index": 4,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-290f6ab9-665e-4cf2-a062-16fdf155cf20.png",
+      "raw_sha256": "13ea7b1be88c20ab53b7d153f6b4ba520e87b4c809ff75c735a2b84e7e212b1f",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        29,
+        13,
+        32.00999999999992,
+        0.9049619642546849
+      ],
+      "bbox": [
+        320,
+        288,
+        1248,
+        704
+      ],
+      "content_grid": [
+        29,
+        13
+      ],
+      "offset": [
+        2,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 29x13 (block 32.0px, score 0.90)\n",
+      "pixelize": "native grid: 29x13 (block 32.0px, score 0.90)\noutput/2d-art/icons-priest/rosary-r2-4-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r2-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 80,
+        "1,0": 77
+      },
+      "outside_pixels": 0,
+      "sha256": "b68de143d0b430b8302cc7bda4260007e5afe852301f394deb979fcc1c414a38",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 4
+    },
+    {
+      "item": "amulet",
+      "round": 2,
+      "valid_placement": true,
+      "index": 1,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-f9f44a21-0a3e-43e6-ad21-3813f434a3d8.png",
+      "raw_sha256": "81ce1b29e4c01d8047d72791cbbf01f44ea869eb9f4b2b535d6495b3a814e2ec",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native": [
+        10,
+        14,
+        78.24999999999982,
+        0.9612014448699593
+      ],
+      "bbox": [
+        235,
+        78,
+        1019,
+        1176
+      ],
+      "content_grid": [
+        10,
+        14
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 78.375,
+      "grid_exit": 0,
+      "grid": "native grid: 10x14 (block 78.2px, score 0.96)\n",
+      "pixelize": "native grid: 10x14 (block 78.2px, score 0.96)\noutput/2d-art/icons-priest/amulet-r2-1-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r2-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 87
+      },
+      "outside_pixels": 0,
+      "sha256": "860cd70be1b38295c4054ac1e93d6834cd95d61341f302f03876e021b647ceaf",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 4
+    },
+    {
+      "item": "amulet",
+      "round": 2,
+      "valid_placement": true,
+      "index": 2,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-d2b60ad0-2d30-451b-8cd2-fbb6553b58c4.png",
+      "raw_sha256": "6bc69b3dcf420ba0114af818914df1844f43971b24f2245dce3d67f5dd53f662",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native": [
+        10,
+        14,
+        78.24999999999982,
+        0.9610172491036792
+      ],
+      "bbox": [
+        235,
+        77,
+        1019,
+        1176
+      ],
+      "content_grid": [
+        10,
+        14
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 78.375,
+      "grid_exit": 0,
+      "grid": "native grid: 10x14 (block 78.2px, score 0.96)\n",
+      "pixelize": "native grid: 10x14 (block 78.2px, score 0.96)\noutput/2d-art/icons-priest/amulet-r2-2-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r2-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 87
+      },
+      "outside_pixels": 0,
+      "sha256": "d1e591d838b985fe27742251c7e8c5050795955e7c01dce6df8c1ad0058cadcd",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 5
+    },
+    {
+      "item": "amulet",
+      "round": 2,
+      "valid_placement": true,
+      "index": 3,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-66842ff3-7ad2-42cc-af3a-a205805572f1.png",
+      "raw_sha256": "e78a4c24963684f0ce52246680c0eb747457bba3bcc8618a60f17bc7573b1005",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native": [
+        10,
+        14,
+        78.31999999999981,
+        0.9405726987768277
+      ],
+      "bbox": [
+        235,
+        78,
+        1020,
+        1176
+      ],
+      "content_grid": [
+        10,
+        14
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 78.375,
+      "grid_exit": 0,
+      "grid": "native grid: 10x14 (block 78.3px, score 0.94)\n",
+      "pixelize": "native grid: 10x14 (block 78.3px, score 0.94)\noutput/2d-art/icons-priest/amulet-r2-3-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r2-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 87
+      },
+      "outside_pixels": 0,
+      "sha256": "14616cea74ea6ae1175d4c115770e9a0d086c63ec3b89d8ebf779a79962a8cd5",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 4
+    },
+    {
+      "item": "amulet",
+      "round": 2,
+      "valid_placement": true,
+      "index": 4,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-437f989c-b149-498c-ac64-ade1333def1d.png",
+      "raw_sha256": "8a6b0db0717f1221279fbcd52f51b567095601c959e006eef3730e91610e7605",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native": [
+        10,
+        14,
+        78.24999999999982,
+        0.9607442767462154
+      ],
+      "bbox": [
+        235,
+        77,
+        1019,
+        1176
+      ],
+      "content_grid": [
+        10,
+        14
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 78.375,
+      "grid_exit": 0,
+      "grid": "native grid: 10x14 (block 78.2px, score 0.96)\n",
+      "pixelize": "native grid: 10x14 (block 78.2px, score 0.96)\noutput/2d-art/icons-priest/amulet-r2-4-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r2-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 87
+      },
+      "outside_pixels": 0,
+      "sha256": "cfcdc196519d69855f0bd8d3fbef045c188a898d4fea813eba53b6b10d393a15",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 4
+    },
+    {
+      "item": "lantern",
+      "round": 2,
+      "valid_placement": true,
+      "index": 1,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-853244e9-5735-4250-9abd-9f898868617c.png",
+      "raw_sha256": "417f7d6bfbaade45c4db48b16d144a4655fea6356433abe7b4a2743d6f9824cd",
+      "raw_size": [
+        1024,
+        1536
+      ],
+      "native": [
+        26,
+        46,
+        31.939999999999905,
+        0.9060065575418221
+      ],
+      "bbox": [
+        96,
+        32,
+        928,
+        1504
+      ],
+      "content_grid": [
+        26,
+        46
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 26x46 (block 31.9px, score 0.91)\n",
+      "pixelize": "native grid: 26x46 (block 31.9px, score 0.91)\noutput/2d-art/icons-priest/lantern-r2-1-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r2-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 120,
+        "1,0": 0,
+        "0,1": 126,
+        "1,1": 0,
+        "0,2": 181,
+        "1,2": 179
+      },
+      "outside_pixels": 0,
+      "sha256": "8c31e3ad40d8135c3fb67c1c9354968b70998c6e6127ae56b7740e19604a88fa",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "lantern",
+      "round": 2,
+      "valid_placement": true,
+      "index": 2,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-a113ba8a-9452-493e-9247-3e36e6fb888f.png",
+      "raw_sha256": "97da0bd9dc7f28d7d438aa9015ee49e70f01ee627db5b3947f63a5edbd67df9f",
+      "raw_size": [
+        1024,
+        1536
+      ],
+      "native": [
+        26,
+        46,
+        31.939999999999905,
+        0.9059425687773897
+      ],
+      "bbox": [
+        96,
+        32,
+        928,
+        1504
+      ],
+      "content_grid": [
+        26,
+        46
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 26x46 (block 31.9px, score 0.91)\n",
+      "pixelize": "native grid: 26x46 (block 31.9px, score 0.91)\noutput/2d-art/icons-priest/lantern-r2-2-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r2-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 120,
+        "1,0": 0,
+        "0,1": 126,
+        "1,1": 0,
+        "0,2": 180,
+        "1,2": 180
+      },
+      "outside_pixels": 0,
+      "sha256": "a5c138e982133a7af03532d384aaa0f64bf440832fdc060cedb4fe5f165889d5",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7
+    },
+    {
+      "item": "lantern",
+      "round": 2,
+      "valid_placement": true,
+      "index": 3,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-51fdda25-078e-40db-be78-e36fe51c4929.png",
+      "raw_sha256": "cf75028665a02fffaf2368e445f7eaabac36ade6f151c88a6c8c5edb019ec438",
+      "raw_size": [
+        1024,
+        1536
+      ],
+      "native": [
+        26,
+        46,
+        31.939999999999905,
+        0.9059436632512629
+      ],
+      "bbox": [
+        96,
+        32,
+        928,
+        1504
+      ],
+      "content_grid": [
+        26,
+        46
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 26x46 (block 31.9px, score 0.91)\n",
+      "pixelize": "native grid: 26x46 (block 31.9px, score 0.91)\noutput/2d-art/icons-priest/lantern-r2-3-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r2-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 120,
+        "1,0": 0,
+        "0,1": 125,
+        "1,1": 0,
+        "0,2": 182,
+        "1,2": 175
+      },
+      "outside_pixels": 0,
+      "sha256": "397948217c826d1a5dad68757091726d217da6731769f6214437d5aa39d2fe8a",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "lantern",
+      "round": 2,
+      "valid_placement": true,
+      "index": 4,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-869b5427-7c5d-4156-bd92-cf1acd1adbf2.png",
+      "raw_sha256": "308303a7b79fae149d86737409f144408f6dd87506bfaf95313841ff89427bdc",
+      "raw_size": [
+        1024,
+        1536
+      ],
+      "native": [
+        26,
+        46,
+        32.01999999999992,
+        0.9060862062410315
+      ],
+      "bbox": [
+        96,
+        32,
+        928,
+        1504
+      ],
+      "content_grid": [
+        26,
+        46
+      ],
+      "offset": [
+        3,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 26x46 (block 32.0px, score 0.91)\n",
+      "pixelize": "native grid: 26x46 (block 32.0px, score 0.91)\noutput/2d-art/icons-priest/lantern-r2-4-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r2-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 120,
+        "1,0": 0,
+        "0,1": 126,
+        "1,1": 0,
+        "0,2": 179,
+        "1,2": 175
+      },
+      "outside_pixels": 0,
+      "sha256": "c4a7942fd531429817061a787b20dccb9ebeeac2884145028c1956d91d5c9a83",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7
+    }
+  ],
+  "final_commands": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        ".ai/2d-art/tools/matte.py",
+        "fringe",
+        "--key",
+        "#ff00ff",
+        "Assets/Game/03.Resources/Art/AIGenerated/Items/rosary/rosary.png"
+      ],
+      "exit": 0,
+      "stdout": "PASS rosary.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": "",
+      "sha256": "ac2d0d94b35a60f2eccc19fa5e72b6db0b3a2b8233432a2f8fd699352e84180c",
+      "size": [
+        32,
+        16
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "shape_outside_pixels": 0,
+      "palette_extra_colors": 0,
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        ".ai/2d-art/tools/matte.py",
+        "fringe",
+        "--key",
+        "#ff00ff",
+        "Assets/Game/03.Resources/Art/AIGenerated/Items/amulet/amulet.png"
+      ],
+      "exit": 0,
+      "stdout": "PASS amulet.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": "",
+      "sha256": "860cd70be1b38295c4054ac1e93d6834cd95d61341f302f03876e021b647ceaf",
+      "size": [
+        16,
+        16
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ]
+      ],
+      "shape_outside_pixels": 0,
+      "palette_extra_colors": 0,
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        ".ai/2d-art/tools/matte.py",
+        "fringe",
+        "--key",
+        "#ff00ff",
+        "Assets/Game/03.Resources/Art/AIGenerated/Items/vestment/vestment.png"
+      ],
+      "exit": 0,
+      "stdout": "PASS vestment.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": "",
+      "sha256": "0b32eda694f9619f2df64a93cfa2e76d0179c2786398f398151b2dda62c0aa2f",
+      "size": [
+        48,
+        16
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "shape_outside_pixels": 0,
+      "palette_extra_colors": 0,
+      "alpha": [
+        0,
+        255
+      ]
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        ".ai/2d-art/tools/matte.py",
+        "fringe",
+        "--key",
+        "#ff00ff",
+        "Assets/Game/03.Resources/Art/AIGenerated/Items/lantern/lantern.png"
+      ],
+      "exit": 0,
+      "stdout": "PASS lantern.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": "",
+      "sha256": "8c31e3ad40d8135c3fb67c1c9354968b70998c6e6127ae56b7740e19604a88fa",
+      "size": [
+        32,
+        48
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "shape_outside_pixels": 0,
+      "palette_extra_colors": 0,
+      "alpha": [
+        0,
+        255
+      ]
+    }
+  ],
+  "paint_output": "rosary/amulet: NO_PAINT exit2 (family min50px). vestment: FAIL orange dS-0.46 dV-0.15, neutral dS-0.02 dV+0.34. lantern: FAIL orange dS+0.06. Reference sword is gold hilt/steel blade; this comparison is informational, no paint recoloring or gate bypass.",
+  "review": "NOT_RUN: Claude closing review pending",
+  "sheets_opened": [
+    "docs/art/sheets/items-priest.png",
+    "docs/art/sheets/items-priest-blind.png"
+  ],
+  "initial_bg60_records": [
+    {
+      "item": "rosary",
+      "index": 1,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-a7a4355b-746f-44fb-b609-f53a855b1c93.png",
+      "raw_sha256": "4b3d2aec6abb5d3176efb419c84485e8c9f3ac89707aa69fcadd94562b57e63a",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        66,
+        39,
+        18.919999999999966,
+        0.2435533651572369
+      ],
+      "bbox": [
+        0,
+        288,
+        1250,
+        1024
+      ],
+      "content_grid": [
+        39,
+        23
+      ],
+      "offset": [
+        -8,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 1,
+      "grid": "native grid: 66x39 (block 18.9px, score 0.24 LOW)\nGRID_MISMATCH target 39x23, drawn on about 66x39 (70% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 66x39 (block 18.9px, score 0.24 LOW)\nGRID_MISMATCH target 39x23, drawn on about 66x39 (70% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/rosary-r1-1-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 84,
+        "1,0": 78
+      },
+      "outside_pixels": 0,
+      "sha256": "87a68c4b6e682ac5861b85d1d012b862023820a1c08d0c676b0a5d2412a6dcfc",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 9
+    },
+    {
+      "item": "rosary",
+      "index": 2,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-954d6f21-3d98-4b51-a25e-ff00c1a00f7a.png",
+      "raw_sha256": "6da86eccad5a5a496bbe27f4b4e94e81b61c59256a3a24c7f2a9b7364a6302dd",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        117,
+        69,
+        10.639999999999974,
+        0.19821305145953033
+      ],
+      "bbox": [
+        0,
+        289,
+        1250,
+        1024
+      ],
+      "content_grid": [
+        39,
+        23
+      ],
+      "offset": [
+        -8,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 1,
+      "grid": "native grid: 117x69 (block 10.6px, score 0.20 LOW)\nGRID_MISMATCH target 39x23, drawn on about 117x69 (200% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 117x69 (block 10.6px, score 0.20 LOW)\nGRID_MISMATCH target 39x23, drawn on about 117x69 (200% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/rosary-r1-2-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 93,
+        "1,0": 85
+      },
+      "outside_pixels": 0,
+      "sha256": "c5400f48b9ad6f118f373c6dd22ce0f36aa36b1b72921569ec8d3d04bb7d9f59",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "rosary",
+      "index": 3,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-7178dbe1-ff76-4b69-9987-3b781f382cf3.png",
+      "raw_sha256": "666c60424a48d8ccb736bfc69c532907f1dee0aa6fe74b2cb35488f8051823e8",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        188,
+        90,
+        8.189999999999984,
+        0.18549516380725428
+      ],
+      "bbox": [
+        0,
+        288,
+        1536,
+        1024
+      ],
+      "content_grid": [
+        48,
+        23
+      ],
+      "offset": [
+        -8,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 1,
+      "grid": "native grid: 188x90 (block 8.2px, score 0.19 LOW)\nGRID_MISMATCH target 48x23, drawn on about 188x90 (292% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 188x90 (block 8.2px, score 0.19 LOW)\nGRID_MISMATCH target 48x23, drawn on about 188x90 (292% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/rosary-r1-3-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 77,
+        "1,0": 73
+      },
+      "outside_pixels": 0,
+      "sha256": "ed9457aad3457dbee0c98626f5f356381909006bffc9375aa5cc4519f2720eca",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 8
+    },
+    {
+      "item": "rosary",
+      "index": 4,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-0559701c-2f2a-4ed4-b225-510209c19b7a.png",
+      "raw_sha256": "6be4c847f4b5852b3824f5ff1dfd227ecf406747fc4a9d28f4fc44b99ebb1fd4",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        86,
+        41,
+        17.849999999999973,
+        0.22172217686228296
+      ],
+      "bbox": [
+        0,
+        290,
+        1536,
+        1024
+      ],
+      "content_grid": [
+        48,
+        23
+      ],
+      "offset": [
+        -8,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 1,
+      "grid": "native grid: 86x41 (block 17.8px, score 0.22 LOW)\nGRID_MISMATCH target 48x23, drawn on about 86x41 (79% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 86x41 (block 17.8px, score 0.22 LOW)\nGRID_MISMATCH target 48x23, drawn on about 86x41 (79% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/rosary-r1-4-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 74,
+        "1,0": 76
+      },
+      "outside_pixels": 0,
+      "sha256": "98972e82f24d319d826d4caaf30cfe9165875d51d52c1c3c8bbfe12bceb6ef2a",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7
+    },
+    {
+      "item": "amulet",
+      "index": 1,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-03df3b38-4567-4bed-b15e-3c544e542940.png",
+      "raw_sha256": "6b7bb8518e942a557a24262a69287351cc41037ef23c3d40e6acb0ce0e0ead93",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native": [
+        32,
+        30,
+        39.17999999999986,
+        0.872854126172742
+      ],
+      "bbox": [
+        0,
+        77,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        16,
+        15
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "expected_pitch": 78.375,
+      "grid_exit": 1,
+      "grid": "native grid: 32x30 (block 39.2px, score 0.87)\nGRID_MISMATCH target 16x15, drawn on about 32x30 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 32x30 (block 39.2px, score 0.87)\nGRID_MISMATCH target 16x15, drawn on about 32x30 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/amulet-r1-1-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 88
+      },
+      "outside_pixels": 0,
+      "sha256": "f2d75f4f7a9f159d54afa74557bbb633f70f13ff03cd08901db5b8e452c14dc0",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 8
+    },
+    {
+      "item": "amulet",
+      "index": 2,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-a89abf69-0c41-4ed8-836f-b52b206d47f8.png",
+      "raw_sha256": "ba1dbb7828b3da3a7249a665ae11632babd2bfac5b4541509e52bd081e2882fe",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native": [
+        32,
+        30,
+        39.17999999999986,
+        0.8324058819668423
+      ],
+      "bbox": [
+        0,
+        77,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        16,
+        15
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "expected_pitch": 78.375,
+      "grid_exit": 1,
+      "grid": "native grid: 32x30 (block 39.2px, score 0.83)\nGRID_MISMATCH target 16x15, drawn on about 32x30 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 32x30 (block 39.2px, score 0.83)\nGRID_MISMATCH target 16x15, drawn on about 32x30 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/amulet-r1-2-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 87
+      },
+      "outside_pixels": 0,
+      "sha256": "924ae0118e9eda0a876cab3df8facc0dedcc5e20bf6afa775b324793e9a7ab75",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "amulet",
+      "index": 3,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-fa44db8b-3893-4c0b-b69c-8c46ada2ef65.png",
+      "raw_sha256": "a41497a9bbc8a9712ed9cfa6085e2193ccdc688ce4dd2b11560b373048f84495",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native": [
+        32,
+        30,
+        39.149999999999864,
+        0.7168907635736936
+      ],
+      "bbox": [
+        0,
+        77,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        16,
+        15
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "expected_pitch": 78.375,
+      "grid_exit": 1,
+      "grid": "native grid: 32x30 (block 39.1px, score 0.72)\nGRID_MISMATCH target 16x15, drawn on about 32x30 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 32x30 (block 39.1px, score 0.72)\nGRID_MISMATCH target 16x15, drawn on about 32x30 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/amulet-r1-3-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 87
+      },
+      "outside_pixels": 0,
+      "sha256": "ab244740be1d2b77cd71f81dc25aef1dbe3e021c62bba00f46f55d26d1b083dc",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "amulet",
+      "index": 4,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-82b1c9e0-4c62-4a5b-a591-194533253afb.png",
+      "raw_sha256": "47d61c991b7911f29e1335376c62ae2542b6b05b71e1cdff72d6d5cca39b2f19",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native": [
+        26,
+        30,
+        39.17999999999986,
+        0.8839441589924248
+      ],
+      "bbox": [
+        0,
+        77,
+        1019,
+        1254
+      ],
+      "content_grid": [
+        13,
+        15
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "expected_pitch": 78.375,
+      "grid_exit": 1,
+      "grid": "native grid: 26x30 (block 39.2px, score 0.88)\nGRID_MISMATCH target 13x15, drawn on about 26x30 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "pixelize": "native grid: 26x30 (block 39.2px, score 0.88)\nGRID_MISMATCH target 13x15, drawn on about 26x30 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\noutput/2d-art/icons-priest/amulet-r1-4-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 87
+      },
+      "outside_pixels": 0,
+      "sha256": "32d90ebf32deca2752bd557a55b53cbea115cb7818ce9fe8cb2cdea874924552",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 8
+    },
+    {
+      "item": "vestment",
+      "index": 1,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-73935b17-9d97-4fc2-be1f-647556098f4d.png",
+      "raw_sha256": "b4efc23bf0ec0110cd7c172ba0ff3f725d9c71c4d24eb5068210f3f2924043dd",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        47,
+        23,
+        32.03999999999992,
+        0.9063014071738232
+      ],
+      "bbox": [
+        0,
+        287,
+        1505,
+        1024
+      ],
+      "content_grid": [
+        47,
+        23
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 47x23 (block 32.0px, score 0.91)\n",
+      "pixelize": "native grid: 47x23 (block 32.0px, score 0.91)\noutput/2d-art/icons-priest/vestment-r1-1-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 95,
+        "1,0": 218,
+        "2,0": 95
+      },
+      "outside_pixels": 0,
+      "sha256": "0b32eda694f9619f2df64a93cfa2e76d0179c2786398f398151b2dda62c0aa2f",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "vestment",
+      "index": 2,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-fd2aa084-3f38-4fb2-ad00-d96ef155fb57.png",
+      "raw_sha256": "2cb2ac288ab2dc76d9a955ad3e47c9874f20fb91ef30f58d95b2d7f04ecdd7a1",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        47,
+        23,
+        31.939999999999905,
+        0.8801654535416701
+      ],
+      "bbox": [
+        0,
+        289,
+        1505,
+        1024
+      ],
+      "content_grid": [
+        47,
+        23
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 47x23 (block 31.9px, score 0.88)\n",
+      "pixelize": "native grid: 47x23 (block 31.9px, score 0.88)\noutput/2d-art/icons-priest/vestment-r1-2-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 96,
+        "1,0": 218,
+        "2,0": 96
+      },
+      "outside_pixels": 0,
+      "sha256": "57c037bbd0710b4f5f6fc46b516d12dfa80030115b3b7e1ca42a703ef5337d3a",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7
+    },
+    {
+      "item": "vestment",
+      "index": 3,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-2c2f0f56-8cb2-461c-90ae-75e011c9fee2.png",
+      "raw_sha256": "d14d3d79364e3d8cb88e710c1a0e2dcb8da371fd85e2118659252045ba0fec6e",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        47,
+        23,
+        32.03999999999992,
+        0.9061973515641274
+      ],
+      "bbox": [
+        0,
+        287,
+        1505,
+        1024
+      ],
+      "content_grid": [
+        47,
+        23
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 47x23 (block 32.0px, score 0.91)\n",
+      "pixelize": "native grid: 47x23 (block 32.0px, score 0.91)\noutput/2d-art/icons-priest/vestment-r1-3-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 94,
+        "1,0": 217,
+        "2,0": 94
+      },
+      "outside_pixels": 0,
+      "sha256": "f2772cccae29fed21c138295c58c08597b9f73159f61502f41a955dda993e41d",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6
+    },
+    {
+      "item": "vestment",
+      "index": 4,
+      "raw_path": "/Users/hyeongwoo/.codex/generated_images/01a1e8f7-1e48-7812-b1a2-a370f8fb0888/exec-338f5d1c-2d67-40ee-8844-cfb2256210a2.png",
+      "raw_sha256": "90a0f8cd23d11b44466b9094dc5488eeb1eb3232bb450ef17fdbf8f0983d1a5c",
+      "raw_size": [
+        1536,
+        1024
+      ],
+      "native": [
+        47,
+        23,
+        32.03999999999992,
+        0.9063004100684378
+      ],
+      "bbox": [
+        0,
+        287,
+        1505,
+        1024
+      ],
+      "content_grid": [
+        47,
+        23
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "expected_pitch": 32.0,
+      "grid_exit": 0,
+      "grid": "native grid: 47x23 (block 32.0px, score 0.91)\n",
+      "pixelize": "native grid: 47x23 (block 32.0px, score 0.91)\noutput/2d-art/icons-priest/vestment-r1-4-content.png\n/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/pixelize.py:229: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  return Image.fromarray(out, 'RGBA')\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cells": {
+        "0,0": 94,
+        "1,0": 218,
+        "2,0": 94
+      },
+      "outside_pixels": 0,
+      "sha256": "a947cd6e2ebdb2772d037586112fb40df5b9c076cfa5d1d448b66e4104ff6419",
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7
+    }
+  ]
+}

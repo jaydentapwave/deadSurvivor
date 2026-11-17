@@ -1,0 +1,47 @@
+{
+ "ref": {
+  "orange": {
+   "S": 0.7741935849189758,
+   "V": 0.9725490212440491
+  },
+  "neutral": {
+   "S": 0.0952380895614624,
+   "V": 0.658823549747467
+  }
+ },
+ "pictures": {
+  "Assets/Game/03.Resources/Art/AIGenerated/Items/vestment/vestment.png": {
+   "paint_px": 286,
+   "families": {
+    "orange": {
+     "S": 0.318,
+     "V": 0.827,
+     "share": 0.476,
+     "dS": -0.457,
+     "dV": -0.145
+    },
+    "neutral": {
+     "S": 0.071,
+     "V": 1.0,
+     "share": 0.524,
+     "dS": -0.025,
+     "dV": 0.341
+    }
+   },
+   "verdict": "FAIL"
+  },
+  "Assets/Game/03.Resources/Art/AIGenerated/Items/lantern/lantern.png": {
+   "paint_px": 318,
+   "families": {
+    "orange": {
+     "S": 0.839,
+     "V": 0.973,
+     "share": 0.991,
+     "dS": 0.065,
+     "dV": 0.0
+    }
+   },
+   "verdict": "FAIL"
+  }
+ }
+}
