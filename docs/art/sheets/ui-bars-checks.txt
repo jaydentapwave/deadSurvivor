@@ -176,9 +176,18 @@ PASS digit_6.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (al
 PASS digit_8.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)
 PASS digit_9.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)
 PASS fringe: 16 pictures, 0 with key colour left on the rim
+PASS 9-slice hp_bar_bg width=32: 양끝 RGBA 보존, 중앙 단색 레일
+PASS 9-slice hp_bar_bg width=97: 양끝 RGBA 보존, 중앙 단색 레일
+PASS 9-slice hp_bar_bg width=150: 양끝 RGBA 보존, 중앙 단색 레일
+PASS 9-slice cooldown_bg width=24: 양끝 RGBA 보존, 중앙 단색 레일
+PASS 9-slice cooldown_bg width=97: 양끝 RGBA 보존, 중앙 단색 레일
+PASS 9-slice cooldown_bg width=150: 양끝 RGBA 보존, 중앙 단색 레일
+PASS tint hp_bar_fill: 순백색 단1색
+PASS tint cooldown_fill: 순백색 단1색
+PASS digits: 10장 캔버스7x9, 전체 높이9px
+PASS: 파일 10개, 팔레트 57색, 실패 0건
+PASS: 파일 6개, 팔레트 57색, 실패 0건
+PASS: 파일 64개, 팔레트 57색, 실패 0건
 SHEET /Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/docs/art/sheets/ui-bars.png (64 shown, 0 left out)
 SHEET /Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/docs/art/sheets/ui-bars-blind.png (16 shown, 0 left out)
 SHEET /Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/docs/art/sheets/ui-bars-composite-sheet.png (1 shown, 0 left out)
-
-후보 전체 check_sprites:
-PASS: 파일 64개, 팔레트 57색, 실패 0건

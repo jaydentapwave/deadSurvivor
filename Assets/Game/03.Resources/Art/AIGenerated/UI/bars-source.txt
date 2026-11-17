@@ -8,7 +8,7 @@ AC1: r5 3.3 UI 행의 이번 범위 = HP 바 바탕/채움, 쿨타임 바탕/채
 AC2: r5 3.5 팔레트, K11 실제1px격자, K5 UI #34140e 선1px. K15 숫자는 흰색 #ffffff + 팔레트 검정 #050411 외곽1px, 전체 높이9px.
 AC3: 3.7 채택 UI s3(button/panel) + 컨셉 가죽 조각과 같은 가죽·밝은 바느질·금속 모서리. HP 가로9-slice, 흰 채움 tint 가능.
 AC4: 채택 견본·작업 채택본·버린 후보를 게임3배 sheet.py grid로 표시하고 최신 전투 캡처 합성을 직접 열어 확인.
-AC5: 다른 계열 독립 이름가림 판독 + human 최종 그림체/가독성 판단. 현재 NOT_RUN(Claude 마감 리뷰로 넘김), 자기 확인을 독립 판독으로 세지 않음.
+AC5: 다른 계열 독립 이름가림 판독 + human 최종 그림체/가독성 판단. 미완료: Claude 계열 독립 판독 not-run(VERDICT: NOT ASSESSED, 등록된 agent가 모두 Codex 중계여서 실행 불가), human 최종 판정 not-run(사용자 취합 판단 대기). Codex 리뷰·자기 확인을 Claude 판독으로 세지 않으며 항목 전체 완료 아님.
 
 분류·방법·회차
 종류 = identity 없는 UI 소품. measure.py 수치 관문 없음. 자연스러움·그림체는 독립 판독/사용자 판정.
@@ -53,11 +53,11 @@ check_sprites 본체6 --max-size96x96 --count6: PASS 파일6, 팔레트57, 실�
 후보전체 check_sprites --max-size96x96 --count64 --binary-alpha: PASS 파일64, 팔레트57, 실패0.
 흰 채움2종 RGB=(255,255,255) 단1색, 9-slice 양끝보존6사례, 숫자10장 전체높이9px assert PASS.
 검사 원출력: docs/art/sheets/ui-bars-checks.txt. 재현: studio-kit/bin/python docs/art/sheets/ui-bars-build.py.
-measure.py: NOT_RUN (identity 없음). 외부 독립 판독: NOT_RUN (Codex가 리뷰 호출 금지, Claude 마감 리뷰 담당). human: NOT_RUN.
+measure.py: NOT_RUN (identity 없음). Claude 계열 독립 판독: not-run (등록된 repo agent 모두 Codex 중계, Claude reader 없음). human: not-run (최종 판단 대기). Codex 독립 리뷰2종은 아래 원문 판정으로 별도 기록.
 PASS = 기준과 어긋나지 않음. 그림체·가독성 최종 판단은 독립 판독과 사용자에게 남음.
 
 시트·직접 본 것
-ui-bars.png: sheet.py grid --against 두 견본 --size144 --unverified '양산 — 사용자 판정'. 72x48 공통 캔버스를 정확히3배. REF2장 다음 c01 16장, c02 16장, c03 16장, c04 16장 순서.
+ui-bars.png: sheet.py grid --against 두 견본 --size144 --unverified '양산 — 사용자 판정'. 72x48 공통 캔버스를 정확히3배. REF '채택 견본'2장 다음 '작업 채택본 c01'16장, '버린 후보 c02'16장, '버린 후보 c03'16장, '버린 후보 c04'16장 순서. 일반 시트에는 이 명칭을 각 그림 라벨에 표시.
 ui-bars-work/01-01~01-16 = 용도를 가린 작업 채택본, 02~04 = 작업상 버린 후보. 각 세트 순서는 bg/fill/bg/fill/원/손잡이/숫자0~9.
 ui-bars-blind.png: 같은 크기와 중립 번호만. 먼저 이 시트만 Claude에게 주고 무엇으로 읽히는지·견본과 같은 화풍인지 판독 요청. 흰 채움의 갈색 받침은 시트에만 있고 원본에 없음.
 직접 열어 본 전체 시트(수정 후 재확인): 두 견본의 가죽색과 막대 양끝의 금속점이 어울리는 것으로 스스로 판단. 원과 작은 손잡이, 숫자0~9가 각각 구별됨. c03/c04 금빛은 더 강함. 독립 이름가림 판독 결과가 아님(만든 쪽 자기 확인의 편향 있음).
@@ -103,3 +103,27 @@ Assets/Game/03.Resources/Art/AIGenerated/UI/hp_bar_bg.png: df905012c846853bdc76f
 Assets/Game/03.Resources/Art/AIGenerated/UI/hp_bar_fill.png: 728296028e0857b99e5af77eaa4c8cc6798f0f6fa1cdd2cb88c74bbdad9fd654
 Assets/Game/03.Resources/Art/AIGenerated/UI/joystick_base.png: 7c1fae6a12ad96cf9c064d689575802cd679ec8fa908aa74c5677da77e73ee47
 Assets/Game/03.Resources/Art/AIGenerated/UI/joystick_knob.png: 53f593e67ee062381b54a99baee51cfa9a24450230cea0b265f1569d6b910988
+
+
+리뷰 수신·수정 확인 요청 (구현 후, 전체 완료 아님)
+spec-reviewer (Codex gpt-6.1-sol medium, job 20261117-200034-16ea58):
+VERDICT: FAIL
+근거: AC1/2/3 met, AC4 partial(일반 시트 채택/버림 라벨 없음), AC5 partial(다른 계열 판독·human 미실행).
+validator-client (Codex gpt-6.1-sol medium, job 20261117-200036-d4be49):
+VERDICT: PASS
+이 PASS는 해당 리뷰 관문 결과만이며 AC5/항목 전체 완료를 뜻하지 않음. 이 리뷰는 재요청하지 않는다.
+Claude independent blind read (requested Opus 5.5 medium):
+VERDICT: NOT ASSESSED
+not-run 이유: repo의 등록 agent4종 모두 Codex로 넘기는 중계이며 Claude 계열 판독자 없음. 기준을 변경하거나 Codex 판독을 대신 세지 않음.
+사용자 최종 판단: not-run. human 관문을 이 구현 세션에서 판정하지 않는다.
+수정1: 일반 시트 REF에 '채택 견본', c01에 '작업 채택본 c01', c02~c04에 '버린 후보 c02~c04' 라벨 표시. 중립 blind 시트는 바이트 동일 유지.
+수정2: AC5 및 전체 항목 미완료 상태와 위 not-run 이유 명시. 독립 Codex 판독 결과와 Claude 미실행을 분리.
+후속 지적 수정: verify_exports()를 재현 스크립트에 추가해 HP32/97/150, cooldown24/97/150의 양끝 RGBA 보존·중앙 모든 열 동일 assert6사례를 실행. raw 출력에 PASS6줄을 남김. 순백 채움2종·숫자10장 높이 assert도 재현 가능.
+재검사: production script 전체(격자64/정리16/fringe64+16/9-slice6/assert/시트) 및 지정 check_sprites 두 명령 PASS. 최종 증거 ui-bars-checks.txt.
+직접 다시 연 일반 시트에서 '채택 견본 | 작업 채택본 c01 | 버린 후보 c02~c04'를 그림마다 구별할 수 있음을 확인. 원본 PNG·blind·전투 합성은 변경 없음.
+놓친 원인: 이름을 가린 판독용과 사용자 비교용 시트에 같은 중립 라벨을 사용했고, 대화에서 실행한 9-slice 검사를 재현 파일에 옮기지 않았음.
+워크플로우 갱신 후보: 일반 시트는 시트 자체에서 채택/버림을 구분할 수 있는지 확인하고, 검사 통과 주장은 저장된 재현 명령과 raw출력에 연결. 공통 규칙 파일은 범위 밖으로 미반영. 이번에는 기존 인라인 검사를 스크립트로 옮겼으며 중복 대화 전용 assert를 빼기 후보로 함.
+수정 확인은 spec-reviewer 한 번만 요청. 수정 확인 결과 미수신이므로 not-run이며 기존 FAIL을 PASS로 바꾸지 않음. 마감 보고서는 수정 확인 뒤 작성.
+
+수정 시각 기록: 2026-11-17T20:03:14+09:00(편집 시작 도구시각) → 2026-11-17T20:04:31.721776+09:00(기록). 읽기/편집/재실행/시트확인 활동, 개별 활동 시간 미계량. Codex 토큰 미제공, 이 실행의 하위에이전트0.
+byte 비교: d2f3771 대비 최종 PNG16장 + blind시트1장 + 합성2장 = 19파일 완전 동일 PASS.

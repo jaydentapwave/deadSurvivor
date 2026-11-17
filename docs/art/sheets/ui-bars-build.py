@@ -72,6 +72,27 @@ def nine(im,width,b):
     o.paste(im.crop((b,0,w-b,h)).resize((width-2*b,h),Image.Resampling.NEAREST),(b,0))
     return o
 
+def verify_exports():
+    # 납품 PNG에서 목적 크기별 양끝과 중앙의 실제 픽셀을 검사한다.
+    for name,b,widths in [('hp_bar_bg',4,(32,97,150)),('cooldown_bg',2,(24,97,150))]:
+        im=Image.open(UI/(name+'.png')).convert('RGBA')
+        for width in widths:
+            out=nine(im,width,b)
+            assert out.size==(width,im.height)
+            assert out.crop((0,0,b,im.height)).tobytes()==im.crop((0,0,b,im.height)).tobytes()
+            assert out.crop((width-b,0,width,im.height)).tobytes()==im.crop((im.width-b,0,im.width,im.height)).tobytes()
+            columns=[out.crop((x,0,x+1,im.height)).tobytes() for x in range(b,width-b)]
+            assert len(set(columns))==1,(name,width,'중앙 레일 단절')
+            print(f'PASS 9-slice {name} width={width}: 양끝 RGBA 보존, 중앙 단색 레일',flush=True)
+    for name in ('hp_bar_fill','cooldown_fill'):
+        im=Image.open(UI/(name+'.png')).convert('RGBA')
+        assert im.tobytes()==bytes((255,255,255,255))*(im.width*im.height)
+        print(f'PASS tint {name}: 순백색 단1색',flush=True)
+    for n in range(10):
+        im=Image.open(UI/'digits'/f'digit_{n}.png')
+        assert im.size==(7,9) and im.getbbox()[3]-im.getbbox()[1]==9
+    print('PASS digits: 10장 캔버스7x9, 전체 높이9px',flush=True)
+
 def tile(im,width):return im.resize((width,im.height),Image.Resampling.NEAREST)
 def create():
     W.mkdir(parents=True,exist_ok=True);(UI/'digits').mkdir(exist_ok=True)
@@ -96,7 +117,12 @@ def create():
     run(T/'matte.py','fringe','--whole','--key','#ff00ff',*candidates)
     final=[UI/(k+'.png') for k in allsets[0] if not k.startswith('digit_')]+list((UI/'digits').glob('*.png'))
     run(T/'matte.py','fringe','--whole','--key','#ff00ff',*final)
-    # 동일 72x48 캔버스로 게임 크기 3배를 보장. 중립 번호만 쓴다.
+    verify_exports()
+    checker=ROOT/'Tools/check_sprites.py'
+    run(checker,'--palette',ROOT/'docs/art/아트-기준서.md','--max-size','16x16','--count','10','--binary-alpha',UI/'digits')
+    run(checker,'--palette',ROOT/'docs/art/아트-기준서.md','--max-size','96x96','--count','6',*final[:6])
+    run(checker,'--palette',ROOT/'docs/art/아트-기준서.md','--max-size','96x96','--count','64','--binary-alpha',*candidates)
+    # 동일 72x48 캔버스로 게임 크기 3배를 보장. blind용 중립 번호는 유지한다.
     pages=[]
     for v,items in enumerate(allsets):
         for i,(k,im) in enumerate(items.items()):
@@ -107,7 +133,17 @@ def create():
     refs=[]
     for name in ('button','panel'):
         im=Image.open(S/(name+'.png')).convert('RGBA');c=Image.new('RGBA',(72,48));c.alpha_composite(im,((72-im.width)//2,0));p=W/f'ref-{name}.png';c.save(p);refs.append(p)
-    run(T/'sheet.py','grid',ROOT/'docs/art/sheets/ui-bars.png',*pages,'--against',*refs,'--size','144','--numbered','--unverified','양산 — 사용자 판정')
+    # 일반 시트는 그림만 봐도 채택/버림을 알 수 있게 파일명을 라벨로 쓴다.
+    labelled=[]
+    for v in range(4):
+        for i in range(16):
+            label='작업 채택본 c01' if v==0 else f'버린 후보 c{v+1:02}'
+            p=W/f'{label}-{i+1:02}.png'
+            p.write_bytes(pages[v*16+i].read_bytes());labelled.append(p)
+    labelled_refs=[]
+    for name,p in zip(('button','panel'),refs):
+        q=W/f'채택 견본 {name}.png';q.write_bytes(p.read_bytes());labelled_refs.append(q)
+    run(T/'sheet.py','grid',ROOT/'docs/art/sheets/ui-bars.png',*labelled,'--against',*labelled_refs,'--size','144','--numbered','--unverified','양산 — 사용자 판정')
     # 이름을 가린 판독 시트: 첫 세트만, 용도와 채택 여부 표기 없음.
     run(T/'sheet.py','grid',ROOT/'docs/art/sheets/ui-bars-blind.png',*pages[:16],'--against',*refs,'--size','144','--numbered','--unverified','양산 — 사용자 판정')
     composite(allsets[0])
