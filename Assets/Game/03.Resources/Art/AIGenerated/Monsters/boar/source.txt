@@ -50,3 +50,35 @@ Background: flat solid #ff00ff everywhere outside the monster. No grid lines, no
 - PASS = 기준과 어긋나지 않음. 자연스러움·돌진할 것처럼 보이는지는 판독과 사용자 판정이 본다.
 - 시트: docs/art/sheets/monster-boar.png (sheet.py grid --candidates --size 144) — 브루노 앞, 슬라임, 채택본, 후보 r1a_1(2위), r1b_2(3위). r1b_1은 판독 FAIL이라 뺐다
 - 사용자 판정: 대기
+
+---
+
+# boar_telegraph.png — 출처
+
+- 무엇: 멧돼지(돌진형) 돌진 예고 그림(아트 기준서 3.3 몬스터 "돌진 예고·자폭 부풂 그림", 3.10 예고: 예고 그림 + 좌우 1px 흔들림 0.5초 — 흔들림은 게임 쪽). 채택된 boar.png를 고친 그림(/2d-art-produce 0절 "기존 그림 고치기" 길: 3, 4, 6).
+- 규격: boar.png와 같은 64x64 캔버스, 피벗 바닥 가운데. bbox x 13..61 y 29..63(평소 x 13..59 y 30..63: 폭 +2px 콧김, 키 +1px 곤두선 갈기 — ±2px 안). 알파 0/255만, 색은 boar.png에 있던 색만.
+- sha256: d130787c70f20bded7979947d219ab664c6043ccc4ab89996c59e06d90e1f477
+- 기준 그림: Assets/Game/03.Resources/Art/AIGenerated/Monsters/boar/boar.png 1f35e927653ff9d8744025a163cc23e31fc845e46b5cd24665f98ed942105aa3 (identity docs/art/identities/boar.json)
+- 만든 날: 2026-11-17, 대기열 20261117-art-chars 항목 telegraph-boar(시도 1)
+- 채택: 대기열 항목 결과(디렉터 판단, 사용자 판정 대기)
+
+## 도구·방법
+- 픽셀 직접 손질(Codex 편집 대신 고름: 47x34 픽셀아트라 다시 그리면 바뀌지 않아야 할 부위까지 흔들린다). 스크립트 output/2d-art/boar-telegraph/tools/edit.py(Git 밖). 정수 픽셀 이동과 기존 팔레트 색 칠하기만, 확대·회전 없음(2d-animation.md 5절). 유료 크레딧 0.
+- 바꾼 것:
+  1. 머리 숙임: x 46 이상 머리 덩어리(뿔·코·엄니·눈·귀 앞)를 1px 아래로. 2px은 고정 부위 눈의 자리(offset 0.037 > 0.03)를 넘어 1px로 정했다.
+  2. 앞발 긁기: 가까운 앞다리를 지우고 뒤로 접어 올린 다리로 다시 그림(발굽이 바닥에서 3px 뜸). 먼 앞다리는 원본 그대로.
+  3. 흙먼지: 먼 앞발굽 뒤 바닥에 크림·크림 그늘 9px(발굽 외곽선에 붙임).
+  4. 콧김: 코 앞에 크림·크림 그늘 두 덩이 11px(코 외곽선에 붙임).
+  5. 눈: 노란 눈 4칸(#ffe08a)은 그대로, 위에 앞으로 내려오는 화난 눈썹(외곽선 색 4px), 둘레를 털 그늘색으로 어둡게(5px) 해 더 밝게 보이게.
+  6. 곤두선 갈기: 혹 꼭대기 외곽선 위 털 끝 3px.
+
+## 판정
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0)
+- frames.py holes --ref boar.png: PASS (조각 1, 구멍 0, 좁은 틈 +9 = 곤두선 털 사이, 의도)
+- measure.py compare --id boar --changed horn,horn_shade,snout,mane --changed-box 0.5,0.86,0.8,1.0(앞다리·흙먼지): NOT_ASSESSED — same_outside PASS(바뀐 영역 밖 0px 다름), 털·그늘·외곽선·색 PASS. 눈은 머리 쪽 바뀐 영역(4px 넓힘) 안에 들어 판정에서 빠짐.
+  참고(--changed 없이): 눈 면적 4=4, 눈 자리 0.021 ≤ 0.03 PASS, 코 PASS. 갈기 높이 12→13(머리 숙임, FAIL), 뿔 색 면적 증가(콧김·흙먼지가 크림 색) FAIL — 의도한 변경.
+- 다른 계열 판독(Codex gpt-6.1-sol medium, 이름 가림, 평소/예고 10배 두 장 + 3배 나란히): PASS. 1순위 "씩씩거리며 곧 앞으로 돌진하려 함", 2순위 "화가 나서 콧김을 뿜고 발을 구르는 위협". 같은 캐릭터로 보임, 다리 수 오류 없음. 결과 output/2d-art/boar-telegraph/review/boar-telegraph-read-r001.md(Git 밖).
+  후속 제안(반영 안 함): 머리 1px 더 낮추기(눈 자리 허용치에 걸림), 접힌 앞발을 몸통에서 1px 더 떼기, 발밑 먼지를 흙색으로.
+- PASS = 기준과 어긋나지 않음. 곧 돌진할 것으로 읽히는지는 판독과 사용자 판정이 본다.
+- 시트: docs/art/sheets/monster-boar-telegraph.png (sheet.py grid --candidates --against boar.png --size 192 --unverified "head 1px down: eye inside changed region, NOT_ASSESSED. fringe/holes/Codex read PASS") — measure가 PASS가 아니라 빨간 UNVERIFIED 띠로 보인다.
+- 넣기(자리 적용)·짧은 Play·사용자 판정: 이 항목 범위 밖(에디터 없는 worktree). .meta는 boar.png.meta를 복사해 guid·spriteID만 새로 만들었다(같은 임포트 설정).
