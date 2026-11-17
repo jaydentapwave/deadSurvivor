@@ -1,0 +1,57 @@
+# lena_downed.png — 출처
+
+- 무엇: 레나(궁수, 게임 기획서 A1) 쓰러진(사망) 그림. 기준서 3.3 "캐릭터 쓰러진 그림", 3.10 사망(이 그림으로 바꾸고 0.3초 어둡게). identity docs/art/identities/lena.json(기준 그림 front/lena_front.png)의 새 자세.
+- 규격: 64x64 캔버스, 그림 55x24(활 포함), 알파 0/255만. 피벗 = 캔버스 아래 가운데(앞 그림과 같은 프리셋, .meta는 bruno_downed의 것을 복사하고 GUID·spriteID만 새로 만듦).
+  그림은 x 4~58, 바닥 63줄. 몸 길이(장화 끝~두건 끝) 약 45px로 서 있는 키 48px 이하. 몸 가운데(배낭)는 x 약 18~34로 피벗(x 32) 근처, 활은 오른쪽 손 옆 바닥.
+- sha256: 37ad22e04cf4e0563a06639ddf897c050f0b5ea1d5147b255db955aaee14c0b5
+- 만든 날: 2026-11-17, 대기열 20261117-art-chars 항목 downed-lena(시도 1), /2d-art-produce "캐릭터 변형 — 새 자세" 경로. downed-bruno의 방법·자세를 따름
+- 채택: 대기열 세션이 디렉터 대신 채택(판독 조건 충족), 사용자 판정 대기
+
+## 자세 (downed-bruno 기준과 같음)
+엎드려 쓰러짐(얼굴이 바닥). 머리(초록 두건) 오른쪽, 장화 왼쪽. 배낭·화살통(흰 깃)은 등 위로 보임. 초록 망토가 등·다리를 덮음. 오른쪽으로 뻗은 손 옆 바닥에 단궁.
+
+## 도구
+- 생성: codex-cli 0.167.2, codex exec -m gpt-6.1-sol, model_reasoning_effort=medium, 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 생성 세션: 01a1e7d3-e570-74f2-b652-a2f0a66e00ac (1회차, 4장: 설정 A 2장, 설정 B 2장). 채택본 = 설정 A 2번째(r1a_2). 2회차는 쓰지 않음
+- 실행: perl alarm 1200 + codex exec -s workspace-write -C <결과 폴더> "<프롬프트>" -i ref1 ref2 ref3 < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256)
+- 첫째(캐릭터·그림체): lena_front.png d5b59624d31febe35a2736b7901ce6b26276ca3f67768a52adfbc82d0c79e0ab
+  → 배경 #ff00ff 위 16배(1024x1024) ref1_character.png a1aa93a321ec9492163cb228fd03b1e188bed5938c3fd02fab2931482a8b2880
+- 둘째(자세): 마네킹 러프 rough_a.png 724f732ada186e8775e31caf9d97ad17afac0444c4bf0de1a6208ccc1cd8bf3b
+  (identity 색으로 칠한 두건·머리카락·몸통·망토·배낭·화살통·다리·장화·팔·활 덩어리, 일회성 스크립트 output/2d-art/lena-downed/tools/rough.py)
+  → 16배 ref2_pose.png 755abb35dc8e3909589a07294ea935dc8704fe99642d6b94bfb5247a06b57cd0
+- 셋째(설정 B만, 채택본 계보에 없음): 컨셉 3-직업4종.jpg d96f1997c089f2453e1c8ef003879c07571924015c1bca30a6825dd0c9378e20 의 궁수 자른 것 (460,190,800,680) a3861fd64ddac66d96613add704a8c7bc05efb1a32b9a1c6d9ed7236af58d6d6
+
+## 러프 판독 (생성 전, 이름 가림, 다른 계열: Codex gpt-6.1-sol 세션 01a1e7d3-31cd-7123-8dc8-b408a8c3c442, 결과 output/2d-art/lena-downed/blind/readout-r001.md)
+- 두 칸(앞 그림 | 러프), 파일 이름 pair_1~3(순서 섞음: 1=b, 2=a, 3=c), 동작 이름 알리지 않음.
+- a: "Face-down, collapsed / crawling low", 배낭 등 위 / b: "Lying prone / collapsed", 배낭 등 위 / c: "Face-down, collapsed / crawling low, facing left", 배낭 등 위.
+  세 안 모두 쓰러짐으로 읽힘. 브루노 채택 자세와 같은 a를 고름.
+
+## 최종 프롬프트 (설정 A, 이미지 프롬프트 부분)
+The character and the art style come from the first image; the pose comes from the second image. The first image is a 64x64 pixel sprite of an elf archer girl enlarged so every pixel is one 16x16 flat block (canvas 1024x1024). The second image is a rough colour mannequin (same scale, same block grid) showing the SAME archer collapsed, lying face-down on the ground, defeated. Draw the archer from the first image in exactly the pose of the second image: lying flat on her front, body horizontal, head on the RIGHT side resting face-down on the ground (we see mostly her green hood with a little light-brown hair at the front, no face), legs stretched to the LEFT with both brown boots visible at the left end, the big brown backpack still strapped ON HER BACK and seen on top of the body (not in front of her, not beside her), the quiver with white-feathered arrows also on her back next to the backpack, the green cape lying over her back and legs, one arm reaching forward to the right on the ground, the wooden short bow with its string lying flat on the ground just beyond that hand.
+Size: keep the same 16x16 block grid. The lying figure from boot soles to top of hood is about 42 blocks long and the whole picture including the bow is at most 50 blocks wide and about 20-24 blocks tall, sitting at the bottom of the canvas, horizontally centred.
+Colours and details from the first image: green hood and cape (#4f7a2e, light #7fa040, dark #3a3721), light-brown hair (#d5833a), skin (#f8daac), brown leather backpack and bow (#af642e, dark #774c3b), dark trousers, dark red-brown boots (#77211d), white arrow feathers.
+Pixel rules: every block is ONE flat colour; no detail smaller than one block; no anti-aliasing, no gradients, no dithering, no soft edges. A 1-block very dark brown outline (#2f1108, not black) around the whole figure and the bow. Flat 2-3 tone shading.
+Background: flat solid #ff00ff everywhere outside the character. No grid lines, no text, no UI, no ground, no cast shadow.
+(전체 지시문: output/2d-art/lena-downed/gen/prompt.txt, Git 밖)
+
+## 생성 원본
+- output/2d-art/lena-downed/gen/r1a_2.png (Git 밖) 1254x1254, db3ba9661af80545838a498a2f89d86c61feb5e10843ab24ce9610c41c59680d (블록 약 19.5px, 앞 그림과 같음)
+
+## 후처리
+1. pixelize.py grid --bg-tol 100 → native grid 55x24 (block 19.5px, score 0.53)
+2. pixelize.py one --size 55x24 --palette <기준서 3.5 r2 팔레트, output/2d-art/lena-downed/palette.json> --bg-tol 100 → 98edcae017bc291966b9f73ca05cad918ae4bc01d2433c69aa4c61c44bc09d40
+3. 64x64 캔버스에 놓기: 바닥 63줄, 가로 가운데(x 4~58). 손질 없음.
+
+## 판정 (PASS = 기준과 어긋나지 않음. 자연스러움은 판독·사용자 판정)
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0)
+- measure.py compare --id lena --pose: 도구 판정 FAIL. 항목별:
+  - 색 6부위 PASS (hood 5.91, cape 0.39, hair 7.58, skin 7.14, backpack 0.76, boots 0.0 / 허용 8), 외곽선 색 PASS 0.50, haze PASS. bow는 NOT_ASSESSED(box_rel이 서 있는 그림의 오른쪽 위라 누운 그림의 활을 못 찾음)
+  - outline:stroke_ratio FAIL (2.10, 기준 0.2566): 기준 부위 hood를 box_rel(그림 bbox 위 31%)로 찾는데, 누운 그림에서는 그 자리가 배낭·화살통이라 폭이 잘못 잡힘. 외곽선 굵기는 measure.py와 같은 식(kit2d.stroke_width)으로 따로 재면 앞 그림 2.052, 이 그림 2.029(=1px 선)로 같다(output/2d-art/lena-downed/tools/stroke_diag.py, 판정 도구는 고치지 않음)
+  - parts NOT_ASSESSED: lena identity에 "fixed" 부위가 없어 --pose 판정은 어떤 그림이든 NOT_ASSESSED
+  - 부위 면적·치수는 표시만(--pose)
+- 부위 대조 + 이름 가린 판독(다른 계열: Claude Opus 하위 에이전트, references/part-check.md, 동작 이름 알리지 않음, 이름 가린 cand_1~4): 이 후보(cand_2) PASS — 첫 해석 "Lying face-down, knocked out", 둘째 "resting prone". 두건·머리카락·망토 같음, 배낭은 등 위(끈 달린 가방으로 읽힘, 앞 그림보다 조금 각짐), 화살 깃 보임, 활은 오른쪽 바닥, 장화 2, 손 1~2(게임 크기에서 몇 px라 정확히 못 셈).
+- 다른 후보: r1a_1은 판독 1위(PASS)였지만 머리카락 색 FAIL(11.17/8)과 fringe FAIL(edge 4px)로 뺌. r1b_1은 부위 대조 FAIL(배낭이 자물쇠 달린 보물상자로 읽힘), r1b_2는 배낭 색 FAIL(11.72/8)과 부위 대조 FAIL(배낭 앞 두 칸이 눈처럼 보임).
+- 시트 docs/art/sheets/lena-downed.png(#1 채택본, #2~#4 버린 후보, #5~#7 러프, 앞 그림 --against, --size 192, --unverified: measure 도구 판정이 위 이유로 FAIL이라)
+- 사용자 판정·게임 화면 확인: 대기(자리 적용·짧은 Play는 이 항목 범위 밖)
