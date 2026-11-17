@@ -3,6 +3,7 @@
 
   sheet.py pairs <out.png> --ref <existing game picture> <candidate>... [--size 256] [--unverified "<reason>"]
   sheet.py grid  <out.png> <picture>... [--frames | --tiles | --props | --candidates] [--size 256] [--unverified "<reason>"]
+                 [--against <reference crop>...] [--numbered]
   sheet.py anim  <out.gif|out.png> <frame>... [--fps 12] [--size 256] [--label "<text>"] [--unverified "<reason>"]
   sheet.py selftest
 
@@ -24,6 +25,13 @@ grid --props (props, icons with no identity in this art style): there is nothing
 grid --candidates (reference candidates of a new character: no identity exists yet, the user is choosing the picture that
   will become one): a grey band "기준 후보 — 측정 기준 없음", not the red one — nothing is wrong with them, there is just
   nothing to measure against yet. A picture that has a compare record must be PASS, so this is no way round a FAIL.
+grid --against <crop>... puts reference crops (or adopted style samples) first, drawn at the SAME height as the pictures
+  and marked "not judged": line weight and hand-drawn feel are compared at one size, not at each picture's own
+  resolution (source case: three rounds of "thinner / rougher" at full size went the opposite way from the reference;
+  at one height the reference line was thicker). For the enlarged look make a second sheet with a larger --size.
+grid --numbered labels every picture #1, #2... by its position on the command line (a left-out picture keeps its number).
+  Put EVERY candidate so far on it, not just the newest: the user picks by number and can go back (source case: nine
+  rounds shown one at a time, then the user returned to the third).
 Any kind: a picture whose matte.py fringe record is FAIL (key colour left on its rim) is left out until it is fixed.
 anim (animation preview, GIF or — with a .png/.apng name — APNG): the same gate as grid --frames (every frame compare PASS,
   the jitter record of exactly these frames PASS; --unverified "<reason>" puts the red band on every frame instead). Every
@@ -162,7 +170,7 @@ def render(out, cells, size, unverified, title, notice=None):
     sheet.save(out)
 
 
-def build(kit, out, pics, ref=None, size=None, unverified=None, quiet=False, frame_set=False, kind=None):
+def build(kit, out, pics, ref=None, size=None, unverified=None, quiet=False, frame_set=False, kind=None, against=None, numbered=False):
     canvas = Image.open(ref).size if ref else None
     set_kind = None
     if frame_set:
@@ -173,7 +181,10 @@ def build(kit, out, pics, ref=None, size=None, unverified=None, quiet=False, fra
     if ref:
         cells.append({'img': fit(Image.open(ref).convert('RGBA'), size), 'label': f'REF {Path(ref).name}',
                       'lines': [('reference (not judged)', GREY)], 'unverified': False})
-    for p in pics:
+    for r in against or []:
+        cells.append({'img': fit(Image.open(r).convert('RGBA'), size), 'label': f'REF {Path(r).name}',
+                      'lines': [('reference, same height (not judged)', GREY)], 'unverified': False})
+    for n, p in enumerate(pics, 1):
         ok, why, lines = (gate_tile(kit, p) if kind == 'tiles' else gate_prop(kit, p) if kind == 'props'
                           else gate_candidate(kit, p) if kind == 'candidates' else gate(kit, p, set_kind))
         fringe = fringe_block(kit, p)
@@ -182,7 +193,7 @@ def build(kit, out, pics, ref=None, size=None, unverified=None, quiet=False, fra
         if not ok and not unverified:
             left.append((p, why))
             continue
-        cells.append({'img': fit(Image.open(p).convert('RGBA'), size, canvas), 'label': Path(p).name, 'lines': lines or [(why, RED)],
+        cells.append({'img': fit(Image.open(p).convert('RGBA'), size, canvas), 'label': (f'#{n} ' if numbered else '') + Path(p).name, 'lines': lines or [(why, RED)],
                       'unverified': not ok})
     for p, why in left:
         print(f'LEFT_OUT {Path(p).name}: {why}')
@@ -418,6 +429,16 @@ def selftest():
     case('--candidates with no identity yet: shown with a grey band, neither red nor amber', rc == 0 and top == GREY)
     case('--candidates does not rescue a measured FAIL picture', build(kit, td / 's16.png', [bad], kind='candidates', quiet=True) == 1
          and not (td / 's16.png').is_file())
+    # --against: reference crops first at the same height, never judged; --numbered keeps command-line numbers
+    crop = td / 'refcrop.png'
+    M._figure().resize((64, 64)).save(crop)
+    s19, s20 = td / 's19.png', td / 's20.png'
+    build(kit, s19, [cand, prop], kind='candidates', quiet=True)
+    rc = build(kit, s20, [cand, prop], kind='candidates', quiet=True, against=[crop], numbered=True)
+    case('--against adds a reference cell at the same height (sheet grows by one column), exit unchanged',
+         rc == 0 and Image.open(s20).width > Image.open(s19).width and Image.open(s20).height == Image.open(s19).height)
+    case('--against alone is not a sheet: a measured FAIL still leaves nothing to show',
+         build(kit, td / 's21.png', [bad], kind='candidates', quiet=True, against=[crop], numbered=True) == 1 and not (td / 's21.png').is_file())
     # a fringe FAIL record keeps a picture out whatever the kind
     K.write_record(kit, {'schema': K.MEASURE_SCHEMA, 'kind': 'fringe', 'sha256': K.sha256(prop), 'verdict': 'FAIL', 'spill': 40, 'edge': 0, 'stray': 0})
     case('a picture with a fringe FAIL record is left out (props, candidates)', build(kit, td / 's17.png', [prop], kind='props', quiet=True) == 1
@@ -473,6 +494,8 @@ def main():
     g.add_argument('--tiles', action='store_true', help='path/terrain tiles: each needs a seam record PASS from tileprev.py sheet')
     g.add_argument('--props', action='store_true', help='props/icons with no identity: shown with a NOT MEASURED band')
     g.add_argument('--candidates', action='store_true', help='reference candidates of a new character (no identity yet): grey band')
+    g.add_argument('--against', nargs='+', help='reference crops / style samples drawn first at the same height, not judged')
+    g.add_argument('--numbered', action='store_true', help='label the pictures #1, #2... in command-line order')
     an = sub.add_parser('anim')
     an.add_argument('out', type=Path)
     an.add_argument('pics', nargs='+')
@@ -494,7 +517,12 @@ def main():
         if a.cmd == 'anim':
             return anim(kit, a.out, a.pics, a.fps, a.size, a.label, a.unverified)
         kind = next((k for k in ('tiles', 'props', 'candidates') if getattr(a, k, False)), None)
-        return build(kit, a.out, a.pics, getattr(a, 'ref', None), a.size, a.unverified, frame_set=getattr(a, 'frames', False), kind=kind)
+        against = getattr(a, 'against', None) or []
+        missing = [r for r in against if not Path(r).is_file()]
+        if missing:
+            raise K.KitError('NO_IMAGE', ', '.join(missing))
+        return build(kit, a.out, a.pics, getattr(a, 'ref', None), a.size, a.unverified, frame_set=getattr(a, 'frames', False), kind=kind,
+                     against=against, numbered=getattr(a, 'numbered', False))
     except K.KitError as e:
         print(e)
         return 2

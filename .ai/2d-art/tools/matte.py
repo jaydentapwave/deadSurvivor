@@ -2,7 +2,7 @@
 """Solid-background removal and the fringe check that follows it (2d-art-produce step 3, before a picture goes into the game).
 
   matte.py key <png>... --out <dir> [--key auto|#RRGGBB] [--inner 48] [--feather 3] [--border-only] [--trim [PAD]]
-  matte.py fringe <png>... [--key #RRGGBB] [--tol 0.10] [--edge-px 2] [--allow 0]
+  matte.py fringe <png>... [--key #RRGGBB] [--tol 0.10] [--edge-px 2] [--allow 0] [--whole]
   matte.py fix <png>... --out <dir> [--key #RRGGBB] [--tol 0.10] [--edge-px 2]
   matte.py selftest
 
@@ -20,6 +20,10 @@ fringe  judges what keying leaves on the rim; seam and measure checks do not see
           edge    opaque pixels in the outer --edge-px whose colour is pulled toward the key the same way
           stray   faint pixels (alpha < 128) further than 2px from the solid figure
         PASS when each count <= --allow. The key comes from --key, else from the PNG text chunk matte.py key wrote.
+        --whole adds  inner  opaque pixels anywhere inside the figure that carry the key's hue. The three kinds above look
+        at the rim only; key colour also hides inside (a hole between parts that closed up, a piece pasted over the body,
+        a crop from a larger render). Source case: 14 px of magenta inside an opaque prop passed fringe and showed in the
+        game. Use it when the art has no paint of the key's hue - with such paint every one of those pixels counts.
 fix     repairs those without regenerating: stray pixels dropped, key colour taken out of the rim, pixels over --tol
         repainted with the paint just inside (alpha kept). Run fringe on the result.
 Inside a kit project fringe also writes work_dir/measure/<sha256>.fringe.json; sheet.py leaves out a picture whose
@@ -142,6 +146,19 @@ def analyse(img, key, tol=0.10, edge_px=2):
     seen = a >= FAINT
     return {'spill': semi & (k > tol) & ~stray & seen, 'edge': band & (k > tol), 'stray': stray & seen, 'k': k, 'inside': val,
             'known': known, 'band': band, 'semi': semi, 'all_stray': stray}
+
+
+INNER_SPILL = 25        # --whole: the key's channel excess (0..255) an opaque inside pixel may not exceed
+
+
+def inner_tint(img, key, edge_px=2):
+    """opaque pixels inside the rim band whose colour leans to the key's hue (bool mask); empty for a grey key"""
+    rgb, a = img[..., :3], img[..., 3]
+    hi = key_channels(key)
+    if hi is None:
+        return np.zeros(a.shape, dtype=bool)
+    opaque = a >= OPAQUE
+    return opaque & ~grow(~opaque, edge_px) & (spill(rgb, hi) > INNER_SPILL)
 
 
 def read_key(path, key=None):
@@ -289,12 +306,16 @@ def record(path, verdict, counts, key, tol, edge_px, allow):
                          'verdict': verdict, 'key': hexs(key), 'tol': tol, 'edge_px': edge_px, 'allow': allow, **counts})
 
 
-def cmd_fringe(paths, key=None, tol=0.10, edge_px=2, allow=0, quiet=False):
+def cmd_fringe(paths, key=None, tol=0.10, edge_px=2, allow=0, quiet=False, whole=False):
     bad = 0
     for p in paths:
         kc = read_key(p, key)
-        an = analyse(K.load_rgba(p), kc, tol, edge_px)
+        img = K.load_rgba(p)
+        an = analyse(img, kc, tol, edge_px)
         counts = {n: int(an[n].sum()) for n in ('spill', 'edge', 'stray')}
+        if whole:
+            an['inner'] = inner_tint(img, kc, edge_px)
+            counts['inner'] = int(an['inner'].sum())
         fail = any(v > allow for v in counts.values())
         bad += fail
         record(p, 'FAIL' if fail else 'PASS', counts, kc, tol, edge_px, allow)
@@ -305,7 +326,7 @@ def cmd_fringe(paths, key=None, tol=0.10, edge_px=2, allow=0, quiet=False):
                 ys, xs = np.nonzero(an[worst])
                 where = f'  (look at x={int(xs[0])}, y={int(ys[0])}: {worst})'
             print(f"{'FAIL' if fail else 'PASS'} {Path(p).name}: key {hexs(kc)}, spill {counts['spill']} px, edge {counts['edge']} px, "
-                  f"stray {counts['stray']} px (allow {allow}){where}")
+                  f"stray {counts['stray']} px" + (f", inner {counts['inner']} px" if whole else '') + f" (allow {allow}){where}")
     if not quiet:
         print(f"{'FAIL' if bad else 'PASS'} fringe: {len(paths)} pictures, {bad} with key colour left on the rim" + (' -> matte.py fix' if bad else ''))
     return 1 if bad else 0
@@ -460,6 +481,15 @@ def selftest():
     cmd_fringe([root / 'naive.png'], '#ff00ff', quiet=True)
     rec = K.read_record(K.load_kit(root), K.sha256(root / 'naive.png'), 'fringe')
     case('kit project: fringe record written (FAIL with the counts)', rec and rec['verdict'] == 'FAIL' and rec['spill'] > 0)
+    inner = td / 'inner.png'
+    cmd_key([src], td / 'k2', quiet=True)
+    arr = K.load_rgba(td / 'k2/disc.png')
+    cy, cx = arr.shape[0] // 2, arr.shape[1] // 2
+    arr[cy:cy + 3, cx:cx + 5, :3] = (236, 60, 228)
+    save(arr, inner, np.array(mag, dtype=np.float32))
+    case('key colour hidden inside the opaque body: plain fringe PASS, fringe --whole FAIL (15 px inner)',
+         cmd_fringe([inner], quiet=True) == 0 and cmd_fringe([inner], quiet=True, whole=True) == 1 and int(inner_tint(K.load_rgba(inner), np.array(mag, dtype=np.float32)).sum()) == 15)
+    case('--whole on a clean keyed picture stays PASS', cmd_fringe([td / 'k2/disc.png'], quiet=True, whole=True) == 0)
     bad = cases.count(False)
     print(f"matte selftest {'PASS' if not bad else 'FAIL'}: {len(cases)} cases, {bad} failed")
     return 1 if bad else 0
@@ -479,6 +509,7 @@ def main(argv=None):
     f = sub.add_parser('fringe')
     f.add_argument('paths', nargs='+')
     f.add_argument('--allow', type=int, default=0)
+    f.add_argument('--whole', action='store_true', help='also count key-hued opaque pixels inside the figure')
     x = sub.add_parser('fix')
     x.add_argument('paths', nargs='+')
     x.add_argument('--out', type=Path, required=True)
@@ -497,7 +528,7 @@ def main(argv=None):
         if a.cmd == 'key':
             return cmd_key(a.paths, a.out, a.key, a.inner, max(1, a.feather), a.border_only, a.trim)
         if a.cmd == 'fringe':
-            return cmd_fringe(a.paths, a.key, a.tol, max(1, a.edge_px), a.allow)
+            return cmd_fringe(a.paths, a.key, a.tol, max(1, a.edge_px), a.allow, whole=a.whole)
         return cmd_fix(a.paths, a.out, a.key, a.tol, max(1, a.edge_px))
     except K.KitError as e:
         print(e)
