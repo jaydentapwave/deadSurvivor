@@ -383,16 +383,12 @@
         }
       ],
       "final_cmd": {
+        "note": "현재 수정본 검사",
         "exit": 0,
         "stdout": "PASS leather.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
-        "checked_utc": "2026-11-17T08:43:34.108726+00:00",
-        "size": [
-          32,
-          32
-        ],
-        "missing_cell_pixels": 0,
-        "alpha": "binary"
-      }
+        "sha256": "84d01739e5f75705afeb7bbdbadfed2213d1e269f45c597537e15cb97c56034f"
+      },
+      "note": "이 필드는 최초 생산의 역사 기록. 현재 선정은 selection.leather 및 fix 항목을 따른다."
     }
   },
   "grids_r1": {
@@ -587,7 +583,7 @@
       ]
     }
   ],
-  "review": "NOT_RUN: Claude 마감 세션으로 넘김",
+  "review": "수신 VERDICT: FAIL; leather 수정 뒤 수정확인 NOT_RUN",
   "human": "NOT_RUN",
   "misses": [
     {
@@ -607,18 +603,25 @@
       "fix": "ART2D용 /usr/bin/python3 사용",
       "workflow_candidate": "기존 /usr/bin/python3 명령 유지",
       "applied": "반영"
+    },
+    {
+      "issue": "가죽상의 자기판독 오판·칸밖마스크가 어깨외곽선손실·가죽6톤얼룩",
+      "cause": "L자 긴몸판/오른쪽발끝같은모양 유지, fringe를형태검사로오인",
+      "fix": "새정면조끼+사각주머니, 최종3톤+외곽1색, 칸삭제0px, 투명경계칠색노출0px",
+      "workflow_candidate": "도형마스크적용후외곽선닫힘 확인과 판독 실패시기존구성폐기",
+      "applied": "이번수정반영, 공통문서범위밖; 검사추가시중복전체fringe는생략후보"
     }
   ],
   "criteria": {
     "ID1": "4아이콘 shape×16px, 빈 칸 투명, fringe PASS",
-    "ID2": "채택 후보4+버린 후보16 시트(3배)",
+    "ID2": "현재선정4+버림24 시트(3배), 원생산20장+수정8장",
     "ID3": "다른 계열 이름 가린 판독: 이름·칸 채움·채택 견본과 그림체 일치, 특히 leather 마스크 경계"
   },
   "selection": {
     "ironshield": "ironshield-c3",
     "chainmail": "chainmail-c2",
     "helmet": "helmet-c2",
-    "leather": "leather-r2-c4"
+    "leather": "leather-fix2-c2"
   },
   "time_notes": "활동은 도구 시각 기준. 읽기/준비, 생성5회, 정리/재분할, 검사/문서/커밋. 정확한 토큰 사용량 API 미노출; 추정치를 실제치로 보고하지 않음.",
   "timing": {
@@ -633,16 +636,320 @@
   },
   "sheet": {
     "path": "docs/art/sheets/items-defense.png",
-    "shown": 20,
+    "shown": 28,
     "omitted": 0,
     "scale": 3,
-    "viewed": true,
     "selection_indices": [
       1,
       5,
       9,
       13
-    ]
+    ],
+    "viewed": true
   },
-  "blind_sheet_viewed": true
+  "blind_sheet_viewed": true,
+  "review_history": [
+    {
+      "agent": "Claude general-purpose opus medium part-check",
+      "evidence": "VERDICT: FAIL",
+      "items": {
+        "ironshield": "PASS",
+        "chainmail": "PASS",
+        "helmet": "PASS",
+        "leather": "FAIL"
+      },
+      "criteria": {
+        "ID1": "PASS",
+        "ID2": "PASS",
+        "ID3": "FAIL"
+      },
+      "reason": "leather8장 모두부츠, r2-c4 어깨외곽선누락/돌출1px/6톤얼룩"
+    },
+    {
+      "agent": "spec-reviewer Codex gpt-6.1-sol job20261117-174709-0fdaec",
+      "evidence": "VERDICT: FAIL",
+      "reason": "leather 조끼판독실패"
+    }
+  ],
+  "fix": {
+    "time_utc": "2026-11-17T08:54:31.976791+00:00",
+    "base_commit": "3ac0ed777e909905b43f73e13b6e0b534f4fa681",
+    "scope": "leather and sheets/evidence only; other three images unchanged",
+    "selected": "leather-fix2-c2",
+    "selected_sha256": "84d01739e5f75705afeb7bbdbadfed2213d1e269f45c597537e15cb97c56034f",
+    "rounds": 2,
+    "grids_r1": [
+      {
+        "candidate": 1,
+        "grid": [
+          28,
+          29,
+          19.579999999999956,
+          0.8347807501928408
+        ],
+        "outside": 0
+      },
+      {
+        "candidate": 2,
+        "grid": [
+          28,
+          29,
+          19.539999999999964,
+          0.835418903537444
+        ],
+        "outside": 0
+      },
+      {
+        "candidate": 3,
+        "grid": [
+          30,
+          31,
+          19.59999999999996,
+          0.8411735444125367
+        ],
+        "outside": 0
+      },
+      {
+        "candidate": 4,
+        "grid": [
+          28,
+          29,
+          19.54999999999995,
+          0.8395607952881119
+        ],
+        "outside": 0
+      }
+    ],
+    "grids_r2": [
+      {
+        "candidate": 1,
+        "grid": [
+          29,
+          23,
+          19.499999999999957,
+          0.4465130586794187
+        ],
+        "outside": 0
+      },
+      {
+        "candidate": 2,
+        "grid": [
+          29,
+          23,
+          19.499999999999957,
+          0.47724878222521666
+        ],
+        "outside": 0
+      },
+      {
+        "candidate": 3,
+        "grid": [
+          30,
+          25,
+          19.529999999999962,
+          0.4432917216891173
+        ],
+        "outside": 0
+      },
+      {
+        "candidate": 4,
+        "grid": [
+          31,
+          25,
+          19.51999999999996,
+          0.4697053448894351
+        ],
+        "outside": 0
+      }
+    ],
+    "candidates": [
+      {
+        "file": "Assets/Game/03.Resources/Art/AIGenerated/Items/leather/candidates/leather-fix-c1.png",
+        "sha256": "fd4327e6c33f7db5624ed519003a869ab67d65c478399dbeafb76b722f252abc",
+        "outline_pixels_closed": 1,
+        "outside_removed": 0,
+        "edge_bare_fill_after": 0,
+        "fringe": "PASS leather-fix-c1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+        "exit": 0,
+        "cell_occupancy": [
+          0.52,
+          0.66,
+          0.676
+        ],
+        "colors": [
+          "#34140e",
+          "#5c493c",
+          "#774c3b",
+          "#d3ae90"
+        ]
+      },
+      {
+        "file": "Assets/Game/03.Resources/Art/AIGenerated/Items/leather/candidates/leather-fix-c2.png",
+        "sha256": "54e95cfbe3cf772e8caf232e03a11c78273bd6bbb39b43a03aa1d80459ba3483",
+        "outline_pixels_closed": 1,
+        "outside_removed": 0,
+        "edge_bare_fill_after": 0,
+        "fringe": "PASS leather-fix-c2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+        "exit": 0,
+        "cell_occupancy": [
+          0.52,
+          0.66,
+          0.676
+        ],
+        "colors": [
+          "#34140e",
+          "#5c493c",
+          "#774c3b",
+          "#d3ae90"
+        ]
+      },
+      {
+        "file": "Assets/Game/03.Resources/Art/AIGenerated/Items/leather/candidates/leather-fix-c3.png",
+        "sha256": "ef7ef1098407f351feb10fdfcd0a7a8c96761a4c1da8ba3b0660b031e23811d8",
+        "outline_pixels_closed": 1,
+        "outside_removed": 0,
+        "edge_bare_fill_after": 0,
+        "fringe": "PASS leather-fix-c3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+        "exit": 0,
+        "cell_occupancy": [
+          0.52,
+          0.66,
+          0.676
+        ],
+        "colors": [
+          "#34140e",
+          "#5c493c",
+          "#774c3b",
+          "#d3ae90"
+        ]
+      },
+      {
+        "file": "Assets/Game/03.Resources/Art/AIGenerated/Items/leather/candidates/leather-fix-c4.png",
+        "sha256": "815e1e79831714ec4f663c435edc99220ed0737880de544c395d772893f3c845",
+        "outline_pixels_closed": 1,
+        "outside_removed": 0,
+        "edge_bare_fill_after": 0,
+        "fringe": "PASS leather-fix-c4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+        "exit": 0,
+        "cell_occupancy": [
+          0.52,
+          0.66,
+          0.676
+        ],
+        "colors": [
+          "#34140e",
+          "#5c493c",
+          "#774c3b",
+          "#d3ae90"
+        ]
+      },
+      {
+        "file": "Assets/Game/03.Resources/Art/AIGenerated/Items/leather/candidates/leather-fix2-c1.png",
+        "sha256": "68eda5c8e828d44ec950a23c6f38ca65eef1748df7f977699c4db9c1e3af2230",
+        "outline_pixels_closed": 0,
+        "outside_removed": 0,
+        "edge_bare_fill_after": 0,
+        "fringe": "PASS leather-fix2-c1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+        "exit": 0,
+        "cell_occupancy": [
+          0.414,
+          0.609,
+          0.676
+        ],
+        "colors": [
+          "#34140e",
+          "#774c3b",
+          "#d3ae90"
+        ]
+      },
+      {
+        "file": "Assets/Game/03.Resources/Art/AIGenerated/Items/leather/candidates/leather-fix2-c2.png",
+        "sha256": "84d01739e5f75705afeb7bbdbadfed2213d1e269f45c597537e15cb97c56034f",
+        "outline_pixels_closed": 0,
+        "outside_removed": 0,
+        "edge_bare_fill_after": 0,
+        "fringe": "PASS leather-fix2-c2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+        "exit": 0,
+        "cell_occupancy": [
+          0.414,
+          0.609,
+          0.676
+        ],
+        "colors": [
+          "#34140e",
+          "#774c3b",
+          "#d3ae90"
+        ]
+      },
+      {
+        "file": "Assets/Game/03.Resources/Art/AIGenerated/Items/leather/candidates/leather-fix2-c3.png",
+        "sha256": "e012a00738075edbb53d13d3dff4791813b6afd8582fae4c362f619d955d8ce2",
+        "outline_pixels_closed": 0,
+        "outside_removed": 0,
+        "edge_bare_fill_after": 0,
+        "fringe": "PASS leather-fix2-c3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+        "exit": 0,
+        "cell_occupancy": [
+          0.414,
+          0.609,
+          0.676
+        ],
+        "colors": [
+          "#34140e",
+          "#5c493c",
+          "#774c3b",
+          "#d3ae90"
+        ]
+      },
+      {
+        "file": "Assets/Game/03.Resources/Art/AIGenerated/Items/leather/candidates/leather-fix2-c4.png",
+        "sha256": "3db7919c6e72e4abd7e1a56f83d3849b0911338197d9c5c5ee87092544e2ef59",
+        "outline_pixels_closed": 0,
+        "outside_removed": 0,
+        "edge_bare_fill_after": 0,
+        "fringe": "PASS leather-fix2-c4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+        "exit": 0,
+        "cell_occupancy": [
+          0.414,
+          0.609,
+          0.676
+        ],
+        "colors": [
+          "#34140e",
+          "#5c493c",
+          "#774c3b",
+          "#d3ae90"
+        ]
+      }
+    ],
+    "independent_review": "NOT_RUN: 수정확인1회대기",
+    "generation_seconds": 51.2,
+    "tokens": "미노출, 추정치기록안함",
+    "candidate_budget": "사용자FAIL 수정지시로새구성 재개; 수정2회차8장으로종료",
+    "checks": {
+      "checked_utc": "2026-11-17T08:55:05.220903+00:00",
+      "canvas": [
+        32,
+        32
+      ],
+      "missing_cell_opaque": 0,
+      "exposed_fill_boundary": 0,
+      "stray_fill_at_4_2": false,
+      "components": 1,
+      "leather_tones": 3,
+      "outline_color": "#34140e",
+      "alpha": "binary",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS leather.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "source_sha_matches": true
+    },
+    "blind_sheet_viewed": true,
+    "unchanged_pass_items_verified": [
+      "ironshield",
+      "chainmail",
+      "helmet"
+    ],
+    "elapsed_minutes_from_guide": 4.36,
+    "timing_note": "새가이드작성 이후 정리/문서/검사까지 벽시계. 읽기시간은 제외. 세부 생성은51.2초; 정확한토큰 미노출."
+  }
 }
