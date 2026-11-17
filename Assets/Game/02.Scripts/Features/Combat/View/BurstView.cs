@@ -14,7 +14,8 @@ public class BurstView : MonoBehaviour
         bodyRenderer.flipY = false;
     }
 
-    public void UpdateView(Vector2 worldPosition, Vector2 scale, float alpha, float angle = 0f, bool isFlipped = false)
+    public void UpdateView(Vector2 worldPosition, Vector2 scale, float alpha, float angle = 0f, bool isFlipped = false,
+        bool snapToPixels = true)
     {
         transform.localRotation = Quaternion.Euler(0f, 0f, angle);
         transform.localScale = new Vector3(scale.x, scale.y, 1f);
@@ -23,6 +24,8 @@ public class BurstView : MonoBehaviour
         var center = bodyRenderer.sprite.bounds.center;
         center.x *= isFlipped ? -scale.x : scale.x;
         center.y *= scale.y;
-        transform.localPosition = CombatEffectMotion.Snap(worldPosition - (Vector2)(transform.localRotation * center));
+        var position = worldPosition - (Vector2)(transform.localRotation * center);
+        // 연결 마디의 반 픽셀 중심은 유지해야 한다. 마디마다 스냅하면 짧은 끝 마디에 겹침·빈틈이 생긴다.
+        transform.localPosition = snapToPixels ? CombatEffectMotion.Snap(position) : position;
     }
 }

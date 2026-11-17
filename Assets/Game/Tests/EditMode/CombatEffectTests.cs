@@ -52,7 +52,11 @@ public class CombatEffectTests
     [TestCase(-1f, 0f, 180f)]
     [TestCase(0f, -1f, -90f)]
     [TestCase(1f, 0.2f, 0f)]
-    public void ProjectileRotationKeepsPixelsOrthogonal(float x, float y, float expected)
+    [TestCase(1f, 1f, 45f)]
+    [TestCase(-1f, 1f, 135f)]
+    [TestCase(-1f, -1f, -135f)]
+    [TestCase(1f, -1f, -45f)]
+    public void ProjectileRotationSelectsEightDirections(float x, float y, float expected)
     {
         Assert.AreEqual(expected, CombatEffectMotion.GetProjectileAngle(new Vector2(x, y)));
     }
@@ -77,6 +81,88 @@ public class CombatEffectTests
         }
 
         Assert.Less(Vector2.Distance(to, end), 0.00001f);
+    }
+
+    [Test]
+    public void PooledProjectileViewFacesAllEightDirectionsAndResetsFlip()
+    {
+        var pool = new PoolManager();
+        var parent = new GameObject("ProjectileDirectionTest");
+        var prefab = Resources.Load<ProjectileView>("Prefab/ProjectileView");
+        var sprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(
+            "Assets/Game/03.Resources/Art/AIGenerated/Effects/arrow.png");
+        ProjectileView previous = null;
+        try
+        {
+            // 부호가 바뀌는 순서로 같은 View를 재사용하여 반전 잔류도 검사한다.
+            foreach (var degrees in new[] { 135f, 45f, -135f, -45f, 180f, 0f, -90f, 90f })
+            {
+                var direction = (Vector2)(Quaternion.Euler(0f, 0f, degrees) * Vector3.right);
+                var view = pool.Get("ProjectileDirectionTest", prefab, parent.transform);
+                view.Initialize(sprite);
+                view.UpdateView(new Vector2(2f, 3f), direction);
+                var actual = (Vector2)(view.transform.localRotation *
+                    (view.BodyRenderer.flipX ? Vector3.left : Vector3.right));
+                Assert.Greater(Vector2.Dot(direction, actual), 0.99999f, degrees.ToString());
+                Assert.LessOrEqual(Quaternion.Angle(Quaternion.identity, view.transform.localRotation), 90.001f);
+                var pixels = (Vector2)view.transform.localPosition * Const.PixelsPerUnit;
+                Assert.Less(Vector2.Distance(pixels, new Vector2(Mathf.Round(pixels.x), Mathf.Round(pixels.y))), 0.0001f);
+                if (previous != null)
+                {
+                    Assert.AreSame(previous, view);
+                }
+
+                pool.Release("ProjectileDirectionTest", view);
+                previous = view;
+            }
+        }
+        finally
+        {
+            Object.DestroyImmediate(parent);
+        }
+    }
+
+    [TestCase(81f, 0f)]
+    [TestCase(81f, 33f)]
+    [TestCase(-81f, 33f)]
+    [TestCase(1f, 1f)]
+    public void LightningViewBoundariesRemainJoinedAfterPlacement(float xPixels, float yPixels)
+    {
+        var pool = new PoolManager();
+        var parent = new GameObject("LightningBoundaryTest");
+        var prefab = Resources.Load<BurstView>("Prefab/BurstView");
+        var sprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(
+            "Assets/Game/03.Resources/Art/AIGenerated/Effects/lightning.png");
+        var from = CombatEffectMotion.Snap(new Vector2(0.1f, 0.2f));
+        var to = CombatEffectMotion.Snap(from + new Vector2(xPixels, yPixels) / Const.PixelsPerUnit);
+        var width = sprite.rect.width / Const.PixelsPerUnit;
+        var count = CombatEffectMotion.GetSegmentCount(Vector2.Distance(from, to), width);
+        var angle = Mathf.Atan2(to.y - from.y, to.x - from.x) * Mathf.Rad2Deg;
+        var previousEnd = from;
+        try
+        {
+            for (var i = 0; i < count; i++)
+            {
+                CombatEffectMotion.GetSegment(from, to, width, i, out var center, out var scaleX);
+                var view = pool.Get("LightningBoundaryTest", prefab, parent.transform);
+                view.Initialize(sprite);
+                view.UpdateView(center, new Vector2(scaleX, 1f), 1f, angle, snapToPixels: false);
+                var bounds = sprite.bounds;
+                var start = (Vector2)view.BodyRenderer.transform.TransformPoint(
+                    new Vector3(bounds.min.x, bounds.center.y, 0f));
+                var end = (Vector2)view.BodyRenderer.transform.TransformPoint(
+                    new Vector3(bounds.max.x, bounds.center.y, 0f));
+                Assert.Less(Vector2.Distance(previousEnd, start) * Const.PixelsPerUnit, 0.001f, $"joint {i}");
+                previousEnd = end;
+                pool.Release("LightningBoundaryTest", view);
+            }
+
+            Assert.Less(Vector2.Distance(to, previousEnd) * Const.PixelsPerUnit, 0.001f, "final endpoint");
+        }
+        finally
+        {
+            Object.DestroyImmediate(parent);
+        }
     }
 
     [Test]

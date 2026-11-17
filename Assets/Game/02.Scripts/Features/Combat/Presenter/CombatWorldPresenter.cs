@@ -138,15 +138,15 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         var key = (long)burst.Id << 32;
         if (burst.Kind == BurstEffectKind.Chain)
         {
-            var from = position + Vector2.up * BodyHeight;
-            var to = World(burst.EndPosition) + Vector2.up * BodyHeight;
+            var from = CombatEffectMotion.Snap(position + Vector2.up * BodyHeight);
+            var to = CombatEffectMotion.Snap(World(burst.EndPosition) + Vector2.up * BodyHeight);
             var width = sprite.rect.width / Const.PixelsPerUnit;
             var count = CombatEffectMotion.GetSegmentCount(Vector2.Distance(from, to), width);
             var angle = Mathf.Atan2(to.y - from.y, to.x - from.x) * Mathf.Rad2Deg;
             for (var i = 0; i < count; i++)
             {
                 CombatEffectMotion.GetSegment(from, to, width, i, out var center, out var scaleX);
-                Draw(key + i, spriteName, center, new Vector2(scaleX, 1f), alpha, angle);
+                Draw(key + i, spriteName, center, new Vector2(scaleX, 1f), alpha, angle, snapToPixels: false);
             }
 
             return;
@@ -181,7 +181,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
     }
 
     private void Draw(long id, string spriteName, Vector2 position, Vector2 scale, float alpha,
-        float angle = 0f, bool isFlipped = false)
+        float angle = 0f, bool isFlipped = false, bool snapToPixels = true)
     {
         _aliveBurstIdSet.Add(id);
         if (!_projectileViewRegistry.TryGetBurst(id, out var view))
@@ -190,7 +190,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
             MarkShown(spriteName);
         }
 
-        view.UpdateView(position, scale, alpha, angle, isFlipped);
+        view.UpdateView(position, scale, alpha, angle, isFlipped, snapToPixels);
     }
 
     private Vector2 World(Vector2 floor) => IsoProjection.FloorToWorld(floor, _runRules.UnitScale);

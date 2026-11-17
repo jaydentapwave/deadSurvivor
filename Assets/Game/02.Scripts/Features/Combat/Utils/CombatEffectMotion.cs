@@ -8,7 +8,7 @@ public static class CombatEffectMotion
         Mathf.Round(position.y * Const.PixelsPerUnit) / Const.PixelsPerUnit);
 
     public static float GetProjectileAngle(Vector2 direction) =>
-        Mathf.Round(Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg / 90f) * 90f;
+        Mathf.Round(Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg / 45f) * 45f;
 
     public static int GetSegmentCount(float length, float width) => Mathf.CeilToInt(length / width);
 
