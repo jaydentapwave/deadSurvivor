@@ -23,7 +23,7 @@ public class MonsterViewStateTests
         serialized.FindProperty("dashLineRenderer").objectReferenceValue = line;
         serialized.FindProperty("blastAreaRenderer").objectReferenceValue = area;
         serialized.ApplyModifiedPropertiesWithoutUndo();
-        _view.Initialize(CreateSprite(8, 8, new Vector2(0.5f, 0f)), false, CreateSprite(4, 2, new Vector2(0f, 0.5f)),
+        _view.Initialize(CreateSprite(8, 8, new Vector2(0.5f, 0f)), null, false, CreateSprite(4, 2, new Vector2(0f, 0.5f)),
             CreateSprite(64, 64, new Vector2(0.5f, 0f)), 322f, 90f, 0.0113f);
     }
 
@@ -75,21 +75,69 @@ public class MonsterViewStateTests
     {
         var bodyRenderer = _root.GetComponent<SpriteRenderer>();
         var art = CreateSprite(64, 64, new Vector2(0.5f, 0f));
-        _view.Initialize(art, true, CreateSprite(4, 2, new Vector2(0f, 0.5f)), CreateSprite(64, 64, new Vector2(0.5f, 0f)), 0f, 0f,
+        _view.Initialize(art, null, true, CreateSprite(4, 2, new Vector2(0f, 0.5f)), CreateSprite(64, 64, new Vector2(0.5f, 0f)), 0f, 0f,
             0.0113f);
 
         Assert.IsTrue(_view.HasArt);
         Assert.AreSame(art, bodyRenderer.sprite);
         Assert.AreEqual(Vector3.one, bodyRenderer.transform.localScale);
 
-        _view.ApplyMotion(true, -1);
+        _view.ApplyMotion(true, new Vector2Int(0, -1));
         Assert.IsTrue(_view.IsFlipped);
         Assert.AreEqual(-1f, _view.BodyOffset.y * Const.PixelsPerUnit, 1e-5f);
 
-        _view.Initialize(art, true, CreateSprite(4, 2, new Vector2(0f, 0.5f)), CreateSprite(64, 64, new Vector2(0.5f, 0f)), 0f, 0f,
+        _view.Initialize(art, null, true, CreateSprite(4, 2, new Vector2(0f, 0.5f)), CreateSprite(64, 64, new Vector2(0.5f, 0f)), 0f, 0f,
             0.0113f);
         Assert.IsFalse(_view.IsFlipped);
         Assert.AreEqual(Vector3.zero, _view.BodyOffset);
+    }
+
+    // 쓰러짐·예고 T2·T3 — 예고 그림이 있으면 Windup·Fuse 동안 예고 그림, 끝나면 평소 그림. 다시 꺼내면 평소 그림
+    [TestCase(MonsterPhase.Windup, MonsterPhase.Dash)]
+    [TestCase(MonsterPhase.Fuse, MonsterPhase.Approach)]
+    public void WarningPhaseSwapsBodyAndBack(MonsterPhase warningPhase, MonsterPhase nextPhase)
+    {
+        var bodyRenderer = _root.GetComponent<SpriteRenderer>();
+        var art = CreateSprite(64, 64, new Vector2(0.5f, 0f));
+        var warning = CreateSprite(64, 64, new Vector2(0.5f, 0f));
+        _view.Initialize(art, warning, true, CreateSprite(4, 2, new Vector2(0f, 0.5f)), CreateSprite(64, 64, new Vector2(0.5f, 0f)), 0f,
+            0f, 0.0113f);
+
+        _view.UpdateState(MonsterPhase.Approach, Vector2.zero);
+        Assert.IsFalse(_view.IsWarning);
+        Assert.AreSame(art, bodyRenderer.sprite);
+
+        _view.UpdateState(warningPhase, Vector2.right);
+        Assert.IsTrue(_view.IsWarning);
+        Assert.AreSame(warning, bodyRenderer.sprite);
+
+        _view.UpdateState(warningPhase, Vector2.right);
+        Assert.AreSame(warning, bodyRenderer.sprite);
+
+        _view.UpdateState(nextPhase, Vector2.zero);
+        Assert.IsFalse(_view.IsWarning);
+        Assert.AreSame(art, bodyRenderer.sprite);
+
+        _view.UpdateState(warningPhase, Vector2.right);
+        _view.Initialize(art, warning, true, CreateSprite(4, 2, new Vector2(0f, 0.5f)), CreateSprite(64, 64, new Vector2(0.5f, 0f)), 0f,
+            0f, 0.0113f);
+        Assert.IsFalse(_view.IsWarning);
+        Assert.AreSame(art, bodyRenderer.sprite);
+    }
+
+    [Test]
+    public void NoWarningSpriteKeepsBody()
+    {
+        var bodyRenderer = _root.GetComponent<SpriteRenderer>();
+        var body = bodyRenderer.sprite;
+
+        _view.UpdateState(MonsterPhase.Windup, Vector2.right);
+        Assert.IsFalse(_view.IsWarning);
+        Assert.AreSame(body, bodyRenderer.sprite);
+
+        _view.UpdateState(MonsterPhase.Fuse, Vector2.zero);
+        Assert.IsFalse(_view.IsWarning);
+        Assert.AreSame(body, bodyRenderer.sprite);
     }
 
     [Test]

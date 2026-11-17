@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.U2D;
 
-// 그림 넣기 AC3 — 아틀라스 한 장이 13장을 담고, 이름별로 같은 스프라이트 객체(PPU 48, 피벗 아래 가운데)
+// 그림 넣기 AC3 — 아틀라스 한 장이 19장(13장 + 쓰러짐·예고 6장)을 담고, 이름별로 같은 스프라이트 객체(PPU 48, 피벗 아래 가운데)
 public class SpriteAtlasServiceTests
 {
     private const string AtlasAssetPath = "Assets/Game/03.Resources/Resources/Art/Characters.spriteatlasv2";
@@ -14,6 +14,7 @@ public class SpriteAtlasServiceTests
     {
         "bruno_front", "bruno_back", "lena_front", "lena_back", "mira_front", "mira_back", "bolt_front", "bolt_back",
         "slime", "mushroom", "boar", "rock", "puffer",
+        "bruno_downed", "lena_downed", "mira_downed", "bolt_downed", "boar_telegraph", "puffer_inflate",
     };
 
     [OneTimeSetUp]
@@ -24,9 +25,9 @@ public class SpriteAtlasServiceTests
     }
 
     [Test]
-    public void AtlasHoldsThirteenSprites()
+    public void AtlasHoldsNineteenSprites()
     {
-        Assert.AreEqual(13, Resources.Load<SpriteAtlas>("Art/Characters").spriteCount);
+        Assert.AreEqual(19, Resources.Load<SpriteAtlas>("Art/Characters").spriteCount);
     }
 
     [Test]

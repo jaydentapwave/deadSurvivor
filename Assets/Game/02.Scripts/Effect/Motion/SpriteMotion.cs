@@ -24,6 +24,9 @@ public static class SpriteMotion
         return moveStyle == MonsterMoveStyle.Hop ? frame : -frame;
     }
 
+    // 예고 흔들림: 예고 중 좌우 0px / +1px(두 프레임 순환), 아니면 0
+    public static int GetShakeOffsetX(bool isWarning, float time, float period) => isWarning ? GetCycleFrame(time, period, 0f) : 0;
+
     // 피격 밀림: 번쩍이는 동안 보는 쪽 반대로 가로 1px(반전 없음 = 오른쪽을 봄 → −1)
     public static int GetHitOffsetX(bool isFlashOn, bool isFlipped)
     {

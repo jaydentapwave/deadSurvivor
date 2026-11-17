@@ -8,9 +8,12 @@ using Object = UnityEngine.Object;
 // GetSprite는 부를 때마다 복제를 만들므로 이름별로 캐시한다. 만든 복제는 scope가 끝날 때 지운다(PlaceholderSpriteFactory와 같음).
 public class SpriteAtlasService : IDisposable
 {
-    // 캐릭터 그림 이름 = <key>_front·<key>_back, 몬스터 = <key>
+    // 캐릭터 그림 이름 = <key>_front·<key>_back·<key>_downed(쓰러짐), 몬스터 = <key>·<key>_telegraph(돌진 예고)·<key>_inflate(자폭 점화)
     public const string FrontSuffix = "_front";
     public const string BackSuffix = "_back";
+    public const string DownedSuffix = "_downed";
+    public const string TelegraphSuffix = "_telegraph";
+    public const string InflateSuffix = "_inflate";
     private const string AtlasPath = "Art/Characters";
 
     private readonly ResourceService _resourceService;

@@ -108,4 +108,16 @@ public class SpriteMotionTests
             Assert.That(SpriteMotion.GetMoveOffsetY(MonsterMoveStyle.Squash, t, MovePeriod, 0.37f), Is.EqualTo(0).Or.EqualTo(-1));
         }
     }
+
+    // 쓰러짐·예고 T2·T3 — 예고 중 0.1초 주기로 0 / +1px, 예고가 아니면 0
+    [TestCase(0f, 0)]
+    [TestCase(0.04f, 0)]
+    [TestCase(0.06f, 1)]
+    [TestCase(0.12f, 0)]
+    [TestCase(0.17f, 1)]
+    public void ShakeAlternatesOnlyWhileWarning(float time, int expected)
+    {
+        Assert.AreEqual(expected, SpriteMotion.GetShakeOffsetX(true, time, 0.1f));
+        Assert.AreEqual(0, SpriteMotion.GetShakeOffsetX(false, time, 0.1f));
+    }
 }

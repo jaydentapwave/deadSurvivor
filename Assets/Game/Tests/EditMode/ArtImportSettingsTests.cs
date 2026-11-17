@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEditor.Presets;
 using UnityEngine;
 
-// 그림 넣기 AC2 — 13장의 임포트 값(기획서 B절), Preset Manager 항목, 그림 폴더 CLAUDE.md의 프리셋 경로
+// 그림 넣기 AC2 — 19장(13장 + 쓰러짐·예고 6장)의 임포트 값(기획서 B절), Preset Manager 항목, 그림 폴더 CLAUDE.md의 프리셋 경로
 public class ArtImportSettingsTests
 {
     private const string GeneratedFolder = "Assets/Game/03.Resources/Art/AIGenerated";
@@ -13,10 +13,10 @@ public class ArtImportSettingsTests
     private const string ArtPolicyPath = "Assets/Game/03.Resources/Art/CLAUDE.md";
 
     [Test]
-    public void ThirteenSpritesMatchImportValues()
+    public void NineteenSpritesMatchImportValues()
     {
         var guids = AssetDatabase.FindAssets("t:Texture2D", new[] { GeneratedFolder });
-        Assert.AreEqual(13, guids.Length);
+        Assert.AreEqual(19, guids.Length);
         foreach (var guid in guids)
         {
             var path = AssetDatabase.GUIDToAssetPath(guid);

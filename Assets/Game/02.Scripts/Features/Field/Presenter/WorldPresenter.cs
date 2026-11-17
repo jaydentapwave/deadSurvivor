@@ -5,6 +5,7 @@ using VContainer.Unity;
 
 // 바닥 평면 모델 → 월드 그림(기획서 E·F절): 바닥 깔기, 원정대·적 그림 위치, 카메라 중심, 보이는 바닥 영역을 생성기에 알림.
 // 그림 넣기(기획서 E절): 대원·몬스터 그림 초기화, 프레임 이동량 → 방향·움직임, 대원 HP 감소 → 흰 번쩍임.
+// 쓰러짐·예고(아트 기준서 3.10): 쓰러진 뒤 흐른 시간(어둡게 하기, 게임 시간 그대로 흘러 판이 끝나도 다 어두워진다), 몬스터 예고 중 좌우 1px 흔들림.
 // 움직임 시계는 전투 중·일시정지 아님일 때만 흐르고, 멈춘 프레임에는 방향·움직임을 그대로 둔다(판 시작 리셋·쓰러진 대원 정리는 늘).
 // 이동량은 시뮬레이션(30Hz 고정 걸음)이 진행된 프레임에만 본다. 걸음이 없는 그리기 프레임은 이동량이 0이라 멈춤으로 보면
 // 걷는 중에도 대기·hop 오프셋이 프레임마다 깜빡이므로, 그 프레임은 지난 방향·이동 여부를 그대로 쓴다.
@@ -38,6 +39,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     private float _motionClock;
     private float _lastRemainingSeconds;
     private readonly bool[] _isMemberMovings;
+    private readonly float[] _downedSeconds;
     private readonly HashSet<int> _movingMonsterIdSet = new();
     private int _lastRunCount = -1;
     private int _idleOffsetSeenMask;
@@ -71,6 +73,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         _lastHps = new float[memberViewList.Count];
         _hitFlashes = new HitFlash[memberViewList.Count];
         _isMemberMovings = new bool[memberViewList.Count];
+        _downedSeconds = new float[memberViewList.Count];
     }
 
     public void Initialize()
@@ -133,26 +136,29 @@ public class WorldPresenter : IInitializable, ILateTickable
                 continue;
             }
 
-            // 그림 키가 있으면 앞·뒤 그림, 비었거나 하나라도 없으면 F1 임시 원
+            // 그림 키가 있으면 앞·뒤·쓰러진 그림, 비었거나 하나라도 없으면 F1 임시 원
             var key = characterDataList[i].Sprite;
             Sprite frontSprite = null;
             Sprite backSprite = null;
+            Sprite downedSprite = null;
             if (!string.IsNullOrEmpty(key))
             {
                 frontSprite = _spriteAtlasService.Get(key + SpriteAtlasService.FrontSuffix);
                 backSprite = _spriteAtlasService.Get(key + SpriteAtlasService.BackSuffix);
+                downedSprite = _spriteAtlasService.Get(key + SpriteAtlasService.DownedSuffix);
             }
 
-            var hasArt = frontSprite != null && backSprite != null;
+            var hasArt = frontSprite != null && backSprite != null && downedSprite != null;
             if (!hasArt)
             {
                 frontSprite = _placeholderSpriteFactory.CreateCircle(view.BodyDiameterPixels,
                     _placeholderSpriteFactory.ParseColor(characterDataList[i].Color));
                 backSprite = frontSprite;
+                downedSprite = frontSprite;
             }
 
             var hpBarSprite = _placeholderSpriteFactory.CreateBox(view.HpBarPixels.x, view.HpBarPixels.y, Color.white, HpBarPivot);
-            view.Initialize(frontSprite, backSprite, hpBarSprite, hasArt);
+            view.Initialize(frontSprite, backSprite, downedSprite, hpBarSprite, hasArt);
         }
     }
 
@@ -189,7 +195,8 @@ public class WorldPresenter : IInitializable, ILateTickable
             var position = IsoProjection.FloorToWorld(member.Position, _runRules.UnitScale);
             var delta = position - (Vector2)view.transform.localPosition;
             view.SetVisible(true);
-            view.UpdateView(position, member.Hp / member.MaxHp, member.IsAlive);
+            _downedSeconds[i] = member.IsAlive ? 0f : _downedSeconds[i] + Time.deltaTime;
+            view.UpdateView(position, member.Hp / member.MaxHp, member.IsAlive, _downedSeconds[i]);
             if (isRunStarted)
             {
                 // 판 시작: 앞·오른쪽, 첫 표시의 자리 점프는 방향을 바꾸지 않는다
@@ -311,7 +318,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         }
     }
 
-    // 좌우 반전(늘 앞)과 이동 중 hop/squash. 시작은 (번호 × stagger) mod 주기로 어긋낸다(결정적)
+    // 좌우 반전(늘 앞)과 이동 중 hop/squash, 예고 중 좌우 1px 흔들림. hop 시작은 (번호 × stagger) mod 주기로 어긋낸다(결정적)
     private void UpdateMonsterMotion(MonsterView view, Monster monster, bool hasStepped, Vector2 delta)
     {
         var isFlipped = view.IsFlipped;
@@ -336,6 +343,7 @@ public class WorldPresenter : IInitializable, ILateTickable
             offsetY = SpriteMotion.GetMoveOffsetY(monster.Data.MoveStyle, _motionClock, view.MovePeriodSeconds, startOffset);
         }
 
-        view.ApplyMotion(isFlipped, offsetY);
+        var offsetX = SpriteMotion.GetShakeOffsetX(view.IsWarning, _motionClock, view.ShakePeriodSeconds);
+        view.ApplyMotion(isFlipped, new Vector2Int(offsetX, offsetY));
     }
 }

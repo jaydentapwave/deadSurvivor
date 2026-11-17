@@ -134,6 +134,95 @@
       "timeout": 120
     },
     {
+      "id": "DOWN",
+      "name": "1배 새 판(시드 5, 적 수 배율 3)에서 대원이 쓰러지면 쓰러진 그림, 0.3초 뒤 어두운 채(T1)",
+      "do": "PlayableProbe.StopBot(); PlayableProbe.PressToLobby(); UnityEngine.Time.timeScale = 1f; PlayableProbe.UseRunSettings(5, 3f); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.FirstDownMember >= 0",
+      "timeout": 60
+    },
+    {
+      "id": "DIM",
+      "name": "쓰러진 대원: 쓰러진 그림·어두움·HP 막대 없음(T1)",
+      "sleep": 0.5,
+      "expect": "PlayableProbe.FirstDownMember >= 0 && PlayableProbe.MemberSpriteName(PlayableProbe.FirstDownMember).EndsWith(\"_downed\") && PlayableProbe.MemberBodyBrightness(PlayableProbe.FirstDownMember) < 0.5f",
+      "capture": true
+    },
+    {
+      "id": "REVIVE",
+      "name": "정비에서 모두 부활 → 다음 웨이브 전투에서 4명 모두 서 있는 그림·밝기 1(T1)",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 60
+    },
+    {
+      "id": "STAND",
+      "name": "부활 뒤 웨이브 2 전투, 4명 서 있는 그림(T1)",
+      "do": "UnityEngine.Time.timeScale = 1f; for (var i = 0; i < 4; i++) { if (PlayableProbe.CanRevive(i)) { PlayableProbe.PressRevive(i); } } PlayableProbe.PressNextWave();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 2 && PlayableProbe.AliveCount == 4",
+      "timeout": 30,
+      "expect": "!PlayableProbe.MemberSpriteNames.Contains(\"_downed\") && PlayableProbe.MemberBodyBrightness(0) == 1f && PlayableProbe.MemberBodyBrightness(1) == 1f && PlayableProbe.MemberBodyBrightness(2) == 1f && PlayableProbe.MemberBodyBrightness(3) == 1f",
+      "capture": true
+    },
+    {
+      "id": "WIPE",
+      "name": "그 판을 끝까지(이동 없음) → 패배, 4명 모두 각자의 쓰러진 그림(T1)",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120,
+      "expect": "PlayableProbe.Outcome == \"Lose\" && PlayableProbe.MemberSpriteNames == \"bruno_downed,lena_downed,mira_downed,bolt_downed\""
+    },
+    {
+      "id": "W6",
+      "name": "예고 확인 판(시드 13, 적 수 배율 0.2) 웨이브 6까지 → 1배 시간, 예고 표본 시작",
+      "do": "PlayableProbe.StopBot(); PlayableProbe.PressToLobby(); PlayableProbe.UseRunSettings(13, 0.2f); PlayableProbe.UseRealTimeAtWave(6); UnityEngine.Time.timeScale = 20f; PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 6",
+      "timeout": 120
+    },
+    {
+      "id": "TEL1",
+      "name": "멧돼지 돌진 예고 중 예고 그림(T2) — 캡처 1",
+      "do": "PlayableProbe.MarkWarnings();",
+      "wait": "PlayableProbe.WarningShownCount(\"boar_telegraph\") >= 1",
+      "timeout": 60,
+      "capture": true
+    },
+    {
+      "id": "TEL2",
+      "name": "멧돼지 돌진 예고 중 — 캡처 2(캡처가 예고 한 번보다 오래 걸리므로 다음 예고에서)",
+      "wait": "PlayableProbe.WarningShownCount(\"boar_telegraph\") >= 1",
+      "timeout": 30,
+      "capture": true
+    },
+    {
+      "id": "TEL3",
+      "name": "예고가 끝나 돌진 → 평소 그림으로 돌아옴, 예고 그림 0.5초 이상, 흔들림 0·+1px 두 자리(T2)",
+      "wait": "PlayableProbe.WarningReturnedCount(\"boar_telegraph\") >= 1",
+      "timeout": 30,
+      "expect": "PlayableProbe.WarningMaxSeconds(\"boar_telegraph\") >= 0.5f && PlayableProbe.WarningShakeOffsetsSeen(\"boar_telegraph\") == 2",
+      "capture": true
+    },
+    {
+      "id": "INF1",
+      "name": "가시복 자폭 점화 중 부푼 그림(T3) — 캡처 1",
+      "wait": "PlayableProbe.WarningShownCount(\"puffer_inflate\") >= 1",
+      "timeout": 60,
+      "capture": true
+    },
+    {
+      "id": "INF3",
+      "name": "점화가 끝남(폭발) → 부푼 그림 0.5초 이상, 흔들림 0·+1px 두 자리(T3)",
+      "wait": "PlayableProbe.WarningEndedCount(\"puffer_inflate\") >= 1",
+      "timeout": 30,
+      "expect": "PlayableProbe.WarningMaxSeconds(\"puffer_inflate\") >= 0.5f && PlayableProbe.WarningShakeOffsetsSeen(\"puffer_inflate\") == 2"
+    },
+    {
+      "id": "END4",
+      "name": "예고 확인 판 끝까지 → 결과",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120
+    },
+    {
       "id": "LOBBY",
       "name": "로비로",
       "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.PressToLobby();",

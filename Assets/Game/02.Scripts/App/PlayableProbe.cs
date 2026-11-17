@@ -11,6 +11,7 @@ using Object = UnityEngine.Object;
 // 승패·단계를 써 넣지 않는다. 게임 코드는 이 클래스를 모른다.
 public static class PlayableProbe
 {
+    private const string CloneSuffix = "(Clone)";
     private static int _lastPlacedMember = -1;
     private static string _lastPlacedItemId;
 
@@ -481,6 +482,64 @@ public static class PlayableProbe
     // "front-right"·"front-left"·"back-right"·"back-left"
     public static string MemberFacing(int member) => Resolve<IReadOnlyList<MemberView>>()[member].Facing.Label;
     public static int IdleOffsetsSeen => Resolve<WorldPresenter>().IdleOffsetsSeen;
+
+    // 쓰러짐·예고(아트 기준서 3.10). 몸 그림 이름(아틀라스 복제의 "(Clone)"을 뗀 것)·몸 밝기(색의 r, 흰색 1)
+    public static string MemberSpriteName(int member) =>
+        Resolve<IReadOnlyList<MemberView>>()[member].BodySpriteName.Replace(CloneSuffix, string.Empty);
+    public static float MemberBodyBrightness(int member) => Resolve<IReadOnlyList<MemberView>>()[member].BodyColor.r;
+    // 대원 0~3의 몸 그림 이름을 쉼표로
+    public static string MemberSpriteNames
+    {
+        get
+        {
+            var memberViewList = Resolve<IReadOnlyList<MemberView>>();
+            var nameList = new List<string>();
+            for (var i = 0; i < memberViewList.Count; i++)
+            {
+                nameList.Add(MemberSpriteName(i));
+            }
+
+            return string.Join(",", nameList);
+        }
+    }
+
+    // 지금 그 예고 그림을 보이는 산 몬스터 수
+    public static int WarningShownCount(string spriteName)
+    {
+        var registry = Resolve<MonsterViewRegistry>();
+        var count = 0;
+        foreach (var monster in Resolve<MonsterModel>().MonsterList)
+        {
+            if (monster.IsAlive && registry.TryGet(monster.Id, out var view) && view.IsWarning
+                && view.BodySpriteName.Replace(CloneSuffix, string.Empty) == spriteName)
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    // MarkWarnings 뒤 끝난 예고(그 그림)의 수·가장 긴 표시 시간(게임 시간 초, 없으면 −1)·끝난 뒤 산 채 평소 그림으로 돌아온 수·지난 흔들림 오프셋 종류 수
+    public static int WarningEndedCount(string spriteName) => WarningSampler != null ? WarningSampler.GetEndedCount(spriteName) : 0;
+    public static float WarningMaxSeconds(string spriteName) => WarningSampler != null ? WarningSampler.GetMaxSeconds(spriteName) : -1f;
+    public static int WarningReturnedCount(string spriteName) => WarningSampler != null ? WarningSampler.GetReturnedCount(spriteName) : 0;
+    public static int WarningShakeOffsetsSeen(string spriteName) =>
+        WarningSampler != null ? WarningSampler.GetShakeOffsetsSeen(spriteName) : 0;
+
+    // 예고 표본을 새로 모은다
+    public static void MarkWarnings()
+    {
+        var sampler = WarningSampler;
+        if (sampler == null)
+        {
+            sampler = new GameObject(nameof(PlayableWarningSampler)).AddComponent<PlayableWarningSampler>();
+        }
+
+        sampler.Mark();
+    }
+
+    private static PlayableWarningSampler WarningSampler => Object.FindAnyObjectByType<PlayableWarningSampler>();
     public static int MemberHitFlashTotal => Resolve<WorldPresenter>().MemberHitFlashTotal;
     public static float MemberFlashMaxSeconds => Resolve<WorldPresenter>().MemberFlashMaxSeconds;
 
@@ -782,6 +841,99 @@ public class PlayableFrameSampler : MonoBehaviour
         _sortedList.AddRange(sampleList);
         _sortedList.Sort();
         return _sortedList[Mathf.Clamp(Mathf.CeilToInt(_sortedList.Count * Percentile) - 1, 0, _sortedList.Count - 1)];
+    }
+}
+
+// 판정용 예고 그림 표본(쓰러짐·예고 T2·T3). 표시 뒤 매 프레임 산 몬스터의 예고 그림 표시를 보고, 몬스터마다 표시 시작 시각(게임 시간)을 적는다.
+// 예고가 끝나면(평소 그림으로 돌아오거나 몬스터가 사라짐) 그 그림 이름별로 표시 시간·끝난 수·돌아온 수를 모은다. 흔들림은 표시 중 몸 x 오프셋(픽셀)의 종류.
+public class PlayableWarningSampler : MonoBehaviour
+{
+    private const string CloneSuffix = "(Clone)";
+
+    private readonly Dictionary<int, (string spriteName, float startTime)> _shownDict = new();
+    private readonly Dictionary<string, (int ended, int returned, float maxSeconds)> _resultDict = new();
+    private readonly Dictionary<string, HashSet<int>> _shakeOffsetSetDict = new();
+    private readonly HashSet<int> _seenIdSet = new();
+    private readonly List<int> _endedIdList = new();
+    private bool _isMarked;
+
+    public void Mark()
+    {
+        _shownDict.Clear();
+        _resultDict.Clear();
+        _shakeOffsetSetDict.Clear();
+        _isMarked = true;
+    }
+
+    public int GetEndedCount(string spriteName) => _resultDict.TryGetValue(spriteName, out var result) ? result.ended : 0;
+    public int GetReturnedCount(string spriteName) => _resultDict.TryGetValue(spriteName, out var result) ? result.returned : 0;
+    public float GetMaxSeconds(string spriteName) => _resultDict.TryGetValue(spriteName, out var result) ? result.maxSeconds : -1f;
+    public int GetShakeOffsetsSeen(string spriteName) =>
+        _shakeOffsetSetDict.TryGetValue(spriteName, out var offsetSet) ? offsetSet.Count : 0;
+
+    private void Update()
+    {
+        if (!_isMarked || PlayableProbe.Screen != nameof(RunPhase.Battle))
+        {
+            return;
+        }
+
+        var registry = PlayableProbe.Resolve<MonsterViewRegistry>();
+        _seenIdSet.Clear();
+        foreach (var monster in PlayableProbe.Resolve<MonsterModel>().MonsterList)
+        {
+            if (!monster.IsAlive || !registry.TryGet(monster.Id, out var view))
+            {
+                continue;
+            }
+
+            _seenIdSet.Add(monster.Id);
+            var isShown = _shownDict.TryGetValue(monster.Id, out var shown);
+            if (view.IsWarning)
+            {
+                var spriteName = view.BodySpriteName.Replace(CloneSuffix, string.Empty);
+                if (!isShown)
+                {
+                    _shownDict.Add(monster.Id, (spriteName, Time.time));
+                }
+
+                if (!_shakeOffsetSetDict.TryGetValue(spriteName, out var offsetSet))
+                {
+                    offsetSet = new HashSet<int>();
+                    _shakeOffsetSetDict.Add(spriteName, offsetSet);
+                }
+
+                offsetSet.Add(Mathf.RoundToInt(view.BodyOffset.x * Const.PixelsPerUnit));
+            }
+            else if (isShown)
+            {
+                EndWarning(monster.Id, shown, true);
+            }
+        }
+
+        _endedIdList.Clear();
+        foreach (var id in _shownDict.Keys)
+        {
+            if (!_seenIdSet.Contains(id))
+            {
+                _endedIdList.Add(id);
+            }
+        }
+
+        foreach (var id in _endedIdList)
+        {
+            EndWarning(id, _shownDict[id], false);
+        }
+    }
+
+    private void EndWarning(int monsterId, (string spriteName, float startTime) shown, bool isReturned)
+    {
+        _shownDict.Remove(monsterId);
+        _resultDict.TryGetValue(shown.spriteName, out var result);
+        result.ended++;
+        result.returned += isReturned ? 1 : 0;
+        result.maxSeconds = Mathf.Max(result.maxSeconds, Time.time - shown.startTime);
+        _resultDict[shown.spriteName] = result;
     }
 }
 #endif
