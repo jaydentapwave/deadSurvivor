@@ -13,6 +13,8 @@ usage:
   - 머리 패치: 기준 그림의 맨 위 줄부터 head-rows줄. 위 70% 줄은 전부, 아래 30% 줄은 x >= head-xmin만
     (배낭·어깨 제외). 프레임마다 정수 이동(±6px) 중 가장 잘 맞는 곳에서 같은 픽셀 95% 이상.
     가린 픽셀(그 자리 색이 기준 머리에 없는 색 = 무기·팔)은 빼고 세되, 가린 픽셀이 머리의 25%를 넘으면 실패.
+    손에 든 물건 자리(지팡이·구슬·등불 등)는 docs/art/samples/aether/head-exclude.json에서 --base 파일 이름
+    (확장자 뺀 것)으로 찾은 사각형 [[x0,y0,x1,y1], ...](기준 그림 좌표, 끝 포함)을 머리 패치에서 뺀다. 없는 이름은 뺄 것 없음.
   기본값: head-rows = round(0.42 × 기준 그림 키), head-xmin = 위 70% 줄의 가장 왼쪽 x + 3.
 """
 import argparse
@@ -27,6 +29,7 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 SPEC = ROOT / 'docs/art/아트-기준서.md'
+HEAD_EXCLUDE = ROOT / 'docs/art/samples/aether/head-exclude.json'
 COUNTS = {'walk': (6, 8), 'attack': (4, 6)}
 SHIFT = 6
 MATCH_MIN = 0.95
@@ -54,6 +57,24 @@ def head_mask(base, rows=None, xmin=None):
     return m
 
 
+def held_boxes(base_path, table=HEAD_EXCLUDE):
+    """기준 그림 이름으로 head-exclude.json의 물건 사각형 목록을 읽는다(없으면 빈 목록)."""
+    if not Path(table).exists():
+        return []
+    boxes = json.loads(Path(table).read_text()).get(Path(base_path).stem, [])
+    for b in boxes:
+        if len(b) != 4 or b[0] > b[2] or b[1] > b[3]:
+            raise ValueError(f'{table}: {Path(base_path).stem}의 사각형 {b}가 [x0,y0,x1,y1](x0<=x1, y0<=y1)이 아니다')
+    return boxes
+
+
+def exclude_boxes(mask, boxes):
+    m = mask.copy()
+    for x0, y0, x1, y1 in boxes:
+        m[y0:y1 + 1, x0:x1 + 1] = False
+    return m
+
+
 def head_score(frame, base, mask):
     """가장 잘 맞는 정수 이동에서 (같은 비율, 가린 비율, dx, dy)."""
     ys, xs = np.nonzero(mask)
@@ -78,11 +99,13 @@ def head_score(frame, base, mask):
     return best[1:]
 
 
-def check(base_path, kind, folder, palette, head_rows=None, head_xmin=None):
-    """실패 줄 목록(빈 목록 = 통과)."""
+def check(base_path, kind, folder, palette, head_rows=None, head_xmin=None, held=None):
+    """실패 줄 목록(빈 목록 = 통과). held = 물건 사각형 목록(None이면 head-exclude.json에서 읽는다)."""
     fails = []
     base = np.array(Image.open(base_path).convert('RGBA'))
-    mask = head_mask(base, head_rows, head_xmin)
+    if held is None:
+        held = held_boxes(base_path)
+    mask = exclude_boxes(head_mask(base, head_rows, head_xmin), held)
     files = sorted(Path(folder).glob('*.png'))
     lo, hi = COUNTS[kind]
     if not lo <= len(files) <= hi:
@@ -176,9 +199,47 @@ def selftest():
     covered[5][16:36, 20:44] = (*pal_list[6], 255)                 # 머리를 몸 색으로 통째로 덮음
     cases.append(('반례: 머리를 다른 색으로 통째로 덮은 장', write('cover', covered), 'walk', False))
 
+    # 손에 든 물건: 머리 오른쪽에 지팡이(머리 줄 안, 구슬 색). 물건 자리를 뺀 기준과 빼지 않은 기준을 함께 본다.
+    orb = (0x7f, 0xd0, 0xc8)
+    pal.add(orb)
+    held_base = base.copy()
+    held_base[18:40, 46:50] = (*pal_list[0], 255)                  # 지팡이 자루(외곽선 색)
+    held_base[18:23, 45:51] = (*orb, 255)                           # 구슬
+    Image.fromarray(held_base).save(tmp / 'held_base.png')
+    held_box = [[45, 18, 50, 39]]
+
+    def with_staff(fr, dx, dy):
+        fr = fr.copy()
+        fr[18 + dy:40 + dy, 46 + dx:50 + dx] = (*pal_list[0], 255)
+        fr[18 + dy:23 + dy, 45 + dx:51 + dx] = (*orb, 255)
+        return fr
+
+    moves = [(0, 0), (2, 3), (4, 5), (2, 3), (0, 0), (-1, 4)]       # 걸을 때 지팡이만 머리와 따로 움직임
+    staff_moved = [with_staff(g, dx, dy) for g, (dx, dy) in zip(good, moves)]
+    held_dir = write('held_moved', staff_moved)
+    face = [f.copy() for f in staff_moved]
+    face[2][26:31, 26:40] = (*pal_list[2], 255)                     # 얼굴 도트를 바꾼 장(기준 머리에 있는 색, 70px)
+    face_dir = write('held_face', face)
+    held_cases = [
+        ('통과: 물건 자리를 뺀 기준에서 물건만 옮긴 장', held_dir, held_box, True),
+        ('반례: 물건 자리를 빼지 않으면 물건만 옮긴 장도 실패', held_dir, [], False),
+        ('반례: 물건 자리를 뺀 기준에서 얼굴 도트를 바꾼 장', face_dir, held_box, False),
+    ]
+
     ok = True
+    for name, d, held, expect in held_cases:
+        fails, _ = check(tmp / 'held_base.png', 'walk', d, pal, held=held)
+        got = not fails
+        mark = 'OK ' if got == expect else 'BAD'
+        ok &= got == expect
+        print(f'{mark} {name}: {"통과" if got else "실패"}' + (f' — {fails[0]}' if fails else ''))
+    tbl = tmp / 'exclude.json'
+    tbl.write_text(json.dumps({'held_base': held_box}))
+    got = held_boxes(tmp / 'held_base.png', tbl) == held_box and held_boxes(tmp / 'base.png', tbl) == []
+    ok &= got
+    print(f'{"OK " if got else "BAD"} 표 읽기: 기준 그림 이름으로 찾고, 없는 이름은 빈 목록')
     for name, d, kind, expect in cases:
-        fails, _ = check(tmp / 'base.png', kind, d, pal)
+        fails, _ = check(tmp / 'base.png', kind, d, pal, held=[])
         got = not fails
         mark = 'OK ' if got == expect else 'BAD'
         ok &= got == expect
