@@ -1,29 +1,22 @@
-using System;
-using TMPro;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 // 피해 숫자를 풀에서 꺼내 글·색·크기·자리를 넣고 등록부 끝(가장 새것)에 올린다. 돌려줄 때는 등록부에서 빼고 풀로.
 // 프리팹·부모는 장면 LifetimeScope가 넘긴다(EnemyShotViewFactory와 같은 방식).
-// 테두리 색은 글꼴 재질을 한 번 복사해 데이터 값으로 넣고 모든 숫자가 함께 쓴다(숫자마다 재질 사본을 만들지 않는다).
-public class DamageNumberViewFactory : IDisposable
+// 숫자 0~9 아틀라스 그림은 scope에서 캐시하고 풀 인스턴스가 함께 쓴다.
+public class DamageNumberViewFactory
 {
     private const string PoolKey = "DamageNumberView";
-    // TextMeshPro 월드 글자 크기 1 = 0.1유닛 높이
-    private const float FontSizePerUnit = 10f;
-
     private readonly PoolManager _poolManager;
     private readonly DamageNumberViewRegistry _damageNumberViewRegistry;
     private readonly DamageNumberView _prefab;
     private readonly Transform _parent;
     private readonly Color _textColor;
-    private readonly Color _outlineColor;
     private readonly float _fontSize;
 
-    private Material _material;
+    private readonly Sprite[] _digits = new Sprite[10];
 
     public DamageNumberViewFactory(PoolManager poolManager, PlaceholderSpriteFactory placeholderSpriteFactory,
-        FeedbackRulesRepository feedbackRulesRepository, DamageNumberViewRegistry damageNumberViewRegistry, DamageNumberView prefab,
+        SpriteAtlasService spriteAtlasService, FeedbackRulesRepository feedbackRulesRepository, DamageNumberViewRegistry damageNumberViewRegistry, DamageNumberView prefab,
         Transform parent)
     {
         _poolManager = poolManager;
@@ -32,28 +25,17 @@ public class DamageNumberViewFactory : IDisposable
         _parent = parent;
         var rules = feedbackRulesRepository.Rules.DamageNumber;
         _textColor = placeholderSpriteFactory.ParseColor(rules.TextColor);
-        _outlineColor = placeholderSpriteFactory.ParseColor(rules.OutlineColor);
-        _fontSize = rules.FontSizePx / Const.PixelsPerUnit * FontSizePerUnit;
-    }
-
-    public void Dispose()
-    {
-        if (_material != null)
+        _fontSize = rules.FontSizePx;
+        for (var i = 0; i < _digits.Length; i++)
         {
-            Object.Destroy(_material);
+            _digits[i] = spriteAtlasService.Get($"digit_{i}");
         }
     }
 
     public void Create(int value, Vector2 startPosition)
     {
-        if (_material == null)
-        {
-            _material = new Material(_prefab.FontMaterial);
-            _material.SetColor(ShaderUtilities.ID_OutlineColor, _outlineColor);
-        }
-
         var view = _poolManager.Get(PoolKey, _prefab, _parent);
-        view.Initialize(value, _textColor, _fontSize, _material);
+        view.Initialize(value, _textColor, _fontSize, _digits);
         view.UpdateView(startPosition, 1f);
         _damageNumberViewRegistry.Register(new DamageNumberEntry(view, startPosition));
     }

@@ -50,7 +50,7 @@ public class MemberViewSpriteTests
     [Test]
     public void ArtStartsFrontRightWithBarAboveCharacterHeight()
     {
-        _view.Initialize(_front, _back, _downed, _bar, true);
+        _view.Initialize(_front, _back, _downed, _bar, _bar, true);
 
         Assert.IsTrue(_view.HasArt);
         Assert.AreSame(_front, _body.sprite);
@@ -63,7 +63,7 @@ public class MemberViewSpriteTests
     [Test]
     public void PlaceholderKeepsF1BarHeight()
     {
-        _view.Initialize(_front, _front, _front, _bar, false);
+        _view.Initialize(_front, _front, _front, _bar, _bar, false);
 
         Assert.IsFalse(_view.HasArt);
         Assert.AreEqual((14 + 2) / (float)Const.PixelsPerUnit, _hpBack.transform.localPosition.y, 1e-6f);
@@ -75,7 +75,7 @@ public class MemberViewSpriteTests
     [TestCase(true, true)]
     public void FacingPicksSpriteAndFlip(bool isBack, bool isFlipped)
     {
-        _view.Initialize(_front, _back, _downed, _bar, true);
+        _view.Initialize(_front, _back, _downed, _bar, _bar, true);
 
         _view.ApplyMotion(new SpriteFacing(isBack, isFlipped), Vector2Int.zero, true);
 
@@ -89,7 +89,7 @@ public class MemberViewSpriteTests
     [Test]
     public void OffsetMovesBodyOnlyInWholePixels()
     {
-        _view.Initialize(_front, _back, _downed, _bar, true);
+        _view.Initialize(_front, _back, _downed, _bar, _bar, true);
         var barPosition = _hpBack.transform.localPosition;
 
         _view.ApplyMotion(SpriteFacing.Front, new Vector2Int(-1, 1), false);
@@ -106,7 +106,7 @@ public class MemberViewSpriteTests
     [TestCase(true, true)]
     public void DownedSwapsSpriteDimsAndRevives(bool isBack, bool isFlipped)
     {
-        _view.Initialize(_front, _back, _downed, _bar, true);
+        _view.Initialize(_front, _back, _downed, _bar, _bar, true);
         var facing = new SpriteFacing(isBack, isFlipped);
         _view.ApplyMotion(facing, Vector2Int.zero, false);
         _view.UpdateView(Vector2.zero, 1f, true, 0f);
@@ -145,10 +145,10 @@ public class MemberViewSpriteTests
     [Test]
     public void ReinitializeStandsUpAgain()
     {
-        _view.Initialize(_front, _back, _downed, _bar, true);
+        _view.Initialize(_front, _back, _downed, _bar, _bar, true);
         _view.UpdateView(Vector2.zero, 0f, false, 1f);
 
-        _view.Initialize(_front, _back, _downed, _bar, true);
+        _view.Initialize(_front, _back, _downed, _bar, _bar, true);
 
         Assert.IsFalse(_view.IsDowned);
         Assert.AreSame(_front, _body.sprite);
@@ -164,7 +164,7 @@ public class MemberViewSpriteTests
         var data = JsonUtility.FromJson<MemberMotionData>("{\"fps\":10,\"walkFrames\":2,\"attackFrames\":2,\"hitFront\":1,\"hitBack\":1}");
         var facing = new SpriteFacing(isBack, isFlipped);
         var attack = new MemberAttackMotion();
-        _view.Initialize(_front, _back, _downed, _bar, true);
+        _view.Initialize(_front, _back, _downed, _bar, _bar, true);
         _view.InitializeClips(data, new[] { _front, _bar }, new[] { _back, _bar },
             new[] { _downed, _bar }, new[] { _downed, _bar });
         _view.ApplyMotion(facing, Vector2Int.zero, false);
@@ -194,7 +194,7 @@ public class MemberViewSpriteTests
     [Test]
     public void ShadowIsCreatedOnlyOnceAndStaysAtFeetDuringMotion()
     {
-        _view.Initialize(_front, _back, _downed, _bar, true);
+        _view.Initialize(_front, _back, _downed, _bar, _bar, true);
         _view.InitializeShadow(_bar);
         _view.InitializeShadow(_bar);
         Assert.AreEqual(1, _root.GetComponentsInChildren<FootShadowView>().Length);

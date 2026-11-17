@@ -7,14 +7,9 @@ public class MonsterHpBarView : MonoBehaviour
     [SerializeField] private SpriteRenderer fillRenderer;
 
     // barSprite: 피벗 왼쪽 가운데 흰 상자(막대 폭·높이), barOffset: 막대 왼쪽 끝 자리(뿌리 기준)
-    public void Initialize(Sprite barSprite, Color backColor, Color fillColor, Vector2 barOffset)
+    public void Initialize(Sprite barSprite, Sprite fillSprite, Color backColor, Color fillColor, Vector2 barOffset, Vector2 size)
     {
-        backRenderer.sprite = barSprite;
-        fillRenderer.sprite = barSprite;
-        backRenderer.color = backColor;
-        fillRenderer.color = fillColor;
-        backRenderer.transform.localPosition = barOffset;
-        fillRenderer.transform.localPosition = barOffset;
+        UiBarUtils.Initialize(backRenderer, fillRenderer, barSprite, fillSprite, size, barOffset, backColor, fillColor);
     }
 
     public void UpdateView(Vector2 worldPosition, float hpRatio)
