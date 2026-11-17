@@ -3,7 +3,7 @@ id: 20261115-pack-expedition-2d
 goal: 배낭 원정대 2D(아이소 도트)를 에디터에서 Play를 누르면 로비 → 10웨이브 → 결과 → 다시 시작까지 한 판이 도는 상태로 만든다
 created: 2026-11-15 22:10:00+09:00
 status: playable
-next_action: '2026-11-17 21:30 — 1단 아트 넣기 끝, 마지막 확인(D30) 통과(고치기 2회). 6절 넘기기 보고함 — 사용자 플레이·의견 대기(7절). 미리보기 output/1단-미리보기/final/index.html. 사용자가 에디터에서 플레이하는 동안 판정·테스트·장면 명령을 보내지 않는다. 비용 상한: cost_usd $516.26 넘으면 새 실행 전에 멈추고 묻기'
+next_action: '2026-11-17 21:52 — 하단 대원 목록 초상 넣음(9e12bb9) → 아트 기준서 3.3 범위 대조 14행 모두 맞음. 사용자 플레이·의견 대기(7절). 미리보기 output/1단-미리보기/final/index.html. 다음 큰 묶음은 1단 범위 9절의 2단(패배 원인 화면·저장·밤 조명·튜토리얼·난이도·휴대폰 빌드) — 플레이 의견 뒤. 비용 상한: cost_usd $516.26'
 direction: docs/game/direction.md
 spec:
   path: docs/game/gdd.md
@@ -350,6 +350,10 @@ feedback:
 - text: 고치는 김에 캐릭터랑 몬스터 그림자도 좀 줄여줘 크기에 맞게끔 (2026-11-17 21:2x)
   kind: fix
   handled_by: 실행 20261117-d30-fix T5(87e5735 보이는 몸 폭 기준 정수 배율) + 2회차(2072dee .5는 작은 쪽 → 대원 4명 같은 배율 1, 멧돼지·바위 2). 비율 0.67~1.02. 디렉터가 캡처 .director/evidence/20261117-d30-fix/1/2/playable/02-G2-2340x1080.png 직접 봄
+  status: done
+- text: 1 아트 기준서대로 항목 하나빠진거를 지금 추가해줘 (2026-11-17 21:4x, 범위 대조 남은 1행 — 하단 대원 목록 초상)
+  kind: fix
+  handled_by: 실행 20261117-portrait-bottom(9e12bb9, Codex 7분). 디렉터가 .director/evidence/20261117-portrait-bottom/1/1/02-G2-{1920x1080,2340x1080,2520x1080,2048x1536}.png 하단 판넬 직접 봄 — 4명 초상, 겹침·잘림 없음
   status: done
 cost_usd: 427.78
 notes:
