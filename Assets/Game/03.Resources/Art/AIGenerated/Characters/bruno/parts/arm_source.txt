@@ -1,0 +1,8 @@
+# bruno 공격 조각 (64x64, 원래 자리 그대로) — 공격 클립용
+
+- arm_front_hand_sword.png: front/bruno_front.png(sha256 75ebc8c3…89ee)에서 손(장갑·날밑)과 칼날 픽셀 28px를 좌표로 골라 잘라 냄(make.py VIEWS.front.sword).
+- arm_front_base.png: 그림에서 그 28px를 빼고 모두 이웃 8칸의 가장 흔한 색(red_shade 제외)으로 메운 몸. 투명으로 바뀐 픽셀 0.
+- arm_back_hand_sword.png: back/bruno_back.png(sha256 63412b43…c5ab)에서 x>=45, y33~48의 칼·손 픽셀과 날밑 (44,44), 62px.
+- arm_back_base.png: 그 픽셀을 투명으로 지운 몸(칼이 몸 밖에 있음). 몸 가장자리 (44,46)(44,47)(44,48)을 외곽선 색으로.
+- 위팔·어깨는 몸(base)에 남긴다. 공격 프레임은 base 위에 손·칼을 프레임마다 픽셀 선으로 다시 찍는다(재표본 없음). 값과 표: ../attack_front/source.txt
+- 걷기 조각(front/, back/)은 그대로 두었다.

@@ -1,0 +1,23 @@
+hit_frame: 1
+# bruno_attack_back_00..04 — 브루노(전사) 공격(장검·방패), 뒤 3/4
+
+- 기준 그림: Assets/Game/03.Resources/Art/AIGenerated/Characters/bruno/back/bruno_back.png sha256 63412b437e51646ccfbf07ea17326a0dabcd9e5c4aee603ae1661411efc4c5ab
+- 만든 날: 2026-11-17, 대기열 20261117-art-motion 항목 attack-bruno(시도 1), 회차 2/2. 방식·값은 ../attack_front/source.txt와 같다(5프레임, 10fps, hit_frame 1, 마지막 = 기준 그림).
+- 조각: ../parts/arm_back_base.png(손·칼을 뺀 몸 — 칼은 몸 오른쪽 밖이라 투명으로 지움, 몸 가장자리 3px (44,46~48)을 외곽선 색으로), ../parts/arm_back_hand_sword.png.
+- 앞으로 = +x(오른쪽 위를 봄). 칼은 맨 위 겹, 몸 실루엣과 겹친 칼날 0px.
+
+| 프레임 | 단계 | 손 | 방향 | 칼 길이 | 보이는 것 |
+|---|---|---|---|---|---|
+| 00 | 예비 | (45,42) | (0,-1) | 12 | 칼을 머리 오른쪽에 곧게 세워 듦 |
+| 01 | 타격 | (47,46) | (6,1) | 12 | 칼을 앞(오른쪽)으로 수평에 가깝게 뻗음 — hit_frame |
+| 02 | 타격(이어짐) | (47,46) | (2,1) | 11 | 칼끝이 앞·아래로 |
+| 03 | 회복 | (46,46) | (2,-1) | 11 | 칼끝이 다시 올라옴 |
+| 04 | 회복 | — | — | — | 기준 그림 그대로(칼 오른쪽 위) |
+
+## 판정 (PASS = 기준과 어긋나지 않음, 자연스러움은 판독·사용자 판정)
+- frames.py holes attack_back/*.png --ref back/bruno_back.png: PASS 5/5(조각 1, 구멍 0, INFO 없음)
+- exposed.py check --ref back/bruno_back.png: PASS 5/5
+- measure.py compare: 해당 없음 — identity bruno는 앞 그림 기준이다(뒤 그림 identity 없음, 걷기 항목과 같음).
+- 무기 파고듦: 몸에 가려진 칼 픽셀 0, 몸 실루엣 위에 겹친 칼날 0px(00~03).
+- 바닥 줄 63, 다리 변경 0.
+- 판독: ../attack_front/source.txt "판독"(앞·뒤를 나란히 한 재생으로 함께 판독). 뒤 타격 순간 = 2번(=01).
