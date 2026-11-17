@@ -1,0 +1,1550 @@
+{
+  "checked_at": "2026-11-17T09:29:59.582804+00:00",
+  "base": "3ac9fff",
+  "candidates": [
+    {
+      "id": "quiver",
+      "n": 1,
+      "canvas": [
+        32,
+        16
+      ],
+      "raw": "output/2d-art/icons-archer/quiver-r1-1.png",
+      "raw_sha256": "9d7bb623b6c20b152176dd9894a00d5df3c9785f2d255f048dd554cdd3f06e83",
+      "raw_size": [
+        1774,
+        887
+      ],
+      "raw_bbox": [
+        54,
+        221,
+        1692,
+        720
+      ],
+      "logical_bbox": [
+        1,
+        4,
+        31,
+        13
+      ],
+      "expected_block": [
+        55.4375,
+        55.4375
+      ],
+      "native": [
+        59,
+        18,
+        27.719999999999935,
+        0.760947699296947
+      ],
+      "grid_exit": 1,
+      "grid_stdout": "native grid: 59x18 (block 27.7px, score 0.76)\nGRID_MISMATCH target 30x9, drawn on about 59x18 (100% off): scaling will crush shapes -> check a one-block detail by eye, then generate again with the exact grid in the prompt, or pixelize at the native grid (--size auto) and redraw\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 118,
+        "1,0": 114
+      },
+      "colors": [
+        "#34140e",
+        "#5b4933",
+        "#5c493c",
+        "#774c3b",
+        "#a58751",
+        "#c2864d",
+        "#d2b68f",
+        "#e3d7c8",
+        "#fff9ed"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/quiver/candidates/r1-1.png",
+      "processed_sha256": "56e0164dd327ac52d46ae1d8721319c5f454b9db869e4dc6ccfbf8ae2e80162f",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one horizontal brown leather quiver, opening on the right with three cream feathered arrow ends protruding right; connected single object occupies both horizontal inventory cells. Exactly 32x16 logical pixels, every pixel exactly 32x32 image pixels, icon in center horizontal 1024x512 band y=256..767 of a square 1024x1024 canvas. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting A: preserve simple chunky guide planes with minimal refinement. Variant 1. Deliver one image, one icon only."
+    },
+    {
+      "id": "quiver",
+      "n": 2,
+      "canvas": [
+        32,
+        16
+      ],
+      "raw": "output/2d-art/icons-archer/quiver-r1-2.png",
+      "raw_sha256": "5e63fa27004e44704d9196d736e604d106c3efa91f2f37a3d35a2f09faadae79",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        0,
+        391,
+        1215,
+        862
+      ],
+      "logical_bbox": [
+        0,
+        2,
+        31,
+        14
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        31,
+        12,
+        39.139999999999866,
+        0.8736467640259729
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 31x12 (block 39.1px, score 0.87)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 170,
+        "1,0": 140
+      },
+      "colors": [
+        "#34140e",
+        "#5b4933",
+        "#774c3b",
+        "#a58751",
+        "#bda46f",
+        "#c2864d",
+        "#d3ae90",
+        "#d5833a",
+        "#e3d7c8",
+        "#f8daac",
+        "#fff9ed"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/quiver/candidates/r1-2.png",
+      "processed_sha256": "317f63ea56b398b4051d2c226c2b7f066d9193412263216cf6ad105edba99abd",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one horizontal brown leather quiver, opening on the right with three cream feathered arrow ends protruding right; connected single object occupies both horizontal inventory cells. Exactly 32x16 logical pixels, every pixel exactly 32x32 image pixels, icon in center horizontal 1024x512 band y=256..767 of a square 1024x1024 canvas. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting A: preserve simple chunky guide planes with minimal refinement. Variant 2. Deliver one image, one icon only."
+    },
+    {
+      "id": "quiver",
+      "n": 3,
+      "canvas": [
+        32,
+        16
+      ],
+      "raw": "output/2d-art/icons-archer/quiver-r1-3.png",
+      "raw_sha256": "ecccb258d0e2cac1098dafa09a7ff1ce639fab818a90df1cb8008edf19293112",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        0,
+        392,
+        1215,
+        862
+      ],
+      "logical_bbox": [
+        0,
+        2,
+        31,
+        14
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        31,
+        12,
+        39.17999999999986,
+        0.9046958449059146
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 31x12 (block 39.2px, score 0.90)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 170,
+        "1,0": 141
+      },
+      "colors": [
+        "#34140e",
+        "#5c493c",
+        "#774c3b",
+        "#a58751",
+        "#c2864d",
+        "#dec694",
+        "#e3d7c8",
+        "#fff9ed"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/quiver/candidates/r1-3.png",
+      "processed_sha256": "3b75ef551b7133b290a6a9d522ce805fd2d97a8c9fba2b5a4606f8b9813cf6f6",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one horizontal brown leather quiver, opening on the right with three cream feathered arrow ends protruding right; connected single object occupies both horizontal inventory cells. Exactly 32x16 logical pixels, every pixel exactly 32x32 image pixels, icon in center horizontal 1024x512 band y=256..767 of a square 1024x1024 canvas. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting B: preserve identical grid and silhouette, shift a single broad material plane to a lighter shade; do not add seams or fine lines. Variant 1. Deliver one image, one icon only."
+    },
+    {
+      "id": "quiver",
+      "n": 4,
+      "canvas": [
+        32,
+        16
+      ],
+      "raw": "output/2d-art/icons-archer/quiver-r1-4.png",
+      "raw_sha256": "2e178a581689040080d30331b2ff40bd2132abe6e26d7a6f4b2b72fbe4cca09d",
+      "raw_size": [
+        1774,
+        887
+      ],
+      "raw_bbox": [
+        55,
+        166,
+        1664,
+        777
+      ],
+      "logical_bbox": [
+        1,
+        3,
+        30,
+        14
+      ],
+      "expected_block": [
+        55.4375,
+        55.4375
+      ],
+      "native": [
+        29,
+        11,
+        55.379999999999804,
+        0.9367250293567774
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 29x11 (block 55.4px, score 0.94)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 145,
+        "1,0": 132
+      },
+      "colors": [
+        "#34140e",
+        "#5c493c",
+        "#774c3b",
+        "#a58751",
+        "#c2864d",
+        "#e3d7c8",
+        "#fff9ed"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/quiver/candidates/r1-4.png",
+      "processed_sha256": "cb8842e6f9697e2b6bc0f745c06fe453408f4fbf72632c610e11033a6acb969c",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one horizontal brown leather quiver, opening on the right with three cream feathered arrow ends protruding right; connected single object occupies both horizontal inventory cells. Exactly 32x16 logical pixels, every pixel exactly 32x32 image pixels, icon in center horizontal 1024x512 band y=256..767 of a square 1024x1024 canvas. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting B: preserve identical grid and silhouette, shift a single broad material plane to a lighter shade; do not add seams or fine lines. Variant 2. Deliver one image, one icon only."
+    },
+    {
+      "id": "pierce",
+      "n": 1,
+      "canvas": [
+        32,
+        16
+      ],
+      "raw": "output/2d-art/icons-archer/pierce-r1-1.png",
+      "raw_sha256": "2a713a4a2f8a7a66ddd73571b430823e6f0ccd6ab570d7eeda2253dba20f3c24",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        39,
+        391,
+        1254,
+        862
+      ],
+      "logical_bbox": [
+        1,
+        2,
+        32,
+        14
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        31,
+        12,
+        39.139999999999844,
+        0.9082574874607238
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 31x12 (block 39.1px, score 0.91)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 64,
+        "1,0": 130
+      },
+      "colors": [
+        "#2f1108",
+        "#34140e",
+        "#774c3b",
+        "#786868",
+        "#a58751",
+        "#c8b8b8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/pierce/candidates/r1-1.png",
+      "processed_sha256": "cdca7a172939d36d0103b77039f82bcfaf710d912c45a07164614c2dd1761354",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one steel-gray long pointed piercing arrowhead, right-facing sharp diamond/bodkin metal head with short brown shaft at left; occupies both horizontal inventory cells. Exactly 32x16 logical pixels, every pixel exactly 32x32 image pixels, icon in center horizontal 1024x512 band y=256..767 of a square 1024x1024 canvas. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting A: preserve simple chunky guide planes with minimal refinement. Variant 1. Deliver one image, one icon only."
+    },
+    {
+      "id": "pierce",
+      "n": 2,
+      "canvas": [
+        32,
+        16
+      ],
+      "raw": "output/2d-art/icons-archer/pierce-r1-2.png",
+      "raw_sha256": "ff2157b203d76048da626648b70dc7d517afb6390379ba997e1c3eaeecbc53e3",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        39,
+        392,
+        1215,
+        862
+      ],
+      "logical_bbox": [
+        1,
+        2,
+        31,
+        14
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        30,
+        12,
+        39.14999999999984,
+        0.900379261993487
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 30x12 (block 39.1px, score 0.90)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 64,
+        "1,0": 128
+      },
+      "colors": [
+        "#34140e",
+        "#5b4933",
+        "#774c3b",
+        "#786868",
+        "#7b6038",
+        "#c8b8b8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/pierce/candidates/r1-2.png",
+      "processed_sha256": "da484746bb873811c17a41c135eb0fe57b8151ce2d2951d5bf191283067be01b",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one steel-gray long pointed piercing arrowhead, right-facing sharp diamond/bodkin metal head with short brown shaft at left; occupies both horizontal inventory cells. Exactly 32x16 logical pixels, every pixel exactly 32x32 image pixels, icon in center horizontal 1024x512 band y=256..767 of a square 1024x1024 canvas. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting A: preserve simple chunky guide planes with minimal refinement. Variant 2. Deliver one image, one icon only."
+    },
+    {
+      "id": "pierce",
+      "n": 3,
+      "canvas": [
+        32,
+        16
+      ],
+      "raw": "output/2d-art/icons-archer/pierce-r1-3.png",
+      "raw_sha256": "ac6030ce8b7670b9b1ce0704688a1a61971ddcd86c2db69e49ba6e7e7f72ef7e",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        38,
+        391,
+        1254,
+        862
+      ],
+      "logical_bbox": [
+        1,
+        2,
+        32,
+        14
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        31,
+        12,
+        39.21999999999985,
+        0.8837666183395507
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 31x12 (block 39.2px, score 0.88)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS fringe --whole after matte.py fix, spill/edge/stray/inner 0",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 64,
+        "1,0": 130
+      },
+      "colors": [
+        "#2f1108",
+        "#34140e",
+        "#774c3b",
+        "#786868",
+        "#a89898",
+        "#e3d7c8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/pierce/candidates/r1-3.png",
+      "processed_sha256": "2ac63a6fbe0a224e93715eabe7722c86ab60a47020dc07e08d13d1c72c511874",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one steel-gray long pointed piercing arrowhead, right-facing sharp diamond/bodkin metal head with short brown shaft at left; occupies both horizontal inventory cells. Exactly 32x16 logical pixels, every pixel exactly 32x32 image pixels, icon in center horizontal 1024x512 band y=256..767 of a square 1024x1024 canvas. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting B: preserve identical grid and silhouette, shift a single broad material plane to a lighter shade; do not add seams or fine lines. Variant 1. Deliver one image, one icon only.",
+      "initial_fringe_stdout": "FAIL r1-3.png: key #ff00ff, spill 0 px, edge 2 px, stray 0 px, inner 0 px (allow 0)  (look at x=31, y=7: edge)\nFAIL fringe: 1 pictures, 1 with key colour left on the rim -> matte.py fix\n",
+      "postprocess_fix": "matte.py fix: edge 2px repainted from inside, no stray pixels; same-size pixelize palette snap after fix"
+    },
+    {
+      "id": "pierce",
+      "n": 4,
+      "canvas": [
+        32,
+        16
+      ],
+      "raw": "output/2d-art/icons-archer/pierce-r1-4.png",
+      "raw_sha256": "bcad61daa02fbd82dea22addadfc9c381cb9d19b3a078a711307571150df2db5",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        39,
+        392,
+        1215,
+        862
+      ],
+      "logical_bbox": [
+        1,
+        2,
+        31,
+        14
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        30,
+        12,
+        39.14999999999984,
+        0.9063727480751187
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 30x12 (block 39.1px, score 0.91)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 64,
+        "1,0": 128
+      },
+      "colors": [
+        "#2f1108",
+        "#34140e",
+        "#774c3b",
+        "#a89898",
+        "#c8b8b8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/pierce/candidates/r1-4.png",
+      "processed_sha256": "68a50c7b88ad77b37d645d7ecccdef8677a224c647cb6af028ab0ed9e229363a",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one steel-gray long pointed piercing arrowhead, right-facing sharp diamond/bodkin metal head with short brown shaft at left; occupies both horizontal inventory cells. Exactly 32x16 logical pixels, every pixel exactly 32x32 image pixels, icon in center horizontal 1024x512 band y=256..767 of a square 1024x1024 canvas. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting B: preserve identical grid and silhouette, shift a single broad material plane to a lighter shade; do not add seams or fine lines. Variant 2. Deliver one image, one icon only."
+    },
+    {
+      "id": "split",
+      "n": 1,
+      "canvas": [
+        32,
+        32
+      ],
+      "raw": "output/2d-art/icons-archer/split-r1-1.png",
+      "raw_sha256": "33f02ac5828c36f11f9f423a93206f0d816e973fc8dd197902242c0cf4795024",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        39,
+        39,
+        1254,
+        1254
+      ],
+      "logical_bbox": [
+        1,
+        1,
+        32,
+        32
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        31,
+        31,
+        39.139999999999866,
+        0.9188671681993255
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 31x31 (block 39.1px, score 0.92)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 111,
+        "0,1": 110,
+        "1,1": 122
+      },
+      "colors": [
+        "#34140e",
+        "#786868",
+        "#a89898",
+        "#c8b8b8",
+        "#e3d7c8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/split/candidates/r1-1.png",
+      "processed_sha256": "9541fa9a646dcea2893c8ae5a5ae0a483a4b4a1c2a7b62df4b024778aa7aa7a7",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one single connected forked steel arrowhead, two arrow points one UP in top-left cell and one RIGHT in bottom-right cell joined by a continuous bent L-shaped metal shank through bottom-left cell; TOP RIGHT 16x16 cell is completely empty magenta, no detached pieces. Exactly 32x32 logical pixels on a 1024x1024 canvas, each pixel exactly 32x32 image pixels. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting A: preserve simple chunky guide planes with minimal refinement. Variant 1. Deliver one image, one icon only."
+    },
+    {
+      "id": "split",
+      "n": 2,
+      "canvas": [
+        32,
+        32
+      ],
+      "raw": "output/2d-art/icons-archer/split-r1-2.png",
+      "raw_sha256": "4618844a5132b285b04754ae6f4dfaf8a4545bc76bfd3e610d1fa3635e26b64d",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        39,
+        39,
+        1215,
+        1215
+      ],
+      "logical_bbox": [
+        1,
+        1,
+        31,
+        31
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        30,
+        30,
+        39.129999999999846,
+        0.9185939320654293
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 30x30 (block 39.1px, score 0.92)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 95,
+        "0,1": 99,
+        "1,1": 109
+      },
+      "colors": [
+        "#34140e",
+        "#786868",
+        "#a89898",
+        "#c8b8b8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/split/candidates/r1-2.png",
+      "processed_sha256": "4899ed50bd52d2375c9dea770dd998e119d1f19c7cea6d792d27f1e53ffe1a8a",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one single connected forked steel arrowhead, two arrow points one UP in top-left cell and one RIGHT in bottom-right cell joined by a continuous bent L-shaped metal shank through bottom-left cell; TOP RIGHT 16x16 cell is completely empty magenta, no detached pieces. Exactly 32x32 logical pixels on a 1024x1024 canvas, each pixel exactly 32x32 image pixels. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting A: preserve simple chunky guide planes with minimal refinement. Variant 2. Deliver one image, one icon only."
+    },
+    {
+      "id": "split",
+      "n": 3,
+      "canvas": [
+        32,
+        32
+      ],
+      "raw": "output/2d-art/icons-archer/split-r1-3.png",
+      "raw_sha256": "54648a59e8c7a845b8aee22c811e821468895686f3b6a4fd672e51967abf99c2",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        39,
+        39,
+        1254,
+        1254
+      ],
+      "logical_bbox": [
+        1,
+        1,
+        32,
+        32
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        31,
+        31,
+        39.139999999999866,
+        0.9175795187041488
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 31x31 (block 39.1px, score 0.92)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 95,
+        "0,1": 99,
+        "1,1": 123
+      },
+      "colors": [
+        "#2f1108",
+        "#34140e",
+        "#786868",
+        "#a89898",
+        "#c8b8b8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/split/candidates/r1-3.png",
+      "processed_sha256": "632fb5ffcee35f1637a359d09106fdbf717a1e2b9d6eb51c579b3504cb91670f",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one single connected forked steel arrowhead, two arrow points one UP in top-left cell and one RIGHT in bottom-right cell joined by a continuous bent L-shaped metal shank through bottom-left cell; TOP RIGHT 16x16 cell is completely empty magenta, no detached pieces. Exactly 32x32 logical pixels on a 1024x1024 canvas, each pixel exactly 32x32 image pixels. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting B: preserve identical grid and silhouette, shift a single broad material plane to a lighter shade; do not add seams or fine lines. Variant 1. Deliver one image, one icon only."
+    },
+    {
+      "id": "split",
+      "n": 4,
+      "canvas": [
+        32,
+        32
+      ],
+      "raw": "output/2d-art/icons-archer/split-r1-4.png",
+      "raw_sha256": "ddc593b66ff195f47954c456e88af39a4266a2d360b1fa1bd7f75fa52b2417a1",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        39,
+        39,
+        1254,
+        1254
+      ],
+      "logical_bbox": [
+        1,
+        1,
+        32,
+        32
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        31,
+        31,
+        39.12999999999987,
+        0.9174342567506225
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 31x31 (block 39.1px, score 0.92)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 95,
+        "0,1": 99,
+        "1,1": 120
+      },
+      "colors": [
+        "#34140e",
+        "#a89898",
+        "#c8b8b8",
+        "#e3d7c8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/split/candidates/r1-4.png",
+      "processed_sha256": "363e8eab27836615c1d98debc59df54f29b24a0a7a9e700c18969af1242d1903",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one single connected forked steel arrowhead, two arrow points one UP in top-left cell and one RIGHT in bottom-right cell joined by a continuous bent L-shaped metal shank through bottom-left cell; TOP RIGHT 16x16 cell is completely empty magenta, no detached pieces. Exactly 32x32 logical pixels on a 1024x1024 canvas, each pixel exactly 32x32 image pixels. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting B: preserve identical grid and silhouette, shift a single broad material plane to a lighter shade; do not add seams or fine lines. Variant 2. Deliver one image, one icon only."
+    },
+    {
+      "id": "feather",
+      "n": 1,
+      "canvas": [
+        16,
+        16
+      ],
+      "raw": "output/2d-art/icons-archer/feather-r1-1.png",
+      "raw_sha256": "acd0bf7dcc3f3a86b38d386fd5d714ad12f51fc72a10cd40fe89cc6424ccfda8",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        78,
+        0,
+        1254,
+        1254
+      ],
+      "logical_bbox": [
+        1,
+        0,
+        16,
+        16
+      ],
+      "expected_block": [
+        78.375,
+        78.375
+      ],
+      "native": [
+        15,
+        16,
+        78.32999999999981,
+        0.9380050425484556
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 15x16 (block 78.3px, score 0.94)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 131
+      },
+      "colors": [
+        "#34140e",
+        "#774c3b",
+        "#a58751",
+        "#c2864d",
+        "#e3d7c8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/feather/candidates/r1-1.png",
+      "processed_sha256": "6aa66560fb8672f2d6f1c99f6385f51c8481a3005cbcc9fcd9cbb58425dc781f",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one diagonally placed hawk feather with cream beige vane, brown bands, central brown quill, recognizable natural feather, not leaf. Exactly 16x16 logical pixels on a 1024x1024 canvas, each pixel exactly 64x64 image pixels. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting A: preserve simple chunky guide planes with minimal refinement. Variant 1. Deliver one image, one icon only."
+    },
+    {
+      "id": "feather",
+      "n": 2,
+      "canvas": [
+        16,
+        16
+      ],
+      "raw": "output/2d-art/icons-archer/feather-r1-2.png",
+      "raw_sha256": "c54024fe488574784cca6c2a33b45213182c38e0b66ce072919a6ddd5aaf3b95",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        78,
+        0,
+        1254,
+        1254
+      ],
+      "logical_bbox": [
+        1,
+        0,
+        16,
+        16
+      ],
+      "expected_block": [
+        78.375,
+        78.375
+      ],
+      "native": [
+        15,
+        16,
+        78.39999999999979,
+        0.9383665587475492
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 15x16 (block 78.4px, score 0.94)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 133
+      },
+      "colors": [
+        "#34140e",
+        "#774c3b",
+        "#a58751",
+        "#c2864d",
+        "#e3d7c8",
+        "#fff9ed"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/feather/candidates/r1-2.png",
+      "processed_sha256": "186a6343763cd77a74b6725781a18f28a319318586b933a6e847dce4278c5a7a",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one diagonally placed hawk feather with cream beige vane, brown bands, central brown quill, recognizable natural feather, not leaf. Exactly 16x16 logical pixels on a 1024x1024 canvas, each pixel exactly 64x64 image pixels. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting A: preserve simple chunky guide planes with minimal refinement. Variant 2. Deliver one image, one icon only."
+    },
+    {
+      "id": "feather",
+      "n": 3,
+      "canvas": [
+        16,
+        16
+      ],
+      "raw": "output/2d-art/icons-archer/feather-r1-3.png",
+      "raw_sha256": "0f5e970c7eceb95157f12f93c530c8573ca078a0ff45f657b87590f5370a9f31",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "logical_bbox": [
+        0,
+        0,
+        16,
+        16
+      ],
+      "expected_block": [
+        78.375,
+        78.375
+      ],
+      "native": [
+        16,
+        16,
+        78.34999999999977,
+        0.9545756288162377
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 16x16 (block 78.3px, score 0.95)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 134
+      },
+      "colors": [
+        "#34140e",
+        "#5b4933",
+        "#774c3b",
+        "#c2864d",
+        "#c9a264",
+        "#e3d7c8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/feather/candidates/r1-3.png",
+      "processed_sha256": "1f97f74ffc63c0a00b1db43cf68ad9ed3b57ee00339982c000c7948cca088ed4",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one diagonally placed hawk feather with cream beige vane, brown bands, central brown quill, recognizable natural feather, not leaf. Exactly 16x16 logical pixels on a 1024x1024 canvas, each pixel exactly 64x64 image pixels. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting B: preserve identical grid and silhouette, shift a single broad material plane to a lighter shade; do not add seams or fine lines. Variant 1. Deliver one image, one icon only."
+    },
+    {
+      "id": "feather",
+      "n": 4,
+      "canvas": [
+        16,
+        16
+      ],
+      "raw": "output/2d-art/icons-archer/feather-r1-4.png",
+      "raw_sha256": "e789870dc987167a46bbfa85cc0e1b1a5d53d8c044a4b35644e5c0585eecc78b",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        78,
+        0,
+        1254,
+        1254
+      ],
+      "logical_bbox": [
+        1,
+        0,
+        16,
+        16
+      ],
+      "expected_block": [
+        78.375,
+        78.375
+      ],
+      "native": [
+        15,
+        16,
+        78.39999999999979,
+        0.9609479193715582
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 15x16 (block 78.4px, score 0.96)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 133
+      },
+      "colors": [
+        "#34140e",
+        "#a58751",
+        "#c2864d",
+        "#c9a264",
+        "#cfa36c",
+        "#fff9ed"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/feather/candidates/r1-4.png",
+      "processed_sha256": "b16090cc58dc4a70b2184f3c682c681796450d5686dd79db1e3b8394a5ff9310",
+      "prompt": "Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one diagonally placed hawk feather with cream beige vane, brown bands, central brown quill, recognizable natural feather, not leaf. Exactly 16x16 logical pixels on a 1024x1024 canvas, each pixel exactly 64x64 image pixels. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting B: preserve identical grid and silhouette, shift a single broad material plane to a lighter shade; do not add seams or fine lines. Variant 2. Deliver one image, one icon only."
+    },
+    {
+      "id": "split",
+      "n": 1,
+      "round": 2,
+      "canvas": [
+        32,
+        32
+      ],
+      "raw": "output/2d-art/icons-archer/split-r2-1.png",
+      "raw_sha256": "a62d8fb228dc293e6c2554cc71d2909abeb0ca25e489e538d90fc5637468d17b",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        39,
+        39,
+        1216,
+        1215
+      ],
+      "logical_bbox": [
+        1,
+        1,
+        31,
+        31
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        30,
+        30,
+        39.149999999999864,
+        0.9202479208968953
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 30x30 (block 39.1px, score 0.92)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r2-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 95,
+        "0,1": 120,
+        "1,1": 97
+      },
+      "colors": [
+        "#34140e",
+        "#774c3b",
+        "#786868",
+        "#a89898",
+        "#c8b8b8",
+        "#d5833a"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/split/candidates/r2-1.png",
+      "processed_sha256": "5be5f6adc225d4ec3bbc523dd6454119b721e41f8dcc09d756d5389ea545801e",
+      "prompt": "Use case: style-transfer. Input 1 approved sword is pixel style reference. Input 2 is parchment inventory context only, do not copy UI/scene. Input 3 is EDIT TARGET: complete 32x32 pixel guide enlarged exactly32 times to1024x1024. Refine third image without changing its square block grid, silhouette or positions. Subject ONE FORKED ARROWHEAD on a SHORT BROWN SHAFT. The brown shaft runs diagonally from bottom-left into the central socket; TWO CONNECTED STEEL BRANCHES split out of that socket, one pointing UP into upper-left inventory cell, one RIGHT into lower-right inventory cell. MUST look like a fantasy bifurcated arrow projectile, not road sign, no signpost. Upper-right quadrant x512..1023 y0..511 stays completely flat magenta. Keep one object connected, no separate pieces. EXACT32x32 logical grid each pixel one32x32 flat block. 1 logical pixel dark brown outline#34140e, steel#c8b8b8 #a89898 #786868, wood#774c3b #c2864d. Warm high-bit pixel art flat2-3tones. No AA, gradients, tiny seams, text, UI, gem, logo, shadow. Background#ff00ff. Setting A: preserve exact chunky planes. Variant1, one image one icon."
+    },
+    {
+      "id": "split",
+      "n": 2,
+      "round": 2,
+      "canvas": [
+        32,
+        32
+      ],
+      "raw": "output/2d-art/icons-archer/split-r2-2.png",
+      "raw_sha256": "266f7cfd6af0221b80c74a1989d33a4a68858ff58ce4715c048ad347df4cf356",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        39,
+        40,
+        1215,
+        1214
+      ],
+      "logical_bbox": [
+        1,
+        1,
+        31,
+        31
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        30,
+        30,
+        39.129999999999846,
+        0.918940445406844
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 30x30 (block 39.1px, score 0.92)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r2-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 95,
+        "0,1": 111,
+        "1,1": 88
+      },
+      "colors": [
+        "#34140e",
+        "#774c3b",
+        "#786868",
+        "#a89898",
+        "#c2864d",
+        "#c8b8b8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/split/candidates/r2-2.png",
+      "processed_sha256": "bc176fe693ea7849c91ba6f05fd49668fb7722525c8406511edc7e6c4be0541b",
+      "prompt": "Use case: style-transfer. Input 1 approved sword is pixel style reference. Input 2 is parchment inventory context only, do not copy UI/scene. Input 3 is EDIT TARGET: complete 32x32 pixel guide enlarged exactly32 times to1024x1024. Refine third image without changing its square block grid, silhouette or positions. Subject ONE FORKED ARROWHEAD on a SHORT BROWN SHAFT. The brown shaft runs diagonally from bottom-left into the central socket; TWO CONNECTED STEEL BRANCHES split out of that socket, one pointing UP into upper-left inventory cell, one RIGHT into lower-right inventory cell. MUST look like a fantasy bifurcated arrow projectile, not road sign, no signpost. Upper-right quadrant x512..1023 y0..511 stays completely flat magenta. Keep one object connected, no separate pieces. EXACT32x32 logical grid each pixel one32x32 flat block. 1 logical pixel dark brown outline#34140e, steel#c8b8b8 #a89898 #786868, wood#774c3b #c2864d. Warm high-bit pixel art flat2-3tones. No AA, gradients, tiny seams, text, UI, gem, logo, shadow. Background#ff00ff. Setting A: preserve exact chunky planes. Variant2, one image one icon."
+    },
+    {
+      "id": "split",
+      "n": 3,
+      "round": 2,
+      "canvas": [
+        32,
+        32
+      ],
+      "raw": "output/2d-art/icons-archer/split-r2-3.png",
+      "raw_sha256": "d87295a0e53eb2803e33a64ab6243bdd3d05e2c42be73e36b5c68a71ffb05872",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        39,
+        39,
+        1215,
+        1215
+      ],
+      "logical_bbox": [
+        1,
+        1,
+        31,
+        31
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        30,
+        30,
+        39.149999999999864,
+        0.9194042580099602
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 30x30 (block 39.1px, score 0.92)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r2-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 95,
+        "0,1": 114,
+        "1,1": 101
+      },
+      "colors": [
+        "#34140e",
+        "#774c3b",
+        "#a89898",
+        "#c2864d",
+        "#c8b8b8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/split/candidates/r2-3.png",
+      "processed_sha256": "5b8c4756ee1007c4f3f29645be942c9d2dc3bc0516f2fcbe33cbd1b1a32dadbb",
+      "prompt": "Use case: style-transfer. Input 1 approved sword is pixel style reference. Input 2 is parchment inventory context only, do not copy UI/scene. Input 3 is EDIT TARGET: complete 32x32 pixel guide enlarged exactly32 times to1024x1024. Refine third image without changing its square block grid, silhouette or positions. Subject ONE FORKED ARROWHEAD on a SHORT BROWN SHAFT. The brown shaft runs diagonally from bottom-left into the central socket; TWO CONNECTED STEEL BRANCHES split out of that socket, one pointing UP into upper-left inventory cell, one RIGHT into lower-right inventory cell. MUST look like a fantasy bifurcated arrow projectile, not road sign, no signpost. Upper-right quadrant x512..1023 y0..511 stays completely flat magenta. Keep one object connected, no separate pieces. EXACT32x32 logical grid each pixel one32x32 flat block. 1 logical pixel dark brown outline#34140e, steel#c8b8b8 #a89898 #786868, wood#774c3b #c2864d. Warm high-bit pixel art flat2-3tones. No AA, gradients, tiny seams, text, UI, gem, logo, shadow. Background#ff00ff. Setting B: lighter upper steel facet only, same silhouette, no extra detail. Variant1, one image one icon."
+    },
+    {
+      "id": "split",
+      "n": 4,
+      "round": 2,
+      "canvas": [
+        32,
+        32
+      ],
+      "raw": "output/2d-art/icons-archer/split-r2-4.png",
+      "raw_sha256": "33e632fe1fd45206b47746e6b0b248dd2d088d11fa0775c1dcfe54c84cb2fbab",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "raw_bbox": [
+        39,
+        39,
+        1215,
+        1215
+      ],
+      "logical_bbox": [
+        1,
+        1,
+        31,
+        31
+      ],
+      "expected_block": [
+        39.1875,
+        39.1875
+      ],
+      "native": [
+        30,
+        30,
+        39.139999999999844,
+        0.8588363041104968
+      ],
+      "grid_exit": 0,
+      "grid_stdout": "native grid: 30x30 (block 39.1px, score 0.86)\n",
+      "fringe_exit": 0,
+      "fringe_stdout": "PASS r2-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px, inner 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "outside": 0,
+      "cell_pixels": {
+        "0,0": 95,
+        "0,1": 113,
+        "1,1": 97
+      },
+      "colors": [
+        "#2f1108",
+        "#774c3b",
+        "#a89898",
+        "#c2864d",
+        "#c8b8b8"
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "processed": "Assets/Game/03.Resources/Art/AIGenerated/Items/split/candidates/r2-4.png",
+      "processed_sha256": "14cc36de3f1d96451fbd29f9fdfe668548a193155099ad074e259545e84516c1",
+      "prompt": "Use case: style-transfer. Input 1 approved sword is pixel style reference. Input 2 is parchment inventory context only, do not copy UI/scene. Input 3 is EDIT TARGET: complete 32x32 pixel guide enlarged exactly32 times to1024x1024. Refine third image without changing its square block grid, silhouette or positions. Subject ONE FORKED ARROWHEAD on a SHORT BROWN SHAFT. The brown shaft runs diagonally from bottom-left into the central socket; TWO CONNECTED STEEL BRANCHES split out of that socket, one pointing UP into upper-left inventory cell, one RIGHT into lower-right inventory cell. MUST look like a fantasy bifurcated arrow projectile, not road sign, no signpost. Upper-right quadrant x512..1023 y0..511 stays completely flat magenta. Keep one object connected, no separate pieces. EXACT32x32 logical grid each pixel one32x32 flat block. 1 logical pixel dark brown outline#34140e, steel#c8b8b8 #a89898 #786868, wood#774c3b #c2864d. Warm high-bit pixel art flat2-3tones. No AA, gradients, tiny seams, text, UI, gem, logo, shadow. Background#ff00ff. Setting B: lighter upper steel facet only, same silhouette, no extra detail. Variant2, one image one icon."
+    }
+  ],
+  "blind_mapping": {
+    "N01": [
+      "split",
+      1,
+      4
+    ],
+    "N02": [
+      "pierce",
+      1,
+      3
+    ],
+    "N03": [
+      "feather",
+      1,
+      1
+    ],
+    "N04": [
+      "quiver",
+      1,
+      1
+    ],
+    "N05": [
+      "split",
+      2,
+      2
+    ],
+    "N06": [
+      "split",
+      1,
+      2
+    ],
+    "N07": [
+      "pierce",
+      1,
+      1
+    ],
+    "N08": [
+      "feather",
+      1,
+      4
+    ],
+    "N09": [
+      "quiver",
+      1,
+      3
+    ],
+    "N10": [
+      "split",
+      2,
+      3
+    ],
+    "N11": [
+      "split",
+      1,
+      1
+    ],
+    "N12": [
+      "pierce",
+      1,
+      2
+    ],
+    "N13": [
+      "feather",
+      1,
+      2
+    ],
+    "N14": [
+      "quiver",
+      1,
+      4
+    ],
+    "N15": [
+      "split",
+      2,
+      4
+    ],
+    "N16": [
+      "split",
+      1,
+      3
+    ],
+    "N17": [
+      "pierce",
+      1,
+      4
+    ],
+    "N18": [
+      "feather",
+      1,
+      3
+    ],
+    "N19": [
+      "quiver",
+      1,
+      2
+    ],
+    "N20": [
+      "split",
+      2,
+      1
+    ]
+  },
+  "sheet_layout": [
+    {
+      "selected": true,
+      "id": "quiver",
+      "round": 1,
+      "n": 4
+    },
+    {
+      "selected": true,
+      "id": "pierce",
+      "round": 1,
+      "n": 4
+    },
+    {
+      "selected": true,
+      "id": "split",
+      "round": 2,
+      "n": 1
+    },
+    {
+      "selected": true,
+      "id": "feather",
+      "round": 1,
+      "n": 2
+    },
+    {
+      "selected": false,
+      "id": "quiver",
+      "round": 1,
+      "n": 1
+    },
+    {
+      "selected": false,
+      "id": "quiver",
+      "round": 1,
+      "n": 2
+    },
+    {
+      "selected": false,
+      "id": "quiver",
+      "round": 1,
+      "n": 3
+    },
+    {
+      "selected": false,
+      "id": "pierce",
+      "round": 1,
+      "n": 1
+    },
+    {
+      "selected": false,
+      "id": "pierce",
+      "round": 1,
+      "n": 2
+    },
+    {
+      "selected": false,
+      "id": "pierce",
+      "round": 1,
+      "n": 3
+    },
+    {
+      "selected": false,
+      "id": "split",
+      "round": 1,
+      "n": 1
+    },
+    {
+      "selected": false,
+      "id": "split",
+      "round": 1,
+      "n": 2
+    },
+    {
+      "selected": false,
+      "id": "split",
+      "round": 1,
+      "n": 3
+    },
+    {
+      "selected": false,
+      "id": "split",
+      "round": 1,
+      "n": 4
+    },
+    {
+      "selected": false,
+      "id": "feather",
+      "round": 1,
+      "n": 1
+    },
+    {
+      "selected": false,
+      "id": "feather",
+      "round": 1,
+      "n": 3
+    },
+    {
+      "selected": false,
+      "id": "feather",
+      "round": 1,
+      "n": 4
+    },
+    {
+      "selected": false,
+      "id": "split",
+      "round": 2,
+      "n": 2
+    },
+    {
+      "selected": false,
+      "id": "split",
+      "round": 2,
+      "n": 3
+    },
+    {
+      "selected": false,
+      "id": "split",
+      "round": 2,
+      "n": 4
+    }
+  ],
+  "selected": {
+    "quiver": "r1-4",
+    "pierce": "r1-4",
+    "split": "r2-1",
+    "feather": "r1-2"
+  },
+  "metrics": {
+    "session": "01a1e8cc-c9eb-73a0-ba76-68ee68bcfe45",
+    "base": "3ac9fff",
+    "generation_started": "2026-11-17T09:20:06.221Z",
+    "r1_processing_completed": "2026-11-17T09:29:29.252Z",
+    "tokens": "NOT_AVAILABLE: session token counters not exposed",
+    "subagents": 0,
+    "time_tool": "FAIL: session_time.py expects Claude log; current Codex session not found",
+    "round1_raw_file_mtime_span": [
+      "2026-11-17T09:20:32.691680+00:00",
+      "2026-11-17T09:30:20.019040+00:00"
+    ],
+    "round2_raw_file_mtime_span": [
+      "2026-11-17T09:27:23.795445+00:00",
+      "2026-11-17T09:30:20.413560+00:00"
+    ],
+    "visual_qa_completed": "2026-11-17T09:30:58.096625+00:00",
+    "measured_span_from_guides_minutes": 11.173938151200613
+  },
+  "final_checks": {
+    "time": "2026-11-17T09:30:58.688004+00:00",
+    "finals": [
+      {
+        "id": "quiver",
+        "size": [
+          32,
+          16
+        ],
+        "outside": 0,
+        "cell_pixels": {
+          "(1, 0)": 132,
+          "(0, 0)": 145
+        },
+        "colors": 7,
+        "alpha": [
+          0,
+          255
+        ],
+        "sha256": "cb8842e6f9697e2b6bc0f745c06fe453408f4fbf72632c610e11033a6acb969c",
+        "verdict": "PASS"
+      },
+      {
+        "id": "pierce",
+        "size": [
+          32,
+          16
+        ],
+        "outside": 0,
+        "cell_pixels": {
+          "(1, 0)": 128,
+          "(0, 0)": 64
+        },
+        "colors": 5,
+        "alpha": [
+          0,
+          255
+        ],
+        "sha256": "68a50c7b88ad77b37d645d7ecccdef8677a224c647cb6af028ab0ed9e229363a",
+        "verdict": "PASS"
+      },
+      {
+        "id": "split",
+        "size": [
+          32,
+          32
+        ],
+        "outside": 0,
+        "cell_pixels": {
+          "(0, 0)": 95,
+          "(0, 1)": 120,
+          "(1, 1)": 97
+        },
+        "colors": 6,
+        "alpha": [
+          0,
+          255
+        ],
+        "sha256": "5be5f6adc225d4ec3bbc523dd6454119b721e41f8dcc09d756d5389ea545801e",
+        "verdict": "PASS"
+      },
+      {
+        "id": "feather",
+        "size": [
+          16,
+          16
+        ],
+        "outside": 0,
+        "cell_pixels": {
+          "(0, 0)": 133
+        },
+        "colors": 6,
+        "alpha": [
+          0,
+          255
+        ],
+        "sha256": "186a6343763cd77a74b6725781a18f28a319318586b933a6e847dce4278c5a7a",
+        "verdict": "PASS"
+      }
+    ],
+    "runner_fringe_commands": "4/4 PASS(exit0)",
+    "sheets": "20 shown0 excluded, both reopened for visual QA; final20pics+2references; blind20pics",
+    "review": "NOT_RUN: Claude review requested"
+  }
+}
