@@ -1,0 +1,27 @@
+# lena_walk_front_00..05 — 레나 앞 3/4 걷기 (Aether 영상 프레임 → 64칸 도트 + 손질)
+
+- 만든 날: 2026-11-17, 대기열 20261117-art-aether 항목 lena-front(시도 1), /2d-art-aether 절차, 손질 기준 docs/art/samples/aether/손질-기준.md
+- 승인: "16개까지 허용 (추천)"(2026-11-15) 안 — 이 항목 2건 18크레딧까지, 클립당 1회, 다시 생성 없음
+- 기준 그림: lena/front/lena_front.png sha256 d5b59624d31febe35a2736b7901ce6b26276ca3f67768a52adfbc82d0c79e0ab (identity lena)
+
+## 생성
+- job id 38c45f93-b0c8-423b-a683-018b84f14970, sprite_zenith 36장 first_last_frame, is_pixel false, 프롬프트 보강 끔
+- 입력: 기준 그림 최근접 ×8(512×512) → 같은 그림(시작 = 끝 = 서 있는 그림)
+- 시트 dl/walk_sheet.png sha256 00203dda6b6192ee6166d796964fd5451361c76b650b85467840072582fb6ff6
+- 키 색 자홍 [255,0,255] (레나는 초록 두건·망토라 초록 키 불가, init 안쪽 충돌 0)
+- 크레딧: 9. 서비스 잔액 시작 전 896 → 두 건 뒤 878 (걷기·공격 합계 18)
+- 프롬프트: "Isometric 3/4 view facing lower-right, walks in place, legs clearly alternate front and back, arms swing, slight body bob. Keep the short bow in the right hand and the quiver and backpack on the back. Locked camera, same size. The last frame has the same face (eyes open) and hands as the end picture. Solid magenta background, no ground, shadows, added objects or motion blur."
+
+## 처리
+- analyze: 클립 크기 0.972배(두건 면적, 신뢰 OK) → gain 1.0287 클립 전체 한 배율(run2, 같은 시트 영수증 재처리 크레딧 0). 표시: 키 검토 필요(팔·다리 사이 틈) — 손질 뒤 프레임에 자홍 남은 픽셀 0
+- 부위별 색 되돌리기 RESTORED: ΔE 전→후 hood 9.3~10.6→0.4~0.9, hair 7.1~7.9→0.3~0.6, skin 4.4~5.5→0.4~0.6, outline 4.9~5.9→0.1~0.3. output_fringe PASS
+- 도트: bruno-front/to_dot.py(기준서 3.5 r5 팔레트, 발 맨 아래 줄 63), 64×64, 피벗 x32
+- 쓴 원본 칸: 9, 11, 13, 15, 17, 19 (반복 후보 1위 start 9 len 12의 한 주기를 한 칸 걸러 6장) → _00.._05, 10fps 0.6초
+- 손질: docs/art/samples/aether/lena-front/fix_lena.py walk_front.json — 기준 머리(맨 위 20줄 y16~35, 위 14줄 전부, 아래 6줄 x>=19, 활 자리 y>=29·x>=43 제외)를 머리 이동 [0,-1]/[0,-1]/[0,-2]/[0,-1]/[0,0]/[0,-1]로 덮음(머리 둘레 지운 픽셀 414~420/장)
+- 활: 기준 조각으로 바꾸지 않음 — 영상이 걷기 내내 오른손에 활을 들고 있고 길이가 기준 그림과 비슷함(갈색 활 픽셀 세로 범위 기준 y33~43 / 영상 y31~49). 손질 기준과 다른 점
+- 잘린 픽셀 0, 무기 64칸 밖 0
+
+## 확인
+- Tools/check_motion.py --kind walk: PASS 6장
+- 완성 GIF docs/art/samples/aether/lena-front/walk.gif(sheet.py anim 10fps, 높이 400, UNVERIFIED 띠 — measure compare·jitter 기록 없음)를 디코딩해 6장을 순서대로 직접 봄: 다리가 앞뒤로 번갈아 나오고(00·03에서 앞발이 바뀜) 망토·팔이 흔들리고 몸이 1px 오르내림. 활은 모든 장 오른손에, 얼굴·두건은 모든 장 같음
+- 사람 판정(같은 캐릭터로 자연스러운가): 대기

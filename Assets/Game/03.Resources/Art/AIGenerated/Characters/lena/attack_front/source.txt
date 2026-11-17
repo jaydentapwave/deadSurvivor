@@ -1,0 +1,33 @@
+# lena_attack_front_00..05 — 레나 앞 3/4 공격(활 당겨 쏘기) (Aether 영상 프레임 → 64칸 도트 + 손질)
+
+- 만든 날: 2026-11-17, 대기열 20261117-art-aether 항목 lena-front(시도 1), /2d-art-aether 절차, 손질 기준 docs/art/samples/aether/손질-기준.md
+- 승인: "16개까지 허용 (추천)"(2026-11-15) 안 — 이 항목 2건 18크레딧까지, 클립당 1회, 다시 생성 없음
+- 기준 그림: lena/front/lena_front.png sha256 d5b59624d31febe35a2736b7901ce6b26276ca3f67768a52adfbc82d0c79e0ab (identity lena)
+
+## 끝 그림 (새로 만듦)
+- 레나에는 조각 공격 그림이 없어 끝 그림을 기준 그림에 손으로 픽셀을 찍어 만들었다(생성 아님): 당긴 시위(#fff9ed 1px, 활 위끝 (47,30)·아래끝 (44,47) → 당기는 손 (40,41)), 오른쪽으로 메긴 화살(#af642e 대, #c8b8b8 촉, 외곽선 #2f1108, 깃 #ffe08a). 도구 docs/art/samples/aether/lena-front/make_end.py, 결과 sha256 10f9845f2f39e3a339958f517a794e4a19ce292a9c70c3f5f39cc236b40edc2f(작업 폴더)
+
+## 생성
+- job id c37b78da-1ea5-4037-a36c-20da2b6768c4, sprite_zenith 36장 first_last_frame, is_pixel false, 프롬프트 보강 끔
+- 입력: 기준 그림 ×8 → 끝 그림 ×8 (512×512)
+- 시트 dl/attack_sheet.png sha256 4090022c75ee495e4eeb7b11aa13720abe8a968fc21d21f391e725d7fe6de526
+- 키 색 자홍 [255,0,255]
+- 크레딧: 9. 서비스 잔액 시작 전 896 → 두 건 뒤 878 (걷기·공격 합계 18)
+- 프롬프트: "Isometric 3/4 view facing lower-right. Raises the short bow forward with the whole left arm, takes an arrow and nocks it, then draws the string back to the chest with the right arm, shoulder, elbow and hand moving together, ending in the end picture pose with the bow drawn and the arrow aimed to the right. Feet stay planted. Locked camera, same size, keep the quiver and backpack on the back. The last frame has the same face (eyes open), bow, arrow and hands as the end picture. Solid magenta background, no ground, shadows, added objects, trails or motion blur."
+
+## 처리
+- analyze: 클립 크기 0.946배(두건 면적, 신뢰 OK) → gain 1.0568 클립 전체 한 배율(run2, 처리 캔버스 768×512, 크레딧 0 재처리)
+- 표시: "끝 자세 불일치" 끝 구간 33~35칸 shape 0.27 > 0.15, inside 0.18 > 0.12 — 영상의 끝은 활을 얼굴 앞까지 크게 당긴 자세(활이 끝 그림보다 큼). 그 장들은 쓰지 않았다. "키 검토 필요"(팔·시위 사이 틈) — 시위에 남은 자홍 픽셀 2개(03: (41,45), 04: (40,50))를 이웃 색으로 바꿈
+- 부위별 색 되돌리기 RESTORED, output_fringe PASS
+- 도트: bruno-front/to_dot.py(기준서 3.5 r5 팔레트, 발 맨 아래 줄 63). 고른 장은 모두 64칸 안(잘린 픽셀 0)
+- 쓴 원본 칸 → 출력: 7(활을 앞으로 들어 올림, 예비) → _00, 13(화살 메기기) → _01, 19(당기며 겨눔) → _02, 23(끝까지 당겨 쏨, 타격) → _03, 9(활을 앞에 든 풀린 자세, 회복) → _04, 기준 그림(대기) → _05. 10fps 0.6초
+- hit_frame: 3 (lena_attack_front_03)
+- 손질: fix_lena.py attack_front.json — 기준 머리 덮기(걷기와 같은 덮개), 머리 이동 [-1,-1]/[0,-2]/[0,-2]/[-1,-2]/[-1,-2], 머리 둘레 지운 픽셀 433~463/장
+- 활·화살: 기준 조각으로 바꾸지 않음 — 기준 그림에 당긴 활 픽셀이 없고, 정수 변환한 기준 활로는 당긴 시위·화살 모양이 맞지 않음. 영상 활은 기준보다 길다(갈색 활 세로 범위 기준 약 11px / 03 약 29px). 손질 기준("무기는 기준 조각")과 다른 점 — 사람 판정에서 볼 것
+- 03에서 화살 뒤쪽 끝(손 쪽)은 기준 얼굴 아래로 가려짐(머리 덮기)
+
+## 확인
+- Tools/check_motion.py --kind attack: PASS 6장
+- 완성 GIF docs/art/samples/aether/lena-front/attack.gif(sheet.py anim 10fps, 높이 400, UNVERIFIED 띠)를 디코딩해 6장을 순서대로 직접 봄: 활을 앞으로 들고 → 화살을 메기고 → 오른쪽을 겨눠 당기고 → 끝까지 당긴 타격(화살이 오른쪽으로) → 활을 풀어 앞에 든 자세 → 대기. 팔 전체(어깨·팔꿈치·손)가 활과 함께 움직이고 발은 제자리. 얼굴·두건은 모든 장 같음. 화살통 깃 도트가 00·01·04에서 흩어져 보임(영상 그림 그대로)
+- 알려진 한계: 04→05, 05→다음 00은 자세가 한 번에 바뀜. 몸통·다리 도트는 장마다 다름
+- 사람 판정(같은 캐릭터로 자연스럽게 쏘는가): 대기
