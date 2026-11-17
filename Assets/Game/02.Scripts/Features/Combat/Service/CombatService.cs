@@ -313,7 +313,7 @@ public class CombatService
             }
 
             _combatModel.AddFireCount(item.Id);
-            AddBurst(member.Position, item.EffectRadius);
+            AddBurst(member.Position, item.EffectRadius, item.Id, BurstEffectKind.Pulse);
             var damage = item.BonusValue * slot.GradeMultiplier;
             foreach (var monster in _monsterModel.MonsterList)
             {
@@ -350,7 +350,7 @@ public class CombatService
             if (item.Mode == ItemMode.Heal)
             {
                 _partyService.Heal(_healTargetList[0], power);
-                AddBurst(_healTargetList[0].Position, PointBurstRadius);
+                AddBurst(_healTargetList[0].Position, PointBurstRadius, item.Id, BurstEffectKind.Heal);
                 return;
             }
 
@@ -359,7 +359,7 @@ public class CombatService
                 _partyService.Heal(target, power);
             }
 
-            AddBurst(member.Position, range);
+            AddBurst(member.Position, range, item.Id, BurstEffectKind.HealArea);
             return;
         }
 
@@ -374,21 +374,21 @@ public class CombatService
         switch (item.Mode)
         {
             case ItemMode.Melee:
-                HitCone(member.Position, direction, range, _rules.MeleeHalfAngle, power);
+                HitCone(member.Position, direction, range, _rules.MeleeHalfAngle, power, item.Id);
                 break;
             case ItemMode.Sweep:
-                HitCone(member.Position, direction, range, _rules.SweepHalfAngle, power);
+                HitCone(member.Position, direction, range, _rules.SweepHalfAngle, power, item.Id);
                 break;
             case ItemMode.Chain:
-                HitChain(nearest, slot.Stats.Chain, power);
+                HitChain(member.Position, nearest, slot.Stats.Chain, power, item.Id);
                 break;
             case ItemMode.Projectile:
-                ShootProjectiles(member.Position, direction, slot.Stats, power, range);
+                ShootProjectiles(member.Position, direction, slot.Stats, power, range, item.Id);
                 break;
             case ItemMode.Explosion:
                 var radius = _rules.ExplosionRadius * (1f + slot.Stats.Radius);
                 _combatModel.AddProjectile(new ProjectileState(_combatModel.TakeVisualId(), member.Position, direction,
-                    _rules.ProjectileSpeed, power, range, 0, true, radius, nearest.Position));
+                    _rules.ProjectileSpeed, power, range, 0, true, radius, nearest.Position, item.Id));
                 break;
             default:
                 GameLogger.LogError($"[CombatService] {item.Id}: mode {item.Mode} has no action");
@@ -451,7 +451,7 @@ public class CombatService
         return nearest;
     }
 
-    private void HitCone(Vector2 origin, Vector2 direction, float range, float halfAngle, float power)
+    private void HitCone(Vector2 origin, Vector2 direction, float range, float halfAngle, float power, string itemId)
     {
         foreach (var monster in _monsterModel.MonsterList)
         {
@@ -462,11 +462,11 @@ public class CombatService
             }
         }
 
-        AddBurst(origin, range);
+        AddBurst(origin, range, itemId, BurstEffectKind.Melee, direction);
     }
 
     // 대상부터 chainBaseHits + 추가 연쇄 번, 마지막 맞은 적에서 chainHopRange 안 아직 안 맞은 가장 가까운 산 적으로
-    private void HitChain(Monster first, int extraChain, float power)
+    private void HitChain(Vector2 origin, Monster first, int extraChain, float power, string itemId)
     {
         _chainHitIdSet.Clear();
         var next = first;
@@ -475,13 +475,14 @@ public class CombatService
         {
             _chainHitIdSet.Add(next.Id);
             _monsterService.ApplyDamage(next, power);
-            AddBurst(next.Position, PointBurstRadius);
+            AddBurst(origin, PointBurstRadius, itemId, BurstEffectKind.Chain, endPosition: next.Position);
+            origin = next.Position;
             next = FindNearestMonster(next.Position, _rules.ChainHopRange, _chainHitIdSet);
         }
     }
 
     // 1 + 갈래 발을 (n − 갈래 × 0.5) × projectileSpread 각도로
-    private void ShootProjectiles(Vector2 origin, Vector2 direction, CombatStats stats, float power, float range)
+    private void ShootProjectiles(Vector2 origin, Vector2 direction, CombatStats stats, float power, float range, string itemId)
     {
         for (var n = 0; n <= stats.ExtraShots; n++)
         {
@@ -490,7 +491,7 @@ public class CombatService
             var sin = Mathf.Sin(angle);
             var shotDirection = new Vector2(direction.x * cos - direction.y * sin, direction.x * sin + direction.y * cos);
             _combatModel.AddProjectile(new ProjectileState(_combatModel.TakeVisualId(), origin, shotDirection,
-                _rules.ProjectileSpeed, power, range, stats.Pierce, false, 0f, Vector2.zero));
+                _rules.ProjectileSpeed, power, range, stats.Pierce, false, 0f, Vector2.zero, itemId));
         }
     }
 
@@ -553,13 +554,14 @@ public class CombatService
             }
         }
 
-        AddBurst(projectile.Position, projectile.ExplosionRadius);
+        AddBurst(projectile.Position, projectile.ExplosionRadius, projectile.ItemId, BurstEffectKind.Explosion);
         projectile.IsDone = true;
     }
 
-    private void AddBurst(Vector2 position, float radius)
+    private void AddBurst(Vector2 position, float radius, string itemId, BurstEffectKind kind,
+        Vector2 direction = default, Vector2 endPosition = default)
     {
-        _combatModel.AddBurst(new BurstState(_combatModel.TakeVisualId(), position, radius, BurstSeconds));
+        _combatModel.AddBurst(new BurstState(_combatModel.TakeVisualId(), position, radius, BurstSeconds, itemId, kind, direction, endPosition));
     }
 
     private static float GetSegmentDistance(Vector2 from, Vector2 to, Vector2 point)

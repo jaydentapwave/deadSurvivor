@@ -1,0 +1,49 @@
+{
+  "items": [
+    {
+      "itemId": "sword",
+      "projectile": "",
+      "burst": "slash_sword"
+    },
+    {
+      "itemId": "axe",
+      "projectile": "",
+      "burst": "slash_axe"
+    },
+    {
+      "itemId": "shortbow",
+      "projectile": "arrow",
+      "burst": ""
+    },
+    {
+      "itemId": "crossbow",
+      "projectile": "crossbow_bolt",
+      "burst": ""
+    },
+    {
+      "itemId": "firestaff",
+      "projectile": "fireball",
+      "burst": "explosion"
+    },
+    {
+      "itemId": "wand",
+      "projectile": "",
+      "burst": "lightning"
+    },
+    {
+      "itemId": "relic",
+      "projectile": "",
+      "burst": "heal_single"
+    },
+    {
+      "itemId": "censer",
+      "projectile": "",
+      "burst": "heal_area"
+    },
+    {
+      "itemId": "orb",
+      "projectile": "",
+      "burst": "explosion"
+    }
+  ]
+}

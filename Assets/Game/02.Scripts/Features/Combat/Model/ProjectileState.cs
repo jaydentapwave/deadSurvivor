@@ -6,6 +6,7 @@ public class ProjectileState
 {
     private readonly HashSet<int> _hitMonsterIdSet = new();
 
+    public string ItemId { get; }
     public int Id { get; }
     public Vector2 Position { get; set; }
     public Vector2 Direction { get; }
@@ -21,8 +22,9 @@ public class ProjectileState
     public ISet<int> HitMonsterIdSet => _hitMonsterIdSet;
 
     public ProjectileState(int id, Vector2 position, Vector2 direction, float speed, float damage, float range, int pierce,
-        bool isExplosion, float explosionRadius, Vector2 targetPosition)
+        bool isExplosion, float explosionRadius, Vector2 targetPosition, string itemId = null)
     {
+        ItemId = itemId;
         Id = id;
         Position = position;
         Direction = direction;
@@ -37,18 +39,37 @@ public class ProjectileState
 }
 
 // 범위 발동 고리 표시 하나(기획서 F절). 걸음 시간으로 줄어든다
+public enum BurstEffectKind
+{
+    Melee,
+    Heal,
+    HealArea,
+    Chain,
+    Explosion,
+    Pulse,
+}
+
 public class BurstState
 {
+    public string ItemId { get; }
+    public BurstEffectKind Kind { get; }
+    public Vector2 Direction { get; }
+    public Vector2 EndPosition { get; }
     public int Id { get; }
     public Vector2 Position { get; }
     public float Radius { get; }
     public float Seconds { get; }
     public float RemainingSeconds { get; set; }
 
-    public BurstState(int id, Vector2 position, float radius, float seconds)
+    public BurstState(int id, Vector2 position, float radius, float seconds, string itemId = null,
+        BurstEffectKind kind = BurstEffectKind.Pulse, Vector2 direction = default, Vector2 endPosition = default)
     {
         Id = id;
         Position = position;
+        ItemId = itemId;
+        Kind = kind;
+        Direction = direction;
+        EndPosition = endPosition;
         Radius = radius;
         Seconds = seconds;
         RemainingSeconds = seconds;

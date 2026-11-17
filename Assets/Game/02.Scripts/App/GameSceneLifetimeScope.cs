@@ -32,6 +32,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register<SpriteAtlasService>(Lifetime.Scoped);
 
         // 데이터
+        builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<CombatEffectData>("Data/Combat/combat_effects"), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<RunRulesData>(RunRulesPath), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<GroundPathData>(GroundPathPath), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<PlaceholderCombatData>(PlaceholderCombatPath),

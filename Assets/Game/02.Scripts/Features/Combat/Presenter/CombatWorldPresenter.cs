@@ -1,113 +1,207 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VContainer.Unity;
 
-// 투사체·범위 발동 고리 그림(기획서 F절): 모델의 번호마다 그림 하나, 새 번호는 풀에서 꺼내고 사라진 번호는 풀로 돌린다.
-// 전투 걸음 뒤에 그리도록 LateTick(F1 WorldPresenter와 같다)
-public class CombatWorldPresenter : IInitializable, ILateTickable
+// T1~T3: 기존 풀·등록부로 투사체와 발동 그림을 동기화. 피격 별은 피해 기록 소비 순서와 독립적이다.
+public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
 {
-    private static readonly Vector2 CenterPivot = new(0.5f, 0.5f);
-    // 투사체 원 지름(px)
-    private const int ProjectilePixels = 5;
-    // 고리 그림을 만드는 기준 반경(바닥 단위). 실제 반경 ÷ 이 값만큼 늘린다
-    private const float BurstBaseRadius = 100f;
-    private static readonly Color ProjectileColor = new(1f, 0.85f, 0.45f, 1f);
-    private static readonly Color BurstColor = new(1f, 0.9f, 0.6f, 1f);
-    private const float BurstMaxAlpha = 0.45f;
-
+    private const float HitSeconds = 0.15f;
+    private const float BodyHeight = 24f / Const.PixelsPerUnit;
+    private const float HealHeight = 56f / Const.PixelsPerUnit;
     private readonly CombatModel _combatModel;
+    private readonly CombatFeedbackModel _combatFeedbackModel;
+    private readonly RunModel _runModel;
     private readonly RunRulesData _runRules;
-    private readonly PlaceholderSpriteFactory _placeholderSpriteFactory;
+    private readonly CombatEffectData _effectData;
+    private readonly SpriteAtlasService _spriteAtlasService;
     private readonly ProjectileViewFactory _projectileViewFactory;
     private readonly ProjectileViewRegistry _projectileViewRegistry;
+    private readonly HashSet<int> _aliveProjectileIdSet = new();
+    private readonly HashSet<long> _aliveBurstIdSet = new();
+    private readonly List<int> _releaseProjectileIdList = new();
+    private readonly List<long> _releaseBurstIdList = new();
+    private readonly List<HitEffect> _hitList = new();
+    private readonly Dictionary<string, int> _shownCountDict = new();
+    private int _nextHitId;
 
-    private readonly HashSet<int> _aliveIdSet = new();
-    private readonly List<int> _releaseIdList = new();
-    private Sprite _projectileSprite;
-    private Sprite _burstSprite;
-
-    public CombatWorldPresenter(CombatModel combatModel, RunRulesData runRules, PlaceholderSpriteFactory placeholderSpriteFactory,
+    public CombatWorldPresenter(CombatModel combatModel, CombatFeedbackModel combatFeedbackModel, RunModel runModel,
+        RunRulesData runRules, CombatEffectData effectData, SpriteAtlasService spriteAtlasService,
         ProjectileViewFactory projectileViewFactory, ProjectileViewRegistry projectileViewRegistry)
     {
         _combatModel = combatModel;
+        _combatFeedbackModel = combatFeedbackModel;
+        _runModel = runModel;
         _runRules = runRules;
-        _placeholderSpriteFactory = placeholderSpriteFactory;
+        _effectData = effectData;
+        _spriteAtlasService = spriteAtlasService;
         _projectileViewFactory = projectileViewFactory;
         _projectileViewRegistry = projectileViewRegistry;
     }
 
-    public void Initialize()
+    public void Initialize() => _combatFeedbackModel.MonsterHit += OnMonsterHit;
+
+    public void Dispose() => _combatFeedbackModel.MonsterHit -= OnMonsterHit;
+
+    private void OnMonsterHit(MonsterHitRecord hit)
     {
-        _projectileSprite = _placeholderSpriteFactory.CreateCircle(ProjectilePixels, ProjectileColor);
-        // 바닥 위 원의 아이소 모양(가로 2 : 세로 1)을 마름모로 근사
-        var burstWorld = IsoProjection.FloorToWorld(new Vector2(BurstBaseRadius, BurstBaseRadius), _runRules.UnitScale);
-        var widthPixels = Mathf.Max(1, Mathf.RoundToInt(burstWorld.x * 2f * Const.PixelsPerUnit));
-        var heightPixels = Mathf.Max(1, Mathf.RoundToInt(burstWorld.y * 2f * Const.PixelsPerUnit));
-        _burstSprite = _placeholderSpriteFactory.CreateDiamond(widthPixels, heightPixels, BurstColor, CenterPivot);
+        _hitList.Add(new HitEffect { Id = --_nextHitId, Position = hit.Position, Frame = Time.frameCount });
     }
+
+    public int GetShownCount(string spriteName) => _shownCountDict.TryGetValue(spriteName, out var count) ? count : 0;
 
     public void LateTick()
     {
         SyncProjectileViews();
-        SyncBurstViews();
+        _aliveBurstIdSet.Clear();
+        if (_runModel.Phase.CurrentValue != RunPhase.Battle)
+        {
+            _hitList.Clear();
+        }
+
+        foreach (var burst in _combatModel.BurstList)
+        {
+            DrawBurst(burst);
+        }
+
+        var delta = _runModel.IsPaused.CurrentValue ? 0f : Time.deltaTime;
+        for (var i = _hitList.Count - 1; i >= 0; i--)
+        {
+            var hit = _hitList[i];
+            if (hit.Frame != Time.frameCount)
+            {
+                hit.Remaining -= delta;
+            }
+
+            if (hit.Remaining <= 0f)
+            {
+                _hitList.RemoveAt(i);
+                continue;
+            }
+
+            Draw((long)hit.Id << 32, "hit_star", World(hit.Position) + Vector2.up * BodyHeight,
+                Vector2.one, Mathf.Clamp01(hit.Remaining / HitSeconds));
+        }
+
+        _releaseBurstIdList.Clear();
+        foreach (var id in _projectileViewRegistry.BurstIds)
+        {
+            if (!_aliveBurstIdSet.Contains(id))
+            {
+                _releaseBurstIdList.Add(id);
+            }
+        }
+
+        foreach (var id in _releaseBurstIdList)
+        {
+            _projectileViewFactory.ReleaseBurst(id);
+        }
     }
 
     private void SyncProjectileViews()
     {
-        _aliveIdSet.Clear();
+        _aliveProjectileIdSet.Clear();
         foreach (var projectile in _combatModel.ProjectileList)
         {
-            _aliveIdSet.Add(projectile.Id);
+            _aliveProjectileIdSet.Add(projectile.Id);
             if (!_projectileViewRegistry.TryGetProjectile(projectile.Id, out var view))
             {
-                view = _projectileViewFactory.CreateProjectile(projectile.Id, _projectileSprite);
+                var spriteName = _effectData.Get(projectile.ItemId).Projectile;
+                view = _projectileViewFactory.CreateProjectile(projectile.Id, _spriteAtlasService.Get(spriteName));
+                MarkShown(spriteName);
             }
 
-            view.UpdateView(IsoProjection.FloorToWorld(projectile.Position, _runRules.UnitScale));
+            view.UpdateView(World(projectile.Position) + Vector2.up * BodyHeight, World(projectile.Direction));
         }
 
-        _releaseIdList.Clear();
+        _releaseProjectileIdList.Clear();
         foreach (var id in _projectileViewRegistry.ProjectileIds)
         {
-            if (!_aliveIdSet.Contains(id))
+            if (!_aliveProjectileIdSet.Contains(id))
             {
-                _releaseIdList.Add(id);
+                _releaseProjectileIdList.Add(id);
             }
         }
 
-        foreach (var id in _releaseIdList)
+        foreach (var id in _releaseProjectileIdList)
         {
             _projectileViewFactory.ReleaseProjectile(id);
         }
     }
 
-    private void SyncBurstViews()
+    private void DrawBurst(BurstState burst)
     {
-        _aliveIdSet.Clear();
-        foreach (var burst in _combatModel.BurstList)
+        var spriteName = _effectData.Get(burst.ItemId).Burst;
+        var sprite = _spriteAtlasService.Get(spriteName);
+        var alpha = Mathf.Clamp01(burst.RemainingSeconds / burst.Seconds);
+        var position = World(burst.Position);
+        var key = (long)burst.Id << 32;
+        if (burst.Kind == BurstEffectKind.Chain)
         {
-            _aliveIdSet.Add(burst.Id);
-            if (!_projectileViewRegistry.TryGetBurst(burst.Id, out var view))
+            var from = position + Vector2.up * BodyHeight;
+            var to = World(burst.EndPosition) + Vector2.up * BodyHeight;
+            var width = sprite.rect.width / Const.PixelsPerUnit;
+            var count = CombatEffectMotion.GetSegmentCount(Vector2.Distance(from, to), width);
+            var angle = Mathf.Atan2(to.y - from.y, to.x - from.x) * Mathf.Rad2Deg;
+            for (var i = 0; i < count; i++)
             {
-                view = _projectileViewFactory.CreateBurst(burst.Id, _burstSprite);
+                CombatEffectMotion.GetSegment(from, to, width, i, out var center, out var scaleX);
+                Draw(key + i, spriteName, center, new Vector2(scaleX, 1f), alpha, angle);
             }
 
-            view.UpdateView(IsoProjection.FloorToWorld(burst.Position, _runRules.UnitScale), burst.Radius / BurstBaseRadius,
-                BurstMaxAlpha * Mathf.Clamp01(burst.RemainingSeconds / burst.Seconds));
+            return;
         }
 
-        _releaseIdList.Clear();
-        foreach (var id in _projectileViewRegistry.BurstIds)
+        var scale = Vector2.one;
+        var isFlipped = false;
+        switch (burst.Kind)
         {
-            if (!_aliveIdSet.Contains(id))
-            {
-                _releaseIdList.Add(id);
-            }
+            case BurstEffectKind.Melee:
+                position += World(burst.Direction).normalized * (sprite.rect.width / Const.PixelsPerUnit * 0.5f);
+                position += Vector2.up * BodyHeight;
+                // 원본 베기 날이 왼쪽이다. 목표가 오른쪽이면 반전한다.
+                isFlipped = burst.Direction.x > 0f;
+                break;
+            case BurstEffectKind.Heal:
+                position += Vector2.up * (HealHeight + (1f - alpha) * 4f / Const.PixelsPerUnit);
+                break;
+            case BurstEffectKind.HealArea:
+                scale *= burst.Radius * _runRules.UnitScale * 2f / (sprite.rect.width / Const.PixelsPerUnit);
+                break;
+            case BurstEffectKind.Explosion:
+                position += Vector2.up * BodyHeight;
+                scale *= 1f + (1f - alpha) * 0.2f;
+                break;
+            case BurstEffectKind.Pulse:
+                scale *= burst.Radius * _runRules.UnitScale * 2f / (sprite.rect.width / Const.PixelsPerUnit);
+                break;
         }
 
-        foreach (var id in _releaseIdList)
+        Draw(key, spriteName, position, scale, alpha, isFlipped: isFlipped);
+    }
+
+    private void Draw(long id, string spriteName, Vector2 position, Vector2 scale, float alpha,
+        float angle = 0f, bool isFlipped = false)
+    {
+        _aliveBurstIdSet.Add(id);
+        if (!_projectileViewRegistry.TryGetBurst(id, out var view))
         {
-            _projectileViewFactory.ReleaseBurst(id);
+            view = _projectileViewFactory.CreateBurst(id, _spriteAtlasService.Get(spriteName));
+            MarkShown(spriteName);
         }
+
+        view.UpdateView(position, scale, alpha, angle, isFlipped);
+    }
+
+    private Vector2 World(Vector2 floor) => IsoProjection.FloorToWorld(floor, _runRules.UnitScale);
+
+    private void MarkShown(string spriteName) => _shownCountDict[spriteName] = GetShownCount(spriteName) + 1;
+
+    private class HitEffect
+    {
+        public int Id;
+        public Vector2 Position;
+        public int Frame;
+        public float Remaining = HitSeconds;
     }
 }

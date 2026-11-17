@@ -39,7 +39,7 @@ public class ProjectileViewFactory
         return view;
     }
 
-    public BurstView CreateBurst(int id, Sprite sprite)
+    public BurstView CreateBurst(long id, Sprite sprite)
     {
         if (_burstPrefab == null)
         {
@@ -64,7 +64,7 @@ public class ProjectileViewFactory
         _poolManager.Release(ProjectilePoolKey, view);
     }
 
-    public void ReleaseBurst(int id)
+    public void ReleaseBurst(long id)
     {
         if (!_projectileViewRegistry.TryGetBurst(id, out var view))
         {

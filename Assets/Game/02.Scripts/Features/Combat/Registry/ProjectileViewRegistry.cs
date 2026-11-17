@@ -4,10 +4,10 @@ using System.Collections.Generic;
 public class ProjectileViewRegistry
 {
     private readonly Dictionary<int, ProjectileView> _projectileViewDict = new();
-    private readonly Dictionary<int, BurstView> _burstViewDict = new();
+    private readonly Dictionary<long, BurstView> _burstViewDict = new();
 
     public IEnumerable<int> ProjectileIds => _projectileViewDict.Keys;
-    public IEnumerable<int> BurstIds => _burstViewDict.Keys;
+    public IEnumerable<long> BurstIds => _burstViewDict.Keys;
 
     public void RegisterProjectile(int id, ProjectileView view) => _projectileViewDict.Add(id, view);
 
@@ -15,9 +15,9 @@ public class ProjectileViewRegistry
 
     public bool TryGetProjectile(int id, out ProjectileView view) => _projectileViewDict.TryGetValue(id, out view);
 
-    public void RegisterBurst(int id, BurstView view) => _burstViewDict.Add(id, view);
+    public void RegisterBurst(long id, BurstView view) => _burstViewDict.Add(id, view);
 
-    public void UnregisterBurst(int id) => _burstViewDict.Remove(id);
+    public void UnregisterBurst(long id) => _burstViewDict.Remove(id);
 
-    public bool TryGetBurst(int id, out BurstView view) => _burstViewDict.TryGetValue(id, out view);
+    public bool TryGetBurst(long id, out BurstView view) => _burstViewDict.TryGetValue(id, out view);
 }

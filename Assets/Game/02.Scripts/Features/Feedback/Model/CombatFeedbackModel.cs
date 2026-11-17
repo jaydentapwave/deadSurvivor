@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class CombatFeedbackModel
 {
     private readonly List<MemberHitRecord> _memberHitList = new(16);
     private readonly List<MonsterHitRecord> _monsterHitList = new(256);
+
+    public event Action<MonsterHitRecord> MonsterHit;
 
     public IReadOnlyList<MemberHitRecord> MemberHitList => _memberHitList;
     public IReadOnlyList<MonsterHitRecord> MonsterHitList => _monsterHitList;
@@ -32,7 +35,9 @@ public class CombatFeedbackModel
     // position = 맞은 순간의 바닥 좌표, data = 몬스터 데이터(숫자 자리 = 그 몸 그림의 머리 위)
     public void AddMonsterHit(int monsterId, float amount, Vector2 position, MonsterData data)
     {
-        _monsterHitList.Add(new MonsterHitRecord(monsterId, amount, position, data));
+        var record = new MonsterHitRecord(monsterId, amount, position, data);
+        _monsterHitList.Add(record);
+        MonsterHit?.Invoke(record);
     }
 
     public void ClearMemberHits() => _memberHitList.Clear();

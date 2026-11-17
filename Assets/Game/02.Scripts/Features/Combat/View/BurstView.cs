@@ -1,19 +1,28 @@
 using UnityEngine;
 
-// 범위 발동 고리 임시 도형(풀에서 꺼낸다). 그림은 기준 반경의 바닥 원 크기로 만들고 반경에 맞춰 늘린다
+// T1~T3: 한 장짜리 효과. 피벗은 임포트 규약 그대로, 표시 중심만 보정한다.
 public class BurstView : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer bodyRenderer;
+    public SpriteRenderer BodyRenderer => bodyRenderer;
 
-    public void Initialize(Sprite sprite) => bodyRenderer.sprite = sprite;
-
-    // alpha: 남은 시간 비율(사라지며 옅어짐)
-    public void UpdateView(Vector2 worldPosition, float scale, float alpha)
+    public void Initialize(Sprite sprite)
     {
-        transform.localPosition = worldPosition;
-        transform.localScale = new Vector3(scale, scale, 1f);
-        var color = bodyRenderer.color;
-        color.a = alpha;
-        bodyRenderer.color = color;
+        bodyRenderer.sprite = sprite;
+        bodyRenderer.color = Color.white;
+        bodyRenderer.flipX = false;
+        bodyRenderer.flipY = false;
+    }
+
+    public void UpdateView(Vector2 worldPosition, Vector2 scale, float alpha, float angle = 0f, bool isFlipped = false)
+    {
+        transform.localRotation = Quaternion.Euler(0f, 0f, angle);
+        transform.localScale = new Vector3(scale.x, scale.y, 1f);
+        bodyRenderer.flipX = isFlipped;
+        bodyRenderer.color = new Color(1f, 1f, 1f, alpha);
+        var center = bodyRenderer.sprite.bounds.center;
+        center.x *= isFlipped ? -scale.x : scale.x;
+        center.y *= scale.y;
+        transform.localPosition = CombatEffectMotion.Snap(worldPosition - (Vector2)(transform.localRotation * center));
     }
 }
