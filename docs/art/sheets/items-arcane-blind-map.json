@@ -1,0 +1,66 @@
+{
+  "N01": {
+    "id": "scope",
+    "n": 1
+  },
+  "N02": {
+    "id": "hat",
+    "n": 1
+  },
+  "N03": {
+    "id": "scope",
+    "n": 3
+  },
+  "N04": {
+    "id": "crystal",
+    "n": 4
+  },
+  "N05": {
+    "id": "spellbook",
+    "n": 3
+  },
+  "N06": {
+    "id": "spellbook",
+    "n": 4
+  },
+  "N07": {
+    "id": "crystal",
+    "n": 3
+  },
+  "N08": {
+    "id": "crystal",
+    "n": 2
+  },
+  "N09": {
+    "id": "hat",
+    "n": 2
+  },
+  "N10": {
+    "id": "hat",
+    "n": 3
+  },
+  "N11": {
+    "id": "spellbook",
+    "n": 2
+  },
+  "N12": {
+    "id": "scope",
+    "n": 4
+  },
+  "N13": {
+    "id": "scope",
+    "n": 2
+  },
+  "N14": {
+    "id": "spellbook",
+    "n": 1
+  },
+  "N15": {
+    "id": "crystal",
+    "n": 1
+  },
+  "N16": {
+    "id": "hat",
+    "n": 4
+  }
+}

@@ -1,0 +1,950 @@
+[
+  {
+    "id": "scope",
+    "n": 1,
+    "raw": "output/2d-art/icons-arcane/scope-r1-1.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/scope/candidates/r1-1.png",
+    "rawsha256": "4d00362f77a2935e6b75094dcc55fbcbc2b25d6d9fcf90e303b963038237fee7",
+    "sha256": "25a399c2320d69f5279352b0052622347a638071f33526aaba9d5dc059262196",
+    "size": [
+      48,
+      16
+    ],
+    "bbox": [
+      32,
+      288,
+      1504,
+      736
+    ],
+    "native_target_content": [
+      46,
+      14
+    ],
+    "canvas_offset": [
+      1,
+      1
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 46x14 (block 32.0px, score 0.90)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 137,
+      "1,0": 148,
+      "2,0": 174
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 9,
+    "timestamp": "2026-11-17T09:43:05.987917+00:00"
+  },
+  {
+    "id": "scope",
+    "n": 2,
+    "raw": "output/2d-art/icons-arcane/scope-r1-2.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/scope/candidates/r1-2.png",
+    "rawsha256": "1c6301434dffbcea8b44e7ef7d1413fc1f4bf24621e38a60ccc5f657a06697d3",
+    "sha256": "578ea18a9908675c3559758de67ae0359217daa6dadb3fa8d429f5c79a05743e",
+    "size": [
+      48,
+      16
+    ],
+    "bbox": [
+      32,
+      288,
+      1504,
+      736
+    ],
+    "native_target_content": [
+      46,
+      14
+    ],
+    "canvas_offset": [
+      1,
+      1
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 46x14 (block 32.0px, score 0.91)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 137,
+      "1,0": 148,
+      "2,0": 171
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 7,
+    "timestamp": "2026-11-17T09:43:07.377283+00:00"
+  },
+  {
+    "id": "scope",
+    "n": 3,
+    "raw": "output/2d-art/icons-arcane/scope-r1-3.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/scope/candidates/r1-3.png",
+    "rawsha256": "3c25d5cfd4adc3767c662b0174e1b97d7956c67c46a93f37c7d9bae3f3e73086",
+    "sha256": "29c236fd603f70175704f7da1302cb2fc07cde0347391238cee20ed0c69338a6",
+    "size": [
+      48,
+      16
+    ],
+    "bbox": [
+      32,
+      288,
+      1504,
+      736
+    ],
+    "native_target_content": [
+      46,
+      14
+    ],
+    "canvas_offset": [
+      1,
+      1
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 46x14 (block 32.1px, score 0.91)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 137,
+      "1,0": 148,
+      "2,0": 171
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 9,
+    "timestamp": "2026-11-17T09:43:08.756539+00:00"
+  },
+  {
+    "id": "scope",
+    "n": 4,
+    "raw": "output/2d-art/icons-arcane/scope-r1-4.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/scope/candidates/r1-4.png",
+    "rawsha256": "78e5e34b8540b005b3e3facab04693abb1e4e4315a60bb19a331bca1675a71be",
+    "sha256": "3fa63a1654a821f5780729ab594f1d75bd03e6d08198e436c7729d351828a88b",
+    "size": [
+      48,
+      16
+    ],
+    "bbox": [
+      32,
+      288,
+      1504,
+      736
+    ],
+    "native_target_content": [
+      46,
+      14
+    ],
+    "canvas_offset": [
+      1,
+      1
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 46x14 (block 32.1px, score 0.91)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 137,
+      "1,0": 148,
+      "2,0": 171
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 9,
+    "timestamp": "2026-11-17T09:43:10.218062+00:00"
+  },
+  {
+    "id": "crystal",
+    "n": 1,
+    "raw": "output/2d-art/icons-arcane/crystal-r1-1.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/crystal/candidates/r1-1.png",
+    "rawsha256": "c49abc9bd51e967f5138e2be462e67c62b2c62f836243328ee0576ddd4f8f7db",
+    "sha256": "e4cfe2c2b4a98edbbbfecf977d4bf978de54e8eccf0d6f844580b601d45a5a7f",
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      576,
+      257,
+      960,
+      768
+    ],
+    "native_target_content": [
+      12,
+      16
+    ],
+    "canvas_offset": [
+      2,
+      0
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 12x16 (block 31.8px, score 0.90)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 1,
+      "stdout": "FAIL r1-1.png: key #ff00ff, spill 0 px, edge 16 px, stray 0 px (allow 0)  (look at x=8, y=1: edge)\nFAIL fringe: 1 pictures, 1 with key colour left on the rim -> matte.py fix\n",
+      "stderr": ""
+    },
+    "fix": {
+      "exit": 0,
+      "stdout": "FIX output/2d-art/icons-arcane/fixed/crystal/r1-1.png: key #ff00ff, spill 0 px, edge 16 px, 16 px repainted from inside, 0 stray px dropped\n",
+      "stderr": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/matte.py:212: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  Image.fromarray(np.clip(arr + 0.5, 0, 255).astype(np.uint8), 'RGBA').save(path, pnginfo=info)\n"
+    },
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 130
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 9,
+    "timestamp": "2026-11-17T09:43:11.385759+00:00"
+  },
+  {
+    "id": "crystal",
+    "n": 2,
+    "raw": "output/2d-art/icons-arcane/crystal-r1-2.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/crystal/candidates/r1-2.png",
+    "rawsha256": "976249f4edbfd180a6d1db5227cf78215068467adb723cd1b2bbb15e56c71bbe",
+    "sha256": "88373621904c98df72467a5d0ab872f5a5b3d7e106c3f864fe21b3856aa93f4e",
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      576,
+      256,
+      960,
+      768
+    ],
+    "native_target_content": [
+      12,
+      16
+    ],
+    "canvas_offset": [
+      2,
+      0
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 12x16 (block 31.8px, score 0.90)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 1,
+      "stdout": "FAIL r1-2.png: key #ff00ff, spill 0 px, edge 16 px, stray 0 px (allow 0)  (look at x=8, y=1: edge)\nFAIL fringe: 1 pictures, 1 with key colour left on the rim -> matte.py fix\n",
+      "stderr": ""
+    },
+    "fix": {
+      "exit": 0,
+      "stdout": "FIX output/2d-art/icons-arcane/fixed/crystal/r1-2.png: key #ff00ff, spill 0 px, edge 16 px, 16 px repainted from inside, 0 stray px dropped\n",
+      "stderr": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/matte.py:212: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  Image.fromarray(np.clip(arr + 0.5, 0, 255).astype(np.uint8), 'RGBA').save(path, pnginfo=info)\n"
+    },
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 129
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 9,
+    "timestamp": "2026-11-17T09:43:12.536211+00:00"
+  },
+  {
+    "id": "crystal",
+    "n": 3,
+    "raw": "output/2d-art/icons-arcane/crystal-r1-3.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/crystal/candidates/r1-3.png",
+    "rawsha256": "15628fd271b1093f8646de331cf865cddb3ac352a5636697ef9c7d4bd53601e9",
+    "sha256": "d4f269e013651168867bf958ab17cfb0989c4eba6822ddada38bdf7c47af1afc",
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      576,
+      256,
+      960,
+      768
+    ],
+    "native_target_content": [
+      12,
+      16
+    ],
+    "canvas_offset": [
+      2,
+      0
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 12x16 (block 31.8px, score 0.90)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 129
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 5,
+    "timestamp": "2026-11-17T09:43:13.636463+00:00"
+  },
+  {
+    "id": "crystal",
+    "n": 4,
+    "raw": "output/2d-art/icons-arcane/crystal-r1-4.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/crystal/candidates/r1-4.png",
+    "rawsha256": "f0e82086580f3f38be83c42b25d6a12310275997e2d166a7b335aed56f3832c8",
+    "sha256": "fb997fdc1f2b5370b868225883e60d328efe4c45e3c54f70e4cc8143d3361146",
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      576,
+      257,
+      992,
+      768
+    ],
+    "native_target_content": [
+      13,
+      16
+    ],
+    "canvas_offset": [
+      2,
+      0
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 13x16 (block 31.8px, score 0.90)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 1,
+      "stdout": "FAIL r1-4.png: key #ff00ff, spill 0 px, edge 17 px, stray 0 px (allow 0)  (look at x=8, y=1: edge)\nFAIL fringe: 1 pictures, 1 with key colour left on the rim -> matte.py fix\n",
+      "stderr": ""
+    },
+    "fix": {
+      "exit": 0,
+      "stdout": "FIX output/2d-art/icons-arcane/fixed/crystal/r1-4.png: key #ff00ff, spill 0 px, edge 17 px, 17 px repainted from inside, 0 stray px dropped\n",
+      "stderr": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/20261115-art-characters/.ai/2d-art/tools/matte.py:212: DeprecationWarning: 'mode' parameter is deprecated and will be removed in Pillow 13 (2026-10-15)\n  Image.fromarray(np.clip(arr + 0.5, 0, 255).astype(np.uint8), 'RGBA').save(path, pnginfo=info)\n"
+    },
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 134
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 9,
+    "timestamp": "2026-11-17T09:43:14.814565+00:00"
+  },
+  {
+    "id": "spellbook",
+    "n": 1,
+    "raw": "output/2d-art/icons-arcane/spellbook-r1-1.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/spellbook/candidates/r1-1.png",
+    "rawsha256": "47b5c90384280e6f3beb4bb6d35f4a7acc5b6ef7c1ad5c4ca6a7e31787b876f7",
+    "sha256": "6b3f1abfbaf986ff30cb8558fefcf236954c65aef7ae6f601aa1a27684001376",
+    "size": [
+      32,
+      32
+    ],
+    "bbox": [
+      320,
+      32,
+      1216,
+      991
+    ],
+    "native_target_content": [
+      28,
+      30
+    ],
+    "canvas_offset": [
+      2,
+      1
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 28x30 (block 32.0px, score 0.85)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 167,
+      "1,0": 177,
+      "0,1": 189,
+      "1,1": 163
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 15,
+    "timestamp": "2026-11-17T09:43:16.586337+00:00"
+  },
+  {
+    "id": "spellbook",
+    "n": 2,
+    "raw": "output/2d-art/icons-arcane/spellbook-r1-2.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/spellbook/candidates/r1-2.png",
+    "rawsha256": "3619e0e90c39e805f7a19f6e38f5bb4b45c9a4335e79b0fceb6085c6ef463b22",
+    "sha256": "fd8fd2d50a9f36a4cc1f08e168a8ee7e18231aaac7e286aeddcd3072e19a1263",
+    "size": [
+      32,
+      32
+    ],
+    "bbox": [
+      321,
+      37,
+      1186,
+      989
+    ],
+    "native_target_content": [
+      27,
+      30
+    ],
+    "canvas_offset": [
+      2,
+      1
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 27x30 (block 32.0px, score 0.50)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 169,
+      "1,0": 175,
+      "0,1": 188,
+      "1,1": 154
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 9,
+    "timestamp": "2026-11-17T09:43:18.581422+00:00"
+  },
+  {
+    "id": "spellbook",
+    "n": 3,
+    "raw": "output/2d-art/icons-arcane/spellbook-r1-3.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/spellbook/candidates/r1-3.png",
+    "rawsha256": "0a65aff33f3caa98d3f612a5d639abd80644852d0f4049cb8cccaa9bdc8baead",
+    "sha256": "a45ff888f575ad47bb9ca998459791a4a0c514ba1e366f0e1ada13bc2bd80922",
+    "size": [
+      32,
+      32
+    ],
+    "bbox": [
+      320,
+      32,
+      1216,
+      992
+    ],
+    "native_target_content": [
+      28,
+      30
+    ],
+    "canvas_offset": [
+      2,
+      1
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 28x30 (block 31.9px, score 0.91)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 172,
+      "1,0": 182,
+      "0,1": 191,
+      "1,1": 163
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 6,
+    "timestamp": "2026-11-17T09:43:20.219962+00:00"
+  },
+  {
+    "id": "spellbook",
+    "n": 4,
+    "raw": "output/2d-art/icons-arcane/spellbook-r1-4.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/spellbook/candidates/r1-4.png",
+    "rawsha256": "27e2f41a0680c79d61d8d1856461efbde969f855dc2aabead4f904d492801e1f",
+    "sha256": "6280ac08f361be0c26fb1180204f2c32468c0dc0b1da9451d495e6f5f756e4c1",
+    "size": [
+      32,
+      32
+    ],
+    "bbox": [
+      320,
+      32,
+      1184,
+      992
+    ],
+    "native_target_content": [
+      27,
+      30
+    ],
+    "canvas_offset": [
+      2,
+      1
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 27x30 (block 31.9px, score 0.90)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 172,
+      "1,0": 175,
+      "0,1": 188,
+      "1,1": 161
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 8,
+    "timestamp": "2026-11-17T09:43:21.821114+00:00"
+  },
+  {
+    "id": "hat",
+    "n": 1,
+    "raw": "output/2d-art/icons-arcane/hat-r1-1.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/hat/candidates/r1-1.png",
+    "rawsha256": "ceca4322410e01aa4e2b3d0b6ad049cb68d95852cc0d218ceb7a9d1fd509c4df",
+    "sha256": "dde989a458465347e0023909270a0540c1ddf644ca5ad2f57108ea2d926e4441",
+    "size": [
+      48,
+      32
+    ],
+    "bbox": [
+      32,
+      96,
+      1504,
+      1024
+    ],
+    "native_target_content": [
+      46,
+      29
+    ],
+    "canvas_offset": [
+      1,
+      3
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 46x29 (block 32.0px, score 0.91)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 152,
+      "1,0": 207,
+      "2,0": 152,
+      "0,1": 0,
+      "1,1": 160,
+      "2,1": 0
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 8,
+    "timestamp": "2026-11-17T09:43:23.767426+00:00"
+  },
+  {
+    "id": "hat",
+    "n": 2,
+    "raw": "output/2d-art/icons-arcane/hat-r1-2.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/hat/candidates/r1-2.png",
+    "rawsha256": "47addbba1dbe6200c404d4351b9e201e3b3ae194c666ca1d447cc20f31d55310",
+    "sha256": "102cb7951b482cc360149af82262f9a9f506109f7221241d3ba4db4b2bc4020a",
+    "size": [
+      48,
+      32
+    ],
+    "bbox": [
+      32,
+      96,
+      1504,
+      1024
+    ],
+    "native_target_content": [
+      46,
+      29
+    ],
+    "canvas_offset": [
+      1,
+      3
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 46x29 (block 32.0px, score 0.90)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 152,
+      "1,0": 207,
+      "2,0": 152,
+      "0,1": 0,
+      "1,1": 166,
+      "2,1": 0
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 6,
+    "timestamp": "2026-11-17T09:43:25.676287+00:00"
+  },
+  {
+    "id": "hat",
+    "n": 3,
+    "raw": "output/2d-art/icons-arcane/hat-r1-3.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/hat/candidates/r1-3.png",
+    "rawsha256": "ca11285c640581600c982b7ac3ffbc0a2655e7fb66b8d33ce76a6b9b02a25580",
+    "sha256": "12e54cf080eb16c50e346f31b378abab16dce12de2a48c063dd9be0ea7bdc267",
+    "size": [
+      48,
+      32
+    ],
+    "bbox": [
+      32,
+      96,
+      1504,
+      1024
+    ],
+    "native_target_content": [
+      46,
+      29
+    ],
+    "canvas_offset": [
+      1,
+      3
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 46x29 (block 32.0px, score 0.91)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 152,
+      "1,0": 207,
+      "2,0": 152,
+      "0,1": 0,
+      "1,1": 161,
+      "2,1": 0
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 7,
+    "timestamp": "2026-11-17T09:43:27.622073+00:00"
+  },
+  {
+    "id": "hat",
+    "n": 4,
+    "raw": "output/2d-art/icons-arcane/hat-r1-4.png",
+    "dest": "Assets/Game/03.Resources/Art/AIGenerated/Items/hat/candidates/r1-4.png",
+    "rawsha256": "761bf0e076127e16bbe302469de5866a77b629886b53e62eb64274f184cdeafc",
+    "sha256": "7645cb35e31cfe9aa73557233dca692bfa8a1131c11d63bb15e4bfe723e47ca7",
+    "size": [
+      48,
+      32
+    ],
+    "bbox": [
+      32,
+      96,
+      1504,
+      1024
+    ],
+    "native_target_content": [
+      46,
+      29
+    ],
+    "canvas_offset": [
+      1,
+      3
+    ],
+    "block_expected": [
+      32.0,
+      32.0
+    ],
+    "grid": {
+      "exit": 0,
+      "stdout": "native grid: 46x29 (block 32.0px, score 0.91)\n",
+      "stderr": ""
+    },
+    "initial_fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "fix": null,
+    "fringe": {
+      "exit": 0,
+      "stdout": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "stderr": ""
+    },
+    "cells": {
+      "0,0": 152,
+      "1,0": 207,
+      "2,0": 152,
+      "0,1": 0,
+      "1,1": 169,
+      "2,1": 0
+    },
+    "outside": 0,
+    "alpha": [
+      0,
+      255
+    ],
+    "colors": 5,
+    "timestamp": "2026-11-17T09:43:29.724573+00:00"
+  }
+]
