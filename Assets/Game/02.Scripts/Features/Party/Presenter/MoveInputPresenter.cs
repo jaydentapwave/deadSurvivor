@@ -8,15 +8,10 @@ using VContainer.Unity;
 // (사람이 만지지 않으면 판정 봇의 명령을 덮지 않는다). 전투가 아니게 되면 조이스틱을 숨기고 0을 보낸다.
 public class MoveInputPresenter : IInitializable, ITickable, IDisposable
 {
-    // 임시 원 그림의 해상도(px). 화면 크기는 장면의 고리·손잡이 RectTransform이 정한다
-    private const int PlaceholderCirclePixels = 64;
-    private static readonly Color RingColor = new(1f, 1f, 1f, 0.25f);
-    private static readonly Color HandleColor = new(1f, 1f, 1f, 0.6f);
-
     private readonly RunModel _runModel;
     private readonly PartyMoveService _partyMoveService;
     private readonly MoveRulesData _moveRules;
-    private readonly PlaceholderSpriteFactory _placeholderSpriteFactory;
+    private readonly SpriteAtlasService _spriteAtlasService;
     private readonly UI_JoystickView _joystickView;
     private readonly CompositeDisposable _disposables = new();
 
@@ -24,19 +19,18 @@ public class MoveInputPresenter : IInitializable, ITickable, IDisposable
     private Vector2 _sentInput;
 
     public MoveInputPresenter(RunModel runModel, PartyMoveService partyMoveService, MoveRulesData moveRules,
-        PlaceholderSpriteFactory placeholderSpriteFactory, UI_JoystickView joystickView)
+        SpriteAtlasService spriteAtlasService, UI_JoystickView joystickView)
     {
         _runModel = runModel;
         _partyMoveService = partyMoveService;
         _moveRules = moveRules;
-        _placeholderSpriteFactory = placeholderSpriteFactory;
+        _spriteAtlasService = spriteAtlasService;
         _joystickView = joystickView;
     }
 
     public void Initialize()
     {
-        _joystickView.Initialize(_placeholderSpriteFactory.CreateCircle(PlaceholderCirclePixels, RingColor),
-            _placeholderSpriteFactory.CreateCircle(PlaceholderCirclePixels, HandleColor));
+        _joystickView.Initialize(_spriteAtlasService.Get("joystick_base"), _spriteAtlasService.Get("joystick_knob"));
         _runModel.Phase.Subscribe(OnPhaseChanged).AddTo(_disposables);
     }
 

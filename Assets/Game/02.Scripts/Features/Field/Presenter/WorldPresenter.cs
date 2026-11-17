@@ -12,7 +12,6 @@ using VContainer.Unity;
 // 걷는 중에도 대기·hop 오프셋이 프레임마다 깜빡이므로, 그 프레임은 지난 방향·이동 여부를 그대로 쓴다.
 public class WorldPresenter : IInitializable, ILateTickable
 {
-    private static readonly Vector2 HpBarPivot = new(0f, 0.5f);
     private static readonly Vector2 FootPivot = new(0.5f, 0f);
     private static readonly Matrix4x4 FlipMatrix = Matrix4x4.Scale(new Vector3(-1f, 1f, 1f));
 
@@ -216,8 +215,8 @@ public class WorldPresenter : IInitializable, ILateTickable
                 downedSprite = frontSprite;
             }
 
-            var hpBarSprite = _placeholderSpriteFactory.CreateBox(view.HpBarPixels.x, view.HpBarPixels.y, Color.white, HpBarPivot);
-            view.Initialize(frontSprite, backSprite, downedSprite, hpBarSprite, hasArt);
+            var hpBarSprite = _spriteAtlasService.GetUi("hp_bar_bg");
+            view.Initialize(frontSprite, backSprite, downedSprite, hpBarSprite, _spriteAtlasService.GetUi("hp_bar_fill"), hasArt);
             view.InitializeShadow(_spriteAtlasService.Get("shadow"));
             var motion = characterDataList[i].Motion;
             if (hasArt && motion != null)

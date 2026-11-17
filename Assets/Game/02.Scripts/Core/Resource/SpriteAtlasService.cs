@@ -51,6 +51,24 @@ public class SpriteAtlasService : IDisposable
         return sprite;
     }
 
+    // UI는 회전·tight packing이 꺼진 Characters 아틀라스에 함께 들어간다.
+    // border와 왼쪽 피벗은 코드에서만 정의하며 원본 .meta는 바꾸지 않는다.
+    public Sprite GetUi(string key)
+    {
+        var cacheKey = "UI/" + key;
+        if (_spriteDict.TryGetValue(cacheKey, out var sprite))
+        {
+            return sprite;
+        }
+
+        var source = Get(key);
+        sprite = Sprite.Create(source.texture, source.textureRect, new Vector2(0f, 0.5f),
+            source.pixelsPerUnit, 0, SpriteMeshType.FullRect, UiArtLayout.Border(key));
+        sprite.name = key;
+        _spriteDict.Add(cacheKey, sprite);
+        return sprite;
+    }
+
     public Sprite[] GetMemberFrames(string key, string clip, int frameCount)
     {
         var frames = new Sprite[frameCount];

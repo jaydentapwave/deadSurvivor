@@ -55,8 +55,8 @@ public class MemberView : MonoBehaviour
     public bool IsFlashOn => flashRenderer.enabled;
     public Vector3 BodyOffset => bodyRenderer.transform.localPosition;
 
-    // 그림이 없으면 frontSprite = backSprite = downedSprite = 임시 원, hasArt = false. hpBarSprite: 피벗이 왼쪽 가운데인 흰 상자
-    public void Initialize(Sprite frontSprite, Sprite backSprite, Sprite downedSprite, Sprite hpBarSprite, bool hasArt)
+    // 그림이 없으면 frontSprite = backSprite = downedSprite = 임시 원, hasArt = false. HP 틀·흰 채움: 피벗 왼쪽 가운데
+    public void Initialize(Sprite frontSprite, Sprite backSprite, Sprite downedSprite, Sprite hpBarSprite, Sprite hpFillSprite, bool hasArt)
     {
         _motionSprite = null;
         _frontSprite = frontSprite;
@@ -65,15 +65,11 @@ public class MemberView : MonoBehaviour
         HasArt = hasArt;
         IsDowned = false;
         bodyRenderer.color = Color.white;
-        hpBackRenderer.sprite = hpBarSprite;
-        hpFillRenderer.sprite = hpBarSprite;
-        hpBackRenderer.color = hpBackColor;
-        hpFillRenderer.color = hpFillColor;
         var bodyHeightPixels = hasArt ? artHeightPixels : bodyDiameterPixels;
         var barY = (bodyHeightPixels + hpBarGapPixels) / (float)Const.PixelsPerUnit;
         var barX = -hpBarPixels.x * 0.5f / Const.PixelsPerUnit;
-        hpBackRenderer.transform.localPosition = new Vector3(barX, barY, 0f);
-        hpFillRenderer.transform.localPosition = new Vector3(barX, barY, 0f);
+        UiBarUtils.Initialize(hpBackRenderer, hpFillRenderer, hpBarSprite, hpFillSprite,
+            (Vector2)hpBarPixels / Const.PixelsPerUnit, new Vector2(barX, barY), hpBackColor, hpFillColor);
         ApplyMotion(SpriteFacing.Front, Vector2Int.zero, false);
     }
 

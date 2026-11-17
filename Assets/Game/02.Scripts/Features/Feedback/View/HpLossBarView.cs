@@ -8,12 +8,11 @@ public class HpLossBarView : MonoBehaviour
 
     private float _barWidth;
 
-    // barWidth = 막대 전체 폭(유닛). 그림 한 장의 폭이 막대 폭과 같다
-    public void Initialize(Sprite barSprite, Color color, float barWidth)
+    // size = F6 채움 크기(유닛). 부모 가죽 틀의 왼쪽 4px 안쪽부터 채운다.
+    public void Initialize(Sprite barSprite, Color color, Vector2 size)
     {
-        lossRenderer.sprite = barSprite;
-        lossRenderer.color = color;
-        _barWidth = barWidth;
+        UiBarUtils.InitializeFill(lossRenderer, barSprite, size, color);
+        _barWidth = size.x;
         lossRenderer.enabled = false;
     }
 
@@ -28,7 +27,7 @@ public class HpLossBarView : MonoBehaviour
             return;
         }
 
-        transform.localPosition = new Vector3(current * _barWidth, 0f, 0f);
+        transform.localPosition = new Vector3(current * _barWidth + 4f / Const.PixelsPerUnit, 0f, 0f);
         transform.localScale = new Vector3(length, 1f, 1f);
     }
 }

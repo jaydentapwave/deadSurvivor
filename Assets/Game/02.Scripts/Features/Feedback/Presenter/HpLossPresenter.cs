@@ -8,8 +8,7 @@ using VContainer.Unity;
 // 쓰러진 대원의 머리 위 막대는 F1이 숨기므로 빨간 구간도 숨긴다(하단 막대는 줄어들 때까지 보인다).
 public class HpLossPresenter : IInitializable, ILateTickable, IDisposable
 {
-    private static readonly Vector2 BarPivot = new(0f, 0.5f);
-
+    private readonly SpriteAtlasService _spriteAtlasService;
     private readonly RunModel _runModel;
     private readonly PartyModel _partyModel;
     private readonly CombatFeedbackModel _combatFeedbackModel;
@@ -22,9 +21,10 @@ public class HpLossPresenter : IInitializable, ILateTickable, IDisposable
     private readonly List<HpLossTrail> _trailList = new();
 
     public HpLossPresenter(RunModel runModel, PartyModel partyModel, CombatFeedbackModel combatFeedbackModel,
-        FeedbackRulesRepository feedbackRulesRepository, PlaceholderSpriteFactory placeholderSpriteFactory,
+        FeedbackRulesRepository feedbackRulesRepository, PlaceholderSpriteFactory placeholderSpriteFactory, SpriteAtlasService spriteAtlasService,
         IReadOnlyList<MemberView> memberViewList, UI_BattleHudView battleHudView)
     {
+        _spriteAtlasService = spriteAtlasService;
         _runModel = runModel;
         _partyModel = partyModel;
         _combatFeedbackModel = combatFeedbackModel;
@@ -40,8 +40,8 @@ public class HpLossPresenter : IInitializable, ILateTickable, IDisposable
         foreach (var memberView in _memberViewList)
         {
             var barPixels = memberView.HpBarPixels;
-            var sprite = _placeholderSpriteFactory.CreateBox(barPixels.x, barPixels.y, Color.white, BarPivot);
-            memberView.HpLossBarView.Initialize(sprite, color, barPixels.x / (float)Const.PixelsPerUnit);
+            var sprite = _spriteAtlasService.GetUi("hp_bar_fill");
+            memberView.HpLossBarView.Initialize(sprite, color, (Vector2)barPixels / Const.PixelsPerUnit);
             _trailList.Add(new HpLossTrail());
         }
 
