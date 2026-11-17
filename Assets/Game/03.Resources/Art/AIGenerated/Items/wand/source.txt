@@ -1,0 +1,27 @@
+아이템 아이콘 생산 — wand (후보 선정, Claude 독립 판독 대기)
+제작: Codex 세션 / 내장 image_gen 도구. 호스트 지정 gpt-6.1-sol; 이미지 백엔드 세부 모델은 도구 미노출.
+세션: 01a1e898-dc30-7981-b0e6-6600514eef59
+기준 커밋: 7e18ebe (전체 SHA는 docs/art/sheets/items-weapons-checks.json)
+기록 시각 UTC: 2026-11-17T08:29:16.397137+00:00
+분류: 2d-art-produce 기준 그림이 없는 새 종류. 신규 아이템이므로 기존 그림의 회전/이동으로 대체 불가.
+규격: 기준서 r5 K5/K11/K16, 3.3/3.5/3.7. plan.md C1/C2 shape=[(0, 0), (1, 0), (2, 0)]; canvas=(48, 16); 1칸16px, PPU48 정책(임포트 미실행).
+선정: wand-r1-c3; 사용자 최종 채택 아님. 1회차4장 (설정A 2장/설정B 2장, 각 회차 하나의2x2시트로 생성).
+생성 입력1=완성 도트 형태 안내, 입력2=채택 아이콘 그림체, 입력3=PE-G004 양피지 질감 맥락.
+참고 그림과 SHA256:
+- output/2d-art/icons-weapons/wand-guide.png: cf8bec1ca955a527d9652c5144afbc8ddf08172d42e4001892b8861575d195ed
+- Assets/Game/03.Resources/Art/AIGenerated/Items/firestaff/firestaff.png: 0970b5b474cc7bd469a50d61086e2d0fab85dcf0630db5647e0dc6bf366e8594
+- docs/game/concept-20261112/4-야영-가방.jpg: a59d728c1bb98800efa9854f7e0e8c040a2e45e747e9251bd943cf0a6e86a3f5
+원본: output/2d-art/icons-weapons/wand-r1.png SHA256=1d176563e2ef309096350fbe996f77583824a7ef03e8b679963b72a5e5916113 (작업 폴더; git 무시)
+최종: Assets/Game/03.Resources/Art/AIGenerated/Items/wand/wand.png SHA256=c5de57eb338b926a0f6174df5f23d9340aa421798823ccfc3c19be5de674242f
+프롬프트:
+Use case: stylized-concept. Production pixel-art inventory sprite variants. First attached image is the exact pixel layout/edit target; keep its coarse 16x16 flat block grid and object placement strictly. Every visible pixel is a full 16x16 square, NO finer details, NO anti-aliasing, no gradients. Second image is approved item icon STYLE reference (warm high-bit pixel art, one logical pixel #34140e dark brown outline, flat 2-3 tones), third is parchment-bag MATERIAL context only: DO NOT draw bag, UI, background scene, text, jewels or coins. Solid #ff00ff background. Preserve four objects in their exact 2x2 positions; they are four candidate variations of the SAME object. Top pair A: restrained 2 tones. Bottom pair B: restrained 3 tones. Within each pair slight craft variation only, no new parts. Keep outline 16 image px = one game pixel, readable on parchment. Match approved icon simplicity and palette: brown #774c3b #d3ae90, outline #34140e; metal #c8b8b8 #a89898 #786868; gold #f8b828 #f8c838 #f8daac. Exact original canvas dimensions. Do not scale or reposition. Canvas1536x1024. Each 48x16 logical horizontal wand lies in center vertical band of each quadrant, same as guide. Short magical lightning wand: wooden handle stretches LEFT, blue arcane tip RIGHT with small cream lightning-shaped inlay, NOT a separate gem. Blue #40548b #2b3566, lightning #ffe08a. Three cells filled as a single horizontal object. Do not add sparks outside silhouette.
+후처리: 2x2 고정 사분면 분할; wand만 각 사분면 y128..383 띠. 원래 블록16px 확인 뒤 .ai/2d-art/tools/pixelize.py의 pixelize()로 전체 캔버스의 각16x16블록 최빈색→r5 팔레트 양자화. one CLI의 bbox 자동 확대는 사용하지 않음. 정확한 칸 위치 보존. 추가색0. #ff00ff→alpha0, 나머지alpha255. shape 밖 픽셀 투명화 0px (최종 연결을 눈으로 확인). 형태/크기 비균등 스케일 없음.
+격자: native grid: 46x14 (block 15.9px, score 0.70); 내용 bbox의 격자 수가 캔버스 전체보다 적은 것은 여백 때문. 목표 블록16px와 일치.
+셀 불투명 비율(shape순): [0.344, 0.391, 0.672]; 빈 칸 불투명0; 팔레트 밖0.
+fringe: PASS, spill/edge/stray0; 후보 전체 --whole도 PASS.
+measure.py compare: NOT_RUN — 새 종류 identity 없음, 사용자 지시로 사용하지 않음.
+paint.py / shape.py fit: NOT_RUN — 직접 팔레트 포함 검사와 shape 셀 마스크/채움 실측으로 기록. 스타일 판정은 독립 리뷰 몫.
+이름을 가린 자기 판독: items-weapons-blind.png(qNN 중립 이름, 순서 섞음)를 열어 확인. 수평 나무 완드, 파란 끝의 번개 문양. 만든 쪽의 사전지식은 남으므로 독립 블라인드 리뷰가 아님.
+후보 선택 근거: 셀 모양을 채움, 번짐 PASS, 게임 크기3배 시트에서 형태가 읽힘; A보다 B의 나무/쇠/금 밝은면 구분이 선명. B4보다 B3의 밝은면이 단순해 채택 아이콘 2~3단 음영과 더 가까움.
+다른 계열 판독: NOT_RUN. 이 세션은 리뷰 에이전트 호출 금지; Claude 마감 세션에 references/part-check.md 이름 가림 판독 요청.
+사용자 human: NOT_RUN(모아서 판정). 게임 데이터 icon, Unity 임포트/장면/Play: 범위 밖, NOT_RUN.

@@ -1,0 +1,223 @@
+{
+  "recorded_utc": "2026-11-17T08:29:16.397137+00:00",
+  "base_commit": "7e18ebe32605b1f8cad0e955bf90eb426c70e380",
+  "criteria": {
+    "IW1": "4개 규격·빈칸투명·fringe PASS",
+    "IW2": "채택4+버림16 비교시트 게임크기3배",
+    "IW3": "Claude 이름가림 판독 및 같은 그림체·칸 채움",
+    "IW4": "human 최종 채택(나중에 모아서)"
+  },
+  "assets": {
+    "axe": {
+      "status": "PASS",
+      "canvas": [
+        32,
+        48
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "sha256": "5385a769e68fa630cf52b6e2d2559e028a4541ad0d76097f55ca24db3626e9b0",
+      "outside_opaque": 0,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "palette_only": true,
+      "opaque_cell_ratio": [
+        0.398,
+        0.438,
+        0.535,
+        0.629
+      ],
+      "grid": "native grid: 31x47 (block 16.0px, score 0.81)",
+      "mask_cleanup_pixels": 0
+    },
+    "wand": {
+      "status": "PASS",
+      "canvas": [
+        48,
+        16
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "sha256": "c5de57eb338b926a0f6174df5f23d9340aa421798823ccfc3c19be5de674242f",
+      "outside_opaque": 0,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "palette_only": true,
+      "opaque_cell_ratio": [
+        0.344,
+        0.391,
+        0.672
+      ],
+      "grid": "native grid: 46x14 (block 15.9px, score 0.70)",
+      "mask_cleanup_pixels": 0
+    },
+    "censer": {
+      "status": "PASS",
+      "canvas": [
+        32,
+        48
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "sha256": "b67cbafdb48a88168ead115734b029849d1b9a6c91a676e9e0e60616492c4c59",
+      "outside_opaque": 0,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "palette_only": true,
+      "opaque_cell_ratio": [
+        0.426,
+        0.426,
+        0.629,
+        0.633
+      ],
+      "grid": "native grid: 29x47 (block 16.0px, score 0.76)",
+      "mask_cleanup_pixels": 2
+    },
+    "crossbow": {
+      "status": "PASS",
+      "canvas": [
+        48,
+        32
+      ],
+      "shape": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "sha256": "b82ec4e0449830520777ce98e769d7255be7423d4eeccdc8e81fcee4121364ec",
+      "outside_opaque": 0,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "palette_only": true,
+      "opaque_cell_ratio": [
+        0.359,
+        0.633,
+        0.367,
+        0.469
+      ],
+      "grid": "native grid: 47x31 (block 16.0px, score 0.77)",
+      "mask_cleanup_pixels": 0
+    }
+  },
+  "review": "NOT_RUN: Claude session pending",
+  "human": "NOT_RUN",
+  "sheet": "docs/art/sheets/items-weapons.png",
+  "sheet_count": 20,
+  "blind_map": {
+    "q01": "censer",
+    "q02": "crossbow",
+    "q03": "axe",
+    "q04": "wand"
+  },
+  "missed": {
+    "cause": "censer guide diagonal chain crossed absent cells",
+    "action": "second generation round; cropped 2px at cell boundary",
+    "workflow_candidate": "check template against shape before generation",
+    "workflow_updated": false,
+    "reason": "workflow files outside writes"
+  },
+  "time_token_notes": "session_time.py --markdown 실행 실패: LOGDIR에 jsonl 없음(ValueError). 전체 경과·모델 토큰 계수 미제공, 추정하지 않음. 세부 계측은 아래 파일 시각 기반 하한. 임시 조립 스크립트 select.py가 stdlib select를 가려 처음 실패; assemble_candidates.py로 바꿔 재실행 성공.",
+  "measured_from_guide_creation_utc": "2026-11-17T08:23:13.938749+00:00",
+  "measured_seconds_since_guide_creation": 363,
+  "command_checks": [
+    {
+      "command": "/usr/bin/python3 .ai/2d-art/tools/matte.py fringe --key '#ff00ff' Assets/Game/03.Resources/Art/AIGenerated/Items/axe/axe.png",
+      "exit": 0,
+      "result": "PASS spill0 edge0 stray0"
+    },
+    {
+      "command": "/usr/bin/python3 .ai/2d-art/tools/matte.py fringe --key '#ff00ff' Assets/Game/03.Resources/Art/AIGenerated/Items/wand/wand.png",
+      "exit": 0,
+      "result": "PASS spill0 edge0 stray0"
+    },
+    {
+      "command": "/usr/bin/python3 .ai/2d-art/tools/matte.py fringe --key '#ff00ff' Assets/Game/03.Resources/Art/AIGenerated/Items/censer/censer.png",
+      "exit": 0,
+      "result": "PASS spill0 edge0 stray0"
+    },
+    {
+      "command": "/usr/bin/python3 .ai/2d-art/tools/matte.py fringe --key '#ff00ff' Assets/Game/03.Resources/Art/AIGenerated/Items/crossbow/crossbow.png",
+      "exit": 0,
+      "result": "PASS spill0 edge0 stray0"
+    }
+  ],
+  "sheet_check": {
+    "command": "sheet.py grid docs/art/sheets/items-weapons.png <20 padded comparison tiles> --size 144 --props --numbered",
+    "exit": 0,
+    "result": "20 shown, 0 left out; opened final output",
+    "sha256": "adc24f16d95989805206c33cda73e13e39e16ae6dc237f258992d87327d96f01"
+  },
+  "artifact_checks": {
+    "candidate_fringe_whole": "PASS 20/20",
+    "sheet_scale": "48x48 padded canvas ->144px =3x; neutral review288px=6x",
+    "opened": [
+      "docs/art/sheets/items-weapons.png",
+      "docs/art/sheets/items-weapons-blind.png"
+    ]
+  }
+}
