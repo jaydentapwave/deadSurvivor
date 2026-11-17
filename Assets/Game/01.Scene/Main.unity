@@ -14236,7 +14236,8 @@ MonoBehaviour:
   hpBarGapPixels: 4
   hpBackColor: {r: 0.15, g: 0.08, b: 0.05, a: 1}
   hpFillColor: {r: 0.36, g: 0.82, b: 0.36, a: 1}
-  downedAlpha: 0.35
+  downedDimSeconds: 0.3
+  downedColor: {r: 0.45, g: 0.45, b: 0.45, a: 1}
   idlePeriodSeconds: 0.8
   idleStaggerSeconds: 0.2
   hitFlashSeconds: 0.1
@@ -15511,7 +15512,8 @@ MonoBehaviour:
   hpBarGapPixels: 4
   hpBackColor: {r: 0.15, g: 0.08, b: 0.05, a: 1}
   hpFillColor: {r: 0.36, g: 0.82, b: 0.36, a: 1}
-  downedAlpha: 0.35
+  downedDimSeconds: 0.3
+  downedColor: {r: 0.45, g: 0.45, b: 0.45, a: 1}
   idlePeriodSeconds: 0.8
   idleStaggerSeconds: 0.2
   hitFlashSeconds: 0.1
@@ -45924,8 +45926,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::FieldView
   tilemap: {fileID: 1450006851}
-  firstTileColor: {r: 0.761, g: 0.678, b: 0.373, a: 1}
-  secondTileColor: {r: 0.631, g: 0.596, b: 0.365, a: 1}
 --- !u!483693784 &1450006850
 TilemapRenderer:
   serializedVersion: 2
@@ -46001,7 +46001,7 @@ Tilemap:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: 0, y: 0, z: 0}
   m_Size: {x: 0, y: 0, z: 1}
-  m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
+  m_TileAnchor: {x: 0, y: 0, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
     e00: 1
@@ -59831,7 +59831,8 @@ MonoBehaviour:
   hpBarGapPixels: 4
   hpBackColor: {r: 0.15, g: 0.08, b: 0.05, a: 1}
   hpFillColor: {r: 0.36, g: 0.82, b: 0.36, a: 1}
-  downedAlpha: 0.35
+  downedDimSeconds: 0.3
+  downedColor: {r: 0.45, g: 0.45, b: 0.45, a: 1}
   idlePeriodSeconds: 0.8
   idleStaggerSeconds: 0.2
   hitFlashSeconds: 0.1
@@ -65382,7 +65383,8 @@ MonoBehaviour:
   hpBarGapPixels: 4
   hpBackColor: {r: 0.15, g: 0.08, b: 0.05, a: 1}
   hpFillColor: {r: 0.36, g: 0.82, b: 0.36, a: 1}
-  downedAlpha: 0.35
+  downedDimSeconds: 0.3
+  downedColor: {r: 0.45, g: 0.45, b: 0.45, a: 1}
   idlePeriodSeconds: 0.8
   idleStaggerSeconds: 0.2
   hitFlashSeconds: 0.1

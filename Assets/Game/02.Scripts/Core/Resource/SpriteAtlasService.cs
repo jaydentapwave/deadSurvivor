@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 using Object = UnityEngine.Object;
 
-// 그림 키로 스프라이트 찾기(그림 넣기 기획서 C절). 아틀라스(Resources/Art/Characters)를 처음 쓸 때 한 번 읽고,
+// 그림 키로 스프라이트 찾기(그림 넣기 기획서 C절). 아틀라스(Resources/Art/Characters, 바닥은 Resources/Art/Ground — 아트 기준서 3.6)를 처음 쓸 때 한 번 읽고,
 // GetSprite는 부를 때마다 복제를 만들므로 이름별로 캐시한다. 만든 복제는 scope가 끝날 때 지운다(PlaceholderSpriteFactory와 같음).
 public class SpriteAtlasService : IDisposable
 {
@@ -14,11 +14,12 @@ public class SpriteAtlasService : IDisposable
     public const string DownedSuffix = "_downed";
     public const string TelegraphSuffix = "_telegraph";
     public const string InflateSuffix = "_inflate";
-    private const string AtlasPath = "Art/Characters";
+    public const string CharactersAtlasPath = "Art/Characters";
+    public const string GroundAtlasPath = "Art/Ground";
 
     private readonly ResourceService _resourceService;
     private readonly Dictionary<string, Sprite> _spriteDict = new();
-    private SpriteAtlas _atlas;
+    private readonly Dictionary<string, SpriteAtlas> _atlasDict = new();
 
     public SpriteAtlasService(ResourceService resourceService)
     {
@@ -26,19 +27,20 @@ public class SpriteAtlasService : IDisposable
     }
 
     // 없는 이름이면 오류 로그를 남기고 null(부르는 쪽이 F1 임시 도형으로 그린다)
-    public Sprite Get(string spriteName)
+    public Sprite Get(string spriteName, string atlasPath = CharactersAtlasPath)
     {
         if (_spriteDict.TryGetValue(spriteName, out var sprite))
         {
             return sprite;
         }
 
-        if (_atlas == null)
+        if (!_atlasDict.TryGetValue(atlasPath, out var atlas))
         {
-            _atlas = _resourceService.Load<SpriteAtlas>(AtlasPath);
+            atlas = _resourceService.Load<SpriteAtlas>(atlasPath);
+            _atlasDict.Add(atlasPath, atlas);
         }
 
-        sprite = _atlas.GetSprite(spriteName);
+        sprite = atlas.GetSprite(spriteName);
         if (sprite == null)
         {
             GameLogger.LogError($"[SpriteAtlasService] No sprite {spriteName}");

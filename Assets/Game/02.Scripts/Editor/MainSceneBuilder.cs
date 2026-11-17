@@ -131,6 +131,8 @@ public static class MainSceneBuilder
         var fieldObject = new GameObject("Field");
         fieldObject.transform.SetParent(gridObject.transform, false);
         var tilemap = fieldObject.AddComponent<Tilemap>();
+        // 바닥 그림 피벗 아래 가운데(임포트 프리셋) → 앵커는 마름모 아래 꼭짓점
+        tilemap.tileAnchor = Vector3.zero;
         var tilemapRenderer = fieldObject.AddComponent<TilemapRenderer>();
         tilemapRenderer.sortingOrder = -100;
         var fieldView = fieldObject.AddComponent<FieldView>();

@@ -7,6 +7,7 @@ using VContainer.Unity;
 public class GameSceneLifetimeScope : LifetimeScope
 {
     private const string RunRulesPath = "Data/Run/run_rules";
+    private const string GroundPathPath = "Data/Field/ground_path";
     private const string PlaceholderCombatPath = "Data/Run/placeholder_combat";
     private const string MoveRulesPath = "Data/Party/move_rules";
 
@@ -32,6 +33,7 @@ public class GameSceneLifetimeScope : LifetimeScope
 
         // 데이터
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<RunRulesData>(RunRulesPath), Lifetime.Scoped);
+        builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<GroundPathData>(GroundPathPath), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<PlaceholderCombatData>(PlaceholderCombatPath),
             Lifetime.Scoped);
         builder.Register<CharacterRepository>(Lifetime.Scoped);

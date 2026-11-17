@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using VContainer.Unity;
 
-// 바닥 평면 모델 → 월드 그림(기획서 E·F절): 바닥 깔기, 원정대·적 그림 위치, 카메라 중심, 보이는 바닥 영역을 생성기에 알림.
+// 바닥 평면 모델 → 월드 그림(기획서 E·F절): 바닥 깔기(풀 4장 섞기·흙길, 아트 기준서 3.2·3.3), 원정대·적 그림 위치, 카메라 중심, 보이는 바닥 영역을 생성기에 알림.
 // 그림 넣기(기획서 E절): 대원·몬스터 그림 초기화, 프레임 이동량 → 방향·움직임, 대원 HP 감소 → 흰 번쩍임.
 // 쓰러짐·예고(아트 기준서 3.10): 쓰러진 뒤 흐른 시간(어둡게 하기, 게임 시간 그대로 흘러 판이 끝나도 다 어두워진다), 몬스터 예고 중 좌우 1px 흔들림.
 // 움직임 시계는 전투 중·일시정지 아님일 때만 흐르고, 멈춘 프레임에는 방향·움직임을 그대로 둔다(판 시작 리셋·쓰러진 대원 정리는 늘).
@@ -13,7 +14,7 @@ public class WorldPresenter : IInitializable, ILateTickable
 {
     private static readonly Vector2 HpBarPivot = new(0f, 0.5f);
     private static readonly Vector2 FootPivot = new(0.5f, 0f);
-    private static readonly Vector2 CenterPivot = new(0.5f, 0.5f);
+    private static readonly Matrix4x4 FlipMatrix = Matrix4x4.Scale(new Vector3(-1f, 1f, 1f));
 
     private readonly PartyModel _partyModel;
     private readonly MonsterModel _monsterModel;
@@ -21,6 +22,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly PartyMoveService _partyMoveService;
     private readonly CharacterRepository _characterRepository;
     private readonly RunRulesData _runRules;
+    private readonly GroundPathData _groundPath;
     private readonly PlaceholderCombatData _combatData;
     private readonly PlaceholderSpriteFactory _placeholderSpriteFactory;
     private readonly MonsterViewFactory _monsterViewFactory;
@@ -50,7 +52,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     public int IdleOffsetsSeen => (_idleOffsetSeenMask & 1) + ((_idleOffsetSeenMask >> 1) & 1);
 
     public WorldPresenter(PartyModel partyModel, MonsterModel monsterModel, MonsterService monsterService,
-        PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, PlaceholderCombatData combatData,
+        PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
         MonsterViewRegistry monsterViewRegistry, SpriteAtlasService spriteAtlasService, RunModel runModel, FieldView fieldView,
         Camera camera, IReadOnlyList<MemberView> memberViewList)
@@ -61,6 +63,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         _partyMoveService = partyMoveService;
         _characterRepository = characterRepository;
         _runRules = runRules;
+        _groundPath = groundPath;
         _combatData = combatData;
         _placeholderSpriteFactory = placeholderSpriteFactory;
         _monsterViewFactory = monsterViewFactory;
@@ -109,14 +112,56 @@ public class WorldPresenter : IInitializable, ILateTickable
 
     private void BuildField()
     {
-        var cellSize = _fieldView.CellSize;
-        var widthPixels = Mathf.RoundToInt(cellSize.x * Const.PixelsPerUnit);
-        var heightPixels = Mathf.RoundToInt(cellSize.y * Const.PixelsPerUnit);
-        var firstTile = _placeholderSpriteFactory.CreateTile(
-            _placeholderSpriteFactory.CreateDiamond(widthPixels, heightPixels, _fieldView.FirstTileColor, CenterPivot));
-        var secondTile = _placeholderSpriteFactory.CreateTile(
-            _placeholderSpriteFactory.CreateDiamond(widthPixels, heightPixels, _fieldView.SecondTileColor, CenterPivot));
-        _fieldView.Build(_runRules.FieldCells, firstTile, secondTile);
+        var pathCellSet = new HashSet<Vector2Int>();
+        foreach (var cell in _groundPath.Cells)
+        {
+            pathCellSet.Add(new Vector2Int(cell.X, cell.Y));
+        }
+
+        var tileDict = new Dictionary<string, Tile>();
+        var cells = _runRules.FieldCells;
+        var half = cells / 2;
+        var tileChangeDatas = new TileChangeData[cells * cells];
+        var index = 0;
+        for (var y = -half; y < cells - half; y++)
+        {
+            for (var x = -half; x < cells - half; x++)
+            {
+                var cell = new Vector2Int(x, y);
+                var choice = default(GroundTileChoice);
+                if (pathCellSet.Contains(cell))
+                {
+                    choice = GroundTilePicker.PickPath(cell, pathCellSet);
+                    if (!choice.HasTile)
+                    {
+                        GameLogger.LogError($"[WorldPresenter] Path cell {cell} has no tile for its neighbours, grass instead");
+                    }
+                }
+
+                if (!choice.HasTile)
+                {
+                    var grassIndex = GroundTilePicker.PickGrass(x, y, GroundTilePicker.GrassCount);
+                    choice = new GroundTileChoice(GroundTilePicker.GetGrassSpriteName(grassIndex), false);
+                }
+
+                tileChangeDatas[index] = new TileChangeData(new Vector3Int(x, y, 0), GetGroundTile(choice.SpriteName, tileDict),
+                    Color.white, choice.IsFlipped ? FlipMatrix : Matrix4x4.identity);
+                index++;
+            }
+        }
+
+        _fieldView.Build(tileChangeDatas);
+    }
+
+    private Tile GetGroundTile(string spriteName, Dictionary<string, Tile> tileDict)
+    {
+        if (!tileDict.TryGetValue(spriteName, out var tile))
+        {
+            tile = _placeholderSpriteFactory.CreateTile(_spriteAtlasService.Get(spriteName, SpriteAtlasService.GroundAtlasPath));
+            tileDict.Add(spriteName, tile);
+        }
+
+        return tile;
     }
 
     private void InitializeMemberViews()
