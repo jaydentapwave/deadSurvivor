@@ -128,6 +128,6 @@ public class ItemIconTests
     }
 
     private static void Populate(UI_ItemIconView view, VertexHelper vh) =>
-        typeof(UI_ItemIconView).GetMethod("OnPopulateMesh", BindingFlags.Instance | BindingFlags.NonPublic)
+        typeof(UI_ItemIconView).GetMethod("OnPopulateMesh", BindingFlags.Instance | BindingFlags.NonPublic, null, new[] { typeof(VertexHelper) }, null)
             .Invoke(view, new object[] { vh });
 }

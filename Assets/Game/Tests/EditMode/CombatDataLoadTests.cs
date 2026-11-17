@@ -33,7 +33,10 @@ public class CombatDataLoadTests
             Assert.AreEqual(row.power, item.Power, 1e-6f, row.id);
             Assert.AreEqual(row.interval, item.Interval, 1e-6f, row.id);
             Assert.AreEqual(row.range, item.Range, 1e-6f, row.id);
-            Assert.AreEqual("", item.Icon, row.id);
+            Assert.IsNotEmpty(item.Icon, row.id);
+            var icon = UnityEngine.Resources.Load<UnityEngine.U2D.SpriteAtlas>("Art/Characters").GetSprite(item.Icon);
+            Assert.IsNotNull(icon, row.id);
+            UnityEngine.Object.DestroyImmediate(icon);
         }
 
         var shield = repository.Get("ironshield");

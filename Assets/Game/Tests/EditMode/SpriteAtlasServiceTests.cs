@@ -30,7 +30,19 @@ public class SpriteAtlasServiceTests
     [Test]
     public void AtlasHoldsCharactersMonstersAndTenEffects()
     {
-        var expected = SpriteNames.Length + new ItemRepository(new ResourceService()).ItemDataList.Count();
+        // UI 그림은 캐릭터 PPU/피벗 계약과 다르므로 별도로 센다.
+        var uiNames = new[] { "panel", "button", "bag_cell", "hp_bar_bg", "hp_bar_fill",
+            "cooldown_bg", "cooldown_fill", "joystick_base", "joystick_knob",
+            "digit_0", "digit_1", "digit_2", "digit_3", "digit_4", "digit_5", "digit_6", "digit_7", "digit_8", "digit_9" };
+        var atlas = Resources.Load<SpriteAtlas>("Art/Characters");
+        foreach (var key in uiNames)
+        {
+            var sprite = atlas.GetSprite(key);
+            Assert.IsNotNull(sprite, key);
+            Object.DestroyImmediate(sprite);
+        }
+
+        var expected = SpriteNames.Length + uiNames.Length + new ItemRepository(new ResourceService()).ItemDataList.Count();
         foreach (var character in new CharacterRepository(new ResourceService()).CharacterDataList)
         {
             expected += 2 * (character.Motion.WalkFrames + character.Motion.AttackFrames);
