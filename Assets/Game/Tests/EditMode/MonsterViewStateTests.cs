@@ -147,7 +147,8 @@ public class MonsterViewStateTests
         var body = (SpriteRenderer)new SerializedObject(prefab).FindProperty("bodyRenderer").objectReferenceValue;
 
         Assert.AreNotSame(prefab.gameObject, body.gameObject);
-        Assert.AreSame(prefab.transform, body.transform.parent);
+        Assert.AreSame(prefab.transform.Find("Upright"), body.transform.parent);
+        Assert.AreEqual(0f, Quaternion.Angle(Quaternion.Euler(30,0,0), body.transform.parent.localRotation), 1e-3f);
         Assert.AreEqual(SpriteSortPoint.Pivot, body.spriteSortPoint);
         Assert.IsNull(prefab.GetComponent<SpriteRenderer>());
     }

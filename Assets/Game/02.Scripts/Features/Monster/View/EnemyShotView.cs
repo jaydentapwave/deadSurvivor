@@ -7,5 +7,5 @@ public class EnemyShotView : MonoBehaviour
 
     public void Initialize(Sprite sprite) => bodyRenderer.sprite = sprite;
 
-    public void UpdateView(Vector2 worldPosition) => transform.localPosition = worldPosition;
+    public void UpdateView(Vector3 worldPosition) => transform.localPosition = worldPosition;
 }

@@ -7,6 +7,8 @@ public class FieldView : MonoBehaviour
     [SerializeField] private Tilemap tilemap;
 
     public Tilemap Tilemap => tilemap;
+    private float _tiltDegrees;
+    public void Initialize(float tiltDegrees) => _tiltDegrees = tiltDegrees;
 
     public void Build(TileChangeData[] tileChangeDatas)
     {
@@ -19,12 +21,14 @@ public class FieldView : MonoBehaviour
     public SpriteRenderer AddDecor(Sprite sprite, FieldDecorPlacement placement)
     {
         var decor = new GameObject(placement.Sprite);
-        decor.transform.SetParent(transform, false);
+        decor.transform.SetParent(transform.parent, false);
         var offsetX = placement.PivotOffsetXPixels / (float)Const.PixelsPerUnit;
-        var position = tilemap.CellToWorld(placement.Cell);
+        var floor = IsoProjection.IsoCellToFloor(placement.Cell);
+        var position = new Vector3(floor.x, .001f, floor.y);
         position.x += placement.IsFlipped ? -offsetX : offsetX;
         decor.transform.position = position;
         var renderer = decor.AddComponent<SpriteRenderer>();
+        decor.transform.rotation = Quaternion.Euler(placement.IsGround ? 90f : _tiltDegrees, 0f, 0f);
         renderer.sprite = sprite;
         renderer.flipX = placement.IsFlipped;
         renderer.spriteSortPoint = SpriteSortPoint.Pivot;

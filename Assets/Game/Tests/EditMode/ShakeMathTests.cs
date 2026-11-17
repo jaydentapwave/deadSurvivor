@@ -47,37 +47,4 @@ public class ShakeMathTests
         Assert.AreNotEqual(ShakeMath.GetOffset(rules.Seconds, rules.Seconds, 2, 0), ShakeMath.GetOffset(rules.Seconds, rules.Seconds, 2, 1));
     }
 
-    [Test]
-    public void CameraReturnsToBaseWhetherWriterSetsEveryFrameOrOnce()
-    {
-        var center = new Vector3(3f, -2f, -10f);
-        Assert.AreEqual(center, RunShake(center, true));
-        Assert.AreEqual(center, RunShake(center, false));
-    }
-
-    // HitReactionPresenter.ApplyCamera와 같은 순서: 다른 쪽이 쓰고 → 기준 정하기 → 기준 + 오프셋을 얹기
-    private static Vector3 RunShake(Vector3 center, bool isWriterEveryFrame)
-    {
-        var rules = Rules;
-        var camera = Vector3.zero;
-        var basePosition = Vector3.zero;
-        var lastApplied = Vector3.zero;
-        var remaining = rules.Seconds;
-        for (var frame = 0; frame < 60; frame++)
-        {
-            if (isWriterEveryFrame || frame == 0)
-            {
-                camera = center;
-            }
-
-            basePosition = ShakeMath.ResolveBase(camera, lastApplied, basePosition);
-            var offset = ShakeMath.GetOffset(remaining, rules.Seconds, rules.AmplitudePx, frame);
-            remaining = Mathf.Max(0f, remaining - Frame);
-            lastApplied = basePosition + (Vector3)offset;
-            camera = lastApplied;
-            Assert.LessOrEqual(Mathf.Abs(camera.x - center.x), rules.AmplitudePx / (float)Const.PixelsPerUnit + 1e-5f);
-        }
-
-        return camera;
-    }
 }

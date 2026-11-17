@@ -12,7 +12,7 @@ public class MonsterHpBarView : MonoBehaviour
         UiBarUtils.Initialize(backRenderer, fillRenderer, barSprite, fillSprite, size, barOffset, backColor, fillColor);
     }
 
-    public void UpdateView(Vector2 worldPosition, float hpRatio)
+    public void UpdateView(Vector3 worldPosition, float hpRatio)
     {
         transform.localPosition = worldPosition;
         fillRenderer.transform.localScale = new Vector3(Mathf.Clamp01(hpRatio), 1f, 1f);

@@ -105,7 +105,8 @@ public class CombatEffectTests
                     (view.BodyRenderer.flipX ? Vector3.left : Vector3.right));
                 Assert.Greater(Vector2.Dot(direction, actual), 0.99999f, degrees.ToString());
                 Assert.LessOrEqual(Quaternion.Angle(Quaternion.identity, view.transform.localRotation), 90.001f);
-                var pixels = (Vector2)view.transform.localPosition * Const.PixelsPerUnit;
+                var position = view.transform.localPosition;
+                var pixels = new Vector2(position.x, position.z * .5f) * Const.PixelsPerUnit;
                 Assert.Less(Vector2.Distance(pixels, new Vector2(Mathf.Round(pixels.x), Mathf.Round(pixels.y))), 0.0001f);
                 if (previous != null)
                 {

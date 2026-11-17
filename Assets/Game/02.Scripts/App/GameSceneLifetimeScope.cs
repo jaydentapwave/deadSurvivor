@@ -52,6 +52,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register(resolver => resolver.Resolve<FeedbackRulesRepository>().Rules.Haptic, Lifetime.Scoped);
 
         // 모델
+        builder.Register(r => r.Resolve<ResourceService>().LoadJson<ViewRulesData>("Data/View/view_rules"), Lifetime.Scoped);
         builder.Register<RunModel>(Lifetime.Scoped);
         builder.Register<RunSettingsModel>(Lifetime.Scoped);
         builder.Register<PartyModel>(Lifetime.Scoped);
@@ -108,7 +109,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterComponentInHierarchy<UI_ResultView>();
         builder.RegisterComponentInHierarchy<UI_JoystickView>();
         builder.RegisterComponentInHierarchy<UI_FormationView>();
-        builder.RegisterComponentInHierarchy<CameraShakeView>();
+        builder.RegisterComponentInHierarchy<TiltedCameraRig>();
         // 같은 형 컴포넌트 여럿은 따로 등록할 수 없어(VContainer 형 충돌) 장면 순서 목록 하나로 넘긴다
         builder.RegisterInstance<IReadOnlyList<MemberView>>(memberViews);
 
@@ -128,7 +129,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterEntryPoint<MonsterStatePresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<EnemyShotPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<BagPresenter>(Lifetime.Scoped).AsSelf();
-        // F6 피드백. 흔들림은 카메라를 옮기는 WorldPresenter 뒤(같은 프레임 LateTick 순서)
+        // F6 피드백. Rig가 초점과 흔들림을 따로 받아 LateTick 순서에 의존하지 않는다.
         builder.RegisterEntryPoint<DamageNumberPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<HpLossPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<HitReactionPresenter>(Lifetime.Scoped).AsSelf();

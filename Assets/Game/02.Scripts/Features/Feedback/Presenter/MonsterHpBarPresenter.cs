@@ -13,6 +13,7 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
     private readonly PartyModel _partyModel;
     private readonly MonsterHpRulesData _rules;
     private readonly RunRulesData _runRules;
+    private readonly ViewRulesData _viewRules;
     private readonly MonsterHpBarViewFactory _monsterHpBarViewFactory;
     private readonly MonsterHpBarViewRegistry _monsterHpBarViewRegistry;
     private readonly MonsterViewFactory _monsterViewFactory;
@@ -32,13 +33,14 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
 
     public MonsterHpBarPresenter(RunModel runModel, MonsterModel monsterModel, PartyModel partyModel,
         FeedbackRulesRepository feedbackRulesRepository, RunRulesData runRules, MonsterHpBarViewFactory monsterHpBarViewFactory,
-        MonsterHpBarViewRegistry monsterHpBarViewRegistry, MonsterViewFactory monsterViewFactory)
+        MonsterHpBarViewRegistry monsterHpBarViewRegistry, MonsterViewFactory monsterViewFactory, ViewRulesData viewRules)
     {
         _runModel = runModel;
         _monsterModel = monsterModel;
         _partyModel = partyModel;
         _rules = feedbackRulesRepository.Rules.MonsterHp;
         _runRules = runRules;
+        _viewRules = viewRules;
         _monsterHpBarViewFactory = monsterHpBarViewFactory;
         _monsterHpBarViewRegistry = monsterHpBarViewRegistry;
         _monsterViewFactory = monsterViewFactory;
@@ -232,10 +234,10 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
     }
 
     // 몬스터 머리 위: 위로 (몸 그림 높이 + offsetPx ÷ PPU). 몬스터 키가 24~51px로 달라 반지름 대신 그림 경계를 쓴다(20261117-screen-fixes T5)
-    private Vector2 GetBarPosition(Monster monster)
+    private Vector3 GetBarPosition(Monster monster)
     {
-        var foot = IsoProjection.FloorToWorld(monster.Position, _runRules.UnitScale);
-        return foot + Vector2.up * (_monsterViewFactory.GetHeadHeight(monster.Data) + _rules.OffsetPx / Const.PixelsPerUnit);
+        var foot = IsoProjection.FloorToWorldSnapped(monster.Position, _runRules.UnitScale, _viewRules.SinTilt);
+        return foot + TiltedViewMath.UprightOffset(_monsterViewFactory.GetHeadHeight(monster.Data) + _rules.OffsetPx / Const.PixelsPerUnit, _viewRules.TiltDegrees);
     }
 
     private void OnBattleLeft() => ReleaseAll();

@@ -6,6 +6,7 @@ using UnityEngine;
 public class MemberView : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer bodyRenderer;
+    [SerializeField] private Material shadowMaterial;
     [SerializeField] private SpriteRenderer flashRenderer;
     [SerializeField] private SpriteRenderer hpBackRenderer;
     [SerializeField] private SpriteRenderer hpFillRenderer;
@@ -74,7 +75,7 @@ public class MemberView : MonoBehaviour
     }
 
     // downedSeconds: 쓰러진 뒤 흐른 시간(산 대원이면 쓰지 않는다)
-    public void UpdateView(Vector2 worldPosition, float hpRatio, bool isAlive, float downedSeconds)
+    public void UpdateView(Vector3 worldPosition, float hpRatio, bool isAlive, float downedSeconds)
     {
         transform.localPosition = worldPosition;
         hpFillRenderer.transform.localScale = new Vector3(Mathf.Clamp01(hpRatio), 1f, 1f);
@@ -115,7 +116,7 @@ public class MemberView : MonoBehaviour
             _shadow = child.AddComponent<FootShadowView>();
         }
 
-        _shadow.Initialize(sprite, bodyWidthPixels, bodyRenderer.sortingLayerID);
+        _shadow.Initialize(sprite, bodyWidthPixels, bodyRenderer.sortingLayerID, shadowMaterial);
     }
 
     // 프레임 선택만 한다. 공격 시계·발동은 CombatService 소유.

@@ -18,12 +18,14 @@ public class DamageNumberEntry
 {
     public DamageNumberView View { get; }
     // 시작 자리(월드)
-    public Vector2 StartPosition { get; }
+    public Vector3 StartPosition { get; }
+    public Vector3 AnchorPosition { get; }
     public float Age { get; set; }
 
-    public DamageNumberEntry(DamageNumberView view, Vector2 startPosition)
+    public DamageNumberEntry(DamageNumberView view, Vector3 startPosition, Vector3 anchorPosition)
     {
         View = view;
         StartPosition = startPosition;
+        AnchorPosition = anchorPosition;
     }
 }

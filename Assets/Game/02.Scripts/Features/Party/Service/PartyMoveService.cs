@@ -4,6 +4,7 @@ using UnityEngine;
 public class PartyMoveService
 {
     private readonly PartyModel _partyModel;
+    private readonly ViewRulesData _viewRules;
     private readonly PartyMoveModel _partyMoveModel;
     private readonly FormationService _formationService;
     private readonly MoveRulesData _moveRules;
@@ -14,9 +15,10 @@ public class PartyMoveService
     private float _centerLimit;
 
     public PartyMoveService(PartyModel partyModel, PartyMoveModel partyMoveModel, FormationService formationService,
-        MoveRulesData moveRules, RunRulesData runRules)
+        MoveRulesData moveRules, RunRulesData runRules, ViewRulesData viewRules)
     {
         _partyModel = partyModel;
+        _viewRules = viewRules;
         _partyMoveModel = partyMoveModel;
         _formationService = formationService;
         _moveRules = moveRules;
@@ -68,7 +70,7 @@ public class PartyMoveService
     public void Step(float deltaSeconds)
     {
         var moveInput = _partyMoveModel.MoveInput;
-        var direction = PartyMoveMath.ScreenToFloorDirection(moveInput);
+        var direction = PartyMoveMath.ScreenToFloorDirection(moveInput, _viewRules.SinTilt);
         var center = _partyModel.Center + direction * (moveInput.magnitude * _moveRules.MoveSpeed * deltaSeconds);
         center = PartyMoveMath.ClampToDiamond(center, _centerLimit);
         _partyModel.SetCenter(center);

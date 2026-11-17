@@ -13,6 +13,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
     private readonly CombatFeedbackModel _combatFeedbackModel;
     private readonly RunModel _runModel;
     private readonly RunRulesData _runRules;
+    private readonly ViewRulesData _viewRules;
     private readonly CombatEffectData _effectData;
     private readonly SpriteAtlasService _spriteAtlasService;
     private readonly ProjectileViewFactory _projectileViewFactory;
@@ -27,12 +28,13 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
 
     public CombatWorldPresenter(CombatModel combatModel, CombatFeedbackModel combatFeedbackModel, RunModel runModel,
         RunRulesData runRules, CombatEffectData effectData, SpriteAtlasService spriteAtlasService,
-        ProjectileViewFactory projectileViewFactory, ProjectileViewRegistry projectileViewRegistry)
+        ProjectileViewFactory projectileViewFactory, ProjectileViewRegistry projectileViewRegistry, ViewRulesData viewRules)
     {
         _combatModel = combatModel;
         _combatFeedbackModel = combatFeedbackModel;
         _runModel = runModel;
         _runRules = runRules;
+        _viewRules = viewRules;
         _effectData = effectData;
         _spriteAtlasService = spriteAtlasService;
         _projectileViewFactory = projectileViewFactory;
@@ -79,7 +81,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
                 continue;
             }
 
-            Draw((long)hit.Id << 32, "hit_star", World(hit.Position) + Vector2.up * BodyHeight,
+            Draw((long)hit.Id << 32, "hit_star", World(hit.Position) + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees),
                 Vector2.one, Mathf.Clamp01(hit.Remaining / HitSeconds));
         }
 
@@ -111,7 +113,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
                 MarkShown(spriteName);
             }
 
-            view.UpdateView(World(projectile.Position) + Vector2.up * BodyHeight, World(projectile.Direction));
+            view.UpdateView(World(projectile.Position) + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees), Screen(projectile.Direction));
         }
 
         _releaseProjectileIdList.Clear();
@@ -138,15 +140,17 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         var key = (long)burst.Id << 32;
         if (burst.Kind == BurstEffectKind.Chain)
         {
-            var from = CombatEffectMotion.Snap(position + Vector2.up * BodyHeight);
-            var to = CombatEffectMotion.Snap(World(burst.EndPosition) + Vector2.up * BodyHeight);
+            var from = position + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
+            var to = World(burst.EndPosition) + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
+            var screen = Screen(burst.EndPosition - burst.Position);
             var width = sprite.rect.width / Const.PixelsPerUnit;
-            var count = CombatEffectMotion.GetSegmentCount(Vector2.Distance(from, to), width);
-            var angle = Mathf.Atan2(to.y - from.y, to.x - from.x) * Mathf.Rad2Deg;
+            var count = CombatEffectMotion.GetSegmentCount(screen.magnitude, width);
+            var angle = Mathf.Atan2(screen.y, screen.x) * Mathf.Rad2Deg;
             for (var i = 0; i < count; i++)
             {
-                CombatEffectMotion.GetSegment(from, to, width, i, out var center, out var scaleX);
-                Draw(key + i, spriteName, center, new Vector2(scaleX, 1f), alpha, angle, snapToPixels: false);
+                CombatEffectMotion.GetSegment(Vector2.zero, screen, width, i, out var center, out var scaleX);
+                var ratio = screen.sqrMagnitude > 0 ? Vector2.Dot(center, screen) / screen.sqrMagnitude : .5f;
+                Draw(key + i, spriteName, Vector3.Lerp(from, to, ratio), new Vector2(scaleX, 1f), alpha, angle, snapToPixels: false);
             }
 
             return;
@@ -157,19 +161,19 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         switch (burst.Kind)
         {
             case BurstEffectKind.Melee:
-                position += World(burst.Direction).normalized * (sprite.rect.width / Const.PixelsPerUnit * 0.5f);
-                position += Vector2.up * BodyHeight;
+                position += _viewRulesOffset(Screen(burst.Direction).normalized * (sprite.rect.width / Const.PixelsPerUnit * .5f));
+                position += TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
                 // 원본 베기 날이 왼쪽이다. 목표가 오른쪽이면 반전한다.
                 isFlipped = burst.Direction.x > 0f;
                 break;
             case BurstEffectKind.Heal:
-                position += Vector2.up * (HealHeight + (1f - alpha) * 4f / Const.PixelsPerUnit);
+                position += TiltedViewMath.UprightOffset(HealHeight + (1f - alpha) * 4f / Const.PixelsPerUnit, _viewRules.TiltDegrees);
                 break;
             case BurstEffectKind.HealArea:
                 scale *= burst.Radius * _runRules.UnitScale * 2f / (sprite.rect.width / Const.PixelsPerUnit);
                 break;
             case BurstEffectKind.Explosion:
-                position += Vector2.up * BodyHeight;
+                position += TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
                 scale *= 1f + (1f - alpha) * 0.2f;
                 break;
             case BurstEffectKind.Pulse:
@@ -180,7 +184,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         Draw(key, spriteName, position, scale, alpha, isFlipped: isFlipped);
     }
 
-    private void Draw(long id, string spriteName, Vector2 position, Vector2 scale, float alpha,
+    private void Draw(long id, string spriteName, Vector3 position, Vector2 scale, float alpha,
         float angle = 0f, bool isFlipped = false, bool snapToPixels = true)
     {
         _aliveBurstIdSet.Add(id);
@@ -193,7 +197,9 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         view.UpdateView(position, scale, alpha, angle, isFlipped, snapToPixels);
     }
 
-    private Vector2 World(Vector2 floor) => IsoProjection.FloorToWorld(floor, _runRules.UnitScale);
+    private Vector3 World(Vector2 floor) => IsoProjection.FloorToWorldSnapped(floor, _runRules.UnitScale, _viewRules.SinTilt);
+    private Vector2 Screen(Vector2 floor) => TiltedViewMath.FloorToScreenPlane(floor * _runRules.UnitScale, _viewRules.SinTilt);
+    private Vector3 _viewRulesOffset(Vector2 screen) => TiltedViewMath.UprightRotation(_viewRules.TiltDegrees) * (Vector3)screen;
 
     private void MarkShown(string spriteName) => _shownCountDict[spriteName] = GetShownCount(spriteName) + 1;
 

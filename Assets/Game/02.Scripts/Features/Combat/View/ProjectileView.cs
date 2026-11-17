@@ -14,7 +14,7 @@ public class ProjectileView : MonoBehaviour
         bodyRenderer.flipY = false;
     }
 
-    public void UpdateView(Vector2 worldPosition, Vector2 direction)
+    public void UpdateView(Vector3 worldPosition, Vector2 direction)
     {
         var angle = CombatEffectMotion.GetProjectileAngle(direction);
         var isFlipped = angle > 90f || angle <= -90f;
@@ -33,6 +33,6 @@ public class ProjectileView : MonoBehaviour
         var spriteCenter = bodyRenderer.sprite.bounds.center;
         spriteCenter.x *= isFlipped ? -1f : 1f;
         var center = transform.localRotation * spriteCenter;
-        transform.localPosition = CombatEffectMotion.Snap(worldPosition - (Vector2)center);
+        transform.localPosition = TiltedViewMath.SnapToTexels(worldPosition - center, .5f, Const.PixelsPerUnit);
     }
 }

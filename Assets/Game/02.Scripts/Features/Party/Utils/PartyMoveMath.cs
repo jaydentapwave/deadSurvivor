@@ -7,9 +7,9 @@ public static class PartyMoveMath
     private const float ScreenToFloorVertical = 2f;
 
     // 화면 기준 입력 → 바닥 방향(길이 1). 입력이 0이면 0
-    public static Vector2 ScreenToFloorDirection(Vector2 screenInput)
+    public static Vector2 ScreenToFloorDirection(Vector2 screenInput, float sinTilt = .5f)
     {
-        return new Vector2(screenInput.x, screenInput.y * ScreenToFloorVertical).normalized;
+        return TiltedViewMath.ScreenToFloorDirection(screenInput, sinTilt);
     }
 
     // 따라가기 한 걸음: 목표 쪽으로 남은 거리의 min(1, ratio)만큼 다가간다(넘치지 않는다)

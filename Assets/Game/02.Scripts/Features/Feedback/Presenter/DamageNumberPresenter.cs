@@ -12,6 +12,7 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
     private readonly CombatFeedbackModel _combatFeedbackModel;
     private readonly DamageNumberRulesData _rules;
     private readonly RunRulesData _runRules;
+    private readonly ViewRulesData _viewRules;
     private readonly DamageNumberViewFactory _damageNumberViewFactory;
     private readonly DamageNumberViewRegistry _damageNumberViewRegistry;
     private readonly MonsterViewFactory _monsterViewFactory;
@@ -22,12 +23,13 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
 
     public DamageNumberPresenter(RunModel runModel, CombatFeedbackModel combatFeedbackModel,
         FeedbackRulesRepository feedbackRulesRepository, RunRulesData runRules, DamageNumberViewFactory damageNumberViewFactory,
-        DamageNumberViewRegistry damageNumberViewRegistry, MonsterViewFactory monsterViewFactory)
+        DamageNumberViewRegistry damageNumberViewRegistry, MonsterViewFactory monsterViewFactory, ViewRulesData viewRules)
     {
         _runModel = runModel;
         _combatFeedbackModel = combatFeedbackModel;
         _rules = feedbackRulesRepository.Rules.DamageNumber;
         _runRules = runRules;
+        _viewRules = viewRules;
         _damageNumberViewFactory = damageNumberViewFactory;
         _damageNumberViewRegistry = damageNumberViewRegistry;
         _monsterViewFactory = monsterViewFactory;
@@ -99,7 +101,7 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
                 _damageNumberViewFactory.Release(0);
             }
 
-            _damageNumberViewFactory.Create(DamageNumberMotion.GetValue(hit.Amount), GetStartPosition(hit));
+            _damageNumberViewFactory.Create(DamageNumberMotion.GetValue(hit.Amount), GetStartPosition(hit), IsoProjection.FloorToWorldSnapped(hit.Position, _runRules.UnitScale, _viewRules.SinTilt));
         }
 
         _combatFeedbackModel.AddDamageNumbersShown(_mergedHitList.Count, _damageNumberViewRegistry.Count);
@@ -110,15 +112,15 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
         foreach (var entry in _damageNumberViewRegistry.EntryList)
         {
             var rise = DamageNumberMotion.GetRisePx(entry.Age, _rules) / Const.PixelsPerUnit;
-            entry.View.UpdateView(entry.StartPosition + Vector2.up * rise, DamageNumberMotion.GetAlpha(entry.Age, _rules));
+            entry.View.UpdateView(entry.StartPosition + TiltedViewMath.UprightOffset(rise, _viewRules.TiltDegrees), DamageNumberMotion.GetAlpha(entry.Age, _rules));
         }
     }
 
     // 맞은 바닥 좌표의 월드 자리 + 위로 (몸 그림 높이 + offsetPx ÷ PPU)(20261117-screen-fixes T5, HP 막대와 같은 머리 기준)
-    private Vector2 GetStartPosition(MonsterHitRecord hit)
+    private Vector3 GetStartPosition(MonsterHitRecord hit)
     {
-        var foot = IsoProjection.FloorToWorld(hit.Position, _runRules.UnitScale);
-        return foot + Vector2.up * (_monsterViewFactory.GetHeadHeight(hit.Data) + _rules.OffsetPx / Const.PixelsPerUnit);
+        var foot = IsoProjection.FloorToWorldSnapped(hit.Position, _runRules.UnitScale, _viewRules.SinTilt);
+        return foot + TiltedViewMath.UprightOffset(_monsterViewFactory.GetHeadHeight(hit.Data) + _rules.OffsetPx / Const.PixelsPerUnit, _viewRules.TiltDegrees);
     }
 
     private void ReleaseAll()

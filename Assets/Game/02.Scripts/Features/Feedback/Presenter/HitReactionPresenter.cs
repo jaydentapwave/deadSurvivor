@@ -4,14 +4,14 @@ using UnityEngine;
 using VContainer.Unity;
 
 // 원정대 피격 → 카메라 정수 픽셀 흔들림·진동(F6 기획서 D절). 피격 깃발을 프레임마다 한 번 읽고, 흔들림과 진동은 각자의 간격으로 따로 판정한다.
-// 카메라 기준 위치는 다른 쪽(WorldPresenter)이 이번 프레임에 옮겼으면 그 위치, 아니면 지난 기준(ShakeMath.ResolveBase) — 오프셋이 쌓이지 않는다.
+// Rig가 초점과 흔들림을 따로 받아 순서에 관계없이 위치를 정한다.
 public class HitReactionPresenter : IInitializable, ILateTickable, IDisposable
 {
     private readonly RunModel _runModel;
     private readonly CombatFeedbackModel _combatFeedbackModel;
     private readonly ShakeRulesData _rules;
     private readonly HapticService _hapticService;
-    private readonly CameraShakeView _cameraShakeView;
+    private readonly TiltedCameraRig _cameraShakeView;
     private readonly CompositeDisposable _disposables = new();
 
     // 피드백 시계(전투 중·일시정지 아님일 때만 흐름)
@@ -19,8 +19,6 @@ public class HitReactionPresenter : IInitializable, ILateTickable, IDisposable
     private float _lastShakeStart = float.NegativeInfinity;
     private float _shakeRemaining;
     private int _shakeStep;
-    private Vector3 _basePosition;
-    private Vector3 _lastAppliedPosition;
     // 마지막으로 얹은 오프셋. 일시정지(시계 0) 중에는 이것을 그대로 다시 얹는다
     private Vector2 _offset;
 
@@ -28,7 +26,7 @@ public class HitReactionPresenter : IInitializable, ILateTickable, IDisposable
     public bool IsShaking => _shakeRemaining > 0f || _offset != Vector2.zero;
 
     public HitReactionPresenter(RunModel runModel, CombatFeedbackModel combatFeedbackModel,
-        FeedbackRulesRepository feedbackRulesRepository, HapticService hapticService, CameraShakeView cameraShakeView)
+        FeedbackRulesRepository feedbackRulesRepository, HapticService hapticService, TiltedCameraRig cameraShakeView)
     {
         _runModel = runModel;
         _combatFeedbackModel = combatFeedbackModel;
@@ -73,7 +71,6 @@ public class HitReactionPresenter : IInitializable, ILateTickable, IDisposable
     // 흔들리는 중이면 기준 + 오프셋, 끝났으면 기준 그대로(오프셋 0). 시계가 멈춘 프레임은 지난 오프셋을 그대로 둔다
     private void ApplyCamera(float deltaSeconds)
     {
-        _basePosition = ShakeMath.ResolveBase(_cameraShakeView.Position, _lastAppliedPosition, _basePosition);
         if (deltaSeconds > 0f)
         {
             // 이 프레임에 남은 시간이 다 하면 오프셋 0(seconds 뒤 0, 끝난 흔들림의 오프셋이 일시정지 동안 남지 않게)
@@ -86,8 +83,7 @@ public class HitReactionPresenter : IInitializable, ILateTickable, IDisposable
             }
         }
 
-        _lastAppliedPosition = _basePosition + (Vector3)_offset;
-        _cameraShakeView.SetPosition(_lastAppliedPosition);
+        _cameraShakeView.SetShakeOffset(_offset);
     }
 
     private void OnBattleLeft()
@@ -110,8 +106,7 @@ public class HitReactionPresenter : IInitializable, ILateTickable, IDisposable
     {
         if (IsShaking)
         {
-            _cameraShakeView.SetPosition(_basePosition);
-            _lastAppliedPosition = _basePosition;
+            _cameraShakeView.SetShakeOffset(Vector2.zero);
         }
 
         _shakeRemaining = 0f;

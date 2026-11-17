@@ -22,10 +22,6 @@ public static class ShakeMath
         return new Vector2(direction.x * pixels, direction.y * pixels) / Const.PixelsPerUnit;
     }
 
-    // 이번 프레임에 다른 쪽이 카메라를 옮겼으면(지금 위치 ≠ 지난번 얹은 위치) 그 위치가 새 기준, 아니면 지난 기준
-    public static Vector3 ResolveBase(Vector3 current, Vector3 lastApplied, Vector3 lastBase) =>
-        current != lastApplied ? current : lastBase;
-
     // 지난 시작에서 minInterval이 지났는가
     public static bool CanStart(float now, float lastStart, float minInterval) => now - lastStart >= minInterval;
 }

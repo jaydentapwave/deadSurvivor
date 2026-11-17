@@ -11,6 +11,7 @@ internal class TestRunContext
 
     public readonly ResourceService ResourceService = new();
     public readonly RunRulesData RunRules;
+    public readonly ViewRulesData ViewRules;
     public readonly PlaceholderCombatData CombatData;
     public readonly CharacterRepository CharacterRepository;
     public readonly ItemRepository ItemRepository;
@@ -46,8 +47,7 @@ internal class TestRunContext
     public readonly RunService RunService;
 
     // 기준 화면 640×360px(PPU 48)이 보는 바닥 영역의 반 크기(바닥 단위)
-    public Vector2 ReferenceViewHalfExtent => IsoProjection.WorldToFloor(
-        new Vector2(640f / Const.PixelsPerUnit / 2f, 360f / Const.PixelsPerUnit / 2f), RunRules.UnitScale);
+    public Vector2 ReferenceViewHalfExtent => TiltedViewMath.Footprint(360f / Const.PixelsPerUnit / 2f, 16f/9f, .5f) / RunRules.UnitScale;
 
     public CombatRulesData CombatRules => CombatRulesRepository.Rules;
 
@@ -55,6 +55,7 @@ internal class TestRunContext
     // bagModel: 배치 정보 시험이 BagPlacementInfo와 같은 가방 모델을 쓸 때(없으면 새로)
     public TestRunContext(ItemRepository itemRepository = null, IItemPlacementInfo placementInfo = null, BagModel bagModel = null)
     {
+        ViewRules = ResourceService.LoadJson<ViewRulesData>("Data/View/view_rules");
         RunRules = ResourceService.LoadJson<RunRulesData>("Data/Run/run_rules");
         CombatData = ResourceService.LoadJson<PlaceholderCombatData>("Data/Run/placeholder_combat");
         CharacterRepository = new CharacterRepository(ResourceService);
@@ -80,10 +81,10 @@ internal class TestRunContext
         EquipmentStatService = new EquipmentStatService(ItemRepository, CombatRulesRepository,
             placementInfo ?? new NoBagPlacementInfo());
         CombatService = new CombatService(CombatModel, PartyModel, PartyService, MonsterModel, MonsterService, ItemRepository,
-            CharacterRepository, EquipmentStatService, CombatRulesRepository);
+            CharacterRepository, EquipmentStatService, CombatRulesRepository, ViewRules);
         ReviveService = new ReviveService(RunModel, PartyModel, CombatService);
         FormationService = new FormationService(FormationModel, FormationRepository, RunModel);
-        PartyMoveService = new PartyMoveService(PartyModel, PartyMoveModel, FormationService, MoveRules, RunRules);
+        PartyMoveService = new PartyMoveService(PartyModel, PartyMoveModel, FormationService, MoveRules, RunRules, ViewRules);
         GradeRepository = new GradeRepository(ResourceService);
         BagRulesRepository = new BagRulesRepository(ResourceService);
         LootRulesRepository = new LootRulesRepository(ResourceService);

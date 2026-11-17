@@ -7,6 +7,7 @@ using UnityEngine;
 public class MonsterView : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer bodyRenderer;
+    [SerializeField] private Material shadowMaterial;
     [SerializeField] private SpriteRenderer dashLineRenderer;
     [SerializeField] private SpriteRenderer blastAreaRenderer;
     // 방향·이동 움직임 값(기획서 E절, 가정 AI2·AI4)
@@ -54,7 +55,7 @@ public class MonsterView : MonoBehaviour
         _unitScale = unitScale;
 
         // 바닥의 원 → 아이소 타원. 원 스프라이트 피벗이 아래라 반높이만큼 내려 중심을 발 위치에 맞춘다
-        var areaSize = IsoProjection.FloorToWorld(new Vector2(blastRadius * 2f, blastRadius * 2f), unitScale);
+        var areaSize = TiltedViewMath.FloorToScreenPlane(new Vector2(blastRadius * 2f, blastRadius * 2f) * unitScale, .5f);
         var spriteSize = areaSprite.bounds.size;
         var areaTransform = blastAreaRenderer.transform;
         areaTransform.localScale = new Vector3(areaSize.x / spriteSize.x, areaSize.y / spriteSize.y, 1f);
@@ -71,10 +72,10 @@ public class MonsterView : MonoBehaviour
             _shadow = child.AddComponent<FootShadowView>();
         }
 
-        _shadow.Initialize(sprite, bodyWidthPixels, bodyRenderer.sortingLayerID);
+        _shadow.Initialize(sprite, bodyWidthPixels, bodyRenderer.sortingLayerID, shadowMaterial);
     }
 
-    public void UpdateView(Vector2 worldPosition) => transform.localPosition = worldPosition;
+    public void UpdateView(Vector3 worldPosition) => transform.localPosition = worldPosition;
 
     // 좌우 반전과 몸 오프셋(정수 픽셀)
     public void ApplyMotion(bool isFlipped, Vector2Int bodyOffsetPixels)
@@ -101,7 +102,7 @@ public class MonsterView : MonoBehaviour
             return;
         }
 
-        var line = IsoProjection.FloorToWorld(dashDirection * _dashLength, _unitScale);
+        var line = TiltedViewMath.FloorToScreenPlane(dashDirection * (_dashLength * _unitScale), .5f);
         var lineTransform = dashLineRenderer.transform;
         lineTransform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(line.y, line.x) * Mathf.Rad2Deg);
         lineTransform.localScale = new Vector3(line.magnitude / dashLineRenderer.sprite.bounds.size.x, 1f, 1f);

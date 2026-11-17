@@ -15,6 +15,7 @@ public class CombatService
 
     private readonly CombatModel _combatModel;
     private readonly PartyModel _partyModel;
+    private readonly ViewRulesData _viewRules;
     private readonly PartyService _partyService;
     private readonly MonsterModel _monsterModel;
     private readonly MonsterService _monsterService;
@@ -28,10 +29,11 @@ public class CombatService
 
     public CombatService(CombatModel combatModel, PartyModel partyModel, PartyService partyService, MonsterModel monsterModel,
         MonsterService monsterService, ItemRepository itemRepository, CharacterRepository characterRepository,
-        EquipmentStatService equipmentStatService, CombatRulesRepository combatRulesRepository)
+        EquipmentStatService equipmentStatService, CombatRulesRepository combatRulesRepository, ViewRulesData viewRules)
     {
         _combatModel = combatModel;
         _partyModel = partyModel;
+        _viewRules = viewRules;
         _partyService = partyService;
         _monsterModel = monsterModel;
         _monsterService = monsterService;
@@ -404,7 +406,7 @@ public class CombatService
             }
 
             // 목표 쪽으로 공격. 자기 치유는 마지막 공격 방향(초기 앞)을 유지한다.
-            var facing = SpriteFacing.Next(state.AttackMotion.Facing, IsoProjection.FloorToWorld(direction, 1f), 0.001f, 0.25f, true);
+            var facing = SpriteFacing.Next(state.AttackMotion.Facing, TiltedViewMath.FloorToScreenPlane(direction, _viewRules.SinTilt), 0.001f, 0.25f, true);
             state.AttackMotion.Start(character.Motion, facing, shortestPeriod);
         }
 

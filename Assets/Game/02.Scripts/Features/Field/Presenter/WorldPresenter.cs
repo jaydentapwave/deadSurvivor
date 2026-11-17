@@ -23,6 +23,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly PartyMoveService _partyMoveService;
     private readonly CharacterRepository _characterRepository;
     private readonly RunRulesData _runRules;
+    private readonly ViewRulesData _viewRules;
     private readonly GroundPathData _groundPath;
     private readonly FieldDecorData _fieldDecor;
     private readonly PlaceholderCombatData _combatData;
@@ -33,6 +34,9 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly RunModel _runModel;
     private readonly FieldView _fieldView;
     private readonly Camera _camera;
+    private readonly TiltedCameraRig _rig;
+    private readonly Vector2[] _lastMemberFloors;
+    private readonly Dictionary<int, Vector2> _lastMonsterFloors = new();
     private readonly IReadOnlyList<MemberView> _memberViewList;
 
     private readonly HashSet<int> _aliveMonsterIdSet = new();
@@ -58,7 +62,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, FieldDecorData fieldDecor, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
         MonsterViewRegistry monsterViewRegistry, SpriteAtlasService spriteAtlasService, RunModel runModel, FieldView fieldView,
-        Camera camera, IReadOnlyList<MemberView> memberViewList)
+        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig)
     {
         _combatModel = combatModel;
         _moveRules = moveRules;
@@ -68,6 +72,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         _partyMoveService = partyMoveService;
         _characterRepository = characterRepository;
         _runRules = runRules;
+        _viewRules = viewRules;
         _groundPath = groundPath;
         _fieldDecor = fieldDecor;
         _combatData = combatData;
@@ -78,6 +83,8 @@ public class WorldPresenter : IInitializable, ILateTickable
         _runModel = runModel;
         _fieldView = fieldView;
         _camera = camera;
+        _rig = rig;
+        _lastMemberFloors = new Vector2[memberViewList.Count];
         _memberViewList = memberViewList;
         _lastHps = new float[memberViewList.Count];
         _hitFlashes = new HitFlash[memberViewList.Count];
@@ -88,6 +95,8 @@ public class WorldPresenter : IInitializable, ILateTickable
 
     public void Initialize()
     {
+        _rig.Initialize(_viewRules.TiltDegrees, _viewRules.Distance, _viewRules.NearClip, _viewRules.FarClip, _viewRules.TargetFraction, _viewRules.MinScale);
+        _fieldView.Initialize(_viewRules.TiltDegrees);
         BuildField();
         foreach (var placement in _fieldDecor.Placements)
         {
@@ -101,9 +110,10 @@ public class WorldPresenter : IInitializable, ILateTickable
 
     public void LateTick()
     {
+        _rig.UpdateScreen(_camera.pixelWidth, _camera.pixelHeight);
         UpdateViewExtent();
         var center = IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale);
-        _camera.transform.position = new Vector3(center.x, center.y, _camera.transform.position.z);
+        _rig.SetFocus(center);
         var isRunning = _runModel.Phase.CurrentValue == RunPhase.Battle && !_runModel.IsPaused.CurrentValue;
         var lastClock = _motionClock;
         _motionClock = SpriteMotion.Advance(_motionClock, Time.deltaTime, isRunning);
@@ -158,7 +168,7 @@ public class WorldPresenter : IInitializable, ILateTickable
                 }
 
                 tileChangeDatas[index] = new TileChangeData(new Vector3Int(x, y, 0), GetGroundTile(choice.SpriteName, tileDict),
-                    Color.white, choice.IsFlipped ? FlipMatrix : Matrix4x4.identity);
+                    Color.white, Matrix4x4.Scale(new Vector3(choice.IsFlipped ? -1f : 1f, 2f, 1f)));
                 index++;
             }
         }
@@ -234,8 +244,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     private void UpdateViewExtent()
     {
         var halfHeight = _camera.orthographicSize;
-        var worldHalfExtent = new Vector2(halfHeight * _camera.aspect, halfHeight);
-        var floorHalfExtent = IsoProjection.WorldToFloor(worldHalfExtent, _runRules.UnitScale);
+        var floorHalfExtent = TiltedViewMath.Footprint(halfHeight, _camera.aspect, _viewRules.SinTilt) / _runRules.UnitScale;
         if (floorHalfExtent == _viewHalfExtent)
         {
             return;
@@ -260,8 +269,9 @@ public class WorldPresenter : IInitializable, ILateTickable
             }
 
             var member = memberList[i];
-            var position = IsoProjection.FloorToWorld(member.Position, _runRules.UnitScale);
-            var delta = position - (Vector2)view.transform.localPosition;
+            var position = IsoProjection.FloorToWorldSnapped(member.Position, _runRules.UnitScale, _viewRules.SinTilt);
+            var delta = member.Position - _lastMemberFloors[i];
+            _lastMemberFloors[i] = member.Position;
             view.SetVisible(true);
             _downedSeconds[i] = member.IsAlive ? 0f : _downedSeconds[i] + Time.deltaTime;
             view.UpdateView(position, member.Hp / member.MaxHp, member.IsAlive, _downedSeconds[i]);
@@ -330,12 +340,12 @@ public class WorldPresenter : IInitializable, ILateTickable
         if (hasStepped)
         {
             var minMove = view.MinMovePixels / Const.PixelsPerUnit;
-            facing = SpriteFacing.Next(view.Facing, delta, minMove, view.FacingAxisRatio, true);
-            _isMemberMovings[index] = Mathf.Abs(delta.x) >= minMove || Mathf.Abs(delta.y) >= minMove;
+            facing = SpriteFacing.Next(view.Facing, TiltedViewMath.FloorToScreenPlane(delta * _runRules.UnitScale, _viewRules.SinTilt), minMove, view.FacingAxisRatio, true);
+            _isMemberMovings[index] = delta.sqrMagnitude >= Mathf.Pow(minMove / _runRules.UnitScale, 2);
             if (_isMemberMovings[index])
             {
                 // 주기를 실제 이동 거리에 묶는다. 정속에서는 source fps, 따라붙기·감속 때 같은 비율로 재생.
-                _walkClocks[index] += IsoProjection.WorldToFloor(delta, _runRules.UnitScale).magnitude / _moveRules.MoveSpeed;
+                _walkClocks[index] += delta.magnitude / _moveRules.MoveSpeed;
             }
             else
             {
@@ -384,9 +394,10 @@ public class WorldPresenter : IInitializable, ILateTickable
                 view = _monsterViewFactory.Create(monster, null);
             }
 
-            var position = IsoProjection.FloorToWorld(monster.Position, _runRules.UnitScale);
+            var position = IsoProjection.FloorToWorldSnapped(monster.Position, _runRules.UnitScale, _viewRules.SinTilt);
             // 새로 꺼낸 그림은 이동량 0으로 본다(풀에 있던 자리에서 뛰지 않게)
-            var delta = isNew ? Vector2.zero : position - (Vector2)view.transform.localPosition;
+            var delta = isNew ? Vector2.zero : monster.Position - _lastMonsterFloors[monster.Id];
+            _lastMonsterFloors[monster.Id] = monster.Position;
             view.UpdateView(position);
             if (isRunning)
             {
@@ -407,6 +418,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         {
             _monsterViewFactory.Release(id);
             _movingMonsterIdSet.Remove(id);
+            _lastMonsterFloors.Remove(id);
         }
     }
 
@@ -417,8 +429,8 @@ public class WorldPresenter : IInitializable, ILateTickable
         if (hasStepped)
         {
             var minMove = view.MinMovePixels / Const.PixelsPerUnit;
-            isFlipped = SpriteFacing.Next(new SpriteFacing(false, isFlipped), delta, minMove, view.FacingAxisRatio, false).IsFlipped;
-            if (Mathf.Abs(delta.x) >= minMove || Mathf.Abs(delta.y) >= minMove)
+            isFlipped = SpriteFacing.Next(new SpriteFacing(false, isFlipped), TiltedViewMath.FloorToScreenPlane(delta * _runRules.UnitScale, _viewRules.SinTilt), minMove, view.FacingAxisRatio, false).IsFlipped;
+            if (delta.sqrMagnitude >= Mathf.Pow(minMove / _runRules.UnitScale, 2))
             {
                 _movingMonsterIdSet.Add(monster.Id);
             }

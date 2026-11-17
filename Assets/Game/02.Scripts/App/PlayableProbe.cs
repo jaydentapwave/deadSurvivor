@@ -193,7 +193,11 @@ public static class PlayableProbe
         get
         {
             var expected = IsoProjection.FloorToWorld(Resolve<PartyModel>().Center, Resolve<RunRulesData>().UnitScale);
-            return Vector2.Distance(Resolve<Camera>().transform.position, expected);
+            var camera = Resolve<Camera>().transform;
+            var rig = Resolve<TiltedCameraRig>();
+            var restored = camera.position + camera.forward * rig.Distance - camera.right * rig.ShakeOffset.x - camera.up * rig.ShakeOffset.y;
+            var diff = restored - expected;
+            return new Vector2(Vector3.Dot(diff, camera.right), Vector3.Dot(diff, camera.up)).magnitude;
         }
     }
 
@@ -722,9 +726,12 @@ public static class PlayableProbe
         foreach (var member in Resolve<PartyModel>().MemberList)
         {
             var foot = IsoProjection.FloorToWorld(member.Position, rules.UnitScale);
-            var center = (Vector2)renderer.bounds.center;
-            if (Mathf.Abs(center.x - foot.x) < 24f / Const.PixelsPerUnit
-                && center.y > foot.y && center.y < foot.y + 52f / Const.PixelsPerUnit)
+            var camera = Resolve<Camera>();
+            var center = camera.WorldToViewportPoint(renderer.bounds.center);
+            foot = camera.WorldToViewportPoint(foot);
+            var unitPixels = camera.pixelHeight / (camera.orthographicSize * 2f * Const.PixelsPerUnit);
+            if (Mathf.Abs(center.x - foot.x) < 24f * unitPixels / camera.pixelWidth
+                && center.y > foot.y && center.y < foot.y + 52f * unitPixels / camera.pixelHeight)
             {
                 return false;
             }

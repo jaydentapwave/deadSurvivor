@@ -5,7 +5,7 @@ public class FootShadowView : MonoBehaviour
 {
     private SpriteRenderer _renderer;
 
-    public void Initialize(Sprite sprite, float bodyWidthPixels, int sortingLayerId)
+    public void Initialize(Sprite sprite, float bodyWidthPixels, int sortingLayerId, Material material)
     {
         if (_renderer == null)
         {
@@ -13,11 +13,13 @@ public class FootShadowView : MonoBehaviour
         }
 
         _renderer.sprite = sprite;
+        _renderer.sharedMaterial = material;
         _renderer.sortingLayerID = sortingLayerId;
         _renderer.sortingOrder = -10;
         var scale = SpriteMotion.GetShadowScale(bodyWidthPixels, sprite.rect.width);
         transform.localScale = new Vector3(scale, scale, 1f);
         // 아래 가운데 피벗을 발 중심에 맞춘다(정수 px, 24×12면 -6px).
-        transform.localPosition = new Vector3(0f, -sprite.rect.height * scale * 0.5f / sprite.pixelsPerUnit, 0f);
+        transform.localRotation = Quaternion.Euler(90,0,0);
+        transform.localPosition = new Vector3(0f, .001f, 0f);
     }
 }

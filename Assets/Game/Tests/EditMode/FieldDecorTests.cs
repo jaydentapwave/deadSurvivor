@@ -77,14 +77,14 @@ public class FieldDecorTests
         // 실제 생성은 원정대 중심 + 화면 바닥 반대각선 + SpawnMargin. 고정 출현 지점은 없다.
         // 기준 화면 640×360의 시작 원 바깥에 그림 폭만큼도 여유를 둔다.
         var halfWorld = new Vector2(640f, 360f) / (2f * Const.PixelsPerUnit);
-        var spawnRadius = IsoProjection.WorldToFloor(halfWorld, rules.UnitScale).magnitude + spawn.SpawnMargin;
+        var spawnRadius = (TiltedViewMath.Footprint(halfWorld.y, 16f/9f, .5f) / rules.UnitScale).magnitude + spawn.SpawnMargin;
         var gridObject = CreateField(out var field);
         try
         {
             foreach (var placement in resources.LoadJson<FieldDecorData>("Data/Field/decor").Placements)
             {
                 var sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"{DecorFolder}/{placement.Sprite}.png");
-                var floor = IsoProjection.WorldToFloor(field.Tilemap.CellToWorld(placement.Cell), rules.UnitScale);
+                var floor = IsoProjection.IsoCellToFloor(placement.Cell) / rules.UnitScale;
                 var clearance = sprite.rect.width / sprite.pixelsPerUnit / rules.UnitScale;
                 Assert.That(floor.magnitude - clearance, Is.GreaterThan(spawnRadius), placement.Sprite);
             }
@@ -109,7 +109,8 @@ public class FieldDecorTests
                 ",\"isFlipped\":" + isFlipped.ToString().ToLowerInvariant() + "}");
             var sprite = AssetDatabase.LoadAssetAtPath<Sprite>($"{DecorFolder}/fence_01.png");
             var renderer = field.AddDecor(sprite, placement);
-            var foot = field.Tilemap.CellToWorld(placement.Cell);
+            var cell = IsoProjection.IsoCellToFloor(placement.Cell);
+            var foot = new Vector3(cell.x, .001f, cell.y);
             Assert.AreEqual(order, renderer.sortingOrder);
             Assert.AreEqual(0, renderer.sortingLayerID);
             Assert.AreEqual(SpriteSortPoint.Pivot, renderer.spriteSortPoint);
@@ -149,7 +150,8 @@ public class FieldDecorTests
                 var position = field.AddDecor(fenceSprite, placement).transform.position;
                 if (lastPositionDict.TryGetValue(placement.IsFlipped, out var last))
                 {
-                    var pixels = (position - last) * Const.PixelsPerUnit;
+                    var delta = position - last;
+                    var pixels = TiltedViewMath.FloorToScreenPlane(new Vector2(delta.x, delta.z), .5f) * Const.PixelsPerUnit;
                     Assert.That(pixels.x, Is.EqualTo(placement.IsFlipped ? -24f : 24f).Within(0.0001f));
                     Assert.That(pixels.y, Is.EqualTo(12f).Within(0.0001f));
                 }

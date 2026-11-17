@@ -65,7 +65,7 @@ public class DamageNumberMotionTests
         {
             var go = new GameObject($"number{i}");
             objectList.Add(go);
-            registry.Register(new DamageNumberEntry(go.AddComponent<DamageNumberView>(), new Vector2(i, 0f)));
+            registry.Register(new DamageNumberEntry(go.AddComponent<DamageNumberView>(), new Vector3(i, 0f, 0f), Vector3.zero));
         }
 
         // 상한 3에서 새 숫자 하나: 가장 오래된 것(앞)을 빼고 끝에 넣는다
@@ -77,14 +77,63 @@ public class DamageNumberMotionTests
 
         var newObject = new GameObject("number3");
         objectList.Add(newObject);
-        registry.Register(new DamageNumberEntry(newObject.AddComponent<DamageNumberView>(), new Vector2(3f, 0f)));
+        registry.Register(new DamageNumberEntry(newObject.AddComponent<DamageNumberView>(), new Vector3(3f, 0f, 0f), Vector3.zero));
 
         Assert.AreEqual(3, registry.Count);
-        Assert.AreEqual(new Vector2(1f, 0f), registry.EntryList[0].StartPosition);
-        Assert.AreEqual(new Vector2(3f, 0f), registry.EntryList[2].StartPosition);
+        Assert.AreEqual(new Vector3(1f, 0f, 0f), registry.EntryList[0].StartPosition);
+        Assert.AreEqual(new Vector3(3f, 0f, 0f), registry.EntryList[2].StartPosition);
         foreach (var go in objectList)
         {
             Object.DestroyImmediate(go);
+        }
+    }
+
+    [Test]
+    public void N1NonzeroDepthSurvivesRiseAndPoolReuse()
+    {
+        var context = new TestRunContext();
+        var resources = context.ResourceService;
+        var atlas = new SpriteAtlasService(resources);
+        var placeholder = new PlaceholderSpriteFactory();
+        var parent = new GameObject("N1 numbers");
+        var registry = new DamageNumberViewRegistry();
+        var pool = new PoolManager();
+        var rules = new FeedbackRulesRepository(resources);
+        var factory = new DamageNumberViewFactory(pool, placeholder, atlas, rules, registry,
+            resources.Load<DamageNumberView>("Prefab/DamageNumberView"), parent.transform);
+        var monsters = new MonsterViewFactory(pool, resources, new MonsterViewRegistry(), placeholder, atlas, context.RunRules);
+        using var presenter = new DamageNumberPresenter(context.RunModel, context.CombatFeedbackModel, rules,
+            context.RunRules, factory, registry, monsters, context.ViewRules);
+        context.RunModel.SetPhase(RunPhase.Battle);
+        context.RunModel.SetPaused(true);
+        DamageNumberView previous = null;
+        try
+        {
+            foreach (var floor in new[] {new Vector2(1000,1500),new Vector2(-800,-400)})
+            {
+                var monster = context.MonsterRepository.MonsterDataList[0];
+                context.CombatFeedbackModel.AddMonsterHit(1,12,floor,monster);
+                presenter.LateTick();
+                var entry = registry.EntryList[0];
+                var anchor = IsoProjection.FloorToWorldSnapped(floor,context.RunRules.UnitScale,context.ViewRules.SinTilt);
+                Assert.That(Vector3.Distance(anchor,entry.AnchorPosition),Is.LessThan(1e-5));
+                entry.Age = .3f;
+                presenter.LateTick();
+                var h = monsters.GetHeadHeight(monster)+rules.Rules.DamageNumber.OffsetPx/Const.PixelsPerUnit
+                    +DamageNumberMotion.GetRisePx(.3f,rules.Rules.DamageNumber)/Const.PixelsPerUnit;
+                Assert.That(Vector3.Distance(anchor+TiltedViewMath.UprightOffset(h,30),entry.View.transform.position),Is.LessThan(1e-4));
+                if(previous != null) Assert.AreSame(previous,entry.View);
+                previous=entry.View;
+                factory.Release(0);
+            }
+        }
+        finally
+        {
+            Object.DestroyImmediate(parent);
+            // Runtime services use deferred Destroy. EditMode owns these test clones directly.
+            var sprites = (Dictionary<string, Sprite>)typeof(SpriteAtlasService).GetField("_spriteDict",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(atlas);
+            foreach (var sprite in sprites.Values) Object.DestroyImmediate(sprite);
         }
     }
 }

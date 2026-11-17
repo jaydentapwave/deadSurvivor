@@ -101,7 +101,7 @@ public class MonsterSpawnTests
         {
             var context = new TestRunContext();
             var halfHeight = 360f / Const.PixelsPerUnit / 2f;
-            var extent = IsoProjection.WorldToFloor(new Vector2(halfHeight * aspect, halfHeight), context.RunRules.UnitScale);
+            var extent = TiltedViewMath.Footprint(halfHeight, aspect, .5f) / context.RunRules.UnitScale;
             context.MonsterService.SetViewHalfExtent(extent);
             var waveData = context.BeginWaveOnly(1, 9);
             context.MonsterService.TickSpawn(context.RunRules.SimStep, context.RunRules.SimStep, false, waveData.Duration * 0.5f);

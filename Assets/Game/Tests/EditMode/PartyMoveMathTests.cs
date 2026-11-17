@@ -24,7 +24,7 @@ public class PartyMoveMathTests
         foreach (var screenInput in new[] { new Vector2(1f, 1f), new Vector2(-0.3f, 0.8f), new Vector2(0.6f, -0.2f) })
         {
             var floorDirection = PartyMoveMath.ScreenToFloorDirection(screenInput);
-            var drawn = IsoProjection.FloorToWorld(floorDirection, unitScale);
+            var drawn = TiltedViewMath.FloorToScreenPlane(floorDirection * unitScale, .5f);
             AssertVector(screenInput.normalized, drawn.normalized);
         }
     }

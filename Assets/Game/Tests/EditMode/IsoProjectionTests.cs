@@ -23,8 +23,8 @@ public class IsoProjectionTests
     [Test]
     public void HorizontalToVerticalScreenLengthIsTwoToOne()
     {
-        var horizontal = IsoProjection.FloorToWorld(new Vector2(100f, 0f), UnitScale).magnitude;
-        var vertical = IsoProjection.FloorToWorld(new Vector2(0f, 100f), UnitScale).magnitude;
+        var horizontal = TiltedViewMath.FloorToScreenPlane(new Vector2(100f, 0f) * UnitScale, .5f).magnitude;
+        var vertical = TiltedViewMath.FloorToScreenPlane(new Vector2(0f, 100f) * UnitScale, .5f).magnitude;
 
         Assert.AreEqual(2f, horizontal / vertical, 1e-4f);
     }

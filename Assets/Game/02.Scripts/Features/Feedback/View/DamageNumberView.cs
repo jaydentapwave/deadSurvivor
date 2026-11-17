@@ -45,7 +45,7 @@ public class DamageNumberView : MonoBehaviour
         }
     }
 
-    public void UpdateView(Vector2 worldPosition, float alpha)
+    public void UpdateView(Vector3 worldPosition, float alpha)
     {
         transform.localPosition = worldPosition;
         _color.a = alpha;
