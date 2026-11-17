@@ -3,8 +3,8 @@
  "spec": "docs/art/아트-기준서.md",
  "revision": "",
  "approved_on": "2026-11-15",
- "user_quote": "\"도트 조각 방식 (Recommended)\" (2026-11-17, r3 걷기·공격 방식) / \"추천대로 전부 (Recommended)\" (2026-11-17, r2) / r1: \"48px (추천)\", \"이대로 승인\" (2026-11-15)",
- "sha256": "22def845a7f50412501343aa0fec62e9d7fdab6c1f33087f7306d3ee832add4a",
- "recorded_at": "2026-11-17T13:45:51+0900",
- "note": "r3: 걷기·공격 영상 프레임 → 도트 조각. Aether 미연결·도트 미지원"
+ "user_quote": "\"Aether로 (손질 포함)\" (2026-11-17, r4 걷기·공격 방식) / \"도트 조각 방식 (Recommended)\" (r3) / \"추천대로 전부 (Recommended)\" (r2) / r1: \"48px (추천)\", \"이대로 승인\" (2026-11-15)",
+ "sha256": "670ea9a1d6663a7d40dbb0203f110ecc6f2a4514f32ef6a1482cf5b618586c20",
+ "recorded_at": "2026-11-17T14:38:56+0900",
+ "note": "r4: 걷기·공격 Aether 영상 프레임 → 도트 + 손질"
 }

@@ -15,6 +15,7 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
     private readonly RunRulesData _runRules;
     private readonly MonsterHpBarViewFactory _monsterHpBarViewFactory;
     private readonly MonsterHpBarViewRegistry _monsterHpBarViewRegistry;
+    private readonly MonsterViewFactory _monsterViewFactory;
     private readonly CompositeDisposable _disposables = new();
 
     private readonly HashSet<MonsterBehavior> _strongBehaviorSet = new();
@@ -31,7 +32,7 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
 
     public MonsterHpBarPresenter(RunModel runModel, MonsterModel monsterModel, PartyModel partyModel,
         FeedbackRulesRepository feedbackRulesRepository, RunRulesData runRules, MonsterHpBarViewFactory monsterHpBarViewFactory,
-        MonsterHpBarViewRegistry monsterHpBarViewRegistry)
+        MonsterHpBarViewRegistry monsterHpBarViewRegistry, MonsterViewFactory monsterViewFactory)
     {
         _runModel = runModel;
         _monsterModel = monsterModel;
@@ -40,6 +41,7 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
         _runRules = runRules;
         _monsterHpBarViewFactory = monsterHpBarViewFactory;
         _monsterHpBarViewRegistry = monsterHpBarViewRegistry;
+        _monsterViewFactory = monsterViewFactory;
     }
 
     public void Initialize()
@@ -229,11 +231,11 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
         }
     }
 
-    // 몬스터 머리 위: 위로 (몬스터 반지름 × unitScale + offsetPx ÷ PPU)(기획서 E절 식 그대로)
+    // 몬스터 머리 위: 위로 (몸 그림 높이 + offsetPx ÷ PPU). 몬스터 키가 24~51px로 달라 반지름 대신 그림 경계를 쓴다(20261117-screen-fixes T5)
     private Vector2 GetBarPosition(Monster monster)
     {
         var foot = IsoProjection.FloorToWorld(monster.Position, _runRules.UnitScale);
-        return foot + Vector2.up * (monster.Data.Radius * _runRules.UnitScale + _rules.OffsetPx / Const.PixelsPerUnit);
+        return foot + Vector2.up * (_monsterViewFactory.GetHeadHeight(monster.Data) + _rules.OffsetPx / Const.PixelsPerUnit);
     }
 
     private void OnBattleLeft() => ReleaseAll();

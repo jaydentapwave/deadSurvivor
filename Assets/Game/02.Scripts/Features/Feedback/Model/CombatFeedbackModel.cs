@@ -29,10 +29,10 @@ public class CombatFeedbackModel
         }
     }
 
-    // position = 맞은 순간의 바닥 좌표, radius = 몬스터 반지름(바닥 단위). 숫자 자리를 정한다
-    public void AddMonsterHit(int monsterId, float amount, Vector2 position, float radius)
+    // position = 맞은 순간의 바닥 좌표, data = 몬스터 데이터(숫자 자리 = 그 몸 그림의 머리 위)
+    public void AddMonsterHit(int monsterId, float amount, Vector2 position, MonsterData data)
     {
-        _monsterHitList.Add(new MonsterHitRecord(monsterId, amount, position, radius));
+        _monsterHitList.Add(new MonsterHitRecord(monsterId, amount, position, data));
     }
 
     public void ClearMemberHits() => _memberHitList.Clear();
@@ -84,13 +84,13 @@ public readonly struct MonsterHitRecord
     public readonly int MonsterId;
     public readonly float Amount;
     public readonly Vector2 Position;
-    public readonly float Radius;
+    public readonly MonsterData Data;
 
-    public MonsterHitRecord(int monsterId, float amount, Vector2 position, float radius)
+    public MonsterHitRecord(int monsterId, float amount, Vector2 position, MonsterData data)
     {
         MonsterId = monsterId;
         Amount = amount;
         Position = position;
-        Radius = radius;
+        Data = data;
     }
 }
