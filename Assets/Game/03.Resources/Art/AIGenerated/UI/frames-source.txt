@@ -15,12 +15,16 @@ UI frames — 직접 픽셀 손질 / Claude 독립 판독 대기
 산출물 / 9-slice (left,bottom,right,top, 모두 원본 px):
 button.png 32x16: (4,4,4,4). s3 모서리·바늘땀 보존, 중앙 #5c493c, 24x8 단색.
 panel.png 48x48: (12,12,12,12). 견본 s3의 12에서 유지. 실제 장식 폭 6, 6..11은 어두운 여백.
-중앙 24px는 4px 바늘땀 6주기. 변의 중앙 조각을 타일 반복, 끝은 목적 크기에서 자름.
-장식 줄은 2px 땀+2px 가죽. 8..39까지 같은 주기로 정리해 12px 모서리 조각 경계와 중앙 조각 경계의 위상 일치.
+중앙 24px는 4px 바늘땀 6주기. 원본 내부 주기만으로 임의 목적 크기의 양끝 이음은 보장되지 않는다(초기 리뷰 FAIL).
+수정: 12px 9-slice 바탕 뒤 실제 장식 8x8 모서리는 그대로 두고, 네 바늘땀 변 조각을 목적 좌표에서 배치한다.
+12px 모서리 중 변 연장부 4px도 목적 위상으로 갱신. 각 변은 8px에서 시작, 완전한 2px 땀+2px 가죽을 반복하며
+마지막 땀을 자르지 않는다. 장식 모서리 앞 남는 0..3px는 중립 가죽 여백이다. 중간 및 12px 양끝 이음에 길이4 땀이 생기지 않는다.
 가죽 안쪽 #2f1108. 흰 글자는 모서리 눈금 없이 어두운 면 위에 놓임.
 bag_cell.png 16x16: (3,3,3,3). 1px #34140e 외곽선+음영 2px, 안쪽 양피지.
 칸은 보통 16x16 그대로, 확대가 필요하면 9-slice 3px 모서리 고정. 가운데 미세 얼룩은 반복될 수 있어 현 크기를 우선.
-Point/Full Rect, 변 패턴을 유지하려면 Tiled 방식으로 넣을 것. 순수 Sliced(변 늘이기)의 바늘땀 늘어짐은 미검증.
+Point/Full Rect. 중요: Unity 기본 Tiled/Sliced만으로 임의 크기에 이 바늘땀 위상 보정을 재현할 수 없다.
+넣기 단계는 ui-frames-build.py의 panel_nine처럼 9-slice 가죽 바탕과 목적 좌표 바늘땀 변 조각을 따로 배치해야 한다.
+실제 장식 모서리 8x8은 고정, 명시 border 12 유지. 이 worktree에서는 합성 알고리즘만 구현, Unity 구현은 범위 밖.
 
 검사 (2026-11-17 KST, 현재 그림 SHA에 한정):
 - project-doctor --root . --host codex --require 2d-art.produce: exit 0, status configured, findings [].
@@ -34,7 +38,9 @@ Point/Full Rect, 변 패턴을 유지하려면 Tiled 방식으로 넣을 것. �
 - paint.py measure 각 최종 PNG --ref 해당 s3: 3장 PASS. button/panel dS=0,dV=0, cell dS+0.01,dV-0.04.
 - 판넬 변의 4px 주기, 6..41 안쪽 단색, pixelize 왕복 동일성: assert PASS.
 - measure.py: NOT_RUN (UI identity 없음, 지시문대로 사용자 판정 경로).
-- 독립 판독: NOT_RUN. 사용자 실행 환경 지시로 리뷰 에이전트 호출 금지. Claude 마감 리뷰 세션에서 해야 함.
+- 독립 판독: NOT_RUN. Claude 리뷰 세션 결과 VERDICT: NOT ASSESSED.
+  .claude/agents/에 Claude 시각 판독 에이전트가 없고, 4개 기존 리뷰 에이전트는 모두 Codex 중계여서 실행하지 못함.
+  AC2는 미충족/미확인으로 유지한다. Codex 리뷰·자기 판독을 다른 계열 Claude 판독으로 승격하지 않는다.
 - human: NOT_RUN. 채택·취향은 사용자 판정. 기계 PASS가 그림체 채택을 뜻하지 않음.
 - Unity 컴파일/Play/임포트/실기기/화면비·안전 영역: NOT_RUN, 이 항목 범위 밖. 16:9 합성만 확인.
 원문 명령 출력: docs/art/sheets/ui-frames-checks.txt.
@@ -92,7 +98,7 @@ Assets/Game/03.Resources/Art/AIGenerated/UI/bag_cell.png 0a5372e5fba5098f842c5a0
 Assets/Game/03.Resources/Art/AIGenerated/UI/button.png 1536b54d26c3cf89b65400b6c47c697245c47eb3b9e100c3db4755d65b123714
 Assets/Game/03.Resources/Art/AIGenerated/UI/panel.png c0e001e1f18b8168ad0cf83c3dce0e59dd221f7edbf6bbe7dd957748d6340ccf
 
-독립 리뷰 전 상태: needs-review. VERDICT 수신 전이며, 항목 보고서는 수신 뒤 지정 경로에 작성한다.
+초기 독립 리뷰 FAIL 수신 후 수정 확인 대기: needs-review. 항목 보고서는 수정 확인 판정 뒤 지정 경로에 작성한다.
 
 추가 자기 판독 근거: docs/art/sheets/ui-frames-blind.png를 직접 열었다.
 이름을 01/02/03으로 가린 그림은 각각 밝은 사각 슬롯, 어두운 가죽 창틀, 금속 모서리 가죽 버튼으로 읽혔다.
@@ -103,3 +109,33 @@ AC2: s3 가죽/바늘땀/양피지와 같은 화풍, 물건 판독 가능. 만�
 AC3: 9-slice 값 명시, 변 반복 단위와 바늘땀 주기 일치, 칸 모서리 정리, 어두운 판넬 글자 영역 확보.
 AC4: 시트·정비/전투 최신 캡처 합성, 게임 크기 3배, 합성 표시, 완성본 직접 확인.
 AC5: 허용 파일만 커밋, Unity 연결·meta·push 없음. 리뷰 후 보고서 작성.
+
+수정 확인 1회 요청 (기준 커밋 3b9b301):
+수신한 마감 판정 원문:
+spec-reviewer: VERDICT: FAIL (Codex gpt-6.1-sol medium, job 20261117-194243-5001c1)
+validator-client: VERDICT: FAIL (Codex gpt-6.1-sol medium, job 20261117-194239-a8810e)
+Claude 독립 시각 판독 에이전트: VERDICT: NOT ASSESSED
+판독 관문 evidence 상태: not-run, 에이전트 부재(사용자가 전달한 Claude 세션 사유). 자기 판독 대체 없음.
+
+AC3 수정 확인용 재현: /usr/bin/python3 docs/art/sheets/ui-frames-build.py
+검사 범위: 정비 634x64,181x130(2곳),280x60; 전투 156x50(2곳),155x50(2곳).
+최종 출력 PNG에서 네 바늘땀 변의 모든 땀 run=2px, 내부 가죽 gap=2px, 양끝 12px 이음 포함 PASS.
+8x8 장식 모서리는 이전 9-slice 결과와 RGBA 완전 동일 PASS. 같은 검사에 이전 naive 9-slice를 넣는 반례도 포함:
+634x64,181x130,156x50,155x50은 기대대로 FAIL. 280x60만 원래도 주기와 맞았음.
+명령 로그 ui-frames-checks.txt에 모든 목적 크기별 PASS와 과거 방식 실패 재현을 남김.
+check_sprites 재실행 PASS(3개·57색·실패0), pixelize grid/one 재실행 PASS, fringe 재실행 PASS(모두 0px).
+세 최종 원본 PNG는 이번 수정에서 바뀌지 않았고 기존 출력 SHA와 같다. 합성·배치 코드만 바뀜.
+수정 완성본 ui-frames-camp.png, ui-frames-battle.png를 직접 다시 열어 네 변 이음과 흰 글자를 확인.
+추가 ui-frames-yellow-ground.png를 직접 열어 확인: 최신 전투 캡처 노란 밝은 면/올리브 면 위에서도
+양피지 칸의 진한 외곽선과 안쪽 음영이 구분됨. 게임 크기 3배, 합성 표시. 게임 확인/독립 판독은 아님.
+놓친 원인: 원본 24px 반복 조각만 검사하고 목적 크기의 나머지 길이와 끝 모서리를 함께 검사하지 않음.
+워크플로우 갱신 후보: 9-slice 무늬 검사는 실제 목적 크기 네 변의 전체 run과 양끝 이음까지 검사할 것.
+반영: 이 항목 재현 스크립트에 검사와 과거 반례 포함. 공통 문서는 쓰기 범위 밖이라 미반영.
+추가 검사/비용 조정: 원본 주기 검사만 반복하는 대신 목적 크기 출력 검사에 통합(기존 관문 삭제 없음).
+수정 활동 시간: 2026-11-17 19:45:29 시작, 19:46:55 코드·검사 완료(1분26초), 이후 근거 기록·커밋.
+리뷰 대기 시간은 작업 시간에 합산하지 않음. 현재 API의 토큰 정확한 총량은 미노출, 하위 에이전트 0명·추가 생성 0회.
+
+수정 합성 SHA256:
+docs/art/sheets/ui-frames-camp.png f37d294282558e8c4a0984f24e432f0eefe1208a437b790ccaa1a588dd1136b0
+docs/art/sheets/ui-frames-battle.png 60040a73c4d053c42be7317a4b52e246ff3e74e9579b00361b08cc9276bd3d3f
+docs/art/sheets/ui-frames-yellow-ground.png c0ba26073a9e255cfabd23ac9d58f917a9836dbd59ef3e7920d52f0160609455

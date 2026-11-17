@@ -57,6 +57,50 @@ def frames():
         subprocess.run([PY,str(T/'pixelize.py'),'grid',str(logical),'--size',f'{w}x{h}'],check=True)
         subprocess.run([PY,str(T/'pixelize.py'),'one',str(logical),'--out',str(DST/(name+'.png')),'--size',f'{w}x{h}','--palette',str(WORK/'palette.json')],check=True)
 
+def panel_nine(src, ui, w, h):
+    """12px 9-slice 바탕 + 목적 크기에 맞춘 바늘땀 변 조각.
+
+    실제 장식 모서리 8x8은 보존한다. 12px 모서리의 나머지 4px는
+    변 조각의 연장부이므로 원본 위상을 고정하지 않고 목적 좌표로 이어 붙인다.
+    2px 땀을 끝에서 자르지 않는다. 남는 0..3px는 모서리 앞 가죽 여백이다.
+    Unity 기본 Tiled 하나로는 이 배치가 재현되지 않는다.
+    """
+    out=ui.nine(src,12,w,h)
+    for y in (2,h-3):
+        for x in range(8,w-8):out.putpixel((x,y),L)
+        for x in range(8,w-9,4):
+            for dx in (0,1):out.putpixel((x+dx,y),S)
+    for x in (2,w-3):
+        for y in range(8,h-8):out.putpixel((x,y),L)
+        for y in range(8,h-9,4):
+            for dy in (0,1):out.putpixel((x,y+dy),S)
+    return out
+
+
+def verify_panel_rails(im):
+    # 출력 픽셀에서 땀 길이와 사이 가죽 길이를 센다. 양쪽 12px 이음도 포함한다.
+    from itertools import groupby
+    w,h=im.size
+    rails=[[im.getpixel((x,y))==S for x in range(8,w-8)] for y in (2,h-3)]
+    rails += [[im.getpixel((x,y))==S for y in range(8,h-8)] for x in (2,w-3)]
+    for rail in rails:
+        runs=[(value,len(list(group))) for value,group in groupby(rail)]
+        assert all(length==2 for value,length in runs if value),runs
+        assert all(length==2 for value,length in runs[1:-1] if not value),runs
+        assert runs[0]==(True,2),runs
+        if not runs[-1][0]:assert runs[-1][1]<=3,runs
+    # 8x8 장식 모서리 밖의 실제 땀은 네 변 모두 길이2, 간격2다.
+    return True
+
+
+def place_panel(small,big,src,ui,box):
+    x0,y0,x1,y1=box
+    piece=panel_nine(src,ui,x1-x0,y1-y0)
+    verify_panel_rails(piece)
+    print(f'PASS destination stitch rails {piece.width}x{piece.height}: dash=2 gap=2; all four corner seams included')
+    small.alpha_composite(piece,(x0,y0))
+    big.alpha_composite(piece.resize((piece.width*3,piece.height*3),Image.Resampling.NEAREST),(x0*3,y0*3))
+
 def compose():
     module_spec=importlib.util.spec_from_file_location('sample_ui',ROOT/'docs/art/samples/ui/build_ui.py')
     ui=importlib.util.module_from_spec(module_spec); module_spec.loader.exec_module(ui)
@@ -70,7 +114,7 @@ def compose():
         small=cap.resize((640,360),Image.Resampling.NEAREST); big=cap.copy()
         panels=ui.CAMP_PANELS if kind=='camp' else [(x0,310,x1,360) for x0,_,x1,_ in ui.BATTLE_PANELS]
         buttons=ui.CAMP_BUTTONS if kind=='camp' else ui.BATTLE_BUTTONS
-        for box in panels: ui.place(small,big,pan,12,box)
+        for box in panels: place_panel(small,big,pan,ui,box)
         if kind=='camp':
             for x0 in ui.BAG_X0:
                 for j in range(4):
@@ -100,6 +144,16 @@ def compose():
         out=Image.new('RGBA',(1920,1128),rgba('#fff9ed'));out.alpha_composite(big,(0,48))
         ImageDraw.Draw(out).text((12,6),f'합성 — 게임 화면 아님 · UI 양산 · {kind} · 게임 크기 ×3 · 9-slice 변 반복',font=f,fill=O)
         out.save(ROOT/f'docs/art/sheets/ui-frames-{kind}.png')
+    cap=Image.open(battle).convert('RGBA')
+    context=cap.crop((30,100,798,388))
+    # 게임 16px 칸을 3배로, 바닥의 서로 다른 노란 면 위에 놓는다.
+    cell3=cell.resize((48,48),Image.Resampling.NEAREST)
+    for x in range(36,720,84):
+        context.alpha_composite(cell3,(x,72))
+    preview=Image.new('RGBA',(768,336),rgba('#fff9ed'))
+    preview.alpha_composite(context,(0,48))
+    ImageDraw.Draw(preview).text((12,8),'합성 — 게임 화면 아님 · 노란 바닥 / 가방 칸 ×3',font=ImageFont.truetype(font,22),fill=O)
+    preview.save(ROOT/'docs/art/sheets/ui-frames-yellow-ground.png')
     # 셀별 높이가 다른 원본을 같은 48px 캔버스에 배치. sheet 높이 144 = 전부 정확히 3배.
     for n,old in [('button','button'),('panel','panel'),('bag_cell','cell')]:
         for tag,path in [('sample',SRC/(old+'.png')),('final',DST/(n+'.png')),('before',WORK/(n+'-before.png'))]:
@@ -108,5 +162,25 @@ def compose():
     pics=[str(WORK/f'{n}-{tag}-canvas.png') for n in ['button','panel','bag_cell'] for tag in ['sample','final','before']]
     subprocess.run([PY,str(T/'sheet.py'),'grid',str(ROOT/'docs/art/sheets/ui-frames.png'),*pics,'--size','144','--numbered','--unverified','양산 — 사용자 판정 / 3칸씩: 채택 견본 | 채택본 후보 | 수정 전(미채택), 게임 크기 3배'],check=True)
 
+def verify_exports():
+    spec=importlib.util.spec_from_file_location('sample_ui_verify',ROOT/'docs/art/samples/ui/build_ui.py')
+    ui=importlib.util.module_from_spec(spec);spec.loader.exec_module(ui)
+    src=Image.open(DST/'panel.png').convert('RGBA')
+    for kind,boxes in [('camp',ui.CAMP_PANELS),('battle',[(a,310,c,360) for a,b,c,d in ui.BATTLE_PANELS])]:
+        final=Image.open(ROOT/f'docs/art/sheets/ui-frames-{kind}.png').convert('RGBA')
+        for x0,y0,x1,y1 in boxes:
+            w,h=x1-x0,y1-y0
+            exported=final.crop((x0*3,y0*3+48,x1*3,y1*3+48)).resize((w,h),Image.Resampling.NEAREST)
+            verify_panel_rails(exported)
+            fixed=panel_nine(src,ui,w,h);old=ui.nine(src,12,w,h)
+            for ax,ay in [(0,0),(w-8,0),(0,h-8),(w-8,h-8)]:
+                assert fixed.crop((ax,ay,ax+8,ay+8)).tobytes()==old.crop((ax,ay,ax+8,ay+8)).tobytes()
+            try:verify_panel_rails(old)
+            except AssertionError:negative='old layout fails as expected'
+            else:
+                assert (w-24)%4==0 and (h-24)%4==0
+                negative='old layout already periodic at this size'
+            print(f'PASS exported {kind} {w}x{h}: full rails + 8x8 corners; {negative}')
+
 if __name__=='__main__':
-    frames();compose()
+    frames();compose();verify_exports()
