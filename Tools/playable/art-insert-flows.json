@@ -180,22 +180,36 @@
     },
     {
       "id": "TEL1",
-      "name": "멧돼지 돌진 예고 중 예고 그림(T2) — 캡처 1",
+      "name": "멧돼지 돌진 예고(T2) 시작, 화면 안쪽에 보이는 프레임에 게임 시간 멈춤(명령 왕복 약 1초가 예고 0.8초보다 길다)(예고 표본 시작)",
       "do": "PlayableProbe.MarkWarnings();",
-      "wait": "PlayableProbe.WarningShownCount(\"boar_telegraph\") >= 1",
-      "timeout": 60,
+      "wait": "PlayableProbe.PauseAtWarningOnScreen(\"boar_telegraph\")",
+      "timeout": 60
+    },
+    {
+      "id": "TEL1C",
+      "name": "멧돼지 돌진 예고(T2) 중 캡처 1(게임 시간 멈춘 채)",
+      "sleep": 0.3,
+      "expect": "PlayableProbe.WarningOnScreenCount(\"boar_telegraph\") >= 1",
       "capture": true
     },
     {
       "id": "TEL2",
-      "name": "멧돼지 돌진 예고 중 — 캡처 2(캡처가 예고 한 번보다 오래 걸리므로 다음 예고에서)",
-      "wait": "PlayableProbe.WarningShownCount(\"boar_telegraph\") >= 1",
-      "timeout": 30,
+      "name": "게임 시간 0.15초만 흘리고 다시 멈춤 → 같은 예고가 아직 화면에",
+      "do": "PlayableProbe.AdvanceGameTime(0.15f);",
+      "sleep": 0.6,
+      "expect": "UnityEngine.Time.timeScale == 0f && PlayableProbe.WarningOnScreenCount(\"boar_telegraph\") >= 1"
+    },
+    {
+      "id": "TEL2C",
+      "name": "멧돼지 돌진 예고(T2) 중 캡처 2(게임 시간 멈춘 채)",
+      "sleep": 0.3,
+      "expect": "PlayableProbe.WarningOnScreenCount(\"boar_telegraph\") >= 1",
       "capture": true
     },
     {
       "id": "TEL3",
       "name": "예고가 끝나 돌진 → 평소 그림으로 돌아옴, 예고 그림 0.5초 이상, 흔들림 0·+1px 두 자리(T2)",
+      "do": "UnityEngine.Time.timeScale = 1f;",
       "wait": "PlayableProbe.WarningReturnedCount(\"boar_telegraph\") >= 1",
       "timeout": 30,
       "expect": "PlayableProbe.WarningMaxSeconds(\"boar_telegraph\") >= 0.5f && PlayableProbe.WarningShakeOffsetsSeen(\"boar_telegraph\") == 2",
@@ -203,22 +217,43 @@
     },
     {
       "id": "INF1",
-      "name": "가시복 자폭 점화 중 부푼 그림(T3) — 캡처 1",
-      "wait": "PlayableProbe.WarningShownCount(\"puffer_inflate\") >= 1",
-      "timeout": 60,
+      "name": "가시복 자폭 점화(T3) 시작, 화면 안쪽에 보이는 프레임에 게임 시간 멈춤(명령 왕복 약 1초가 예고 0.8초보다 길다)(예고 표본 시작)",
+      "wait": "PlayableProbe.PauseAtWarningOnScreen(\"puffer_inflate\")",
+      "timeout": 60
+    },
+    {
+      "id": "INF1C",
+      "name": "가시복 자폭 점화(T3) 중 캡처 1(게임 시간 멈춘 채)",
+      "sleep": 0.3,
+      "expect": "PlayableProbe.WarningOnScreenCount(\"puffer_inflate\") >= 1",
+      "capture": true
+    },
+    {
+      "id": "INF2",
+      "name": "게임 시간 0.15초만 흘리고 다시 멈춤 → 같은 예고가 아직 화면에",
+      "do": "PlayableProbe.AdvanceGameTime(0.15f);",
+      "sleep": 0.6,
+      "expect": "UnityEngine.Time.timeScale == 0f && PlayableProbe.WarningOnScreenCount(\"puffer_inflate\") >= 1"
+    },
+    {
+      "id": "INF2C",
+      "name": "가시복 자폭 점화(T3) 중 캡처 2(게임 시간 멈춘 채)",
+      "sleep": 0.3,
+      "expect": "PlayableProbe.WarningOnScreenCount(\"puffer_inflate\") >= 1",
       "capture": true
     },
     {
       "id": "INF3",
       "name": "점화가 끝남(폭발) → 부푼 그림 0.5초 이상, 흔들림 0·+1px 두 자리(T3)",
+      "do": "UnityEngine.Time.timeScale = 1f;",
       "wait": "PlayableProbe.WarningEndedCount(\"puffer_inflate\") >= 1",
       "timeout": 30,
       "expect": "PlayableProbe.WarningMaxSeconds(\"puffer_inflate\") >= 0.5f && PlayableProbe.WarningShakeOffsetsSeen(\"puffer_inflate\") == 2"
     },
     {
       "id": "END4",
-      "name": "예고 확인 판 끝까지 → 결과",
-      "do": "UnityEngine.Time.timeScale = 20f;",
+      "name": "예고 확인 판 끝까지 → 결과(예고 시작·끝 시각 기록을 Logs/playable/warning-log.txt에)",
+      "do": "PlayableProbe.WriteWarningLog(\"Logs/playable/warning-log.txt\"); UnityEngine.Time.timeScale = 20f;",
       "wait": "PlayableProbe.Screen == \"Result\"",
       "timeout": 120
     },

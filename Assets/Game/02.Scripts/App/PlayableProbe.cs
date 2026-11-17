@@ -504,21 +504,9 @@ public static class PlayableProbe
     }
 
     // 지금 그 예고 그림을 보이는 산 몬스터 수
-    public static int WarningShownCount(string spriteName)
-    {
-        var registry = Resolve<MonsterViewRegistry>();
-        var count = 0;
-        foreach (var monster in Resolve<MonsterModel>().MonsterList)
-        {
-            if (monster.IsAlive && registry.TryGet(monster.Id, out var view) && view.IsWarning
-                && view.BodySpriteName.Replace(CloneSuffix, string.Empty) == spriteName)
-            {
-                count++;
-            }
-        }
-
-        return count;
-    }
+    public static int WarningShownCount(string spriteName) => CountWarnings(spriteName, false);
+    // 그중 몸 발(피벗)이 카메라 화면 안쪽 10% 여백 안에 있는 수(캡처에 찍히는 것)
+    public static int WarningOnScreenCount(string spriteName) => CountWarnings(spriteName, true);
 
     // MarkWarnings 뒤 끝난 예고(그 그림)의 수·가장 긴 표시 시간(게임 시간 초, 없으면 −1)·끝난 뒤 산 채 평소 그림으로 돌아온 수·지난 흔들림 오프셋 종류 수
     public static int WarningEndedCount(string spriteName) => WarningSampler != null ? WarningSampler.GetEndedCount(spriteName) : 0;
@@ -526,6 +514,26 @@ public static class PlayableProbe
     public static int WarningReturnedCount(string spriteName) => WarningSampler != null ? WarningSampler.GetReturnedCount(spriteName) : 0;
     public static int WarningShakeOffsetsSeen(string spriteName) =>
         WarningSampler != null ? WarningSampler.GetShakeOffsetsSeen(spriteName) : 0;
+
+    // 캡처용: 그 예고가 화면 안쪽에 보이면 그 프레임에 게임 시간을 멈추고(timeScale 0) true. 명령 왕복(약 1초)이 예고(0.8초)보다 길어 wait 식 안에서 멈춘다
+    public static bool PauseAtWarningOnScreen(string spriteName)
+    {
+        if (WarningOnScreenCount(spriteName) < 1)
+        {
+            return false;
+        }
+
+        Time.timeScale = 0f;
+        return true;
+    }
+
+    // 멈춘 게임 시간을 실제 시간 seconds만큼 1배로 흘린 뒤 다시 멈춘다(MarkWarnings 뒤에만)
+    public static void AdvanceGameTime(float seconds) => WarningSampler.AdvanceGameTime(seconds);
+
+    // MarkWarnings 뒤 끝난 예고마다 "그림 이름 몬스터 번호 시작 끝 표시초"(게임 시간) 한 줄을 프로젝트 기준 경로에 쓴다
+    public static void WriteWarningLog(string path) =>
+        System.IO.File.WriteAllText(System.IO.Path.Combine(Application.dataPath, "..", path),
+            WarningSampler != null ? WarningSampler.Log : string.Empty);
 
     // 예고 표본을 새로 모은다
     public static void MarkWarnings()
@@ -540,6 +548,29 @@ public static class PlayableProbe
     }
 
     private static PlayableWarningSampler WarningSampler => Object.FindAnyObjectByType<PlayableWarningSampler>();
+
+    private static int CountWarnings(string spriteName, bool isOnScreenOnly)
+    {
+        var registry = Resolve<MonsterViewRegistry>();
+        var camera = Resolve<Camera>();
+        var count = 0;
+        foreach (var monster in Resolve<MonsterModel>().MonsterList)
+        {
+            if (!monster.IsAlive || !registry.TryGet(monster.Id, out var view) || !view.IsWarning
+                || view.BodySpriteName.Replace(CloneSuffix, string.Empty) != spriteName)
+            {
+                continue;
+            }
+
+            var viewport = camera.WorldToViewportPoint(view.transform.position);
+            if (!isOnScreenOnly || (viewport.x > 0.1f && viewport.x < 0.9f && viewport.y > 0.1f && viewport.y < 0.9f))
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
     public static int MemberHitFlashTotal => Resolve<WorldPresenter>().MemberHitFlashTotal;
     public static float MemberFlashMaxSeconds => Resolve<WorldPresenter>().MemberFlashMaxSeconds;
 
@@ -855,13 +886,24 @@ public class PlayableWarningSampler : MonoBehaviour
     private readonly Dictionary<string, HashSet<int>> _shakeOffsetSetDict = new();
     private readonly HashSet<int> _seenIdSet = new();
     private readonly List<int> _endedIdList = new();
+    private readonly System.Text.StringBuilder _logBuilder = new();
     private bool _isMarked;
+    private float _pauseAtUnscaledTime = -1f;
+
+    public string Log => _logBuilder.ToString();
+
+    public void AdvanceGameTime(float seconds)
+    {
+        _pauseAtUnscaledTime = Time.unscaledTime + seconds;
+        Time.timeScale = 1f;
+    }
 
     public void Mark()
     {
         _shownDict.Clear();
         _resultDict.Clear();
         _shakeOffsetSetDict.Clear();
+        _logBuilder.Clear();
         _isMarked = true;
     }
 
@@ -873,8 +915,21 @@ public class PlayableWarningSampler : MonoBehaviour
 
     private void Update()
     {
-        if (!_isMarked || PlayableProbe.Screen != nameof(RunPhase.Battle))
+        if (_pauseAtUnscaledTime >= 0f && Time.unscaledTime >= _pauseAtUnscaledTime)
         {
+            Time.timeScale = 0f;
+            _pauseAtUnscaledTime = -1f;
+        }
+
+        if (!_isMarked)
+        {
+            return;
+        }
+
+        // 전투가 아니면 몬스터가 모두 치워졌다 — 표시 중이던 예고는 지금 끝난 것으로 센다(다음 전투까지 미루면 정비 시간이 더해진다)
+        if (PlayableProbe.Screen != nameof(RunPhase.Battle))
+        {
+            EndAllShown();
             return;
         }
 
@@ -926,6 +981,16 @@ public class PlayableWarningSampler : MonoBehaviour
         }
     }
 
+    private void EndAllShown()
+    {
+        _endedIdList.Clear();
+        _endedIdList.AddRange(_shownDict.Keys);
+        foreach (var id in _endedIdList)
+        {
+            EndWarning(id, _shownDict[id], false);
+        }
+    }
+
     private void EndWarning(int monsterId, (string spriteName, float startTime) shown, bool isReturned)
     {
         _shownDict.Remove(monsterId);
@@ -934,6 +999,8 @@ public class PlayableWarningSampler : MonoBehaviour
         result.returned += isReturned ? 1 : 0;
         result.maxSeconds = Mathf.Max(result.maxSeconds, Time.time - shown.startTime);
         _resultDict[shown.spriteName] = result;
+        _logBuilder.AppendLine(
+            $"{shown.spriteName} monster={monsterId} start={shown.startTime:F3} end={Time.time:F3} shown={Time.time - shown.startTime:F3} returned={isReturned}");
     }
 }
 #endif
