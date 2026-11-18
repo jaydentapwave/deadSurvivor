@@ -21,6 +21,8 @@ public class FieldViewBuildTests
         {
             var so = new SerializedObject(field);
             so.FindProperty("tilemap").objectReferenceValue=tilemap;
+            var groundMaterial=AssetDatabase.LoadAssetAtPath<Material>("Assets/Game/03.Resources/Materials/HD2D/HD2D_Field_Ground.mat");
+            so.FindProperty("groundMaterial").objectReferenceValue=groundMaterial;
             so.FindProperty("pondMesh").objectReferenceValue=AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Game/03.Resources/Meshes/HD2D/FieldPond.asset");
             so.ApplyModifiedPropertiesWithoutUndo();
             tilemap.SetTile(Vector3Int.zero,tile);
@@ -29,6 +31,9 @@ public class FieldViewBuildTests
             Assert.AreSame(tile,tilemap.GetTile(Vector3Int.zero));
             Assert.AreEqual(1,field.PartCount("ground"));
             Assert.AreEqual(2,field.PartCount("bank"));
+            foreach (Transform part in field.Landscape)
+                if (part.name=="bank") Assert.AreSame(groundMaterial,part.GetComponent<Renderer>().sharedMaterials[0]);
+            Assert.AreEqual(1,groundMaterial.GetFloat("_FlatDepth"),"Shared top retains D-2 depth");
             Assert.AreEqual(1,field.PartCount("pond"));
             Assert.AreEqual(1,field.PartCount("stream"));
             Assert.AreEqual(1,field.PartCount("waterfall"));

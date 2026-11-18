@@ -44,7 +44,7 @@ def plan():
     for folder in ['Assets/Game/02.Scripts/Effect/HD2DView','Assets/Game/02.Scripts/Features/Field','Assets/Game/03.Resources/Materials/HD2D','Assets/Game/03.Resources/Shaders/HD2D','Assets/Game/03.Resources/Textures/HD2D','Assets/Game/03.Resources/Models/HD2D','Assets/Game/03.Resources/Art/AIGenerated/Decor','Assets/Game/03.Resources/Art/AIGenerated/Characters','Assets/Game/03.Resources/Art/AIGenerated/Monsters']:
         sources.update(str(p) for p in (ROOT/folder).rglob('*') if p.is_file())
     sources.update(dependencies)
-    sources.update(['Tools/hd2d_main_gate.py','Assets/Game/02.Scripts/Editor/HD2DMainPlateCapture.cs'])
+    sources.update(['Tools/hd2d_main_gate.py','Tools/hd2d_field_textures.py','Tools/test_hd2d_field_textures.py','Assets/Game/03.Resources/Resources/Data/Field/field_layout.json','Assets/Game/03.Resources/Resources/Data/Field/ground_path.json','Assets/Game/02.Scripts/Editor/HD2DMainPlateCapture.cs'])
     # B9 updates completion counts; bind immutable copies of the capture-time criteria.
     for original,name in [('docs/features/hd2d-background/prep.md','prep-before.md'),('docs/art/아트-기준서.md','art-spec-before.md')]:
         snapshot=OUT/name;snapshot.write_bytes((ROOT/original).read_bytes());sources.add(str(snapshot))

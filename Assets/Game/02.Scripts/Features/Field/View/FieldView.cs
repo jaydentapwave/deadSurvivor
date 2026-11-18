@@ -71,7 +71,7 @@ public class FieldView : MonoBehaviour
         AddPart("ground", ground, new[] { groundMaterial });
         foreach (var bank in layout.banks)
         {
-            AddPart("bank", BankMeshMath.Build(bank.rectangles, bank.cell, bank.height, bank.seed), new[] { bankMaterial, bankMaterial });
+            AddPart("bank", BankMeshMath.Build(bank.rectangles, bank.cell, bank.height, bank.seed), new[] { groundMaterial, bankMaterial });
         }
         foreach (var water in layout.water)
         {
@@ -109,6 +109,14 @@ public class FieldView : MonoBehaviour
         if (placement.sprite.StartsWith("tree_") || placement.sprite == "boulder_01")
         {
             RegisterOccluder(card.transform, new Renderer[] { renderer });
+        }
+        if (placement.group.StartsWith("wall_"))
+        {
+            if (!_partDict.TryGetValue("wall",out var walls))
+            {
+                walls=new List<Renderer>();_partDict.Add("wall",walls);
+            }
+            walls.Add(renderer);
         }
         return renderer;
     }

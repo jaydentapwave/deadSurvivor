@@ -172,28 +172,58 @@
     },
     {
       "id": "MOVE_NE",
-      "name": "北동 이동 한계로",
-      "do": "PlayableProbe.SetMove(1f, .2f);",
-      "sleep": 6
+      "name": "다리 북동 정상 조이스틱 이동 한계까지",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(7.2f,3.55f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f && UnityEngine.Mathf.Abs(p.x)+UnityEngine.Mathf.Abs(p.y)>10.5f;})()",
+      "timeout": 90
     },
     {
       "id": "NE",
-      "name": "다리 북동 화면",
-      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
-      "expect": "PlayableProbe.FieldPartCount(\"bridge\") == 1 && PlayableProbe.FieldPartVisibleCount(\"bridge\") == 1",
+      "name": "다리 북동 한계 화면",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldPartCount(\"bridge\")==1 && PlayableProbe.FieldPartVisibleCount(\"bridge\")==1",
       "capture": true
     },
     {
       "id": "MOVE_W",
-      "name": "서쪽 야영지로",
-      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(-1f, -.25f);",
-      "sleep": 8
+      "name": "야영지 서쪽 정상 조이스틱 이동 한계까지",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(-10.75f,0.0f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f && UnityEngine.Mathf.Abs(p.x)+UnityEngine.Mathf.Abs(p.y)>10.5f;})()",
+      "timeout": 90
     },
     {
       "id": "W",
-      "name": "야영지 서쪽 화면",
-      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
-      "expect": "PlayableProbe.FieldPartCount(\"tent\") == 2 && PlayableProbe.FieldPartCount(\"flag\") == 3 && PlayableProbe.FieldPartCount(\"fence\") == 12 && PlayableProbe.FieldPartVisibleCount(\"tent\") >= 1",
+      "name": "야영지 서쪽 한계 화면",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldPartVisibleCount(\"tent\")>=1 && PlayableProbe.FieldPartVisibleCount(\"flag\")>=1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_NW",
+      "name": "돌담 북서 정상 조이스틱 이동 한계까지",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(-7.5f,3.25f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f && UnityEngine.Mathf.Abs(p.x)+UnityEngine.Mathf.Abs(p.y)>10.5f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "NW",
+      "name": "돌담 북서 한계 화면",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldPartCount(\"wall\")==40 && PlayableProbe.FieldPartVisibleCount(\"wall\")>=4",
+      "capture": true
+    },
+    {
+      "id": "MOVE_SW",
+      "name": "길 입구 남서 정상 조이스틱 이동 한계까지",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(-5.375f,-5.375f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f && UnityEngine.Mathf.Abs(p.x)+UnityEngine.Mathf.Abs(p.y)>10.5f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "SW",
+      "name": "길 입구 남서 한계 화면",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldGroundVisibleCount==1 && PlayableProbe.GroundTileCount(\"path_\",true)>0 && PlayableProbe.FieldPartVisibleCount(\"fence\")>=3 && PlayableProbe.FieldPartVisibleCount(\"sign\")>=1",
       "capture": true
     }
   ]

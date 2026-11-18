@@ -28,6 +28,28 @@ public class BankMeshMathTests
     }
 
     [Test]
+    public void ActualFUnionKeepsDeepJoinCellsAcrossSeeds()
+    {
+        var rects = new[] { new Rect(-6.75f,8.25f,5.625f,1), new Rect(-5.5f,6,2,2.5f) };
+        foreach (var seed in new[] { 181108, 1, 7, 98765 })
+        {
+            var cells = BankMeshMath.Cells(rects,.125f,seed);
+            Assert.IsTrue(cells.Contains(new Vector2Int(-42,66)), "review B3 left join");
+            Assert.IsTrue(cells.Contains(new Vector2Int(-31,66)), "review B3 right join");
+            bool Original(int x,int y) => rects.Any(r=>x>=Mathf.RoundToInt(r.xMin/.125f) && x<Mathf.RoundToInt(r.xMax/.125f) && y>=Mathf.RoundToInt(r.yMin/.125f) && y<Mathf.RoundToInt(r.yMax/.125f));
+            for (var y=48;y<74;y++)
+            for (var x=-54;x<-9;x++)
+            {
+                var deep=true;
+                for (var dy=-2;dy<=2;dy++)
+                for (var dx=-2;dx<=2;dx++) deep &= Original(x+dx,y+dy);
+                if (deep) Assert.IsTrue(cells.Contains(new Vector2Int(x,y)), $"deep union {x},{y}, seed{seed}");
+            }
+            Assert.IsTrue(cells.All(c=>Original(c.x,c.y)), "Only remove; do not expand the union");
+        }
+    }
+
+    [Test]
     public void DifferentSeedChangesOuterWalkNotHeight()
     {
         var rects = new[] { new Rect(0,0,4,2) };

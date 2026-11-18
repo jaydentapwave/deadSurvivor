@@ -76,6 +76,7 @@ public static class MainSceneHD2DBackgroundMigration
                 EditorUtility.SetDirty(material);
             }
         }
+        ground.SetFloat("_FlatDepth", 1);
         ground.SetTexture("_WaterMask", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "Textures/HD2D/FieldWaterMask.png"));
         EditorUtility.SetDirty(ground);
         var foot = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_FootShadow.mat");

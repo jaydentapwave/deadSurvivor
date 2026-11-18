@@ -13,28 +13,39 @@ public static class BankMeshMath
     {
         var random = new System.Random(seed);
         var cellSet = new HashSet<Vector2Int>();
+        // Form the union first: joins between rectangles are not exposed banks.
         foreach (var rect in rectangles)
         {
-            var left = Mathf.RoundToInt(rect.xMin / step);
-            var right = Mathf.RoundToInt(rect.xMax / step);
-            var bottom = Mathf.RoundToInt(rect.yMin / step);
-            var top = Mathf.RoundToInt(rect.yMax / step);
-            var leftEdge = Walk(top - bottom, random);
-            var rightEdge = Walk(top - bottom, random);
-            var bottomEdge = Walk(right - left, random);
-            var topEdge = Walk(right - left, random);
-            for (var y = bottom; y < top; y++)
+            for (var y = Mathf.RoundToInt(rect.yMin / step); y < Mathf.RoundToInt(rect.yMax / step); y++)
+            for (var x = Mathf.RoundToInt(rect.xMin / step); x < Mathf.RoundToInt(rect.xMax / step); x++)
+                cellSet.Add(new Vector2Int(x, y));
+        }
+        var removed = new HashSet<Vector2Int>();
+        foreach (var normal in new[] { Vector2Int.left, Vector2Int.up, Vector2Int.right, Vector2Int.down })
+        {
+            var vertical = normal.x != 0;
+            var lines = cellSet.Where(p => !cellSet.Contains(p + normal))
+                .GroupBy(p => vertical ? p.x : p.y).OrderBy(g => g.Key);
+            foreach (var line in lines)
             {
-                for (var x = left; x < right; x++)
+                var edge = line.OrderBy(p => vertical ? p.y : p.x).ToArray();
+                var start = 0;
+                while (start < edge.Length)
                 {
-                    if (x >= left + leftEdge[y - bottom] && x < right - rightEdge[y - bottom] &&
-                        y >= bottom + bottomEdge[x - left] && y < top - topEdge[x - left])
+                    var end = start + 1;
+                    while (end < edge.Length && edge[end] - edge[end - 1] == (vertical ? Vector2Int.up : Vector2Int.right)) end++;
+                    var depths = Walk(end - start, random);
+                    for (var i = start; i < end; i++)
+                    for (var inset = 0; inset < depths[i - start]; inset++)
                     {
-                        cellSet.Add(new Vector2Int(x, y));
+                        var cell = edge[i] - normal * inset;
+                        if (cellSet.Contains(cell)) removed.Add(cell);
                     }
+                    start = end;
                 }
             }
         }
+        cellSet.ExceptWith(removed);
         return cellSet;
     }
 

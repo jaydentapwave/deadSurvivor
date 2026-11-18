@@ -60,7 +60,7 @@ Material:
     - _Category: 0
     - _Diagnostic: 0
     - _Dither: 0
-    - _FlatDepth: 0
+    - _FlatDepth: 1
     m_Colors:
     - _FieldRect: {r: -36, g: -36, b: 72, a: 72}
   m_BuildTextureStacks: []

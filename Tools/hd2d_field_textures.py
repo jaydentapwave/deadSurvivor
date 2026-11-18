@@ -10,6 +10,24 @@ OUT = ROOT/'Assets/Game/03.Resources/Textures/HD2D'
 ART = ROOT/'Assets/Game/03.Resources/Art/AIGenerated'
 
 
+def path_mask(cells, settings, seed, width=3456, height=1728):
+    """Point mask over -36..36m, driven by the baked layout's metre-valued controls."""
+    yy, xx = np.mgrid[:height, :width]
+    wx = ((xx + .5) * 72 / width - 36).astype(np.float32)
+    wz = ((yy + .5) * 72 / height - 36).astype(np.float32)
+    nearest = np.full((height, width), np.inf, dtype=np.float32)
+    for cell in cells:
+        x = (cell['x'] - cell['y']) / 2
+        z = (cell['x'] + cell['y']) / 2
+        np.minimum(nearest, np.abs(wx-x)+np.abs(wz-z), out=nearest)
+    along = (wx+wz) / np.sqrt(2)
+    variation = (np.sin(along*1.38)+.4*np.sin(along*4.2))/1.4
+    # Independent stream: changing the path must not perturb other generated textures.
+    edge = np.random.default_rng(seed).uniform(-1, 1, (height, width))
+    half_width = settings['halfWidth'] + settings['widthVariation']*variation + settings['edgeVariation']*edge
+    return np.where(nearest < half_width, 255, 0).astype(np.uint8)
+
+
 def main():
     OUT.mkdir(parents=True,exist_ok=True)
     rng = np.random.default_rng(181108)
@@ -59,14 +77,9 @@ def main():
         target[edge]=muted[edge]
     Image.fromarray(ground).save(OUT/'FieldGrassOnly.png')
     # Ground rectangle -36..36: 48 texels/m X and 24 texels/m Z.
-    mask=np.zeros((1728,3456),dtype=np.uint8)
-    yy,xx=np.mgrid[:1728,:3456]; wx=(xx+.5)/48-36; wz=(yy+.5)/24-36
+    layout=json.loads((ROOT/'Assets/Game/03.Resources/Resources/Data/Field/field_layout.json').read_text())
     cells=json.loads((ROOT/'Assets/Game/03.Resources/Resources/Data/Field/ground_path.json').read_text())['cells']
-    for cell in cells:
-        x=(cell['x']-cell['y'])/2; z=(cell['x']+cell['y'])/2
-        # World-space L1 union follows the actual occupied isometric cells.
-        dist=np.abs(wx-x)+np.abs(wz-z)
-        mask[dist<.72]=255
+    mask=path_mask(cells,layout['path'],layout['seed'])
     Image.fromarray(np.flipud(mask)).save(OUT/'FieldPathMask.png')
     # Keep the accepted dark water, not any reference pixels.
     water=np.array([[30,48,42],[43,65,54],[57,85,69]],dtype=np.uint8)

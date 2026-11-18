@@ -45,7 +45,7 @@ Shader "HD2D/HD2D_FieldSurface"
         void ClipSurface(V i)
         {
             clip(frac(dot(floor(i.p.xy),float2(.754877666,.569840296)))-_Dither);
-            if (_Category < .5) clip(.5-SAMPLE_TEXTURE2D(_WaterMask,sampler_PointClamp,(i.w.xz-_FieldRect.xy)/_FieldRect.zw).r);
+            if (_Category < .5 && i.w.y < .002) clip(.5-SAMPLE_TEXTURE2D(_WaterMask,sampler_PointClamp,(i.w.xz-_FieldRect.xy)/_FieldRect.zw).r);
         }
         struct F { half4 color:SV_Target; float depth:SV_Depth; };
         F Frag(V i)
@@ -64,7 +64,7 @@ Shader "HD2D/HD2D_FieldSurface"
             float d=saturate(dot(cellNormal,sun.direction));
             float band=d<.25 ? .60 : d<.68 ? .82 : 1;
             float finger=fmod(abs(cells.x+floor(cells.x/5)*3),9)<3 ? .055 : .018;
-            if (_Diagnostic>1.5) { output.color=_Category>2.5 && _Category<3.5 ? (i.n.y>.7 ? half4(1,0,0,1) : i.w.y<=.36-finger && i.w.y>.36-finger-1.0/48 ? half4(0,1,0,1) : i.w.y>.36-finger ? half4(0,0,0,1) : half4(0,0,1,1)) : half4(0,0,0,1); return output; }
+            if (_Diagnostic>1.5) { output.color=_Category<.5 && i.w.y>.3 ? half4(1,0,0,1) : _Category>2.5 && _Category<3.5 ? (i.n.y>.7 ? half4(1,0,0,1) : i.w.y<=.36-finger && i.w.y>.36-finger-1.0/48 ? half4(0,1,0,1) : i.w.y>.36-finger ? half4(0,0,0,1) : half4(0,0,1,1)) : half4(0,0,0,1); return output; }
             if (_Diagnostic>.5) { output.color=half4(SRGBToLinear(band.xxx),1); return output; }
             half3 c=grass;
             if (_Category>.5 && _Category<1.5)
