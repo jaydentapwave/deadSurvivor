@@ -44,12 +44,16 @@ Shader "HD2D/HD2D_FieldSurface"
         {
             V o; o.w=TransformObjectToWorld(i.p); o.n=TransformObjectToWorldNormal(i.n); o.p=TransformWorldToHClip(o.w); o.uv=i.uv; float4 flat=TransformWorldToHClip(float3(o.w.x,0,o.w.z)); o.floorDepth=flat.zw; return o;
         }
-        void ClipSurface(V i)
+        void ClipOpening(V i)
         {
-            clip(frac(dot(floor(i.p.xy),float2(.754877666,.569840296)))-_Dither);
             float waterOpening=SAMPLE_TEXTURE2D(_WaterMask,sampler_PointClamp,(i.w.xz-_FieldRect.xy)/_FieldRect.zw).r;
             if (_Category < .5 && i.w.y < .002) clip(.5-waterOpening);
             if (_Category>1.5 && _Category<2.5) clip(waterOpening-.5);
+        }
+        void ClipSurface(V i)
+        {
+            clip(frac(dot(floor(i.p.xy),float2(.754877666,.569840296)))-_Dither);
+            ClipOpening(i);
         }
         struct F { half4 color:SV_Target; float depth:SV_Depth; };
         F Frag(V i)
@@ -124,7 +128,8 @@ Shader "HD2D/HD2D_FieldSurface"
             V o=Vert(i);o.p=TransformWorldToHClip(ApplyShadowBias(o.w,normalize(o.n),_LightDirection));o.p=ApplyShadowClamping(o.p);return o;
         }
         float Depth(V i):SV_Depth { ClipSurface(i); return lerp(i.p.z,i.floorDepth.x/i.floorDepth.y,_FlatDepth); }
-        half4 ShadowDepth(V i):SV_Target { ClipSurface(i); return 0; }
+        // Camera occlusion fading must not stamp its screen-space pattern into the shadow map.
+        half4 ShadowDepth(V i):SV_Target { ClipOpening(i); return 0; }
         ENDHLSL
         Pass
         {
