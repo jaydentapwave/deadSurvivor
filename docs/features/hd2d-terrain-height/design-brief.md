@@ -74,7 +74,7 @@
 
 - 칸 1m, 들판 바깥 테까지(−36~36) 73×73 = 5,329값(계산). mm 정수라 생성기·Unity 값이 비트까지 같다.
 - **(r001, F-01) 요약 칸(`relief`, `maxSlope`)은 파일에 두지 않는다.** 기복·경사·곡률은 언제나 배열에서 다시 계산한다(생성기 검사, `TerrainHeightGrid`의 계산 속성, 시험 TV1). 메타데이터와 배열이 어긋날 여지를 없앤다.
-- **(r001, F-02) 실패 계약**: `TerrainHeightGrid.FromMillimetres`는 `width ≥ 2`, `depth ≥ 2`, `cell > 0`, `heightsMm.Length == width·depth`가 아니면 `GameLogger.LogError("[TerrainHeightGrid] …")` 뒤 `ArgumentException`을 던진다(fail fast, `error-handling.md`). 파일이 없으면 `ResourceService.LoadJson`이 지금처럼 실패를 낸다(데이터 파일 누락은 빌드 결함). 배열은 생성 때 복사하고 밖으로는 읽기 전용(`Height(i, j)`)만 낸다. 시험 TD1~TD3.
+- **(r001, F-02) 실패 계약**: `TerrainHeightGrid.FromMillimetres`는 `width ≥ 2`, `depth ≥ 2`, `cell > 0`, `heightsMm.Length == width·depth`가 아니면 `ArgumentException`만 던진다(로그 없음, D-T8). Game 쪽 높이 데이터 로딩 경계가 잡아 `GameLogger.LogError("[<클래스>] …")` 뒤 다시 던진다(fail fast, `error-handling.md`). 파일이 없으면 `ResourceService.LoadJson`이 지금처럼 실패를 낸다(데이터 파일 누락은 빌드 결함). 배열은 생성 때 복사하고 밖으로는 읽기 전용(`Height(i, j)`)만 낸다. 시험 TD1~TD3.
 - 칸 크기(D-T3): **1m**. 경사 0.2에서 0.36m 단의 경사 띠가 1.8m(2칸). 땅 메시 약 5,200삼각형(계산). 0.5m는 약 20,700.
 - `placement.height`(측정: 806개 0, 75개 0.36)의 뜻을 **절대 높이 → 그 자리 땅 위 높이**로 바꾼다. 값은 그대로다.
 - 물 높이(`water[].height`)도 땅 위 높이로 읽는다. 물·다리 둘레는 높이 0으로 평평하게 두므로 지금 값 그대로 맞다(불변식, TW1).
@@ -100,7 +100,7 @@
 
 | 클래스(새/바뀜) | 폴더 | 책임 |
 |---|---|---|
-| `TerrainHeightGrid`(새, 불변 클래스) | `Effect/HD2DView/Utils/` | 원점·칸·폭·깊이·높이(복사본, 읽기 전용). 정적 생성 `FromMillimetres(...)`(검증 포함, F-02), `Flat`(모두 0). 배열에서 계산하는 속성 `MaxSlope`, `MaxVertexCurvature`, `ReliefWithin(L1)`, `IsFlat`(모든 값이 같음) |
+| `TerrainHeightGrid`(새, 불변 클래스) | `Effect/HD2DView/Utils/` | 원점·칸·폭·깊이·높이(복사본, 읽기 전용). 정적 생성 `FromMillimetres(...)`(검증·ArgumentException만, 로그는 Game 로딩 경계, F-02·D-T8), `Flat`(모두 0). 배열에서 계산하는 속성 `MaxSlope`, `MaxVertexCurvature`, `ReliefWithin(L1)`, `IsFlat`(모든 값이 같음) |
 | `TerrainHeightMath`(새, static Utils) | 같음 | `Sample`(삼각형 선형, 3.4), `Normal`(그 삼각형 평면 법선), `MinUnder(x, z, r)`, `ProjectOntoPlane(point, direction, planePoint, planeNormal)`, **(r001) `SnapOnTerrain(grid, x, z, sinθ, ppu)`**(3.5), **(fix-r001) `ActorDepthBias(grid, footHalfWidth, sinθ)`**(3.8), **`RayGroundDepthGap(grid, point, θ)`**(같은 화면 광선 위 땅 교점과의 눈 깊이 차, 시험·유도 검산용, 3.7) |
 | `TerrainMeshMath`(새) | 같음 | 땅 격자 메시 배열(꼭짓점·삼각형·부드러운 법선·uv2 = 땅 높이), 다이아몬드 L1 ≤ 36 안 칸(무게중심 기준), 대각선은 `TerrainHeightMath`와 같음 |
 | `GroundDecalMath`(새) | 같음 | 큰 바닥 그림을 격자로 땅에 붙인 꼭짓점·UV(가운데·크기·요·간격·띄움) |
@@ -385,7 +385,7 @@ w = 발 불투명 반폭(대원·몬스터 그림의 맨 아래 불투명 행 �
 | TH5 | 법선 | 0.2x 평면 | (−0.2,1,0) 정규화 |
 | TH6 | 격자 밖 | 원점 밖 | 가장자리 값 |
 | TH7 | `MinUnder` | 0.2x 평면, (5,5), r 0.5 | 0.9 |
-| TD1 | **(r001, F-02)** 길이 불일치 | width 3, depth 3, 배열 8개 | `ArgumentException` + 오류 로그 |
+| TD1 | **(r001, F-02)** 길이 불일치 | width 3, depth 3, 배열 8개 | `ArgumentException`(순수 생성기); Game 로딩 경계 별도 시험 1개에서 오류 로그 + 다시 던짐(D-T8) |
 | TD2 | **(F-02)** 크기·칸 | width 1 / cell 0 | `ArgumentException` |
 | TD3 | **(F-02)** 불변 | 만든 뒤 원본 배열을 바꿈 | `Sample` 값 그대로 |
 | TD4 | **(F-01)** 계산 속성 | 알려진 배열 | `MaxSlope`, `MaxVertexCurvature`, `ReliefWithin`, `IsFlat` 기대값 |
@@ -557,3 +557,7 @@ DR-03-A와 정정 4건은 해결 판정. 남은 1건을 반영했다.
 7. DI: Scoped `TerrainHeightGrid` 하나, 뷰 쪽 Presenter 5개만 받음. 규칙 서비스는 기록 칸 `PlacementVersion` 올리기만.
 8. 확인하고 싶은 위험: (a) pad 식이 생성·재활용·당김·맞춤 오차를 모두 닫는가, (b) 높이 0 회귀 묶음(B0~B6)이 H2~H4 회귀를 잡기에 충분한가, (c) `_FlatDepth` 뜻 변경이 D-2를 지키는가(다리 uv2 추측), (d) `IEffectFrameSource` 이행이 FX·FXSEQ 기대를 그대로 두는가, (e) 단위 순서가 컴파일을 늘 녹색으로 유지하는가.
 9. 단위: H0 순수 계산·API 추가 → H1 생성기 → H2 땅·배경(높이 0) → H3 좌표 계약·카메라(높이 0) → H4 바닥 그림·효과 판정(높이 0) → H5 실제 높이·pad·지형 판정·G1~G7·웨이브 목표 → H6 마감. 성능 측정 없음.
+
+### D-T8 — 로깅 경계 정정 (2026-11-18 디렉터 결정)
+
+HD2D.View는 Game을 참조하지 않는다. 순수 격자 생성기는 검증 실패 시 ArgumentException만 던진다. Game 쪽 높이 데이터 로딩 경계에서 GameLogger.LogError 후 다시 던지고, 로딩 시험 1개로 확인한다(H2). 공통 기반 어셈블리는 분리하지 않는다. TD1은 생성기의 예외만 검사한다.
