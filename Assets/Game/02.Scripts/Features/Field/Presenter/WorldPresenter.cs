@@ -25,7 +25,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly RunRulesData _runRules;
     private readonly ViewRulesData _viewRules;
     private readonly GroundPathData _groundPath;
-    private readonly FieldDecorData _fieldDecor;
+    private readonly FieldLayoutData _fieldLayout;
     private readonly PlaceholderCombatData _combatData;
     private readonly PlaceholderSpriteFactory _placeholderSpriteFactory;
     private readonly MonsterViewFactory _monsterViewFactory;
@@ -62,7 +62,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     public int IdleOffsetsSeen => (_idleOffsetSeenMask & 1) + ((_idleOffsetSeenMask >> 1) & 1);
 
     public WorldPresenter(CombatModel combatModel, MoveRulesData moveRules, PartyModel partyModel, MonsterModel monsterModel, MonsterService monsterService,
-        PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, FieldDecorData fieldDecor, PlaceholderCombatData combatData,
+        PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, FieldLayoutData fieldLayout, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
         MonsterViewRegistry monsterViewRegistry, SpriteAtlasService spriteAtlasService, RunModel runModel, FieldView fieldView,
         Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig)
@@ -77,7 +77,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         _runRules = runRules;
         _viewRules = viewRules;
         _groundPath = groundPath;
-        _fieldDecor = fieldDecor;
+        _fieldLayout = fieldLayout;
         _combatData = combatData;
         _placeholderSpriteFactory = placeholderSpriteFactory;
         _monsterViewFactory = monsterViewFactory;
@@ -101,11 +101,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         _rig.Initialize(_viewRules.TiltDegrees, _viewRules.Distance, _viewRules.NearClip, _viewRules.FarClip, _viewRules.TargetFraction, _viewRules.MinScale);
         _fieldView.Initialize(_viewRules.TiltDegrees);
         BuildField();
-        foreach (var placement in _fieldDecor.Placements)
-        {
-            var sprite = _spriteAtlasService.Get(placement.Sprite, SpriteAtlasService.GroundAtlasPath);
-            _fieldView.AddDecor(sprite, placement);
-        }
+        _fieldView.BuildLandscape(_fieldLayout);
 
         InitializeMemberViews();
         UpdateViewExtent();

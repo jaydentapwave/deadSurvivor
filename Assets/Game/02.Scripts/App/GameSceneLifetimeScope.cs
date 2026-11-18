@@ -35,7 +35,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<CombatEffectData>("Data/Combat/combat_effects"), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<RunRulesData>(RunRulesPath), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<GroundPathData>(GroundPathPath), Lifetime.Scoped);
-        builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<FieldDecorData>("Data/Field/decor"), Lifetime.Scoped);
+        builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<FieldLayoutData>("Data/Field/field_layout"), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<PlaceholderCombatData>(PlaceholderCombatPath),
             Lifetime.Scoped);
         builder.Register<CharacterRepository>(Lifetime.Scoped);

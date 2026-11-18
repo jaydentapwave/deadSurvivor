@@ -50,9 +50,13 @@ def main():
     ground=np.clip(palette[levels]+delta[:,:,None],0,255).astype(np.uint8)
     # Sparse fixed-seed soil/gravel clusters cover approximately 4 percent.
     gravel=np.asarray(Image.open(OUT/'FieldGravel.png').convert('RGB'))
-    for _ in range(210):
+    for _ in range(300):
         px=int(rng.integers(w-24)); py=int(rng.integers(h-16))
-        ground[py:py+16,px:px+24]=gravel[:16,:24]
+        cy,cx=np.mgrid[:16,:24]
+        edge=((cx-11.5)/12)**2+((cy-7.5)/8)**2 < .65+(rng.random((8,12)).repeat(2,0).repeat(2,1))*.35
+        target=ground[py:py+16,px:px+24]
+        muted=(target.astype(float)*.65+gravel[:16,:24].astype(float)*.35).astype(np.uint8)
+        target[edge]=muted[edge]
     Image.fromarray(ground).save(OUT/'FieldGrassOnly.png')
     # Ground rectangle -36..36: 48 texels/m X and 24 texels/m Z.
     mask=np.zeros((1728,3456),dtype=np.uint8)
@@ -63,7 +67,7 @@ def main():
         # World-space L1 union follows the actual occupied isometric cells.
         dist=np.abs(wx-x)+np.abs(wz-z)
         mask[dist<.72]=255
-    Image.fromarray(mask).save(OUT/'FieldPathMask.png')
+    Image.fromarray(np.flipud(mask)).save(OUT/'FieldPathMask.png')
     # Keep the accepted dark water, not any reference pixels.
     water=np.array([[30,48,42],[43,65,54],[57,85,69]],dtype=np.uint8)
     wave=rng.random((512,1024));ripple=(wave+np.roll(wave,1,1)+np.roll(wave,2,1)+np.roll(wave,3,1))/4

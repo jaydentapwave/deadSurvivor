@@ -11,6 +11,7 @@ Shader "HD2D/HD2D_FieldSurface"
         _Dirt("Soil gravel ground",2D)="white" {}
         _MainTex("UV albedo",2D)="white" {}
         _PathMask("Game path mask",2D)="black" {}
+        _WaterMask("Water opening",2D)="black" {}
         _FieldRect("Field rectangle",Vector)=(-36,-36,72,72)
         _FlatDepth("Depth at floor",Float)=0
         _Dither("Dither amount",Range(0,1))=0
@@ -28,6 +29,7 @@ Shader "HD2D/HD2D_FieldSurface"
         TEXTURE2D(_Soil); SAMPLER(sampler_Soil);
         TEXTURE2D(_Dirt); SAMPLER(sampler_Dirt);
         TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
+        TEXTURE2D(_WaterMask); SAMPLER(sampler_WaterMask);
         TEXTURE2D(_PathMask); SAMPLER(sampler_PathMask);
         CBUFFER_START(UnityPerMaterial)
         float4 _FieldRect; float _FlatDepth; float _Dither;
@@ -40,9 +42,14 @@ Shader "HD2D/HD2D_FieldSurface"
         {
             V o; o.w=TransformObjectToWorld(i.p); o.n=TransformObjectToWorldNormal(i.n); o.p=TransformWorldToHClip(o.w); o.uv=i.uv; float4 flat=TransformWorldToHClip(float3(o.w.x,0,o.w.z)); o.floorDepth=flat.zw; return o;
         }
+        void ClipSurface(V i)
+        {
+            if (_Category < .5) clip(.5-SAMPLE_TEXTURE2D(_WaterMask,sampler_PointClamp,(i.w.xz-_FieldRect.xy)/_FieldRect.zw).r);
+        }
         struct F { half4 color:SV_Target; float depth:SV_Depth; };
         F Frag(V i)
         {
+            ClipSurface(i);
             clip(frac(dot(floor(i.p.xy),float2(.754877666,.569840296)))-_Dither);
             F output; output.depth=lerp(i.p.z,i.floorDepth.x/i.floorDepth.y,_FlatDepth);
             float2 cells=floor(float2(i.w.x,dot(i.w,float3(0,.8660254,.5)))*48+.00001);
@@ -103,7 +110,8 @@ Shader "HD2D/HD2D_FieldSurface"
         {
             V o=Vert(i);o.p=TransformWorldToHClip(ApplyShadowBias(o.w,normalize(o.n),_LightDirection));o.p=ApplyShadowClamping(o.p);return o;
         }
-        half4 Depth(V i):SV_Target { return 0; }
+        float Depth(V i):SV_Depth { ClipSurface(i); return lerp(i.p.z,i.floorDepth.x/i.floorDepth.y,_FlatDepth); }
+        half4 ShadowDepth(V i):SV_Target { ClipSurface(i); return 0; }
         ENDHLSL
         Pass
         {
@@ -122,7 +130,7 @@ Shader "HD2D/HD2D_FieldSurface"
             ColorMask 0
             HLSLPROGRAM
             #pragma vertex Shadow
-            #pragma fragment Depth
+            #pragma fragment ShadowDepth
             ENDHLSL
         }
         Pass
@@ -132,7 +140,7 @@ Shader "HD2D/HD2D_FieldSurface"
             HLSLPROGRAM
             #pragma vertex Vert
             #pragma fragment Normals
-            half4 Normals(V i):SV_Target {return half4(normalize(i.n),0);}
+            F Normals(V i) { ClipSurface(i); F o; o.color=half4(normalize(i.n),0); o.depth=lerp(i.p.z,i.floorDepth.x/i.floorDepth.y,_FlatDepth); return o; }
             ENDHLSL
         }
         Pass

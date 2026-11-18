@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "sizes": [
+    [
+      1920,
+      1080
+    ],
+    [
+      2340,
+      1080
+    ],
+    [
+      2520,
+      1080
+    ],
+    [
+      2048,
+      1536
+    ]
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "LOBBY",
+      "name": "로비",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "START",
+      "name": "본 게임 시작 배경",
+      "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
+      "expect": "PlayableProbe.FieldGroundVisibleCount == 1 && PlayableProbe.FieldPartCount(\"bank\") == 2 && PlayableProbe.FieldPartCount(\"pond\") == 1 && PlayableProbe.FieldPartCount(\"stream\") == 1",
+      "capture": true
+    }
+  ]
+}

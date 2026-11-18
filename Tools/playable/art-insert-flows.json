@@ -44,7 +44,7 @@
       "id": "GND",
       "name": "바닥: 임시 마름모 0, 풀·흙길 타일이 화면에 있음(바닥 넣기 T1·T2·T5). 4화면비 캡처 동안 게임 시간 멈춤(웨이브 1 시간을 뒤 방향 단계에 남김)",
       "do": "UnityEngine.Time.timeScale = 0f;",
-      "expect": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.PlaceholderGroundTileCount == 0 && PlayableProbe.GroundTileCount(\"grass_\", true) > 0 && PlayableProbe.GroundTileCount(\"path_\", true) > 0",
+      "expect": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.PlaceholderGroundTileCount == 0 && PlayableProbe.GroundTileCount(\"grass_\", true) > 0 && PlayableProbe.GroundTileCount(\"path_\", true) > 0 && PlayableProbe.FieldGroundVisibleCount > 0",
       "capture": "all"
     },
     {

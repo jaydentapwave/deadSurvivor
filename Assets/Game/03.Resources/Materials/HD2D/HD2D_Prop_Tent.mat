@@ -23,6 +23,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Dirt:
+        m_Texture: {fileID: 2800000, guid: 37a87f8ce0c884d029d0bcf82d0a1a93, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Ground:
         m_Texture: {fileID: 2800000, guid: 462436d7d7b574be0b48669a079fc67d, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -45,6 +49,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Water:
         m_Texture: {fileID: 2800000, guid: 375bfad2fe0324f5782ea89bbbc5ad34, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaterMask:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
