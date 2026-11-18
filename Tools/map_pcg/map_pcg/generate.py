@@ -769,7 +769,63 @@ def _place(rng, cfg, L, grid):
             continue
         P.try_add('grass_tuft_01', q[0], q[1], group='flowers', spacing=1.6)
     _prune_density(P, cfg, rng)
+    _edge_clusters(P, cfg, L)
     return P.items
+
+
+def _edge_clusters(P, cfg, L):
+    """Append outer-screen clusters without moving or pruning the adopted start composition."""
+    settings = cfg['placement'].get('edgeClusters')
+    if not settings:
+        return
+    rng = np.random.default_rng(L.seed + 180003)
+    start = cfg['bounds']['startScreen']
+    margin_x, margin_y = settings['startMargin']
+    w, h = cfg['placement']['densityWindow']
+
+    def add(name, q, group, spacing=None):
+        # Includes canopy height and shadow reach, not just the placement's anchor.
+        if (abs(q[0] - start['center'][0]) <= start['halfWidth'] + margin_x
+                and abs(q[1] - start['center'][1]) <= start['halfDepth'] + margin_y):
+            return False
+        if not P.ok(name, *q, spacing=spacing):
+            return False
+        cap = cfg['placement']['densityCap'].get(group)
+        if cap is not None:
+            pts = np.array([[it['x'], it['y']] for it in P.items if it['group'] == group] + [list(q)])
+            # Existing windows already satisfy the cap. Only windows containing q
+            # can change; sorted y searches avoid rescanning every existing window.
+            lefts = pts[(pts[:, 0] >= q[0] - w) & (pts[:, 0] <= q[0]), 0]
+            for left in lefts:
+                ys = np.sort(pts[(pts[:, 0] >= left) & (pts[:, 0] <= left + w), 1])
+                bottoms = ys[(ys >= q[1] - h) & (ys <= q[1])]
+                counts = np.searchsorted(ys, bottoms + h, side='right') - np.searchsorted(ys, bottoms)
+                if np.any(counts > cap):
+                    return False
+        P.add(name, *q, group=group)
+        return True
+
+    for index, center in enumerate(settings['centers']):
+        center = np.array(center, dtype=float)
+        for name, group, count in (('tree_02', 'tree', settings['trees']),
+                                   ('boulder_01', 'boulder', settings['boulders']),
+                                   ('bush_02', 'bush', settings['bushes']),
+                                   ('flower_01' if index % 2 else 'flower_03', 'flowers', settings['flowers'])):
+            added = 0
+            for attempt in range(count * 30):
+                angle = rng.uniform(0, 2 * math.pi)
+                radius = settings['radius'] * math.sqrt(rng.random())
+                q = center + np.array([math.cos(angle), math.sin(angle)]) * radius
+                spacing = cfg['placement']['treeSpacing'] if group == 'tree' else None
+                if add(name, q, group, spacing):
+                    added += 1
+                if added == count:
+                    break
+        # A short broken stone arc gives each clearing a small recognizable ruin.
+        for k in range(7):
+            angle = math.pi * (.15 + k / 8)
+            q = center + np.array([math.cos(angle), math.sin(angle)]) * (settings['radius'] + .7)
+            add('rock_02' if k % 2 else 'rock_01', q, 'wall_edge_%d' % index, .3)
 
 
 def _window_members(pts, w, h):

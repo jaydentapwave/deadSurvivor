@@ -51,6 +51,26 @@ def main():
         case('seed %d all checks' % s, not v, '; '.join(v[:3]))
 
     L = base[3]
+    # Outer additions cannot silently re-roll or prune the user-selected seed 8 screen.
+    adopted_cfg = copy.deepcopy(CFG)
+    adopted_cfg['placement'].pop('edgeClusters', None)
+    adopted = G.generate(8, adopted_cfg)
+    expanded = G.generate(8, CFG)
+    extra = expanded.placements[len(adopted.placements):]
+    case('seed 8 original placements retained byte-for-byte',
+         expanded.placements[:len(adopted.placements)] == adopted.placements)
+    ss = CFG['bounds']['startScreen']
+    mx, my = CFG['placement']['edgeClusters']['startMargin']
+    case('outer additions exclude start screen plus canopy and shadow margin', bool(extra) and all(
+        abs(p['x'] - ss['center'][0]) > ss['halfWidth'] + mx
+        or abs(p['y'] - ss['center'][1]) > ss['halfDepth'] + my for p in extra))
+    case('southern and eastern screens both gain clustered scenery',
+         all(sum(p['x'] > 12 if side == 'east' else p['y'] < -15 for p in extra) >= 20
+             for side in ('east', 'south')))
+    density = C.metrics(expanded)['densityWindowMax']
+    case('expanded seed 8 obeys every existing density cap', all(
+        density[group] <= cap for group, cap in CFG['placement']['densityCap'].items()))
+    case('expanded seed 8 all gameplay constraints', not C.check(expanded))
     # 2. Determinism: same seed -> identical layout json and masks; different seed differs.
     with tempfile.TemporaryDirectory() as tmp:
         hashes = []
