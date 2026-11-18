@@ -75,20 +75,25 @@ public class FieldViewBuildTests
             so.FindProperty("tilemap").objectReferenceValue=tilemap;
             var groundMaterial=AssetDatabase.LoadAssetAtPath<Material>("Assets/Game/03.Resources/Materials/HD2D/HD2D_Field_Ground.mat");
             so.FindProperty("groundMaterial").objectReferenceValue=groundMaterial;
-            so.FindProperty("pondMesh").objectReferenceValue=AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Game/03.Resources/Meshes/HD2D/FieldPond.asset");
             so.ApplyModifiedPropertiesWithoutUndo();
             tilemap.SetTile(Vector3Int.zero,tile);
             field.BuildLandscape(JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_layout.json")));
             Assert.IsFalse(tileRenderer.enabled);
             Assert.AreSame(tile,tilemap.GetTile(Vector3Int.zero));
             Assert.AreEqual(1,field.PartCount("ground"));
-            Assert.AreEqual(2,field.PartCount("bank"));
+            Assert.AreEqual(1,field.PartCount("bank"));
             foreach (Transform part in field.Landscape)
                 if (part.name=="bank") Assert.AreSame(groundMaterial,part.GetComponent<Renderer>().sharedMaterials[0]);
             Assert.AreEqual(1,groundMaterial.GetFloat("_FlatDepth"),"Shared top retains D-2 depth");
             Assert.AreEqual(1,field.PartCount("pond"));
             Assert.AreEqual(1,field.PartCount("stream"));
             Assert.AreEqual(1,field.PartCount("waterfall"));
+            Assert.AreEqual(1,field.PartCount("stream-upper"));
+            var pond = field.Landscape.Find("pond").GetComponent<MeshFilter>().sharedMesh;
+            Assert.AreEqual(4, pond.vertexCount, "Organic water is revealed through the mask, independent of the legacy pond asset");
+            Assert.That(pond.bounds.center.y, Is.EqualTo(-.015f).Within(.00001f));
+            var layout = JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_layout.json"));
+            Assert.AreEqual(BankMeshMath.Cells(layout.banks[0].runs).Count * 6, field.Landscape.Find("bank").GetComponent<MeshFilter>().sharedMesh.GetTriangles(0).Length);
             Assert.AreEqual(Quaternion.identity,field.Landscape.rotation);
             Assert.IsEmpty(root.GetComponentsInChildren<Collider>());
             Assert.IsEmpty(root.GetComponentsInChildren<Collider2D>());
@@ -112,7 +117,6 @@ public class FieldViewBuildTests
         {
             var so = new SerializedObject(field);
             so.FindProperty("tilemap").objectReferenceValue = tiles;
-            so.FindProperty("pondMesh").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Game/03.Resources/Meshes/HD2D/FieldPond.asset");
             var material = AssetDatabase.LoadAssetAtPath<Material>("Assets/Game/03.Resources/Materials/HD2D/HD2D_SpriteLit.mat");
             so.FindProperty("cardMaterial").objectReferenceValue = material;
             so.ApplyModifiedPropertiesWithoutUndo();
