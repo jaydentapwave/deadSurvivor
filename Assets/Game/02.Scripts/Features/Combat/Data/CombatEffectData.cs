@@ -13,14 +13,14 @@ public class CombatEffectData
 
     public CombatEffectClipData GetClip(string key)
     {
-        foreach (var clip in clips)
+        foreach (var clip in clips ?? Array.Empty<CombatEffectClipData>())
         {
             if (clip.Key == key)
             {
                 return clip;
             }
         }
-        throw new KeyNotFoundException($"[CombatEffectData] No clip for {key}");
+        return CombatEffectClipData.SingleSprite(key);
     }
 
     public CombatItemEffectData Get(string itemId)
@@ -53,8 +53,8 @@ public class CombatEffectClipData
 {
     [SerializeField] private string key;
     [SerializeField] private string sprite;
-    [SerializeField] private int frames;
-    [SerializeField] private float fps;
+    [SerializeField] private int frames = 1;
+    [SerializeField] private float fps = 1f;
     [SerializeField] private bool loop;
     [SerializeField] private bool directional;
     [SerializeField] private int materialIndex;
@@ -65,6 +65,14 @@ public class CombatEffectClipData
     public bool Loop => loop;
     public bool Directional => directional;
     public int MaterialIndex => materialIndex;
+    public bool IsSingleSprite => frames == 1 && !directional;
     public string FrameKey(int index, string direction = "right") =>
-        directional ? $"{sprite}_{direction}_{index + 1}" : $"{sprite}_{index + 1}";
+        IsSingleSprite ? sprite : directional ? $"{sprite}_{direction}_{index + 1}" : $"{sprite}_{index + 1}";
+
+    // clips가 없는 옛 데이터는 전달된 그림 키 한 장을 그대로 표시한다.
+    public static CombatEffectClipData SingleSprite(string spriteKey) => new()
+    {
+        key = spriteKey,
+        sprite = spriteKey
+    };
 }

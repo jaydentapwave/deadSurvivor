@@ -45,6 +45,41 @@ public class EffectSpriteCache : IDisposable
         return sprite;
     }
 
+    // 발동 id의 모든 프레임은 뷰를 풀로 돌려준 뒤 해제한다. 다음 발동까지 보관하지 않는다.
+    public void ReleaseChain(uint seed)
+    {
+        var keys = new List<(int, int, uint, int)>();
+        foreach (var pair in _chainDict)
+        {
+            if (pair.Key.Item3 == seed)
+            {
+                keys.Add(pair.Key);
+            }
+        }
+        foreach (var key in keys)
+        {
+            var sprite = _chainDict[key];
+            var texture = sprite.texture;
+            _chainDict.Remove(key);
+            _createdList.Remove(sprite);
+            _createdList.Remove(texture);
+            DestroyOwned(sprite);
+            DestroyOwned(texture);
+        }
+    }
+
+    private static void DestroyOwned(Object created)
+    {
+        if (Application.isPlaying)
+        {
+            Object.Destroy(created);
+        }
+        else
+        {
+            Object.DestroyImmediate(created);
+        }
+    }
+
     private Sprite Create(EffectRaster image, string name)
     {
         var texture = new Texture2D(image.Width, image.Height, TextureFormat.RGBA32, false)
@@ -66,14 +101,7 @@ public class EffectSpriteCache : IDisposable
     {
         foreach (var created in _createdList)
         {
-            if (Application.isPlaying)
-            {
-                Object.Destroy(created);
-            }
-            else
-            {
-                Object.DestroyImmediate(created);
-            }
+            DestroyOwned(created);
         }
         _spriteDict.Clear();
         _chainDict.Clear();

@@ -84,3 +84,7 @@
 놓친 것/방법 전환/워크플로우 갱신 후보는 stages.md: 셰이더 GPU 오류색·console 먼저, 포트 대신 live PID+project, 지면 가림 먼저, 짧은 동시 상태 polling 대신 매프레임 observer, atlas Remove/Add 순서 변화를 SHA로 확인. 이번 도구에 반영했고 킷 원본은 고치지 않았다. 전체 검증 반복을 추가하지 않았다.
 
 모든 리뷰 판정이 돌아온 뒤에만 지정 `.director/outbox/20261118-hd2d-fx-1.md`를 작성한다. 그 문서에 교체 목록13행의 “지금” 문안/커밋, 설계8절 개정 후보(파동2.2 예외 포함), 설계9절에서 실제 바뀐 킷 절차·raster/GPU/연속캡처 도구 후보를 적는다. 현 단계는 리뷰를 스스로 수행한 것으로 기록하지 않는다.
+
+## r002 정정·추가 계약
+
+이전 마감 FAIL의 수정 확인은 [r002-review-brief.md](r002-review-brief.md). 래스터 비교의 정식 절대 경로·버전·SHA는 [raster-reference.md](raster-reference.md) 하나로 고정한다. 보정 전 메인 원본은 현재 비교 기준이 아니다. 실제 clips 필드 구조와1장 복귀 소비는 [data-contract.md](data-contract.md). X-4는 반환 spec-reviewer 판정에 따라 본 게임0/보존 시안2로 명시한다. 전체 장면0이 아니다.

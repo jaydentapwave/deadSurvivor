@@ -102,6 +102,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         foreach (var id in _releaseBurstIdList)
         {
             _projectileViewFactory.ReleaseBurst(id);
+            _effectSpriteCache.ReleaseChain((uint)(id >> 32));
         }
     }
 
@@ -148,7 +149,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         var sprite = _spriteAtlasService.Get(clip.FrameKey(0));
         var position = World(burst.Position);
         var key = (long)burst.Id << 32;
-        if (burst.Kind == BurstEffectKind.Chain)
+        if (burst.Kind == BurstEffectKind.Chain && !clip.IsSingleSprite)
         {
             var from = position + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
             var to = World(burst.EndPosition) + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
@@ -176,6 +177,9 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
                 // 원본 베기 날이 왼쪽이다. 목표가 오른쪽이면 반전한다.
                 isFlipped = burst.Direction.x > 0f;
                 break;
+            case BurstEffectKind.Chain:
+                position += TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
+                break;
             case BurstEffectKind.Heal:
                 position += TiltedViewMath.UprightOffset(HealHeight, _viewRules.TiltDegrees);
                 break;
@@ -190,7 +194,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         }
 
         var elapsed = burst.Seconds - burst.RemainingSeconds;
-        if (burst.Kind == BurstEffectKind.HealArea || burst.Kind == BurstEffectKind.Pulse)
+        if (!clip.IsSingleSprite && (burst.Kind == BurstEffectKind.HealArea || burst.Kind == BurstEffectKind.Pulse))
         {
             var frame = EffectFrameMath.FrameAt(elapsed, clip.Frames, clip.Fps, false);
             var ring = _effectSpriteCache.Ring(burst.Kind == BurstEffectKind.HealArea ? "heal" : "pulse", burst.Radius * _runRules.UnitScale, frame);
@@ -198,8 +202,9 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         }
         else
         {
-            DrawFrame(key, spriteName, elapsed, position, isFlipped);
-            if (burst.Kind == BurstEffectKind.Explosion)
+            DrawFrame(key, spriteName, elapsed, position, isFlipped,
+                clip.IsSingleSprite && (burst.Kind == BurstEffectKind.HealArea || burst.Kind == BurstEffectKind.Pulse));
+            if (burst.Kind == BurstEffectKind.Explosion && !clip.IsSingleSprite)
             {
                 var groundClip = _effectData.GetClip("ground_boom");
                 var frame = EffectFrameMath.FrameAt(elapsed, groundClip.Frames, groundClip.Fps, false);

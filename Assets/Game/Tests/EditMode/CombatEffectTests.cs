@@ -181,4 +181,60 @@ public class CombatEffectTests
         Assert.AreEqual(1, context.CombatFeedbackModel.MonsterHitList.Count);
         Assert.AreEqual(10f, context.CombatFeedbackModel.MonsterHitList[0].Amount);
     }
+    [Test]
+    public void LegacySingleSpriteDataDefaultsToOneUnsuffixedFrameWithoutActiveLegacyReferences()
+    {
+        var data = JsonUtility.FromJson<CombatEffectData>("{\"items\":[{\"itemId\":\"sword\",\"burst\":\"shadow\"}]}");
+        var clip = data.GetClip(data.Get("sword").Burst);
+        Assert.AreEqual(1, clip.Frames);
+        Assert.AreEqual("shadow", clip.FrameKey(0));
+        Assert.AreEqual(0, EffectFrameMath.FrameAt(100, clip.Frames, clip.Fps, clip.Loop));
+        var resolved = Resources.Load<UnityEngine.U2D.SpriteAtlas>("Art/Characters").GetSprite(clip.FrameKey(0));
+        Assert.IsNotNull(resolved);
+        Object.DestroyImmediate(resolved);
+        var omitted = JsonUtility.FromJson<CombatEffectClipData>("{\"key\":\"still\",\"sprite\":\"shadow\"}");
+        Assert.AreEqual(1, omitted.Frames);
+        Assert.AreEqual("shadow", omitted.FrameKey(0));
+    }
+
+    [TestCase("arrow")]
+    [TestCase("crossbow_bolt")]
+    [TestCase("fireball")]
+    public void ProjectileCornersStayOnNativeGridForEveryBakedDirectionAndFlip(string key)
+    {
+        var view = Object.Instantiate(Resources.Load<ProjectileView>("Prefab/ProjectileView"));
+        try
+        {
+            var shadow = view.transform.Find("Shadow");
+            var shadowLocal = shadow.localPosition;
+            foreach (var degrees in new[] { 0f, 45f, 90f, 135f, 180f, -135f, -90f, -45f })
+            {
+                var facing = EffectFrameMath.DirectionSprite(degrees);
+                var sprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(
+                    $"Assets/Game/03.Resources/Art/HD2D/Effects/{key}_{EffectFrameMath.DirectionName(facing.index)}_1.png");
+                view.Initialize(sprite);
+                view.SetFrame(sprite, key, 1, key == "fireball");
+                var direction = (Vector2)(Quaternion.Euler(0, 0, degrees) * Vector3.right);
+                var position = new Vector3(2.017f, 0, -3.013f);
+                view.UpdateView(position, direction);
+                Assert.AreEqual(TiltedViewMath.SnapToTexels(position, .5f, 48), view.transform.localPosition);
+                Assert.AreEqual(shadowLocal, shadow.localPosition);
+                foreach (var vertex in sprite.vertices)
+                {
+                    var local = new Vector3(facing.flipX ? -vertex.x : vertex.x, facing.flipY ? -vertex.y : vertex.y, 0);
+                    var world = view.BodyRenderer.transform.TransformPoint(local);
+                    var pixels = new Vector2(world.x, Vector3.Dot(world, view.BodyRenderer.transform.up)) * sprite.pixelsPerUnit;
+                    Assert.Less(Vector2.Distance(pixels, new Vector2(Mathf.Round(pixels.x), Mathf.Round(pixels.y))), .0001f,
+                        $"{sprite.name} angle={degrees} corner={pixels}");
+                }
+                var first = view.BodyRenderer.transform.position;
+                view.UpdateView(position, direction);
+                Assert.AreEqual(first, view.BodyRenderer.transform.position, "snap must not accumulate");
+            }
+        }
+        finally
+        {
+            Object.DestroyImmediate(view.gameObject);
+        }
+    }
 }

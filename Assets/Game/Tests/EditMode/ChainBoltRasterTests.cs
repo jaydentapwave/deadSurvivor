@@ -27,4 +27,32 @@ public class ChainBoltRasterTests
             Assert.AreEqual(255, image.Pixels[(oy + dy) * image.Width + ox + dx].a);
         }
     }
+    [Test]
+    public void FinishedChainResourcesAreReleasedWhileAnotherChainRemainsLive()
+    {
+        using var cache = new EffectSpriteCache();
+        var live = cache.Chain(110, 28, 7, 0);
+        for (uint seed = 8; seed < 208; seed++)
+        {
+            var sprites = new UnityEngine.Sprite[3];
+            var textures = new UnityEngine.Texture2D[3];
+            for (var frame = 0; frame < 3; frame++)
+            {
+                sprites[frame] = cache.Chain(110, 28, seed, frame);
+                textures[frame] = sprites[frame].texture;
+            }
+            cache.ReleaseChain(seed);
+            foreach (var sprite in sprites)
+            {
+                Assert.IsTrue(sprite == null, "finished Sprite must be destroyed");
+            }
+            foreach (var texture in textures)
+            {
+                Assert.IsTrue(texture == null, "finished Texture must be destroyed");
+            }
+            Assert.AreSame(live, cache.Chain(110, 28, 7, 0));
+        }
+        cache.ReleaseChain(7);
+        Assert.IsTrue(live == null);
+    }
 }

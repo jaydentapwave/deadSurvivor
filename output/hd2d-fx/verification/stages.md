@@ -55,3 +55,13 @@ VERDICT: PASS
 - 낭비·놓침 후보 반영: ShaderUtil의 빈 목록보다 actual pixel/console cursor를 먼저 확인, stable PID+project로 에디터 지정, 첫 capture부터 지면 가림·단일 표본 실제 가시성 확인, 짧은 동시 상태는 polling 대신 프레임 observer. 이번 실행의 절차/도구로 반영했고 킷 규칙 원본은 고치지 않음. 전역 워크플로우 반영 후보는 최종 핸드오프에 넘긴다. 전체 반복 검사는 추가하지 않음.
 
 - 이행 메뉴01~05 재실행 첫 확인은159개 중 atlas1개 순서 변경으로 FAIL. Remove/Add가 swap-last 재정렬을 일으켰다. 이미 연결된 폴더를 GetPackables로 확인하여 유지하도록 바꾼 뒤159/159 SHA 불변 PASS. 최종 SpriteAtlasServiceTests만5/5 재확인, 컴파일0. 전체 Play/EditMode는 반복하지 않음.
+
+## 마감 FAIL 필수 수정 확인 r002
+- 사용자 반환: validator-client `VERDICT: FAIL`, spec-reviewer `VERDICT: FAIL`, algorithm-tester `VERDICT: FAIL`. Claude 시각 판독 `VERDICT: PASS` 유지. 독립 수정 확인은 NOT_RUN, Claude 리뷰 세션으로 요청.
+- VC-1: 증가 burst id별 번개 자원이 Scope 내 누적되던 결함을 놓쳤다. 뷰 반환 뒤 해당 seed의 Sprite/Texture를 해제하고 사전/소유 목록에서 제거. 대상 시험200회×3장 자원 소멸과 활성 다른 발동 보호 PASS. 실제25회 표시 후 같은 Scope의 Prep에서 chainEntries0, 전용 Play4/4 PASS23.2초.
+- SP-1: 뿌리 스냅만 확인하고 중앙 홀수 크기 그림 모서리의 반 텍셀 위상을 놓쳤다. 기존 CardSnapMath로 Body만 보정. 화살/볼트/불탄 실제 그림3종×8방향의 모서리 좌표·뿌리/그림자 불변·반복 보정 비누적 검사 PASS.
+- SP-2: 데이터 clips 기본값/미등록 키에서 정지 한 장 복귀 계약을 놓쳤다. frames/fps 기본1·원래 키 무접미사 경로와 Presenter의 정지 경로를 구현. clips 없는 옛 JSON·기본 클립·실제 단일 그림 해석 PASS. 새 자산참조 추가0. clips 실제 스키마는 data-contract.md에 명시.
+- AL-1: F0 보정 전 외부 원본과 보정 채택 r003을 모두 raster.py라고 쓴 기준 경로 혼동. raster-reference.md에서 후속 보정 지시·F0 PASS·임포트 커밋을 근거로 r003 절대 경로/SHA를 고정. 런타임 래스터/아트 출력은 바꾸지 않음. Python 독립51PNG·입력·SHA 고정 후 C# 전 픽셀 차이0, 자체 시험22/22 PASS.
+- 명령 관문: compile 오류0; CombatEffectTests34/34, ChainBoltRasterTests10/10, GroundMarkRasterTests7/7(내부51표본). 전체 EditMode/전체 Play 반복0, 성능 측정0. 기존 시각 PASS는 재실행하지 않음. 보존 시안 참조2는 spec-reviewer의 범위 밖 판정 그대로, 본 게임0/시안2.
+- 표본 도구 첫 실행은 dash_line_frames의 (frames,pivot) 반환을 frames로 풀지 않아 FAIL. 반환 첫 항목을 선택해 같은51표본 생성 성공. 알고리즘·허용차·판정 기준 변경0.
+- 워크플로우 갱신 후보: 자원 캐시는 Scope 수명뿐 아니라 발동 종료/로비 재사용을 검사; 격자 판정은 뿌리보다 렌더링 모서리 좌표; 보정된 기준은 단일 절대 경로·버전·SHA와 채택 근거로 고정. 이번 수정 도구/검사/계약 문서에 반영, 킷 원본/기준서는 수정하지 않음. 추가 검사는 기존 대상 클래스에 통합했으며 전체 회귀 반복은 추가하지 않았다. 최종 핸드오프로 디렉터에 전달 예정.

@@ -20,6 +20,7 @@ public class ProjectileView : MonoBehaviour
         bodyRenderer.flipY = false;
         bodyRenderer.transform.localRotation = Quaternion.identity;
         bodyRenderer.transform.localScale = Vector3.one;
+        bodyRenderer.transform.localPosition = Vector3.zero;
         EffectKey = string.Empty;
         FrameNumber = 1;
     }
@@ -40,5 +41,10 @@ public class ProjectileView : MonoBehaviour
         bodyRenderer.transform.localRotation = Quaternion.identity;
         transform.localScale = Vector3.one;
         transform.localPosition = TiltedViewMath.SnapToTexels(worldPosition, .5f, Const.PixelsPerUnit);
+        // 뿌리/그림자를 움직이지 않고 그림의 왼쪽 아래 모서리 위상만 보정한다.
+        var sprite = bodyRenderer.sprite;
+        var pivot = new Vector2(facing.flipX ? sprite.rect.width - sprite.pivot.x : sprite.pivot.x,
+            facing.flipY ? sprite.rect.height - sprite.pivot.y : sprite.pivot.y);
+        bodyRenderer.transform.position = CardSnapMath.Snap(upright.position, pivot, sprite.pixelsPerUnit, upright.eulerAngles.x);
     }
 }

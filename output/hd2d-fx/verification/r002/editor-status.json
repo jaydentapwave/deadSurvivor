@@ -1,0 +1,38 @@
+{
+  "success": true,
+  "command": "status",
+  "data": {
+    "count": 1,
+    "instances": [
+      {
+        "port": 7801,
+        "project": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx",
+        "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx",
+        "version": "6000.4.3f1",
+        "editorVersion": "6000.4.3f1",
+        "state": "ready",
+        "role": "main",
+        "instanceName": "Main Editor"
+      }
+    ],
+    "items": [
+      {
+        "port": 7801,
+        "project": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx",
+        "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx",
+        "version": "6000.4.3f1",
+        "editorVersion": "6000.4.3f1",
+        "state": "ready",
+        "role": "main",
+        "instanceName": "Main Editor"
+      }
+    ],
+    "total": 1,
+    "nextPage": null,
+    "partial": false
+  },
+  "errors": [],
+  "warnings": [
+    "Could not check which editors are running, so a running editor may be missing from this report."
+  ]
+}

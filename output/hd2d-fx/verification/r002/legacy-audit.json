@@ -1,0 +1,14 @@
+{
+  "active_count": 0,
+  "preserved_trial_count": 2,
+  "references": [
+    {
+      "path": "Assets/Game/01.Scene/Lookdev_HD2D.unity",
+      "legacy": "Assets/Game/03.Resources/Art/AIGenerated/Effects/slash_sword.png.meta"
+    },
+    {
+      "path": "Assets/Game/01.Scene/Lookdev_HD2D.unity",
+      "legacy": "Assets/Game/03.Resources/Art/AIGenerated/Effects/fireball.png.meta"
+    }
+  ]
+}
