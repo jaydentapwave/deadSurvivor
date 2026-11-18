@@ -1,0 +1,6 @@
+output/assets/hd2d-8dir/heroes/anim/bruno_right_attack/bruno_attack_right_00.png SHA256 cc71cf26d1f7ffdc208cd699403d89e392e4d3913c26e87b9bb9ac81a698b132; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bruno_right_attack/bruno_attack_right_01.png SHA256 50e35ca14594f76a8cba821b9c439b6ec0cbb9a606cf3c86d8f123a0a03107d8; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bruno_right_attack/bruno_attack_right_02.png SHA256 eb12fb4bcf4b29faf537457ec615490a20c586c399ea40f80c0827f70fa28630; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bruno_right_attack/bruno_attack_right_03.png SHA256 7ea9e216d2ff25afbd2fc6b9df989997d32e1b6c1a375f460af172a6edf6f2ce; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bruno_right_attack/bruno_attack_right_04.png SHA256 e46117602bd8ba7b52806e6067b7b9ad0f1544ef66a3358dd8877280ee7aae54; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bruno_right_attack/bruno_attack_right_05.png SHA256 f6361030927a629bfe257c8c539dc41a97004dd77edc38dda47c2d9a2077673d; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md

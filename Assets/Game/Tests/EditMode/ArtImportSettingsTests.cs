@@ -21,9 +21,10 @@ public class ArtImportSettingsTests
         var expected = 19 + 4 * 3 + 5 * 4 + 2 * 4;
         foreach (var character in characters)
         {
-            expected += 2 * (character.Motion.WalkFrames + character.Motion.AttackFrames);
+            expected += 5 * (character.Motion.WalkFrames + character.Motion.AttackFrames);
         }
 
+        expected -= 7; // Approved pending mira_up_walk only; B5 adds146 frames.
         Assert.AreEqual(expected, guids.Length);
         AssertImportValues(guids);
     }

@@ -46,9 +46,10 @@ public class SpriteAtlasServiceTests
         var expected = SpriteNames.Length + uiNames.Length + new ItemRepository(new ResourceService()).ItemDataList.Count();
         foreach (var character in new CharacterRepository(new ResourceService()).CharacterDataList)
         {
-            expected += 2 * (character.Motion.WalkFrames + character.Motion.AttackFrames);
+            expected += 5 * (character.Motion.WalkFrames + character.Motion.AttackFrames);
         }
 
+        expected -= 7; // mira_up_walk: approved pending clip.
         Assert.AreEqual(expected, Resources.Load<SpriteAtlas>("Art/Characters").spriteCount);
     }
 
@@ -92,13 +93,14 @@ public class SpriteAtlasServiceTests
     }
 
     [Test]
-    public void OptionalClipsUseOneAliasTableAndKeepMissingDirectionsEmpty()
+    public void SuppliedClipsResolveAllBrunoDirectionsAndOnlyMiraUpWalkIsMissing()
     {
         var service = new SpriteAtlasService(new ResourceService());
         var table = service.GetDirectionFrames("bruno", "walk", 4);
-        Assert.IsNull(table[(int)FacingDirection.Down]);
-        Assert.IsNull(table[(int)FacingDirection.Right]);
-        Assert.IsNull(table[(int)FacingDirection.Up]);
+        Assert.IsNotNull(table[(int)FacingDirection.Down]);
+        Assert.IsNotNull(table[(int)FacingDirection.Right]);
+        Assert.IsNotNull(table[(int)FacingDirection.Up]);
+        Assert.IsNull(service.GetDirectionFrames("mira", "walk", 7)[(int)FacingDirection.Up]);
         Assert.AreSame(service.Get("bruno_walk_front_00"), table[(int)FacingDirection.DownRight][0]);
         Assert.AreSame(service.Get("bruno_walk_back_00"), table[(int)FacingDirection.UpRight][0]);
         Assert.AreSame(service.Get("bruno_front"), service.Get("bruno_downright"));

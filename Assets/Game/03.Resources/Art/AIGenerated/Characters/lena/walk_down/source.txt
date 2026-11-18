@@ -1,0 +1,6 @@
+output/assets/hd2d-8dir/heroes/anim/lena_down_walk/lena_walk_down_00.png SHA256 9fdc1925217456f371a5dc29fac9570e9a3e4e7dd0d373269b0394099e8518d7; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/lena_down_walk/lena_walk_down_01.png SHA256 0fc35d8d79b6c927922b46953d7edd5baee7709ebb6791d01bd270703bd40981; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/lena_down_walk/lena_walk_down_02.png SHA256 61f770170157a6f58d71edb2650db24a1464be89108778418d88cb9393a38101; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/lena_down_walk/lena_walk_down_03.png SHA256 978b63cb25921f43483d2b587d288ff4ad34182ffa5bbb70ed27343561084cfb; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/lena_down_walk/lena_walk_down_04.png SHA256 5fc73b54c591a43f8310a436196be9665f0c86279c32fe79298180ed7d7d0002; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/lena_down_walk/lena_walk_down_05.png SHA256 783a4f853a8567503737aa66e6cad927ff0c3eff923226d22d3a0b8725771489; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md

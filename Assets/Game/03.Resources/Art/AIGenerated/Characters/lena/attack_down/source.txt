@@ -1,0 +1,6 @@
+output/assets/hd2d-8dir/heroes/anim/lena_down_attack/lena_attack_down_00.png SHA256 a860793870c69e975a6be1babb292f60b2187033020d7f73d3e323aa2e7a3449; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/lena_down_attack/lena_attack_down_01.png SHA256 c477922212e97df8072cc6e6703e0522353fb3aea87aafe227be36eb5b761fdc; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/lena_down_attack/lena_attack_down_02.png SHA256 f7d6ede34b127fdf067f1e8ad6073eca516035a833b19971780600e84c858d2f; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/lena_down_attack/lena_attack_down_03.png SHA256 dfb1d294bcfc96aba1a00c6b34f4d595604e29dd710f9f222036affc38e5d17a; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/lena_down_attack/lena_attack_down_04.png SHA256 64d6264ffd82e511dd978d0e940e927328efe634ff4a7585801f65efcfb0aea2; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/lena_down_attack/lena_attack_down_05.png SHA256 f1d3bafa46d29bfa7dcd7619c28318dbf5f82bdf87ce337d7caf08a177fde024; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md

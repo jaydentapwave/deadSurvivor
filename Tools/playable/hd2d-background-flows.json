@@ -39,6 +39,110 @@
       "capture": true
     },
     {
+      "id": "MOVE_DIR1",
+      "name": "8방향 down 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(0f, -1f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR1",
+      "name": "8방향 down",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"down\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_down_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR2",
+      "name": "8방향 down-right 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(1f, -1f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR2",
+      "name": "8방향 down-right",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"down-right\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_front_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR3",
+      "name": "8방향 right 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(1f, 0f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR3",
+      "name": "8방향 right",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"right\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_right_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR4",
+      "name": "8방향 up-right 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(1f, 1f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR4",
+      "name": "8방향 up-right",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"up-right\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_back_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR5",
+      "name": "8방향 up 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(0f, 1f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR5",
+      "name": "8방향 up",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"up\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_up_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR6",
+      "name": "8방향 up-left 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(-1f, 1f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR6",
+      "name": "8방향 up-left",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"up-left\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_back_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR7",
+      "name": "8방향 left 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(-1f, 0f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR7",
+      "name": "8방향 left",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"left\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_right_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR8",
+      "name": "8방향 down-left 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(-1f, -1f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR8",
+      "name": "8방향 down-left",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"down-left\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_front_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
       "id": "MOVE_NE",
       "name": "北동 이동 한계로",
       "do": "PlayableProbe.SetMove(1f, .2f);",

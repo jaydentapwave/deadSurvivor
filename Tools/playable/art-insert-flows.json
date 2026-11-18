@@ -34,8 +34,8 @@
     },
     {
       "id": "B1",
-      "name": "전투 시작, 대원 4명 그림·앞 오른쪽",
-      "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart();",
+      "name": "전투 시작, 대원 4명 그림·앞 오른쪽 (캡처 중 시간 정지, GNDR에서 재개)",
+      "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart(); UnityEngine.Time.timeScale = 0f;",
       "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
       "expect": "PlayableProbe.MemberSpriteCount == 4 && PlayableProbe.MemberFacing(0) == \"down-right\" && PlayableProbe.MemberFacing(1) == \"down-right\" && PlayableProbe.MemberFacing(2) == \"down-right\" && PlayableProbe.MemberFacing(3) == \"down-right\"",
       "capture": "all"
