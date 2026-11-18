@@ -31,3 +31,5 @@
 
 | 경로 | 항목 | 값 | 이유 |
 |---|---|---|---|
+
+| `Art/HD2D/UI/**` | 필터·PPU·border | Bilinear, PPU 100, border = slices.json | 기준서 3.13 E, 숫자로 그린 고해상 UI |

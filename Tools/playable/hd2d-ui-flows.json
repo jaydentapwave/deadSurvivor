@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "sizes": [
+    [
+      1920,
+      1080
+    ],
+    [
+      2340,
+      1080
+    ],
+    [
+      2532,
+      1170
+    ],
+    [
+      2520,
+      1080
+    ],
+    [
+      2048,
+      1536
+    ]
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "L",
+      "name": "로비",
+      "wait": "PlayableProbe.Screen == \"Lobby\"",
+      "capture": true
+    },
+    {
+      "id": "B",
+      "name": "웨이브 2 진행",
+      "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart(); UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Wave == 2 && PlayableProbe.Screen == \"Battle\"",
+      "timeout": 30,
+      "capture": true
+    },
+    {
+      "id": "JOY",
+      "name": "화면 가운데를 누르고 위로 끌기 → 조이스틱이 보이고 원정대가 위로",
+      "do": "PlayableProbe.MarkPositions(); PlayableProbe.JoystickDown(0.5f, 0.5f); PlayableProbe.JoystickDrag(0.5f, 0.6f);",
+      "sleep": 1,
+      "expect": "PlayableProbe.IsJoystickShown && PlayableProbe.PartyDeltaY > 70f && Math.Abs(PlayableProbe.PartyDeltaX) < 0.5f",
+      "capture": true
+    },
+    {
+      "id": "END",
+      "name": "쓰러진 대원",
+      "do": "PlayableProbe.JoystickUp(); PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120
+    },
+    {
+      "id": "NEW",
+      "name": "부활 판 시작",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.UseRunSettings(5, 3f); PlayableProbe.PressToLobby(); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\""
+    },
+    {
+      "id": "DOWN",
+      "name": "대원이 쓰러지면 그 칸이 비활성, 치유 성물이 실제로 발동",
+      "wait": "PlayableProbe.AliveCount <= 3",
+      "timeout": 45,
+      "expect": "PlayableProbe.FireCount(\"relic\") >= 1 && PlayableProbe.ItemState(PlayableProbe.FirstDownMember, 0) == \"Disabled\"",
+      "capture": true
+    },
+    {
+      "id": "P",
+      "name": "웨이브 1 끝 → 정비 화면, 쓰러진 대원만 부활할 수 있다(V3 부활 버튼)",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 30,
+      "expect": "PlayableProbe.AliveCount >= 1 && PlayableProbe.AliveCount <= 3 && PlayableProbe.CanRevive(PlayableProbe.FirstDownMember)",
+      "capture": true
+    },
+    {
+      "id": "PICK",
+      "name": "가방 아이템 놓기",
+      "do": "UnityEngine.Time.timeScale = 1f; PlayableProbe.PlaceFirstStashItem();",
+      "capture": true
+    },
+    {
+      "id": "WIN",
+      "name": "10웨이브 끝까지 → 결과 승리, 버틴 웨이브 10, 전투 시간 435±2초(M1)",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120,
+      "expect": "PlayableProbe.Outcome == \"Win\" && PlayableProbe.WavesSurvived == 10 && PlayableProbe.AliveCount == 4 && Math.Abs(PlayableProbe.TotalBattleSeconds - 435) <= 2",
+      "capture": true
+    },
+    {
+      "id": "LOSE",
+      "name": "적 수 배율을 올린 판을 가만히 두면 전멸 → 결과 패배(봇은 정비만 넘김)",
+      "do": "PlayableProbe.UseRunSettings(2, 4f); PlayableProbe.PressToLobby(); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120,
+      "expect": "PlayableProbe.Outcome == \"Lose\" && PlayableProbe.AliveCount == 0 && PlayableProbe.WavesSurvived < 10",
+      "capture": true
+    },
+    {
+      "id": "ALL",
+      "name": "로비 마감",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.PressToLobby();",
+      "wait": "PlayableProbe.Screen == \"Lobby\"",
+      "capture": "all"
+    }
+  ]
+}
