@@ -18,7 +18,7 @@ public static class MainSceneHD2DEffectsMigration
             throw new InvalidOperationException("Migrate Main in Edit Mode.");
         }
         var scene = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
-        foreach (var name in new[] { "BackgroundOutline", "BackgroundComposite", "BackgroundDepth" })
+        foreach (var name in new[] { "BackgroundOutline", "BackgroundComposite", "BackgroundDepth", "HardShadowCard", "ContactShadow" })
         {
             if (AssetDatabase.LoadAssetAtPath<Material>(Materials + name + ".mat") == null)
             {
@@ -71,6 +71,7 @@ public static class MainSceneHD2DEffectsMigration
             {
                 caster = body.gameObject.AddComponent<UprightShadowCaster>();
             }
+            Set(member, "shadowMaterial", Material("ContactShadow"));
             Set(member, "shadowCaster", caster);
             Set(member, "shadowCasterMaterial", Material("ShadowOnly"));
             foreach (var renderer in member.GetComponentsInChildren<SpriteRenderer>(true))
@@ -95,6 +96,7 @@ public static class MainSceneHD2DEffectsMigration
             {
                 var so = new SerializedObject(prefab.GetComponent<MonsterView>());
                 ((SpriteRenderer)so.FindProperty("bodyRenderer").objectReferenceValue).sharedMaterial = monsterMaterial;
+                Set(prefab.GetComponent<MonsterView>(), "shadowMaterial", Material("HardShadowCard"));
                 foreach (var field in new[] { "dashLineRenderer", "blastAreaRenderer" })
                 {
                     ((SpriteRenderer)so.FindProperty(field).objectReferenceValue).sharedMaterial = Material("SpriteFade");
@@ -158,6 +160,11 @@ public static class MainSceneHD2DEffectsMigration
         tags.FindProperty("layers").GetArrayElementAtIndex(HD2DBackgroundRig.BackgroundLayer).stringValue = "HD2DBackground";
         tags.ApplyModifiedPropertiesWithoutUndo();
         AssetDatabase.DeleteAsset("Assets/Game/03.Resources/Materials/SpriteFlashWhite.mat");
+        var profile = AssetDatabase.LoadAssetAtPath<UnityEngine.Rendering.VolumeProfile>(Settings + "HD2D_BattleVolume.asset");
+        profile.TryGet<Bloom>(out var bloom);
+        bloom.filter.Override(BloomFilterMode.Dual);
+        bloom.downscale.Override(BloomDownscaleMode.Quarter);
+        EditorUtility.SetDirty(bloom);
         AssetDatabase.SaveAssets();
     }
 

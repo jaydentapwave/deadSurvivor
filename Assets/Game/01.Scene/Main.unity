@@ -15699,7 +15699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::MemberView
   bodyRenderer: {fileID: 707242248}
-  shadowMaterial: {fileID: 2100000, guid: b41cc439c697143fc8c9bc74c54ebee7, type: 2}
+  shadowMaterial: {fileID: 2100000, guid: 569da8a9db49942f182997f2f602cb3a, type: 2}
   shadowCasterMaterial: {fileID: 2100000, guid: f44b2ee5efbd34088a8e49923f03fcad, type: 2}
   shadowCaster: {fileID: 707242249}
   flashRenderer: {fileID: 380639383}
@@ -17119,7 +17119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::MemberView
   bodyRenderer: {fileID: 350314032}
-  shadowMaterial: {fileID: 2100000, guid: b41cc439c697143fc8c9bc74c54ebee7, type: 2}
+  shadowMaterial: {fileID: 2100000, guid: 569da8a9db49942f182997f2f602cb3a, type: 2}
   shadowCasterMaterial: {fileID: 2100000, guid: f44b2ee5efbd34088a8e49923f03fcad, type: 2}
   shadowCaster: {fileID: 350314033}
   flashRenderer: {fileID: 650420343}
@@ -65695,7 +65695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::MemberView
   bodyRenderer: {fileID: 1060563850}
-  shadowMaterial: {fileID: 2100000, guid: b41cc439c697143fc8c9bc74c54ebee7, type: 2}
+  shadowMaterial: {fileID: 2100000, guid: 569da8a9db49942f182997f2f602cb3a, type: 2}
   shadowCasterMaterial: {fileID: 2100000, guid: f44b2ee5efbd34088a8e49923f03fcad, type: 2}
   shadowCaster: {fileID: 1060563851}
   flashRenderer: {fileID: 1470584677}
@@ -71798,7 +71798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::MemberView
   bodyRenderer: {fileID: 543062328}
-  shadowMaterial: {fileID: 2100000, guid: b41cc439c697143fc8c9bc74c54ebee7, type: 2}
+  shadowMaterial: {fileID: 2100000, guid: 569da8a9db49942f182997f2f602cb3a, type: 2}
   shadowCasterMaterial: {fileID: 2100000, guid: f44b2ee5efbd34088a8e49923f03fcad, type: 2}
   shadowCaster: {fileID: 543062329}
   flashRenderer: {fileID: 1049418333}

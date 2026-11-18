@@ -262,7 +262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Game::MonsterView
   bodyRenderer: {fileID: 9163022423961619864}
-  shadowMaterial: {fileID: 2100000, guid: b41cc439c697143fc8c9bc74c54ebee7, type: 2}
+  shadowMaterial: {fileID: 2100000, guid: 5334b16ef49f44cfda885416a8c12524, type: 2}
   dashLineRenderer: {fileID: 1751276136615151135}
   blastAreaRenderer: {fileID: 6910708125457477631}
   minMovePixels: 0.25

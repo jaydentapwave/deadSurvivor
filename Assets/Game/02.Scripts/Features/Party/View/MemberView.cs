@@ -44,7 +44,7 @@ public class MemberView : MonoBehaviour
         get; private set;
     }
     private MemberMotionData _motionData;
-    private FootShadowView _shadow;
+    private UprightContactShadow _contactShadow;
 
     public int BodyDiameterPixels => bodyDiameterPixels;
     public Vector2Int HpBarPixels => hpBarPixels;
@@ -142,16 +142,13 @@ public class MemberView : MonoBehaviour
         }
     }
 
-    public void InitializeShadow(Sprite sprite, float bodyWidthPixels)
+    public void InitializeShadow()
     {
-        if (_shadow == null)
+        if (_contactShadow == null)
         {
-            var child = new GameObject("Shadow");
-            child.transform.SetParent(transform, false);
-            _shadow = child.AddComponent<FootShadowView>();
+            _contactShadow = gameObject.AddComponent<UprightContactShadow>();
         }
-
-        _shadow.Initialize(sprite, bodyWidthPixels, bodyRenderer.sortingLayerID, shadowMaterial);
+        _contactShadow.Initialize(bodyRenderer, shadowMaterial);
     }
 
     // 프레임 선택만 한다. 공격 시계·발동은 CombatService 소유.

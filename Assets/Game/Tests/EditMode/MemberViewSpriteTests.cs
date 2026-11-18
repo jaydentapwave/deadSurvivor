@@ -197,16 +197,16 @@ public class MemberViewSpriteTests
     public void ShadowIsCreatedOnlyOnceAndStaysAtFeetDuringMotion()
     {
         _view.Initialize(_front, _back, _downed, _bar, _bar, true);
-        _view.InitializeShadow(_bar, _front.rect.width);
-        _view.InitializeShadow(_bar, _front.rect.width);
-        Assert.AreEqual(1, _root.GetComponentsInChildren<FootShadowView>().Length);
-        var shadow = _root.GetComponentInChildren<FootShadowView>();
+        _view.InitializeShadow();
+        _view.InitializeShadow();
+        Assert.AreEqual(1, _root.GetComponentsInChildren<UprightContactShadow>().Length);
+        var shadow = _root.GetComponentInChildren<UprightContactShadow>();
+        var mesh = shadow.GetComponentInChildren<MeshFilter>().sharedMesh;
         var position = shadow.transform.localPosition;
         _view.ApplyMotion(SpriteFacing.Front, Vector2Int.one, true);
         Assert.AreEqual(position, shadow.transform.localPosition);
-        Assert.Less(shadow.GetComponent<SpriteRenderer>().sortingOrder, _body.sortingOrder);
-        var scale = shadow.transform.localScale.x;
-        Assert.AreEqual(Mathf.Round(scale), scale);
+        Assert.AreSame(mesh, shadow.GetComponentInChildren<MeshFilter>().sharedMesh);
+        Assert.AreEqual(0, _root.GetComponentsInChildren<FootShadowView>().Length);
     }
 
     [Test]
