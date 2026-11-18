@@ -30,7 +30,7 @@ public class MoveInputPresenter : IInitializable, ITickable, IDisposable
 
     public void Initialize()
     {
-        _joystickView.Initialize(_spriteAtlasService.Get("joystick_base"), _spriteAtlasService.Get("joystick_knob"));
+        _joystickView.Initialize(_spriteAtlasService.Get("U13_joystick_base", SpriteAtlasService.HudUiAtlasPath), _spriteAtlasService.Get("U13_joystick_knob", SpriteAtlasService.HudUiAtlasPath));
         _runModel.Phase.Subscribe(OnPhaseChanged).AddTo(_disposables);
     }
 

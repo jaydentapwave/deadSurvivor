@@ -5,6 +5,23 @@ public class UI_SafeAreaPanel : MonoBehaviour
 {
     [SerializeField] private RectTransform panel;
 
+#if UNITY_EDITOR
+    public static Rect? EditorSafeAreaOverride;
+#endif
+    public static Rect CurrentSafeArea
+    {
+        get
+        {
+#if UNITY_EDITOR
+            if (EditorSafeAreaOverride.HasValue)
+            {
+                return EditorSafeAreaOverride.Value;
+            }
+#endif
+            return Screen.safeArea;
+        }
+    }
+
     private Rect _appliedSafeArea;
     private Vector2Int _appliedScreenSize;
 
@@ -12,7 +29,7 @@ public class UI_SafeAreaPanel : MonoBehaviour
 
     private void Update()
     {
-        if (Screen.safeArea != _appliedSafeArea || Screen.width != _appliedScreenSize.x || Screen.height != _appliedScreenSize.y)
+        if (CurrentSafeArea != _appliedSafeArea || Screen.width != _appliedScreenSize.x || Screen.height != _appliedScreenSize.y)
         {
             Apply();
         }
@@ -20,7 +37,7 @@ public class UI_SafeAreaPanel : MonoBehaviour
 
     private void Apply()
     {
-        _appliedSafeArea = Screen.safeArea;
+        _appliedSafeArea = CurrentSafeArea;
         _appliedScreenSize = new Vector2Int(Screen.width, Screen.height);
         var (anchorMin, anchorMax) = SafeAreaLayout.Calculate(_appliedScreenSize, _appliedSafeArea);
         panel.anchorMin = anchorMin;

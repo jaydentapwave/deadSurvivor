@@ -198,7 +198,7 @@ public static class MainSceneBuilder
         CreateBattleHudView(safeArea);
         CreatePrepView(safeArea);
         CreateResultView(safeArea);
-        UiArtSceneUtils.ApplyToCanvas(canvas);
+        MainSceneHudUiMigration.ApplyToCanvas(canvas);
     }
 
     private static void CreateLobbyView(Transform parent)

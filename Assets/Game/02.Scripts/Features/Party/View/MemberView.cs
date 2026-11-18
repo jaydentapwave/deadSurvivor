@@ -20,8 +20,8 @@ public class MemberView : MonoBehaviour
     [SerializeField] private int artHeightPixels = 48;
     [SerializeField] private Vector2Int hpBarPixels = new(14, 2);
     [SerializeField] private int hpBarGapPixels = 2;
-    [SerializeField] private Color hpBackColor = new(0.15f, 0.08f, 0.05f, 1f);
-    [SerializeField] private Color hpFillColor = new(0.36f, 0.82f, 0.36f, 1f);
+    private static readonly Color HpBackColor = Color.white;
+    private static readonly Color HpFillColor = new(86f / 255, 135f / 255, 87f / 255); // Art standard 3.13 B
     // 쓰러짐(아트 기준서 3.10 사망: 0.3초 어둡게)
     [SerializeField] private float downedDimSeconds = 0.3f;
     [SerializeField] private Color downedColor = new(0.45f, 0.45f, 0.45f, 1f);
@@ -83,7 +83,7 @@ public class MemberView : MonoBehaviour
         var barY = (bodyHeightPixels + hpBarGapPixels) / (float)Const.PixelsPerUnit;
         var barX = -hpBarPixels.x * 0.5f / Const.PixelsPerUnit;
         UiBarUtils.Initialize(hpBackRenderer, hpFillRenderer, hpBarSprite, hpFillSprite,
-            (Vector2)hpBarPixels / Const.PixelsPerUnit, new Vector2(barX, barY), hpBackColor, hpFillColor);
+            (Vector2)hpBarPixels / Const.PixelsPerUnit, new Vector2(barX, barY), HpBackColor, HpFillColor);
         ApplyMotion(SpriteFacing.Front, Vector2Int.zero, false);
         shadowCaster.Initialize(bodyRenderer, shadowCasterMaterial, HD2DBackgroundRig.BackgroundLayer);
     }

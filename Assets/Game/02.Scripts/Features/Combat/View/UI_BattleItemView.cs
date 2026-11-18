@@ -4,6 +4,8 @@ using UnityEngine.UI;
 // 전투 하단 아이템 칸 하나(기획서 F절 V2): 아이콘 또는 이름, 상태 글, 쿨타임 막대
 public class UI_BattleItemView : MonoBehaviour
 {
+    [SerializeField] private Sprite normalBackground;
+    [SerializeField] private Sprite disabledBackground;
     [SerializeField] private Image background;
     [SerializeField] private Image iconImage;
     [SerializeField] private Text labelText;
@@ -24,14 +26,34 @@ public class UI_BattleItemView : MonoBehaviour
     {
         var isDisabled = state == BattleItemState.Disabled;
         var hasIcon = icon != null;
-        background.color = isDisabled ? disabledBackgroundColor : backgroundColor;
+        background.sprite = isDisabled ? disabledBackground : normalBackground;
+        background.color = Color.white;
         iconImage.gameObject.SetActive(hasIcon);
         iconImage.sprite = icon;
         iconImage.preserveAspect = true;
+        if (hasIcon)
+        {
+            var canvasScale = GetComponentInParent<Canvas>().scaleFactor;
+            var slot = ((RectTransform)transform).rect;
+            var desired = Mathf.Min(slot.width / icon.rect.width, (slot.height - 2) / icon.rect.height);
+            var scale = UiDotScale.CanvasPerTexel(desired, canvasScale);
+            iconImage.rectTransform.sizeDelta = icon.rect.size * scale;
+        }
         iconImage.color = isDisabled ? disabledTextColor : Color.white;
         labelText.gameObject.SetActive(!hasIcon);
+        labelText.fontSize = 9;
+        labelText.fontStyle = FontStyle.Normal;
+        labelText.alignment = TextAnchor.MiddleCenter;
+        labelText.horizontalOverflow = HorizontalWrapMode.Wrap;
+        labelText.verticalOverflow = VerticalWrapMode.Truncate;
+        labelText.rectTransform.anchorMin = labelText.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+        labelText.rectTransform.anchoredPosition = new Vector2(0, 1);
+        labelText.rectTransform.sizeDelta = new Vector2(16, 16);
+        stateText.gameObject.SetActive(false);
         labelText.text = label;
-        labelText.color = isDisabled ? disabledTextColor : textColor;
+        labelText.color = isDisabled
+            ? new Color(168f / 255, 172f / 255, 175f / 255)
+            : new Color(236f / 255, 236f / 255, 236f / 255);
         stateText.text = GetStateText(state, remainingSeconds);
         stateText.color = isDisabled ? disabledTextColor : state == BattleItemState.Fired ? firedTextColor : textColor;
         var hasBar = state != BattleItemState.Disabled && state != BattleItemState.Passive;

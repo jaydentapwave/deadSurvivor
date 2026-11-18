@@ -36,10 +36,10 @@ public class UI_CharacterCardView : MonoBehaviour
 
         nameText.text = characterName;
         roleText.text = role;
-        hpText.text = $"HP {hp}";
-        atkText.text = $"공격 ×{atk:0.0#}";
-        defText.text = $"방어 {Mathf.RoundToInt(def * 100f)}%";
-        itemText.text = $"시작: {startItemName}";
+        hpText.text = $"{hp}";
+        atkText.text = $"×{atk:0.0#}";
+        defText.text = $"{Mathf.RoundToInt(def * 100f)}%";
+        itemText.text = startItemName;
     }
 
     public void SetVisible(bool isVisible) => gameObject.SetActive(isVisible);
@@ -47,7 +47,7 @@ public class UI_CharacterCardView : MonoBehaviour
     // 배율 = 칸 높이 ÷ 창 높이의 정수(1 이상, 도트 굵기를 고르게). 창 = 영역 × 배율, 그림은 영역 가운데가 창 가운데에 오게 둔다
     private void UpdatePortrait(Sprite sprite)
     {
-        var scale = Mathf.Max(1, Mathf.FloorToInt(portraitSlot.preferredHeight / portraitArea.height));
+        var scale = UiDotScale.CanvasPerTexel(4f / 3, GetComponentInParent<Canvas>().scaleFactor);
         portraitWindow.sizeDelta = new Vector2(portraitArea.width * scale, portraitArea.height * scale);
         var spriteSize = sprite.rect.size;
         var areaCenter = new Vector2(portraitArea.x + portraitArea.width * 0.5f, spriteSize.y - (portraitArea.y + portraitArea.height * 0.5f));

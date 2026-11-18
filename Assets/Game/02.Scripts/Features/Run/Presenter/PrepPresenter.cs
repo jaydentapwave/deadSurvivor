@@ -15,6 +15,7 @@ public class PrepPresenter : IInitializable, IDisposable
     private readonly UI_PrepView _prepView;
     private readonly CompositeDisposable _disposables = new();
     private readonly List<string> _memberLineList = new();
+    private readonly List<float> _memberHpRatioList = new();
 
     public PrepPresenter(RunModel runModel, RunService runService, PartyModel partyModel, CombatModel combatModel,
         CharacterRepository characterRepository, UI_PrepView prepView)
@@ -45,13 +46,15 @@ public class PrepPresenter : IInitializable, IDisposable
     private void OnPrepEntered()
     {
         _memberLineList.Clear();
+        _memberHpRatioList.Clear();
         foreach (var member in _partyModel.MemberList)
         {
             var characterName = _characterRepository.Get(member.CharacterId).Name;
             var hpLine = member.IsAlive ? $"HP {Mathf.CeilToInt(member.Hp)}/{Mathf.CeilToInt(member.MaxHp)}" : "쓰러짐";
-            _memberLineList.Add($"{characterName}  {hpLine}");
+            _memberLineList.Add($"{characterName}\n{hpLine}");
+            _memberHpRatioList.Add(member.Hp / member.MaxHp);
         }
 
-        _prepView.UpdateUI(_runModel.CompletedWave.CurrentValue, _memberLineList);
+        _prepView.UpdateUI(_runModel.CompletedWave.CurrentValue, _memberLineList, _memberHpRatioList);
     }
 }

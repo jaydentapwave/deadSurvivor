@@ -27,7 +27,7 @@ public class MonsterHpBarViewFactory
         _prefab = prefab;
         _parent = parent;
         _backColor = placeholderSpriteFactory.ParseColor(_rules.BackColor);
-        _fillColor = placeholderSpriteFactory.ParseColor(_rules.FillColor);
+        _fillColor = new Color(164f / 255, 83f / 255, 74f / 255); // Art standard 3.13 B
         // 막대 가운데가 뿌리(몬스터 머리 위 자리)에 오게 왼쪽 끝을 반 폭만큼 왼쪽에
         _barOffset = new Vector2(-_rules.WidthPx * 0.5f / Const.PixelsPerUnit, 0f);
     }
@@ -35,7 +35,7 @@ public class MonsterHpBarViewFactory
     public MonsterHpBarView Create(int monsterId)
     {
         var view = _poolManager.Get(PoolKey, _prefab, _parent);
-        view.Initialize(_spriteAtlasService.GetUi("hp_bar_bg"), _spriteAtlasService.GetUi("hp_bar_fill"),
+        view.Initialize(_spriteAtlasService.GetUi("U7_bar_track"), _spriteAtlasService.GetUi("U7_bar_fill"),
             _backColor, _fillColor, _barOffset, new Vector2(_rules.WidthPx, _rules.HeightPx) / Const.PixelsPerUnit);
         _monsterHpBarViewRegistry.Register(monsterId, view);
         return view;

@@ -2,14 +2,14 @@ using UnityEngine;
 
 public static class UiBarUtils
 {
-    // 채움 폭·높이(F6)를 유지한다. 가죽 틀은 채움 밖에 4/2px씩 덧댄다.
+    // Preserve F6 fill dimensions; optional border is outside the fill. HD2D bars have no border.
     public static void Initialize(SpriteRenderer back, SpriteRenderer fill, Sprite backSprite, Sprite fillSprite,
         Vector2 size, Vector2 offset, Color backColor, Color fillColor)
     {
         back.sprite = backSprite;
         back.drawMode = SpriteDrawMode.Sliced;
-        back.size = size + new Vector2(8f, 4f) / Const.PixelsPerUnit;
-        back.transform.localPosition = offset - new Vector2(4f, 0f) / Const.PixelsPerUnit;
+        back.size = size + new Vector2(backSprite.border.x + backSprite.border.z, backSprite.border.y + backSprite.border.w) / backSprite.pixelsPerUnit;
+        back.transform.localPosition = offset - new Vector2(backSprite.border.x, 0) / backSprite.pixelsPerUnit;
         back.color = backColor;
         InitializeFill(fill, fillSprite, size, fillColor);
         fill.transform.localPosition = offset;

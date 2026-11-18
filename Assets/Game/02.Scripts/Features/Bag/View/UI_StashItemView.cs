@@ -6,6 +6,8 @@ using UnityEngine.UI;
 // 보관함 항목 하나(기획서 C절): 이름, 등급 색, 칸 모양 작은 그림(4×4), 새 전리품 "새" 표시
 public class UI_StashItemView : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler, IPointerClickHandler
 {
+    [SerializeField] private Sprite normalArt;
+    [SerializeField] private Sprite pickedArt;
     [SerializeField] private Image background;
     [SerializeField] private Image border;
     [SerializeField] private Text nameText;
@@ -34,7 +36,8 @@ public class UI_StashItemView : MonoBehaviour, IPointerDownHandler, IDragHandler
         }
 
         Uid = display.Uid;
-        background.color = display.IsPicked ? pickedColor : itemColor;
+        background.sprite = display.IsPicked ? pickedArt : normalArt;
+        background.color = Color.white;
         border.color = display.GradeColor;
         nameText.text = display.Name;
         newMark.SetActive(display.IsNew);

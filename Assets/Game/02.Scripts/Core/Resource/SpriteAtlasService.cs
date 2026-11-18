@@ -15,6 +15,7 @@ public class SpriteAtlasService : IDisposable
     public const string TelegraphSuffix = "_telegraph";
     public const string InflateSuffix = "_inflate";
     public const string CharactersAtlasPath = "Art/Characters";
+    public const string HudUiAtlasPath = "Art/HudUi";
     public const string GroundAtlasPath = "Art/Ground";
 
     private readonly Dictionary<Sprite, int> _visibleWidthDict = new();
@@ -111,10 +112,12 @@ public class SpriteAtlasService : IDisposable
             return sprite;
         }
 
-        var source = Get(key);
+        // Preserve the WorldPresenter caller during parallel field work.
+        var artKey = key == "hp_bar_bg" ? "U7_bar_track" : key == "hp_bar_fill" ? "U7_bar_fill" : key;
+        var source = Get(artKey, artKey.StartsWith("U7_") ? HudUiAtlasPath : CharactersAtlasPath);
         sprite = Sprite.Create(source.texture, source.textureRect, new Vector2(0f, 0.5f),
-            source.pixelsPerUnit, 0, SpriteMeshType.FullRect, UiArtLayout.Border(key));
-        sprite.name = key;
+            source.pixelsPerUnit, 0, SpriteMeshType.FullRect, UiArtLayout.Border(artKey));
+        sprite.name = artKey;
         _spriteDict.Add(cacheKey, sprite);
         return sprite;
     }

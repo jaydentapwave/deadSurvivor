@@ -19,9 +19,9 @@ public class UI_ResultView : MonoBehaviour
         var isWin = outcome == RunOutcome.Win;
         outcomeText.text = isWin ? "승리" : "패배";
         outcomeText.color = isWin ? winColor : loseColor;
-        wavesText.text = $"버틴 웨이브 {wavesSurvived}/{waveCount}";
-        killsText.text = $"처치 {kills}";
+        wavesText.text = $"{wavesSurvived}/{waveCount}";
+        killsText.text = $"{kills}";
         var seconds = Mathf.RoundToInt(battleSeconds);
-        timeText.text = $"전투 시간 {seconds / 60}:{seconds % 60:00}";
+        timeText.text = $"{seconds / 60}:{seconds % 60:00}";
     }
 }

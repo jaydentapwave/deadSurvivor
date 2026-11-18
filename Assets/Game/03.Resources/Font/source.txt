@@ -1,0 +1,3 @@
+2026-11-18 fontTools static instances wght=400/300 from existing NotoSansKR.ttf
+sha256 194018e6b2b293a7964f037b25c0249ce1418bc9ab3c971060a03aa57861e252
+No font download.
