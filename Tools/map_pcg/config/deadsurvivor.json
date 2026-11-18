@@ -1,0 +1,369 @@
+{
+ "_comment": "Deadsurvivor HD-2D battlefield. Floor metres: x = screen right, y = screen far. Values marked est are estimates (see docs/features/hd2d-map-pcg/design.md).",
+ "bounds": {
+  "shape": "diamond",
+  "fieldL1": 32.0,
+  "groundL1": 36.0,
+  "cornerBox": [
+   24.5,
+   25.33
+  ],
+  "visible": {
+   "halfWidth": 10.0,
+   "halfDepth": 11.25,
+   "moveLimitL1": 10.75
+  },
+  "startScreen": {
+   "halfWidth": 10.0,
+   "halfDepth": 11.25,
+   "center": [
+    0,
+    0
+   ]
+  }
+ },
+ "camera": {
+  "tiltDeg": 30,
+  "pxPerMetre": 96,
+  "spritePixelScale": 2,
+  "spritePpu": 48,
+  "sunYawDeg": 135,
+  "sunPitchDeg": 32
+ },
+ "gameplay": {
+  "clearAnyL1": 3.5,
+  "clearTallL1": 6.0,
+  "yellowFlowerClearL1": 6.0,
+  "yellowSprite": "flower_02",
+  "moveBandL1": 10.75,
+  "maxTallInMoveBand": 8,
+  "propsHaveCollision": false
+ },
+ "path": {
+  "halfWidth": 0.72,
+  "widthVariation": 0.18,
+  "edgeJitter": 0.07,
+  "edgeBiteScale": 0.35,
+  "minStartDistance": 2.0,
+  "maxStartDistance": 5.5,
+  "maxTurnDegPerMetre": 22,
+  "controlPoints": 3,
+  "branchToCamp": true,
+  "branchHalfWidth": 0.45
+ },
+ "water": {
+  "pondRadius": [
+   2.6,
+   3.9
+  ],
+  "pondLobes": 4,
+  "pondLobeAmp": 0.22,
+  "pondL1": [
+   8.5,
+   17.0
+  ],
+  "islandChance": 0.6,
+  "islandRadius": [
+   0.7,
+   1.2
+  ],
+  "streamHalfWidth": [
+   0.5,
+   0.75
+  ],
+  "streamFromRim": true,
+  "pathClearance": 3.0
+ },
+ "banks": {
+  "height": 0.36,
+  "cell": 0.125,
+  "shoreArcDeg": 150,
+  "shoreWidth": [
+   0.6,
+   1.5
+  ],
+  "falls": true,
+  "edgeTerrace": {
+   "l1": 25.0,
+   "wobble": 2.0,
+   "minY": 3.0
+  }
+ },
+ "zones": {
+  "toneScale": 9.0,
+  "toneMaxBrightness": 0.03,
+  "wornScale": 2.6,
+  "wornThreshold": 0.75,
+  "wornNearPath": 1.0,
+  "meadowScale": 7.0,
+  "meadowThreshold": 0.64,
+  "gravelRadius": [
+   1.1,
+   1.9
+  ]
+ },
+ "catalog": {
+  "tree_02": {
+   "kind": "card",
+   "group": "tree",
+   "size": [
+    1.56,
+    1.69
+   ],
+   "footprint": 0.55,
+   "tall": true,
+   "shadow": true
+  },
+  "bush_01": {
+   "kind": "card",
+   "group": "bush",
+   "size": [
+    1.06,
+    0.98
+   ],
+   "footprint": 0.4,
+   "tall": false,
+   "shadow": true
+  },
+  "bush_02": {
+   "kind": "card",
+   "group": "bush",
+   "size": [
+    0.94,
+    0.73
+   ],
+   "footprint": 0.35,
+   "tall": false,
+   "shadow": true
+  },
+  "boulder_01": {
+   "kind": "card",
+   "group": "boulder",
+   "size": [
+    1.08,
+    0.88
+   ],
+   "footprint": 0.45,
+   "tall": true,
+   "shadow": true
+  },
+  "rock_01": {
+   "kind": "card",
+   "group": "stone",
+   "size": [
+    0.35,
+    0.19
+   ],
+   "footprint": 0.15,
+   "tall": false,
+   "shadow": false
+  },
+  "rock_02": {
+   "kind": "card",
+   "group": "stone",
+   "size": [
+    0.58,
+    0.33
+   ],
+   "footprint": 0.22,
+   "tall": false,
+   "shadow": false
+  },
+  "flower_01": {
+   "kind": "card",
+   "group": "flowers",
+   "size": [
+    0.35,
+    0.33
+   ],
+   "footprint": 0.1,
+   "tall": false,
+   "shadow": false
+  },
+  "flower_02": {
+   "kind": "card",
+   "group": "flowers",
+   "size": [
+    0.38,
+    0.35
+   ],
+   "footprint": 0.1,
+   "tall": false,
+   "shadow": false
+  },
+  "flower_03": {
+   "kind": "card",
+   "group": "flowers",
+   "size": [
+    0.38,
+    0.35
+   ],
+   "footprint": 0.1,
+   "tall": false,
+   "shadow": false
+  },
+  "grass_tuft_01": {
+   "kind": "card",
+   "group": "flowers",
+   "size": [
+    0.27,
+    0.17
+   ],
+   "footprint": 0.08,
+   "tall": false,
+   "shadow": false
+  },
+  "grass_tuft_02": {
+   "kind": "card",
+   "group": "flowers",
+   "size": [
+    0.38,
+    0.29
+   ],
+   "footprint": 0.08,
+   "tall": false,
+   "shadow": false
+  },
+  "fence": {
+   "kind": "prop",
+   "size": [
+    0.92,
+    0.6
+   ],
+   "length": 1.2,
+   "tall": false,
+   "roadside": true,
+   "footprint": 0.45
+  },
+  "sign": {
+   "kind": "prop",
+   "size": [
+    0.8,
+    1.0
+   ],
+   "tall": true,
+   "roadside": true,
+   "footprint": 0.35
+  },
+  "flag": {
+   "kind": "prop",
+   "size": [
+    0.1,
+    1.6
+   ],
+   "tall": true,
+   "footprint": 0.2
+  },
+  "tent": {
+   "kind": "prop",
+   "size": [
+    1.74,
+    2.32
+   ],
+   "tall": true,
+   "shadow": true,
+   "footprint": 1.2
+  },
+  "bridge": {
+   "kind": "prop",
+   "size": [
+    1.8,
+    4.0
+   ],
+   "tall": false,
+   "shadow": true,
+   "footprint": 1.6
+  }
+ },
+ "placement": {
+  "pathClearanceTall": 1.9,
+  "pathClearanceLow": 0.15,
+  "waterClearance": 0.5,
+  "groves": [
+   3,
+   5
+  ],
+  "groveRadius": [
+   2.4,
+   4.2
+  ],
+  "groveL1": [
+   8.0,
+   29.0
+  ],
+  "treeSpacing": 1.15,
+  "rimTrees": {
+   "l1": [
+    32.5,
+    34.5
+   ],
+   "absX": [
+    10.0,
+    20.75
+   ],
+   "spacing": 1.5
+  },
+  "outcrops": [
+   2,
+   4
+  ],
+  "outcropL1": [
+   7.0,
+   28.0
+  ],
+  "meadowPatchSpacing": 3.2,
+  "flowersPerPatch": [
+   10,
+   26
+  ],
+  "pathTuftSpacing": [
+   0.5,
+   1.6
+  ],
+  "fenceRuns": 2,
+  "fenceRunLength": [
+   4,
+   6
+  ],
+  "fenceOffset": [
+   1.25,
+   1.6
+  ],
+  "fenceTotal": 12,
+  "wallRuns": [
+   [
+    6,
+    4
+   ]
+  ],
+  "camp": {
+   "tents": 2,
+   "flags": 3,
+   "l1": [
+    13.0,
+    25.0
+   ],
+   "pathDistance": [
+    4.5,
+    9.0
+   ]
+  },
+  "signs": 2,
+  "fillStones": 14,
+  "fillTufts": 60,
+  "densityWindow": [
+   20.0,
+   22.5
+  ],
+  "densityCap": {
+   "tree": 16,
+   "boulder": 5,
+   "stone": 30,
+   "bush": 18,
+   "flowers": 220
+  }
+ },
+ "score": {
+  "candidates": 6
+ }
+}
