@@ -5,6 +5,37 @@ using UnityEngine;
 public class BankMeshMathTests
 {
     [Test]
+    public void RunsUnionOverlapsNegativeCoordinatesAndUseExclusiveMaximum()
+    {
+        var runs = new[]
+        {
+            new FieldBankRun { y = -1, xMin = -2, xMax = 1 },
+            new FieldBankRun { y = -1, xMin = -1, xMax = 1 },
+            new FieldBankRun { y = 0, xMin = -2, xMax = 0 },
+            new FieldBankRun { y = 1, xMin = -2, xMax = -1 }
+        };
+        var cells = BankMeshMath.Cells(runs);
+        Assert.AreEqual(6, cells.Count);
+        Assert.IsFalse(cells.Contains(new Vector2Int(1, -1)));
+        var mesh = BankMeshMath.Build(runs, .125f, .36f);
+        var empty = BankMeshMath.Build(new FieldBankRun[0], .125f, .36f);
+        try
+        {
+            Assert.AreEqual(36, mesh.GetTriangles(0).Length);
+            Assert.AreEqual(72, mesh.GetTriangles(1).Length, "Only the twelve exposed edges have walls");
+            Assert.That(mesh.bounds.min.x, Is.EqualTo(-.25f));
+            Assert.That(mesh.bounds.max.x, Is.EqualTo(.125f));
+            Assert.IsTrue(mesh.GetTriangles(0).All(i => Mathf.Approximately(mesh.vertices[i].y, .36f)));
+            Assert.AreEqual(0, empty.vertexCount);
+        }
+        finally
+        {
+            Object.DestroyImmediate(mesh);
+            Object.DestroyImmediate(empty);
+        }
+    }
+
+    [Test]
     public void BankIsDeterministicHasOnlyExposedWallsAndFlatTop()
     {
         var rects = new[] { new Rect(-2,-1,4,2) };

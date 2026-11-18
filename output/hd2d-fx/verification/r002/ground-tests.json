@@ -1,0 +1,84 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "test run",
+    "parameters": {
+      "mode": "editor",
+      "filter": "GroundMarkRasterTests"
+    },
+    "result": {
+      "Summary": {
+        "Total": 7,
+        "Passed": 7,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "GroundMarkRasterTests.All51PinnedCanonicalFramesMatchPixelForPixel",
+          "Status": "Passed",
+          "Duration": 0.0650686,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GroundMarkRasterTests.CacheReusesFramesButDoesNotAliasDifferentRadii",
+          "Status": "Passed",
+          "Duration": 0.0083803,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GroundMarkRasterTests.DashMatchesReviewedPythonPixels",
+          "Status": "Passed",
+          "Duration": 0.0007179,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GroundMarkRasterTests.RingMatchesReviewedPythonPixels(\"heal\",168,2)",
+          "Status": "Passed",
+          "Duration": 0.0023948,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GroundMarkRasterTests.RingMatchesReviewedPythonPixels(\"blast\",90,0)",
+          "Status": "Passed",
+          "Duration": 0.0012539,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GroundMarkRasterTests.RingMatchesReviewedPythonPixels(\"pulse\",100,2)",
+          "Status": "Passed",
+          "Duration": 0.0011547,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "GroundMarkRasterTests.RingMatchesReviewedPythonPixels(\"boom\",75,1)",
+          "Status": "Passed",
+          "Duration": 0.0007877,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 7.02,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: GroundMarkRasterTests",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

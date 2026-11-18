@@ -1,0 +1,3 @@
+HD2D FX r003. Original provenance: output/assets/hd2d-fx/notes-original.md; corrections: notes.md.
+Claude visual reading: VERDICT: PASS (F0-A1~A6, user supplied).
+68 PNG palette/binary-alpha PASS. No paid generation.

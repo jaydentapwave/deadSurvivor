@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "project": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx",
+  "started": "2026-11-18T15:36:35+0900",
+  "result": "pass",
+  "broke_at": null,
+  "reason": "",
+  "steps": [
+    {
+      "id": "FXSEQ-START",
+      "name": "웨이브1 종료 후 시험 장비 준비",
+      "result": "pass",
+      "seconds": 3.5,
+      "captures": []
+    },
+    {
+      "id": "FXFIX-CAST",
+      "name": "실제 번개10회 이상 발동",
+      "result": "pass",
+      "seconds": 6.4,
+      "captures": []
+    },
+    {
+      "id": "FXFIX-END",
+      "name": "Scope를 유지한 정비에서 번개 자원0",
+      "result": "pass",
+      "seconds": 2.0,
+      "captures": []
+    },
+    {
+      "id": "FXFIX-RECORD",
+      "name": "번개 종료 수명 상태 기록",
+      "result": "pass",
+      "seconds": 1.0,
+      "captures": []
+    }
+  ],
+  "seconds": 23.2
+}

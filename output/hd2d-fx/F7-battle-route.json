@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "FXSEQ-START",
+      "name": "웨이브1 종료 후 시험 장비 준비",
+      "do": "PlayableProbe.UseRunSettings(1, 1f); PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.Move); UnityEngine.Time.timeScale=12f;",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-EQUIP",
+      "name": "확정 효과 9종을 실제 장비 입력으로 장착",
+      "do": "PlayableProbe.GrantAndEquipEffectTrialItem(\"axe\",0); PlayableProbe.GrantAndEquipEffectTrialItem(\"crossbow\",1); PlayableProbe.GrantAndEquipEffectTrialItem(\"wand\",2); PlayableProbe.GrantAndEquipEffectTrialItem(\"orb\",2); PlayableProbe.GrantAndEquipEffectTrialItem(\"censer\",3); UnityEngine.Time.timeScale=1f; PlayableProbe.StartBot(PlayableProbe.BotMode.Move | PlayableProbe.BotMode.AutoNext); PlayableProbe.PressNextWave();",
+      "wait": "PlayableProbe.Screen == \"Battle\"",
+      "timeout": 15
+    },
+    {
+      "id": "FXBATTLE",
+      "name": "웨이브3 이상 베기·피격·바닥 고리 동시 표시",
+      "wait": "PlayableProbe.PauseAtBattleEffects()",
+      "timeout": 90,
+      "expect": "UnityEngine.Time.timeScale == 0f && PlayableProbe.Wave >= 3",
+      "capture": true
+    }
+  ]
+}

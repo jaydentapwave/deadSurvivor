@@ -1,0 +1,70 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "test run",
+    "parameters": {
+      "mode": "editor",
+      "filter": "SpriteAtlasServiceTests"
+    },
+    "result": {
+      "Summary": {
+        "Total": 5,
+        "Passed": 5,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "SpriteAtlasServiceTests.AnimationFrameNamesResolveFromCharacterMetadata",
+          "Status": "Passed",
+          "Duration": 0.0376172,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "SpriteAtlasServiceTests.AtlasHoldsCharactersMonstersAndReviewedEffectFrames",
+          "Status": "Passed",
+          "Duration": 0.0130315,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "SpriteAtlasServiceTests.MissingNameLogsOneErrorAndReturnsNull",
+          "Status": "Passed",
+          "Duration": 0.0010523,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "SpriteAtlasServiceTests.ReturnsEverySpriteWithPpuAndItsApprovedPivot",
+          "Status": "Passed",
+          "Duration": 0.2966571,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "SpriteAtlasServiceTests.SuppliedClipsResolveAllBrunoDirectionsAndOnlyMiraUpWalkIsMissing",
+          "Status": "Passed",
+          "Duration": 0.020399,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 8.54,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: SpriteAtlasServiceTests",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

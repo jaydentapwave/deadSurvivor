@@ -115,11 +115,13 @@ public class EnemyShot
     public float MaxTravel { get; }
     public float HitRadius { get; }
     public string Color { get; }
+    public string ShotSprite { get; }
     public bool IsAlive { get; set; } = true;
 
     public EnemyShot(int id, Vector2 position, Vector2 direction, float speed, float damage, float maxTravel, float hitRadius,
-        string color)
+        string color, string shotSprite = "")
     {
+        ShotSprite = shotSprite;
         Id = id;
         Position = position;
         Direction = direction;

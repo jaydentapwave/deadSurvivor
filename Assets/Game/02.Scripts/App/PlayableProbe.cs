@@ -655,6 +655,8 @@ public static class PlayableProbe
     }
 
     // T1~T5: 실제 풀에서 표시한 횟수와 현재 카메라 안 그림 수. 짧은 효과는 상태 숫자와 함께 확인한다.
+    public static string EffectFrameSequence(string key) => Resolve<CombatWorldPresenter>().GetFrameSequence(key);
+
     public static int EffectShownCount(string spriteName) => Resolve<CombatWorldPresenter>().GetShownCount(spriteName);
 
     public static int EffectVisibleCount(string spriteName)
@@ -685,6 +687,61 @@ public static class PlayableProbe
     public static bool IsEffectCaptureReady => EffectSampler != null && EffectSampler.IsCaptured;
 
     private static PlayableEffectSampler EffectSampler => Object.FindAnyObjectByType<PlayableEffectSampler>();
+
+    public static bool IsBattleFxReady => Object.FindAnyObjectByType<PlayableBattleFxSampler>() != null
+        && Object.FindAnyObjectByType<PlayableBattleFxSampler>().IsReady;
+    public static void ArmBattleFxCapture()
+    {
+        var sampler = Object.FindAnyObjectByType<PlayableBattleFxSampler>();
+        if (sampler == null)
+        {
+            sampler = new GameObject(nameof(PlayableBattleFxSampler)).AddComponent<PlayableBattleFxSampler>();
+        }
+        sampler.Arm();
+    }
+
+    public static bool PauseAtBattleEffects()
+    {
+        if (Wave < 3)
+        {
+            return false;
+        }
+        var keys = new HashSet<string>();
+        var registry = Resolve<ProjectileViewRegistry>();
+        foreach (var id in registry.BurstIds)
+        {
+            registry.TryGetBurst(id, out var view);
+            if (view.gameObject.activeInHierarchy)
+            {
+                keys.Add(view.EffectKey);
+            }
+        }
+        if (!keys.Contains("slash_sword") || !keys.Contains("hit_star")
+            || !(keys.Contains("heal_area") || keys.Contains("pulse") || keys.Contains("ground_boom")))
+        {
+            return false;
+        }
+        Time.timeScale = 0;
+        System.IO.Directory.CreateDirectory("output/hd2d-fx");
+        System.IO.File.WriteAllText("output/hd2d-fx/battle-context.txt", $"wave={Wave} unityFrame={Time.frameCount} keys={string.Join(",",keys)}\n");
+        return true;
+    }
+
+    public static CombatEffectClipData EffectClip(string key) => Resolve<CombatEffectData>().GetClip(key);
+    public static Camera EffectCamera => Resolve<Camera>();
+    public static bool IsEffectSequenceReady => Object.FindAnyObjectByType<PlayableEffectSequenceSampler>() != null
+        && Object.FindAnyObjectByType<PlayableEffectSequenceSampler>().IsCaptured;
+    public static bool EffectSequenceHasAllFrames => Object.FindAnyObjectByType<PlayableEffectSequenceSampler>().HasAllFrames;
+
+    public static void ArmEffectSequence(string key, string directory, float seconds = .35f)
+    {
+        var sampler = Object.FindAnyObjectByType<PlayableEffectSequenceSampler>();
+        if (sampler == null)
+        {
+            sampler = new GameObject(nameof(PlayableEffectSequenceSampler)).AddComponent<PlayableEffectSequenceSampler>();
+        }
+        sampler.Arm(key, directory, seconds);
+    }
 
     public static void ArmEffectCapture(string spriteName, string evidenceDirectory)
     {
@@ -753,7 +810,7 @@ public static class PlayableProbe
     private static bool IsEffectVisible(SpriteRenderer renderer, string spriteName)
     {
         var point = Resolve<Camera>().WorldToViewportPoint(renderer.bounds.center);
-        return renderer.sprite.name == spriteName + "(Clone)" && renderer.color.a > 0f
+        return (renderer.sprite.name == spriteName + "(Clone)" || renderer.sprite.name.StartsWith(Resolve<CombatEffectData>().GetClip(spriteName).Sprite + "_", StringComparison.Ordinal)) && renderer.color.a > 0f
             && point.z > 0f && point.x > 0f && point.x < 1f && point.y > 0f && point.y < 1f;
     }
 
@@ -1211,6 +1268,204 @@ public class PlayableEffectSampler : MonoBehaviour
         System.IO.Directory.CreateDirectory(directory);
         System.IO.File.AppendAllText(System.IO.Path.Combine(directory, _spriteName + ".txt"),
             $"utc={DateTime.UtcNow:O} frame={Time.frameCount} gameTime={Time.time:F4} visible={count} shown={PlayableProbe.EffectShownCount(_spriteName)}\n");
+    }
+}
+// 실제 게임에서 첫 프레임을 기다린 뒤 1/60s 간격 0.35s를 프레임 끝에서 기록한다.
+[DefaultExecutionOrder(11000)]
+public class PlayableEffectSequenceSampler : MonoBehaviour
+{
+    public bool IsCaptured { get; private set; }
+    public bool HasAllFrames { get; private set; }
+    private string _key;
+    private string _prefix;
+    private string _directory;
+    private int _frameCount;
+    private int _ticks;
+    private float _oldCaptureDelta;
+    private float _oldScale;
+    private bool _isArmed;
+    private readonly HashSet<int> _seenSet = new();
+    private readonly List<int> _seenOrder = new();
+    private readonly Dictionary<Sprite, (bool binary, int core)> _pixelDict = new();
+
+    public void Arm(string key, string directory, float seconds)
+    {
+        StopAllCoroutines();
+        RestoreClock();
+        var clip = PlayableProbe.EffectClip(key);
+        _key = key;
+        _prefix = clip.Sprite + "_";
+        _frameCount = clip.Frames;
+        _ticks = Mathf.RoundToInt(seconds * 60);
+        _directory = System.IO.Path.GetFullPath(directory);
+        System.IO.Directory.CreateDirectory(_directory);
+        _oldCaptureDelta = Time.captureDeltaTime;
+        _oldScale = Time.timeScale;
+        _isArmed = true;
+        IsCaptured = false;
+        HasAllFrames = false;
+        _seenSet.Clear();
+        _seenOrder.Clear();
+        Time.captureDeltaTime = 1f / 60f;
+        Time.timeScale = 1;
+        StartCoroutine(Capture());
+    }
+
+    private System.Collections.IEnumerator Capture()
+    {
+        SpriteRenderer selected = null;
+        var started = false;
+        var ended = false;
+        var rectangle = new RectInt();
+        var recorded = 0;
+        var log = new System.Text.StringBuilder("sample,unityFrame,gameTime,frame,sprite,alpha,glowCore,sourceAlphaBinary,visible\n");
+        var camera = PlayableProbe.EffectCamera;
+        while (_isArmed && recorded < _ticks)
+        {
+            yield return new WaitForEndOfFrame();
+            if (!started)
+            {
+                foreach (var candidate in Object.FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None))
+                {
+                    if (!Matches(candidate) || FrameNumber(candidate.sprite) != 1)
+                    {
+                        continue;
+                    }
+                    var viewport = camera.WorldToViewportPoint(candidate.bounds.center);
+                    if (viewport.z <= 0 || viewport.x <= .05f || viewport.x >= .95f || viewport.y <= .1f || viewport.y >= .9f)
+                    {
+                        continue;
+                    }
+                    selected = candidate;
+                    started = true;
+                    var center = camera.WorldToScreenPoint(candidate.bounds.center);
+                    var width = Mathf.Min(640, Screen.width);
+                    var height = Mathf.Min(480, Screen.height);
+                    rectangle = new RectInt(Mathf.Clamp(Mathf.RoundToInt(center.x - width / 2f), 0, Screen.width - width),
+                        Mathf.Clamp(Mathf.RoundToInt(center.y - height / 2f), 0, Screen.height - height), width, height);
+                    break;
+                }
+                if (!started)
+                {
+                    continue;
+                }
+            }
+            var visible = !ended && Matches(selected);
+            if (!visible)
+            {
+                ended = true;
+            }
+            var index = visible ? FrameNumber(selected.sprite) : 0;
+            var source = visible ? ReadPixels(selected.sprite) : (binary: true, core: 0);
+            var coreIntensity = visible && selected.sharedMaterial.HasProperty("_CoreIntensity") ? selected.sharedMaterial.GetFloat("_CoreIntensity") : 1;
+            var core = coreIntensity > 2 ? source.core : 0;
+            if (visible)
+            {
+                _seenSet.Add(index);
+                if (_seenOrder.Count == 0 || _seenOrder[_seenOrder.Count - 1] != index)
+                {
+                    _seenOrder.Add(index);
+                }
+            }
+            var alpha = visible ? Mathf.RoundToInt(selected.color.a * 255) : 0;
+            log.AppendLine($"{recorded},{Time.frameCount},{Time.time:F6},{index},{(visible ? selected.sprite.name : "none")},{alpha},{core},{source.binary},{(visible ? 1 : 0)}");
+            var full = ScreenCapture.CaptureScreenshotAsTexture();
+            var crop = new Texture2D(rectangle.width, rectangle.height, TextureFormat.RGBA32, false);
+            crop.SetPixels(full.GetPixels(rectangle.x, rectangle.y, rectangle.width, rectangle.height));
+            crop.Apply();
+            System.IO.File.WriteAllBytes(System.IO.Path.Combine(_directory, $"{recorded:D3}.png"), crop.EncodeToPNG());
+            Object.Destroy(full);
+            Object.Destroy(crop);
+            recorded++;
+        }
+        HasAllFrames = _seenOrder.Take(_frameCount).SequenceEqual(Enumerable.Range(1, _frameCount));
+        System.IO.File.WriteAllText(System.IO.Path.Combine(_directory, "frames.csv"), log.ToString());
+        System.IO.File.WriteAllText(System.IO.Path.Combine(_directory, "state.txt"),
+            $"key={_key} samples={recorded} expectedFrames={_frameCount} seen={string.Join(",", _seenSet.OrderBy(i=>i))} hasAllFrames={HasAllFrames}\n");
+        RestoreClock();
+        IsCaptured = true;
+    }
+
+    private bool Matches(SpriteRenderer renderer) => renderer != null && renderer.enabled && renderer.gameObject.activeInHierarchy
+        && renderer.sprite != null && renderer.sprite.name.StartsWith(_prefix, StringComparison.Ordinal);
+
+    private static int FrameNumber(Sprite sprite)
+    {
+        var name = sprite.name.Replace("(Clone)", string.Empty);
+        return int.Parse(name.Substring(name.LastIndexOf('_') + 1));
+    }
+
+    private (bool binary, int core) ReadPixels(Sprite sprite)
+    {
+        if (_pixelDict.TryGetValue(sprite, out var info))
+        {
+            return info;
+        }
+        var rect = sprite.textureRect;
+        var texture = sprite.texture;
+        var target = RenderTexture.GetTemporary((int)rect.width, (int)rect.height, 0, RenderTextureFormat.ARGB32);
+        var previous = RenderTexture.active;
+        var readback = new Texture2D(target.width, target.height, TextureFormat.RGBA32, false);
+        try
+        {
+            Graphics.Blit(texture, target, new Vector2(rect.width / texture.width, rect.height / texture.height), new Vector2(rect.x / texture.width, rect.y / texture.height));
+            RenderTexture.active = target;
+            readback.ReadPixels(new Rect(0, 0, target.width, target.height), 0, 0);
+            readback.Apply();
+            var binary = true;
+            var core = 0;
+            foreach (var color in readback.GetPixels32())
+            {
+                binary &= color.a == 0 || color.a == 255;
+                var max = Mathf.Max(color.r, Mathf.Max(color.g, color.b));
+                var min = Mathf.Min(color.r, Mathf.Min(color.g, color.b));
+                if (color.a == 255 && max >= .96f * 255 && (max - min) / Mathf.Max(1f, max) < .12f)
+                {
+                    core++;
+                }
+            }
+            info = (binary, core);
+            _pixelDict.Add(sprite, info);
+            return info;
+        }
+        finally
+        {
+            RenderTexture.active = previous;
+            RenderTexture.ReleaseTemporary(target);
+            Object.Destroy(readback);
+        }
+    }
+
+    private void RestoreClock()
+    {
+        if (_isArmed)
+        {
+            Time.captureDeltaTime = _oldCaptureDelta;
+            Time.timeScale = _oldScale;
+            _isArmed = false;
+        }
+    }
+    private void OnDestroy() => RestoreClock();
+}
+
+[DefaultExecutionOrder(12000)]
+public class PlayableBattleFxSampler : MonoBehaviour
+{
+    public bool IsReady { get; private set; }
+    private bool _isArmed;
+    public void Arm()
+    {
+        IsReady = false;
+        _isArmed = true;
+        Time.timeScale = 1;
+    }
+    private void LateUpdate()
+    {
+        if (_isArmed && PlayableProbe.PauseAtBattleEffects())
+        {
+            IsReady = true;
+            _isArmed = false;
+        }
     }
 }
 #endif

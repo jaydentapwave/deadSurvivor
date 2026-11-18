@@ -12,7 +12,7 @@ public class CombatEffectTests
     [TestCase("wand", "", "lightning")]
     [TestCase("relic", "", "heal_single")]
     [TestCase("censer", "", "heal_area")]
-    [TestCase("orb", "", "explosion")]
+    [TestCase("orb", "", "pulse")]
     public void MappingMatchesApprovedItemKinds(string itemId, string projectile, string burst)
     {
         var data = new ResourceService().LoadJson<CombatEffectData>("Data/Combat/combat_effects");
@@ -37,12 +37,16 @@ public class CombatEffectTests
             var effect = data.Get(item.Id);
             foreach (var key in new[] { effect.Projectile, effect.Burst }.Where(key => !string.IsNullOrEmpty(key)))
             {
-                var path = $"Assets/Game/03.Resources/Art/AIGenerated/Effects/{key}.png";
-                Assert.IsNotNull(UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(path), path);
-                var importer = (UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(path);
-                Assert.AreEqual(48f, importer.spritePixelsPerUnit);
-                Assert.AreEqual(FilterMode.Point, importer.filterMode);
-                Assert.AreEqual(UnityEditor.TextureImporterCompression.Uncompressed, importer.textureCompression);
+                var clip = data.GetClip(key);
+                for (var frame = 0; frame < clip.Frames; frame++)
+                {
+                    var path = $"Assets/Game/03.Resources/Art/HD2D/Effects/{clip.FrameKey(frame)}.png";
+                    Assert.IsNotNull(UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(path), path);
+                    var importer = (UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(path);
+                    Assert.AreEqual(48f, importer.spritePixelsPerUnit);
+                    Assert.AreEqual(FilterMode.Point, importer.filterMode);
+                    Assert.AreEqual(UnityEditor.TextureImporterCompression.Uncompressed, importer.textureCompression);
+                }
             }
         }
     }
@@ -90,7 +94,7 @@ public class CombatEffectTests
         var parent = new GameObject("ProjectileDirectionTest");
         var prefab = Resources.Load<ProjectileView>("Prefab/ProjectileView");
         var sprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(
-            "Assets/Game/03.Resources/Art/AIGenerated/Effects/arrow.png");
+            "Assets/Game/03.Resources/Art/HD2D/Effects/arrow_right_1.png");
         ProjectileView previous = null;
         try
         {
@@ -101,10 +105,19 @@ public class CombatEffectTests
                 var view = pool.Get("ProjectileDirectionTest", prefab, parent.transform);
                 view.Initialize(sprite);
                 view.UpdateView(new Vector2(2f, 3f), direction);
-                var actual = (Vector2)(view.BodyRenderer.transform.localRotation *
-                    (view.BodyRenderer.flipX ? Vector3.left : Vector3.right));
-                Assert.Greater(Vector2.Dot(direction, actual), 0.99999f, degrees.ToString());
-                Assert.LessOrEqual(Quaternion.Angle(Quaternion.identity, view.BodyRenderer.transform.localRotation), 90.001f);
+                var facing = EffectFrameMath.DirectionSprite(degrees);
+                var expectedDirection = EffectFrameMath.DirectionName(facing.index);
+                var directionSprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(
+                    $"Assets/Game/03.Resources/Art/HD2D/Effects/arrow_{expectedDirection}_1.png");
+                view.SetFrame(directionSprite, "arrow", 1, false);
+                view.UpdateView(new Vector3(2f, 0f, 3f), direction);
+                Assert.AreEqual($"arrow_{expectedDirection}_1", view.BodyRenderer.sprite.name);
+                Assert.AreEqual(degrees > 90f || degrees <= -135f || degrees == 180f, view.BodyRenderer.flipX, degrees.ToString());
+                Assert.AreEqual(degrees < 0f, view.BodyRenderer.flipY, degrees.ToString());
+                Assert.Less(Quaternion.Angle(Quaternion.identity, view.BodyRenderer.transform.localRotation), .001f);
+                var shadow = view.transform.Find("Shadow");
+                Assert.AreEqual(new Vector3(1, 2, 1), shadow.localScale);
+                Assert.AreEqual(0f, shadow.localEulerAngles.y);
                 var position = view.transform.localPosition;
                 var pixels = new Vector2(position.x, position.z * .5f) * Const.PixelsPerUnit;
                 Assert.Less(Vector2.Distance(pixels, new Vector2(Mathf.Round(pixels.x), Mathf.Round(pixels.y))), 0.0001f);
@@ -129,42 +142,11 @@ public class CombatEffectTests
     [TestCase(1f, 1f)]
     public void LightningViewBoundariesRemainJoinedAfterPlacement(float xPixels, float yPixels)
     {
-        var pool = new PoolManager();
-        var parent = new GameObject("LightningBoundaryTest");
-        var prefab = Resources.Load<BurstView>("Prefab/BurstView");
-        var sprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(
-            "Assets/Game/03.Resources/Art/AIGenerated/Effects/lightning.png");
-        var from = CombatEffectMotion.Snap(new Vector2(0.1f, 0.2f));
-        var to = CombatEffectMotion.Snap(from + new Vector2(xPixels, yPixels) / Const.PixelsPerUnit);
-        var width = sprite.rect.width / Const.PixelsPerUnit;
-        var count = CombatEffectMotion.GetSegmentCount(Vector2.Distance(from, to), width);
-        var angle = Mathf.Atan2(to.y - from.y, to.x - from.x) * Mathf.Rad2Deg;
-        var upright = TiltedViewMath.UprightRotation(30f);
-        var previousEnd = upright * (Vector3)from;
-        try
-        {
-            for (var i = 0; i < count; i++)
-            {
-                CombatEffectMotion.GetSegment(from, to, width, i, out var center, out var scaleX);
-                var view = pool.Get("LightningBoundaryTest", prefab, parent.transform);
-                view.Initialize(sprite);
-                view.UpdateView(upright * (Vector3)center, new Vector2(scaleX, 1f), 1f, angle, snapToPixels: false);
-                var bounds = sprite.bounds;
-                var start = view.BodyRenderer.transform.TransformPoint(
-                    new Vector3(bounds.min.x, bounds.center.y, 0f));
-                var end = view.BodyRenderer.transform.TransformPoint(
-                    new Vector3(bounds.max.x, bounds.center.y, 0f));
-                Assert.Less(Vector3.Distance(previousEnd, start) * Const.PixelsPerUnit, 0.001f, $"joint {i}");
-                previousEnd = end;
-                pool.Release("LightningBoundaryTest", view);
-            }
-
-            Assert.Less(Vector3.Distance(upright * (Vector3)to, previousEnd) * Const.PixelsPerUnit, 0.001f, "final endpoint");
-        }
-        finally
-        {
-            Object.DestroyImmediate(parent);
-        }
+        var image = ChainBoltRaster.Draw((int)xPixels, (int)yPixels, 7, 0);
+        var ox = xPixels >= 0 ? 10 : image.Width - 10;
+        var oy = yPixels >= 0 ? 10 : image.Height - 10;
+        Assert.AreEqual(255, image.Pixels[oy * image.Width + ox].a);
+        Assert.AreEqual(255, image.Pixels[(oy + (int)yPixels) * image.Width + ox + (int)xPixels].a);
     }
 
     [Test]
@@ -198,5 +180,61 @@ public class CombatEffectTests
         Assert.AreEqual(1, notifications);
         Assert.AreEqual(1, context.CombatFeedbackModel.MonsterHitList.Count);
         Assert.AreEqual(10f, context.CombatFeedbackModel.MonsterHitList[0].Amount);
+    }
+    [Test]
+    public void LegacySingleSpriteDataDefaultsToOneUnsuffixedFrameWithoutActiveLegacyReferences()
+    {
+        var data = JsonUtility.FromJson<CombatEffectData>("{\"items\":[{\"itemId\":\"sword\",\"burst\":\"shadow\"}]}");
+        var clip = data.GetClip(data.Get("sword").Burst);
+        Assert.AreEqual(1, clip.Frames);
+        Assert.AreEqual("shadow", clip.FrameKey(0));
+        Assert.AreEqual(0, EffectFrameMath.FrameAt(100, clip.Frames, clip.Fps, clip.Loop));
+        var resolved = Resources.Load<UnityEngine.U2D.SpriteAtlas>("Art/Characters").GetSprite(clip.FrameKey(0));
+        Assert.IsNotNull(resolved);
+        Object.DestroyImmediate(resolved);
+        var omitted = JsonUtility.FromJson<CombatEffectClipData>("{\"key\":\"still\",\"sprite\":\"shadow\"}");
+        Assert.AreEqual(1, omitted.Frames);
+        Assert.AreEqual("shadow", omitted.FrameKey(0));
+    }
+
+    [TestCase("arrow")]
+    [TestCase("crossbow_bolt")]
+    [TestCase("fireball")]
+    public void ProjectileCornersStayOnNativeGridForEveryBakedDirectionAndFlip(string key)
+    {
+        var view = Object.Instantiate(Resources.Load<ProjectileView>("Prefab/ProjectileView"));
+        try
+        {
+            var shadow = view.transform.Find("Shadow");
+            var shadowLocal = shadow.localPosition;
+            foreach (var degrees in new[] { 0f, 45f, 90f, 135f, 180f, -135f, -90f, -45f })
+            {
+                var facing = EffectFrameMath.DirectionSprite(degrees);
+                var sprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(
+                    $"Assets/Game/03.Resources/Art/HD2D/Effects/{key}_{EffectFrameMath.DirectionName(facing.index)}_1.png");
+                view.Initialize(sprite);
+                view.SetFrame(sprite, key, 1, key == "fireball");
+                var direction = (Vector2)(Quaternion.Euler(0, 0, degrees) * Vector3.right);
+                var position = new Vector3(2.017f, 0, -3.013f);
+                view.UpdateView(position, direction);
+                Assert.AreEqual(TiltedViewMath.SnapToTexels(position, .5f, 48), view.transform.localPosition);
+                Assert.AreEqual(shadowLocal, shadow.localPosition);
+                foreach (var vertex in sprite.vertices)
+                {
+                    var local = new Vector3(facing.flipX ? -vertex.x : vertex.x, facing.flipY ? -vertex.y : vertex.y, 0);
+                    var world = view.BodyRenderer.transform.TransformPoint(local);
+                    var pixels = new Vector2(world.x, Vector3.Dot(world, view.BodyRenderer.transform.up)) * sprite.pixelsPerUnit;
+                    Assert.Less(Vector2.Distance(pixels, new Vector2(Mathf.Round(pixels.x), Mathf.Round(pixels.y))), .0001f,
+                        $"{sprite.name} angle={degrees} corner={pixels}");
+                }
+                var first = view.BodyRenderer.transform.position;
+                view.UpdateView(position, direction);
+                Assert.AreEqual(first, view.BodyRenderer.transform.position, "snap must not accumulate");
+            }
+        }
+        finally
+        {
+            Object.DestroyImmediate(view.gameObject);
+        }
     }
 }

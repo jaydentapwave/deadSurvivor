@@ -20,12 +20,13 @@ public static class HD2DMainPlateCapture
     private static double _next;
     private static Camera _camera;
     private static Vector3 _origin;
+    private static int _pondCropX, _pondCropY;
     public const int CropX = 420, CropY = 96, CropWidth = 1224, CropHeight = 708, CropScale = 4;
     private static readonly List<Shot> ShotList = new List<Shot>();
     [Serializable] public sealed class Context { public string runId; public string planHash; }
     [Serializable] public sealed class Settings { public string quality; public float renderScale; public bool srpBatcher; public bool postProcessing; public string antialiasing; public int backgroundWidth; public int backgroundHeight; public int integerScale; public string backgroundFilter; public string shadows; public int outlineTexels; public float vignetteIntensity; public float vignetteSmoothness; }
     [Serializable] public sealed class Shot { public string file; public int frame; public Vector3 cameraPosition; public float orthoSize; public int width; public int height; public Settings settings; public bool banksInside; }
-    [Serializable] public sealed class Collection { public Context context; public List<Shot> shots; public float ledgeHeight; public float shadowLength; }
+    [Serializable] public sealed class Collection { public Context context; public List<Shot> shots; public float ledgeHeight; public float shadowLength; public int[] pondCrop; }
 
     [MenuItem("DeadSurvivor/HD2D/Main/Capture All")]
     public static void Run()
@@ -99,7 +100,14 @@ public static class HD2DMainPlateCapture
                 case 13:
                     CropMain("Main1-main.png","closeup-Main1.png",CropX,CropY,CropWidth,CropHeight,CropScale);
                     CropMain("Main1-hero-mask.png","Main1-close-hero-mask.png",CropX,CropY,CropWidth,CropHeight,CropScale);
-                    CropMain("Main1-main.png","Main1-pond-corner.png",300,96,600,240,4);
+                    var pondPosition = _camera.transform.position;
+                    try
+                    {
+                        _camera.transform.position = PondFocus() - _camera.transform.forward * _camera.GetComponent<TiltedCameraRig>().Distance;
+                        Capture("Main1-pond-view.png",1920,1080);
+                        CropMain("Main1-pond-view.png","Main1-pond-corner.png",_pondCropX,_pondCropY,600,240,4);
+                    }
+                    finally { _camera.transform.position = pondPosition; }
                     break;
                 case 14:
                     _camera.transform.position = _origin;
@@ -300,14 +308,25 @@ public static class HD2DMainPlateCapture
         }
     }
 
+    private static Vector3 PondFocus()
+    {
+        var layout = JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_layout.json"));
+        var outline = layout.water.First(w => w.name == "pond").points;
+        var centre = outline.Aggregate(Vector2.zero, (sum, point) => sum + point) / outline.Length * .5f;
+        return new Vector3(centre.x, 0, centre.y);
+    }
+
     private static void CaptureBankDiagnostic()
     {
         var renderers = Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None);
         var originals = renderers.Select(r=>r.sharedMaterials).ToArray();
         var states = renderers.Select(r=>r.enabled).ToArray();
         var clones = new List<Material>();
+        var cameraPosition = _camera.transform.position;
         try
         {
+            // A separate material diagnostic uses the actual pond bank, even when the battle view has moved away.
+            _camera.transform.position = PondFocus() - _camera.transform.forward * _camera.GetComponent<TiltedCameraRig>().Distance;
             SetEffects(false);_camera.GetComponent<HD2DBackgroundRig>().EdgesEnabled=false;
             for (var i=0;i<renderers.Length;i++)
             {
@@ -324,6 +343,7 @@ public static class HD2DMainPlateCapture
         {
             for (var i=0;i<renderers.Length;i++) {renderers[i].sharedMaterials=originals[i];renderers[i].enabled=states[i];}
             foreach (var material in clones) Object.DestroyImmediate(material);
+            _camera.transform.position = cameraPosition;
             SetEffects(true);_camera.GetComponent<HD2DBackgroundRig>().EdgesEnabled=true;
         }
     }
@@ -361,7 +381,7 @@ public static class HD2DMainPlateCapture
             }
         }
         Object.DestroyImmediate(pixels);
-        var collection = new Collection { context = JsonUtility.FromJson<Context>(File.ReadAllText(GateOutput + "/capture-context.json")),shots = ShotList,ledgeHeight = Object.FindFirstObjectByType<FieldView>().Landscape.Find("bank").GetComponent<MeshFilter>().sharedMesh.bounds.size.y,shadowLength = length };
+        var collection = new Collection { context = JsonUtility.FromJson<Context>(File.ReadAllText(GateOutput + "/capture-context.json")),shots = ShotList,ledgeHeight = Object.FindFirstObjectByType<FieldView>().Landscape.Find("bank").GetComponent<MeshFilter>().sharedMesh.bounds.size.y,shadowLength = length,pondCrop = new[] { _pondCropX, _pondCropY, _pondCropX + 600, _pondCropY + 240 } };
         File.WriteAllText(GateOutput + "/collection.json",JsonUtility.ToJson(collection,true));
     }
 
@@ -416,6 +436,18 @@ public static class HD2DMainPlateCapture
         _camera=Camera.main;
         _camera.aspect=1920f/1080;
         Directory.CreateDirectory(GateOutput);
+        var layout = JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_layout.json"));
+        var pondPoint = layout.water.First(w => w.name == "pond").points.OrderBy(p => p.sqrMagnitude).First();
+        var pondPosition = _camera.transform.position;
+        try
+        {
+            _camera.transform.position = PondFocus() - _camera.transform.forward * _camera.GetComponent<TiltedCameraRig>().Distance;
+            var pondPixel = _camera.WorldToViewportPoint(new Vector3(pondPoint.x, -.015f, pondPoint.y));
+            _pondCropX = Mathf.Clamp(Mathf.RoundToInt(pondPixel.x * 1920) - 300, 0, 1320);
+            _pondCropY = Mathf.Clamp(Mathf.RoundToInt((1 - pondPixel.y) * 1080) - 120, 0, 840);
+        }
+        finally { _camera.transform.position = pondPosition; }
+        File.WriteAllText(GateOutput + "/pond-crop-before.json", "{\"box\":[" + _pondCropX + "," + _pondCropY + "," + (_pondCropX + 600) + "," + (_pondCropY + 240) + "],\"source\":\"nearest PCG pond contour in same-zoom pond view, projected before declaration\"}");
         int[] Box(SpriteRenderer renderer, bool interior)
         {
             var min=Vector2.one*float.PositiveInfinity;var max=Vector2.one*float.NegativeInfinity;
@@ -437,16 +469,24 @@ public static class HD2DMainPlateCapture
         }
         bool Visible(Renderer renderer)
         {
-            var p=_camera.WorldToViewportPoint(renderer.bounds.center);
-            return p.z>0 && p.x>.15f && p.x<.85f && p.y>.15f && p.y<.85f;
+            var rect = OcclusionMath.ProjectBounds(_camera, renderer.bounds);
+            return _camera.WorldToViewportPoint(renderer.bounds.center).z > 0
+                && rect.xMin >= 0 && rect.xMax <= 1 && rect.yMin >= 0 && rect.yMax <= 1;
         }
         var field=Object.FindFirstObjectByType<FieldView>();
         var cards=field.Landscape.GetComponentsInChildren<SpriteRenderer>();
-        var tree=cards.First(v=>v.name.StartsWith("tree:") && Visible(v));
+        // Measure native paint in the focus band; intentional edge blur is assessed separately.
+        var tree=cards.Where(v=>v.name.StartsWith("tree:") && Visible(v))
+            .OrderBy(v=>{ var p=_camera.WorldToViewportPoint(v.bounds.center); return new Vector2(p.x-.5f,p.y-.5f).sqrMagnitude; }).First();
         var rock=cards.First(v=>v.name.Contains("boulder_01") && Visible(v));
         var monsters=Object.FindObjectsByType<MonsterView>(FindObjectsSortMode.InstanceID);
         var monster=monsters.Select(v=>(SpriteRenderer)new SerializedObject(v).FindProperty("bodyRenderer").objectReferenceValue).First(IsVisibleSlime);
-        var regions=new Regions { source="pre-capture: actual Main sprite mesh vertices projected before declaration, both viewport axes checked; paint interiors span crown/body shade families; fixed fractions of native silhouette bounds",hero=Box(Hero(),false),ground=new[] { new[] {640,805,1280,901} },props=new[] { new Region { name="tree",box=Box(tree,true),ground_box=new[]{640,805,720,850} },new Region {name="stone",box=Box(rock,false),ground_box=new[]{640,805,720,850}} },monsters=new[]{new Region {name=monster.sprite.name,box=Box(monster,true),ground_box=new[]{640,805,720,850}}} };
+        // Keep the same floor samples in world metres when collecting a normal moved battle view.
+        var groundA = _camera.WorldToViewportPoint(new Vector3(-10f / 3, 0, -265f / 48));
+        var groundB = _camera.WorldToViewportPoint(new Vector3(10f / 3, 0, -361f / 48));
+        var groundBox = new[] { Mathf.RoundToInt(groundA.x * 1920), Mathf.RoundToInt((1 - groundA.y) * 1080), Mathf.RoundToInt(groundB.x * 1920), Mathf.RoundToInt((1 - groundB.y) * 1080) };
+        var groundSmall = new[] { groundBox[0], groundBox[1], groundBox[0] + 80, groundBox[1] + 45 };
+        var regions=new Regions { source="pre-capture: actual fully visible Main sprite vertices; tree nearest vertical focus; ground anchored to the same empty world-floor rectangle during normal party movement",hero=Box(Hero(),false),ground=new[] { groundBox },props=new[] { new Region { name="tree",box=Box(tree,true),ground_box=groundSmall },new Region {name="stone",box=Box(rock,false),ground_box=groundSmall} },monsters=new[]{new Region {name=monster.sprite.name,box=Box(monster,true),ground_box=groundSmall}} };
         // JsonUtility cannot serialize jagged arrays. Write the simple region declaration explicitly.
         string Array(int[] a)=>"["+string.Join(",",a)+"]";
         string Entry(Region e)=>"{\"name\":\""+e.name+"\",\"box\":"+Array(e.box)+",\"ground_box\":"+Array(e.ground_box)+"}";

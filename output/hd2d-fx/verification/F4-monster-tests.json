@@ -1,0 +1,126 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "test run",
+    "parameters": {
+      "mode": "editor",
+      "filter": "MonsterViewStateTests"
+    },
+    "result": {
+      "Summary": {
+        "Total": 13,
+        "Passed": 13,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "MonsterViewStateTests.ArtBodyFlipsAndResetsOnReinitialize",
+          "Status": "Passed",
+          "Duration": 0.0128027,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterViewStateTests.FuseShowsBlastAreaOnly",
+          "Status": "Passed",
+          "Duration": 0.0028889,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterViewStateTests.GroundWarningCircleAndDashUseFloorMetres",
+          "Status": "Passed",
+          "Duration": 0.0065511,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterViewStateTests.NoWarningSpriteKeepsBody",
+          "Status": "Passed",
+          "Duration": 0.0024524,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterViewStateTests.OtherPhasesTurnBothOff",
+          "Status": "Passed",
+          "Duration": 0.0024086,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterViewStateTests.PrefabBodyIsChildWithPivotSortPoint",
+          "Status": "Passed",
+          "Duration": 0.0067367,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterViewStateTests.ProductionMonsterUsesUnrotatedColourAndSharedHardShadow",
+          "Status": "Passed",
+          "Duration": 0.0023558,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterViewStateTests.ShadowTracksFractionalWidthAcrossFacingWarningAndPoolReuse",
+          "Status": "Passed",
+          "Duration": 0.0020892,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterViewStateTests.StartsWithBothOff",
+          "Status": "Passed",
+          "Duration": 0.0009749,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterViewStateTests.WarningAndNormalPicturesKeepEightDirectionFacingAcrossPoolReuse",
+          "Status": "Passed",
+          "Duration": 0.0013915,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterViewStateTests.WarningPhaseSwapsBodyAndBack(Windup,Dash)",
+          "Status": "Passed",
+          "Duration": 0.0031917,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterViewStateTests.WarningPhaseSwapsBodyAndBack(Fuse,Approach)",
+          "Status": "Passed",
+          "Duration": 0.0025172,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterViewStateTests.WindupShowsDashLineOnly",
+          "Status": "Passed",
+          "Duration": 0.002234,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 5.21,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: MonsterViewStateTests",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

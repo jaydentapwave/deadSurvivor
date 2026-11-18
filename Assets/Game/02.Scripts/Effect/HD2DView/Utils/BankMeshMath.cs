@@ -5,6 +5,14 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+[Serializable]
+public class FieldBankRun
+{
+    public int y;
+    public int xMin;
+    public int xMax;
+}
+
 // Adapted from Editor/HD2D/Round8/FieldLookdevAssets8.BankStrip; provenance in field mesh source.txt.
 // Only exposed outer cells are inset. Random runs replace the old modulo-5/7 teeth.
 public static class BankMeshMath
@@ -68,7 +76,26 @@ public static class BankMeshMath
 
     public static Mesh Build(Rect[] rectangles, float step, float height, int seed)
     {
-        var cellSet = Cells(rectangles, step, seed);
+        return Build(Cells(rectangles, step, seed), step, height);
+    }
+
+    public static HashSet<Vector2Int> Cells(FieldBankRun[] runs)
+    {
+        var cellSet = new HashSet<Vector2Int>();
+        foreach (var run in runs)
+        {
+            for (var x = run.xMin; x < run.xMax; x++)
+            {
+                cellSet.Add(new Vector2Int(x, run.y));
+            }
+        }
+        return cellSet;
+    }
+
+    public static Mesh Build(FieldBankRun[] runs, float step, float height) => Build(Cells(runs), step, height);
+
+    private static Mesh Build(HashSet<Vector2Int> cellSet, float step, float height)
+    {
         var vertexList = new List<Vector3>();
         var topList = new List<int>();
         var sideList = new List<int>();

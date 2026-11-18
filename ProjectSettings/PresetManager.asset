@@ -16,3 +16,6 @@ PresetManager:
     - m_Preset: {fileID: 2655988077585873504, guid: dd20e916b8b5c44c1835f52eb68acee9, type: 2}
       m_Filter: glob:"Assets/Game/03.Resources/Art/HD2D/UI/**"
       m_Disabled: 0
+    - m_Preset: {fileID: 2655988077585873504, guid: 4bdf70d3db5204ffa9557dcafb9d31a2, type: 2}
+      m_Filter: glob:"Assets/Game/03.Resources/Art/HD2D/Effects/**"
+      m_Disabled: 0

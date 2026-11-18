@@ -17,9 +17,11 @@ public class SpriteAtlasServiceTests
         "bruno_front", "bruno_back", "lena_front", "lena_back", "mira_front", "mira_back", "bolt_front", "bolt_back",
         "slime", "mushroom", "boar", "rock", "puffer",
         "bruno_downed", "lena_downed", "mira_downed", "bolt_downed", "boar_telegraph", "puffer_inflate",
-        "slash_sword", "slash_axe", "hit_star", "arrow", "crossbow_bolt", "fireball", "explosion",
-        "lightning", "heal_single", "heal_area", "shadow",
+        "shadow",
     };
+
+    private static string[] EffectNames => AssetDatabase.FindAssets("t:Texture2D", new[] { "Assets/Game/03.Resources/Art/HD2D/Effects" })
+        .Select(guid => System.IO.Path.GetFileNameWithoutExtension(AssetDatabase.GUIDToAssetPath(guid))).ToArray();
 
     [OneTimeSetUp]
     public void PackAtlas()
@@ -29,7 +31,7 @@ public class SpriteAtlasServiceTests
     }
 
     [Test]
-    public void AtlasHoldsCharactersMonstersAndTenEffects()
+    public void AtlasHoldsCharactersMonstersAndReviewedEffectFrames()
     {
         // UI 그림은 캐릭터 PPU/피벗 계약과 다르므로 별도로 센다.
         var uiNames = new[] { "panel", "button", "bag_cell", "hp_bar_bg", "hp_bar_fill",
@@ -43,7 +45,8 @@ public class SpriteAtlasServiceTests
             Object.DestroyImmediate(sprite);
         }
 
-        var expected = SpriteNames.Length + uiNames.Length + new ItemRepository(new ResourceService()).ItemDataList.Count();
+        Assert.AreEqual(68, EffectNames.Length);
+        var expected = SpriteNames.Length + EffectNames.Length + uiNames.Length + new ItemRepository(new ResourceService()).ItemDataList.Count();
         foreach (var character in new CharacterRepository(new ResourceService()).CharacterDataList)
         {
             expected += 5 * (character.Motion.WalkFrames + character.Motion.AttackFrames);
@@ -54,16 +57,16 @@ public class SpriteAtlasServiceTests
     }
 
     [Test]
-    public void ReturnsEverySpriteWithPpuAndFootPivot()
+    public void ReturnsEverySpriteWithPpuAndItsApprovedPivot()
     {
         var service = new SpriteAtlasService(new ResourceService());
-        foreach (var spriteName in SpriteNames)
+        foreach (var spriteName in SpriteNames.Concat(EffectNames))
         {
             var sprite = service.Get(spriteName);
 
             Assert.IsNotNull(sprite, spriteName);
             Assert.AreEqual(Const.PixelsPerUnit, sprite.pixelsPerUnit, spriteName);
-            Assert.AreEqual(new Vector2(sprite.rect.width * 0.5f, 0f), sprite.pivot, spriteName);
+            Assert.AreEqual(new Vector2(sprite.rect.width * .5f, EffectNames.Contains(spriteName) ? sprite.rect.height * .5f : 0f), sprite.pivot, spriteName);
             Assert.AreSame(sprite, service.Get(spriteName), spriteName);
         }
 
@@ -125,7 +128,7 @@ public class SpriteAtlasServiceTests
     // Dispose의 Object.Destroy는 에디터 시험에서 쓸 수 없어 시험이 직접 지운다
     private static void DestroyAll(SpriteAtlasService service)
     {
-        foreach (var spriteName in SpriteNames)
+        foreach (var spriteName in SpriteNames.Concat(EffectNames))
         {
             Object.DestroyImmediate(service.Get(spriteName));
         }

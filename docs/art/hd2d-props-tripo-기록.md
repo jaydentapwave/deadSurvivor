@@ -50,3 +50,22 @@
 - 천막 바닥 1.74×2.32m는 K28의 2.0×2.0(추정)과 다르다 — 모양 비율을 지키려고 같은 배율로 맞췄다. 배치 때 정사각형이 필요하면 X 1.15배(왜곡 15%)로 늘릴 수 있다.
 - 다리 높이 0.865배 눌림으로 받침·기둥이 컨셉보다 조금 낮고 뭉툭하다(판독: 형태를 해치지 않음).
 - 생성 단계 일지의 `credits_spent`(다리 80)는 예산 누계로 보인다. 요청별 실제 사용은 생성사 `credits_consumed` 40씩, 잔액 차이 합계 80과 일치.
+
+## 시범: 나무·덤불·큰 바위 3D (2026-11-18, 크레딧 0)
+
+- 사용자 원문: "원래 hd2d, 2.5d할떄 기본적으로 캐릭터를 제외하곤 모두 3d로 제작되는거아니야?" → 선택 **"나무까지 전부 3D"**(캐릭터·몬스터·효과 빼고 모두 3D. 나무·덤불은 도트 질감 3D(잎 덩어리)). 유료 생성 원문 "그냥 상한 없앨테니 계속해서 해줘". 이번 시범 상한 **200크레딧**(디렉터가 정함, 예상 3건 약 120).
+- 카탈로그 `docs/art/asset-catalog-hd2d.json`: 예산 `hd2d_3d_pilot`(cap 200, 위 원문), 에셋 `hd2d_pilot_tree`(face_limit 600)·`hd2d_pilot_bush`(300)·`hd2d_pilot_boulder`(300), 상태 `trial`.
+- **Tripo 생성 안 함 — 관문 막힘**: 생성 도구의 기준서 승인 검사가 `SPEC_CHANGED_AFTER_APPROVAL`(승인 기록 r6 해시 d504525b… ≠ 지금 기준서 62e9cd90…, r6.2·r6.3 개정 뒤 재승인 없음). 3d-art-produce 2절에 따라 에이전트가 넘기지 않았다. 견적·동결·제출·잔액 조회 모두 하지 않음 → **쓴 크레딧 0**, 잔액 미조회(마지막 기록 2595).
+- 대신 크레딧 0 경로(Blender 직접 제작 + 도트 질감)로 시범을 끝냈다: `output/assets/hd2d-3d-pilot/notes.md`.
+
+| 항목 | 나무 | 덤불 | 큰 바위 |
+|---|---|---|---|
+| 컨셉(Codex 내장, 무료) | `tree/concept.png`(A) | `bush/concept.png`(A) | `boulder/concept.png`(A) |
+| 삼각형 [측정] | 472(≤600) | 300(≤300) | 70(≤300) |
+| 크기 폭×깊이×높이 m [측정] | 1.505×1.098×1.690 | 1.140×0.915×0.745 | 1.141×0.791×0.797 |
+| 텍셀 밀도 [측정] | 46.9/m | 46.8/m | 47.6/m |
+| 팔레트 | #b3ca7b·#5c8d73·#49746b + 줄기 #774c3b·#5c493c | 잎 3색 | #d8d3a9·#9d9778·#403d2a |
+| 판독 style(Codex/Claude) | 3/3 | 3/3 | r1 3/2("로우폴리 면") → r2 4/2 |
+| 모델 | `tree/dot/model.fbx` | `bush/dot/model.fbx` | `boulder/dot/model.fbx` |
+
+- 다시 Tripo로 만들려면: 기준서 재승인 기록(`approve.py record`, 사용자 원문) 뒤 `KIT3D_CONFIG=3dkit.hd2d.config.json assets.py gen estimate|freeze|dryrun|submit|fetch hd2d_pilot_<이름>`.

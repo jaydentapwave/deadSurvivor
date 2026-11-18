@@ -1,0 +1,63 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "test run",
+    "parameters": {
+      "mode": "editor",
+      "filter": "EnemyShot"
+    },
+    "result": {
+      "Summary": {
+        "Total": 4,
+        "Passed": 4,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "EnemyShotViewTests.EnemyShotLoopsOpaqueFramesAndResetsOnReuse",
+          "Status": "Passed",
+          "Duration": 0.0190069,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterBehaviorTests.EnemyShotExpiresAtMaxTravel",
+          "Status": "Passed",
+          "Duration": 0.0251586,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterBehaviorTests.EnemyShotHitsFirstMemberOnly",
+          "Status": "Passed",
+          "Duration": 0.0011857,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "MonsterBehaviorTests.EnemyShotsNotCountedAsThreat",
+          "Status": "Passed",
+          "Duration": 0.0009177,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 7.23,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: EnemyShot",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

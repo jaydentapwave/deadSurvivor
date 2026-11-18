@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "FX6-SPAWN",
+      "name": "실제 웨이브 진행으로 포자 탄 표시",
+      "do": "PlayableProbe.UseRunSettings(1, 1f); PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.Move | PlayableProbe.BotMode.Equip | PlayableProbe.BotMode.AutoNext); UnityEngine.Time.timeScale=12f;",
+      "wait": "PlayableProbe.Wave >= 3 && PlayableProbe.EnemyShotCount > 0",
+      "timeout": 90,
+      "expect": "PlayableProbe.EnemyShotCount > 0",
+      "capture": true
+    }
+  ]
+}

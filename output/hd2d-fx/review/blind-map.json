@@ -1,0 +1,182 @@
+{
+  "1": {
+    "key": "heal_area",
+    "selected": [
+      0,
+      2,
+      4,
+      8,
+      10,
+      13
+    ],
+    "source": "output/hd2d-fx/sequence/heal_area"
+  },
+  "2": {
+    "key": "crossbow_bolt",
+    "selected": [
+      0,
+      3,
+      6,
+      9,
+      12,
+      15
+    ],
+    "source": "output/hd2d-fx/sequence/crossbow_bolt"
+  },
+  "3": {
+    "key": "explosion",
+    "selected": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      12
+    ],
+    "source": "output/hd2d-fx/sequence/explosion"
+  },
+  "4": {
+    "key": "spore",
+    "selected": [
+      0,
+      6,
+      14,
+      17,
+      20,
+      20
+    ],
+    "source": "output/hd2d-fx/sequence/spore"
+  },
+  "5": {
+    "key": "slash_sword",
+    "selected": [
+      0,
+      2,
+      4,
+      8,
+      10,
+      13
+    ],
+    "source": "output/hd2d-fx/sequence/slash_sword"
+  },
+  "6": {
+    "key": "ground_blast",
+    "selected": [
+      0,
+      8,
+      15,
+      18,
+      20,
+      20
+    ],
+    "source": "output/hd2d-fx/sequence/ground_blast"
+  },
+  "7": {
+    "key": "lightning",
+    "selected": [
+      0,
+      4,
+      8,
+      11,
+      14,
+      17
+    ],
+    "source": "output/hd2d-fx/sequence/lightning"
+  },
+  "8": {
+    "key": "arrow",
+    "selected": [
+      0,
+      3,
+      6,
+      9,
+      12,
+      15
+    ],
+    "source": "output/hd2d-fx/sequence/arrow"
+  },
+  "9": {
+    "key": "pulse",
+    "selected": [
+      0,
+      2,
+      4,
+      8,
+      10,
+      13
+    ],
+    "source": "output/hd2d-fx/sequence/pulse"
+  },
+  "10": {
+    "key": "hit_star",
+    "selected": [
+      0,
+      3,
+      6,
+      9,
+      12,
+      15
+    ],
+    "source": "output/hd2d-fx/sequence/hit_star"
+  },
+  "11": {
+    "key": "dash_line",
+    "selected": [
+      0,
+      1,
+      6,
+      11,
+      14,
+      17
+    ],
+    "source": "output/hd2d-fx/sequence/dash_line"
+  },
+  "12": {
+    "key": "heal_single",
+    "selected": [
+      0,
+      2,
+      4,
+      8,
+      10,
+      13
+    ],
+    "source": "output/hd2d-fx/sequence/heal_single"
+  },
+  "13": {
+    "key": "ground_boom",
+    "selected": [
+      0,
+      2,
+      6,
+      10,
+      13,
+      16
+    ],
+    "source": "output/hd2d-fx/sequence/ground_boom"
+  },
+  "14": {
+    "key": "fireball",
+    "selected": [
+      0,
+      4,
+      10,
+      14,
+      17,
+      20
+    ],
+    "source": "output/hd2d-fx/sequence/fireball"
+  },
+  "15": {
+    "key": "slash_axe",
+    "selected": [
+      0,
+      2,
+      4,
+      8,
+      10,
+      13
+    ],
+    "source": "output/hd2d-fx/sequence/slash_axe"
+  }
+}

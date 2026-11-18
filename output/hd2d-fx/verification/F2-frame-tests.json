@@ -1,0 +1,119 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "test run",
+    "parameters": {
+      "mode": "editor",
+      "filter": "EffectFrameMathTests"
+    },
+    "result": {
+      "Summary": {
+        "Total": 12,
+        "Passed": 12,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "EffectFrameMathTests.LoopWrapsAtDuration(0.0f,0)",
+          "Status": "Passed",
+          "Duration": 0.0095638,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "EffectFrameMathTests.LoopWrapsAtDuration(0.25f,0)",
+          "Status": "Passed",
+          "Duration": 0.0001691,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "EffectFrameMathTests.LoopWrapsAtDuration(0.34f,1)",
+          "Status": "Passed",
+          "Duration": 0.0000632,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "EffectFrameMathTests.SingleShotClampsAtLastFrame(-1.0f,0)",
+          "Status": "Passed",
+          "Duration": 0.0002739,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "EffectFrameMathTests.SingleShotClampsAtLastFrame(0.0f,0)",
+          "Status": "Passed",
+          "Duration": 0.0001849,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "EffectFrameMathTests.SingleShotClampsAtLastFrame(0.049f,0)",
+          "Status": "Passed",
+          "Duration": 0.0007264,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "EffectFrameMathTests.SingleShotClampsAtLastFrame(0.05f,1)",
+          "Status": "Passed",
+          "Duration": 0.0001073,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "EffectFrameMathTests.SingleShotClampsAtLastFrame(0.1f,2)",
+          "Status": "Passed",
+          "Duration": 0.0002183,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "EffectFrameMathTests.SingleShotClampsAtLastFrame(0.15f,3)",
+          "Status": "Passed",
+          "Duration": 0.0000855,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "EffectFrameMathTests.SingleShotClampsAtLastFrame(0.2f,4)",
+          "Status": "Passed",
+          "Duration": 0.000141,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "EffectFrameMathTests.SingleShotClampsAtLastFrame(0.25f,4)",
+          "Status": "Passed",
+          "Duration": 0.0000967,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "EffectFrameMathTests.SingleShotClampsAtLastFrame(3.0f,4)",
+          "Status": "Passed",
+          "Duration": 0.0000661,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 7.52,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: EffectFrameMathTests",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

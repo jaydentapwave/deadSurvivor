@@ -89,6 +89,11 @@ def main():
     turn = F.max_turn_per_metre(poly, 1.0)
     case('counterexample: current ground_path.json fails the corner rule', turn > CFG['path']['maxTurnDegPerMetre'], '%.0f deg/m' % turn)
 
+    # Tile cells at the positive edge must not escape the existing half-open game grid.
+    edge_cells = E.iso_cells(np.array([[0.0, 30.0], [0.0, 34.0]]), CFG['bounds']['fieldL1'])
+    half = CFG['bounds']['fieldL1']
+    case('export clips positive edge to half-open tile grid', bool(edge_cells) and all(-half <= x < half and -half <= y < half for x,y in edge_cells))
+
     # 4. Clear centre: tall tree at L1 4, any card at L1 2, yellow flower at L1 5 -> each must fail.
     for name, x, y, key in (('tree_02', 2.0, 2.0, 'tall'), ('rock_01', 1.0, 1.0, 'center'), ('flower_02', 2.5, 2.5, 'yellow')):
         M = clone(L)

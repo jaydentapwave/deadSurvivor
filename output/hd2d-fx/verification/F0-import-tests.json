@@ -1,0 +1,70 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "test run",
+    "parameters": {
+      "mode": "editor",
+      "filter": "ArtImportSettingsTests"
+    },
+    "result": {
+      "Summary": {
+        "Total": 5,
+        "Passed": 5,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "ArtImportSettingsTests.ArtPolicyNamesPresetPath",
+          "Status": "Passed",
+          "Duration": 0.006947,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ArtImportSettingsTests.CharactersIncludingMotionMatchImportValues",
+          "Status": "Passed",
+          "Duration": 0.1026506,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ArtImportSettingsTests.Hd2dEffectsUseFixedCenterAndPointTexels",
+          "Status": "Passed",
+          "Duration": 0.0189368,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ArtImportSettingsTests.PresetManagerHasGeneratedFolderFilter",
+          "Status": "Passed",
+          "Duration": 0.0061797,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ArtImportSettingsTests.ThirteenGroundSpritesMatchImportValues",
+          "Status": "Passed",
+          "Duration": 0.0074714,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 7.01,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: ArtImportSettingsTests",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

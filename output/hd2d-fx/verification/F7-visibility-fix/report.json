@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "project": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx",
+  "started": "2026-11-18T14:58:14+0900",
+  "result": "pass",
+  "broke_at": null,
+  "reason": "",
+  "steps": [
+    {
+      "id": "FXSEQ-START",
+      "name": "웨이브1 종료 후 시험 장비 준비",
+      "result": "pass",
+      "seconds": 4.5,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-EQUIP",
+      "name": "확정 효과 9종을 실제 장비 입력으로 장착",
+      "result": "pass",
+      "seconds": 1.5,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-arrow",
+      "name": "arrow 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 5.8,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-pulse",
+      "name": "pulse 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 3.0,
+      "captures": []
+    },
+    {
+      "id": "FXBATTLE",
+      "name": "매 프레임 웨이브3 이상 베기·별·고리 동시 표시를 잡음",
+      "result": "pass",
+      "seconds": 31.9,
+      "captures": [
+        "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx/output/hd2d-fx/verification/F7-visibility-fix/05-FXBATTLE-1920x1080.png"
+      ]
+    }
+  ],
+  "seconds": 57.2
+}

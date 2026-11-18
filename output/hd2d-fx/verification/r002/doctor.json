@@ -1,0 +1,1043 @@
+{
+  "status": "configured",
+  "root": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx",
+  "host": "codex",
+  "capabilities": [
+    "design.write",
+    "game.direction",
+    "game.spec",
+    "unity-client.implement",
+    "unity-content.produce",
+    "unity-client.playable",
+    "art-reference.observe",
+    "art.spec",
+    "art.direction",
+    "2d-art.produce",
+    "3d-art.produce"
+  ],
+  "discovered": [
+    {
+      "capability": "unity-client.implement",
+      "path": "."
+    }
+  ],
+  "findings": [],
+  "notes": [
+    "Configuration only: this does not prove skill discovery, hook execution, reviews, compilation or gameplay.",
+    "Discovery covers root and two directory levels; excluded/deeper areas must be registered explicitly.",
+    "Claude hooks are not Codex enforcement. Run preflight and stage verification explicitly; unavailable reviews remain not-run."
+  ],
+  "execution": {
+    "automatic_runner": "claude",
+    "runner_available": true,
+    "native_automatic_runner_supported": false,
+    "claude_hooks_applicable": false,
+    "hook_execution_verified": false
+  },
+  "last_setup": {
+    "schema": 1,
+    "packs": {
+      "base-setup/template:.": {
+        "kit_version_seen": "0.21.0",
+        "files": {
+          ".ai/rules/git-workflow.md": {
+            "candidate_sha256": "fb6e4c78019c1f6bd8dc2e988e7120ba4a1f3b7c97a98ece7fea5a3b12028384",
+            "current_sha256": "fb6e4c78019c1f6bd8dc2e988e7120ba4a1f3b7c97a98ece7fea5a3b12028384",
+            "baseline_sha256": "fb6e4c78019c1f6bd8dc2e988e7120ba4a1f3b7c97a98ece7fea5a3b12028384",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".claude/agents/spec-reviewer.md": {
+            "candidate_sha256": "27ff2a0b7617143261718dfd9038ffb0f99c464e3b6b2ab7bc5bfb88c844bb91",
+            "current_sha256": "24a06e75e509afc46316354b84048862d772053484210590379780cf11459439",
+            "baseline_sha256": "62b0eb98ae0fa7b5e5bd016b4371565956e598f68cfa26e4352f78058eebd3a1",
+            "status": "conflict",
+            "installed_version": "0.19.0"
+          },
+          ".claude/hooks/block-dangerous-git.py": {
+            "candidate_sha256": "6e2b952f2ee960fc797b4188c3cf163c9c8d45dc2f2dd116053f47f7437a6e71",
+            "current_sha256": "6e2b952f2ee960fc797b4188c3cf163c9c8d45dc2f2dd116053f47f7437a6e71",
+            "baseline_sha256": "6e2b952f2ee960fc797b4188c3cf163c9c8d45dc2f2dd116053f47f7437a6e71",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".claude/hooks/guard-reviewer-writes.py": {
+            "candidate_sha256": "1c4d170c8bbb041ec4aea584147b3a8aaeb83a02806017f6c5faa5236059b256",
+            "current_sha256": "1c4d170c8bbb041ec4aea584147b3a8aaeb83a02806017f6c5faa5236059b256",
+            "baseline_sha256": "1c4d170c8bbb041ec4aea584147b3a8aaeb83a02806017f6c5faa5236059b256",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".claude/hooks/guard-worktree-remove.py": {
+            "candidate_sha256": "acb0e8846058bee9e88785a2aec520b28bc0947e19a5343766eb7e8bc69fb054",
+            "current_sha256": "acb0e8846058bee9e88785a2aec520b28bc0947e19a5343766eb7e8bc69fb054",
+            "baseline_sha256": "acb0e8846058bee9e88785a2aec520b28bc0947e19a5343766eb7e8bc69fb054",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".claude/hooks/hooklib.py": {
+            "candidate_sha256": "b3aea8f9363d90c9541cf51ad7d0a1df140bf1e1e032890130b70b69a72de68b",
+            "current_sha256": "b3aea8f9363d90c9541cf51ad7d0a1df140bf1e1e032890130b70b69a72de68b",
+            "baseline_sha256": "b3aea8f9363d90c9541cf51ad7d0a1df140bf1e1e032890130b70b69a72de68b",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".claude/hooks/inject-context-rules.py": {
+            "candidate_sha256": "f7b14d0778996a217ce73af37a809decd95aca248869bded88979c9ac5f1f981",
+            "current_sha256": "f7b14d0778996a217ce73af37a809decd95aca248869bded88979c9ac5f1f981",
+            "baseline_sha256": "f7b14d0778996a217ce73af37a809decd95aca248869bded88979c9ac5f1f981",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".claude/hooks/inject-knowledge-notes.py": {
+            "candidate_sha256": "ee43def0d8880c64189307253653ed451f661b90d3a4827c4c18e76032ef7a47",
+            "current_sha256": "ee43def0d8880c64189307253653ed451f661b90d3a4827c4c18e76032ef7a47",
+            "baseline_sha256": "ee43def0d8880c64189307253653ed451f661b90d3a4827c4c18e76032ef7a47",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".claude/hooks/log-agent-verdict.py": {
+            "candidate_sha256": "18d3f63d66bd5e5d199b021216149eba5930dccc2c35edce2f3a3c9fb42b089c",
+            "current_sha256": "18d3f63d66bd5e5d199b021216149eba5930dccc2c35edce2f3a3c9fb42b089c",
+            "baseline_sha256": "18d3f63d66bd5e5d199b021216149eba5930dccc2c35edce2f3a3c9fb42b089c",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".claude/hooks/require-director-handoff.py": {
+            "candidate_sha256": "42404cc79ec25801f5b4972487c722eb9d68aaf33690c2fd2b1f25106143c775",
+            "current_sha256": "42404cc79ec25801f5b4972487c722eb9d68aaf33690c2fd2b1f25106143c775",
+            "baseline_sha256": "42404cc79ec25801f5b4972487c722eb9d68aaf33690c2fd2b1f25106143c775",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "AGENTS.md": {
+            "candidate_sha256": "6bbbdcca2468bf624cd86727ac0cfa95ab1b2108d10e9057563e6b0abbb5da0b",
+            "current_sha256": "f7aa80c2f05092af6877ea83dcd519e6dc7ecae66493fe30a14b5903e4de98bb",
+            "baseline_sha256": null,
+            "status": "untracked",
+            "installed_version": null
+          },
+          ".claude/settings.json": {
+            "candidate_sha256": "99d030b80cafb71b70732ff4cdd3ba49ff6b94d6629c9e6b15810f677a4e1f23",
+            "current_sha256": "fb3ec0532fb98823340961484ec942eac8afd805166d72dff00d978d769ae634",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/inject.tsv": {
+            "candidate_sha256": "062bf1e27e364549955d9b3db456dfacff0b54e4f1f5d80de926bd3b6a10cca5",
+            "current_sha256": "be8f8fafb5b73716d8093ad0798fb7f250c7b550fd18d51d5a345e28382fa509",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".gitignore": {
+            "candidate_sha256": "7a15c9aacdb5ffedfabc533d21dd884a7f7701b995677f017f32d0e3d941c50f",
+            "current_sha256": "684b7719944a35a6c5b37d7e840afdb5fc03e19b9c9a083a6ea59987a296314a",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".director/capabilities.yaml": {
+            "candidate_sha256": "a697133c82e6011130888203bae0fb3db9ff09b00f3533db3469d32f236c6bdb",
+            "current_sha256": "591f0b4c3ee161b271adf9de72123c6c4ef8ca749762f23c1d4a0f42270577af",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          }
+        }
+      },
+      "unity-setup/template:.": {
+        "kit_version_seen": "0.21.0",
+        "files": {
+          ".claude/agents/algorithm-tester.md": {
+            "candidate_sha256": "3a492531f0d4d40466ac24993869661f8035a4c37b66147b8026d3b5ba9930c2",
+            "current_sha256": "d347b8a5d2559d28fde334d5436ab682c136bc8f719b7ce21b6d5c403ec3a4be",
+            "baseline_sha256": "3a492531f0d4d40466ac24993869661f8035a4c37b66147b8026d3b5ba9930c2",
+            "status": "project-modified",
+            "installed_version": "0.19.0"
+          },
+          ".claude/agents/design-reviewer.md": {
+            "candidate_sha256": "1232e8b7b1e22e6f6a134157c5a04bd083ba75b19e5a69c4e919ad7f2476caa5",
+            "current_sha256": "0d19384b9bcc8169426099a48df01b029ba36ef573c521c68f2591632ac6dce4",
+            "baseline_sha256": "e8cbb68153a3eb8722012ca0bc4037af95b06a91b13e4fff18779b79a9c628ea",
+            "status": "conflict",
+            "installed_version": "0.19.0"
+          },
+          ".claude/agents/validator-client.md": {
+            "candidate_sha256": "d7825573b68a7826f204c4685546342b2f29bf07e8d8c3610fd42a0c7273ec61",
+            "current_sha256": "5edd41732d1c1c63d646d23be6c216924663af6617b0ea6999e2bc3677960371",
+            "baseline_sha256": "d7825573b68a7826f204c4685546342b2f29bf07e8d8c3610fd42a0c7273ec61",
+            "status": "project-modified",
+            "installed_version": "0.19.0"
+          },
+          ".claude/hooks/verify-on-new-file.py": {
+            "candidate_sha256": "6f44f1e5226f5c70e290b67210fa1e4c4461c6891ed5006ca5ba4ca4403507cb",
+            "current_sha256": "6f44f1e5226f5c70e290b67210fa1e4c4461c6891ed5006ca5ba4ca4403507cb",
+            "baseline_sha256": "6f44f1e5226f5c70e290b67210fa1e4c4461c6891ed5006ca5ba4ca4403507cb",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/architecture.md": {
+            "candidate_sha256": "0d097fdb2177c4f5715e7d4b8ae11bc3ce49690272b7575d640baa0b78615a51",
+            "current_sha256": "0d097fdb2177c4f5715e7d4b8ae11bc3ce49690272b7575d640baa0b78615a51",
+            "baseline_sha256": "0d097fdb2177c4f5715e7d4b8ae11bc3ce49690272b7575d640baa0b78615a51",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/code-style.md": {
+            "candidate_sha256": "2588172f4fa6c81401005fbdb46e04b4823731f1024153e5143d67baade9fdb0",
+            "current_sha256": "2588172f4fa6c81401005fbdb46e04b4823731f1024153e5143d67baade9fdb0",
+            "baseline_sha256": "2588172f4fa6c81401005fbdb46e04b4823731f1024153e5143d67baade9fdb0",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/creation-patterns.md": {
+            "candidate_sha256": "a15a1140912c465443d73a23ec64c49f8172de8e204cb1da6dcb743c3e7e1de5",
+            "current_sha256": "a15a1140912c465443d73a23ec64c49f8172de8e204cb1da6dcb743c3e7e1de5",
+            "baseline_sha256": "a15a1140912c465443d73a23ec64c49f8172de8e204cb1da6dcb743c3e7e1de5",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/data-driven-content.md": {
+            "candidate_sha256": "db8c278ba894dfd1599371fd7619eb626284212ff0a94990e9840a3a705f02a0",
+            "current_sha256": "db8c278ba894dfd1599371fd7619eb626284212ff0a94990e9840a3a705f02a0",
+            "baseline_sha256": "db8c278ba894dfd1599371fd7619eb626284212ff0a94990e9840a3a705f02a0",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/di-patterns.md": {
+            "candidate_sha256": "97e1659a578dfa2cdf04a83c1aca77e4da3f08b09a14a7ce5374fcdf2e04baf3",
+            "current_sha256": "97e1659a578dfa2cdf04a83c1aca77e4da3f08b09a14a7ce5374fcdf2e04baf3",
+            "baseline_sha256": "97e1659a578dfa2cdf04a83c1aca77e4da3f08b09a14a7ce5374fcdf2e04baf3",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/error-handling.md": {
+            "candidate_sha256": "d72d7e25a1844475c752feda496276556b05619a2ecbf5c29010d4b4d5dcc94c",
+            "current_sha256": "d72d7e25a1844475c752feda496276556b05619a2ecbf5c29010d4b4d5dcc94c",
+            "baseline_sha256": "d72d7e25a1844475c752feda496276556b05619a2ecbf5c29010d4b4d5dcc94c",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/event-bus-rules.md": {
+            "candidate_sha256": "3765e38c7510547f401940405b2ed6385eda3435559fd05040729540df6df34b",
+            "current_sha256": "3765e38c7510547f401940405b2ed6385eda3435559fd05040729540df6df34b",
+            "baseline_sha256": "3765e38c7510547f401940405b2ed6385eda3435559fd05040729540df6df34b",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/playable-check.md": {
+            "candidate_sha256": "0453512202d5d67a8389508dae34dcccec277c6c49b34c8619d34e556b7f98a0",
+            "current_sha256": "0453512202d5d67a8389508dae34dcccec277c6c49b34c8619d34e556b7f98a0",
+            "baseline_sha256": "0453512202d5d67a8389508dae34dcccec277c6c49b34c8619d34e556b7f98a0",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/reactive-patterns.md": {
+            "candidate_sha256": "bc2029caeaba4fc4dd59b0b2001328ae7dc8d2eba4f0efc571925272d4ee1a13",
+            "current_sha256": "bc2029caeaba4fc4dd59b0b2001328ae7dc8d2eba4f0efc571925272d4ee1a13",
+            "baseline_sha256": "bc2029caeaba4fc4dd59b0b2001328ae7dc8d2eba4f0efc571925272d4ee1a13",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/scope-discipline.md": {
+            "candidate_sha256": "89222d82935416302ccfe07b463cf79337337f178149b274cd5b92863cf2ef0e",
+            "current_sha256": "89222d82935416302ccfe07b463cf79337337f178149b274cd5b92863cf2ef0e",
+            "baseline_sha256": "89222d82935416302ccfe07b463cf79337337f178149b274cd5b92863cf2ef0e",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/screen-layout.md": {
+            "candidate_sha256": "e656066848557aacdaa35035763350712755c9822b32f8a88f84aab50540761e",
+            "current_sha256": "e656066848557aacdaa35035763350712755c9822b32f8a88f84aab50540761e",
+            "baseline_sha256": "e656066848557aacdaa35035763350712755c9822b32f8a88f84aab50540761e",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/test-before-claim.md": {
+            "candidate_sha256": "6e213e39bcc6af3c7bc1321ef2df63d7b4ba47a0d8c342d0b6d5ce4699e43be3",
+            "current_sha256": "6e213e39bcc6af3c7bc1321ef2df63d7b4ba47a0d8c342d0b6d5ce4699e43be3",
+            "baseline_sha256": "6e213e39bcc6af3c7bc1321ef2df63d7b4ba47a0d8c342d0b6d5ce4699e43be3",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/verify-existing-code.md": {
+            "candidate_sha256": "dd09a82f8063089091e00ebbf13982af4534416a388f75dc2ed02c88215107d5",
+            "current_sha256": "dd09a82f8063089091e00ebbf13982af4534416a388f75dc2ed02c88215107d5",
+            "baseline_sha256": "dd09a82f8063089091e00ebbf13982af4534416a388f75dc2ed02c88215107d5",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/work-levels.md": {
+            "candidate_sha256": "d7ff66e305dfa82966eefbe5ceb35368781df0792c291a04bc6ea4633abad717",
+            "current_sha256": "d7ff66e305dfa82966eefbe5ceb35368781df0792c291a04bc6ea4633abad717",
+            "baseline_sha256": "d7ff66e305dfa82966eefbe5ceb35368781df0792c291a04bc6ea4633abad717",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/templates/decision.md": {
+            "candidate_sha256": "18406bcb273b233ce40e824e35f15bac730ffdc575cbc1f6d2817b6c8000b82e",
+            "current_sha256": "18406bcb273b233ce40e824e35f15bac730ffdc575cbc1f6d2817b6c8000b82e",
+            "baseline_sha256": "18406bcb273b233ce40e824e35f15bac730ffdc575cbc1f6d2817b6c8000b82e",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/templates/design-brief.md": {
+            "candidate_sha256": "8685bb905c0e8e63bb30deae83ba7a92da5ec2cb837dfffdaee2111da910a206",
+            "current_sha256": "8685bb905c0e8e63bb30deae83ba7a92da5ec2cb837dfffdaee2111da910a206",
+            "baseline_sha256": "8685bb905c0e8e63bb30deae83ba7a92da5ec2cb837dfffdaee2111da910a206",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/templates/verification.md": {
+            "candidate_sha256": "dc24ff4c2692e9e9a15b7dcd894046d148b13f4937ee7aed3857f321a8577b72",
+            "current_sha256": "dc24ff4c2692e9e9a15b7dcd894046d148b13f4937ee7aed3857f321a8577b72",
+            "baseline_sha256": "dc24ff4c2692e9e9a15b7dcd894046d148b13f4937ee7aed3857f321a8577b72",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "CLAUDE.md": {
+            "candidate_sha256": "68d414b3c618ffeb0968a6cb2e9d771147bfe575a037e2de4cb53baad541829a",
+            "current_sha256": "cc5aa7b8933ef5b32bb30c4c024cd274ee2efee0f25270e77798c876fece9fb6",
+            "baseline_sha256": null,
+            "status": "untracked",
+            "installed_version": null
+          },
+          "tools/editor_ready.py": {
+            "candidate_sha256": "fa106c870614367aaadd92b12792dd1c8073f1d7c796562480584c432a38a0ad",
+            "current_sha256": "fa106c870614367aaadd92b12792dd1c8073f1d7c796562480584c432a38a0ad",
+            "baseline_sha256": "fa106c870614367aaadd92b12792dd1c8073f1d7c796562480584c432a38a0ad",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "tools/playable.py": {
+            "candidate_sha256": "7d924f3f1d8b2d5a87a5d9b3bfad3eda495a04d6ee3bcc54c95e17a32c852ec1",
+            "current_sha256": "5f45bf029af05fd8336584ea7623aa024f091c8a15e23e81c9de5e4a692e83f9",
+            "baseline_sha256": "7d924f3f1d8b2d5a87a5d9b3bfad3eda495a04d6ee3bcc54c95e17a32c852ec1",
+            "status": "project-modified",
+            "installed_version": "0.19.0"
+          },
+          ".claude/settings.json": {
+            "candidate_sha256": "14c18853f8f4025462d4caefa6c3b1baeffe29950995a71fc02ac116c298c5a3",
+            "current_sha256": "fb3ec0532fb98823340961484ec942eac8afd805166d72dff00d978d769ae634",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/inject.tsv": {
+            "candidate_sha256": "9f5fd416921888d65c4c321c46d4c53038bb1397225edf60df457e9839315280",
+            "current_sha256": "be8f8fafb5b73716d8093ad0798fb7f250c7b550fd18d51d5a345e28382fa509",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".director/capabilities.yaml": {
+            "candidate_sha256": "ef7b94aa7c1e13e1fbae2148f38fc2f2bd4fe5ed1b188442e012c5614e1ff9ec",
+            "current_sha256": "591f0b4c3ee161b271adf9de72123c6c4ef8ca749762f23c1d4a0f42270577af",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          }
+        }
+      },
+      "art-setup/template:docs/art": {
+        "kit_version_seen": "0.21.0",
+        "files": {
+          ".ai/rules/art-core-rules.md": {
+            "candidate_sha256": "0e609c3c601f55f9e150d49684701e75581d45f22c030d532e2703466a46cf46",
+            "current_sha256": "0e609c3c601f55f9e150d49684701e75581d45f22c030d532e2703466a46cf46",
+            "baseline_sha256": "0e609c3c601f55f9e150d49684701e75581d45f22c030d532e2703466a46cf46",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/art-decisions.md": {
+            "candidate_sha256": "cdaf82f36361c7d17fb46d7e1e7f71462add9a8d8d20c52dc9e642202f0129cd",
+            "current_sha256": "cdaf82f36361c7d17fb46d7e1e7f71462add9a8d8d20c52dc9e642202f0129cd",
+            "baseline_sha256": "cdaf82f36361c7d17fb46d7e1e7f71462add9a8d8d20c52dc9e642202f0129cd",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/art-reference-design.md": {
+            "candidate_sha256": "3c97ac866fa13f64022e9bcad4bc846ad4775f6c9bdfada193c477fb35b390eb",
+            "current_sha256": "3c97ac866fa13f64022e9bcad4bc846ad4775f6c9bdfada193c477fb35b390eb",
+            "baseline_sha256": "3c97ac866fa13f64022e9bcad4bc846ad4775f6c9bdfada193c477fb35b390eb",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/art-tools.md": {
+            "candidate_sha256": "4d0450687d320005b0cb0eba80d43ecb7d79e9a5358eec133d18e83bd3e33e03",
+            "current_sha256": "4d0450687d320005b0cb0eba80d43ecb7d79e9a5358eec133d18e83bd3e33e03",
+            "baseline_sha256": "4d0450687d320005b0cb0eba80d43ecb7d79e9a5358eec133d18e83bd3e33e03",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/templates/art-handoff.md": {
+            "candidate_sha256": "7f58598d6bf0edd96c5d017139fc7fd8c321bb2aea17251dded664b55794934d",
+            "current_sha256": "7f58598d6bf0edd96c5d017139fc7fd8c321bb2aea17251dded664b55794934d",
+            "baseline_sha256": "7f58598d6bf0edd96c5d017139fc7fd8c321bb2aea17251dded664b55794934d",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "docs/art/reference/README.md": {
+            "candidate_sha256": "41b993ac8c2baaa9d08125ff576d7774919b63a49e79eba0f9f5c7be5160f5d2",
+            "current_sha256": "41b993ac8c2baaa9d08125ff576d7774919b63a49e79eba0f9f5c7be5160f5d2",
+            "baseline_sha256": "41b993ac8c2baaa9d08125ff576d7774919b63a49e79eba0f9f5c7be5160f5d2",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/inject.tsv": {
+            "candidate_sha256": "7ba7a2c7c1de08a3acfe59cf9b0164bc6b0526ce5601fb5428c706868e46ee9e",
+            "current_sha256": "be8f8fafb5b73716d8093ad0798fb7f250c7b550fd18d51d5a345e28382fa509",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".gitignore": {
+            "candidate_sha256": "c3c86b21bb00b0a8a4c79b32cbb0595f9a2523bf6dcc99d0cf59753929022a8d",
+            "current_sha256": "684b7719944a35a6c5b37d7e840afdb5fc03e19b9c9a083a6ea59987a296314a",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".director/capabilities.yaml": {
+            "candidate_sha256": "c19bd5cb327994687c4f93d68daffc0af91177e8b702c390b5c38074768a8262",
+            "current_sha256": "591f0b4c3ee161b271adf9de72123c6c4ef8ca749762f23c1d4a0f42270577af",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          }
+        }
+      },
+      "2d-art-setup/template:Assets/Game/03.Resources/Art": {
+        "kit_version_seen": "0.21.0",
+        "files": {
+          ".ai/2d-art/config.json": {
+            "candidate_sha256": "920094b09dddef4987cd56c1449930aa26b0919d28e0bc466f05a08b3cd1a689",
+            "current_sha256": "920094b09dddef4987cd56c1449930aa26b0919d28e0bc466f05a08b3cd1a689",
+            "baseline_sha256": "920094b09dddef4987cd56c1449930aa26b0919d28e0bc466f05a08b3cd1a689",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/2d-animation.md": {
+            "candidate_sha256": "25b9a1ae6e00fe642d3abf8e5ffaf6206d6241670c620898de8ebfde958adbf3",
+            "current_sha256": "25b9a1ae6e00fe642d3abf8e5ffaf6206d6241670c620898de8ebfde958adbf3",
+            "baseline_sha256": "25b9a1ae6e00fe642d3abf8e5ffaf6206d6241670c620898de8ebfde958adbf3",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/2d-asset-standard.md": {
+            "candidate_sha256": "4930f4540204755d789ea69b73c9e259121814aa9f81cc763683c59692fea4ad",
+            "current_sha256": "4930f4540204755d789ea69b73c9e259121814aa9f81cc763683c59692fea4ad",
+            "baseline_sha256": "4930f4540204755d789ea69b73c9e259121814aa9f81cc763683c59692fea4ad",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/2d-generation.md": {
+            "candidate_sha256": "c89dc145dddacbfec8bd662b3a9230a1b12fd716da74daab0e127843fe2c34d4",
+            "current_sha256": "c89dc145dddacbfec8bd662b3a9230a1b12fd716da74daab0e127843fe2c34d4",
+            "baseline_sha256": "c89dc145dddacbfec8bd662b3a9230a1b12fd716da74daab0e127843fe2c34d4",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Assets/Game/03.Resources/Art/CLAUDE.md": {
+            "candidate_sha256": "5140da25953b8f976120b2282c91b375973773d54dc5dc8b977efb30f7d4cba3",
+            "current_sha256": "24cfaab9ae60c04b64b504b16dacc6eb8cd71820e8b55c5276a5d339cf627a89",
+            "baseline_sha256": "5140da25953b8f976120b2282c91b375973773d54dc5dc8b977efb30f7d4cba3",
+            "status": "project-modified",
+            "installed_version": "0.19.0"
+          },
+          ".ai/inject.tsv": {
+            "candidate_sha256": "195cbe3e7d9d6bd446a70c61950810794f406eef95057b87efdac1d34c3c3900",
+            "current_sha256": "be8f8fafb5b73716d8093ad0798fb7f250c7b550fd18d51d5a345e28382fa509",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".gitignore": {
+            "candidate_sha256": "b563eec168cc20915dab4d8284d0558f8d0d3cd73032054c7e7912ec6a12f17a",
+            "current_sha256": "684b7719944a35a6c5b37d7e840afdb5fc03e19b9c9a083a6ea59987a296314a",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".director/capabilities.yaml": {
+            "candidate_sha256": "d460effa87d56f809bcff520d3da333f3305822a352dc74a23eca086e59aa64b",
+            "current_sha256": "591f0b4c3ee161b271adf9de72123c6c4ef8ca749762f23c1d4a0f42270577af",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          }
+        }
+      },
+      "2d-art-setup/payload:.": {
+        "kit_version_seen": "0.21.0",
+        "files": {
+          ".ai/2d-art/tools/exposed.py": {
+            "candidate_sha256": "1ee2ebab6d87b1e44fb6aeebf84b7e4e10a2ea6f9206114081bbc70e0ad5f55d",
+            "current_sha256": "1ee2ebab6d87b1e44fb6aeebf84b7e4e10a2ea6f9206114081bbc70e0ad5f55d",
+            "baseline_sha256": "1ee2ebab6d87b1e44fb6aeebf84b7e4e10a2ea6f9206114081bbc70e0ad5f55d",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/2d-art/tools/frames.py": {
+            "candidate_sha256": "451f339645ebe822769f06a5e6530e8ccb237957c7460ba06c5df9dee0060341",
+            "current_sha256": "451f339645ebe822769f06a5e6530e8ccb237957c7460ba06c5df9dee0060341",
+            "baseline_sha256": "451f339645ebe822769f06a5e6530e8ccb237957c7460ba06c5df9dee0060341",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/2d-art/tools/kit2d.py": {
+            "candidate_sha256": "a31a15edf8f85155f3b4f2cf56de06a41e335b774e3d3bd6dd770617080c8e5c",
+            "current_sha256": "a31a15edf8f85155f3b4f2cf56de06a41e335b774e3d3bd6dd770617080c8e5c",
+            "baseline_sha256": "a31a15edf8f85155f3b4f2cf56de06a41e335b774e3d3bd6dd770617080c8e5c",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/2d-art/tools/layers.py": {
+            "candidate_sha256": "9941539aed2087a46cad0d5389695823a53ade44bf4fd3cbe45cf90bd5a1e99a",
+            "current_sha256": "9941539aed2087a46cad0d5389695823a53ade44bf4fd3cbe45cf90bd5a1e99a",
+            "baseline_sha256": "9941539aed2087a46cad0d5389695823a53ade44bf4fd3cbe45cf90bd5a1e99a",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/2d-art/tools/matte.py": {
+            "candidate_sha256": "d39d0a78e7968b987fe42fc16eed3ba16da8e8f35e3583c378cb6bf2f94900da",
+            "current_sha256": "d39d0a78e7968b987fe42fc16eed3ba16da8e8f35e3583c378cb6bf2f94900da",
+            "baseline_sha256": "d39d0a78e7968b987fe42fc16eed3ba16da8e8f35e3583c378cb6bf2f94900da",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/2d-art/tools/measure.py": {
+            "candidate_sha256": "19b49214061f107c70d786bac0a925e09dec06ec9e9f31716496f3e9c603990c",
+            "current_sha256": "19b49214061f107c70d786bac0a925e09dec06ec9e9f31716496f3e9c603990c",
+            "baseline_sha256": "19b49214061f107c70d786bac0a925e09dec06ec9e9f31716496f3e9c603990c",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/2d-art/tools/paint.py": {
+            "candidate_sha256": "5d67e27960d1a4d6e5731768bbf3e6bfcc4b03adaffca0467a6587964c892d68",
+            "current_sha256": "5d67e27960d1a4d6e5731768bbf3e6bfcc4b03adaffca0467a6587964c892d68",
+            "baseline_sha256": "5d67e27960d1a4d6e5731768bbf3e6bfcc4b03adaffca0467a6587964c892d68",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/2d-art/tools/path_tiles.py": {
+            "candidate_sha256": "8bbc7dbaf2688f50121447cbcbbadea153156e5b45d0036727be419bf18b6a3a",
+            "current_sha256": "8bbc7dbaf2688f50121447cbcbbadea153156e5b45d0036727be419bf18b6a3a",
+            "baseline_sha256": "8bbc7dbaf2688f50121447cbcbbadea153156e5b45d0036727be419bf18b6a3a",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/2d-art/tools/pixelize.py": {
+            "candidate_sha256": "fa2bd3e4eae22bf4fcf4f2b05cf9ee91944b5f0a060c75d943424a1d39550d8c",
+            "current_sha256": "fa2bd3e4eae22bf4fcf4f2b05cf9ee91944b5f0a060c75d943424a1d39550d8c",
+            "baseline_sha256": "fa2bd3e4eae22bf4fcf4f2b05cf9ee91944b5f0a060c75d943424a1d39550d8c",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/2d-art/tools/shape.py": {
+            "candidate_sha256": "b1cea04eed1ae72e84364ce579ac8cbe16857c4ee0dfe07c9fe81f14bbd5e40f",
+            "current_sha256": "b1cea04eed1ae72e84364ce579ac8cbe16857c4ee0dfe07c9fe81f14bbd5e40f",
+            "baseline_sha256": "b1cea04eed1ae72e84364ce579ac8cbe16857c4ee0dfe07c9fe81f14bbd5e40f",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/2d-art/tools/sheet.py": {
+            "candidate_sha256": "f048d16d8ae0df12bab464687548cde11f00a1073065403879f8e99cc217cb7c",
+            "current_sha256": "f048d16d8ae0df12bab464687548cde11f00a1073065403879f8e99cc217cb7c",
+            "baseline_sha256": "f048d16d8ae0df12bab464687548cde11f00a1073065403879f8e99cc217cb7c",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/2d-art/tools/states.py": {
+            "candidate_sha256": "5bf0ae1f335232dc35c106ef22a385c58d98453ce19a1706ac7d320efcb5a30e",
+            "current_sha256": "5bf0ae1f335232dc35c106ef22a385c58d98453ce19a1706ac7d320efcb5a30e",
+            "baseline_sha256": "5bf0ae1f335232dc35c106ef22a385c58d98453ce19a1706ac7d320efcb5a30e",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/2d-art/tools/tileprev.py": {
+            "candidate_sha256": "007105150df278bcb26297db5028d2fa844098c371b5f628c30fef2d79aa4cc2",
+            "current_sha256": "007105150df278bcb26297db5028d2fa844098c371b5f628c30fef2d79aa4cc2",
+            "baseline_sha256": "007105150df278bcb26297db5028d2fa844098c371b5f628c30fef2d79aa4cc2",
+            "status": "current",
+            "installed_version": "0.21.0"
+          }
+        }
+      },
+      "scratchpad/tpl3d:docs/art": {
+        "kit_version_seen": "0.21.0",
+        "files": {
+          ".ai/rules/3d-animation.md": {
+            "candidate_sha256": "44b9bd0b0ee5f4209f3d79c402d7890360c6fdb232cd4ba0c7a6e54a0470e3fb",
+            "current_sha256": "44b9bd0b0ee5f4209f3d79c402d7890360c6fdb232cd4ba0c7a6e54a0470e3fb",
+            "baseline_sha256": "44b9bd0b0ee5f4209f3d79c402d7890360c6fdb232cd4ba0c7a6e54a0470e3fb",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/3d-asset-standard.md": {
+            "candidate_sha256": "88c2ca3d8823477ab450b11020b227ad24dbb6eb0ac1692fe42a0ba96b0c5f32",
+            "current_sha256": "88c2ca3d8823477ab450b11020b227ad24dbb6eb0ac1692fe42a0ba96b0c5f32",
+            "baseline_sha256": "88c2ca3d8823477ab450b11020b227ad24dbb6eb0ac1692fe42a0ba96b0c5f32",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/3d-performance.md": {
+            "candidate_sha256": "2ce6d80104932575b47b4fc5710fa6b2bf52e15545a80afffbc99e358f958a38",
+            "current_sha256": "2ce6d80104932575b47b4fc5710fa6b2bf52e15545a80afffbc99e358f958a38",
+            "baseline_sha256": "2ce6d80104932575b47b4fc5710fa6b2bf52e15545a80afffbc99e358f958a38",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/3d-scene-builders.md": {
+            "candidate_sha256": "fa7720b544b06b0a4c44c7481b724599a254b35bc8db5f5952cc848b4ff503ef",
+            "current_sha256": "fa7720b544b06b0a4c44c7481b724599a254b35bc8db5f5952cc848b4ff503ef",
+            "baseline_sha256": "fa7720b544b06b0a4c44c7481b724599a254b35bc8db5f5952cc848b4ff503ef",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/3d-tools.md": {
+            "candidate_sha256": "4abbfc0d8a012581d792fa983b253e0bdef5c350644fa6fccf1026dd804a0f2e",
+            "current_sha256": "4abbfc0d8a012581d792fa983b253e0bdef5c350644fa6fccf1026dd804a0f2e",
+            "baseline_sha256": "4abbfc0d8a012581d792fa983b253e0bdef5c350644fa6fccf1026dd804a0f2e",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/rules/3d-tripo-generation-standard.md": {
+            "candidate_sha256": "be376e61a1e57c431edc2ebc592ef0f63ec4a1d365f3731df26c6cc483738ef3",
+            "current_sha256": "be376e61a1e57c431edc2ebc592ef0f63ec4a1d365f3731df26c6cc483738ef3",
+            "baseline_sha256": "be376e61a1e57c431edc2ebc592ef0f63ec4a1d365f3731df26c6cc483738ef3",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "3dkit.config.json": {
+            "candidate_sha256": "a3c31857482b818722446269c9dbbfe00bd9008dcd43bb1578704a541f3720de",
+            "current_sha256": "bac299c6d6415b54b90c72f06ddea80ed12c6595b3cddb9c6fdf41fe24b1a687",
+            "baseline_sha256": null,
+            "status": "untracked",
+            "installed_version": null
+          },
+          "docs/art/asset-catalog.json": {
+            "candidate_sha256": "2bdcb8199cd5c4c11ccd0c99225ddd7c93c9d51f2625a3359def0d536b60cd30",
+            "current_sha256": "1110782ae655ea1b42c192fa7f1aafb4c88de9f1ee3f330274d63ae720a87ddb",
+            "baseline_sha256": null,
+            "status": "untracked",
+            "installed_version": null
+          },
+          "docs/art/replay-cases.json": {
+            "candidate_sha256": "45de90e37a13df4fbe9273560c38bda1d5e3759122066c0d4eec4dd204b25e76",
+            "current_sha256": "45de90e37a13df4fbe9273560c38bda1d5e3759122066c0d4eec4dd204b25e76",
+            "baseline_sha256": "45de90e37a13df4fbe9273560c38bda1d5e3759122066c0d4eec4dd204b25e76",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/inject.tsv": {
+            "candidate_sha256": "eaf28482cd7ddcaa5acc0c2cb9f9c9d8dc163ccd59b72d6970c7879b8a4ad0ae",
+            "current_sha256": "e4a6b2eafd7a9093b7efa768f0a3e85764d4cd1aa870987a123b7c0bd23985fd",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".gitignore": {
+            "candidate_sha256": "77f4450686b7a3ecf142d85e13fc4628fa2c1e8ca357103d4913f75fd606e8ff",
+            "current_sha256": "de9ade4f546344c21a2f1c2b4e2db223b2b9c640d8e820b5835a3d0ee0ac8eeb",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".director/capabilities.yaml": {
+            "candidate_sha256": "4d1241fd9d3ac95049978f535fcb6f48f0a7eb1d7b1c52584e258a7b8440894f",
+            "current_sha256": "a7d6be640c836f793ad8f306a75f4617c9d1a28b9c914fc4b9ff286c8509bd74",
+            "baseline_sha256": null,
+            "status": "current",
+            "installed_version": "0.21.0"
+          }
+        }
+      },
+      "3d-art-setup/payload:.": {
+        "kit_version_seen": "0.21.0",
+        "files": {
+          ".ai/3d-art/profiles/lowpoly.json": {
+            "candidate_sha256": "d7209e508d453eab1165d8c4a0b68cc5629ebb858fc4a94ce95deab844dd9e4b",
+            "current_sha256": "d7209e508d453eab1165d8c4a0b68cc5629ebb858fc4a94ce95deab844dd9e4b",
+            "baseline_sha256": "d7209e508d453eab1165d8c4a0b68cc5629ebb858fc4a94ce95deab844dd9e4b",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/profiles/midpoly.json": {
+            "candidate_sha256": "46db0363ae2cc8da92315c111a14528be49105efd0097698ea7991501f479645",
+            "current_sha256": "46db0363ae2cc8da92315c111a14528be49105efd0097698ea7991501f479645",
+            "baseline_sha256": "46db0363ae2cc8da92315c111a14528be49105efd0097698ea7991501f479645",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/assets.py": {
+            "candidate_sha256": "b3a812118bc106456a5035586a692c2df726ad5d83b8a541a2ceb4820a5db73c",
+            "current_sha256": "b3a812118bc106456a5035586a692c2df726ad5d83b8a541a2ceb4820a5db73c",
+            "baseline_sha256": "b3a812118bc106456a5035586a692c2df726ad5d83b8a541a2ceb4820a5db73c",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/blender/anim_fbxcheck.py": {
+            "candidate_sha256": "ae9c67efa4489622f0bb0b470019e6d75d632f6b8f87f6ab78c9f5e3fd038175",
+            "current_sha256": "ae9c67efa4489622f0bb0b470019e6d75d632f6b8f87f6ab78c9f5e3fd038175",
+            "baseline_sha256": "ae9c67efa4489622f0bb0b470019e6d75d632f6b8f87f6ab78c9f5e3fd038175",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/blender/attach_props.py": {
+            "candidate_sha256": "6a9aa2332d3b9f7911c2a24df79f88c54f8c355a97c47a3bb913cbb6b8f4649b",
+            "current_sha256": "6a9aa2332d3b9f7911c2a24df79f88c54f8c355a97c47a3bb913cbb6b8f4649b",
+            "baseline_sha256": "6a9aa2332d3b9f7911c2a24df79f88c54f8c355a97c47a3bb913cbb6b8f4649b",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/blender/convert_glb.py": {
+            "candidate_sha256": "92661d6d5750d2a1996699bb1a4859ec1accf63ba2ce13b58abbf4cbdd832512",
+            "current_sha256": "92661d6d5750d2a1996699bb1a4859ec1accf63ba2ce13b58abbf4cbdd832512",
+            "baseline_sha256": "92661d6d5750d2a1996699bb1a4859ec1accf63ba2ce13b58abbf4cbdd832512",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/blender/fit_module.py": {
+            "candidate_sha256": "0428ae73dc94973ad8e9382cd617e7a75f4841cd5a38974e44d94f629fda35f3",
+            "current_sha256": "0428ae73dc94973ad8e9382cd617e7a75f4841cd5a38974e44d94f629fda35f3",
+            "baseline_sha256": "0428ae73dc94973ad8e9382cd617e7a75f4841cd5a38974e44d94f629fda35f3",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/blender/fix_arm_swing.py": {
+            "candidate_sha256": "15044f336e63e38c3478517ab677f1117ee785094c075b7bdeff6935ce3eb0e5",
+            "current_sha256": "15044f336e63e38c3478517ab677f1117ee785094c075b7bdeff6935ce3eb0e5",
+            "baseline_sha256": "15044f336e63e38c3478517ab677f1117ee785094c075b7bdeff6935ce3eb0e5",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/blender/rig_build.py": {
+            "candidate_sha256": "0f0a5ae9facd8b16e074cb92c98ddf573e0f5b08664c576e6b65e607bced92d3",
+            "current_sha256": "0f0a5ae9facd8b16e074cb92c98ddf573e0f5b08664c576e6b65e607bced92d3",
+            "baseline_sha256": "0f0a5ae9facd8b16e074cb92c98ddf573e0f5b08664c576e6b65e607bced92d3",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/blender/rig_legged.py": {
+            "candidate_sha256": "da0400fd3c210cc19180a2a898514c3657d1ba6718262d93bc7f0f694fedaf00",
+            "current_sha256": "da0400fd3c210cc19180a2a898514c3657d1ba6718262d93bc7f0f694fedaf00",
+            "baseline_sha256": "da0400fd3c210cc19180a2a898514c3657d1ba6718262d93bc7f0f694fedaf00",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/blender/split_bands.py": {
+            "candidate_sha256": "eb67c97a41d0ff3feb718b39506257e631702eb6d6e9831112ae565e56660969",
+            "current_sha256": "eb67c97a41d0ff3feb718b39506257e631702eb6d6e9831112ae565e56660969",
+            "baseline_sha256": "eb67c97a41d0ff3feb718b39506257e631702eb6d6e9831112ae565e56660969",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/blender/uv_geometry.py": {
+            "candidate_sha256": "67b10a5f88c745c9e135367de605ef8b7b196cd6372d5766c1ed8c04f34031b6",
+            "current_sha256": "67b10a5f88c745c9e135367de605ef8b7b196cd6372d5766c1ed8c04f34031b6",
+            "baseline_sha256": "67b10a5f88c745c9e135367de605ef8b7b196cd6372d5766c1ed8c04f34031b6",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/gate.py": {
+            "candidate_sha256": "e9121fd5b601327a1834e7ebeb04bc119f3da3c44345d93908d2dc220253adc9",
+            "current_sha256": "e9121fd5b601327a1834e7ebeb04bc119f3da3c44345d93908d2dc220253adc9",
+            "baseline_sha256": "e9121fd5b601327a1834e7ebeb04bc119f3da3c44345d93908d2dc220253adc9",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/guard.py": {
+            "candidate_sha256": "2ac144124f69467a5af50e3a3da4d1d9323a7ebb86c1dca433518369a1e9b88c",
+            "current_sha256": "2ac144124f69467a5af50e3a3da4d1d9323a7ebb86c1dca433518369a1e9b88c",
+            "baseline_sha256": "2ac144124f69467a5af50e3a3da4d1d9323a7ebb86c1dca433518369a1e9b88c",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/anim.py": {
+            "candidate_sha256": "ed52b49e65b73de1ba4c86629b5bb24f5bf48b281f3de6e5db16e546818e4bf4",
+            "current_sha256": "ed52b49e65b73de1ba4c86629b5bb24f5bf48b281f3de6e5db16e546818e4bf4",
+            "baseline_sha256": "ed52b49e65b73de1ba4c86629b5bb24f5bf48b281f3de6e5db16e546818e4bf4",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/blender.py": {
+            "candidate_sha256": "4e3e61faa1ab951285605cfb7bf680a8816b5f1047985ac1bf5323e3db095053",
+            "current_sha256": "4e3e61faa1ab951285605cfb7bf680a8816b5f1047985ac1bf5323e3db095053",
+            "baseline_sha256": "4e3e61faa1ab951285605cfb7bf680a8816b5f1047985ac1bf5323e3db095053",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/config.py": {
+            "candidate_sha256": "aa73d3560719051306218f12287516f55b8d9fcc656e6b34346deab37ae0cd7a",
+            "current_sha256": "aa73d3560719051306218f12287516f55b8d9fcc656e6b34346deab37ae0cd7a",
+            "baseline_sha256": "aa73d3560719051306218f12287516f55b8d9fcc656e6b34346deab37ae0cd7a",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/editor_lock.py": {
+            "candidate_sha256": "9c25ea891c14fe42af36c4e466f3e04ded598d0694b46b06a9c6e8221fac4af5",
+            "current_sha256": "9c25ea891c14fe42af36c4e466f3e04ded598d0694b46b06a9c6e8221fac4af5",
+            "baseline_sha256": "9c25ea891c14fe42af36c4e466f3e04ded598d0694b46b06a9c6e8221fac4af5",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/errors.py": {
+            "candidate_sha256": "44dd2fa1bcb474f0b2648a76be165c7e93b520db253811cf0dfc4d65ec2ec5c5",
+            "current_sha256": "44dd2fa1bcb474f0b2648a76be165c7e93b520db253811cf0dfc4d65ec2ec5c5",
+            "baseline_sha256": "44dd2fa1bcb474f0b2648a76be165c7e93b520db253811cf0dfc4d65ec2ec5c5",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/evidence.py": {
+            "candidate_sha256": "62622a01d894db247206de9bdf298a0af6943de09d0ffde6c00cf08cf573f2c7",
+            "current_sha256": "62622a01d894db247206de9bdf298a0af6943de09d0ffde6c00cf08cf573f2c7",
+            "baseline_sha256": "62622a01d894db247206de9bdf298a0af6943de09d0ffde6c00cf08cf573f2c7",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/genqc.py": {
+            "candidate_sha256": "bafb16d85577cf6ac83eb30d297ab267abc34e261626366bb25c6b61057cf859",
+            "current_sha256": "bafb16d85577cf6ac83eb30d297ab267abc34e261626366bb25c6b61057cf859",
+            "baseline_sha256": "bafb16d85577cf6ac83eb30d297ab267abc34e261626366bb25c6b61057cf859",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/metrics.py": {
+            "candidate_sha256": "3c496bdb1743c354c90bb6b5f98bfe6e699eb430318fa071682edb0b4c2140ef",
+            "current_sha256": "3c496bdb1743c354c90bb6b5f98bfe6e699eb430318fa071682edb0b4c2140ef",
+            "baseline_sha256": "3c496bdb1743c354c90bb6b5f98bfe6e699eb430318fa071682edb0b4c2140ef",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/modfit.py": {
+            "candidate_sha256": "1b9b69ec8a90c9d3144ce2bad9f204fdc956d6c743fc572a5a490495ed5c480e",
+            "current_sha256": "1b9b69ec8a90c9d3144ce2bad9f204fdc956d6c743fc572a5a490495ed5c480e",
+            "baseline_sha256": "1b9b69ec8a90c9d3144ce2bad9f204fdc956d6c743fc572a5a490495ed5c480e",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/motionvis.py": {
+            "candidate_sha256": "d4277ad651e5cb875ec95e0321e4716f49201c780ffe7dd0e39c3a9a5b71dc08",
+            "current_sha256": "d4277ad651e5cb875ec95e0321e4716f49201c780ffe7dd0e39c3a9a5b71dc08",
+            "baseline_sha256": "d4277ad651e5cb875ec95e0321e4716f49201c780ffe7dd0e39c3a9a5b71dc08",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/pipeline.py": {
+            "candidate_sha256": "ae0ce022b6211be2c02eb35fd013573cae79854f13ba2532058efc476ddbeb0d",
+            "current_sha256": "ae0ce022b6211be2c02eb35fd013573cae79854f13ba2532058efc476ddbeb0d",
+            "baseline_sha256": "ae0ce022b6211be2c02eb35fd013573cae79854f13ba2532058efc476ddbeb0d",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/schema.py": {
+            "candidate_sha256": "9bd5c46818ee1e49e3de19a11fb1452a8a2f489ae5a22a2de7c29f2b73c0c65e",
+            "current_sha256": "9bd5c46818ee1e49e3de19a11fb1452a8a2f489ae5a22a2de7c29f2b73c0c65e",
+            "baseline_sha256": "9bd5c46818ee1e49e3de19a11fb1452a8a2f489ae5a22a2de7c29f2b73c0c65e",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/texture.py": {
+            "candidate_sha256": "dbfb941328032a2d81f58b5824e989cd1b60096d19ab5a2d792bed8132aca88e",
+            "current_sha256": "dbfb941328032a2d81f58b5824e989cd1b60096d19ab5a2d792bed8132aca88e",
+            "baseline_sha256": "dbfb941328032a2d81f58b5824e989cd1b60096d19ab5a2d792bed8132aca88e",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/tripo.py": {
+            "candidate_sha256": "858a1839a51fa83329af2827fd90b8de0a4d8632c85cba58c66552424561a3aa",
+            "current_sha256": "858a1839a51fa83329af2827fd90b8de0a4d8632c85cba58c66552424561a3aa",
+            "baseline_sha256": "858a1839a51fa83329af2827fd90b8de0a4d8632c85cba58c66552424561a3aa",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/kitlib/unity.py": {
+            "candidate_sha256": "a58fbac99cad37a97326de8d5e8e4a049250444bceb82cb4ad07ebd1681037fc",
+            "current_sha256": "a58fbac99cad37a97326de8d5e8e4a049250444bceb82cb4ad07ebd1681037fc",
+            "baseline_sha256": "a58fbac99cad37a97326de8d5e8e4a049250444bceb82cb4ad07ebd1681037fc",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/play_check.py": {
+            "candidate_sha256": "c7e6684531ca4aa59838f2c40dffe1c88524546da415a6f400248e9680cb04d7",
+            "current_sha256": "c7e6684531ca4aa59838f2c40dffe1c88524546da415a6f400248e9680cb04d7",
+            "baseline_sha256": "c7e6684531ca4aa59838f2c40dffe1c88524546da415a6f400248e9680cb04d7",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/protect.py": {
+            "candidate_sha256": "64e48488c2f3cb99f2b17c01048e096223853e7fc635e034c12fc8ab33b982a2",
+            "current_sha256": "64e48488c2f3cb99f2b17c01048e096223853e7fc635e034c12fc8ab33b982a2",
+            "baseline_sha256": "64e48488c2f3cb99f2b17c01048e096223853e7fc635e034c12fc8ab33b982a2",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/replay-sample.json": {
+            "candidate_sha256": "9beb1966218c1756ba0522b42518e49c3eef95b71811153ef044aa10010a746e",
+            "current_sha256": "9beb1966218c1756ba0522b42518e49c3eef95b71811153ef044aa10010a746e",
+            "baseline_sha256": "9beb1966218c1756ba0522b42518e49c3eef95b71811153ef044aa10010a746e",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/replay.py": {
+            "candidate_sha256": "582b6f69630777bedab48154d4da79bd524a35bf74312b427d9fc322520b9711",
+            "current_sha256": "582b6f69630777bedab48154d4da79bd524a35bf74312b427d9fc322520b9711",
+            "baseline_sha256": "582b6f69630777bedab48154d4da79bd524a35bf74312b427d9fc322520b9711",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/schemas/catalog.schema.json": {
+            "candidate_sha256": "d10a148b102dd00e157a0612b5f9cb393ab6b9282b2aee2b31e577015b4bf8e3",
+            "current_sha256": "d10a148b102dd00e157a0612b5f9cb393ab6b9282b2aee2b31e577015b4bf8e3",
+            "baseline_sha256": "d10a148b102dd00e157a0612b5f9cb393ab6b9282b2aee2b31e577015b4bf8e3",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/schemas/config.schema.json": {
+            "candidate_sha256": "211fe179efb5a48cf8aa0cfe8251a143928406147fe4801f7ef4032c8d854d73",
+            "current_sha256": "211fe179efb5a48cf8aa0cfe8251a143928406147fe4801f7ef4032c8d854d73",
+            "baseline_sha256": "211fe179efb5a48cf8aa0cfe8251a143928406147fe4801f7ef4032c8d854d73",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/schemas/replay-cases.schema.json": {
+            "candidate_sha256": "5f733e310c2833a50041f293ac69099415a94f26b4511d87287e8a41ac0dc6a1",
+            "current_sha256": "5f733e310c2833a50041f293ac69099415a94f26b4511d87287e8a41ac0dc6a1",
+            "baseline_sha256": "5f733e310c2833a50041f293ac69099415a94f26b4511d87287e8a41ac0dc6a1",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/selftest_tripo.py": {
+            "candidate_sha256": "2578c3ed798bf6156941036b7b82e82e4a0bc496ce489ea8e3aee52e8762d606",
+            "current_sha256": "2578c3ed798bf6156941036b7b82e82e4a0bc496ce489ea8e3aee52e8762d606",
+            "baseline_sha256": "2578c3ed798bf6156941036b7b82e82e4a0bc496ce489ea8e3aee52e8762d606",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          ".ai/3d-art/tools/session_time.py": {
+            "candidate_sha256": "fbf1c5306c3a24fe173bbb47d055dd51c3015c5fd0e4923dd24b4b24c9ea4962",
+            "current_sha256": "fbf1c5306c3a24fe173bbb47d055dd51c3015c5fd0e4923dd24b4b24c9ea4962",
+            "baseline_sha256": "fbf1c5306c3a24fe173bbb47d055dd51c3015c5fd0e4923dd24b4b24c9ea4962",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/AnimProbe.cs": {
+            "candidate_sha256": "f804de0aee5ffaf51f92e02c7c6f39795aacf5c6cf964751e9a40301655b7c06",
+            "current_sha256": "f804de0aee5ffaf51f92e02c7c6f39795aacf5c6cf964751e9a40301655b7c06",
+            "baseline_sha256": "f804de0aee5ffaf51f92e02c7c6f39795aacf5c6cf964751e9a40301655b7c06",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/AnimProbe.cs.meta": {
+            "candidate_sha256": "d254b03f73c39139b8e96b404024ea6b1a200f6447f3659b260df6e3489a352c",
+            "current_sha256": "d254b03f73c39139b8e96b404024ea6b1a200f6447f3659b260df6e3489a352c",
+            "baseline_sha256": "d254b03f73c39139b8e96b404024ea6b1a200f6447f3659b260df6e3489a352c",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/AssetPipeline.cs": {
+            "candidate_sha256": "6299a31907d5d65660ec2ce567ad451a631d394b5230a5af6ccab889000cf8c9",
+            "current_sha256": "6299a31907d5d65660ec2ce567ad451a631d394b5230a5af6ccab889000cf8c9",
+            "baseline_sha256": "6299a31907d5d65660ec2ce567ad451a631d394b5230a5af6ccab889000cf8c9",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/AssetPipeline.cs.meta": {
+            "candidate_sha256": "7d12606267de9480331353ab5e1132ba3cdd3ff5e7544533abdbd4db79795d5a",
+            "current_sha256": "7d12606267de9480331353ab5e1132ba3cdd3ff5e7544533abdbd4db79795d5a",
+            "baseline_sha256": "7d12606267de9480331353ab5e1132ba3cdd3ff5e7544533abdbd4db79795d5a",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/IKit3DProjectHooks.cs": {
+            "candidate_sha256": "35fba1c50c61637d1220c6d9f34bea5feabd440dcaa174b91c7e75cb187d194f",
+            "current_sha256": "35fba1c50c61637d1220c6d9f34bea5feabd440dcaa174b91c7e75cb187d194f",
+            "baseline_sha256": "35fba1c50c61637d1220c6d9f34bea5feabd440dcaa174b91c7e75cb187d194f",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/IKit3DProjectHooks.cs.meta": {
+            "candidate_sha256": "ab8ff86589bc86f25c3ace013b1e6db187e2047334323c5111d51b50145b6ccf",
+            "current_sha256": "ab8ff86589bc86f25c3ace013b1e6db187e2047334323c5111d51b50145b6ccf",
+            "baseline_sha256": "ab8ff86589bc86f25c3ace013b1e6db187e2047334323c5111d51b50145b6ccf",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/KeyPlay/KeyPlaySession.cs": {
+            "candidate_sha256": "b19752643373c7f0916067e6818dfc822524a91afec8869134c63a84738e66da",
+            "current_sha256": "b19752643373c7f0916067e6818dfc822524a91afec8869134c63a84738e66da",
+            "baseline_sha256": "b19752643373c7f0916067e6818dfc822524a91afec8869134c63a84738e66da",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/KeyPlay/KeyPlaySession.cs.meta": {
+            "candidate_sha256": "a638b648110ca92cdc6cc95c21d6723c67a54b7e2a12519c52d2215941b4228b",
+            "current_sha256": "a638b648110ca92cdc6cc95c21d6723c67a54b7e2a12519c52d2215941b4228b",
+            "baseline_sha256": "a638b648110ca92cdc6cc95c21d6723c67a54b7e2a12519c52d2215941b4228b",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/KeyPlay/Kit3D.KeyPlay.Editor.asmdef": {
+            "candidate_sha256": "8d298eeadf07dfb0bc43a7b3dbc095a84f8c4387d4aa6b2b7cb589a3c93f356b",
+            "current_sha256": "8d298eeadf07dfb0bc43a7b3dbc095a84f8c4387d4aa6b2b7cb589a3c93f356b",
+            "baseline_sha256": "8d298eeadf07dfb0bc43a7b3dbc095a84f8c4387d4aa6b2b7cb589a3c93f356b",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/KeyPlay/Kit3D.KeyPlay.Editor.asmdef.meta": {
+            "candidate_sha256": "841d269398a72c9035fa3086ece49df2a9128a9a240fd3753ef887a340d9e395",
+            "current_sha256": "841d269398a72c9035fa3086ece49df2a9128a9a240fd3753ef887a340d9e395",
+            "baseline_sha256": "841d269398a72c9035fa3086ece49df2a9128a9a240fd3753ef887a340d9e395",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/KeyPlay.meta": {
+            "candidate_sha256": "94c72f056b6a811d010e9aefae3e7efc2f766edac0fd10f4c8432fd5a4ae45c6",
+            "current_sha256": "94c72f056b6a811d010e9aefae3e7efc2f766edac0fd10f4c8432fd5a4ae45c6",
+            "baseline_sha256": "94c72f056b6a811d010e9aefae3e7efc2f766edac0fd10f4c8432fd5a4ae45c6",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/Kit3D.Editor.asmdef": {
+            "candidate_sha256": "803d95ae4f08b6061e970aca4c413ee66a16d3f5a965ef91ab19c396137d6009",
+            "current_sha256": "803d95ae4f08b6061e970aca4c413ee66a16d3f5a965ef91ab19c396137d6009",
+            "baseline_sha256": "803d95ae4f08b6061e970aca4c413ee66a16d3f5a965ef91ab19c396137d6009",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor/Kit3D.Editor.asmdef.meta": {
+            "candidate_sha256": "67ff3358465d24a0a304d615120ddade23ad227dd4fbeabca4c74711e75ad50c",
+            "current_sha256": "67ff3358465d24a0a304d615120ddade23ad227dd4fbeabca4c74711e75ad50c",
+            "baseline_sha256": "67ff3358465d24a0a304d615120ddade23ad227dd4fbeabca4c74711e75ad50c",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/Editor.meta": {
+            "candidate_sha256": "a5f06b4970625583755ff2b08ab81de16454ea534d2835a8a322c17c49bee0fc",
+            "current_sha256": "a5f06b4970625583755ff2b08ab81de16454ea534d2835a8a322c17c49bee0fc",
+            "baseline_sha256": "a5f06b4970625583755ff2b08ab81de16454ea534d2835a8a322c17c49bee0fc",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/package.json": {
+            "candidate_sha256": "93833e0adf770c49af5d6308a355b4bb1a86c8131121230e02fec9bf502a08d5",
+            "current_sha256": "93833e0adf770c49af5d6308a355b4bb1a86c8131121230e02fec9bf502a08d5",
+            "baseline_sha256": "93833e0adf770c49af5d6308a355b4bb1a86c8131121230e02fec9bf502a08d5",
+            "status": "current",
+            "installed_version": "0.21.0"
+          },
+          "Packages/com.studiokit.kit3d/package.json.meta": {
+            "candidate_sha256": "b3a624706721ed29003e4ab02752fca87e61b69daad6ba9a83108f701b4b9a78",
+            "current_sha256": "b3a624706721ed29003e4ab02752fca87e61b69daad6ba9a83108f701b4b9a78",
+            "baseline_sha256": "b3a624706721ed29003e4ab02752fca87e61b69daad6ba9a83108f701b4b9a78",
+            "status": "current",
+            "installed_version": "0.21.0"
+          }
+        }
+      }
+    }
+  }
+}

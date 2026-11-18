@@ -1,0 +1,42 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "test run",
+    "parameters": {
+      "mode": "editor",
+      "filter": "EffectGlowTests"
+    },
+    "result": {
+      "Summary": {
+        "Total": 1,
+        "Passed": 1,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "EffectGlowTests.OnlyTwoWhitePaletteColorsEmitAboveBody",
+          "Status": "Passed",
+          "Duration": 0.0920832,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 5.3,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: EffectGlowTests",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

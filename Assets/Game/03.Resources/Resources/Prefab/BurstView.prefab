@@ -79,6 +79,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::BurstView
   bodyRenderer: {fileID: 8870204927003182182}
   upright: {fileID: 7332203545917374181}
+  effectMaterials:
+  - {fileID: 2100000, guid: ecd31a68ef274437da56164682144a8e, type: 2}
+  - {fileID: 2100000, guid: 382dfe366d14c49b18e7e08664390412, type: 2}
+  - {fileID: 2100000, guid: e97abe37326e849dd92b626988d701c9, type: 2}
+  - {fileID: 2100000, guid: 1ebce069fa37449dd8a9576b718e53f2, type: 2}
+  - {fileID: 2100000, guid: 893e8cae010c64ad3ba7fefe62b83c22, type: 2}
+  - {fileID: 2100000, guid: ca1636aba88834a5592e5f80543013af, type: 2}
+  - {fileID: 2100000, guid: 236edd706f0bf477590067239fa67b52, type: 2}
 --- !u!1 &6918680301912523277
 GameObject:
   m_ObjectHideFlags: 0
@@ -137,7 +145,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b41cc439c697143fc8c9bc74c54ebee7, type: 2}
+  - {fileID: 2100000, guid: 382dfe366d14c49b18e7e08664390412, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -160,13 +168,13 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 50
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 06f33a156da6f45309fb3cb0780a9d45, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.41666666, y: 0.41666666}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 1

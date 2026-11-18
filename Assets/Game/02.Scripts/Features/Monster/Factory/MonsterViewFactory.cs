@@ -4,18 +4,12 @@ using UnityEngine;
 // 몬스터 그림을 풀에서 꺼내 몸 그림을 넣고 등록부에 올린다. 돌려줄 때는 등록부에서 빼고 풀로.
 // 몸은 데이터 그림 키가 있으면 아틀라스 그림(그림 넣기 기획서 C·E절), 비었거나 그림이 없으면 F1 마름모(색·크기 = 데이터) — 종류마다 한 번 정해 캐시.
 // 예고 그림: 그림이 있는 돌진형 = <key>_telegraph, 자폭형 = <key>_inflate(아트 기준서 3.10). 다른 몬스터·마름모는 없음.
-// 상태 표시(선·원)는 모두 같이 쓰는 흰 반투명 그림 하나씩을 처음 쓸 때 만든다.
+// 예고 표시는 효과 캐시가 데이터 크기로 그린 고리·길을 재사용한다.
 public class MonsterViewFactory
 {
     private const string PoolKey = "MonsterView";
     private const string PrefabPath = "Prefab/MonsterView";
-    private const int DashLinePixelLength = 4;
-    private const int DashLinePixelThickness = 2;
-    private const int BlastAreaPixels = 64;
     private static readonly Vector2 FootPivot = new(0.5f, 0f);
-    private static readonly Vector2 LineStartPivot = new(0f, 0.5f);
-    private static readonly Color DashLineColor = new(1f, 1f, 1f, 0.5f);
-    private static readonly Color BlastAreaColor = new(1f, 1f, 1f, 0.3f);
 
     private readonly PoolManager _poolManager;
     private readonly ResourceService _resourceService;
@@ -23,6 +17,7 @@ public class MonsterViewFactory
     private readonly PlaceholderSpriteFactory _placeholderSpriteFactory;
     private readonly SpriteAtlasService _spriteAtlasService;
     private readonly RunRulesData _runRules;
+    private readonly EffectSpriteCache _effectSpriteCache;
 
     private readonly Dictionary<string, (Sprite sprite, Sprite warningSprite, bool hasArt)> _bodySpriteDict = new();
     private readonly Dictionary<string, float> _headHeightDict = new();
@@ -32,7 +27,7 @@ public class MonsterViewFactory
     private Sprite _blastAreaSprite;
 
     public MonsterViewFactory(PoolManager poolManager, ResourceService resourceService, MonsterViewRegistry monsterViewRegistry,
-        PlaceholderSpriteFactory placeholderSpriteFactory, SpriteAtlasService spriteAtlasService, RunRulesData runRules)
+        PlaceholderSpriteFactory placeholderSpriteFactory, SpriteAtlasService spriteAtlasService, RunRulesData runRules, EffectSpriteCache effectSpriteCache)
     {
         _poolManager = poolManager;
         _resourceService = resourceService;
@@ -40,6 +35,7 @@ public class MonsterViewFactory
         _placeholderSpriteFactory = placeholderSpriteFactory;
         _spriteAtlasService = spriteAtlasService;
         _runRules = runRules;
+        _effectSpriteCache = effectSpriteCache;
     }
 
     public MonsterView Create(Monster monster, Transform parent)
@@ -47,8 +43,8 @@ public class MonsterViewFactory
         if (_prefab == null)
         {
             _prefab = _resourceService.Load<MonsterView>(PrefabPath);
-            _dashLineSprite = _placeholderSpriteFactory.CreateBox(DashLinePixelLength, DashLinePixelThickness, DashLineColor, LineStartPivot);
-            _blastAreaSprite = _placeholderSpriteFactory.CreateCircle(BlastAreaPixels, BlastAreaColor);
+            _dashLineSprite = _spriteAtlasService.Get("dash_line_1");
+            _blastAreaSprite = _spriteAtlasService.Get("ground_blast_1");
         }
 
         var data = monster.Data;
@@ -57,6 +53,7 @@ public class MonsterViewFactory
         var view = _poolManager.Get(PoolKey, _prefab, parent);
         var body = GetBodySprite(data);
         view.Initialize(body.sprite, body.warningSprite, body.hasArt, _dashLineSprite, _blastAreaSprite, dashLength, blastRadius, _runRules.UnitScale);
+        view.InitializeEffects(_effectSpriteCache);
         if (body.hasArt)
         {
             if (!_directionDict.TryGetValue(data.Id, out var directions))

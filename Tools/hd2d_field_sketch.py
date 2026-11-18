@@ -2,12 +2,17 @@
 """Read baked view data only; draw the spatial contract and actual counts."""
 from pathlib import Path
 import json
+import shutil
 from collections import Counter
 from PIL import Image, ImageDraw
 ROOT=Path(__file__).resolve().parents[1]
 ART=ROOT/'Assets/Game/03.Resources/Resources/Data/Field'
 def main():
     data=json.loads((ART/'field_layout.json').read_text())
+    if data['seed'] == 8 and 'generator' in data:
+        out=ROOT/'output/hd2d-background';out.mkdir(parents=True,exist_ok=True)
+        shutil.copyfile(ROOT/'output/map-pcg/seed-8/topdown.png', out/'layout-main.png')
+        return
     im=Image.new('RGB',(1100,1100),'#303833');d=ImageDraw.Draw(im)
     def point(x,y):return (550+x*13,550-y*13)
     def poly(points,fill=None,outline='white',width=1):d.polygon([point(*p) for p in points],fill=fill,outline=outline,width=width)

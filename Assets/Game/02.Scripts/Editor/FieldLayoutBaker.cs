@@ -15,19 +15,22 @@ public static class FieldLayoutBaker
     [MenuItem("DeadSurvivor/HD2D/Bake Field Layout")]
     public static void Bake()
     {
-        var layout = Generate();
-        File.WriteAllText(DataPath, JsonUtility.ToJson(layout, true) + "\n");
-        const string folder = "Assets/Game/03.Resources/Meshes/HD2D";
-        Directory.CreateDirectory(folder);
-        const string source = "Assets/Game/03.Resources/Art/HD2D/OB-006_Water.asset";
-        var destination = folder + "/FieldPond.asset";
-        if (!File.Exists(destination))
+        const string source = "output/map-pcg/seed-8/export";
+        foreach (var name in new[] { "field_layout.json", "ground_path.json" })
         {
-            AssetDatabase.CopyAsset(source, destination);
+            File.Copy(source + "/" + name, Path.GetDirectoryName(DataPath) + "/" + name, true);
         }
-        var sourceList = new[] { source, "Assets/Game/02.Scripts/Editor/HD2D/Round8/FieldLookdevScene8.cs" };
-        File.WriteAllText(folder + "/source.txt", string.Join("\n", sourceList.Select(p => p + " SHA256 " + BitConverter.ToString(System.Security.Cryptography.SHA256.Create().ComputeHash(File.ReadAllBytes(p))).Replace("-", "").ToLowerInvariant())));
+        CopyPcgMasks();
         AssetDatabase.Refresh();
+    }
+
+    public static void CopyPcgMasks()
+    {
+        foreach (var name in new[] { "Path", "Water", "Bank", "Zone" })
+        {
+            var file = "Field" + name + "Mask.png";
+            File.Copy("output/map-pcg/seed-8/export/" + file, "Assets/Game/03.Resources/Textures/HD2D/" + file, true);
+        }
     }
 
     public static FieldLayoutData Generate()
