@@ -59,6 +59,10 @@ public static class MainSceneHD2DBackgroundMigration
         so.FindProperty("bridgeMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_Prop_Bridge.mat");
         so.FindProperty("tentMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_Prop_Tent.mat");
         so.FindProperty("hardShadowMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_HardShadowCard.mat");
+        foreach (var pair in new[] { ("ditherSpriteMaterial", "HD2D_DitherSprite"), ("ditherWoodMaterial", "HD2D_DitherWood"), ("ditherTentMaterial", "HD2D_DitherTent") })
+        {
+            so.FindProperty(pair.Item1).objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/" + pair.Item2 + ".mat");
+        }
         so.FindProperty("bridgeModel").objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(Root + "Models/HD2D/Bridge.fbx");
         so.FindProperty("tentModel").objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(Root + "Models/HD2D/Tent.fbx");
         so.ApplyModifiedPropertiesWithoutUndo();

@@ -6,6 +6,7 @@ using UnityEngine;
 public class MemberView : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer bodyRenderer;
+    public SpriteRenderer BodyRenderer => bodyRenderer;
     [SerializeField] private Material shadowMaterial;
     [SerializeField] private Material shadowCasterMaterial;
     [SerializeField] private UprightShadowCaster shadowCaster;

@@ -608,6 +608,7 @@ public static class PlayableProbe
         return count;
     }
 
+    public static int FieldFadedCount => Resolve<FieldOcclusionPresenter>().FadedCount;
     public static int FieldGroundVisibleCount => Resolve<FieldView>().GroundVisibleCount(Resolve<Camera>());
     public static int FieldPartVisibleCount(string kind) => Resolve<FieldView>().PartVisibleCount(kind, Resolve<Camera>());
     public static int FieldPartCount(string kind) => Resolve<FieldView>().PartCount(kind);

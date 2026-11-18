@@ -8,6 +8,7 @@ Shader "HD2D/HD2D_SpriteLit"
         _SpriteRenderer ("SpriteRenderer data", Float) = 1
         _BaseColor ("Tint", Color) = (1,1,1,1)
         _Emission ("Emission", Range(0,4)) = 0
+        _Dither ("Dither amount", Range(0,1)) = 0
         _HueShift ("Palette hue shift", Range(0,1)) = 0
     }
     SubShader
@@ -22,6 +23,7 @@ Shader "HD2D/HD2D_SpriteLit"
         CBUFFER_START(UnityPerMaterial)
         half4 _BaseColor;
         float _Emission;
+        float _Dither;
         float _HueShift;
         float _SpriteRenderer;
         float _ReceiveShadows;
@@ -56,6 +58,7 @@ Shader "HD2D/HD2D_SpriteLit"
         {
             half4 c = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(0.00001, 0.00001)) * i.color;
             clip(c.a - 0.5);
+            clip(frac(dot(floor(i.positionCS.xy),float2(.754877666,.569840296)))-_Dither);
             return c;
         }
         half4 LitFragment(Varyings i) : SV_Target

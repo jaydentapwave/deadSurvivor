@@ -39,6 +39,34 @@
       "capture": true
     },
     {
+      "id": "TREE_MOVE",
+      "name": "나무 앞 대원 뒤 겹침으로 이동",
+      "do": "UnityEngine.Time.timeScale=.2f; PlayableProbe.SetMove(1f, -.333333f);",
+      "wait": "PlayableProbe.PartyX * .0113f >= 4.1f",
+      "timeout": 30
+    },
+    {
+      "id": "TREE",
+      "name": "나무 뒤에서 소품만 디더",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldFadedCount > 0",
+      "capture": true
+    },
+    {
+      "id": "TREE_AWAY_MOVE",
+      "name": "겹침 벗어남",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(-1f,0f);",
+      "wait": "PlayableProbe.PartyX * .0113f < .1f",
+      "timeout": 15
+    },
+    {
+      "id": "TREE_CLEAR",
+      "name": "원래 공유 재질 복구",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldFadedCount == 0",
+      "capture": true
+    },
+    {
       "id": "MOVE_DIR1",
       "name": "8방향 down 이동",
       "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(0f, -1f);",

@@ -44,13 +44,13 @@ Shader "HD2D/HD2D_FieldSurface"
         }
         void ClipSurface(V i)
         {
+            clip(frac(dot(floor(i.p.xy),float2(.754877666,.569840296)))-_Dither);
             if (_Category < .5) clip(.5-SAMPLE_TEXTURE2D(_WaterMask,sampler_PointClamp,(i.w.xz-_FieldRect.xy)/_FieldRect.zw).r);
         }
         struct F { half4 color:SV_Target; float depth:SV_Depth; };
         F Frag(V i)
         {
             ClipSurface(i);
-            clip(frac(dot(floor(i.p.xy),float2(.754877666,.569840296)))-_Dither);
             F output; output.depth=lerp(i.p.z,i.floorDepth.x/i.floorDepth.y,_FlatDepth);
             float2 cells=floor(float2(i.w.x,dot(i.w,float3(0,.8660254,.5)))*48+.00001);
             float grain=SAMPLE_TEXTURE2D(_Pattern,sampler_Pattern,(cells+.5)/128).r;

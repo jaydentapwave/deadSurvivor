@@ -20,6 +20,17 @@ public class FieldView : MonoBehaviour
     [SerializeField] private Material hardShadowMaterial;
     [SerializeField] private GameObject bridgeModel;
     [SerializeField] private GameObject tentModel;
+    [SerializeField] private Material ditherSpriteMaterial;
+    [SerializeField] private Material ditherWoodMaterial;
+    [SerializeField] private Material ditherTentMaterial;
+    private readonly List<FieldOccluder> _occluderList = new();
+    public IReadOnlyList<FieldOccluder> Occluders => _occluderList;
+    public void RegisterOccluder(Transform anchor, Renderer[] renderers)
+    {
+        _occluderList.Add(new FieldOccluder(anchor, renderers, original =>
+            original == cardMaterial ? ditherSpriteMaterial :
+            original == woodMaterial ? ditherWoodMaterial : ditherTentMaterial));
+    }
     private Mesh _woodMesh;
     public Material CardMaterial => cardMaterial;
     private readonly List<Mesh> _ownedMeshList = new();
@@ -95,6 +106,10 @@ public class FieldView : MonoBehaviour
         {
             card.AddComponent<UprightFootShadow>().Initialize(renderer, footShadowMaterial, placement.height, lightDirection);
         }
+        if (placement.sprite.StartsWith("tree_") || placement.sprite == "boulder_01")
+        {
+            RegisterOccluder(card.transform, new Renderer[] { renderer });
+        }
         return renderer;
     }
 
@@ -164,6 +179,10 @@ public class FieldView : MonoBehaviour
                 _partDict.Add(placement.prop,partList);
             }
             partList.Add(root.GetComponentInChildren<Renderer>());
+            if (placement.prop == "tent" || placement.prop == "flag" || placement.prop == "sign")
+            {
+                RegisterOccluder(root.transform, root.GetComponentsInChildren<Renderer>());
+            }
         }
     }
 
@@ -247,5 +266,43 @@ public class FieldView : MonoBehaviour
         renderer.sortingOrder = placement.IsGround ? -90 : 0;
         renderer.sharedMaterial = tilemap.GetComponent<TilemapRenderer>().sharedMaterial;
         return renderer;
+    }
+}
+
+// One group per scenery object, with shared asset references captured once at construction.
+public sealed class FieldOccluder
+{
+    public Transform Anchor { get; }
+    private readonly Renderer[] _renderers;
+    private readonly Material[][] _normal;
+    private readonly Material[][] _faded;
+    public bool IsFaded { get; private set; }
+    public Bounds Bounds
+    {
+        get
+        {
+            var bounds = _renderers[0].bounds;
+            for (var i = 1; i < _renderers.Length; i++) bounds.Encapsulate(_renderers[i].bounds);
+            return bounds;
+        }
+    }
+    public FieldOccluder(Transform anchor, Renderer[] renderers, System.Func<Material, Material> fadedMaterial)
+    {
+        Anchor = anchor;
+        _renderers = renderers;
+        _normal = new Material[renderers.Length][];
+        _faded = new Material[renderers.Length][];
+        for (var i = 0; i < renderers.Length; i++)
+        {
+            _normal[i] = renderers[i].sharedMaterials;
+            _faded[i] = new Material[_normal[i].Length];
+            for (var j = 0; j < _normal[i].Length; j++) _faded[i][j] = fadedMaterial(_normal[i][j]);
+        }
+    }
+    public void SetFaded(bool faded)
+    {
+        if (IsFaded == faded) return;
+        IsFaded = faded;
+        for (var i = 0; i < _renderers.Length; i++) _renderers[i].sharedMaterials = faded ? _faded[i] : _normal[i];
     }
 }

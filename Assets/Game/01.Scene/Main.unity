@@ -50527,6 +50527,9 @@ MonoBehaviour:
   hardShadowMaterial: {fileID: 2100000, guid: 5334b16ef49f44cfda885416a8c12524, type: 2}
   bridgeModel: {fileID: 919132149155446097, guid: ea04e99fcafb4473ba353ea184e38546, type: 3}
   tentModel: {fileID: 919132149155446097, guid: bba63ff28a9874544a188e5920d64f70, type: 3}
+  ditherSpriteMaterial: {fileID: 2100000, guid: 6f3c4d6f07384baaa2615bfb8dfb3344, type: 2}
+  ditherWoodMaterial: {fileID: 2100000, guid: 23dda475f7564174869553ffb605f3ce, type: 2}
+  ditherTentMaterial: {fileID: 2100000, guid: f631cbe8a8fc40a6b6e66e5dee6856ec, type: 2}
 --- !u!483693784 &1450006850
 TilemapRenderer:
   serializedVersion: 2
