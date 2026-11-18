@@ -1,0 +1,4 @@
+Assets/Game/03.Resources/Art/HD2D/Round8/FieldTree.png SHA256 79140bad99ed494cc603cf81c8fc7c44c8e5143491d3e7bbba34bc497fc5d678
+Assets/Game/03.Resources/Art/HD2D/Round8/FieldBush.png SHA256 3b4c4b5287fa9b9537a0816b955aa97b4ab59720dec9c0a616ea5ab4920fc252
+Assets/Game/03.Resources/Art/HD2D/Round8/FieldBoulder.png SHA256 a1397d54263fbdcfaa3e659236323e6014d6b6f791005141d523dd607fe0a0c6
+B0: adopted F8, bush_02 mirrored native crop 43x42.
