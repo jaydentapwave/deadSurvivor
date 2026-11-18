@@ -189,6 +189,41 @@ public class MonsterViewStateTests
         Assert.IsFalse(_view.IsFlipped);
     }
 
+    [Test]
+    public void ShadowTracksFractionalWidthAcrossFacingWarningAndPoolReuse()
+    {
+        var normal = CreateSprite(17, 16, new Vector2(.5f, 0f));
+        var side = CreateSprite(29, 16, new Vector2(.5f, 0f));
+        var warning = CreateSprite(35, 16, new Vector2(.5f, 0f));
+        _view.Initialize(normal, warning, true, normal, normal, 0, 0, .0113f);
+        _view.InitializeShadow(CreateSprite(24, 12, new Vector2(.5f, 0f)), 17);
+        Assert.AreEqual(17, _view.ShadowWidthPixels, .001f);
+        Assert.AreEqual(HD2DBackgroundRig.BackgroundLayer, _root.transform.Find("Shadow").gameObject.layer);
+        _view.InitializeDirections(new[] { normal, normal, side, normal, normal },
+            new[] { warning, warning, warning, warning, warning });
+        _view.ApplyMotion(new SpriteFacing(FacingDirection.Right, true), Vector2Int.zero);
+        Assert.AreEqual(29, _view.ShadowWidthPixels, .001f);
+        Assert.AreEqual(29f / 24f, _root.transform.Find("Shadow").localScale.x, .001f);
+        _view.UpdateState(MonsterPhase.Windup, Vector2.left);
+        Assert.AreEqual(35, _view.ShadowWidthPixels, .001f);
+        _view.UpdateState(MonsterPhase.Approach, Vector2.zero);
+        Assert.AreEqual(29, _view.ShadowWidthPixels, .001f);
+        _view.Initialize(normal, warning, true, normal, normal, 0, 0, .0113f);
+        Assert.AreEqual(17, _view.ShadowWidthPixels, .001f);
+        Assert.AreEqual(1, _root.GetComponentsInChildren<FootShadowView>().Length);
+    }
+
+    [Test]
+    public void ProductionMonsterUsesUnrotatedColourAndSharedHardShadow()
+    {
+        var prefab = AssetDatabase.LoadAssetAtPath<MonsterView>("Assets/Game/03.Resources/Resources/Prefab/MonsterView.prefab");
+        var data = new SerializedObject(prefab);
+        var body = (SpriteRenderer)data.FindProperty("bodyRenderer").objectReferenceValue;
+        Assert.AreEqual(0, body.sharedMaterial.GetFloat("_HueShift"));
+        var shadow = (Material)data.FindProperty("shadowMaterial").objectReferenceValue;
+        Assert.AreEqual("HD2D/HD2D_HardShadowCard", shadow.shader.name);
+    }
+
     private static Sprite CreateSprite(int width, int height, Vector2 pivot)
     {
         var texture = new Texture2D(width, height);

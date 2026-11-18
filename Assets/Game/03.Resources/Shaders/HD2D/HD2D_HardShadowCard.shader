@@ -15,7 +15,7 @@ Shader "HD2D/HD2D_HardShadowCard"
             TEXTURE2D(_MainTex);SAMPLER(sampler_MainTex);
             struct A {float3 p:POSITION;float2 uv:TEXCOORD0;};struct V {float4 p:SV_POSITION;float2 uv:TEXCOORD0;};
             V Vert(A i){V o;o.p=TransformObjectToHClip(i.p);o.uv=i.uv;return o;}
-            half4 Frag(V i):SV_Target {clip(SAMPLE_TEXTURE2D(_MainTex,sampler_PointClamp,i.uv).a-.5);return half4(.45,.4,.34,1);}
+            half4 Frag(V i):SV_Target {clip(SAMPLE_TEXTURE2D(_MainTex,sampler_PointClamp,i.uv).a-.5);return half4(.44,.43,.39,1);}
             ENDHLSL
         }
     }

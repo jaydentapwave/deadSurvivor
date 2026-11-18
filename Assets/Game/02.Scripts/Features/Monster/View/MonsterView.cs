@@ -23,6 +23,8 @@ public class MonsterView : MonoBehaviour
     private Sprite _bodySprite;
     private Sprite _warningSprite;
     private FootShadowView _shadow;
+    private Sprite _shadowSprite;
+    public float ShadowWidthPixels => _shadow == null ? 0f : _shadow.WidthPixels;
     private Sprite[] _directionSprites;
     private Sprite[] _warningSprites;
     private int _spriteMask;
@@ -92,10 +94,13 @@ public class MonsterView : MonoBehaviour
         {
             var child = new GameObject("Shadow");
             child.transform.SetParent(transform, false);
+            child.layer = HD2DBackgroundRig.BackgroundLayer;
             _shadow = child.AddComponent<FootShadowView>();
         }
 
         _shadow.Initialize(sprite, bodyWidthPixels, bodyRenderer.sortingLayerID, shadowMaterial);
+        _shadowSprite = null;
+        UpdateShadowWidth();
     }
 
     public void UpdateView(Vector3 worldPosition) => transform.localPosition = worldPosition;
@@ -141,6 +146,26 @@ public class MonsterView : MonoBehaviour
         var mask = IsWarning ? _warningMask : _spriteMask;
         var sprites = IsWarning ? _warningSprites : _directionSprites;
         bodyRenderer.sprite = sprites[(int)SpriteFacing.ResolveAvailable(Facing.Direction, mask)];
+        UpdateShadowWidth();
+    }
+
+    private void UpdateShadowWidth()
+    {
+        // Shadow is attached after the body is initialized by the factory.
+        if (_shadow == null || _shadowSprite == bodyRenderer.sprite)
+        {
+            return;
+        }
+        _shadowSprite = bodyRenderer.sprite;
+        var vertices = _shadowSprite.vertices;
+        var min = float.PositiveInfinity;
+        var max = float.NegativeInfinity;
+        foreach (var vertex in vertices)
+        {
+            min = Mathf.Min(min, vertex.x);
+            max = Mathf.Max(max, vertex.x);
+        }
+        _shadow.SetWidth((max - min) * _shadowSprite.pixelsPerUnit);
     }
 
     // dashDirection: 바닥 평면 단위 벡터(Windup일 때만 쓴다)
