@@ -1,0 +1,1158 @@
+{
+  "frames/arrow_dirs/arrow_right_1.png": {
+    "sha256": "62322db6fe2bc27ac7c31bd250aced87f910d2a9dfc5e9d1957a28f279aa08e4",
+    "size": [
+      30,
+      5
+    ],
+    "bounds": [
+      0,
+      0,
+      30,
+      5
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/arrow_dirs/arrow_up_1.png": {
+    "sha256": "f238208a93271d2178685ad994ac0a8d50c70f2bfd24ac796b42691135eba5db",
+    "size": [
+      5,
+      30
+    ],
+    "bounds": [
+      0,
+      0,
+      5,
+      30
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/arrow_dirs/arrow_upright_1.png": {
+    "sha256": "307165cd442cf9306e9b92cfb579b273eccd832e620007226823cac91a26b4cf",
+    "size": [
+      20,
+      22
+    ],
+    "bounds": [
+      0,
+      0,
+      20,
+      22
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/crossbow_bolt_dirs/crossbow_bolt_right_1.png": {
+    "sha256": "d78b09184d73f8f912d9393394784fe7a6fc8acd1559da9c2c2c4f152687ce54",
+    "size": [
+      21,
+      6
+    ],
+    "bounds": [
+      0,
+      0,
+      21,
+      6
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/crossbow_bolt_dirs/crossbow_bolt_up_1.png": {
+    "sha256": "859dd051edb5a7989148369c723ea17ef320458a2c1c45a4ec28e801b8d6a2b7",
+    "size": [
+      6,
+      21
+    ],
+    "bounds": [
+      0,
+      0,
+      6,
+      21
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/crossbow_bolt_dirs/crossbow_bolt_upright_1.png": {
+    "sha256": "fc09fc8c3dfadaa700c0e1195d11938a7e5bee8c7f5f0fce8417137b20e15b9e",
+    "size": [
+      14,
+      16
+    ],
+    "bounds": [
+      0,
+      0,
+      14,
+      16
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/explosion/explosion_1.png": {
+    "sha256": "3a1d9ea6a23c8c42ad0c688cd3e931cf00e356df1ee6f06db4b5e243768c3075",
+    "size": [
+      32,
+      28
+    ],
+    "bounds": [
+      12,
+      11,
+      19,
+      19
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/explosion/explosion_2.png": {
+    "sha256": "4bcc3fa96a13a835a747350b5a0f67aef90246697e625195498eb13b3766c16f",
+    "size": [
+      32,
+      28
+    ],
+    "bounds": [
+      8,
+      7,
+      24,
+      24
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/explosion/explosion_3.png": {
+    "sha256": "f9b5db3537c6986752722d3181ced31d82309b7f3326732af08a729d20823ac6",
+    "size": [
+      32,
+      28
+    ],
+    "bounds": [
+      3,
+      4,
+      29,
+      26
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/explosion/explosion_4.png": {
+    "sha256": "7eebdc1885590209351a0ee8e5be669a861f1e1211180fa66950152fc3d00987",
+    "size": [
+      32,
+      28
+    ],
+    "bounds": [
+      1,
+      1,
+      30,
+      27
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/explosion/explosion_5.png": {
+    "sha256": "d8cb712a889d8835aa43d535b8368765cf4a98338be3efd693e0ca2d1aa38d64",
+    "size": [
+      32,
+      28
+    ],
+    "bounds": [
+      6,
+      1,
+      26,
+      25
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/explosion/explosion_6.png": {
+    "sha256": "e7a62d0c687ad138c73950970f075fab98a947f91ba5b794970fde823eb61bca",
+    "size": [
+      32,
+      28
+    ],
+    "bounds": [
+      9,
+      1,
+      23,
+      8
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/fireball/fireball_1.png": {
+    "sha256": "cc12e10b95442c199fb2848131ea7518f2617336febf66ee2ca346143e9efb5f",
+    "size": [
+      24,
+      12
+    ],
+    "bounds": [
+      1,
+      1,
+      22,
+      10
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/fireball/fireball_2.png": {
+    "sha256": "83c4d75e9e2b381a878b3e76cdea82ea3399388b6f427ecb2b4382e6fe4cc032",
+    "size": [
+      24,
+      12
+    ],
+    "bounds": [
+      2,
+      1,
+      22,
+      10
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/fireball/fireball_3.png": {
+    "sha256": "0284398adeaa94c05a035ceb87eea2d4f3ed25493437070c17a1ec1cd8d16aed",
+    "size": [
+      24,
+      12
+    ],
+    "bounds": [
+      2,
+      1,
+      22,
+      10
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/fireball_dirs/fireball_right_1.png": {
+    "sha256": "f3736a31cb3f87fdc8d27146039e54ba7af03e32c5e35978bb8fd2509f47bac9",
+    "size": [
+      21,
+      9
+    ],
+    "bounds": [
+      0,
+      0,
+      21,
+      9
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/fireball_dirs/fireball_right_2.png": {
+    "sha256": "18943d7bd5628a925e4a09fb105781efcbe5714ab623b05ec75ae681fff4e444",
+    "size": [
+      21,
+      9
+    ],
+    "bounds": [
+      1,
+      0,
+      21,
+      9
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/fireball_dirs/fireball_right_3.png": {
+    "sha256": "1c0179c501bbcc139d748decac8a4d255dc25360eae80d28447bd4d65fe996e0",
+    "size": [
+      21,
+      9
+    ],
+    "bounds": [
+      1,
+      0,
+      21,
+      9
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/fireball_dirs/fireball_up_1.png": {
+    "sha256": "c7c4b3097ed9db75cd5b2cc18ec6adbd9275866fc9470ebcdf64ada12f9616b5",
+    "size": [
+      9,
+      21
+    ],
+    "bounds": [
+      0,
+      0,
+      9,
+      21
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/fireball_dirs/fireball_up_2.png": {
+    "sha256": "4ad16a6d86160c19b9634d6c4a7201ac83421953e5b1ab262135ae7f531d15ef",
+    "size": [
+      9,
+      21
+    ],
+    "bounds": [
+      0,
+      0,
+      9,
+      20
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/fireball_dirs/fireball_up_3.png": {
+    "sha256": "79c640f190674d45836a4b1c1a4e78e905b8f12b19c953c37f06661140e0d270",
+    "size": [
+      9,
+      21
+    ],
+    "bounds": [
+      0,
+      0,
+      9,
+      20
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/fireball_dirs/fireball_upright_1.png": {
+    "sha256": "edee7c18eebc3bbfe557948d405b265f1feb542df72b495dd6c22d879551955d",
+    "size": [
+      16,
+      16
+    ],
+    "bounds": [
+      0,
+      0,
+      16,
+      15
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/fireball_dirs/fireball_upright_2.png": {
+    "sha256": "3ce18753cc9fa6ced74bb9fd4c1ab336debd04447ec7db08905e9e854fbe7c86",
+    "size": [
+      16,
+      16
+    ],
+    "bounds": [
+      1,
+      0,
+      16,
+      16
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/fireball_dirs/fireball_upright_3.png": {
+    "sha256": "c5ee7336a62bf7d4770eca708d1949f2040c301964b840ebb01ddc62dd4f45e8",
+    "size": [
+      16,
+      16
+    ],
+    "bounds": [
+      0,
+      0,
+      16,
+      16
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/heal_single/heal_single_1.png": {
+    "sha256": "399563072cfa7dd424bd3c364bdcbdd1ed221b151a011b5ee3f4fcf5cc44cc26",
+    "size": [
+      20,
+      26
+    ],
+    "bounds": [
+      5,
+      14,
+      18,
+      25
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/heal_single/heal_single_2.png": {
+    "sha256": "9509471a26c1da2dcfa284ee7053e456bd6691ad30a1183fd60132bc03aa2c1a",
+    "size": [
+      20,
+      26
+    ],
+    "bounds": [
+      5,
+      8,
+      18,
+      20
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/heal_single/heal_single_3.png": {
+    "sha256": "24d71fac32e16a1024acedc84c649a56418105d5a880607e9b95f81696c4072e",
+    "size": [
+      20,
+      26
+    ],
+    "bounds": [
+      1,
+      3,
+      19,
+      25
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/heal_single/heal_single_4.png": {
+    "sha256": "f2b2a590185c5fa2e4f8f0d971e25b7a74362b3bcf0bc414273080e1f0ea3f11",
+    "size": [
+      20,
+      26
+    ],
+    "bounds": [
+      7,
+      1,
+      16,
+      15
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/heal_single/heal_single_5.png": {
+    "sha256": "c75c99a4a559f08746ac55d4f8a67893dceb59f4492d97942c9ce1d7d9646d22",
+    "size": [
+      20,
+      26
+    ],
+    "bounds": [
+      6,
+      1,
+      12,
+      6
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/hit_star/hit_star_1.png": {
+    "sha256": "f7ad71ed7ec406b68a7ea1985c4dbf92ccb9b711ce3c9ff634e3f5949d968528",
+    "size": [
+      20,
+      20
+    ],
+    "bounds": [
+      6,
+      6,
+      14,
+      14
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/hit_star/hit_star_2.png": {
+    "sha256": "6fafcea37d0310e1eb7449f67ada55678feb44bfc2735ccf1454bc1290cf79a5",
+    "size": [
+      20,
+      20
+    ],
+    "bounds": [
+      2,
+      2,
+      18,
+      18
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/hit_star/hit_star_3.png": {
+    "sha256": "2481e47fbb00f22c36681121f4fad986073c7093c1a5b9bc7b1142ee0146d083",
+    "size": [
+      20,
+      20
+    ],
+    "bounds": [
+      2,
+      2,
+      18,
+      18
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/slash_axe/slash_axe_1.png": {
+    "sha256": "6e477d19874b1db76bf9652c078962522beb2005f62f8eaf2ee715b14bd0f9f8",
+    "size": [
+      38,
+      40
+    ],
+    "bounds": [
+      1,
+      1,
+      37,
+      20
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/slash_axe/slash_axe_2.png": {
+    "sha256": "a193a49dcf57d8923e26e8d2af921c4ebed694ba4d34049bd410f3f0e40dd4ef",
+    "size": [
+      38,
+      40
+    ],
+    "bounds": [
+      1,
+      1,
+      37,
+      35
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/slash_axe/slash_axe_3.png": {
+    "sha256": "2f1daaafca84b986e41ebb14f1495878d86dabd0d5b9863e45391f6b0645ab91",
+    "size": [
+      38,
+      40
+    ],
+    "bounds": [
+      1,
+      1,
+      37,
+      38
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/slash_axe/slash_axe_4.png": {
+    "sha256": "ddd3f8b7ab87aa2e80402bfbf2120f16c8129bef17d1ca4c1563a99b5fce0d4a",
+    "size": [
+      38,
+      40
+    ],
+    "bounds": [
+      1,
+      1,
+      34,
+      37
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/slash_axe/slash_axe_5.png": {
+    "sha256": "5f2ba69a87b4739e6df99598b077c18d7560d75679924aed7de6859a9e740055",
+    "size": [
+      38,
+      40
+    ],
+    "bounds": [
+      1,
+      1,
+      35,
+      36
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/slash_sword/slash_sword_1.png": {
+    "sha256": "bd46e7a41bfdbfeabf1dd32c0f548f75595e3c6964d6ee4ac9408aa583dac866",
+    "size": [
+      44,
+      48
+    ],
+    "bounds": [
+      12,
+      1,
+      42,
+      15
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/slash_sword/slash_sword_2.png": {
+    "sha256": "6935d91b7920c421197a887220748bc5cec0602101e2da998d550e0aca8d3ae4",
+    "size": [
+      44,
+      48
+    ],
+    "bounds": [
+      1,
+      1,
+      42,
+      37
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/slash_sword/slash_sword_3.png": {
+    "sha256": "dfd0fbe0e193b368879e5e2dc037fb1be568592a7ff8c35f400881e2bc096ee8",
+    "size": [
+      44,
+      48
+    ],
+    "bounds": [
+      1,
+      1,
+      43,
+      47
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/slash_sword/slash_sword_4.png": {
+    "sha256": "7d4564dcd4b85adafe73363a67e0353bd4d4f1908727adc63e0ebe8e38c690e1",
+    "size": [
+      44,
+      48
+    ],
+    "bounds": [
+      3,
+      1,
+      43,
+      46
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/slash_sword/slash_sword_5.png": {
+    "sha256": "a2448b527e5cc104bc6053884142ab2c48d0cbab97d689e23c71908a6afbb6ed",
+    "size": [
+      44,
+      48
+    ],
+    "bounds": [
+      9,
+      9,
+      35,
+      43
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/spore/spore_1.png": {
+    "sha256": "51d678e7dd910949c68d0723b3b3ee3b5ee8948b1c24b5e591bafcc5367c7940",
+    "size": [
+      18,
+      18
+    ],
+    "bounds": [
+      2,
+      2,
+      14,
+      15
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/spore/spore_2.png": {
+    "sha256": "aa00c98cd2526e44b827992ff34eedbf98c1c3c7de065c64944ecb951f7e383c",
+    "size": [
+      18,
+      18
+    ],
+    "bounds": [
+      1,
+      1,
+      16,
+      16
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "frames/spore/spore_3.png": {
+    "sha256": "557febe8e0fcfb174370f10c27fbdafd942b1de761ec4a2de0872d56ff6bca20",
+    "size": [
+      18,
+      18
+    ],
+    "bounds": [
+      3,
+      2,
+      15,
+      15
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/chain_bolt_1.png": {
+    "sha256": "9151011f871df3dd89c04c42a13182c0d42ea6f96bce65b5868b03d6cdca7780",
+    "size": [
+      130,
+      48
+    ],
+    "bounds": [
+      8,
+      7,
+      123,
+      40
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/chain_bolt_2.png": {
+    "sha256": "537cf3045af049c8555f7ee712dbf97c55f2eb46ff401947ed1105936e700a99",
+    "size": [
+      130,
+      48
+    ],
+    "bounds": [
+      8,
+      7,
+      123,
+      40
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/chain_bolt_3.png": {
+    "sha256": "52f9b984be2829d3ff0e8cd914daa9b2d1f49e584ac6d2cb4dc2633901340d49",
+    "size": [
+      130,
+      48
+    ],
+    "bounds": [
+      8,
+      7,
+      123,
+      40
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/dash_line_1.png": {
+    "sha256": "2fb7596b744f1be957096f020d627456e2355816d23dcc4ef827d515096e8c7c",
+    "size": [
+      170,
+      77
+    ],
+    "bounds": [
+      11,
+      8,
+      158,
+      68
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/dash_line_2.png": {
+    "sha256": "be31a9882cd16a6c83005000702793929e6ce99769366d92c3da0f7dc570ad56",
+    "size": [
+      170,
+      77
+    ],
+    "bounds": [
+      11,
+      8,
+      158,
+      68
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/dash_line_3.png": {
+    "sha256": "5d487511ce3810b7f7068e013a4d4d005202a90398b3aa7e78630a702700bf7c",
+    "size": [
+      170,
+      77
+    ],
+    "bounds": [
+      11,
+      8,
+      158,
+      68
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_blast_1.png": {
+    "sha256": "29e626b13d86cb7ec625e17cddd4c05120360b6808e53075258b404ffe684676",
+    "size": [
+      102,
+      54
+    ],
+    "bounds": [
+      2,
+      3,
+      100,
+      51
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_blast_2.png": {
+    "sha256": "9bc2acf87e9e9cec28eae0f9813cc78c5e2c1aba7ac7c2a2b39d887a362c198c",
+    "size": [
+      102,
+      54
+    ],
+    "bounds": [
+      2,
+      3,
+      100,
+      51
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_boom_1.png": {
+    "sha256": "cd68c216260350bb471192d4aed7f65681073edf67b85f8016237d4f7a02e2c8",
+    "size": [
+      86,
+      46
+    ],
+    "bounds": [
+      23,
+      13,
+      63,
+      33
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_boom_2.png": {
+    "sha256": "25a26266f1c590166e98161020e6faa68ce97ce624c866c29622444efd3eaf3a",
+    "size": [
+      86,
+      46
+    ],
+    "bounds": [
+      10,
+      7,
+      76,
+      39
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_boom_3.png": {
+    "sha256": "09e47351f4cda6c47d9c46560440e9de7823d43b8f3d07d27db1c2abddccd319",
+    "size": [
+      86,
+      46
+    ],
+    "bounds": [
+      2,
+      3,
+      84,
+      43
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_boom_4.png": {
+    "sha256": "00e4a5721794f8f2eb4b5c1d34728629738de6482bb0f8c59a27c02a9f1297eb",
+    "size": [
+      86,
+      46
+    ],
+    "bounds": [
+      2,
+      3,
+      84,
+      43
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_heal_1.png": {
+    "sha256": "e12b0ae5c40c0a6e687c1e4a88875cf6e999d9cad579f0640c130177e5116b52",
+    "size": [
+      188,
+      96
+    ],
+    "bounds": [
+      44,
+      23,
+      144,
+      73
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_heal_2.png": {
+    "sha256": "025a382ca8627293d00bc67dbaebedfefad5917d5c9fc046de3ed83f4b317073",
+    "size": [
+      188,
+      96
+    ],
+    "bounds": [
+      21,
+      12,
+      167,
+      84
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_heal_3.png": {
+    "sha256": "2e364c93821c28bef215dc48198862bdff2498c6eea87e737307657f9769677a",
+    "size": [
+      188,
+      96
+    ],
+    "bounds": [
+      3,
+      2,
+      185,
+      94
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_heal_4.png": {
+    "sha256": "be399813029025aa5873015c039f53f6de2d78df001c499fdede2dcf80068cc3",
+    "size": [
+      188,
+      96
+    ],
+    "bounds": [
+      3,
+      2,
+      185,
+      94
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_heal_5.png": {
+    "sha256": "81e7686699985954cee43d9f98b3da9246677d60c958ff89e219dd01603d37eb",
+    "size": [
+      188,
+      96
+    ],
+    "bounds": [
+      3,
+      2,
+      185,
+      94
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_pulse_1.png": {
+    "sha256": "84e10e443364815e1328e6eb796d6d9ded20b48a11031d8650dbcb05795997d8",
+    "size": [
+      114,
+      60
+    ],
+    "bounds": [
+      41,
+      22,
+      73,
+      38
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_pulse_2.png": {
+    "sha256": "a35687d10fabb11058f9b6a0f1a23c841d4a5518b75c1f14c921dc3f19bf36b4",
+    "size": [
+      114,
+      60
+    ],
+    "bounds": [
+      27,
+      15,
+      87,
+      45
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_pulse_3.png": {
+    "sha256": "bfc44a75deb5eabaa2f173a24f23baa3f0ef1d237106183c0e206f0dccc01b35",
+    "size": [
+      114,
+      60
+    ],
+    "bounds": [
+      14,
+      8,
+      100,
+      52
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_pulse_4.png": {
+    "sha256": "7db7874d70589ec2b9637cfc43a395ad4f61c601f945defd9ade8770fc58d7fb",
+    "size": [
+      114,
+      60
+    ],
+    "bounds": [
+      3,
+      3,
+      111,
+      57
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/ground_pulse_5.png": {
+    "sha256": "30b7aa042606546a9834f5a9c7fea48cf99252252c075731d0a0a3772ba48c73",
+    "size": [
+      114,
+      60
+    ],
+    "bounds": [
+      3,
+      3,
+      111,
+      57
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  },
+  "raster/shadow_dot.png": {
+    "sha256": "c6000c5b8f565c9bf3dcdf1089849cbbfbaf0c9ac3f1ae89379bf4ea20fb69c6",
+    "size": [
+      8,
+      4
+    ],
+    "bounds": [
+      0,
+      0,
+      8,
+      4
+    ],
+    "alpha": [
+      0,
+      255
+    ]
+  }
+}
