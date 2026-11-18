@@ -39,14 +39,14 @@
       "id": "B",
       "name": "웨이브 2 진행",
       "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart(); UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
-      "wait": "PlayableProbe.Wave == 2 && PlayableProbe.Screen == \"Battle\"",
+      "wait": "PlayableProbe.Wave == 2 && PlayableProbe.Screen == \"Battle\" && (UnityEngine.Time.timeScale = 1f) == 1f",
       "timeout": 30,
       "capture": true
     },
     {
       "id": "JOY",
       "name": "화면 가운데를 누르고 위로 끌기 → 조이스틱이 보이고 원정대가 위로",
-      "do": "PlayableProbe.MarkPositions(); PlayableProbe.JoystickDown(0.5f, 0.5f); PlayableProbe.JoystickDrag(0.5f, 0.6f);",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.MarkPositions(); PlayableProbe.JoystickDown(0.5f, 0.5f); PlayableProbe.JoystickDrag(0.5f, 0.6f);",
       "sleep": 1,
       "expect": "PlayableProbe.IsJoystickShown && PlayableProbe.PartyDeltaY > 70f && Math.Abs(PlayableProbe.PartyDeltaX) < 0.5f",
       "capture": true

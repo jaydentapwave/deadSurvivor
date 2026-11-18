@@ -19,6 +19,14 @@ public class HudUiSceneTests
         }
     }
 
+    [Test]
+    public void TopHudMeetsTouchAndArtContract()
+    {
+        var scene = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        var hud = Array.Find(scene.GetRootGameObjects(), r => r.GetComponentInChildren<UI_BattleHudView>(true) != null).GetComponentInChildren<UI_BattleHudView>(true);
+        AssertScreen(hud.transform.Find("TopBar"));
+    }
+
     public static void AssertScreen(Transform root)
     {
         foreach (var text in root.GetComponentsInChildren<Text>(true))

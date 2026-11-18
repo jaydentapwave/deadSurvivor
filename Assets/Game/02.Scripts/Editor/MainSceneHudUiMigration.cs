@@ -83,11 +83,93 @@ public static class MainSceneHudUiMigration
         ButtonArt(depart, true);
         Place((RectTransform)depart.transform, new Vector2(0.5f, 0), new Vector2(0, 34), new Vector2(140, 44));
     }
-    private static void ApplyHudTop(Transform canvas) { }
+    private static void ApplyHudTop(Transform canvas)
+    {
+        var root = Find(canvas, "BattleHudView");
+        var top = root.Find("TopBar");
+        TextStyle(top);
+        Art(top.GetComponent<Image>(), "U7_bar_fill");
+        top.GetComponent<Image>().color = Color.clear;
+        ((RectTransform)top).sizeDelta = new Vector2(0, 52);
+        Band(top, "U6_band_top", true, false, false);
+        Place((RectTransform)top.Find("Wave"), new Vector2(0, 1), new Vector2(28, -35), new Vector2(36, 14));
+        Picture("WaveLine", top, "U10_wave_line", new Vector2(0, 1), new Vector2(95, -18), new Vector2(162, 4));
+        var nodes = new Image[10];
+        for (var i = 0; i < nodes.Length; i++)
+        {
+            nodes[i] = Picture("Node" + i, top, "U10_wave_node_remaining", new Vector2(0, 1), new Vector2(14 + i * 18, -18), new Vector2(8, 8));
+        }
+        var view = root.GetComponent<UI_BattleHudView>();
+        Refs(view, "waveNodes", nodes);
+        Ref(view, "passedNode", Sprite("U10_wave_node_passed"));
+        Ref(view, "currentNode", Sprite("U10_wave_node_current"));
+        Ref(view, "remainingNode", Sprite("U10_wave_node_remaining"));
+        Place((RectTransform)top.Find("Kills"), new Vector2(0, 1), new Vector2(225, -17), new Vector2(70, 20));
+        Place((RectTransform)top.Find("Threat"), new Vector2(0, 1), new Vector2(225, -33), new Vector2(70, 16));
+        top.Find("Kills").GetComponent<Text>().color = Muted;
+        top.Find("Threat").GetComponent<Text>().color = Muted;
+        Place((RectTransform)top.Find("Remaining"), new Vector2(0.5f, 1), new Vector2(0, -20), new Vector2(60, 24));
+        top.Find("Remaining").GetComponent<Text>().fontSize = 14;
+        var burning = top.Find("Burning");
+        Place((RectTransform)burning, new Vector2(0.5f, 1), new Vector2(0, -40), new Vector2(80, 16));
+        burning.GetComponent<Text>().fontSize = 10;
+        burning.GetComponent<Text>().color = Hex("f7ea81");
+        var speed = top.Find("SpeedButton").GetComponent<Button>();
+        IconButton(speed, "U12_icon_speed", new Vector2(-78, -26));
+        var label = speed.GetComponentInChildren<Text>();
+        Place(label.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(12, 0), new Vector2(24, 20));
+        var pause = top.Find("PauseButton").GetComponent<Button>();
+        var icon = IconButton(pause, "U12_icon_pause", new Vector2(-26, -26));
+        pause.GetComponentInChildren<Text>().text = "";
+        Ref(view, "pauseIcon", icon);
+        Ref(view, "pauseSprite", Sprite("U12_icon_pause"));
+        Ref(view, "resumeSprite", Sprite("U12_icon_resume"));
+    }
     private static void ApplyHudBottom(Transform canvas) { }
     private static void ApplyPrep(Transform canvas) { }
     private static void ApplyBag(Transform canvas) { }
     private static void ApplyResult(Transform canvas) { }
+
+    private static void Refs(Object owner, string field, Object[] values)
+    {
+        var so = new SerializedObject(owner);
+        var property = so.FindProperty(field);
+        property.arraySize = values.Length;
+        for (var i = 0; i < values.Length; i++)
+        {
+            property.GetArrayElementAtIndex(i).objectReferenceValue = values[i];
+        }
+        so.ApplyModifiedPropertiesWithoutUndo();
+    }
+
+    private static Image IconButton(Button button, string key, Vector2 pos)
+    {
+        Art(button.GetComponent<Image>(), "U7_bar_fill");
+        button.GetComponent<Image>().color = Color.clear;
+        Place((RectTransform)button.transform, new Vector2(1, 1), pos, new Vector2(44, 44));
+        var icon = Picture("Symbol", button.transform, key, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(16, 16));
+        button.targetGraphic = icon;
+        button.transition = Selectable.Transition.ColorTint;
+        return icon;
+    }
+
+    private static Image Band(Transform parent, string key, bool top, bool bottom, bool flip)
+    {
+        var band = Picture("Backdrop", parent, key, Vector2.zero, Vector2.zero, Vector2.zero);
+        band.rectTransform.anchorMin = Vector2.zero;
+        band.rectTransform.anchorMax = Vector2.one;
+        band.rectTransform.offsetMin = band.rectTransform.offsetMax = Vector2.zero;
+        band.transform.SetAsFirstSibling();
+        band.transform.localScale = new Vector3(1, flip ? -1 : 1, 1);
+        var bleed = band.GetComponent<UI_SafeAreaBleed>() ?? band.gameObject.AddComponent<UI_SafeAreaBleed>();
+        var so = new SerializedObject(bleed);
+        so.FindProperty("left").boolValue = true;
+        so.FindProperty("right").boolValue = true;
+        so.FindProperty("top").boolValue = top;
+        so.FindProperty("bottom").boolValue = bottom;
+        so.ApplyModifiedPropertiesWithoutUndo();
+        return band;
+    }
 
     private static void Portrait(RectTransform window, string size, float dimension)
     {
