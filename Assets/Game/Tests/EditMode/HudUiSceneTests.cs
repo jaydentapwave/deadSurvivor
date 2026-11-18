@@ -35,6 +35,15 @@ public class HudUiSceneTests
         AssertScreen(hud.transform.Find("BottomPanel"));
     }
 
+    [Test]
+    public void PrepHeaderAndFormationMeetTouchAndArtContract()
+    {
+        var scene = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        var prep = Array.Find(scene.GetRootGameObjects(), r => r.GetComponentInChildren<UI_PrepView>(true) != null).GetComponentInChildren<UI_PrepView>(true);
+        AssertScreen(prep.transform.Find("Box"));
+        AssertScreen(prep.GetComponentInChildren<UI_FormationView>(true).transform);
+    }
+
     public static void AssertScreen(Transform root)
     {
         foreach (var text in root.GetComponentsInChildren<Text>(true))

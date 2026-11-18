@@ -5,6 +5,7 @@ using UnityEngine.UI;
 // 정비 화면(V3): "웨이브 n 완료", 캐릭터 4명 자리(이름·HP), 다음 웨이브 버튼
 public class UI_PrepView : MonoBehaviour
 {
+    [SerializeField] private RectTransform[] memberHpFills;
     [SerializeField] private Text titleText;
     [SerializeField] private Text[] memberTexts;
     [SerializeField] private Button nextWaveButton;
@@ -26,7 +27,7 @@ public class UI_PrepView : MonoBehaviour
     public Button RotateButton => rotateButton;
     public Button CancelButton => cancelButton;
 
-    public void UpdateUI(int completedWave, IReadOnlyList<string> memberLineList)
+    public void UpdateUI(int completedWave, IReadOnlyList<string> memberLineList, IReadOnlyList<float> memberHpRatioList)
     {
         titleText.text = $"웨이브 {completedWave} 완료";
         for (var i = 0; i < memberTexts.Length; i++)
@@ -36,6 +37,7 @@ public class UI_PrepView : MonoBehaviour
             if (hasMember)
             {
                 memberTexts[i].text = memberLineList[i];
+                memberHpFills[i].anchorMax = new Vector2(Mathf.Clamp01(memberHpRatioList[i]), 1);
             }
         }
     }

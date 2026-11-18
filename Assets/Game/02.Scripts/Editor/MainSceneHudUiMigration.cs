@@ -228,7 +228,98 @@ public static class MainSceneHudUiMigration
         rect.offsetMin = new Vector2(left, y - height);
         rect.offsetMax = new Vector2(-right, y);
     }
-    private static void ApplyPrep(Transform canvas) { }
+    private static void ApplyPrep(Transform canvas)
+    {
+        var root = Find(canvas, "PrepView");
+        TextStyle(root);
+        var dim = root.Find("Dim").GetComponent<Image>();
+        var alpha = dim.color.a;
+        Art(dim, "U7_bar_track");
+        dim.color = new Color(1, 1, 1, alpha);
+        var box = root.Find("Box");
+        Art(box.GetComponent<Image>(), "U7_bar_fill");
+        box.GetComponent<Image>().color = Color.clear;
+        ((RectTransform)box).sizeDelta = new Vector2(0, 90);
+        Band(box, "U6_band_bottom", true, false, true);
+        var title = box.Find("Title").GetComponent<Text>();
+        title.fontSize = 14;
+        Place(title.rectTransform, new Vector2(0.5f, 1), new Vector2(0, -12), new Vector2(210, 22));
+        var next = box.Find("NextWaveButton").GetComponent<Button>();
+        ButtonArt(next, true);
+        Place((RectTransform)next.transform, new Vector2(1, 1), new Vector2(-64, -24), new Vector2(110, 44));
+        var fills = new RectTransform[4];
+        for (var i = 0; i < 4; i++)
+        {
+            var x = -168 + i * 112;
+            var member = box.Find("Member" + (i + 1)).GetComponent<Text>();
+            member.fontSize = 9;
+            Place(member.rectTransform, new Vector2(0.5f, 1), new Vector2(x - 22, -58), new Vector2(68, 28));
+            var track = Picture("MemberHp" + i, box, "U7_bar_track", new Vector2(0.5f, 1), new Vector2(x - 22, -79), new Vector2(68, 3));
+            var fill = Picture("Fill", track.transform, "U7_bar_fill", Vector2.zero, Vector2.zero, Vector2.zero);
+            fill.rectTransform.anchorMin = Vector2.zero;
+            fill.rectTransform.anchorMax = Vector2.one;
+            fill.rectTransform.offsetMin = fill.rectTransform.offsetMax = Vector2.zero;
+            fill.color = Hex("568757");
+            fills[i] = fill.rectTransform;
+            var revive = box.Find("Revive" + (i + 1)).GetComponent<Button>();
+            ButtonArt(revive, false, true);
+            Place((RectTransform)revive.transform, new Vector2(0.5f, 1), new Vector2(x + 36, -68), new Vector2(44, 44));
+        }
+        Refs(root.GetComponent<UI_PrepView>(), "memberHpFills", fills);
+        for (var i = 0; i < 4; i++)
+        {
+            var bag = (RectTransform)Find(root, "BagView" + i);
+            bag.anchoredPosition = new Vector2(-168 + i * 112, -96);
+        }
+        foreach (var key in new[] { "RotateButton", "CancelButton" })
+        {
+            var button = Find(root, key).GetComponent<Button>();
+            ButtonArt(button);
+            Place((RectTransform)button.transform, new Vector2(0.5f, 0), new Vector2(0, key == "RotateButton" ? 166 : 116), new Vector2(100, 44));
+            var icon = Picture("Symbol", button.transform, key == "RotateButton" ? "U12_icon_rotate" : "U12_icon_close", new Vector2(0.5f, 0.5f), new Vector2(-35, 0), new Vector2(12, 12));
+            button.GetComponentInChildren<Text>().fontSize = 10;
+        }
+        var formation = root.GetComponentInChildren<UI_FormationView>(true);
+        var panel = (RectTransform)formation.transform;
+        Place(panel, new Vector2(0.5f, 0), new Vector2(0, 32), new Vector2(460, 60));
+        Art(panel.GetComponent<Image>(), "U1_panel_menu");
+        var markers = new Image[3];
+        for (var i = 0; i < formation.FormationButtons.Count; i++)
+        {
+            var button = formation.FormationButtons[i];
+            ButtonArt(button, false, true);
+            Place((RectTransform)button.transform, new Vector2(0, 0.5f), new Vector2(48 + i * 88, 0), new Vector2(82, 44));
+            markers[i] = Picture("Selection", button.transform, "U11_select_marker", new Vector2(0, 0.5f), new Vector2(8, 0), new Vector2(6, 6));
+            button.GetComponentInChildren<Text>().fontSize = 10;
+        }
+        Refs(formation, "selectionMarkers", markers);
+        Ref(formation, "normalRow", Sprite("U4_row_normal"));
+        Ref(formation, "selectedRow", Sprite("U4_row_selected"));
+        Ref(formation, "aliveFrame", Sprite("U8_portrait_S_normal"));
+        Ref(formation, "deadFrame", Sprite("U8_portrait_S_dead"));
+        var preview = panel.Find("Preview");
+        Place((RectTransform)preview, new Vector2(1, 0.5f), new Vector2(-90, 0), new Vector2(160, 56));
+        var so = new SerializedObject(formation);
+        so.FindProperty("previewScale").floatValue = 0.4f;
+        so.ApplyModifiedPropertiesWithoutUndo();
+        var memberMarkers = so.FindProperty("memberMarkers");
+        var faces = new Image[memberMarkers.arraySize];
+        for (var i = 0; i < faces.Length; i++)
+        {
+            var marker = (RectTransform)memberMarkers.GetArrayElementAtIndex(i).objectReferenceValue;
+            marker.sizeDelta = new Vector2(28, 28);
+            Art(marker.GetComponent<Image>(), "U8_portrait_S_normal");
+            foreach (var text in marker.GetComponentsInChildren<Text>(true))
+            {
+                text.text = "";
+                text.gameObject.SetActive(false);
+            }
+            var mask = Picture("PortraitMask", marker, "U8_portrait_S_mask", new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(22, 22));
+            (mask.GetComponent<Mask>() ?? mask.gameObject.AddComponent<Mask>()).showMaskGraphic = false;
+            faces[i] = Picture("Face", mask.transform, "U7_bar_fill", new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(64, 96));
+        }
+        Refs(formation, "portraitFaces", faces);
+    }
     private static void ApplyBag(Transform canvas) { }
     private static void ApplyResult(Transform canvas) { }
 

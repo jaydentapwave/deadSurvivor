@@ -9,6 +9,12 @@ public class UI_FormationView : MonoBehaviour
     // 아이소 바닥의 세로 압축(IsoProjection과 같은 모양)
     private const float PreviewVerticalCompress = 0.5f;
 
+    [SerializeField] private Sprite normalRow;
+    [SerializeField] private Sprite selectedRow;
+    [SerializeField] private Image[] selectionMarkers;
+    [SerializeField] private Image[] portraitFaces;
+    [SerializeField] private Sprite aliveFrame;
+    [SerializeField] private Sprite deadFrame;
     [SerializeField] private Button[] formationButtons;
     [SerializeField] private Text[] formationButtonTexts;
     [SerializeField] private RectTransform[] memberMarkers;
@@ -24,7 +30,7 @@ public class UI_FormationView : MonoBehaviour
     public IReadOnlyList<Button> FormationButtons => formationButtons;
 
     public void UpdateUI(IReadOnlyList<FormationData> formationDataList, string pendingId, IReadOnlyList<Vector2> pendingSlots,
-        IReadOnlyList<string> memberNameList, IReadOnlyList<bool> memberAliveList)
+        IReadOnlyList<string> memberNameList, IReadOnlyList<bool> memberAliveList, IReadOnlyList<Sprite> portraitList)
     {
         for (var i = 0; i < formationButtons.Length; i++)
         {
@@ -37,7 +43,11 @@ public class UI_FormationView : MonoBehaviour
 
             var data = formationDataList[i];
             formationButtonTexts[i].text = data.Name;
-            formationButtons[i].image.color = data.Id == pendingId ? selectedButtonColor : normalButtonColor;
+            var selected = data.Id == pendingId;
+            formationButtons[i].image.sprite = selected ? selectedRow : normalRow;
+            formationButtons[i].image.color = Color.white;
+            formationButtonTexts[i].color = selected ? new Color(236f / 255, 236f / 255, 236f / 255) : new Color(187f / 255, 187f / 255, 186f / 255);
+            selectionMarkers[i].enabled = selected;
         }
 
         for (var i = 0; i < memberMarkers.Length; i++)
@@ -51,8 +61,15 @@ public class UI_FormationView : MonoBehaviour
 
             var slot = pendingSlots[i];
             memberMarkers[i].anchoredPosition = new Vector2(slot.x, slot.y * PreviewVerticalCompress) * previewScale;
-            memberMarkerTexts[i].text = memberNameList[i];
-            memberMarkerImages[i].color = memberAliveList[i] ? aliveMarkerColor : deadMarkerColor;
+            memberMarkerTexts[i].text = "";
+            memberMarkerImages[i].sprite = memberAliveList[i] ? aliveFrame : deadFrame;
+            memberMarkerImages[i].color = Color.white;
+            var face = portraitFaces[i];
+            face.sprite = portraitList[i];
+            var scale = UiDotScale.CanvasPerTexel(1f, GetComponentInParent<Canvas>().scaleFactor);
+            var spriteSize = portraitList[i].rect.size;
+            face.rectTransform.sizeDelta = spriteSize * scale;
+            face.rectTransform.anchoredPosition = (spriteSize * 0.5f - new Vector2(34, spriteSize.y - 32)) * scale;
         }
     }
 }
