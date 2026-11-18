@@ -71,17 +71,40 @@ public class FieldView : MonoBehaviour
         AddPart("ground", ground, new[] { groundMaterial });
         foreach (var bank in layout.banks)
         {
-            AddPart("bank", BankMeshMath.Build(bank.rectangles, bank.cell, bank.height, bank.seed), new[] { groundMaterial, bankMaterial });
+            var mesh = bank.runs != null
+                ? BankMeshMath.Build(bank.runs, bank.cell, bank.height)
+                : BankMeshMath.Build(bank.rectangles, bank.cell, bank.height, bank.seed);
+            AddPart("bank", mesh, new[] { groundMaterial, bankMaterial });
         }
         foreach (var water in layout.water)
         {
             if (water.name == "pond")
             {
-                AddPart("pond", pondMesh, new[] { waterMaterial }, false);
+                if (water.points.Length == 0)
+                {
+                    AddPart("pond", pondMesh, new[] { waterMaterial }, false);
+                    continue;
+                }
+                var min = water.points[0];
+                var max = min;
+                foreach (var point in water.points)
+                {
+                    min = Vector2.Min(min, point);
+                    max = Vector2.Max(max, point);
+                }
+                // The sampled contour defines the pond; padding covers sub-cell contour jitter.
+                min -= Vector2.one * .25f;
+                max += Vector2.one * .25f;
+                var pond = new Mesh { name = "PCG pond water plane" };
+                pond.vertices = new[] { new Vector3(min.x, water.height, min.y), new Vector3(min.x, water.height, max.y), new Vector3(max.x, water.height, max.y), new Vector3(max.x, water.height, min.y) };
+                pond.triangles = new[] { 0, 1, 2, 0, 2, 3 };
+                pond.RecalculateNormals();
+                pond.RecalculateBounds();
+                AddPart("pond", pond, new[] { waterMaterial });
             }
             else
             {
-                AddPart(water.name, RibbonMeshMath.Build(water.points, water.width, water.height, water.name == "waterfall" ? -.03f : float.NaN), new[] { waterMaterial });
+                AddPart(water.name, RibbonMeshMath.Build(water.points, water.width + (water.name == "waterfall" ? 0 : .25f), water.height, water.name == "waterfall" ? -.03f : float.NaN), new[] { waterMaterial });
             }
         }
     }

@@ -39,14 +39,6 @@ public class FieldBankLayout
 }
 
 [Serializable]
-public class FieldBankRun
-{
-    public int y;
-    public int xMin;
-    public int xMax;
-}
-
-[Serializable]
 public class FieldWaterLayout
 {
     public string name;

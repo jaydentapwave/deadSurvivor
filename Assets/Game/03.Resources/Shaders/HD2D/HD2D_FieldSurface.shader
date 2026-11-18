@@ -47,7 +47,9 @@ Shader "HD2D/HD2D_FieldSurface"
         void ClipSurface(V i)
         {
             clip(frac(dot(floor(i.p.xy),float2(.754877666,.569840296)))-_Dither);
-            if (_Category < .5 && i.w.y < .002) clip(.5-SAMPLE_TEXTURE2D(_WaterMask,sampler_PointClamp,(i.w.xz-_FieldRect.xy)/_FieldRect.zw).r);
+            float waterOpening=SAMPLE_TEXTURE2D(_WaterMask,sampler_PointClamp,(i.w.xz-_FieldRect.xy)/_FieldRect.zw).r;
+            if (_Category < .5 && i.w.y < .002) clip(.5-waterOpening);
+            if (_Category>1.5 && _Category<2.5) clip(waterOpening-.5);
         }
         struct F { half4 color:SV_Target; float depth:SV_Depth; };
         F Frag(V i)

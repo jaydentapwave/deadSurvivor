@@ -78,6 +78,7 @@ public static class MainSceneHD2DBackgroundMigration
             var material = AssetDatabase.LoadAssetAtPath<Material>(AssetDatabase.GUIDToAssetPath(guid));
             if (material.shader == Shader.Find("HD2D/HD2D_FieldSurface"))
             {
+                material.SetTexture("_WaterMask", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "Textures/HD2D/FieldWaterMask.png"));
                 material.SetTexture("_ZoneMask", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "Textures/HD2D/FieldZoneMask.png"));
                 material.SetTexture("_Dirt", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "Textures/HD2D/FieldGravel.png"));
                 EditorUtility.SetDirty(material);
