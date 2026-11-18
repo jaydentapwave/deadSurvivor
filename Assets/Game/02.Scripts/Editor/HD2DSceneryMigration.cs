@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
@@ -113,6 +114,45 @@ public static class HD2DSceneryMigration
         AssetDatabase.SaveAssets();
         Directory.CreateDirectory("output/hd2d-3d-part2");
         File.WriteAllText("output/hd2d-3d-part2/import-audit.json", JsonUtility.ToJson(new Audit { utc = DateTime.UtcNow.ToString("O"), entries = catalog.Entries }, true));
+    }
+
+    [MenuItem("DeadSurvivor/HD2D/3D Scenery/Enable In Main")]
+    public static void Apply()
+    {
+        SetEnabled(true);
+    }
+
+    [MenuItem("DeadSurvivor/HD2D/3D Scenery/Restore Legacy Cards In Main")]
+    public static void RestoreCards()
+    {
+        SetEnabled(false);
+    }
+
+    private static void SetEnabled(bool enabled)
+    {
+        if (Application.isPlaying)
+        {
+            throw new InvalidOperationException("Scenery migration requires Edit Mode.");
+        }
+        const string scenePath = "Assets/Game/01.Scene/Main.unity";
+        var scene = EditorSceneManager.OpenScene(scenePath);
+        var field = new SerializedObject(Object.FindFirstObjectByType<FieldView>());
+        var catalog = AssetDatabase.LoadAssetAtPath<FieldModelCatalog>(CatalogPath);
+        if (catalog == null)
+        {
+            throw new InvalidOperationException("Import adopted scenery first.");
+        }
+        field.FindProperty("modelCatalog").objectReferenceValue = catalog;
+        field.FindProperty("useModelScenery").boolValue = enabled;
+        field.ApplyModifiedPropertiesWithoutUndo();
+        EditorSceneManager.MarkSceneDirty(scene);
+        EditorSceneManager.SaveScene(scene);
+        EditorSceneManager.OpenScene(scenePath);
+        var saved = new SerializedObject(Object.FindFirstObjectByType<FieldView>());
+        if (saved.FindProperty("useModelScenery").boolValue != enabled || saved.FindProperty("modelCatalog").objectReferenceValue != catalog)
+        {
+            throw new InvalidOperationException("Scenery scene references were not saved.");
+        }
     }
 
     private static void Copy(string source, string destination)

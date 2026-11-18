@@ -52961,6 +52961,8 @@ MonoBehaviour:
   ditherSpriteMaterial: {fileID: 2100000, guid: 6f3c4d6f07384baaa2615bfb8dfb3344, type: 2}
   ditherWoodMaterial: {fileID: 2100000, guid: 23dda475f7564174869553ffb605f3ce, type: 2}
   ditherTentMaterial: {fileID: 2100000, guid: f631cbe8a8fc40a6b6e66e5dee6856ec, type: 2}
+  modelCatalog: {fileID: 11400000, guid: 4971c1403462843afbaf8d006531f44a, type: 2}
+  useModelScenery: 1
 --- !u!483693784 &1450006850
 TilemapRenderer:
   serializedVersion: 2
