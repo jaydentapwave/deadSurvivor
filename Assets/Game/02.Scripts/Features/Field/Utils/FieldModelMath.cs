@@ -1,8 +1,45 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using UnityEngine;
 
 public static class FieldModelMath
 {
+    // wall_edge_* is a curved group of individual stones, not an authored wall run.
+    public static bool IsWallRun(string group) => group != null
+        && group.StartsWith("wall_", StringComparison.Ordinal)
+        && int.TryParse(group.Substring(5), NumberStyles.None, CultureInfo.InvariantCulture, out _);
+
+    public static (FieldLayoutPlacement First, FieldLayoutPlacement Last) WallEndpoints(
+        IEnumerable<FieldLayoutPlacement> placements)
+    {
+        // Canonical ordering also breaks equal-diameter ties and chooses the variant seed anchor.
+        var points = placements.OrderBy(p => p.x).ThenBy(p => p.y).ThenBy(p => p.height)
+            .ThenBy(p => p.sprite, StringComparer.Ordinal).ToArray();
+        if (points.Length == 0)
+        {
+            throw new ArgumentException("A wall run needs at least one placement.", nameof(placements));
+        }
+        var first = points[0];
+        var last = first;
+        var greatestDistance = -1f;
+        for (var i = 0; i < points.Length - 1; i++)
+        {
+            for (var j = i + 1; j < points.Length; j++)
+            {
+                var distance = (points[j].Floor - points[i].Floor).sqrMagnitude;
+                if (distance > greatestDistance)
+                {
+                    greatestDistance = distance;
+                    first = points[i];
+                    last = points[j];
+                }
+            }
+        }
+        return (first, last);
+    }
+
     public static uint Seed(int seed, FieldLayoutPlacement placement)
     {
         unchecked

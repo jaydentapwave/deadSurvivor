@@ -24,6 +24,7 @@ public class FieldModelMathTests
     }
 
     [TestCase(0, 1)]
+    [TestCase(1, 1)]
     [TestCase(.8f, 1)]
     [TestCase(2.7f, 3)]
     [TestCase(5.2f, 6)]
@@ -36,6 +37,63 @@ public class FieldModelMathTests
         {
             Assert.That(Vector2.Distance(centers[i - 1] + direction * .5f, centers[i] - direction * .5f), Is.LessThan(.00001f));
         }
+        // Whole 1m segments need not end exactly at the input centres. Keep both
+        // outside ends within half a metre of their authored endpoint centres.
+        Assert.That(Vector2.Distance(centers[0] - direction * .5f, Vector2.zero), Is.LessThanOrEqualTo(.50001f));
+        Assert.That(Vector2.Distance(centers[centers.Length - 1] + direction * .5f, direction * distance), Is.LessThanOrEqualTo(.50001f));
+    }
+
+    [TestCase(null, false)]
+    [TestCase("", false)]
+    [TestCase("wall_", false)]
+    [TestCase("wall_0", true)]
+    [TestCase("wall_8", true)]
+    [TestCase("wall_edge_3", false)]
+    [TestCase("wall_-1", false)]
+    [TestCase("wall_1_extra", false)]
+    public void OnlyNumberedWallRunsUseWallSegments(string group, bool expected)
+    {
+        Assert.AreEqual(expected, FieldModelMath.IsWallRun(group));
+    }
+
+    [Test]
+    public void GeometricEndpointsAndSeedAreStableAcrossInputPermutations()
+    {
+        var a = new FieldLayoutPlacement { x = 0, y = 0, sprite = "rock_01" };
+        var middle = new FieldLayoutPlacement { x = 1.8f, y = 2.4f, sprite = "rock_02" };
+        var b = new FieldLayoutPlacement { x = 3, y = 4, sprite = "rock_02" };
+        foreach (var points in new[] { new[] { a, middle, b }, new[] { middle, a, b }, new[] { b, middle, a } })
+        {
+            var (first, last) = FieldModelMath.WallEndpoints(points);
+            Assert.AreSame(a, first);
+            Assert.AreSame(b, last);
+            Assert.AreEqual(FieldModelMath.Seed(8, a), FieldModelMath.Seed(8, first));
+            var centers = FieldModelMath.WallCenters(first.Floor, last.Floor);
+            Assert.AreEqual(5, centers.Length);
+            Assert.That(Vector2.Distance(centers[0], new Vector2(.3f, .4f)), Is.LessThan(.00001f));
+            Assert.That(Vector2.Distance(centers[4], new Vector2(2.7f, 3.6f)), Is.LessThan(.00001f));
+        }
+    }
+
+    [Test]
+    public void EqualDiameterTiesAndCoincidentEndpointsHaveCanonicalAnchors()
+    {
+        var a = new FieldLayoutPlacement { x = 0, y = 0, sprite = "rock_01" };
+        var b = new FieldLayoutPlacement { x = 1, y = 1, sprite = "rock_01" };
+        var c = new FieldLayoutPlacement { x = 0, y = 1, sprite = "rock_01" };
+        var d = new FieldLayoutPlacement { x = 1, y = 0, sprite = "rock_01" };
+        foreach (var points in new[] { new[] { d, c, b, a }, new[] { a, b, c, d } })
+        {
+            var (first, last) = FieldModelMath.WallEndpoints(points);
+            Assert.AreSame(a, first);
+            Assert.AreSame(b, last);
+        }
+        var coincident = new FieldLayoutPlacement { x = 0, y = 0, sprite = "rock_02" };
+        var endpoints = FieldModelMath.WallEndpoints(new[] { coincident, a });
+        Assert.AreSame(a, endpoints.First);
+        Assert.AreEqual(endpoints.First.Floor, endpoints.Last.Floor);
+        Assert.AreEqual(1, FieldModelMath.WallCenters(endpoints.First.Floor, endpoints.Last.Floor).Length);
+        Assert.Throws<System.ArgumentException>(() => FieldModelMath.WallEndpoints(new FieldLayoutPlacement[0]));
     }
 
     [Test]

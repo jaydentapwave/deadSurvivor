@@ -139,7 +139,7 @@ public class FieldView : MonoBehaviour
         if (useModelScenery)
         {
             renderer.enabled = false;
-            if (!placement.group.StartsWith("wall_"))
+            if (!FieldModelMath.IsWallRun(placement.group))
             {
                 AddModel(sprite, placement);
             }
@@ -153,7 +153,7 @@ public class FieldView : MonoBehaviour
         {
             RegisterOccluder(card.transform, new Renderer[] { renderer });
         }
-        if (placement.group.StartsWith("wall_"))
+        if (FieldModelMath.IsWallRun(placement.group))
         {
             if (!_partDict.TryGetValue("wall",out var walls))
             {
@@ -198,10 +198,10 @@ public class FieldView : MonoBehaviour
         {
             return;
         }
-        foreach (var group in layout.placements.Where(p => p.group.StartsWith("wall_")).GroupBy(p => p.group))
+        foreach (var group in layout.placements.Where(p => p.kind == "card" && FieldModelMath.IsWallRun(p.group))
+                     .GroupBy(p => p.group).OrderBy(g => g.Key, System.StringComparer.Ordinal))
         {
-            var first = group.First();
-            var last = group.Last();
+            var (first, last) = FieldModelMath.WallEndpoints(group);
             var direction = last.Floor - first.Floor;
             var yaw = direction.sqrMagnitude > .000001f ? Mathf.Atan2(-direction.y, direction.x) * Mathf.Rad2Deg : 0;
             var centers = FieldModelMath.WallCenters(first.Floor, last.Floor);
