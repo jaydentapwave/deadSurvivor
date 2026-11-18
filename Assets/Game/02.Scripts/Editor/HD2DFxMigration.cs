@@ -138,4 +138,41 @@ public static class HD2DFxMigration
         AssetDatabase.SaveAssets();
     }
 
+    [MenuItem("DeadSurvivor/HD2D/FX/03 Wire Projectile Shadow")]
+    public static void WireProjectileShadow()
+    {
+        const string path = "Assets/Game/03.Resources/Resources/Prefab/ProjectileView.prefab";
+        var prefab = PrefabUtility.LoadPrefabContents(path);
+        try
+        {
+            var view = prefab.GetComponent<ProjectileView>();
+            var so = new SerializedObject(view);
+            var upright = (Transform)so.FindProperty("upright").objectReferenceValue;
+            upright.localPosition = TiltedViewMath.UprightOffset(.5f, 30f);
+            var shadow = prefab.transform.Find("Shadow");
+            if (shadow == null)
+            {
+                shadow = new GameObject("Shadow").transform;
+                shadow.SetParent(prefab.transform, false);
+                shadow.gameObject.AddComponent<SpriteRenderer>();
+            }
+            shadow.localPosition = new Vector3(0, .001f, 0);
+            shadow.localRotation = Quaternion.Euler(90, 0, 0);
+            shadow.localScale = new Vector3(1, 2, 1);
+            var renderer = shadow.GetComponent<SpriteRenderer>();
+            renderer.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(Folder + "/shadow_dot.png");
+            const string materials = "Assets/Game/03.Resources/Materials/HD2D/HD2D_";
+            renderer.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(materials + "HardShadowCard.mat");
+            so.FindProperty("shadowRenderer").objectReferenceValue = renderer;
+            so.FindProperty("litMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(materials + "SpriteLit.mat");
+            so.FindProperty("glowMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(materials + "EffectGlow_Fire.mat");
+            so.ApplyModifiedPropertiesWithoutUndo();
+            PrefabUtility.SaveAsPrefabAsset(prefab, path);
+        }
+        finally
+        {
+            PrefabUtility.UnloadPrefabContents(prefab);
+        }
+    }
+
 }

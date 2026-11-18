@@ -109,14 +109,19 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         foreach (var projectile in _combatModel.ProjectileList)
         {
             _aliveProjectileIdSet.Add(projectile.Id);
+            var spriteName = _effectData.Get(projectile.ItemId).Projectile;
+            var clip = _effectData.GetClip(spriteName);
+            var facing = EffectFrameMath.DirectionSprite(Mathf.Atan2(Screen(projectile.Direction).y, Screen(projectile.Direction).x) * Mathf.Rad2Deg);
+            var index = EffectFrameMath.FrameAt(projectile.Traveled / projectile.Speed, clip.Frames, clip.Fps, clip.Loop);
+            var sprite = _spriteAtlasService.Get(clip.FrameKey(index, EffectFrameMath.DirectionName(facing.index)));
             if (!_projectileViewRegistry.TryGetProjectile(projectile.Id, out var view))
             {
-                var spriteName = _effectData.Get(projectile.ItemId).Projectile;
-                view = _projectileViewFactory.CreateProjectile(projectile.Id, _spriteAtlasService.Get(spriteName));
+                view = _projectileViewFactory.CreateProjectile(projectile.Id, sprite);
                 MarkShown(spriteName);
             }
 
-            view.UpdateView(World(projectile.Position) + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees), Screen(projectile.Direction));
+            view.SetFrame(sprite, spriteName, index + 1, clip.MaterialIndex == 1);
+            view.UpdateView(World(projectile.Position), Screen(projectile.Direction));
         }
 
         _releaseProjectileIdList.Clear();

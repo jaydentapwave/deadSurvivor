@@ -94,7 +94,7 @@ public class CombatEffectTests
         var parent = new GameObject("ProjectileDirectionTest");
         var prefab = Resources.Load<ProjectileView>("Prefab/ProjectileView");
         var sprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(
-            "Assets/Game/03.Resources/Art/AIGenerated/Effects/arrow.png");
+            "Assets/Game/03.Resources/Art/HD2D/Effects/arrow_right_1.png");
         ProjectileView previous = null;
         try
         {
@@ -105,10 +105,19 @@ public class CombatEffectTests
                 var view = pool.Get("ProjectileDirectionTest", prefab, parent.transform);
                 view.Initialize(sprite);
                 view.UpdateView(new Vector2(2f, 3f), direction);
-                var actual = (Vector2)(view.BodyRenderer.transform.localRotation *
-                    (view.BodyRenderer.flipX ? Vector3.left : Vector3.right));
-                Assert.Greater(Vector2.Dot(direction, actual), 0.99999f, degrees.ToString());
-                Assert.LessOrEqual(Quaternion.Angle(Quaternion.identity, view.BodyRenderer.transform.localRotation), 90.001f);
+                var facing = EffectFrameMath.DirectionSprite(degrees);
+                var expectedDirection = EffectFrameMath.DirectionName(facing.index);
+                var directionSprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(
+                    $"Assets/Game/03.Resources/Art/HD2D/Effects/arrow_{expectedDirection}_1.png");
+                view.SetFrame(directionSprite, "arrow", 1, false);
+                view.UpdateView(new Vector3(2f, 0f, 3f), direction);
+                Assert.AreEqual($"arrow_{expectedDirection}_1", view.BodyRenderer.sprite.name);
+                Assert.AreEqual(degrees > 90f || degrees <= -135f || degrees == 180f, view.BodyRenderer.flipX, degrees.ToString());
+                Assert.AreEqual(degrees < 0f, view.BodyRenderer.flipY, degrees.ToString());
+                Assert.Less(Quaternion.Angle(Quaternion.identity, view.BodyRenderer.transform.localRotation), .001f);
+                var shadow = view.transform.Find("Shadow");
+                Assert.AreEqual(new Vector3(1, 2, 1), shadow.localScale);
+                Assert.AreEqual(0f, shadow.localEulerAngles.y);
                 var position = view.transform.localPosition;
                 var pixels = new Vector2(position.x, position.z * .5f) * Const.PixelsPerUnit;
                 Assert.Less(Vector2.Distance(pixels, new Vector2(Mathf.Round(pixels.x), Mathf.Round(pixels.y))), 0.0001f);

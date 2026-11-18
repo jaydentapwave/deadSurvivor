@@ -1,11 +1,16 @@
 using UnityEngine;
 
-// T1: 오른쪽 원본의 8방향 표현. 45도 간격과 좌우 반전으로 회전을 -45~90도 안에 두고, 위치는 가상 픽셀에 맞춘다.
+// 방향을 굽힌 그림을 고른다. 뿌리=바닥 점, 세운 그림과 바닥 그림자는 별도 자식이다.
 public class ProjectileView : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer bodyRenderer;
     [SerializeField] private Transform upright;
+    [SerializeField] private SpriteRenderer shadowRenderer;
+    [SerializeField] private Material litMaterial;
+    [SerializeField] private Material glowMaterial;
     public SpriteRenderer BodyRenderer => bodyRenderer;
+    public string EffectKey { get; private set; }
+    public int FrameNumber { get; private set; }
 
     public void Initialize(Sprite sprite)
     {
@@ -13,27 +18,27 @@ public class ProjectileView : MonoBehaviour
         bodyRenderer.color = Color.white;
         bodyRenderer.flipX = false;
         bodyRenderer.flipY = false;
+        bodyRenderer.transform.localRotation = Quaternion.identity;
+        bodyRenderer.transform.localScale = Vector3.one;
+        EffectKey = string.Empty;
+        FrameNumber = 1;
+    }
+
+    public void SetFrame(Sprite sprite, string key, int frameNumber, bool isGlowing)
+    {
+        bodyRenderer.sprite = sprite;
+        bodyRenderer.sharedMaterial = isGlowing ? glowMaterial : litMaterial;
+        EffectKey = key;
+        FrameNumber = frameNumber;
     }
 
     public void UpdateView(Vector3 worldPosition, Vector2 direction)
     {
-        var angle = CombatEffectMotion.GetProjectileAngle(direction);
-        var isFlipped = angle > 90f || angle <= -90f;
-        if (angle > 90f)
-        {
-            angle -= 180f;
-        }
-        else if (angle <= -90f)
-        {
-            angle += 180f;
-        }
-
-        bodyRenderer.flipX = isFlipped;
-        bodyRenderer.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
+        var facing = EffectFrameMath.DirectionSprite(Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+        bodyRenderer.flipX = facing.flipX;
+        bodyRenderer.flipY = facing.flipY;
+        bodyRenderer.transform.localRotation = Quaternion.identity;
         transform.localScale = Vector3.one;
-        var spriteCenter = bodyRenderer.sprite.bounds.center;
-        spriteCenter.x *= isFlipped ? -1f : 1f;
-        var center = upright.localRotation * bodyRenderer.transform.localRotation * spriteCenter;
-        transform.localPosition = TiltedViewMath.SnapToTexels(worldPosition - center, .5f, Const.PixelsPerUnit);
+        transform.localPosition = TiltedViewMath.SnapToTexels(worldPosition, .5f, Const.PixelsPerUnit);
     }
 }
