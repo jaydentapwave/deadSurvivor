@@ -5,7 +5,7 @@ using UnityEngine;
 public class FieldOcclusionPresenterTests
 {
     [Test]
-    public void ActiveMonsterBehindSceneryFadesAndPoolReturnRestoresIt()
+    public void MonsterOnlyBehindSceneryNeverFadesItAndCannotKeepItFaded()
     {
         var root = new GameObject("Monster occlusion test");
         var normal = new Material(Shader.Find("HD2D/HD2D_SpriteLit"));
@@ -39,16 +39,20 @@ public class FieldOcclusionPresenterTests
             data.ApplyModifiedPropertiesWithoutUndo();
             var registry = new MonsterViewRegistry();
             registry.Register(1, monster);
-            var presenter = new FieldOcclusionPresenter(field, camera, new MemberView[0], registry);
+            Assert.IsTrue(OcclusionMath.Covers(OcclusionMath.ProjectBounds(camera, renderer.bounds),
+                camera.WorldToViewportPoint(prop.transform.position).z,
+                OcclusionMath.ProjectBounds(camera, body.bounds), camera.WorldToViewportPoint(monster.transform.position).z),
+                "The monster really is behind and overlapping this prop");
+            var presenter = new FieldOcclusionPresenter(field, camera, new MemberView[0]);
             presenter.Tick();
-            Assert.AreEqual(1, presenter.FadedCount);
-            Assert.AreSame(faded, renderer.sharedMaterial);
+            Assert.AreEqual(0, presenter.FadedCount);
+            Assert.AreSame(normal, renderer.sharedMaterial);
             var properties = new MaterialPropertyBlock();
             renderer.GetPropertyBlock(properties);
-            Assert.AreEqual(1, properties.GetInt("_OcclusionRectCount"));
-            var window = properties.GetVectorArray("_OcclusionRects")[0];
-            Assert.Greater(window.z, window.x);
-            Assert.Less(window.z - window.x, .2f, "Actor window must not dither the whole wide prop");
+            Assert.AreEqual(0, properties.GetInt("_OcclusionRectCount"));
+            field.Occluders[0].SetFaded(true);
+            presenter.Tick();
+            Assert.AreSame(normal, renderer.sharedMaterial, "A remaining monster must not keep the prop faded after the party leaves");
             body.enabled = false;
             presenter.Tick();
             Assert.AreSame(normal, renderer.sharedMaterial);
@@ -62,7 +66,7 @@ public class FieldOcclusionPresenterTests
             Assert.AreSame(normal, renderer.sharedMaterial);
             monster.gameObject.SetActive(true);
             presenter.Tick();
-            Assert.AreSame(faded, renderer.sharedMaterial);
+            Assert.AreSame(normal, renderer.sharedMaterial);
             registry.Unregister(1);
             presenter.Tick();
             Assert.AreSame(normal, renderer.sharedMaterial);
@@ -113,13 +117,19 @@ public class FieldOcclusionPresenterTests
                 data.FindProperty("bodyRenderer").objectReferenceValue = body;
                 data.ApplyModifiedPropertiesWithoutUndo();
             }
-            var presenter = new FieldOcclusionPresenter(field,camera,members,new MonsterViewRegistry());
+            var presenter = new FieldOcclusionPresenter(field,camera,members);
             presenter.Tick();
             Assert.AreEqual(0,presenter.FadedCount);
             members[3].transform.position = new Vector3(0,0,2);
             presenter.Tick();
             Assert.AreEqual(1,presenter.FadedCount);
             Assert.AreSame(faded,prop.GetComponent<Renderer>().sharedMaterial);
+            var properties = new MaterialPropertyBlock();
+            prop.GetComponent<Renderer>().GetPropertyBlock(properties);
+            Assert.AreEqual(1, properties.GetInt("_OcclusionRectCount"));
+            var window = properties.GetVectorArray("_OcclusionRects")[0];
+            Assert.Greater(window.z, window.x);
+            Assert.Less(window.z - window.x, .2f, "A member window must not dither the whole wide prop");
             members[0].transform.position = new Vector3(0,0,2);
             presenter.Tick();
             Assert.AreEqual(1,presenter.FadedCount,"A shared prop counts once even when covering two members");
