@@ -55,7 +55,7 @@
 | `TiltedViewMath`(새, static Utils) | `Effect/HD2DView/Utils/` | 바닥 평면 ↔ 화면 평면 순수 계산: `FloorToScreenPlane`, `ScreenToFloorDirection`, `SnapToTexels`, `Footprint`, `UprightRotation`, `UprightOffset(높이m, θ) = (0, h·cosθ, h·sinθ)`(세운 축 방향 3D 오프셋, DR-01) |
 | `PixelScaleMath`(새, static Utils) | `Effect/HD2DView/Utils/` | 화면 높이 → 정수 배율 n, 정사영 세로 반값 |
 | `TiltedCameraRig`(새, MonoBehaviour) | `Effect/HD2DView/View/` | 카메라 오브젝트에 붙는다. 바라보는 점·흔들림 오프셋·화면 크기를 받아 위치와 정사영 크기를 정한다. `CameraShakeView`를 대신한다 |
-| `UprightShadowCaster`(새, MonoBehaviour) | `Effect/HD2DView/View/` | 세운 스프라이트의 그림자 전용 메시(시안 `PixelShadowCaster`를 다시 씀). 대원 4명과 5단계의 세운 판 식물 |
+| `UprightShadowCaster`(새, MonoBehaviour) | `Effect/HD2DView/View/` | 세운 스프라이트의 그림자 전용 메시(시안 `PixelShadowCaster`를 다시 씀). 대원 4명. 5단계 정적 배경 식물은 `UprightFootShadow`(F8 투영 발 그림자)로 별도 처리 |
 | `ViewRulesData`(새, 데이터) + `Data/View/view_rules.json` | `Features/Field/Data/` | 각도·카메라 거리·클립·목표 인물 비율·배율 하한·방향 경계 넘김·몬스터 경계 여유. **수치를 정하는 곳은 여기 하나다** |
 | `IsoProjection`(바뀜) | `Features/Field/Utils/` | 바닥 단위 ↔ 미터 3D: `FloorToWorld → Vector3 (x·s, 0, y·s)`, `WorldToFloor(Vector3)`, `IsoCellToFloor(Vector3Int)`. 이름은 그대로 둔다(사용처 13곳, 어휘 유지). 반환형이 바뀌어 모든 사용처가 컴파일에서 드러난다 |
 | `PartyMoveMath`(바뀜) | `Features/Party/Utils/` | `ScreenToFloorDirection(input, sinTilt)` = `(x, y ÷ sin θ)` 정규화. 30°면 지금 ×2와 같다 |
@@ -178,7 +178,7 @@
 
 - **번쩍임(초안 R6 = 띄운 판)**: 지금 구조를 그대로 둔다. 몸 자식의 자식 렌더러(`flashRenderer`)이고 같은 스프라이트·반전이다. 이 자식을 세운 자식의 로컬 −z(카메라 쪽)로 1/48m 띄우고 재질을 M4로 바꾼다. 재질 속성 블록을 쓰지 않아 SRP 배칭이 그대로다. 대상이 대원 4명뿐이라 그리기 4번이 늘어날 뿐이다. 시험 `MemberViewSpriteTests`의 `IsFlashOn`은 그대로 맞다.
 - **HP 막대·피해 숫자(초안 R7 = 늘 위)**: 앞의 몬스터·소품에 가려지지 않는다. 위아래 흐림·Bloom도 받지 않는다(후처리 뒤에 그림). 흐림 띠 안에서도 읽혀야 하는 정보라서 이렇게 정했다. 서로의 순서는 지금 `sortingOrder`(막대 1·2, 숫자 60)를 따른다.
-- **그림자(초안 R8 = 채택)**: `SpriteRenderer` 그림자 패스는 그림 데이터를 제대로 받지 못한다(시안 관찰). 그래서 그림자 전용 메시를 쓴다. 대상은 대원 4명이다. 5단계에서 세운 판 식물(F2c)도 같은 컴포넌트를 쓴다. 몬스터는 눕힌 판이다(D7, 400마리 그림자 패스 비용). 새 컴포넌트는 시안 문제(활성 상태에서 `AddComponent` → Awake가 Initialize보다 먼저 돎 → 재질 null)를 피한다. 메시와 렌더러를 `Initialize`에서 만들고 Awake는 쓰지 않는다. 해: 고도 30°, 방위 135°, 하드 그림자, 따뜻한 갈색(r6 출발값).
+- **그림자(초안 R8 = 채택)**: `SpriteRenderer` 그림자 패스는 그림 데이터를 제대로 받지 못한다(시안 관찰). 그래서 그림자 전용 메시를 쓴다. 대상은 대원 4명이다. 5단계 세운 판 식물은 `UprightFootShadow`를 쓴다(배경 prep13절, F8 포팅). 실제 캐스터를 끄고 불투명 밑줄 접촉·투영 그림자를 정적으로 만든다. 몬스터는 눕힌 판이다(D7, 400마리 그림자 패스 비용). 새 컴포넌트는 시안 문제(활성 상태에서 `AddComponent` → Awake가 Initialize보다 먼저 돎 → 재질 null)를 피한다. 메시와 렌더러를 `Initialize`에서 만들고 Awake는 쓰지 않는다. 해: 고도 30°, 방위 135°, 하드 그림자, 따뜻한 갈색(r6 출발값).
 - 재질을 바꿀 곳
   - 장면 `Main.unity`의 Sprite-Unlit-Default 참조 17곳.
   - 프리팹 6개(`BurstView`, `EnemyShotView`, `MonsterHpBarView`, `MonsterView`, `ProjectileView`, `DamageNumberView`).
