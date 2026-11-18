@@ -16,12 +16,14 @@ Shader "HD2D/HD2D_FieldSurface"
         _FieldRect("Field rectangle",Vector)=(-36,-36,72,72)
         _FlatDepth("Depth at floor",Float)=0
         _Dither("Dither amount",Range(0,1))=0
+        _Cull("Cull mode",Float)=2
+        _AlphaClip("UV alpha cutout",Float)=0
         _Diagnostic("Lighting factor only",Float)=0
-        _OcclusionRect("Actor viewport cutout",Vector)=(0,0,0,0)
     }
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Opaque" }
+        Cull [_Cull]
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -37,7 +39,8 @@ Shader "HD2D/HD2D_FieldSurface"
         CBUFFER_START(UnityPerMaterial)
         float4 _FieldRect; float _FlatDepth; float _Dither;
         float _Category;
-        float _Diagnostic; float4 _OcclusionRect;
+        float _Diagnostic; float _AlphaClip; int _OcclusionRectCount;
+        float4 _OcclusionRects[64];
         CBUFFER_END
         struct A { float3 p:POSITION; float3 n:NORMAL; float2 uv:TEXCOORD0; };
         struct V { float4 p:SV_POSITION; float3 w:TEXCOORD0; float3 n:TEXCOORD1; float2 uv:TEXCOORD2; float2 floorDepth:TEXCOORD3; float4 screen:TEXCOORD4; };
@@ -47,6 +50,7 @@ Shader "HD2D/HD2D_FieldSurface"
         }
         void ClipOpening(V i)
         {
+            if (_AlphaClip > .5) clip(SAMPLE_TEXTURE2D(_MainTex,sampler_PointClamp,i.uv).a-.5);
             float waterOpening=SAMPLE_TEXTURE2D(_WaterMask,sampler_PointClamp,(i.w.xz-_FieldRect.xy)/_FieldRect.zw).r;
             if (_Category < .5 && i.w.y < .002) clip(.5-waterOpening);
             if (_Category>1.5 && _Category<2.5) clip(waterOpening-.5);
@@ -56,12 +60,16 @@ Shader "HD2D/HD2D_FieldSurface"
             if (_Dither > .001)
             {
                 float2 uv=i.screen.xy/i.screen.w;
-                float2 nearEdge=min(uv-_OcclusionRect.xy,_OcclusionRect.zw-uv)*_ScaledScreenParams.xy;
+                for (int index=0;index<_OcclusionRectCount;index++)
+                {
+                float4 window=_OcclusionRects[index];
+                float2 nearEdge=min(uv-window.xy,window.zw-uv)*_ScaledScreenParams.xy;
                 float border=min(nearEdge.x,nearEdge.y);
                 if (border>0)
                 {
-                    // Solid actor window; only its narrow rim is dithered.
-                    clip(border>2 ? -1 : frac(dot(floor(i.p.xy),float2(.754877666,.569840296)))-_Dither);
+                    // Fade only the actor window; preserve the scenery silhouette between actors.
+                    clip(frac(dot(floor(i.p.xy),float2(.754877666,.569840296)))-_Dither*saturate(border/2));
+                }
                 }
             }
             ClipOpening(i);

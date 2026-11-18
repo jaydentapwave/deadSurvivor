@@ -142,6 +142,18 @@ public static class HD2DSceneryMigration
         {
             throw new InvalidOperationException("Import adopted scenery first.");
         }
+        var flagTexture = AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "Art/AIGenerated/Decor/flag_01.png");
+        var flagMaterial = Material("flag_cloth", flagTexture, 0);
+        var flagFade = Material("flag_cloth_Fade", flagTexture, .65f);
+        foreach (var material in new[] { flagMaterial, flagFade })
+        {
+            material.SetFloat("_AlphaClip", 1);
+            material.SetInt("_Cull", 0);
+            EditorUtility.SetDirty(material);
+        }
+        AssetDatabase.SaveAssets();
+        field.FindProperty("flagMaterial").objectReferenceValue = flagMaterial;
+        field.FindProperty("ditherFlagMaterial").objectReferenceValue = flagFade;
         field.FindProperty("modelCatalog").objectReferenceValue = catalog;
         field.FindProperty("useModelScenery").boolValue = enabled;
         field.ApplyModifiedPropertiesWithoutUndo();

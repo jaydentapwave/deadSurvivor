@@ -26,6 +26,14 @@ public class FieldModelBuildTests
                 Assert.IsNull(legacy.GetComponent<UprightFootShadow>());
             }
             field.FinishScenery(layout);
+            field.BuildProps(layout,
+                AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/03.Resources/Art/AIGenerated/Decor/flag_01.png"),
+                AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/03.Resources/Art/AIGenerated/Common/shadow.png"));
+            Assert.IsFalse(field.Landscape.GetComponentsInChildren<SpriteRenderer>().Any(r => r.name == "Flag cloth"));
+            Assert.AreEqual(3, field.Landscape.GetComponentsInChildren<MeshRenderer>().Count(r => r.name == "Flag cloth"));
+            Assert.IsFalse(field.Landscape.GetComponentsInChildren<SpriteRenderer>().Any(r => r.enabled));
+            Assert.IsTrue(field.Landscape.GetComponentsInChildren<MeshRenderer>().Where(r => r.name == "Wood")
+                .All(r => r.shadowCastingMode == UnityEngine.Rendering.ShadowCastingMode.On));
             Assert.Greater(field.Landscape.GetComponentsInChildren<MeshRenderer>(true).Length, 600);
             Assert.IsEmpty(field.Landscape.GetComponentsInChildren<UprightFootShadow>());
             var plants = field.Landscape.Cast<Transform>().Where(t => t.name.StartsWith("3D:flowers:")).ToArray();

@@ -9,6 +9,7 @@ public sealed class FieldOcclusionPresenter : ITickable
     private readonly Camera _camera;
     private readonly IReadOnlyList<MemberView> _members;
     private readonly MonsterViewRegistry _monsters;
+    private readonly List<Rect> _cutouts = new();
     public int FadedCount { get; private set; }
 
     public FieldOcclusionPresenter(FieldView field, Camera camera, IReadOnlyList<MemberView> members,
@@ -25,22 +26,22 @@ public sealed class FieldOcclusionPresenter : ITickable
         FadedCount = 0;
         foreach (var prop in _field.Occluders)
         {
-            var isCovered = false;
+            _cutouts.Clear();
             var bounds = prop.Bounds;
             var rect = OcclusionMath.ProjectBounds(_camera, bounds);
             var depth = _camera.WorldToViewportPoint(prop.Anchor.position).z;
-            var cutout = new Rect();
             foreach (var member in _members)
             {
-                IncludeCoveredActor(member.BodyRenderer, member.transform, rect, depth, ref cutout, ref isCovered);
+                IncludeCoveredActor(member.BodyRenderer, member.transform, rect, depth);
             }
             foreach (var monster in _monsters.Views)
             {
-                IncludeCoveredActor(monster.BodyRenderer, monster.transform, rect, depth, ref cutout, ref isCovered);
+                IncludeCoveredActor(monster.BodyRenderer, monster.transform, rect, depth);
             }
+            var isCovered = _cutouts.Count > 0;
             if (isCovered)
             {
-                prop.SetOcclusionRect(cutout);
+                prop.SetOcclusionRects(_cutouts);
             }
             prop.SetFaded(isCovered);
             if (isCovered)
@@ -50,8 +51,7 @@ public sealed class FieldOcclusionPresenter : ITickable
         }
     }
 
-    private void IncludeCoveredActor(Renderer body, Transform actor, Rect propRect, float propDepth,
-        ref Rect cutout, ref bool hasCutout)
+    private void IncludeCoveredActor(Renderer body, Transform actor, Rect propRect, float propDepth)
     {
         if (!body.enabled || !body.gameObject.activeInHierarchy)
         {
@@ -66,8 +66,6 @@ public sealed class FieldOcclusionPresenter : ITickable
         var margin = 2f / Mathf.Max(1, _camera.pixelHeight);
         actorRect = Rect.MinMaxRect(actorRect.xMin - margin, actorRect.yMin - margin,
             actorRect.xMax + margin, actorRect.yMax + margin);
-        cutout = hasCutout ? Rect.MinMaxRect(Mathf.Min(cutout.xMin, actorRect.xMin), Mathf.Min(cutout.yMin, actorRect.yMin),
-            Mathf.Max(cutout.xMax, actorRect.xMax), Mathf.Max(cutout.yMax, actorRect.yMax)) : actorRect;
-        hasCutout = true;
+        _cutouts.Add(actorRect);
     }
 }

@@ -45,7 +45,8 @@ public class FieldOcclusionPresenterTests
             Assert.AreSame(faded, renderer.sharedMaterial);
             var properties = new MaterialPropertyBlock();
             renderer.GetPropertyBlock(properties);
-            var window = properties.GetVector("_OcclusionRect");
+            Assert.AreEqual(1, properties.GetInt("_OcclusionRectCount"));
+            var window = properties.GetVectorArray("_OcclusionRects")[0];
             Assert.Greater(window.z, window.x);
             Assert.Less(window.z - window.x, .2f, "Actor window must not dither the whole wide prop");
             body.enabled = false;
@@ -142,6 +143,55 @@ public class FieldOcclusionPresenterTests
             Object.DestroyImmediate(root);
             Object.DestroyImmediate(normal);
             Object.DestroyImmediate(faded);
+        }
+    }
+
+    [Test]
+    public void SeparateActorWindowsKeepTheGapOpaqueAndOverflowRetainsEveryActor()
+    {
+        var root = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        var material = new Material(Shader.Find("HD2D/HD2D_FieldSurface"));
+        try
+        {
+            var renderer = root.GetComponent<Renderer>();
+            renderer.sharedMaterial = material;
+            var prop = new FieldOccluder(root.transform, new[] { renderer }, m => m);
+            var rects = new System.Collections.Generic.List<Rect>
+            {
+                new Rect(.1f, .4f, .1f, .1f), new Rect(.8f, .4f, .1f, .1f)
+            };
+            prop.SetOcclusionRects(rects);
+            var properties = new MaterialPropertyBlock();
+            renderer.GetPropertyBlock(properties);
+            Assert.AreEqual(2, properties.GetInt("_OcclusionRectCount"));
+            Assert.Less(properties.GetVectorArray("_OcclusionRects")[0].z, .5f);
+            Assert.Greater(properties.GetVectorArray("_OcclusionRects")[1].x, .5f);
+            for (var i = 0; i < FieldOccluder.MaxOcclusionRects; i++)
+            {
+                rects.Add(new Rect(.1f + i * .00001f, .4f, .1f, .1f));
+            }
+            prop.SetOcclusionRects(rects);
+            renderer.GetPropertyBlock(properties);
+            var count = properties.GetInt("_OcclusionRectCount");
+            var windows = properties.GetVectorArray("_OcclusionRects");
+            Assert.AreEqual(FieldOccluder.MaxOcclusionRects, count);
+            foreach (var rect in rects)
+            {
+                var contained = false;
+                for (var i = 0; i < count; i++)
+                {
+                    var window = windows[i];
+                    Assert.IsFalse(window.x < .5f && window.z > .5f, "Empty gap must remain opaque");
+                    contained |= window.x <= rect.xMin && window.y <= rect.yMin
+                        && window.z >= rect.xMax && window.w >= rect.yMax;
+                }
+                Assert.IsTrue(contained, "Dense crowds must retain every covered actor");
+            }
+        }
+        finally
+        {
+            Object.DestroyImmediate(root);
+            Object.DestroyImmediate(material);
         }
     }
 

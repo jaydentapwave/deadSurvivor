@@ -11,7 +11,6 @@ Shader "HD2D/HD2D_SpriteLit"
         _Emission ("Emission", Range(0,4)) = 0
         _BackgroundCard ("Native painted background card", Float) = 0
         _Dither ("Dither amount", Range(0,1)) = 0
-        _OcclusionRect ("Actor viewport cutout", Vector) = (0,0,0,0)
         _HueShift ("Palette hue shift", Range(0,1)) = 0
     }
     SubShader
@@ -27,7 +26,8 @@ Shader "HD2D/HD2D_SpriteLit"
         half4 _BaseColor;
         float _Emission;
         float _Dither;
-        float4 _OcclusionRect;
+        int _OcclusionRectCount;
+        float4 _OcclusionRects[64];
         float _BackgroundCard;
         float _HueShift;
         float _SpriteRenderer;
@@ -68,9 +68,13 @@ Shader "HD2D/HD2D_SpriteLit"
             if (_Dither > .001)
             {
                 float2 uv=i.screen.xy/i.screen.w;
-                float2 nearEdge=min(uv-_OcclusionRect.xy,_OcclusionRect.zw-uv)*_ScaledScreenParams.xy;
+                for (int index=0;index<_OcclusionRectCount;index++)
+                {
+                float4 window=_OcclusionRects[index];
+                float2 nearEdge=min(uv-window.xy,window.zw-uv)*_ScaledScreenParams.xy;
                 float border=min(nearEdge.x,nearEdge.y);
-                if (border>0) clip(border>2 ? -1 : frac(dot(floor(i.positionCS.xy),float2(.754877666,.569840296)))-_Dither);
+                if (border>0) clip(frac(dot(floor(i.positionCS.xy),float2(.754877666,.569840296)))-_Dither*saturate(border/2));
+                }
             }
             return c;
         }
