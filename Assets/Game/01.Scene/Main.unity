@@ -50519,6 +50519,8 @@ MonoBehaviour:
   bankMaterial: {fileID: 2100000, guid: 34e72df88b44d46ffa5f4cc3f7b2daaa, type: 2}
   waterMaterial: {fileID: 2100000, guid: aa3f606caddf847e8be8fa8c3ca91d72, type: 2}
   pondMesh: {fileID: 4300000, guid: 3c6d43887bb2c4a79a031b6aff027739, type: 2}
+  cardMaterial: {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  footShadowMaterial: {fileID: 2100000, guid: a4f15f5c1f2cf45deae0d6d66642bfab, type: 2}
 --- !u!483693784 &1450006850
 TilemapRenderer:
   serializedVersion: 2

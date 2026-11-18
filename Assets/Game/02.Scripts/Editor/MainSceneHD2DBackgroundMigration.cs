@@ -39,6 +39,8 @@ public static class MainSceneHD2DBackgroundMigration
             so.FindProperty(name + "Material").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_Field_" + title + ".mat");
         }
         so.FindProperty("pondMesh").objectReferenceValue = pond;
+        so.FindProperty("cardMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_SpriteLit.mat");
+        so.FindProperty("footShadowMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_FootShadow.mat");
         so.ApplyModifiedPropertiesWithoutUndo();
         var ground = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_Field_Ground.mat");
         foreach (var guid in AssetDatabase.FindAssets("t:Material", new[] { Root + "Materials/HD2D" }))
@@ -52,6 +54,9 @@ public static class MainSceneHD2DBackgroundMigration
         }
         ground.SetTexture("_WaterMask", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "Textures/HD2D/FieldWaterMask.png"));
         EditorUtility.SetDirty(ground);
+        var foot = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_FootShadow.mat");
+        foot.SetTexture("_BankMask", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "Textures/HD2D/FieldBankMask.png"));
+        EditorUtility.SetDirty(foot);
         field.Tilemap.GetComponent<UnityEngine.Tilemaps.TilemapRenderer>().enabled = false;
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
@@ -119,6 +124,16 @@ public static class MainSceneHD2DBackgroundMigration
         texture.SetPixels32(colors);
         texture.Apply();
         File.WriteAllBytes(Root + "Textures/HD2D/FieldWaterMask.png", texture.EncodeToPNG());
+        colors = new Color32[width * height];
+        foreach (var bank in layout.banks)
+        {
+            var mesh = BankMeshMath.Build(bank.rectangles, bank.cell, bank.height, bank.seed);
+            Raster(mesh);
+            UnityEngine.Object.DestroyImmediate(mesh);
+        }
+        texture.SetPixels32(colors);
+        texture.Apply();
+        File.WriteAllBytes(Root + "Textures/HD2D/FieldBankMask.png", texture.EncodeToPNG());
         UnityEngine.Object.DestroyImmediate(texture);
         AssetDatabase.Refresh();
     }

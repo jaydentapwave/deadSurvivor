@@ -4,6 +4,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
 
 // 아이소 바닥 Tilemap(셀 (1, 0.5), 타일 앵커 (0, 0) = 마름모 아래 꼭짓점 — 그림 피벗 아래 가운데)에 풀·흙길 타일을 깐다(아트 기준서 3.1·3.2).
+[ExecuteAlways]
 public class FieldView : MonoBehaviour
 {
     [SerializeField] private Tilemap tilemap;
@@ -11,6 +12,9 @@ public class FieldView : MonoBehaviour
     [SerializeField] private Material bankMaterial;
     [SerializeField] private Material waterMaterial;
     [SerializeField] private Mesh pondMesh;
+    [SerializeField] private Material cardMaterial;
+    [SerializeField] private Material footShadowMaterial;
+    public Material CardMaterial => cardMaterial;
     private readonly List<Mesh> _ownedMeshList = new();
     private readonly Dictionary<string, List<Renderer>> _partDict = new();
     private Transform _landscape;
@@ -61,6 +65,29 @@ public class FieldView : MonoBehaviour
                 AddPart(water.name, RibbonMeshMath.Build(water.points, water.width, water.height, water.name == "waterfall" ? -.03f : float.NaN), new[] { waterMaterial });
             }
         }
+    }
+
+    public SpriteRenderer AddCard(Sprite sprite, FieldLayoutPlacement placement, Vector3 lightDirection)
+    {
+        var card = new GameObject(placement.group + ":" + placement.sprite);
+        card.transform.SetParent(_landscape, false);
+        card.transform.rotation = Quaternion.Euler(_tiltDegrees, 0, 0);
+        card.transform.position = CardSnapMath.Snap(new Vector3(placement.x, placement.height + .001f, placement.y), sprite.pivot, sprite.pixelsPerUnit, _tiltDegrees);
+        var renderer = card.AddComponent<SpriteRenderer>();
+        renderer.sprite = sprite;
+        renderer.flipX = placement.isFlipped;
+        renderer.spriteSortPoint = SpriteSortPoint.Pivot;
+        renderer.sharedMaterial = cardMaterial;
+        renderer.shadowCastingMode = ShadowCastingMode.Off;
+        if (placement.sprite.StartsWith("rock_") || placement.sprite == "boulder_01")
+        {
+            renderer.color = new Color(.72f, .72f, .72f, 1);
+        }
+        if (placement.isCastingShadow)
+        {
+            card.AddComponent<UprightFootShadow>().Initialize(renderer, footShadowMaterial, placement.height, lightDirection);
+        }
+        return renderer;
     }
 
     private MeshRenderer AddPart(string kind, Mesh mesh, Material[] materials, bool ownsMesh = true)

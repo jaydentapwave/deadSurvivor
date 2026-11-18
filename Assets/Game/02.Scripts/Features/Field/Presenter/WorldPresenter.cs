@@ -102,6 +102,13 @@ public class WorldPresenter : IInitializable, ILateTickable
         _fieldView.Initialize(_viewRules.TiltDegrees);
         BuildField();
         _fieldView.BuildLandscape(_fieldLayout);
+        foreach (var placement in _fieldLayout.placements)
+        {
+            if (placement.kind == "card")
+            {
+                _fieldView.AddCard(_spriteAtlasService.Get(placement.sprite, SpriteAtlasService.GroundAtlasPath), placement, RenderSettings.sun.transform.forward);
+            }
+        }
 
         InitializeMemberViews();
         UpdateViewExtent();

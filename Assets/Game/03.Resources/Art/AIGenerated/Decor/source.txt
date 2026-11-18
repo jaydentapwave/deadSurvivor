@@ -2,3 +2,5 @@ Assets/Game/03.Resources/Art/HD2D/Round8/FieldTree.png SHA256 79140bad99ed494cc6
 Assets/Game/03.Resources/Art/HD2D/Round8/FieldBush.png SHA256 3b4c4b5287fa9b9537a0816b955aa97b4ab59720dec9c0a616ea5ab4920fc252
 Assets/Game/03.Resources/Art/HD2D/Round8/FieldBoulder.png SHA256 a1397d54263fbdcfaa3e659236323e6014d6b6f791005141d523dd607fe0a0c6
 B0: adopted F8, bush_02 mirrored native crop 43x42.
+
+B3 bush_02: crop version had straight cut edge in live capture; built-in imagegen edit of bush_01 plus alpha-key preprocessing and pixelize 45x35, same 5-color palette. Source .director/evidence/20261118-hd2d-background/1/2/bush2-source.png SHA256 fe09fdac38a4ca5d691867145d9826ab0e703c111a1fb4d26b87e3487e5e1e64

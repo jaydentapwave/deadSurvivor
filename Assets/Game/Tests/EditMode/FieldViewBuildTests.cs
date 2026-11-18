@@ -42,4 +42,37 @@ public class FieldViewBuildTests
             Object.DestroyImmediate(tile);
         }
     }
+    [Test]
+    public void CardsStayUprightAtNativeScaleAndUseSharedMaterial()
+    {
+        var root = new GameObject("Card field test");
+        var field = root.AddComponent<FieldView>();
+        var child = new GameObject("Tiles");
+        child.transform.SetParent(root.transform, false);
+        var tiles = child.AddComponent<Tilemap>();
+        child.AddComponent<TilemapRenderer>();
+        try
+        {
+            var so = new SerializedObject(field);
+            so.FindProperty("tilemap").objectReferenceValue = tiles;
+            so.FindProperty("pondMesh").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Mesh>("Assets/Game/03.Resources/Meshes/HD2D/FieldPond.asset");
+            var material = AssetDatabase.LoadAssetAtPath<Material>("Assets/Game/03.Resources/Materials/HD2D/HD2D_SpriteLit.mat");
+            so.FindProperty("cardMaterial").objectReferenceValue = material;
+            so.ApplyModifiedPropertiesWithoutUndo();
+            field.Initialize(30);
+            field.BuildLandscape(JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_layout.json")));
+            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/03.Resources/Art/AIGenerated/Decor/grass_tuft_01.png");
+            var card = field.AddCard(sprite, new FieldLayoutPlacement { x = 5, y = -4, group = "flowers", sprite = "grass_tuft_01" }, Vector3.down);
+            Assert.That(card.transform.eulerAngles.x, Is.EqualTo(30).Within(.0001));
+            Assert.AreEqual(Vector3.one, card.transform.localScale);
+            Assert.AreSame(material, card.sharedMaterial);
+            Assert.AreEqual(48, card.sprite.pixelsPerUnit);
+            Assert.AreEqual(UnityEngine.Rendering.ShadowCastingMode.Off, card.shadowCastingMode);
+            Assert.IsEmpty(card.GetComponentsInChildren<Collider>());
+        }
+        finally
+        {
+            Object.DestroyImmediate(root);
+        }
+    }
 }
