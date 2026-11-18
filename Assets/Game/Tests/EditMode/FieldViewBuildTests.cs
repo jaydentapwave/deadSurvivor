@@ -1,4 +1,6 @@
 using System.IO;
+using System.Linq;
+using UnityEditor.SceneManagement;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -6,6 +8,41 @@ using UnityEngine.Tilemaps;
 
 public class FieldViewBuildTests
 {
+    [Test]
+    public void PcgPropsKeepTheirBakedPositionRotationScaleAndNoCollision()
+    {
+        var scene = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        var field = Object.FindFirstObjectByType<FieldView>();
+        var layout = JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_layout.json"));
+        field.Initialize(30);
+        try
+        {
+            field.BuildLandscape(layout);
+            field.BuildProps(layout,
+                AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/03.Resources/Art/AIGenerated/Decor/flag_01.png"),
+                AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/03.Resources/Art/AIGenerated/Common/shadow.png"));
+            foreach (var kind in new[] { "bridge", "tent", "fence", "sign", "flag" })
+            {
+                var placements = layout.placements.Where(p => p.prop == kind).ToArray();
+                var roots = field.Landscape.Cast<Transform>().Where(t => t.name == kind).ToArray();
+                Assert.AreEqual(placements.Length, roots.Length, kind);
+                for (var i = 0; i < roots.Length; i++)
+                {
+                    Assert.That(Vector3.Distance(new Vector3(placements[i].x, placements[i].height, placements[i].y), roots[i].localPosition), Is.LessThan(.0001f));
+                    Assert.That(Quaternion.Angle(Quaternion.Euler(0, placements[i].yaw, 0), roots[i].localRotation), Is.LessThan(.01f));
+                    Assert.AreEqual(Vector3.one * placements[i].scale, roots[i].localScale);
+                }
+            }
+            Assert.IsEmpty(field.Landscape.GetComponentsInChildren<Collider>());
+            Assert.IsEmpty(field.Landscape.GetComponentsInChildren<Collider2D>());
+        }
+        finally
+        {
+            Object.DestroyImmediate(field.Landscape.gameObject);
+            EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        }
+    }
+
     [Test]
     public void ZoneMaskUsesAllChannelsWithoutFilteringOrColorConversion()
     {
