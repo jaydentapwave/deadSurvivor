@@ -220,6 +220,32 @@ public class FieldView : MonoBehaviour
                 RegisterOccluder(model.transform, renderers);
             }
         }
+        CombineSmallScenery();
+    }
+
+    private void CombineSmallScenery()
+    {
+        // 4m spatial chunks retain local culling. Only the non-occluding small plants merge.
+        var roots = _landscape.Cast<Transform>().Where(t => t.name.StartsWith("3D:flowers:")).ToArray();
+        var groups = roots.SelectMany(t => t.GetComponentsInChildren<MeshFilter>())
+            .GroupBy(f => (Material: f.GetComponent<MeshRenderer>().sharedMaterial,
+                X: Mathf.FloorToInt(f.transform.position.x / 4), Z: Mathf.FloorToInt(f.transform.position.z / 4)));
+        foreach (var group in groups)
+        {
+            var mesh = new Mesh { name = "Small scenery " + group.Key.X + ":" + group.Key.Z };
+            var parts = group.Select(f => new CombineInstance
+            {
+                mesh = f.sharedMesh,
+                transform = _landscape.worldToLocalMatrix * f.transform.localToWorldMatrix
+            }).ToArray();
+            mesh.CombineMeshes(parts, true, true);
+            AddPart("3D plant batch " + group.Key.Material.name + ":" + group.Key.X + ":" + group.Key.Z,
+                mesh, new[] { group.Key.Material });
+        }
+        foreach (var root in roots)
+        {
+            root.gameObject.SetActive(false);
+        }
     }
 
     public void BuildProps(FieldLayoutData layout, Sprite flag, Sprite shadow)

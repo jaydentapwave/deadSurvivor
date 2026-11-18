@@ -26,8 +26,17 @@ public class FieldModelBuildTests
                 Assert.IsNull(legacy.GetComponent<UprightFootShadow>());
             }
             field.FinishScenery(layout);
-            Assert.Greater(field.Landscape.GetComponentsInChildren<MeshRenderer>().Length, 600);
+            Assert.Greater(field.Landscape.GetComponentsInChildren<MeshRenderer>(true).Length, 600);
             Assert.IsEmpty(field.Landscape.GetComponentsInChildren<UprightFootShadow>());
+            var plants = field.Landscape.Cast<Transform>().Where(t => t.name.StartsWith("3D:flowers:")).ToArray();
+            var batches = field.Landscape.Cast<Transform>().Where(t => t.name.StartsWith("3D plant batch ")).ToArray();
+            Assert.IsTrue(plants.All(t => !t.gameObject.activeSelf));
+            Assert.Greater(batches.Length, 0);
+            Assert.Less(batches.Length, plants.Length);
+            var plantTriangles = plants.SelectMany(t => t.GetComponentsInChildren<MeshFilter>(true)).Sum(f => f.sharedMesh.triangles.Length);
+            Assert.AreEqual(plantTriangles, batches.Sum(t => t.GetComponent<MeshFilter>().sharedMesh.triangles.Length));
+            Assert.IsTrue(batches.All(t => t.GetComponent<MeshRenderer>().shadowCastingMode == UnityEngine.Rendering.ShadowCastingMode.Off));
+
             var bush = layout.placements.First(p => p.sprite.StartsWith("bush_"));
             var root = field.Landscape.Cast<Transform>().First(t => t.name.StartsWith("3D:bush:") && Vector3.Distance(t.localPosition, new Vector3(bush.x, bush.height, bush.y)) < .001f);
             var points = root.GetComponentsInChildren<MeshFilter>().SelectMany(f => f.sharedMesh.vertices.Select(f.transform.TransformPoint)).ToArray();
