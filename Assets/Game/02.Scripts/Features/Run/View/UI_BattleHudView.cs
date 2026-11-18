@@ -5,6 +5,7 @@ using UnityEngine.UI;
 // 전투 화면(V2) 표시줄: 상단(웨이브·처치·위협·남은 시간·버닝 타임·배속·일시정지), 하단 캐릭터별 칸
 public class UI_BattleHudView : MonoBehaviour
 {
+    [SerializeField] private RectTransform bottomPanel;
     [SerializeField] private Image[] waveNodes;
     [SerializeField] private Sprite passedNode;
     [SerializeField] private Sprite currentNode;
@@ -26,6 +27,26 @@ public class UI_BattleHudView : MonoBehaviour
     public Button SpeedButton => speedButton;
     public Button PauseButton => pauseButton;
     public IReadOnlyList<UI_MemberStatusView> MemberStatusViews => memberStatusViews;
+
+    private void LateUpdate()
+    {
+        var maxItems = 0;
+        foreach (var member in memberStatusViews)
+        {
+            var count = 0;
+            foreach (var item in member.BattleItemViews)
+            {
+                if (item.gameObject.activeSelf)
+                {
+                    count++;
+                }
+            }
+            maxItems = Mathf.Max(maxItems, count);
+        }
+        var rows = Mathf.Max(1, Mathf.CeilToInt(maxItems / 4f));
+        var height = Mathf.Max(64, 37 + rows * 19 - 1 + 4);
+        bottomPanel.sizeDelta = new Vector2(0, height);
+    }
 
     public void UpdateUI(int wave, int waveCount, int kills, int threat, float remainingSeconds, bool isBurningTime,
         float speed, bool isPaused)

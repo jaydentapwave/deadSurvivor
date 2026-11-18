@@ -91,13 +91,16 @@ public class ItemIconTests
         Assert.AreEqual(y, uv.y, 1e-6f);
     }
 
-    [TestCase(100f, 100f, 0, 100f, 100f / 3f)]
-    [TestCase(100f, 100f, 1, 100f / 3f, 100f)]
-    [TestCase(10f, 100f, 0, 10f, 10f / 3f)]
-    public void WholeIconMeshKeepsCanvasAspectAndIgnoresInput(float width, float height, int rotation,
+    [TestCase(100f, 100f, 0, 96f, 32f)]
+    [TestCase(100f, 100f, 1, 32f, 96f)]
+    [TestCase(10f, 100f, 0, 16f, 16f / 3f)]
+    public void WholeIconMeshKeepsIntegralTexelsAspectAndIgnoresInput(float width, float height, int rotation,
         float expectedWidth, float expectedHeight)
     {
-        var parent = new GameObject("TestIconParent", typeof(RectTransform));
+        // UI contract: 1080p canvas scale 3, floor to integer screen texels,
+        // with a minimum of one screen pixel per source texel (design 4.2).
+        var parent = new GameObject("TestIconParent", typeof(RectTransform), typeof(Canvas));
+        parent.GetComponent<Canvas>().scaleFactor = 3;
         var view = ItemIconUtils.Create(parent.transform);
         view.rectTransform.anchorMax = Vector2.zero;
         view.rectTransform.sizeDelta = new Vector2(width, height);

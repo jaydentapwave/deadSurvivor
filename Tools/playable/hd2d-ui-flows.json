@@ -33,7 +33,8 @@
       "id": "L",
       "name": "로비",
       "wait": "PlayableProbe.Screen == \"Lobby\"",
-      "capture": true
+      "capture": "all",
+      "do": "UI_SafeAreaPanel.EditorSafeAreaOverride = null;"
     },
     {
       "id": "B",
@@ -41,7 +42,7 @@
       "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart(); UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
       "wait": "PlayableProbe.Wave == 2 && PlayableProbe.Screen == \"Battle\" && (UnityEngine.Time.timeScale = 1f) == 1f",
       "timeout": 30,
-      "capture": true
+      "capture": "all"
     },
     {
       "id": "JOY",
@@ -79,7 +80,7 @@
       "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
       "timeout": 30,
       "expect": "PlayableProbe.AliveCount >= 1 && PlayableProbe.AliveCount <= 3 && PlayableProbe.CanRevive(PlayableProbe.FirstDownMember)",
-      "capture": true
+      "capture": "all"
     },
     {
       "id": "PICK",
@@ -101,7 +102,7 @@
       "wait": "PlayableProbe.Screen == \"Result\"",
       "timeout": 120,
       "expect": "PlayableProbe.Outcome == \"Win\" && PlayableProbe.WavesSurvived == 10 && PlayableProbe.AliveCount == 4 && Math.Abs(PlayableProbe.TotalBattleSeconds - 435) <= 2",
-      "capture": true
+      "capture": "all"
     },
     {
       "id": "LOSE",

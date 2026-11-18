@@ -108,6 +108,13 @@ public static class MainSceneHudUiMigration
         Place((RectTransform)top.Find("Threat"), new Vector2(0, 1), new Vector2(160, -36), new Vector2(70, 16));
         top.Find("Kills").GetComponent<Text>().color = Muted;
         top.Find("Threat").GetComponent<Text>().color = Muted;
+        foreach (var name in new[] { "Kills", "Threat" })
+        {
+            var text = top.Find(name);
+            var shadow = text.GetComponent<Shadow>() ?? text.gameObject.AddComponent<Shadow>();
+            shadow.effectColor = new Color(0, 0, 0, 0.7f);
+            shadow.effectDistance = new Vector2(0, -1f / 3);
+        }
         Place((RectTransform)top.Find("Remaining"), new Vector2(0.5f, 1), new Vector2(0, -20), new Vector2(60, 24));
         top.Find("Remaining").GetComponent<Text>().fontSize = 14;
         var burning = top.Find("Burning");
@@ -129,10 +136,11 @@ public static class MainSceneHudUiMigration
     {
         var root = Find(canvas, "BattleHudView");
         var bottom = root.Find("BottomPanel");
+        Ref(root.GetComponent<UI_BattleHudView>(), "bottomPanel", bottom);
         TextStyle(bottom);
         Art(bottom.GetComponent<Image>(), "U7_bar_fill");
         bottom.GetComponent<Image>().color = Color.clear;
-        ((RectTransform)bottom).sizeDelta = new Vector2(0, 85);
+        ((RectTransform)bottom).sizeDelta = new Vector2(0, 64);
         var band = Band(bottom, "U6_band_top", false, true, true);
         var ignore = band.GetComponent<LayoutElement>() ?? band.gameObject.AddComponent<LayoutElement>();
         ignore.ignoreLayout = true;
@@ -180,9 +188,9 @@ public static class MainSceneHudUiMigration
                 image.color = image.name == "HpLoss" ? Hex("a4534a") : Hex("568757");
             }
             var items = (RectTransform)tr.Find("Items");
-            StretchRow(items, 44, -37, 3, 48);
+            StretchRow(items, 44, -37, 3, 75);
             var grid = items.GetComponent<GridLayoutGroup>();
-            grid.cellSize = new Vector2(16, 10);
+            grid.cellSize = new Vector2(16, 18);
             grid.spacing = Vector2.one;
             foreach (var item in member.GetComponentsInChildren<UI_BattleItemView>(true))
             {
@@ -337,8 +345,11 @@ public static class MainSceneHudUiMigration
         var stash = root.GetComponentInChildren<UI_StashView>(true);
         Art(stash.GetComponent<Image>(), "U1_panel_menu");
         var stashGrid = stash.Content.GetComponent<GridLayoutGroup>();
-        stashGrid.cellSize = new Vector2(56, 44);
+        stashGrid.cellSize = new Vector2(52, 44);
         stashGrid.spacing = new Vector2(2, 2);
+        var viewport = (RectTransform)stash.Content.parent;
+        viewport.offsetMin = new Vector2(8, viewport.offsetMin.y);
+        viewport.offsetMax = new Vector2(-12, viewport.offsetMax.y);
         ((RectTransform)stash.transform).sizeDelta = new Vector2(180, 110);
         Picture("TitleLine", stash.transform, "U5_divider_line", new Vector2(0.5f, 1), new Vector2(0, -19), new Vector2(164, 2));
         foreach (var item in stash.GetComponentsInChildren<UI_StashItemView>(true))
@@ -368,12 +379,53 @@ public static class MainSceneHudUiMigration
             Art(image, image.name == "PreviewScroll" ? "U9_cell_empty" : "U1_panel_menu");
         }
         ((RectTransform)info.transform).sizeDelta = new Vector2(180, 110);
+        var infoSo = new SerializedObject(info);
+        var description = (Text)infoSo.FindProperty("descriptionText").objectReferenceValue;
+        var scrollRoot = Rect("DescriptionScroll", info.transform);
+        Place(scrollRoot, new Vector2(0.5f, 1), new Vector2(0, -34), new Vector2(172, 60));
+        var viewportImage = Picture("Viewport", scrollRoot, "U7_bar_fill", new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(172, 60));
+        viewportImage.raycastTarget = true;
+        (viewportImage.GetComponent<Mask>() ?? viewportImage.gameObject.AddComponent<Mask>()).showMaskGraphic = false;
+        var content = Rect("Content", viewportImage.transform);
+        content.anchorMin = new Vector2(0, 1);
+        content.anchorMax = Vector2.one;
+        content.pivot = new Vector2(0.5f, 1);
+        content.anchoredPosition = content.sizeDelta = Vector2.zero;
+        var group = content.GetComponent<VerticalLayoutGroup>() ?? content.gameObject.AddComponent<VerticalLayoutGroup>();
+        group.childControlWidth = group.childControlHeight = true;
+        group.childForceExpandWidth = true;
+        group.childForceExpandHeight = false;
+        var fitter = content.GetComponent<ContentSizeFitter>() ?? content.gameObject.AddComponent<ContentSizeFitter>();
+        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        description.transform.SetParent(content, false);
+        description.horizontalOverflow = HorizontalWrapMode.Wrap;
+        description.verticalOverflow = VerticalWrapMode.Overflow;
+        var scroll = scrollRoot.GetComponent<ScrollRect>() ?? scrollRoot.gameObject.AddComponent<ScrollRect>();
+        scroll.viewport = viewportImage.rectTransform;
+        scroll.content = content;
+        scroll.horizontal = false;
+        scroll.vertical = true;
+        scroll.movementType = ScrollRect.MovementType.Clamped;
+        scroll.inertia = false;
+        scroll.scrollSensitivity = 12;
+        Ref(info, "descriptionScroll", scroll);
+        var preview = (RectTransform)Find(info.transform, "PreviewScroll");
+        Place(preview, Vector2.zero, new Vector2(111, 24), new Vector2(130, 40));
+        var previewText = (Text)infoSo.FindProperty("previewText").objectReferenceValue;
+        previewText.rectTransform.offsetMax = new Vector2(-36, previewText.rectTransform.offsetMax.y);
         foreach (var button in info.GetComponentsInChildren<Button>(true))
         {
+            Place((RectTransform)button.transform, Vector2.zero, new Vector2(22, 22), new Vector2(44, 44));
             ButtonArt(button, false, true);
-            Place((RectTransform)button.transform, new Vector2(0.5f, 0), new Vector2(0, 22), new Vector2(80, 44));
         }
         TextStyle(root);
+        foreach (var text in info.GetComponentsInChildren<Text>(true))
+        {
+            if (text.name == "Description" || text.name == "Preview")
+            {
+                text.fontSize = 10;
+            }
+        }
         // Reapply token exceptions after the shared font pass.
         root.Find("Box/Title").GetComponent<Text>().fontSize = 14;
     }

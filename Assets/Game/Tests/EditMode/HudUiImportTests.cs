@@ -38,6 +38,13 @@ public class HudUiImportTests
         Assert.IsNotNull(atlas);
         UnityEditor.U2D.SpriteAtlasUtility.PackAtlases(new[] { atlas }, EditorUserBuildSettings.activeBuildTarget);
         Assert.AreEqual(44, atlas.spriteCount);
+        var importer = (UnityEditor.U2D.SpriteAtlasImporter)AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(atlas));
+        Assert.IsFalse(importer.packingSettings.enableRotation);
+        Assert.IsFalse(importer.packingSettings.enableTightPacking);
+        Assert.AreEqual(4, importer.packingSettings.padding);
+        var platform = importer.GetPlatformSettings("DefaultTexturePlatform");
+        Assert.AreEqual(TextureImporterCompression.Uncompressed, platform.textureCompression);
+        Assert.AreEqual(2048, platform.maxTextureSize);
         Assert.AreEqual(FilterMode.Bilinear, UnityEditor.U2D.SpriteAtlasExtensions.GetTextureSettings(atlas).filterMode);
     }
 }

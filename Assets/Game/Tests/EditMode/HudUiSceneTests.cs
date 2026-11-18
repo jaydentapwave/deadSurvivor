@@ -92,6 +92,91 @@ public class HudUiSceneTests
         }
     }
 
+    [TestCase(3f)]
+    [TestCase(3.25f)]
+    [TestCase(4.2666667f)]
+    public void BattleIconsUseIntegralScreenTexelsAndFitTheirCells(float scale)
+    {
+        var scene = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        var hud = Array.Find(scene.GetRootGameObjects(), r => r.GetComponentInChildren<UI_BattleHudView>(true) != null).GetComponentInChildren<UI_BattleHudView>(true);
+        var canvasObject = new GameObject("IconTest", typeof(Canvas));
+        canvasObject.GetComponent<Canvas>().scaleFactor = scale;
+        var item = UnityEngine.Object.Instantiate(hud.MemberStatusViews[0].BattleItemViews[0], canvasObject.transform);
+        ((RectTransform)item.transform).sizeDelta = new Vector2(16, 18);
+        var icon = (Image)new SerializedObject(item).FindProperty("iconImage").objectReferenceValue;
+        try
+        {
+            foreach (var guid in AssetDatabase.FindAssets("t:Sprite", new[] { "Assets/Game/03.Resources/Art/AIGenerated/Items" }))
+            {
+                var sprite = AssetDatabase.LoadAssetAtPath<Sprite>(AssetDatabase.GUIDToAssetPath(guid));
+                item.UpdateUI("item", sprite, BattleItemState.Ready, 0, 0);
+                var pixels = icon.rectTransform.sizeDelta * scale;
+                var factor = pixels.x / sprite.rect.width;
+                Assert.AreEqual(Mathf.Round(factor), factor, 0.0001f, sprite.name);
+                Assert.GreaterOrEqual(factor, 1, sprite.name);
+                Assert.LessOrEqual(icon.rectTransform.sizeDelta.x, 16.0001f, sprite.name);
+                Assert.LessOrEqual(icon.rectTransform.sizeDelta.y, 16.0001f, sprite.name);
+            }
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(canvasObject);
+        }
+    }
+
+    [TestCase(480f, 360f)]
+    [TestCase(698f, 340.6f)]
+    public void PrepReflowsWithoutOverlappingBagAndStash(float width, float height)
+    {
+        var scene = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        var source = Array.Find(scene.GetRootGameObjects(), r => r.GetComponentInChildren<UI_PrepView>(true) != null).GetComponentInChildren<UI_PrepView>(true);
+        var clone = UnityEngine.Object.Instantiate(source);
+        var rect = (RectTransform)clone.transform;
+        rect.anchorMin = rect.anchorMax = Vector2.zero;
+        rect.sizeDelta = new Vector2(width, height);
+        try
+        {
+            clone.RotateButton.interactable = false;
+            clone.CancelButton.interactable = false;
+            typeof(UI_PrepView).GetMethod("LateUpdate", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).Invoke(clone, null);
+            Assert.AreEqual(new Color(168f / 255, 172f / 255, 175f / 255), clone.RotateButton.GetComponentInChildren<Text>(true).color);
+            var bag = RectTransformUtility.CalculateRelativeRectTransformBounds(rect, clone.BagViews[0].transform);
+            var stash = RectTransformUtility.CalculateRelativeRectTransformBounds(rect, clone.StashView.transform);
+            Assert.GreaterOrEqual(bag.min.y + 0.001f, stash.max.y);
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(clone.gameObject);
+        }
+    }
+
+    [Test]
+    public void LongItemDescriptionRemainsCompleteAndScrolls()
+    {
+        var scene = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        var source = Array.Find(scene.GetRootGameObjects(), r => r.GetComponentInChildren<UI_PrepView>(true) != null).GetComponentInChildren<UI_PrepView>(true).ItemInfoView;
+        var canvasObject = new GameObject("InfoTest", typeof(Canvas));
+        var clone = UnityEngine.Object.Instantiate(source, canvasObject.transform);
+        clone.gameObject.SetActive(true);
+        var description = string.Join("\n", new string[30]).Replace("\n", "긴 아이템 설명 원문을 그대로 유지한다\n");
+        try
+        {
+            clone.UpdateUI(description, "", false, false);
+            var so = new SerializedObject(clone);
+            var scroll = (ScrollRect)so.FindProperty("descriptionScroll").objectReferenceValue;
+            LayoutRebuilder.ForceRebuildLayoutImmediate(scroll.content);
+            Canvas.ForceUpdateCanvases();
+            Assert.Greater(scroll.content.rect.height, scroll.viewport.rect.height);
+            Assert.AreEqual(description, ((Text)so.FindProperty("descriptionText").objectReferenceValue).text);
+            scroll.OnScroll(new UnityEngine.EventSystems.PointerEventData(null) { scrollDelta = Vector2.down * 4 });
+            Assert.Greater(scroll.content.anchoredPosition.y, 0);
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(canvasObject);
+        }
+    }
+
     public static void AssertScreen(Transform root)
     {
         foreach (var text in root.GetComponentsInChildren<Text>(true))

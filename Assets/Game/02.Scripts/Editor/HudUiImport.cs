@@ -90,5 +90,29 @@ public static class HudUiImport
         SpriteAtlasAsset.Save(atlas, AtlasPath);
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+        // V2 persists packing/texture settings on SpriteAtlasImporter, not on
+        // the transient SpriteAtlasAsset used to write the packable list.
+        var atlasImporter = (SpriteAtlasImporter)AssetImporter.GetAtPath(AtlasPath);
+        atlasImporter.packingSettings = new SpriteAtlasPackingSettings
+        {
+            enableRotation = false,
+            enableTightPacking = false,
+            padding = 4
+        };
+        atlasImporter.textureSettings = new SpriteAtlasTextureSettings
+        {
+            filterMode = FilterMode.Bilinear,
+            generateMipMaps = false,
+            sRGB = true,
+            readable = false
+        };
+        atlasImporter.SetPlatformSettings(new TextureImporterPlatformSettings
+        {
+            name = "DefaultTexturePlatform",
+            maxTextureSize = 2048,
+            format = TextureImporterFormat.RGBA32,
+            textureCompression = TextureImporterCompression.Uncompressed
+        });
+        atlasImporter.SaveAndReimport();
     }
 }

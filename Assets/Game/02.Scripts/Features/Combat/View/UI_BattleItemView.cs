@@ -31,6 +31,14 @@ public class UI_BattleItemView : MonoBehaviour
         iconImage.gameObject.SetActive(hasIcon);
         iconImage.sprite = icon;
         iconImage.preserveAspect = true;
+        if (hasIcon)
+        {
+            var canvasScale = GetComponentInParent<Canvas>().scaleFactor;
+            var slot = ((RectTransform)transform).rect;
+            var desired = Mathf.Min(slot.width / icon.rect.width, (slot.height - 2) / icon.rect.height);
+            var scale = UiDotScale.CanvasPerTexel(desired, canvasScale);
+            iconImage.rectTransform.sizeDelta = icon.rect.size * scale;
+        }
         iconImage.color = isDisabled ? disabledTextColor : Color.white;
         labelText.gameObject.SetActive(false);
         stateText.gameObject.SetActive(false);
