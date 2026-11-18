@@ -117,7 +117,7 @@ def _r(v):
     return round(float(v), 3)
 
 
-def iso_cells(poly):
+def iso_cells(poly, field_half=32.0):
     """Floor polyline -> 4-connected iso cells (cx = x + y, cy = y - x; IsoCellToFloor inverse)."""
     dense, _ = F.resample(poly, 0.1)
     cells = []
@@ -137,11 +137,11 @@ def iso_cells(poly):
                     cells.append((px, py))
         if c not in cells[-3:]:
             cells.append(c)
-    # Keep only cells inside the field (|x| + |y| <= 32 in floor metres).
+    # Tile cells use the existing half-open grid [-half, half), unlike the continuous floor boundary.
     out = []
     for cx, cy in cells:
         fx, fy = (cx - cy) / 2.0, (cx + cy) / 2.0
-        if abs(fx) + abs(fy) <= 32.0 and (not out or out[-1] != (cx, cy)):
+        if -field_half <= cx < field_half and -field_half <= cy < field_half and (not out or out[-1] != (cx, cy)):
             out.append((cx, cy))
     return out
 
@@ -202,7 +202,7 @@ def write_all(L, out_dir, metrics=None, masks=True):
     out.mkdir(parents=True, exist_ok=True)
     data = layout_json(L)
     (out / 'field_layout.json').write_text(json.dumps(data, indent=1, ensure_ascii=False) + '\n')
-    cells = iso_cells(L.path)
+    cells = iso_cells(L.path, L.cfg['bounds']['fieldL1'])
     (out / 'ground_path.json').write_text(json.dumps({'cells': [{'x': c[0], 'y': c[1]} for c in cells]}, indent=1) + '\n')
     info = {}
     if masks:

@@ -63,10 +63,11 @@ Shader "HD2D/HD2D_FieldSurface"
             float path=SAMPLE_TEXTURE2D(_PathMask,sampler_PathMask,(i.w.xz-_FieldRect.xy)/_FieldRect.zw).r;
             half3 soilGround=LinearToSRGB(SAMPLE_TEXTURE2D(_Dirt,sampler_Dirt,i.w.xz/2.666667).rgb);
             half4 zone=SAMPLE_TEXTURE2D(_ZoneMask,sampler_PointClamp,(i.w.xz-_FieldRect.xy)/_FieldRect.zw);
-            // Tone vector has zero luminance; meadow raises luminance by 6.86/255 < .03.
+            // Zone hue shifts preserve luminance, retaining the existing +/-7/255 broad-light budget.
             float tone=(zone.b*255-128)/100;
             grass+=tone*half3(-9,3,-4)/255;
-            grass+=zone.a*half3(5,8,1)/255;
+            half3 meadow=half3(5,8,1);
+            grass+=zone.a*(meadow-dot(meadow,half3(.2126,.7152,.0722)))/255;
             float dotNoise=frac(sin(dot(floor(i.w.xz*float2(24,12)),float2(127.1,311.7)))*43758.5453);
             grass=lerp(grass,lerp(grass,soilGround,.45),zone.r*step(dotNoise,.62));
             grass=lerp(grass,soilGround,zone.g*step(dotNoise,.7));

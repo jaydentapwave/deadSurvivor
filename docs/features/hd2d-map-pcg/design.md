@@ -1,6 +1,6 @@
 # HD-2D 전투장 지도 절차 생성(PCG) — 설계와 시제품
 
-- 상태: **seed 8 본 게임 연결 구현 중(5b단계, 11-18)**. P0~P3 연결·국소 확인 완료, P4/P5 및 Claude 마감 리뷰 대기. 아래 시제품 측정은 과거 생성 근거이며 본 게임 최종 성공을 뜻하지 않는다.
+- 상태: **seed 8 본 게임 연결 구현 중(5b단계, 11-18)**. P0~P4 연결·국소 확인 완료, P5 캡처·관문 및 Claude 마감 리뷰 진행 대기. 아래 시제품 측정은 과거 생성 근거이며 본 게임 최종 성공을 뜻하지 않는다.
 - 쓴 날·방법: 2026-11-18, Claude 하위 에이전트(디렉터 지시). 파이썬(`/usr/bin/python3`, numpy·PIL)만 썼다. 유료 생성·네트워크 없음.
 - 계기: 사용자(11-18) 본 게임 캡처 `output/hd2d-background/plates/Main1-2520x1080.png`를 보고 "맵이 너무 구린것 같아, 이것도 우선은 PCG를 만들어서 한번 진행해보면 좋을것 같아, 이것도 스킬이나 툴킷처럼 만들어서 studio-kit에 사용하면 좋을것 같은데".
 - 읽은 것: `CLAUDE.md`, `AGENTS.md`, `.ai/rules/art-core-rules.md`, [5단계 설계](../hd2d-background/prep.md)(1.1 보이는 범위, 4절 R1~R8, 5절 소품 표, 12절 D-1~D-9), [아트 기준서](../../art/아트-기준서.md) r6.1 K18~K28·3.1, [배경 관찰](../../art/reference/hd2d-bg-octopath-20261118/배경-관찰.md), 코드 `FieldLayoutData.cs`·`FieldLayoutMath.cs`·`FieldLayoutBaker.cs`·`FieldView.cs`·`BankMeshMath.cs`·`HD2D_FieldSurface.shader`·`MainSceneHD2DBackgroundMigration.cs`(마스크 굽기), 시험 `FieldLayoutTests.cs`, 데이터 `field_layout.json`·`ground_path.json`·`decor.json`, `Tools/hd2d_field_textures.py`, 최근 커밋 B4~B8.
@@ -163,7 +163,7 @@
 | `Features/Field/View/FieldView.BuildLandscape` | 연못: `FieldPond.asset` 메시 대신 외곽선 경계 상자 크기 물 평면(높이 −0.015) — 땅이 `_WaterMask`로 구멍을 내므로 물은 구멍으로만 보인다. `stream-upper`도 `RibbonMeshMath`로. 턱은 `runs` 오버로드 | 땅 마름모 메시, 세운 판·3D 소품 만들기(B3·B4), 판정 진입점 |
 | `Editor/MainSceneHD2DBackgroundMigration.cs`(마스크 굽기) | 물·턱 마스크를 메시 래스터 대신 PCG 마스크 복사(또는 `runs`·외곽선에서 래스터) | 재질 연결·가져오기 설정 |
 | `Tools/hd2d_field_textures.py` | 길 가림을 `ground_path.json` 칸 합집합 대신 PCG `FieldPathMask.png`로. **풀 질감의 고른 자갈 덩어리 300개(폴카 점) 빼기** — 자갈·닳은 흙은 구역 마스크가 맡음 | 풀 조각 이어 붙이기·2×2 묶기·밝기 ±7(K20), 물·흙·돌 질감 |
-| `Shaders/HD2D/HD2D_FieldSurface.shader` | 바닥 범주에 `_ZoneMask` 한 장: R 닳은 흙(흙 점 섞기), G 자갈(`_Dirt`), B 색조(밝기 보존 색상 이동 ±), A 꽃밭(살짝 밝은 연두) | 나머지 범주(물·턱·나무·UV), `_FlatDepth`·`_Dither` |
+| `Shaders/HD2D/HD2D_FieldSurface.shader` | 바닥 범주에 `_ZoneMask` 한 장: R 닳은 흙(흙 점 섞기), G 자갈(`_Dirt`), B 색조(밝기 보존 색상 이동 ±), A 꽃밭(명도 보존 연두: K20 밝기 예산 유지) | 나머지 범주(물·턱·나무·UV), `_FlatDepth`·`_Dither` |
 | `Editor/FieldLayoutBaker.cs` | `Generate()`의 F 줄·무작위 점·고정 자리(다리 (16.1,12.1), 야영지 (−16,6) 등)는 쓰지 않음 → 메뉴는 PCG 출력 복사 + 연못 메시 복사 생략. 되돌리기용으로 지금 함수는 남김 | 메뉴 이름 |
 | `Tests/EditMode/FieldLayoutTests.cs` | `FCompositionAndLandmarksRemainVisible`의 `banks.Length==2`·`water.Length==3`·돌담 10묶음 → PCG 출력 기준(턱 1, 물 2~4)으로. 길 거리 시험을 칸 L1 ≥ 3에서 **길 중심선 유클리드 − 반폭 ≥ 1.85(키 큰 것)**로. 밀도 시험 상한(나무 6/창) → 결정 D-PCG-2 | 꼭짓점·시작 비움·노란 꽃 시험 |
 | `Tests/EditMode/FieldViewBuildTests.cs` | `pondMesh` 대입·`PartCount("pond")==1`이 메시 없는 연못에 맞게 | |
@@ -200,3 +200,5 @@
 D-PCG-1=seed8(옛 F·옛 길 폐기), D-PCG-2=설정의 밀도 상한 채택, D-PCG-3=0.36m 턱까지만, D-PCG-4=가중치 유지. P0 복사·반복 바이트 / P1 구역 / P2 물·runs / P3 배치·가려짐 / P4 시험 / P5 전체 판정. C10은 실제 맵 전체·시작/갈래길/물가/다리/야영지/가장자리6화면·이동8장. F1~F4·F10 각각 판독한다. G19는7단계, G20과 마감 리뷰는 디렉터·Claude 담당이다.
 
 B9 최종 코드 대조: 사각형은 먼저 합집합을 만든 뒤 외곽만 깎는다. PCG runs는 같은 메시 조립 경로에 직접 들어가며 추가 무작위 깎기가 없다. 윗면 공유 재질·FlatDepth를 유지했다. 물 리본은 마스크 윤곽의 흔들림을 덮도록0.25m 넓혀 같은 마스크로 자른다. 연못 외곽선 경계 상자에도0.25m 여유를 둔다. 신규 run 직렬화 타입은 Game→HD2D.View 참조 방향을 유지하기 위해 BankMeshMath 파일의 HD2D.View 어셈블리에 둔다.
+
+5b 마감 검사 중 보완(구현 검증, 리뷰 판정 아님): `ground_path.json`은 기존 게임의 반열린 셀 범위 `[-32,32)`를 따라야 했다. 생성기의 내보내기 경계를 고치고 양의 끝 경계 반례를 추가해 자체 시험28/28로 확인했다. seed8의 배치JSON·4마스크·metrics는 바이트 동일하고 숨겨진 길 끝 셀2개만 제외됐다. 전체 EditMode는 이 결함 수정 뒤512/512, 게임 경로8/8·맵 경로32/32로 확인했다. 꽃밭의 가산 밝기와 기존 풀 밝기 흔들림 합이+0.0505가 되어 K20을 넘는 것도 확인했다. 꽃밭 색조를 명도 보존 벡터로 바꿔 작성된 큰 밝기 변화 계산을−0.02755~+0.02747로 유지한다(흙·자갈 재질 변화와 텍셀 팔레트 대비는 이 계산에서 분리). 근거는 현재 실행 `.director/evidence/20261118-hd2d-map-pcg/1/2/`의 edge-rebake·k20-before/after·명령JSON. 전체 판독·리뷰를 통과했다는 의미는 아니다.

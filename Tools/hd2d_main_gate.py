@@ -31,12 +31,14 @@ def plan():
         if size:m['files'][key]['size']=size
         return key
     add('main',CAP/'Main1-main.png',[1920,1080])
+    add('pond-view',CAP/'Main1-pond-view.png',[1920,1080])
     for i in range(8):add('move'+str(i),CAP/f'Main1-move-{i}.png',[1920,1080])
     for key,name,size in [('wide','Main1-2520x1080.png',[2520,1080]),('tall','Main1-2048x1536.png',[2048,1536]),('mask','Main1-hero-mask.png',[1920,1080]),('close','closeup-Main1.png',[4896,2832]),('repeat','Main1-repeat.png',[1920,1080]),('grass-cut','Main1-ground-crop.png',[1920,1080]),('lighting-image','Main1-lighting.png',[1920,1080]),('close-mask','Main1-close-hero-mask.png',[4896,2832]),('corner','Main1-pond-corner.png',[2400,960])]:add(key,CAP/name,size)
     for key,name in [('settings','settings.json'),('after-state','runtime-state-after-capture.json'),('camera','camera.json'),('collection','collection.json'),('context','capture-context.json'),('motion','motion.json'),('texels','texels.json'),('lighting','lighting.json'),('shadow','shadow.json'),('capture-record','capture-record.json'),('review','review.json')]:add(key,OUT/name)
     add('metrics',CAP/'plates-main1.json')
     add('bank-color',CAP/'Main1-bank-color.png',[1920,1080])
     add('bank-mask',CAP/'Main1-bank-mask.png',[1920,1080])
+    add('pond-crop-before',OUT/'pond-crop-before.json')
     add('C10',OUT/'C10.json')
     add('C15',OUT/'C15.json')
     dependencies=json.loads((OUT/'dependencies.json').read_text())['result']
@@ -59,6 +61,10 @@ def plan():
     m['plates']=[{'id':'Main1','role':'candidate','main':'main','motion':['move'+str(i) for i in range(8)],'aspects':['wide','tall'],'hero_mask':'mask','closeup':'close','repeat_image':'repeat','capture_settings':'settings','camera':'camera','expected_camera':{'mode':'ortho','angle':30,'height_px':96,'ortho_size':5.625},'motion_measurement':'motion','texel_measurement':'texels','lighting_measurement':'lighting','shadow_measurement':'shadow','performance':['after-state'],'reviews':'review','regions':{'source':'pre-capture: source F-int camera and object anchors projected analytically; fixed paint interiors and empty floor','hero':[928,504,990,600],'ground':[[640,805,1280,901]],'props':[{'name':'tree','box':[500,650,540,690],'ground_box':[620,800,700,850]},{'name':'stone','box':[364,660,384,676],'ground_box':[400,680,430,710]}],'monsters':[{'name':'purple rock monster','box':[1155,375,1195,405],'ground_box':[1220,410,1250,440]}]},'lighting_region':[0,0,1920,1080],'closeup_crop':{'source':'main','box':[420,96,1644,804],'scale':4,'filter':'Point'},'closeup_regions':{'ground':[1360,2656,1760,2816],'prop':[3712,1024,4072,1328]}}]
     m['plates'][0]['id']='Main1'
     m['plates'][0]['regions']=gate.read(OUT/'regions-before.json')
+    # Project the selected actual prop into the unchanged exact main crop before capture.
+    box=m['plates'][0]['regions']['props'][1]['box']
+    assert 420 <= box[0] < box[2] <= 1644 and 96 <= box[1] < box[3] <= 804, 'Selected prop outside common closeup'
+    m['plates'][0]['closeup_regions']['prop']=[(box[0]-420)*4,(box[1]-96)*4,(box[2]-420)*4,(box[3]-96)*4]
     h=gate.plan_hash(m)
     dump(OUT/'declaration.json',{'run_id':m['run_id'],'phase':'pre_capture','manifest_plan_sha256':h})
     m['declaration']={'path':'declaration.json','sha256':gate.sha(OUT/'declaration.json')}
@@ -129,6 +135,12 @@ def finish():
     expected=np.repeat(np.repeat(main[96:804,420:1644],4,0),4,1)
     assert np.array_equal(close,expected),'Closeup must be an exact point-enlarged main crop'
     metrics['closeup_crop']={'sourceSha256':gate.sha(paths['main']),'outputSha256':gate.sha(paths['close']),'box':[420,96,1644,804],'scale':4,'exactPixelEquality':True}
+    pond_box=gate.read(paths['pond-crop-before'])['box']
+    pond_source=gate.image(paths['pond-view']);pond_corner=gate.image(paths['corner'])
+    expected_pond=np.repeat(np.repeat(pond_source[pond_box[1]:pond_box[3],pond_box[0]:pond_box[2]],4,0),4,1)
+    assert np.array_equal(pond_corner,expected_pond),'Pond closeup must be an exact point-enlarged actual pond view crop'
+    metrics['pond_closeup_crop']={'source':'pond-view','box':pond_box,'scale':4,'exactPixelEquality':True}
+
     dump(paths['metrics'],metrics)
     before=gate.read(OUT/'source-before.json');after={k:gate.sha(paths[k]) for k in m['sources']}
     assert before==after,'Source changed during collection'
