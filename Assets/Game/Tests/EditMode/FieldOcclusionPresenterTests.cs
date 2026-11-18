@@ -25,6 +25,7 @@ public class FieldOcclusionPresenterTests
             data.ApplyModifiedPropertiesWithoutUndo();
             var prop = GameObject.CreatePrimitive(PrimitiveType.Cube);
             prop.transform.SetParent(root.transform);
+            prop.transform.localScale = new Vector3(5, 5, 1);
             var renderer = prop.GetComponent<Renderer>();
             renderer.sharedMaterial = normal;
             field.RegisterOccluder(prop.transform, new[] { renderer });
@@ -42,6 +43,11 @@ public class FieldOcclusionPresenterTests
             presenter.Tick();
             Assert.AreEqual(1, presenter.FadedCount);
             Assert.AreSame(faded, renderer.sharedMaterial);
+            var properties = new MaterialPropertyBlock();
+            renderer.GetPropertyBlock(properties);
+            var window = properties.GetVector("_OcclusionRect");
+            Assert.Greater(window.z, window.x);
+            Assert.Less(window.z - window.x, .2f, "Actor window must not dither the whole wide prop");
             body.enabled = false;
             presenter.Tick();
             Assert.AreSame(normal, renderer.sharedMaterial);

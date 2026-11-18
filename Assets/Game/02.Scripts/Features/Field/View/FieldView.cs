@@ -385,6 +385,7 @@ public sealed class FieldOccluder
     private readonly Renderer[] _renderers;
     private readonly Material[][] _normal;
     private readonly Material[][] _faded;
+    private readonly MaterialPropertyBlock _properties = new();
     public bool IsFaded { get; private set; }
     public Bounds Bounds
     {
@@ -406,6 +407,15 @@ public sealed class FieldOccluder
             _normal[i] = renderers[i].sharedMaterials;
             _faded[i] = new Material[_normal[i].Length];
             for (var j = 0; j < _normal[i].Length; j++) _faded[i][j] = fadedMaterial(_normal[i][j]);
+        }
+    }
+    public void SetOcclusionRect(Rect viewportRect)
+    {
+        foreach (var renderer in _renderers)
+        {
+            renderer.GetPropertyBlock(_properties);
+            _properties.SetVector("_OcclusionRect", new Vector4(viewportRect.xMin, viewportRect.yMin, viewportRect.xMax, viewportRect.yMax));
+            renderer.SetPropertyBlock(_properties);
         }
     }
     public void SetFaded(bool faded)

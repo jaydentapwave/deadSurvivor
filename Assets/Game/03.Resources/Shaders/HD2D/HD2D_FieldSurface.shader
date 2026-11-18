@@ -17,6 +17,7 @@ Shader "HD2D/HD2D_FieldSurface"
         _FlatDepth("Depth at floor",Float)=0
         _Dither("Dither amount",Range(0,1))=0
         _Diagnostic("Lighting factor only",Float)=0
+        _OcclusionRect("Actor viewport cutout",Vector)=(0,0,0,0)
     }
     SubShader
     {
@@ -36,13 +37,13 @@ Shader "HD2D/HD2D_FieldSurface"
         CBUFFER_START(UnityPerMaterial)
         float4 _FieldRect; float _FlatDepth; float _Dither;
         float _Category;
-        float _Diagnostic;
+        float _Diagnostic; float4 _OcclusionRect;
         CBUFFER_END
         struct A { float3 p:POSITION; float3 n:NORMAL; float2 uv:TEXCOORD0; };
-        struct V { float4 p:SV_POSITION; float3 w:TEXCOORD0; float3 n:TEXCOORD1; float2 uv:TEXCOORD2; float2 floorDepth:TEXCOORD3; };
+        struct V { float4 p:SV_POSITION; float3 w:TEXCOORD0; float3 n:TEXCOORD1; float2 uv:TEXCOORD2; float2 floorDepth:TEXCOORD3; float4 screen:TEXCOORD4; };
         V Vert(A i)
         {
-            V o; o.w=TransformObjectToWorld(i.p); o.n=TransformObjectToWorldNormal(i.n); o.p=TransformWorldToHClip(o.w); o.uv=i.uv; float4 flat=TransformWorldToHClip(float3(o.w.x,0,o.w.z)); o.floorDepth=flat.zw; return o;
+            V o; o.w=TransformObjectToWorld(i.p); o.n=TransformObjectToWorldNormal(i.n); o.p=TransformWorldToHClip(o.w); o.uv=i.uv; o.screen=ComputeScreenPos(o.p); float4 flat=TransformWorldToHClip(float3(o.w.x,0,o.w.z)); o.floorDepth=flat.zw; return o;
         }
         void ClipOpening(V i)
         {
@@ -52,7 +53,17 @@ Shader "HD2D/HD2D_FieldSurface"
         }
         void ClipSurface(V i)
         {
-            clip(frac(dot(floor(i.p.xy),float2(.754877666,.569840296)))-_Dither);
+            if (_Dither > .001)
+            {
+                float2 uv=i.screen.xy/i.screen.w;
+                float2 nearEdge=min(uv-_OcclusionRect.xy,_OcclusionRect.zw-uv)*_ScaledScreenParams.xy;
+                float border=min(nearEdge.x,nearEdge.y);
+                if (border>0)
+                {
+                    // Solid actor window; only its narrow rim is dithered.
+                    clip(border>2 ? -1 : frac(dot(floor(i.p.xy),float2(.754877666,.569840296)))-_Dither);
+                }
+            }
             ClipOpening(i);
         }
         struct F { half4 color:SV_Target; float depth:SV_Depth; };
@@ -109,7 +120,7 @@ Shader "HD2D/HD2D_FieldSurface"
                     c=soil*bandSide;
                 }
             }
-            else if (_Category>4.5) { c=LinearToSRGB(SAMPLE_TEXTURE2D(_MainTex,sampler_PointClamp,i.uv).rgb)*band; }
+            else if (_Category>4.5) { c=LinearToSRGB(SAMPLE_TEXTURE2D(_MainTex,sampler_PointClamp,i.uv).rgb); }
             else if (_Category>3.5)
             {
                 float rank=(d<.25 ? 0 : d<.68 ? 1 : 2);
@@ -118,7 +129,10 @@ Shader "HD2D/HD2D_FieldSurface"
                 c=rank<.5 ? half3(66,52,32)/255 : rank<1.5 ? half3(111,94,62)/255 : half3(168,165,133)/255;
             }
             float shadow=(_Category>.5 && _Category<1.5) ? 1 : _Category>2.5 && _Category<3.5 && i.n.y<.7 ? 1 : step(.5,sun.shadowAttenuation);
-            c*=lerp(half3(.44,.43,.39),half3(1,1,1),shadow);
+            half3 shadowFactor=lerp(half3(.44,.43,.39),half3(1,1,1),shadow);
+            // Toon face shade and hard shadow describe the same occluded light.
+            // Applying both multiplicatively crushed tent cloth to grey.
+            c*=_Category>4.5 ? min(band.xxx,shadowFactor) : shadowFactor;
             output.color=half4(SRGBToLinear(c),1); return output;
         }
         float3 _LightDirection;

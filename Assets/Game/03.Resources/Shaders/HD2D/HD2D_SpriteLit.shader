@@ -11,6 +11,7 @@ Shader "HD2D/HD2D_SpriteLit"
         _Emission ("Emission", Range(0,4)) = 0
         _BackgroundCard ("Native painted background card", Float) = 0
         _Dither ("Dither amount", Range(0,1)) = 0
+        _OcclusionRect ("Actor viewport cutout", Vector) = (0,0,0,0)
         _HueShift ("Palette hue shift", Range(0,1)) = 0
     }
     SubShader
@@ -26,6 +27,7 @@ Shader "HD2D/HD2D_SpriteLit"
         half4 _BaseColor;
         float _Emission;
         float _Dither;
+        float4 _OcclusionRect;
         float _BackgroundCard;
         float _HueShift;
         float _SpriteRenderer;
@@ -44,6 +46,7 @@ Shader "HD2D/HD2D_SpriteLit"
             float2 uv : TEXCOORD0;
             float3 positionWS : TEXCOORD1;
             half4 color : COLOR;
+            float4 screen : TEXCOORD2;
         };
         // Same flip and alpha in all three passes, including the shadow silhouette.
         Varyings SpriteVertex(Attributes v)
@@ -53,6 +56,7 @@ Shader "HD2D/HD2D_SpriteLit"
             float3 p = float3(v.positionOS.xy * lerp(float2(1,1), unity_SpriteProps.xy, _SpriteRenderer), v.positionOS.z);
             o.positionWS = TransformObjectToWorld(p);
             o.positionCS = TransformWorldToHClip(o.positionWS);
+            o.screen = ComputeScreenPos(o.positionCS);
             o.uv = v.uv;
             o.color = v.color * lerp(half4(1,1,1,1), unity_SpriteColor, _SpriteRenderer) * _BaseColor;
             return o;
@@ -61,7 +65,13 @@ Shader "HD2D/HD2D_SpriteLit"
         {
             half4 c = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(0.00001, 0.00001)) * i.color;
             clip(c.a - 0.5);
-            clip(frac(dot(floor(i.positionCS.xy),float2(.754877666,.569840296)))-_Dither);
+            if (_Dither > .001)
+            {
+                float2 uv=i.screen.xy/i.screen.w;
+                float2 nearEdge=min(uv-_OcclusionRect.xy,_OcclusionRect.zw-uv)*_ScaledScreenParams.xy;
+                float border=min(nearEdge.x,nearEdge.y);
+                if (border>0) clip(border>2 ? -1 : frac(dot(floor(i.positionCS.xy),float2(.754877666,.569840296)))-_Dither);
+            }
             return c;
         }
         half4 LitFragment(Varyings i) : SV_Target
