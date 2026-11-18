@@ -129,7 +129,7 @@ public class FieldView : MonoBehaviour
         {
             card.AddComponent<UprightFootShadow>().Initialize(renderer, footShadowMaterial, placement.height, lightDirection);
         }
-        if (placement.sprite.StartsWith("tree_") || placement.sprite == "boulder_01")
+        if (placement.sprite.StartsWith("tree_") || placement.sprite.StartsWith("bush_") || placement.sprite == "boulder_01")
         {
             RegisterOccluder(card.transform, new Renderer[] { renderer });
         }

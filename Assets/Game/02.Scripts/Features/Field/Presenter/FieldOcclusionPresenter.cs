@@ -8,13 +8,16 @@ public sealed class FieldOcclusionPresenter : ITickable
     private readonly FieldView _field;
     private readonly Camera _camera;
     private readonly IReadOnlyList<MemberView> _members;
+    private readonly MonsterViewRegistry _monsters;
     public int FadedCount { get; private set; }
 
-    public FieldOcclusionPresenter(FieldView field, Camera camera, IReadOnlyList<MemberView> members)
+    public FieldOcclusionPresenter(FieldView field, Camera camera, IReadOnlyList<MemberView> members,
+        MonsterViewRegistry monsters)
     {
         _field = field;
         _camera = camera;
         _members = members;
+        _monsters = monsters;
     }
 
     public void Tick()
@@ -38,6 +41,23 @@ public sealed class FieldOcclusionPresenter : ITickable
                 {
                     isCovered = true;
                     break;
+                }
+            }
+            if (!isCovered)
+            {
+                foreach (var monster in _monsters.Views)
+                {
+                    var body = monster.BodyRenderer;
+                    if (!body.enabled || !body.gameObject.activeInHierarchy)
+                    {
+                        continue;
+                    }
+                    if (OcclusionMath.Covers(rect, depth, OcclusionMath.ProjectBounds(_camera, body.bounds),
+                        _camera.WorldToViewportPoint(monster.transform.position).z))
+                    {
+                        isCovered = true;
+                        break;
+                    }
                 }
             }
             prop.SetFaded(isCovered);

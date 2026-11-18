@@ -5,6 +5,72 @@ using UnityEngine;
 public class FieldOcclusionPresenterTests
 {
     [Test]
+    public void ActiveMonsterBehindSceneryFadesAndPoolReturnRestoresIt()
+    {
+        var root = new GameObject("Monster occlusion test");
+        var normal = new Material(Shader.Find("HD2D/HD2D_SpriteLit"));
+        var faded = new Material(normal);
+        var texture = new Texture2D(2, 2);
+        var sprite = Sprite.Create(texture, new Rect(0, 0, 2, 2), Vector2.one * .5f, 2);
+        try
+        {
+            var camera = new GameObject("Camera").AddComponent<Camera>();
+            camera.transform.SetParent(root.transform);
+            camera.transform.position = new Vector3(0, 0, -10);
+            camera.orthographic = true;
+            var field = root.AddComponent<FieldView>();
+            var data = new SerializedObject(field);
+            data.FindProperty("cardMaterial").objectReferenceValue = normal;
+            data.FindProperty("ditherSpriteMaterial").objectReferenceValue = faded;
+            data.ApplyModifiedPropertiesWithoutUndo();
+            var prop = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            prop.transform.SetParent(root.transform);
+            var renderer = prop.GetComponent<Renderer>();
+            renderer.sharedMaterial = normal;
+            field.RegisterOccluder(prop.transform, new[] { renderer });
+            var monster = new GameObject("Slime").AddComponent<MonsterView>();
+            monster.transform.SetParent(root.transform);
+            monster.transform.position = new Vector3(0, 0, 2);
+            var body = monster.gameObject.AddComponent<SpriteRenderer>();
+            body.sprite = sprite;
+            data = new SerializedObject(monster);
+            data.FindProperty("bodyRenderer").objectReferenceValue = body;
+            data.ApplyModifiedPropertiesWithoutUndo();
+            var registry = new MonsterViewRegistry();
+            registry.Register(1, monster);
+            var presenter = new FieldOcclusionPresenter(field, camera, new MemberView[0], registry);
+            presenter.Tick();
+            Assert.AreEqual(1, presenter.FadedCount);
+            Assert.AreSame(faded, renderer.sharedMaterial);
+            body.enabled = false;
+            presenter.Tick();
+            Assert.AreSame(normal, renderer.sharedMaterial);
+            body.enabled = true;
+            monster.transform.position = new Vector3(0, 0, -2);
+            presenter.Tick();
+            Assert.AreSame(normal, renderer.sharedMaterial, "Foreground monster must not fade background scenery");
+            monster.transform.position = new Vector3(0, 0, 2);
+            monster.gameObject.SetActive(false);
+            presenter.Tick();
+            Assert.AreSame(normal, renderer.sharedMaterial);
+            monster.gameObject.SetActive(true);
+            presenter.Tick();
+            Assert.AreSame(faded, renderer.sharedMaterial);
+            registry.Unregister(1);
+            presenter.Tick();
+            Assert.AreSame(normal, renderer.sharedMaterial);
+        }
+        finally
+        {
+            Object.DestroyImmediate(root);
+            Object.DestroyImmediate(normal);
+            Object.DestroyImmediate(faded);
+            Object.DestroyImmediate(sprite);
+            Object.DestroyImmediate(texture);
+        }
+    }
+
+    [Test]
     public void AnyOfFourMembersFadesAndDepartureRestoresTheSameSharedMaterial()
     {
         var root = new GameObject("Occlusion test");
@@ -40,7 +106,7 @@ public class FieldOcclusionPresenterTests
                 data.FindProperty("bodyRenderer").objectReferenceValue = body;
                 data.ApplyModifiedPropertiesWithoutUndo();
             }
-            var presenter = new FieldOcclusionPresenter(field,camera,members);
+            var presenter = new FieldOcclusionPresenter(field,camera,members,new MonsterViewRegistry());
             presenter.Tick();
             Assert.AreEqual(0,presenter.FadedCount);
             members[3].transform.position = new Vector3(0,0,2);

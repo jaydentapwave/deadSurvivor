@@ -59,6 +59,7 @@ public class MonsterView : MonoBehaviour
         get; private set;
     }
     public string BodySpriteName => bodyRenderer.sprite.name;
+    public SpriteRenderer BodyRenderer => bodyRenderer;
     public bool IsFlipped => bodyRenderer.flipX;
     public Vector3 BodyOffset => bodyRenderer.transform.localPosition;
 
