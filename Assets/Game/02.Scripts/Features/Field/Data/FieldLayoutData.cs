@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-// Baked view-only metres on XZ. Gameplay path/tile data remains unchanged.
+// Baked view-only metres on XZ; PCG also exports matching gameplay path cells.
 [Serializable]
 public class FieldLayoutData
 {
@@ -20,6 +20,8 @@ public class FieldLayoutData
 [Serializable]
 public class FieldPathLayout
 {
+    public Vector2[] points;
+    public Vector2[] branch;
     public float halfWidth = .67f;
     public float widthVariation = .10f;
     public float edgeVariation = .10f;
@@ -33,6 +35,15 @@ public class FieldBankLayout
     public float height = .36f;
     public float cell = .125f;
     public Rect[] rectangles;
+    public FieldBankRun[] runs;
+}
+
+[Serializable]
+public class FieldBankRun
+{
+    public int y;
+    public int xMin;
+    public int xMax;
 }
 
 [Serializable]

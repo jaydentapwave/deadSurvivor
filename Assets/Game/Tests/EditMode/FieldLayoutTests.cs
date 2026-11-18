@@ -8,6 +8,20 @@ public class FieldLayoutTests
     private static FieldLayoutData Load() => JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_layout.json"));
 
     [Test]
+    public void BakeCopiesSelectedSeedBytesAndRepeatsExactly()
+    {
+        System.Type.GetType("FieldLayoutBaker, Game.Editor").GetMethod("Bake").Invoke(null, null);
+        foreach (var file in new[] { "field_layout.json", "ground_path.json", "FieldPathMask.png", "FieldWaterMask.png", "FieldBankMask.png", "FieldZoneMask.png" })
+        {
+            var destination = "Assets/Game/03.Resources/" + (file.EndsWith("json") ? "Resources/Data/Field/" : "Textures/HD2D/") + file;
+            var first = File.ReadAllBytes(destination);
+            CollectionAssert.AreEqual(File.ReadAllBytes("output/map-pcg/seed-8/export/" + file), first, file);
+            System.Type.GetType("FieldLayoutBaker, Game.Editor").GetMethod("Bake").Invoke(null, null);
+            CollectionAssert.AreEqual(first, File.ReadAllBytes(destination), file);
+        }
+    }
+
+    [Test]
     public void LayoutKeepsPathStartYellowAndCornersClear()
     {
         var data = Load();

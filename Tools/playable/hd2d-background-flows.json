@@ -35,7 +35,7 @@
       "name": "본 게임 시작 배경",
       "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart();",
       "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
-      "expect": "PlayableProbe.FieldGroundVisibleCount == 1 && PlayableProbe.FieldPartCount(\"bank\") == 2 && PlayableProbe.FieldPartCount(\"pond\") == 1 && PlayableProbe.FieldPartCount(\"stream\") == 1",
+      "expect": "PlayableProbe.FieldGroundVisibleCount == 1 && PlayableProbe.FieldPartCount(\"bank\") == 1 && PlayableProbe.FieldPartCount(\"pond\") == 1 && PlayableProbe.FieldPartCount(\"stream\") == 1",
       "capture": true
     },
     {
