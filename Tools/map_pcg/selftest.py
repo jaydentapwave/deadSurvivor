@@ -184,6 +184,44 @@ def main():
         n_cells = sum(r['xMax'] - r['xMin'] for r in runs)
         case('export bank runs == bank cells', n_cells == int(L.bank.sum()), '%d cells' % n_cells)
 
+    # Terrain: exported millimetres are authoritative; no cached summaries.
+    from map_pcg import terrain as T
+    active = G.generate(8, CFG)
+    off_cfg = copy.deepcopy(CFG)
+    off_cfg['terrain']['enabled'] = False
+    off = G.generate(8, off_cfg)
+    repeat = G.generate(8, CFG)
+    case('terrain deterministic millimetres', active.terrain == repeat.terrain)
+    case('terrain seed 8 constraints', not T.check(active))
+    with tempfile.TemporaryDirectory() as tmp:
+        a,b=Path(tmp)/'on',Path(tmp)/'off'
+        E.write_all(active,a,masks=True)
+        E.write_all(off,b,masks=True)
+        names=['field_layout.json','ground_path.json','FieldPathMask.png','FieldWaterMask.png','FieldBankMask.png','FieldZoneMask.png']
+        case('terrain preceding json and four masks unchanged', all((a/n).read_bytes()==(b/n).read_bytes() for n in names))
+        exported=json.loads((a/'field_height.json').read_text())
+        case('terrain export roundtrip and recomputed metrics', exported==active.terrain and T.metrics(exported)==T.metrics(active.terrain))
+    def altered(h):
+        data=copy.deepcopy(active.terrain)
+        data['heightsMm']=np.rint(h*1000).astype(int).ravel().tolist()
+        return data
+    h=np.zeros((73,73)); h[55,36]=1
+    case('terrain counterexample excessive slope', any('maxSlope' in x for x in T.check(active,altered(h))))
+    x,z=T.coordinates(active.terrain)
+    h=.02*x
+    case('terrain counterexample excessive relief', any('relief' in v for v in T.check(active,altered(h))))
+    h=np.zeros_like(x);h[36,36]=.01
+    case('terrain counterexample start protection', any('not flat' in v for v in T.check(active,altered(h))))
+    h=np.zeros_like(x);h[T.protection(active,x,z)]=.002
+    case('terrain counterexample water bridge camp protection', any('not flat' in v for v in T.check(active,altered(h))))
+    h=.05*np.abs(x)
+    case('terrain counterexample opposite triangles sharing vertex', abs(T.vertex_curvature(h)-.1)<1e-9 and any('maxVertexCurvature' in v for v in T.check(active,altered(h))))
+    h=.09*x
+    case('terrain counterexample path across slope', any('path' in v for v in T.check(active,altered(h))))
+    h=np.zeros_like(x);h[55,36]=.0776
+    rounded=altered(h)
+    case('terrain counterexample rounding rechecked', any('maxVertexCurvature' in v for v in T.check(active,rounded)))
+
     bad = [r for r in results if not r[1]]
     print('\n%d/%d PASS' % (len(results) - len(bad), len(results)))
     return 1 if bad else 0
