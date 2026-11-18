@@ -12,7 +12,7 @@ public class CombatEffectTests
     [TestCase("wand", "", "lightning")]
     [TestCase("relic", "", "heal_single")]
     [TestCase("censer", "", "heal_area")]
-    [TestCase("orb", "", "explosion")]
+    [TestCase("orb", "", "pulse")]
     public void MappingMatchesApprovedItemKinds(string itemId, string projectile, string burst)
     {
         var data = new ResourceService().LoadJson<CombatEffectData>("Data/Combat/combat_effects");
@@ -37,12 +37,16 @@ public class CombatEffectTests
             var effect = data.Get(item.Id);
             foreach (var key in new[] { effect.Projectile, effect.Burst }.Where(key => !string.IsNullOrEmpty(key)))
             {
-                var path = $"Assets/Game/03.Resources/Art/AIGenerated/Effects/{key}.png";
-                Assert.IsNotNull(UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(path), path);
-                var importer = (UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(path);
-                Assert.AreEqual(48f, importer.spritePixelsPerUnit);
-                Assert.AreEqual(FilterMode.Point, importer.filterMode);
-                Assert.AreEqual(UnityEditor.TextureImporterCompression.Uncompressed, importer.textureCompression);
+                var clip = data.GetClip(key);
+                for (var frame = 0; frame < clip.Frames; frame++)
+                {
+                    var path = $"Assets/Game/03.Resources/Art/HD2D/Effects/{clip.FrameKey(frame)}.png";
+                    Assert.IsNotNull(UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(path), path);
+                    var importer = (UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(path);
+                    Assert.AreEqual(48f, importer.spritePixelsPerUnit);
+                    Assert.AreEqual(FilterMode.Point, importer.filterMode);
+                    Assert.AreEqual(UnityEditor.TextureImporterCompression.Uncompressed, importer.textureCompression);
+                }
             }
         }
     }

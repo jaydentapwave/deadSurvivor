@@ -43,7 +43,129 @@
     {
       "itemId": "orb",
       "projectile": "",
-      "burst": "explosion"
+      "burst": "pulse"
+    }
+  ],
+  "clips": [
+    {
+      "key": "slash_sword",
+      "sprite": "slash_sword",
+      "frames": 5,
+      "fps": 20,
+      "loop": false,
+      "directional": false
+    },
+    {
+      "key": "slash_axe",
+      "sprite": "slash_axe",
+      "frames": 5,
+      "fps": 20,
+      "loop": false,
+      "directional": false
+    },
+    {
+      "key": "hit_star",
+      "sprite": "hit_star",
+      "frames": 3,
+      "fps": 20,
+      "loop": false,
+      "directional": false
+    },
+    {
+      "key": "explosion",
+      "sprite": "explosion",
+      "frames": 6,
+      "fps": 24,
+      "loop": false,
+      "directional": false
+    },
+    {
+      "key": "heal_single",
+      "sprite": "heal_single",
+      "frames": 5,
+      "fps": 20,
+      "loop": false,
+      "directional": false
+    },
+    {
+      "key": "heal_area",
+      "sprite": "ground_heal",
+      "frames": 5,
+      "fps": 20,
+      "loop": false,
+      "directional": false
+    },
+    {
+      "key": "pulse",
+      "sprite": "ground_pulse",
+      "frames": 5,
+      "fps": 20,
+      "loop": false,
+      "directional": false
+    },
+    {
+      "key": "ground_boom",
+      "sprite": "ground_boom",
+      "frames": 4,
+      "fps": 16,
+      "loop": false,
+      "directional": false
+    },
+    {
+      "key": "ground_blast",
+      "sprite": "ground_blast",
+      "frames": 2,
+      "fps": 8,
+      "loop": true,
+      "directional": false
+    },
+    {
+      "key": "dash_line",
+      "sprite": "dash_line",
+      "frames": 3,
+      "fps": 12,
+      "loop": true,
+      "directional": false
+    },
+    {
+      "key": "lightning",
+      "sprite": "chain_bolt",
+      "frames": 3,
+      "fps": 12,
+      "loop": false,
+      "directional": false
+    },
+    {
+      "key": "fireball",
+      "sprite": "fireball",
+      "frames": 3,
+      "fps": 12,
+      "loop": true,
+      "directional": true
+    },
+    {
+      "key": "arrow",
+      "sprite": "arrow",
+      "frames": 1,
+      "fps": 1,
+      "loop": true,
+      "directional": true
+    },
+    {
+      "key": "crossbow_bolt",
+      "sprite": "crossbow_bolt",
+      "frames": 1,
+      "fps": 1,
+      "loop": true,
+      "directional": true
+    },
+    {
+      "key": "spore",
+      "sprite": "spore",
+      "frames": 3,
+      "fps": 8,
+      "loop": true,
+      "directional": false
     }
   ]
 }

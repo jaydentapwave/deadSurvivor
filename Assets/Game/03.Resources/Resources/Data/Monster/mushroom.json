@@ -17,6 +17,7 @@
     "shotSpeed": 180,
     "shotTravelScale": 1.5,
     "shotHitRadius": 15,
-    "shotColor": "#f2d3ff"
+    "shotColor": "#f2d3ff",
+    "shotSprite": "spore"
   }
 }

@@ -7,7 +7,21 @@ using UnityEngine;
 public class CombatEffectData
 {
     [SerializeField] private CombatItemEffectData[] items;
+    [SerializeField] private CombatEffectClipData[] clips;
     public IReadOnlyList<CombatItemEffectData> Items => items;
+    public IReadOnlyList<CombatEffectClipData> Clips => clips;
+
+    public CombatEffectClipData GetClip(string key)
+    {
+        foreach (var clip in clips)
+        {
+            if (clip.Key == key)
+            {
+                return clip;
+            }
+        }
+        throw new KeyNotFoundException($"[CombatEffectData] No clip for {key}");
+    }
 
     public CombatItemEffectData Get(string itemId)
     {
@@ -32,4 +46,23 @@ public class CombatItemEffectData
     public string ItemId => itemId;
     public string Projectile => projectile;
     public string Burst => burst;
+}
+
+[Serializable]
+public class CombatEffectClipData
+{
+    [SerializeField] private string key;
+    [SerializeField] private string sprite;
+    [SerializeField] private int frames;
+    [SerializeField] private float fps;
+    [SerializeField] private bool loop;
+    [SerializeField] private bool directional;
+    public string Key => key;
+    public string Sprite => sprite;
+    public int Frames => frames;
+    public float Fps => fps;
+    public bool Loop => loop;
+    public bool Directional => directional;
+    public string FrameKey(int index, string direction = "right") =>
+        directional ? $"{sprite}_{direction}_{index + 1}" : $"{sprite}_{index + 1}";
 }
