@@ -1,0 +1,153 @@
+{
+ "schema": "reference-manifest/1",
+ "reference": "hd2d-bg-octopath-20261118",
+ "kind": "OCTOPATH TRAVELER(1·2) 공식 Steam 상점 스크린샷 중 바깥 배경(들판·숲·물가·길·바위·턱)이 보이는 것. 배경 재질과 구성 방식을 본다",
+ "mode": "follow — 배경 재질·구성 방식(바닥·턱·돌담·바위·나무·울타리·물가)을 따른다. 캐릭터·UI·건물 고유 디자인·지도 배치는 가져오지 않는다",
+ "external_send": "금지 — 생성 입력(Codex·이미지 생성 등)이나 게임 에셋, 따라 그릴 원본으로 쓰지 않는다. 외부 서비스에 올리지 않는다",
+ "related": [
+  "hd2d-study-20261117의 HD-R005(OCTOPATH TRAVELER 들판 묘지), HD-R006(같은 게임 마을), HD-R007(OCTOPATH TRAVELER II 마을 거리)는 같은 상점 목록에 있어 다시 받지 않았다. 관찰 문서에서 id로 참조한다"
+ ],
+ "screened": "두 게임 상점 스크린샷 23장(1편 17장, 2편 6장)을 모두 받아 훑었다. 이미 있는 3장(HD-R005~R007)을 빼고, 실내(극장·저택), 도시 중심(밤 마을 2장, 눈 성당), 효과가 화면 대부분을 덮은 전투(뱀·얼음·거인), 메뉴 화면, 동굴 효과 전투 1장(o1_02, OT-S008과 겹침)을 뺐다. 고르지 않은 원본은 지웠다",
+ "items": [
+  {
+   "id": "OT-S001",
+   "title": "탐험: 숲 계단식 풀 언덕 사이 자갈길, 바위 2개, 침엽수, 안개 빛줄기",
+   "game": "OCTOPATH TRAVELER",
+   "file": "output/reference/hd2d-bg-octopath-20261118/OT-S001-ot1-forest-terrace-path.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 494431,
+   "sha256": "ee4f1be749891739a21ca1b22b9db8aa0132ac9a3f15e13ef4ad26c5657c30e9",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921570/ss_70a998dd85f5105cb454ffa4f7474a20ed112318.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/921570/ (공식 Steam 상점 스크린샷 10번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OT-S002",
+   "title": "탐험: 개울과 돌 축대(여러 단), 돌계단, 나무다리, 활엽수, 물가 풀",
+   "game": "OCTOPATH TRAVELER II",
+   "file": "output/reference/hd2d-bg-octopath-20261118/OT-S002-ot2-river-stone-embankment.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 613329,
+   "sha256": "33b91ca102e6367ec9db6d8fe8666422e4f70ca8d8d5c4a8cf745936df5da786",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1971650/ss_063d6228ccd9256814aec0cd46ebb4c093b56fea.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/1971650/ (공식 Steam 상점 스크린샷 1번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OT-S003",
+   "title": "야영: 숲속 흙 공터와 풀포기, 덤불, 밝은 활엽수, 뒤쪽 연못과 돌다리(저녁빛)",
+   "game": "OCTOPATH TRAVELER II",
+   "file": "output/reference/hd2d-bg-octopath-20261118/OT-S003-ot2-forest-camp-clearing.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 653970,
+   "sha256": "3d97799fa212cfca3f531a0f3522f5fa89e39011d6966222330c1fe74fc530ad",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1971650/ss_d94d1bdba59a0a021225949f13fa8036b85808a7.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/1971650/ (공식 Steam 상점 스크린샷 4번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OT-S004",
+   "title": "마을 가장자리: 운하 돌 축대·돌다리, 나무 선착장, 물 표면, 돌길",
+   "game": "OCTOPATH TRAVELER",
+   "file": "output/reference/hd2d-bg-octopath-20261118/OT-S004-ot1-canal-stone-bridge.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 579360,
+   "sha256": "8bd9f41815e9d24878e261aefe71c6ed11fe2506b2c193609f70c3d7f0834651",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921570/ss_f8c0ed58526a891786a3df07b71f8151428fd43a.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/921570/ (공식 Steam 상점 스크린샷 13번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OT-S005",
+   "title": "전투: 숲 마을 앞 흙바닥과 풀 조각, 수레·통나무(UI 있음)",
+   "game": "OCTOPATH TRAVELER",
+   "file": "output/reference/hd2d-bg-octopath-20261118/OT-S005-ot1-forest-village-battle-ground.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 451018,
+   "sha256": "4f8b42a9e112447f203c29e1a5946067d95015e8642a5a0ba35169e6b16edf05",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921570/ss_31f2a23ca3b46d1e00183664c1b6cd151816a26c.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/921570/ (공식 Steam 상점 스크린샷 12번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OT-S006",
+   "title": "전투: 밤 숲 풀밭, 뒤쪽 풀 언덕 턱(UI 있음)",
+   "game": "OCTOPATH TRAVELER",
+   "file": "output/reference/hd2d-bg-octopath-20261118/OT-S006-ot1-night-forest-battle.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 414298,
+   "sha256": "88cf73c2b123912ba25c67cad83bafa4f7ddf23e950185b4368ec05c42893221",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921570/ss_c99181547954783d2b28050e1424e27257bf1764.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/921570/ (공식 Steam 상점 스크린샷 17번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OT-S007",
+   "title": "전투: 사막 모래 바닥, 쌓인 바위 기둥, 마른 풀(UI·효과 있음)",
+   "game": "OCTOPATH TRAVELER",
+   "file": "output/reference/hd2d-bg-octopath-20261118/OT-S007-ot1-desert-rock-battle.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 474588,
+   "sha256": "e51d109284237cc0cad623d31b531c2f90344013656049620fb46cb2fd6ce0df",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921570/ss_5a64da850a5ede9313c43da9c732d5a65a3ec4e0.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/921570/ (공식 Steam 상점 스크린샷 9번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OT-S008",
+   "title": "전투: 동굴 바위 절벽 벽면과 자갈 바닥(UI 있음)",
+   "game": "OCTOPATH TRAVELER",
+   "file": "output/reference/hd2d-bg-octopath-20261118/OT-S008-ot1-cave-cliff-battle.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 419205,
+   "sha256": "3258b53a360153c32f8ef820cfb389300b3fbc19a77c906c69a950c12f887a68",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921570/ss_fe9f05cf35e6b4d561c5be76a8b93726ab6be517.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/921570/ (공식 Steam 상점 스크린샷 8번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OT-S009",
+   "title": "전투: 밤 들판 자갈 바닥, 오른쪽 바위 턱(효과·UI 많음)",
+   "game": "OCTOPATH TRAVELER II",
+   "file": "output/reference/hd2d-bg-octopath-20261118/OT-S009-ot2-night-field-rock-ledge-battle.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 450737,
+   "sha256": "b4529b327a87689a03ee6f733ba6c1c97d6bb46ba679f67c90cdb06e68e74234",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1971650/ss_cd859f6ff08f678304dac0d8c36299b0a2f82a32.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/1971650/ (공식 Steam 상점 스크린샷 5번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OT-S010",
+   "title": "항구: 나무 부두 바닥, 밧줄 말뚝 울타리, 밤바다 물결 반사",
+   "game": "OCTOPATH TRAVELER II",
+   "file": "output/reference/hd2d-bg-octopath-20261118/OT-S010-ot2-harbor-dock-water.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 881596,
+   "sha256": "c708728a9ffbb4a19a2435381aff0ec5d244ec81a433f3b9c00d65fed67c8922",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1971650/ss_dee5d3b75c3e94f48b7bca073e0ed83ca98484d5.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/1971650/ (공식 Steam 상점 스크린샷 6번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  }
+ ],
+ "blocked": [
+  {
+   "scope": "낮 넓은 들판(풀밭만 화면 대부분)과 울타리가 가까이 보이는 바깥 장면",
+   "reason": "두 게임 Steam 상점 스크린샷에 없음. 가장 가까운 것은 HD-R005(들판 묘지, 울타리)와 OT-S001(숲 언덕). 퍼블리셔 공식 사이트·프레스킷은 이번 범위(Steam만) 밖이라 보지 않았다"
+  },
+  {
+   "scope": "움직임(물결, 풀 흔들림, 빛 변화)",
+   "reason": "정지 그림만 받음. 공식 트레일러는 이번 범위 밖"
+  }
+ ]
+}
