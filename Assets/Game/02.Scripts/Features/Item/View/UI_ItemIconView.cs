@@ -46,6 +46,10 @@ public class UI_ItemIconView : MaskableGraphic
             rect.height = height;
         }
 
+        var texels = new Vector2(size.x * ItemIconUtils.CellPixels * _uvRect.width, size.y * ItemIconUtils.CellPixels * _uvRect.height);
+        var scale = UiDotScale.CanvasPerTexel(Mathf.Min(rect.width / texels.x, rect.height / texels.y), canvas.scaleFactor);
+        var integerSize = texels * scale;
+        rect = new Rect(rect.center - integerSize * 0.5f, integerSize);
         var outerUv = DataUtility.GetOuterUV(_icon);
         AddVertex(vh, rect, outerUv, Vector2.zero);
         AddVertex(vh, rect, outerUv, Vector2.up);

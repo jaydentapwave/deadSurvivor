@@ -15,6 +15,7 @@ public class SpriteAtlasService : IDisposable
     public const string TelegraphSuffix = "_telegraph";
     public const string InflateSuffix = "_inflate";
     public const string CharactersAtlasPath = "Art/Characters";
+    public const string HudUiAtlasPath = "Art/HudUi";
     public const string GroundAtlasPath = "Art/Ground";
 
     private readonly Dictionary<Sprite, int> _visibleWidthDict = new();

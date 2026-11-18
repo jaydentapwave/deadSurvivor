@@ -125,7 +125,109 @@ public static class MainSceneHudUiMigration
         Ref(view, "pauseSprite", Sprite("U12_icon_pause"));
         Ref(view, "resumeSprite", Sprite("U12_icon_resume"));
     }
-    private static void ApplyHudBottom(Transform canvas) { }
+    private static void ApplyHudBottom(Transform canvas)
+    {
+        var root = Find(canvas, "BattleHudView");
+        var bottom = root.Find("BottomPanel");
+        TextStyle(bottom);
+        Art(bottom.GetComponent<Image>(), "U7_bar_fill");
+        bottom.GetComponent<Image>().color = Color.clear;
+        ((RectTransform)bottom).sizeDelta = new Vector2(0, 85);
+        var band = Band(bottom, "U6_band_top", false, true, true);
+        var ignore = band.GetComponent<LayoutElement>() ?? band.gameObject.AddComponent<LayoutElement>();
+        ignore.ignoreLayout = true;
+        foreach (var member in bottom.GetComponentsInChildren<UI_MemberStatusView>(true))
+        {
+            var tr = member.transform;
+            var old = tr.GetComponent<UI_ArtSurface>();
+            if (old != null)
+            {
+                Object.DestroyImmediate(old);
+            }
+            var background = tr.GetComponent<Image>();
+            if (background != null)
+            {
+                Object.DestroyImmediate(background);
+            }
+            var window = (RectTransform)tr.Find("PortraitWindow");
+            Place(window, new Vector2(0, 0.5f), new Vector2(20, 0), new Vector2(22, 22));
+            Portrait(window, "S", 34);
+            Ref(member, "portraitFrame", tr.Find("Frame").GetComponent<Image>());
+            Ref(member, "alivePortraitFrame", Sprite("U8_portrait_S_normal"));
+            Ref(member, "downedPortraitFrame", Sprite("U8_portrait_S_dead"));
+            var so = new SerializedObject(member);
+            so.FindProperty("portraitArea").rectIntValue = new RectInt(23, 21, 22, 22);
+            so.FindProperty("aliveNameColor").colorValue = White;
+            so.FindProperty("downedNameColor").colorValue = Hex("a8acaf");
+            so.ApplyModifiedPropertiesWithoutUndo();
+            var name = tr.Find("Name").GetComponent<Text>();
+            StretchRow(name.rectTransform, 44, -3, 3, 12);
+            name.fontSize = 10;
+            var hp = tr.Find("HpText").GetComponent<Text>();
+            StretchRow(hp.rectTransform, 44, -17, 3, 12);
+            hp.alignment = TextAnchor.MiddleLeft;
+            hp.fontSize = 10;
+            var bar = (RectTransform)tr.Find("HpBar");
+            StretchRow(bar, 44, -31, 3, 3);
+            Art(bar.GetComponent<Image>(), "U7_bar_track");
+            foreach (var image in bar.GetComponentsInChildren<Image>(true))
+            {
+                if (image.transform == bar)
+                {
+                    continue;
+                }
+                Art(image, "U7_bar_fill");
+                image.color = image.name == "HpLoss" ? Hex("a4534a") : Hex("568757");
+            }
+            var items = (RectTransform)tr.Find("Items");
+            StretchRow(items, 44, -37, 3, 48);
+            var grid = items.GetComponent<GridLayoutGroup>();
+            grid.cellSize = new Vector2(16, 10);
+            grid.spacing = Vector2.one;
+            foreach (var item in member.GetComponentsInChildren<UI_BattleItemView>(true))
+            {
+                var itemSo = new SerializedObject(item);
+                var bg = (Image)itemSo.FindProperty("background").objectReferenceValue;
+                Art(bg, "U9_cell_filled");
+                Ref(item, "normalBackground", Sprite("U9_cell_filled"));
+                Ref(item, "disabledBackground", Sprite("U9_cell_empty"));
+                itemSo.Update();
+                itemSo.FindProperty("readyBarColor").colorValue = Hex("f7ea81");
+                itemSo.FindProperty("coolingBarColor").colorValue = Hex("5b7984");
+                itemSo.ApplyModifiedPropertiesWithoutUndo();
+                foreach (var image in item.GetComponentsInChildren<Image>(true))
+                {
+                    if (image == bg || image.name == "Icon")
+                    {
+                        continue;
+                    }
+                    Art(image, image.name == "Fill" ? "U7_bar_fill" : "U7_bar_track");
+                }
+                var cooldown = (RectTransform)((GameObject)itemSo.FindProperty("cooldownBar").objectReferenceValue).transform;
+                cooldown.sizeDelta = new Vector2(cooldown.sizeDelta.x, 2);
+                var icon = (Image)itemSo.FindProperty("iconImage").objectReferenceValue;
+                Place(icon.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0, 1), new Vector2(8, 8));
+                var label = (Text)itemSo.FindProperty("labelText").objectReferenceValue;
+                var state = (Text)itemSo.FindProperty("stateText").objectReferenceValue;
+                label.gameObject.SetActive(false);
+                state.gameObject.SetActive(false);
+            }
+        }
+        var joy = Find(canvas, "JoystickArea");
+        Art(joy.GetComponent<Image>(), "U7_bar_track");
+        joy.GetComponent<Image>().color = Color.clear;
+        Art(joy.Find("Ring").GetComponent<Image>(), "U13_joystick_base");
+        Art(joy.Find("Handle").GetComponent<Image>(), "U13_joystick_knob");
+    }
+
+    private static void StretchRow(RectTransform rect, float left, float y, float right, float height)
+    {
+        rect.anchorMin = new Vector2(0, 1);
+        rect.anchorMax = Vector2.one;
+        rect.pivot = new Vector2(0.5f, 1);
+        rect.offsetMin = new Vector2(left, y - height);
+        rect.offsetMax = new Vector2(-right, y);
+    }
     private static void ApplyPrep(Transform canvas) { }
     private static void ApplyBag(Transform canvas) { }
     private static void ApplyResult(Transform canvas) { }

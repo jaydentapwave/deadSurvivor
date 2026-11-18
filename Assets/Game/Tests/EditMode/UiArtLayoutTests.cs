@@ -246,7 +246,7 @@ public class UiArtLayoutTests
         var preview = EditorSceneManager.NewPreviewScene();
         try
         {
-            var type = Type.GetType("UiArtSceneUtils, Game.Editor", true);
+            var type = Type.GetType("MainSceneHudUiMigration, Game.Editor", true);
             foreach (var root in main.GetRootGameObjects())
             {
                 foreach (var canvas in root.GetComponentsInChildren<Canvas>(true))
@@ -269,8 +269,13 @@ public class UiArtLayoutTests
                             continue;
                         }
 
+                        // U4: migrated lobby + HUD; prep/result migrate in U5~U7.
+                        if (image.GetComponentInParent<UI_PrepView>() != null || image.GetComponentInParent<UI_ResultView>() != null)
+                        {
+                            continue;
+                        }
                         Assert.That(image.sprite, Is.Not.Null, image.name);
-                        Assert.That(AssetDatabase.GetAssetPath(image.sprite), Does.StartWith("Assets/Game/03.Resources/Art/AIGenerated/UI/"));
+                        Assert.That(AssetDatabase.GetAssetPath(image.sprite), Does.StartWith("Assets/Game/03.Resources/Art/HD2D/UI/"));
                     }
                 }
             }
@@ -302,7 +307,8 @@ public class UiArtLayoutTests
 
         var source = Array.Find(main.GetRootGameObjects(), root => root.GetComponentInChildren<UI_MemberStatusView>(true) != null)
             .GetComponentInChildren<UI_MemberStatusView>(true);
-        var clone = Object.Instantiate(source);
+        var testCanvas = new GameObject("PortraitTestCanvas", typeof(Canvas));
+        var clone = Object.Instantiate(source, testCanvas.transform);
         var texture = new Texture2D(64, 96) { filterMode = FilterMode.Point };
         var sprite = Sprite.Create(texture, new Rect(0, 0, 64, 96), Vector2.one / 2);
         try
@@ -311,12 +317,12 @@ public class UiArtLayoutTests
             rect.sizeDelta = new Vector2(width, 49f);
             clone.UpdateUI("테스트", 0f, 400f, false, sprite);
             var window = (RectTransform)clone.transform.Find("PortraitWindow");
-            var image = window.GetComponentInChildren<Image>();
-            Assert.That(window.GetComponent<RectMask2D>(), Is.Not.Null);
-            Assert.That(window.sizeDelta, Is.EqualTo(new Vector2(36f, 36f)));
+            var image = window.Find("Image").GetComponent<Image>();
+            Assert.That(window.GetComponent<Mask>(), Is.Not.Null);
+            Assert.That(window.sizeDelta, Is.EqualTo(new Vector2(22f, 22f)));
             Assert.That(image.sprite, Is.SameAs(sprite));
             Assert.That(image.rectTransform.sizeDelta, Is.EqualTo(sprite.rect.size));
-            Assert.That(image.rectTransform.anchoredPosition, Is.EqualTo(new Vector2(0f, -14f)));
+            Assert.That(image.rectTransform.anchoredPosition, Is.EqualTo(new Vector2(-2f, -16f)));
             Assert.That(image.raycastTarget, Is.False);
             Assert.That(window.anchoredPosition.x, Is.GreaterThanOrEqualTo(0f));
             Assert.That(window.anchoredPosition.x + window.rect.width, Is.LessThanOrEqualTo(rect.rect.width));
@@ -334,17 +340,18 @@ public class UiArtLayoutTests
             Assert.That(grid.cellSize.x * 4 + grid.spacing.x * 3, Is.LessThanOrEqualTo(((RectTransform)grid.transform).rect.width));
             var name = clone.transform.Find("Name").GetComponent<Text>();
             Assert.That(name.text, Is.EqualTo("테스트"));
-            Assert.That(name.color, Is.EqualTo(new Color(0.5f, 0.5f, 0.5f, 1f)));
+            Assert.That(name.color, Is.EqualTo(new Color(168f / 255, 172f / 255, 175f / 255, 1f)));
             Assert.That(clone.transform.Find("HpText").GetComponent<Text>().text, Is.EqualTo("0/400"));
             Assert.That(clone.transform.Find("HpBar/Fill").GetComponent<RectTransform>().anchorMax.x, Is.Zero);
             clone.UpdateUI("테스트", 400f, 400f, true, sprite);
-            Assert.That(name.color, Is.EqualTo(Color.white));
+            Assert.That(name.color, Is.EqualTo(new Color(236f / 255, 236f / 255, 236f / 255, 1f)));
             clone.UpdateUI("테스트", 400f, 400f, true, null);
             Assert.That(window.gameObject.activeSelf, Is.False);
         }
         finally
         {
             Object.DestroyImmediate(clone.gameObject);
+            Object.DestroyImmediate(testCanvas);
             Object.DestroyImmediate(sprite);
             Object.DestroyImmediate(texture);
             if (!wasLoaded)

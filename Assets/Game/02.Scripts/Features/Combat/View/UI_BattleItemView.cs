@@ -4,6 +4,8 @@ using UnityEngine.UI;
 // 전투 하단 아이템 칸 하나(기획서 F절 V2): 아이콘 또는 이름, 상태 글, 쿨타임 막대
 public class UI_BattleItemView : MonoBehaviour
 {
+    [SerializeField] private Sprite normalBackground;
+    [SerializeField] private Sprite disabledBackground;
     [SerializeField] private Image background;
     [SerializeField] private Image iconImage;
     [SerializeField] private Text labelText;
@@ -24,12 +26,14 @@ public class UI_BattleItemView : MonoBehaviour
     {
         var isDisabled = state == BattleItemState.Disabled;
         var hasIcon = icon != null;
-        background.color = isDisabled ? disabledBackgroundColor : backgroundColor;
+        background.sprite = isDisabled ? disabledBackground : normalBackground;
+        background.color = Color.white;
         iconImage.gameObject.SetActive(hasIcon);
         iconImage.sprite = icon;
         iconImage.preserveAspect = true;
         iconImage.color = isDisabled ? disabledTextColor : Color.white;
-        labelText.gameObject.SetActive(!hasIcon);
+        labelText.gameObject.SetActive(false);
+        stateText.gameObject.SetActive(false);
         labelText.text = label;
         labelText.color = isDisabled ? disabledTextColor : textColor;
         stateText.text = GetStateText(state, remainingSeconds);
