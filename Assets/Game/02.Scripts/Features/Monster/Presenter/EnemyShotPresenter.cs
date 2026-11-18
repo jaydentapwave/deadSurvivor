@@ -39,7 +39,7 @@ public class EnemyShotPresenter : ITickable
                 view = _enemyShotViewFactory.Create(shot);
             }
 
-            view.UpdateView(IsoProjection.FloorToWorldSnapped(shot.Position, _runRules.UnitScale, _viewRules.SinTilt) + TiltedViewMath.UprightOffset(.5f, _viewRules.TiltDegrees));
+            view.UpdateView(IsoProjection.FloorToWorldSnapped(shot.Position, _runRules.UnitScale, _viewRules.SinTilt), shot.Travel / shot.Speed);
         }
 
         _releaseIdList.Clear();

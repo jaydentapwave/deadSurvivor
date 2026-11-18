@@ -175,4 +175,48 @@ public static class HD2DFxMigration
         }
     }
 
+    [MenuItem("DeadSurvivor/HD2D/FX/04 Wire Enemy Shot")]
+    public static void WireEnemyShot()
+    {
+        const string path = "Assets/Game/03.Resources/Resources/Prefab/EnemyShotView.prefab";
+        var prefab = PrefabUtility.LoadPrefabContents(path);
+        try
+        {
+            var so = new SerializedObject(prefab.GetComponent<EnemyShotView>());
+            var body = (SpriteRenderer)so.FindProperty("bodyRenderer").objectReferenceValue;
+            var upright = prefab.transform.Find("Upright");
+            if (upright == null)
+            {
+                upright = new GameObject("Upright").transform;
+                upright.SetParent(prefab.transform, false);
+            }
+            upright.localRotation = TiltedViewMath.UprightRotation(30);
+            upright.localPosition = TiltedViewMath.UprightOffset(.5f, 30);
+            body.transform.SetParent(upright, false);
+            body.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(Folder + "/spore_1.png");
+            body.color = Color.white;
+            var shadow = prefab.transform.Find("Shadow");
+            if (shadow == null)
+            {
+                shadow = new GameObject("Shadow").transform;
+                shadow.SetParent(prefab.transform, false);
+                shadow.gameObject.AddComponent<SpriteRenderer>();
+            }
+            shadow.localPosition = new Vector3(0, .001f, 0);
+            shadow.localRotation = Quaternion.Euler(90, 0, 0);
+            shadow.localScale = new Vector3(1, 2, 1);
+            var renderer = shadow.GetComponent<SpriteRenderer>();
+            renderer.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(Folder + "/shadow_dot.png");
+            renderer.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>("Assets/Game/03.Resources/Materials/HD2D/HD2D_HardShadowCard.mat");
+            so.FindProperty("upright").objectReferenceValue = upright;
+            so.FindProperty("shadowRenderer").objectReferenceValue = renderer;
+            so.ApplyModifiedPropertiesWithoutUndo();
+            PrefabUtility.SaveAsPrefabAsset(prefab, path);
+        }
+        finally
+        {
+            PrefabUtility.UnloadPrefabContents(prefab);
+        }
+    }
+
 }
