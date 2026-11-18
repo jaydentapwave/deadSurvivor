@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "project": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx",
+  "started": "2026-11-18T14:42:05+0900",
+  "result": "pass",
+  "broke_at": null,
+  "reason": "",
+  "steps": [
+    {
+      "id": "FX6-SPAWN",
+      "name": "실제 웨이브 진행으로 포자 탄 표시",
+      "result": "pass",
+      "seconds": 10.3,
+      "captures": [
+        "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx/output/hd2d-fx/verification/F6-play/01-FX6-SPAWN-1920x1080.png"
+      ]
+    }
+  ],
+  "seconds": 21.3
+}

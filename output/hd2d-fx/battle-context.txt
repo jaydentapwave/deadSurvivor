@@ -1,0 +1,1 @@
+wave=3 unityFrame=10449 keys=pulse,hit_star,slash_sword

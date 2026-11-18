@@ -23,4 +23,28 @@ public class EffectFrameMathTests
     {
         Assert.AreEqual(frame, EffectFrameMath.FrameAt(elapsed, 3, 12, true));
     }
+    [Test]
+    public void LargeElapsedDoesNotOverflowTheFrameIndex()
+    {
+        Assert.AreEqual(4, EffectFrameMath.FrameAt(float.MaxValue, 5, 20, false));
+        Assert.That(EffectFrameMath.FrameAt(float.MaxValue, 3, 12, true), Is.InRange(0, 2));
+        Assert.Throws<System.ArgumentOutOfRangeException>(() => EffectFrameMath.FrameAt(1, 3, float.NaN, true));
+    }
+
+    [TestCase(0, 0, false, false)]
+    [TestCase(45, 1, false, false)]
+    [TestCase(90, 2, false, false)]
+    [TestCase(135, 1, true, false)]
+    [TestCase(180, 0, true, false)]
+    [TestCase(-135, 1, true, true)]
+    [TestCase(-90, 2, false, true)]
+    [TestCase(-45, 1, false, true)]
+    public void DirectionTableUsesBakedArtAndIndependentExpectedFlips(float angle, int index, bool x, bool y)
+    {
+        var actual = EffectFrameMath.DirectionSprite(angle);
+        Assert.AreEqual(index, actual.index);
+        Assert.AreEqual(x, actual.flipX);
+        Assert.AreEqual(y, actual.flipY);
+    }
+
 }

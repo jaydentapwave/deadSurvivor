@@ -1,0 +1,284 @@
+{
+  "utc": "2026-11-18T06:22:30.226990+00:00",
+  "result": "PASS",
+  "effects": [
+    {
+      "key": "arrow",
+      "samples": 21,
+      "order": [
+        1
+      ],
+      "alpha": [
+        255
+      ],
+      "glowCoreMax": 0,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "crossbow_bolt",
+      "samples": 21,
+      "order": [
+        1
+      ],
+      "alpha": [
+        255
+      ],
+      "glowCoreMax": 0,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "dash_line",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        3,
+        1
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "glowCoreMax": 0,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "explosion",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "glowCoreMax": 51,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "fireball",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        3,
+        1
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "glowCoreMax": 19,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "ground_blast",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        1
+      ],
+      "alpha": [
+        255
+      ],
+      "glowCoreMax": 0,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "ground_boom",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "glowCoreMax": 0,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "heal_area",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "glowCoreMax": 0,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "heal_single",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "glowCoreMax": 24,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "hit_star",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        3
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "glowCoreMax": 72,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "lightning",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        3
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "glowCoreMax": 292,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "pulse",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "glowCoreMax": 174,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "slash_axe",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "glowCoreMax": 0,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "slash_sword",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "glowCoreMax": 0,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    },
+    {
+      "key": "spore",
+      "samples": 21,
+      "order": [
+        1,
+        2,
+        3
+      ],
+      "alpha": [
+        255
+      ],
+      "glowCoreMax": 0,
+      "binary": true,
+      "contiguous": true,
+      "timestep_1_over_60": true,
+      "result": "PASS"
+    }
+  ]
+}

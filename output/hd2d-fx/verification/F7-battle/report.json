@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "project": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx",
+  "started": "2026-11-18T14:54:19+0900",
+  "result": "fail",
+  "broke_at": "FXBATTLE",
+  "reason": "wait가 90초 안에 참이 되지 않았다: PlayableProbe.PauseAtBattleEffects()\n마지막 응답:   \"errors\": [],\n  \"warnings\": []\n}",
+  "steps": [
+    {
+      "id": "FXSEQ-START",
+      "name": "웨이브1 종료 후 시험 장비 준비",
+      "result": "pass",
+      "seconds": 3.5,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-EQUIP",
+      "name": "확정 효과 9종을 실제 장비 입력으로 장착",
+      "result": "pass",
+      "seconds": 1.5,
+      "captures": []
+    },
+    {
+      "id": "FXBATTLE",
+      "name": "웨이브3 이상 베기·피격·바닥 고리 동시 표시",
+      "result": "fail",
+      "seconds": 90.6,
+      "captures": [
+        "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx/output/hd2d-fx/verification/F7-battle/03-FXBATTLE-fail.png"
+      ],
+      "reason": "wait가 90초 안에 참이 되지 않았다: PlayableProbe.PauseAtBattleEffects()\n마지막 응답:   \"errors\": [],\n  \"warnings\": []\n}"
+    }
+  ],
+  "seconds": 108.8
+}

@@ -1,0 +1,1 @@
+key=ground_boom samples=21 expectedFrames=4 seen=1,2,3,4 hasAllFrames=True

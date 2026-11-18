@@ -1,0 +1,1 @@
+key=explosion samples=21 expectedFrames=6 seen=1,2,3,4,5,6 hasAllFrames=True

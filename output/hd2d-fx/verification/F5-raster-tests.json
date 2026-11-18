@@ -1,0 +1,98 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "test run",
+    "parameters": {
+      "mode": "editor",
+      "filter": "ChainBoltRasterTests"
+    },
+    "result": {
+      "Summary": {
+        "Total": 9,
+        "Passed": 9,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "ChainBoltRasterTests.BothAnchorsSurviveEveryFrame(110,28)",
+          "Status": "Passed",
+          "Duration": 0.0103574,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ChainBoltRasterTests.BothAnchorsSurviveEveryFrame(-110,28)",
+          "Status": "Passed",
+          "Duration": 0.0004886,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ChainBoltRasterTests.BothAnchorsSurviveEveryFrame(110,-28)",
+          "Status": "Passed",
+          "Duration": 0.0002693,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ChainBoltRasterTests.BothAnchorsSurviveEveryFrame(-110,-28)",
+          "Status": "Passed",
+          "Duration": 0.000248,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ChainBoltRasterTests.BothAnchorsSurviveEveryFrame(0,80)",
+          "Status": "Passed",
+          "Duration": 0.0002174,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ChainBoltRasterTests.BothAnchorsSurviveEveryFrame(80,0)",
+          "Status": "Passed",
+          "Duration": 0.0002142,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ChainBoltRasterTests.ChainMatchesReviewedPythonPixels(0)",
+          "Status": "Passed",
+          "Duration": 0.0018739,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ChainBoltRasterTests.ChainMatchesReviewedPythonPixels(1)",
+          "Status": "Passed",
+          "Duration": 0.0011037,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ChainBoltRasterTests.ChainMatchesReviewedPythonPixels(2)",
+          "Status": "Passed",
+          "Duration": 0.0006488,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 7.61,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: ChainBoltRasterTests",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

@@ -6,12 +6,12 @@ public static class EffectFrameMath
 {
     public static int FrameAt(float elapsed, int frameCount, float fps, bool loop)
     {
-        if (frameCount <= 0 || fps <= 0f || float.IsNaN(elapsed) || float.IsInfinity(elapsed))
+        if (frameCount <= 0 || fps <= 0f || float.IsNaN(fps) || float.IsInfinity(fps) || float.IsNaN(elapsed) || float.IsInfinity(elapsed))
         {
             throw new ArgumentOutOfRangeException(nameof(frameCount));
         }
-        var frame = (int)Math.Floor(Math.Max(0, elapsed) * (double)fps + 0.000001);
-        return loop ? frame % frameCount : Math.Min(frame, frameCount - 1);
+        var frame = Math.Floor(Math.Max(0, elapsed) * (double)fps + 0.000001);
+        return loop ? (int)(frame % frameCount) : (int)Math.Min(frame, frameCount - 1);
     }
 
     public static (int index, bool flipX, bool flipY) DirectionSprite(float screenAngle)

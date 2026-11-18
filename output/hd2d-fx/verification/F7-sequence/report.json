@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "project": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx",
+  "started": "2026-11-18T14:48:14+0900",
+  "result": "pass",
+  "broke_at": null,
+  "reason": "",
+  "steps": [
+    {
+      "id": "FXSEQ-START",
+      "name": "웨이브1 종료 후 시험 장비 준비",
+      "result": "pass",
+      "seconds": 3.6,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-EQUIP",
+      "name": "확정 효과 9종을 실제 장비 입력으로 장착",
+      "result": "pass",
+      "seconds": 1.6,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-slash_sword",
+      "name": "slash_sword 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 11.3,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-slash_axe",
+      "name": "slash_axe 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 3.2,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-arrow",
+      "name": "arrow 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 2.3,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-crossbow_bolt",
+      "name": "crossbow_bolt 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 5.3,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-fireball",
+      "name": "fireball 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 2.2,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-explosion",
+      "name": "explosion 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 2.1,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-hit_star",
+      "name": "hit_star 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 2.1,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-lightning",
+      "name": "lightning 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 3.1,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-heal_area",
+      "name": "heal_area 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 8.4,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-pulse",
+      "name": "pulse 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 3.1,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-heal_single",
+      "name": "heal_single 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 3.2,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-ground_boom",
+      "name": "ground_boom 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 3.1,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-spore",
+      "name": "spore 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 4.2,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-dash_line",
+      "name": "dash_line 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 3.1,
+      "captures": []
+    },
+    {
+      "id": "FXSEQ-ground_blast",
+      "name": "ground_blast 실제 게임 1/60s 연속21장",
+      "result": "pass",
+      "seconds": 38.1,
+      "captures": []
+    }
+  ],
+  "seconds": 110.9
+}

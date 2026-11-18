@@ -66,9 +66,12 @@ public static class HD2DFxMigration
         }
         var atlas = SpriteAtlasAsset.Load(AtlasPath);
         var folder = AssetDatabase.LoadAssetAtPath<DefaultAsset>(Folder);
-        atlas.Remove(new UnityEngine.Object[] { folder });
-        atlas.Add(new UnityEngine.Object[] { folder });
-        SpriteAtlasAsset.Save(atlas, AtlasPath);
+        var importedAtlas = AssetDatabase.LoadAssetAtPath<UnityEngine.U2D.SpriteAtlas>(AtlasPath);
+        if (!SpriteAtlasExtensions.GetPackables(importedAtlas).Contains(folder))
+        {
+            atlas.Add(new UnityEngine.Object[] { folder });
+            SpriteAtlasAsset.Save(atlas, AtlasPath);
+        }
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
@@ -141,6 +144,10 @@ public static class HD2DFxMigration
     [MenuItem("DeadSurvivor/HD2D/FX/03 Wire Projectile Shadow")]
     public static void WireProjectileShadow()
     {
+        if (Application.isPlaying)
+        {
+            throw new InvalidOperationException("FX migration requires Edit Mode");
+        }
         const string path = "Assets/Game/03.Resources/Resources/Prefab/ProjectileView.prefab";
         var prefab = PrefabUtility.LoadPrefabContents(path);
         try
@@ -178,6 +185,10 @@ public static class HD2DFxMigration
     [MenuItem("DeadSurvivor/HD2D/FX/04 Wire Enemy Shot")]
     public static void WireEnemyShot()
     {
+        if (Application.isPlaying)
+        {
+            throw new InvalidOperationException("FX migration requires Edit Mode");
+        }
         const string path = "Assets/Game/03.Resources/Resources/Prefab/EnemyShotView.prefab";
         var prefab = PrefabUtility.LoadPrefabContents(path);
         try
@@ -217,6 +228,42 @@ public static class HD2DFxMigration
         {
             PrefabUtility.UnloadPrefabContents(prefab);
         }
+    }
+
+    [MenuItem("DeadSurvivor/HD2D/FX/05 Retire Legacy References")]
+    public static void RetireLegacyReferences()
+    {
+        if (Application.isPlaying)
+        {
+            throw new InvalidOperationException("FX migration requires Edit Mode");
+        }
+        var atlas = SpriteAtlasAsset.Load(AtlasPath);
+        atlas.Remove(new UnityEngine.Object[] { AssetDatabase.LoadAssetAtPath<DefaultAsset>("Assets/Game/03.Resources/Art/AIGenerated/Effects") });
+        SpriteAtlasAsset.Save(atlas, AtlasPath);
+        foreach (var name in new[] { "BurstView", "ProjectileView", "EnemyShotView", "MonsterView" })
+        {
+            var path = "Assets/Game/03.Resources/Resources/Prefab/" + name + ".prefab";
+            var prefab = PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                var so = new SerializedObject(prefab.GetComponent(name));
+                foreach (var field in name == "MonsterView" ? new[] { "dashLineRenderer", "blastAreaRenderer" } : new[] { "bodyRenderer" })
+                {
+                    var renderer = (SpriteRenderer)so.FindProperty(field).objectReferenceValue;
+                    var key = field == "dashLineRenderer" ? "dash_line_1" : field == "blastAreaRenderer" ? "ground_blast_1"
+                        : name == "ProjectileView" ? "arrow_right_1" : name == "EnemyShotView" ? "spore_1" : "hit_star_1";
+                    renderer.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(Folder + "/" + key + ".png");
+                    renderer.color = Color.white;
+                }
+                PrefabUtility.SaveAsPrefabAsset(prefab, path);
+            }
+            finally
+            {
+                PrefabUtility.UnloadPrefabContents(prefab);
+            }
+        }
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
 
 }
