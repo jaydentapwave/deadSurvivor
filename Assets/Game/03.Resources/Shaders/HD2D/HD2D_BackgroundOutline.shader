@@ -34,8 +34,12 @@ Shader "HD2D/HD2D_BackgroundOutline"
                 {
                     float2 p=uv+offsets[k]*_BackgroundDepth_TexelSize.xy;
                     float depth=Eye(SAMPLE_TEXTURE2D(_BackgroundDepth,sampler_PointClamp,p).r);
+                    float opposite=Eye(SAMPLE_TEXTURE2D(_BackgroundDepth,sampler_PointClamp,
+                        uv-offsets[k]*_BackgroundDepth_TexelSize.xy).r);
                     // Draw on the near side only: one low-resolution pixel, not two.
-                    edge=max(edge,(depth-center>.055) ? 1 : 0);
+                    // Remove the local planar slope. A steep tent face is a surface,
+                    // not a depth discontinuity to paint entirely in outline brown.
+                    edge=max(edge,(depth-center>.055 && depth+opposite-2*center>.055) ? 1 : 0);
                 }
                 half4 color=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_PointClamp,uv);
                 color.rgb=lerp(color.rgb,SRGBToLinear(half3(52,20,14)/255),edge);
