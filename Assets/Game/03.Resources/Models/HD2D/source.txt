@@ -1,0 +1,3 @@
+output/assets/hd2d-bridge/dot/model.fbx SHA256 d2c60e48f9b7c8671ea6717a47a403f0dca692411802b5394dfcdc5b50e7a91e
+output/assets/hd2d-tent/dot/model.fbx SHA256 467fe0a8d878d6f93254e53b2f07ecda239c0b818c6f4a699f9416498a6b0468
+UV version only; post/final2 not used.

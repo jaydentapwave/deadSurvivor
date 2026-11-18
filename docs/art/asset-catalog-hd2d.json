@@ -5,7 +5,7 @@
   {
    "id": "hd2d_bridge",
    "kind": "prop_large",
-   "status": "trial",
+   "status": "adopted",
    "method": "build",
    "folder": "Props",
    "note": "개울 위 나무 다리. 기준서 K28: 4.0 x 1.8m, 높이 0.75m 이하. 명세 output/assets/hd2d-bridge/spec.md, 채택 컨셉 concept.png(bridge_E). 모양만 쓰고 질감은 도트 질감으로 다시 칠함",
@@ -18,13 +18,13 @@
     "work_dir": "output/assets/hd2d-bridge/tripo"
    },
    "source": {
-    "model": "output/assets/hd2d-bridge/post/model.fbx"
+    "model": "output/assets/hd2d-bridge/dot/model.fbx"
    }
   },
   {
    "id": "hd2d_tent",
    "kind": "prop_large",
-   "status": "trial",
+   "status": "adopted",
    "method": "build",
    "folder": "Props",
    "note": "야영지 A자 천막. 기준서 K28: 2.0 x 2.0 x 1.6m. 명세 output/assets/hd2d-tent/spec.md, 채택 컨셉 concept.png(tent_B). 모양만 쓰고 질감은 도트 질감으로 다시 칠함",
@@ -37,7 +37,7 @@
     "work_dir": "output/assets/hd2d-tent/tripo"
    },
    "source": {
-    "model": "output/assets/hd2d-tent/final2/model.fbx"
+    "model": "output/assets/hd2d-tent/dot/model.fbx"
    }
   }
  ],

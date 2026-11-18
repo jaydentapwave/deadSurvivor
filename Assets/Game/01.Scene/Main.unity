@@ -50521,6 +50521,12 @@ MonoBehaviour:
   pondMesh: {fileID: 4300000, guid: 3c6d43887bb2c4a79a031b6aff027739, type: 2}
   cardMaterial: {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
   footShadowMaterial: {fileID: 2100000, guid: a4f15f5c1f2cf45deae0d6d66642bfab, type: 2}
+  woodMaterial: {fileID: 2100000, guid: 767e7596e536840e8b1417edf18e6e37, type: 2}
+  bridgeMaterial: {fileID: 2100000, guid: 5d9aa35d33bbf4797adc46b5a752aa8a, type: 2}
+  tentMaterial: {fileID: 2100000, guid: 816e9039d8c4047abb7208ddc3a7efa9, type: 2}
+  hardShadowMaterial: {fileID: 2100000, guid: 5334b16ef49f44cfda885416a8c12524, type: 2}
+  bridgeModel: {fileID: 919132149155446097, guid: ea04e99fcafb4473ba353ea184e38546, type: 3}
+  tentModel: {fileID: 919132149155446097, guid: bba63ff28a9874544a188e5920d64f70, type: 3}
 --- !u!483693784 &1450006850
 TilemapRenderer:
   serializedVersion: 2

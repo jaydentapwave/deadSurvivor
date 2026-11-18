@@ -4,3 +4,4 @@ Assets/Game/03.Resources/Art/HD2D/Round8/FieldBoulder.png SHA256 a1397d54263fbdc
 B0: adopted F8, bush_02 mirrored native crop 43x42.
 
 B3 bush_02: crop version had straight cut edge in live capture; built-in imagegen edit of bush_01 plus alpha-key preprocessing and pixelize 45x35, same 5-color palette. Source .director/evidence/20261118-hd2d-background/1/2/bush2-source.png SHA256 fe09fdac38a4ca5d691867145d9826ab0e703c111a1fb4d26b87e3487e5e1e64
+B4 flag_01: built-in imagegen; alpha-key + pixelize native auto grid (65, 38). source .director/evidence/20261118-hd2d-background/1/2/flag-source.png SHA256 77e226ab2eb97fb9e13304c78086f47bc486252987ca699f6830e1269c3d9cf8

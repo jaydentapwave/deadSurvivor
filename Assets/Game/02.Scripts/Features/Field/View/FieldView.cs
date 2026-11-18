@@ -14,15 +14,23 @@ public class FieldView : MonoBehaviour
     [SerializeField] private Mesh pondMesh;
     [SerializeField] private Material cardMaterial;
     [SerializeField] private Material footShadowMaterial;
+    [SerializeField] private Material woodMaterial;
+    [SerializeField] private Material bridgeMaterial;
+    [SerializeField] private Material tentMaterial;
+    [SerializeField] private Material hardShadowMaterial;
+    [SerializeField] private GameObject bridgeModel;
+    [SerializeField] private GameObject tentModel;
+    private Mesh _woodMesh;
     public Material CardMaterial => cardMaterial;
     private readonly List<Mesh> _ownedMeshList = new();
     private readonly Dictionary<string, List<Renderer>> _partDict = new();
     private Transform _landscape;
     public Transform Landscape => _landscape;
     public int PartCount(string kind) => _partDict.TryGetValue(kind, out var partList) ? partList.Count : 0;
-    public int GroundVisibleCount(Camera camera)
+    public int GroundVisibleCount(Camera camera) => PartVisibleCount("ground", camera);
+    public int PartVisibleCount(string kind, Camera camera)
     {
-        if (!_partDict.TryGetValue("ground", out var partList))
+        if (!_partDict.TryGetValue(kind, out var partList))
         {
             return 0;
         }
@@ -88,6 +96,88 @@ public class FieldView : MonoBehaviour
             card.AddComponent<UprightFootShadow>().Initialize(renderer, footShadowMaterial, placement.height, lightDirection);
         }
         return renderer;
+    }
+
+    public void BuildProps(FieldLayoutData layout, Sprite flag, Sprite shadow)
+    {
+        _woodMesh = PropMeshMath.RoundedBox();
+        _ownedMeshList.Add(_woodMesh);
+        foreach (var placement in layout.placements)
+        {
+            if (placement.kind != "prop")
+            {
+                continue;
+            }
+            var root = new GameObject(placement.prop);
+            root.transform.SetParent(_landscape, false);
+            root.transform.localPosition = new Vector3(placement.x, placement.height, placement.y);
+            root.transform.localRotation = Quaternion.Euler(0, placement.yaw, 0);
+            root.transform.localScale = Vector3.one * placement.scale;
+            if (placement.prop == "bridge" || placement.prop == "tent")
+            {
+                var model = Instantiate(placement.prop == "bridge" ? bridgeModel : tentModel, root.transform);
+                foreach (var renderer in model.GetComponentsInChildren<MeshRenderer>())
+                {
+                    renderer.gameObject.layer = HD2DBackgroundRig.BackgroundLayer;
+                    renderer.sharedMaterial = placement.prop == "bridge" ? bridgeMaterial : tentMaterial;
+                    renderer.shadowCastingMode = ShadowCastingMode.On;
+                }
+            }
+            else if (placement.prop == "fence")
+            {
+                foreach (var x in new[] { -.4f, .4f })
+                {
+                    AddWood(root.transform, new Vector3(x,.3f,0), new Vector3(.12f,.6f,.12f));
+                    var blob = new GameObject("Fence foot shadow").AddComponent<SpriteRenderer>();
+                    blob.transform.SetParent(root.transform, false);
+                    blob.transform.localPosition = new Vector3(x,.004f,0);
+                    blob.transform.localRotation = Quaternion.Euler(90,0,0);
+                    blob.transform.localScale = new Vector3(.8f,.6f,1);
+                    blob.gameObject.layer = HD2DBackgroundRig.BackgroundLayer;
+                    blob.sprite = shadow;
+                    blob.sharedMaterial = hardShadowMaterial;
+                }
+                foreach (var y in new[] { .2f, .42f })
+                {
+                    AddWood(root.transform,new Vector3(0,y,0),new Vector3(.9f,.09f,.09f));
+                }
+            }
+            else if (placement.prop == "sign")
+            {
+                AddWood(root.transform,new Vector3(0,.5f,0),new Vector3(.10f,1,.1f));
+                AddWood(root.transform,new Vector3(0,.82f,0),new Vector3(.8f,.36f,.08f));
+            }
+            else if (placement.prop == "flag")
+            {
+                AddWood(root.transform,new Vector3(0,.8f,0),new Vector3(.065f,1.6f,.065f));
+                var cloth = new GameObject("Flag cloth").AddComponent<SpriteRenderer>();
+                cloth.transform.SetParent(root.transform,false);
+                cloth.transform.localPosition = new Vector3(flag.rect.width / flag.pixelsPerUnit / 2,1.6f - flag.rect.height / flag.pixelsPerUnit,0);
+                cloth.transform.rotation = Quaternion.Euler(_tiltDegrees,0,0);
+                cloth.sprite = flag;
+                cloth.sharedMaterial = cardMaterial;
+                cloth.shadowCastingMode = ShadowCastingMode.Off;
+            }
+            if (!_partDict.TryGetValue(placement.prop,out var partList))
+            {
+                partList = new List<Renderer>();
+                _partDict.Add(placement.prop,partList);
+            }
+            partList.Add(root.GetComponentInChildren<Renderer>());
+        }
+    }
+
+    private void AddWood(Transform parent, Vector3 position, Vector3 scale)
+    {
+        var part = new GameObject("Wood");
+        part.layer = HD2DBackgroundRig.BackgroundLayer;
+        part.transform.SetParent(parent,false);
+        part.transform.localPosition = position;
+        part.transform.localScale = scale;
+        part.AddComponent<MeshFilter>().sharedMesh = _woodMesh;
+        var renderer = part.AddComponent<MeshRenderer>();
+        renderer.sharedMaterial = woodMaterial;
+        renderer.shadowCastingMode = ShadowCastingMode.Off;
     }
 
     private MeshRenderer AddPart(string kind, Mesh mesh, Material[] materials, bool ownsMesh = true)

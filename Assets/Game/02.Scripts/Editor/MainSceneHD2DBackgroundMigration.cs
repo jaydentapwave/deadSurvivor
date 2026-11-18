@@ -32,6 +32,20 @@ public static class MainSceneHD2DBackgroundMigration
             importer.sRGBTexture = !file.Contains("Mask") && !file.Contains("Pattern");
             importer.SaveAndReimport();
         }
+        foreach (var name in new[] { "Bridge", "Tent" })
+        {
+            var model = (ModelImporter)AssetImporter.GetAtPath(Root + "Models/HD2D/" + name + ".fbx");
+            model.globalScale = 1;
+            model.useFileScale = true;
+            model.importAnimation = false;
+            model.animationType = ModelImporterAnimationType.None;
+            model.isReadable = false;
+            model.generateSecondaryUV = false;
+            model.importNormals = ModelImporterNormals.Calculate;
+            model.normalSmoothingAngle = 0;
+            model.materialImportMode = ModelImporterMaterialImportMode.None;
+            model.SaveAndReimport();
+        }
         var so = new SerializedObject(field);
         foreach (var name in new[] { "ground", "bank", "water" })
         {
@@ -41,6 +55,12 @@ public static class MainSceneHD2DBackgroundMigration
         so.FindProperty("pondMesh").objectReferenceValue = pond;
         so.FindProperty("cardMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_SpriteLit.mat");
         so.FindProperty("footShadowMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_FootShadow.mat");
+        so.FindProperty("woodMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_Field_Wood.mat");
+        so.FindProperty("bridgeMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_Prop_Bridge.mat");
+        so.FindProperty("tentMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_Prop_Tent.mat");
+        so.FindProperty("hardShadowMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_HardShadowCard.mat");
+        so.FindProperty("bridgeModel").objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(Root + "Models/HD2D/Bridge.fbx");
+        so.FindProperty("tentModel").objectReferenceValue = AssetDatabase.LoadAssetAtPath<GameObject>(Root + "Models/HD2D/Tent.fbx");
         so.ApplyModifiedPropertiesWithoutUndo();
         var ground = AssetDatabase.LoadAssetAtPath<Material>(Root + "Materials/HD2D/HD2D_Field_Ground.mat");
         foreach (var guid in AssetDatabase.FindAssets("t:Material", new[] { Root + "Materials/HD2D" }))

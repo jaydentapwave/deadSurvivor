@@ -609,6 +609,7 @@ public static class PlayableProbe
     }
 
     public static int FieldGroundVisibleCount => Resolve<FieldView>().GroundVisibleCount(Resolve<Camera>());
+    public static int FieldPartVisibleCount(string kind) => Resolve<FieldView>().PartVisibleCount(kind, Resolve<Camera>());
     public static int FieldPartCount(string kind) => Resolve<FieldView>().PartCount(kind);
 
     public static int PlaceholderGroundTileCount =>

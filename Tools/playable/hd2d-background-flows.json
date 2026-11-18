@@ -37,6 +37,32 @@
       "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
       "expect": "PlayableProbe.FieldGroundVisibleCount == 1 && PlayableProbe.FieldPartCount(\"bank\") == 2 && PlayableProbe.FieldPartCount(\"pond\") == 1 && PlayableProbe.FieldPartCount(\"stream\") == 1",
       "capture": true
+    },
+    {
+      "id": "MOVE_NE",
+      "name": "北동 이동 한계로",
+      "do": "PlayableProbe.SetMove(1f, .2f);",
+      "sleep": 6
+    },
+    {
+      "id": "NE",
+      "name": "다리 북동 화면",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldPartCount(\"bridge\") == 1 && PlayableProbe.FieldPartVisibleCount(\"bridge\") == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_W",
+      "name": "서쪽 야영지로",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(-1f, -.25f);",
+      "sleep": 8
+    },
+    {
+      "id": "W",
+      "name": "야영지 서쪽 화면",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldPartCount(\"tent\") == 2 && PlayableProbe.FieldPartCount(\"flag\") == 3 && PlayableProbe.FieldPartCount(\"fence\") == 12 && PlayableProbe.FieldPartVisibleCount(\"tent\") >= 1",
+      "capture": true
     }
   ]
 }
