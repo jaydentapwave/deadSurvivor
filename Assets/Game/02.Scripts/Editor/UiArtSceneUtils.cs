@@ -12,22 +12,7 @@ public static class UiArtSceneUtils
     [MenuItem("DeadSurvivor/Art/Apply UI Art to Main")]
     public static void ApplyToMain()
     {
-        var scene = EditorSceneManager.GetActiveScene();
-        if (scene.path != "Assets/Game/01.Scene/Main.unity")
-        {
-            throw new InvalidOperationException("Main.unity를 연 뒤 UI 그림 연결 메뉴를 실행하세요.");
-        }
-
-        foreach (var root in scene.GetRootGameObjects())
-        {
-            foreach (var canvas in root.GetComponentsInChildren<Canvas>(true))
-            {
-                ApplyToCanvas(canvas);
-            }
-        }
-
-        EditorSceneManager.MarkSceneDirty(scene);
-        EditorSceneManager.SaveScene(scene);
+        throw new InvalidOperationException("HD-2D UI로 대체됨: DeadSurvivor/Art/Apply HD2D UI to Main을 사용하세요.");
     }
 
     public static void ApplyToCanvas(Canvas canvas)

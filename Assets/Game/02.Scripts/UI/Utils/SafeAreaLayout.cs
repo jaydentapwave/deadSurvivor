@@ -10,5 +10,15 @@ public static class SafeAreaLayout
         return (Clamp01(anchorMin), Clamp01(anchorMax));
     }
 
+    // Insets expressed in canvas units. Each selected edge extends to the full screen.
+    public static Vector4 Bleed(Vector2 screenSize, Rect safeArea, float canvasScale,
+        bool left, bool bottom, bool right, bool top)
+    {
+        return new Vector4(left ? safeArea.xMin / canvasScale : 0,
+            bottom ? safeArea.yMin / canvasScale : 0,
+            right ? (screenSize.x - safeArea.xMax) / canvasScale : 0,
+            top ? (screenSize.y - safeArea.yMax) / canvasScale : 0);
+    }
+
     private static Vector2 Clamp01(Vector2 value) => new(Mathf.Clamp01(value.x), Mathf.Clamp01(value.y));
 }
