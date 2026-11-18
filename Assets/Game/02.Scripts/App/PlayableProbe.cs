@@ -785,8 +785,8 @@ public static class PlayableProbe
     public static void JoystickUp()
     {
         var view = Resolve<UI_JoystickView>();
-        view.OnPointerUp(CreatePointer(view.CurrentPosition.x / UnityEngine.Screen.width,
-            view.CurrentPosition.y / UnityEngine.Screen.height));
+        view.OnPointerUp(CreatePointer(view.CurrentPosition.x / Resolve<Camera>().pixelWidth,
+            view.CurrentPosition.y / Resolve<Camera>().pixelHeight));
     }
 
     public static void PressFormation(string id) => Resolve<FormationPresenter>().OnFormationClicked(id);
@@ -850,7 +850,8 @@ public static class PlayableProbe
         return new PointerEventData(EventSystem.current)
         {
             pointerId = ProbePointerId,
-            position = new Vector2(x * UnityEngine.Screen.width, y * UnityEngine.Screen.height),
+            // CLI calls run outside the player loop, where Screen can report the editor dock size.
+            position = new Vector2(x * Resolve<Camera>().pixelWidth, y * Resolve<Camera>().pixelHeight),
         };
     }
 }
