@@ -96,6 +96,301 @@
    "source": {
     "model": "output/assets/hd2d-3d-pilot/boulder/dot/model.fbx"
    }
+  },
+  {
+   "id": "hd2d_tree_v1",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "나무 1(시범 나무 형태 그대로, 잎 칠만 r2: 연두 잎은 덩어리 윗부분에서만), 1.51x1.10x1.69m. 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_tree_v1",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 600,
+    "work_dir": "output/assets/hd2d-3d/tree_v1/tripo",
+    "concept": "output/assets/hd2d-3d-pilot/tree/concept.png"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/tree_v1/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_tree_v2",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "나무 2(키 크고 좁게), 1.10x0.99x2.06m. 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_tree_v2",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 600,
+    "work_dir": "output/assets/hd2d-3d/tree_v2/tripo",
+    "concept": "output/assets/hd2d-3d-pilot/tree/concept.png"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/tree_v2/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_tree_v3",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "나무 3(넓게), 1.99x1.09x1.60m. 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_tree_v3",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 600,
+    "work_dir": "output/assets/hd2d-3d/tree_v3/tripo",
+    "concept": "output/assets/hd2d-3d-pilot/tree/concept.png"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/tree_v3/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_bush_v1",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "덤불 1(작은 잎 뭉치 14개 무더기, 톱니 실루엣), 1.21x0.88x0.66m. 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_bush_v1",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 300,
+    "work_dir": "output/assets/hd2d-3d/bush_v1/tripo",
+    "concept": "output/assets/hd2d-3d-pilot/bush/concept.png"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/bush_v1/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_bush_v2",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "덤불 2(더 작고 들쭉날쭉, 잎 뭉치 10개), 0.82x0.62x0.49m. 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_bush_v2",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 300,
+    "work_dir": "output/assets/hd2d-3d/bush_v2/tripo",
+    "concept": "output/assets/hd2d-3d-pilot/bush/concept.png"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/bush_v2/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_boulder_v1",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "큰 바위 r4(뭉툭한 두 덩어리, 각도 기준 매끈 음영, 바탕 R0 + 금), 1.20x0.80x0.80m. 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_boulder_v1",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 300,
+    "work_dir": "output/assets/hd2d-3d/boulder_v1/tripo",
+    "concept": "output/assets/hd2d-3d-pilot/boulder/concept.png"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/boulder_v1/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_boulder_v2",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "작은 큰 바위, 0.65x0.47x0.48m. 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_boulder_v2",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 300,
+    "work_dir": "output/assets/hd2d-3d/boulder_v2/tripo",
+    "concept": "output/assets/hd2d-3d-pilot/boulder/concept.png"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/boulder_v2/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_stone_v1",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "작은 돌 1(물가 돌 겸용), 0.50x0.36x0.25m. 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_stone_v1",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 120,
+    "work_dir": "output/assets/hd2d-3d/stone_v1/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/stone_v1/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_stone_v2",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "작은 돌 2(두 덩어리, 물가 돌 겸용), 0.56x0.34x0.27m. 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_stone_v2",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 120,
+    "work_dir": "output/assets/hd2d-3d/stone_v2/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/stone_v2/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_wall_a",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "돌담 토막 A(길이 1.0m, 양 끝 평평 → 이어 붙임, 높이 0.5m, 벽돌 한 줄 0.12m·길이 0.25m). 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_wall_a",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 200,
+    "work_dir": "output/assets/hd2d-3d/wall_a/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/wall_a/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_wall_b",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "돌담 토막 B(벽돌 길이 섞음, 꼭대기 한 장 빠짐), 길이 1.0m. 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_wall_b",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 200,
+    "work_dir": "output/assets/hd2d-3d/wall_b/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/wall_b/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_grass_v1",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "풀포기 1(grass_tuft_01 색), 0.23x0.23x0.19m, 많이 깔림(약 450개 중). 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_grass_v1",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 40,
+    "work_dir": "output/assets/hd2d-3d/grass_v1/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/grass_v1/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_grass_v2",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "풀포기 2(grass_tuft_02 색), 0.27x0.28x0.26m. 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_grass_v2",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 40,
+    "work_dir": "output/assets/hd2d-3d/grass_v2/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/grass_v2/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_flower_white",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "꽃 흰색(flower_01 색), 0.38x0.36x0.28m. 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_flower_white",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 40,
+    "work_dir": "output/assets/hd2d-3d/flower_white/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/flower_white/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_flower_yellow",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "꽃 노랑(flower_02 색). 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_flower_yellow",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 40,
+    "work_dir": "output/assets/hd2d-3d/flower_yellow/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/flower_yellow/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_flower_purple",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "꽃 보라(flower_03 색). 크레딧 0 Blender 손 모델 + 도트 질감(K18 r7). manifest output/assets/hd2d-3d/manifest.json",
+   "tripo": {
+    "asset": "hd2d_flower_purple",
+    "budget": "hd2d_3d_full",
+    "seed": 20261118,
+    "face_limit": 40,
+    "work_dir": "output/assets/hd2d-3d/flower_purple/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d/flower_purple/model.fbx"
+   }
   }
  ],
  "budgets": {
@@ -114,6 +409,28 @@
     "hd2d_pilot_tree",
     "hd2d_pilot_bush",
     "hd2d_pilot_boulder"
+   ]
+  },
+  "hd2d_3d_full": {
+   "cap": 300,
+   "approval": "2026-11-18 사용자 \"나무까지 전부 3D\"(캐릭터·몬스터·효과 빼고 모두 3D), 기준서 r7 승인 \"승인, 이 방향으로 진행\"(시범 방향 승인 포함). 나머지 배경 3D 상한 300크레딧은 디렉터가 정함. 이번 작업은 크레딧 0(Blender 손 모델)으로 끝내 쓰지 않음",
+   "assets": [
+    "hd2d_tree_v1",
+    "hd2d_tree_v2",
+    "hd2d_tree_v3",
+    "hd2d_bush_v1",
+    "hd2d_bush_v2",
+    "hd2d_boulder_v1",
+    "hd2d_boulder_v2",
+    "hd2d_stone_v1",
+    "hd2d_stone_v2",
+    "hd2d_wall_a",
+    "hd2d_wall_b",
+    "hd2d_grass_v1",
+    "hd2d_grass_v2",
+    "hd2d_flower_white",
+    "hd2d_flower_yellow",
+    "hd2d_flower_purple"
    ]
   }
  }

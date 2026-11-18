@@ -31,6 +31,7 @@
 2. 천막만: 생성 원본 한쪽 옆면에 큰 계단 모양 접힘(원본에서 이미 있음, `final`의 `raw_sheet.png`에서 확인) → `mirror_half.py keep=pos`로 좋은 쪽 반을 거울 복사 → 다시 감면(`final/`).
 3. 천막만: 판독 지적(옆면 큰 쐐기형 꺾임) → `planar_tent.py`로 옆면 천 정점을 최소제곱 평면으로(평균 이동 0.03m, 최대 0.085m) → `final2/`.
 - 다리는 감면에서 널빤지 홈이 거의 사라졌다(위에서 희미한 줄 2개). 홈은 도트 질감이 맡는다(명세 2절 "디테일은 질감").
+4. (11-18 더함) 메시 검사 `output/assets/hd2d-props-post/mesh_check.py`: `post_prop.py`가 최종 메시를 세어 `post.json` `mesh_check`에 남긴다(기록만, 멈추지 않음). 이미 넣은 모델의 결과: 게임 `Bridge.fbx` 구멍 가장자리 36(Tripo 원본과 같음, **높이 70~82%의 작은 구멍 10곳 — 판독은 "구멍 없음"이었다, 게임 화면에서 보이는지 미확인**), `Tent.fbx` 62(원본 63, 보이는지 미확인). 근거·방법: [blender-skills 분석](../research/blender-skills-분석-2026-11-18.md) B1.
 
 ## 판독 (Codex gpt-6.1-sol medium, 읽기 전용)
 
@@ -69,3 +70,10 @@
 | 모델 | `tree/dot/model.fbx` | `bush/dot/model.fbx` | `boulder/dot/model.fbx` |
 
 - 다시 Tripo로 만들려면: 기준서 재승인 기록(`approve.py record`, 사용자 원문) 뒤 `KIT3D_CONFIG=3dkit.hd2d.config.json assets.py gen estimate|freeze|dryrun|submit|fetch hd2d_pilot_<이름>`.
+
+## 나머지 배경 3D 16종 (2026-11-18, 크레딧 0)
+
+- 사용자 원문: "나무까지 전부 3D"(캐릭터·몬스터·효과 빼고 모두 3D), 기준서 r7 승인 질문 "아트 기준서 r6.2~r6.4(…배경 전부 3D + PCG seed 8)를 승인할까요? 그리고 시험 3종의 방향으로 나머지를 만들어도 될까요?" → **"승인, 이 방향으로 진행"**. `approve.py verify` OK(r7).
+- 이번 작업 Tripo 상한 **300크레딧**(디렉터가 정함), 카탈로그 예산 `hd2d_3d_full`, 에셋 16개(`hd2d_tree_v1~v3`, `hd2d_bush_v1~v2`, `hd2d_boulder_v1~v2`, `hd2d_stone_v1~v2`, `hd2d_wall_a/b`, `hd2d_grass_v1~v2`, `hd2d_flower_white/yellow/purple`), 상태 `trial`.
+- **Tripo 쓰지 않음 → 쓴 크레딧 0**, 견적·동결·제출·잔액 조회 없음. Blender 손 모델 + 도트 질감으로 16개 모두 두 모델 판독 style ≥ 3 통과(방법 바꿈 1회: 덤불 2·큰 바위·작은 돌 1·돌담 2).
+- 기록: `output/assets/hd2d-3d/notes.md`, 넣기용 목록 `output/assets/hd2d-3d/manifest.json`.
