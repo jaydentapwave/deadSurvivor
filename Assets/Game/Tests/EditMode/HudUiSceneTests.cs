@@ -52,6 +52,46 @@ public class HudUiSceneTests
         AssertScreen(prep.transform);
     }
 
+    [Test]
+    public void ResultMeetsArtTextAndTouchContract()
+    {
+        var scene = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        var result = Array.Find(scene.GetRootGameObjects(), r => r.GetComponentInChildren<UI_ResultView>(true) != null).GetComponentInChildren<UI_ResultView>(true);
+        AssertScreen(result.transform);
+    }
+
+    [Test]
+    public void TabletTopLabelsDoNotOverlapTimer()
+    {
+        var scene = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        var hud = Array.Find(scene.GetRootGameObjects(), r => r.GetComponentInChildren<UI_BattleHudView>(true) != null).GetComponentInChildren<UI_BattleHudView>(true);
+        var clone = UnityEngine.Object.Instantiate(hud.transform.Find("TopBar").gameObject);
+        var rect = clone.GetComponent<RectTransform>();
+        rect.anchorMin = rect.anchorMax = Vector2.zero;
+        rect.sizeDelta = new Vector2(480, 52);
+        var timer = RectTransformUtility.CalculateRelativeRectTransformBounds(rect, clone.transform.Find("Remaining"));
+        foreach (var name in new[] { "Wave", "Kills", "Threat" })
+        {
+            var label = RectTransformUtility.CalculateRelativeRectTransformBounds(rect, clone.transform.Find(name));
+            Assert.Less(label.max.x, timer.min.x, name);
+        }
+        UnityEngine.Object.DestroyImmediate(clone);
+    }
+
+    [Test]
+    public void WorldBarLegacyAliasesResolveToFramelessHighResolutionArt()
+    {
+        var service = new SpriteAtlasService(new ResourceService());
+        foreach (var key in new[] { "hp_bar_bg", "hp_bar_fill", "U7_bar_track", "U7_bar_fill" })
+        {
+            var sprite = service.GetUi(key);
+            Assert.AreEqual(Vector4.zero, sprite.border, key);
+            Assert.AreEqual(100, sprite.pixelsPerUnit, key);
+            StringAssert.StartsWith("U7_", sprite.name);
+            UnityEngine.Object.DestroyImmediate(sprite);
+        }
+    }
+
     public static void AssertScreen(Transform root)
     {
         foreach (var text in root.GetComponentsInChildren<Text>(true))

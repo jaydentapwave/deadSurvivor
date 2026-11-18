@@ -40,7 +40,7 @@ public class HpLossPresenter : IInitializable, ILateTickable, IDisposable
         foreach (var memberView in _memberViewList)
         {
             var barPixels = memberView.HpBarPixels;
-            var sprite = _spriteAtlasService.GetUi("hp_bar_fill");
+            var sprite = _spriteAtlasService.GetUi("U7_bar_fill");
             memberView.HpLossBarView.Initialize(sprite, color, (Vector2)barPixels / Const.PixelsPerUnit);
             _trailList.Add(new HpLossTrail());
         }

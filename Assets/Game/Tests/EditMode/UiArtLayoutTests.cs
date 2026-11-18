@@ -269,11 +269,6 @@ public class UiArtLayoutTests
                             continue;
                         }
 
-                        // U4: migrated lobby + HUD; prep/result migrate in U5~U7.
-                        if (image.GetComponentInParent<UI_PrepView>() != null || image.GetComponentInParent<UI_ResultView>() != null)
-                        {
-                            continue;
-                        }
                         Assert.That(image.sprite, Is.Not.Null, image.name);
                         Assert.That(AssetDatabase.GetAssetPath(image.sprite), Does.StartWith("Assets/Game/03.Resources/Art/HD2D/UI/"));
                     }

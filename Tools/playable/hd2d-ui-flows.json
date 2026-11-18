@@ -88,9 +88,16 @@
       "capture": true
     },
     {
+      "id": "END2",
+      "name": "집기 판 종료",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120
+    },
+    {
       "id": "WIN",
       "name": "10웨이브 끝까지 → 결과 승리, 버틴 웨이브 10, 전투 시간 435±2초(M1)",
-      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressToLobby(); PlayableProbe.PressDepart(); UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
       "wait": "PlayableProbe.Screen == \"Result\"",
       "timeout": 120,
       "expect": "PlayableProbe.Outcome == \"Win\" && PlayableProbe.WavesSurvived == 10 && PlayableProbe.AliveCount == 4 && Math.Abs(PlayableProbe.TotalBattleSeconds - 435) <= 2",

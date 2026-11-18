@@ -104,8 +104,8 @@ public static class MainSceneHudUiMigration
         Ref(view, "passedNode", Sprite("U10_wave_node_passed"));
         Ref(view, "currentNode", Sprite("U10_wave_node_current"));
         Ref(view, "remainingNode", Sprite("U10_wave_node_remaining"));
-        Place((RectTransform)top.Find("Kills"), new Vector2(0, 1), new Vector2(225, -17), new Vector2(70, 20));
-        Place((RectTransform)top.Find("Threat"), new Vector2(0, 1), new Vector2(225, -33), new Vector2(70, 16));
+        Place((RectTransform)top.Find("Kills"), new Vector2(0, 1), new Vector2(93, -36), new Vector2(60, 16));
+        Place((RectTransform)top.Find("Threat"), new Vector2(0, 1), new Vector2(160, -36), new Vector2(70, 16));
         top.Find("Kills").GetComponent<Text>().color = Muted;
         top.Find("Threat").GetComponent<Text>().color = Muted;
         Place((RectTransform)top.Find("Remaining"), new Vector2(0.5f, 1), new Vector2(0, -20), new Vector2(60, 24));
@@ -377,7 +377,55 @@ public static class MainSceneHudUiMigration
         // Reapply token exceptions after the shared font pass.
         root.Find("Box/Title").GetComponent<Text>().fontSize = 14;
     }
-    private static void ApplyResult(Transform canvas) { }
+    private static void ApplyResult(Transform canvas)
+    {
+        var root = Find(canvas, "ResultView");
+        TextStyle(root);
+        var box = root.Find("Box");
+        var rect = (RectTransform)box;
+        rect.anchorMin = new Vector2(0.5f, 0);
+        rect.anchorMax = new Vector2(0.5f, 1);
+        rect.pivot = new Vector2(0.5f, 0.5f);
+        rect.anchoredPosition = Vector2.zero;
+        rect.sizeDelta = new Vector2(300, 0);
+        Art(box.GetComponent<Image>(), "U7_bar_fill");
+        box.GetComponent<Image>().color = Color.clear;
+        var band = Band(box, "U1_panel_menu", true, true, false);
+        var bleed = new SerializedObject(band.GetComponent<UI_SafeAreaBleed>());
+        bleed.FindProperty("left").boolValue = false;
+        bleed.FindProperty("right").boolValue = false;
+        bleed.ApplyModifiedPropertiesWithoutUndo();
+        var outcome = box.Find("Outcome").GetComponent<Text>();
+        Place(outcome.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0, 85), new Vector2(240, 30));
+        outcome.fontSize = 16;
+        var divider = Picture("Divider", box, "U5_divider_line", new Vector2(0.5f, 0.5f), new Vector2(0, 62), new Vector2(220, 3));
+        Picture("Knot", divider.transform, "U5_divider_knot", new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(8, 8));
+        var names = new[] { "Waves", "Kills", "Time" };
+        var labels = new[] { "버틴 웨이브", "처치", "전투 시간" };
+        for (var i = 0; i < names.Length; i++)
+        {
+            var text = box.Find(names[i]).GetComponent<Text>();
+            Place(text.rectTransform, new Vector2(0.5f, 0.5f), new Vector2(0, 34 - i * 26), new Vector2(210, 22));
+            text.fontSize = 12;
+            RowLabel(text, labels[i]);
+            text.transform.Find("Caption").GetComponent<Text>().fontSize = 11;
+        }
+        var lobby = box.Find("ToLobbyButton").GetComponent<Button>();
+        ButtonArt(lobby, true);
+        Place((RectTransform)lobby.transform, new Vector2(0.5f, 0.5f), new Vector2(0, -75), new Vector2(140, 44));
+        var view = root.GetComponent<UI_ResultView>();
+        var so = new SerializedObject(view);
+        so.FindProperty("winColor").colorValue = Hex("f7ea81");
+        so.FindProperty("loseColor").colorValue = Hex("a8acaf");
+        so.ApplyModifiedPropertiesWithoutUndo();
+        var help = Rect("HelpBand", root);
+        help.anchorMin = Vector2.zero;
+        help.anchorMax = new Vector2(1, 0);
+        help.pivot = new Vector2(0.5f, 0);
+        help.anchoredPosition = Vector2.zero;
+        help.sizeDelta = new Vector2(0, 24);
+        Band(help, "U6_band_bottom", false, true, false);
+    }
 
     private static void Refs(Object owner, string field, Object[] values)
     {
