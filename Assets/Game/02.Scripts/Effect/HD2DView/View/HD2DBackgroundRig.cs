@@ -73,8 +73,8 @@ public sealed class HD2DBackgroundRig : MonoBehaviour
         {
             ReleaseTargets();
             _target = Texture(width, height, 24, RenderTextureFormat.ARGBHalf, "Background target");
-            Color = RTHandles.Alloc(Texture(width, height, 0, RenderTextureFormat.ARGBHalf, "Point background color"));
-            Depth = RTHandles.Alloc(Texture(width, height, 0, RenderTextureFormat.RFloat, "Point background depth"));
+            Color = RTHandles.Alloc(Texture(width, height, 0, RenderTextureFormat.ARGBHalf, "Point background color"), transferOwnership: true);
+            Depth = RTHandles.Alloc(Texture(width, height, 0, RenderTextureFormat.RFloat, "Point background depth"), transferOwnership: true);
         }
         _backgroundCamera.transform.SetPositionAndRotation(_camera.transform.position, _camera.transform.rotation);
         _backgroundCamera.orthographicSize = _camera.orthographicSize;
@@ -109,6 +109,10 @@ public sealed class HD2DBackgroundRig : MonoBehaviour
 
     private void ReleaseTargets()
     {
+        if (_backgroundCamera != null)
+        {
+            _backgroundCamera.targetTexture = null;
+        }
         Color?.Release();
         Depth?.Release();
         Color = null;

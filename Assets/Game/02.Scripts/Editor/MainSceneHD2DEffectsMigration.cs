@@ -25,6 +25,16 @@ public static class MainSceneHD2DEffectsMigration
                 AssetDatabase.CreateAsset(new Material(Shader.Find("HD2D/HD2D_" + name)), Materials + name + ".mat");
             }
         }
+        // r6.1 keeps the painted monster values stable under moving character shadows.
+        // This is a shared M1 variant (same shader/state), not a per-monster material instance/block.
+        var monsterMaterial = AssetDatabase.LoadAssetAtPath<Material>(Materials + "MonsterLit.mat");
+        if (monsterMaterial == null)
+        {
+            monsterMaterial = new Material(Material("SpriteLit")) { name = "HD2D_MonsterLit" };
+            AssetDatabase.CreateAsset(monsterMaterial, Materials + "MonsterLit.mat");
+        }
+        monsterMaterial.SetFloat("_ReceiveShadows", 0f);
+        EditorUtility.SetDirty(monsterMaterial);
         var background = AssetDatabase.LoadAssetAtPath<UniversalRendererData>(Settings + "HD2D_BackgroundRenderer.asset");
         if (background == null)
         {
@@ -84,6 +94,7 @@ public static class MainSceneHD2DEffectsMigration
             if (name == "MonsterView")
             {
                 var so = new SerializedObject(prefab.GetComponent<MonsterView>());
+                ((SpriteRenderer)so.FindProperty("bodyRenderer").objectReferenceValue).sharedMaterial = monsterMaterial;
                 foreach (var field in new[] { "dashLineRenderer", "blastAreaRenderer" })
                 {
                     ((SpriteRenderer)so.FindProperty(field).objectReferenceValue).sharedMaterial = Material("SpriteFade");

@@ -17,7 +17,8 @@ public class ArtImportSettingsTests
     {
         var guids = AssetDatabase.FindAssets("t:Texture2D", new[] { GeneratedFolder + "/Characters", GeneratedFolder + "/Monsters" });
         var characters = new CharacterRepository(new ResourceService()).CharacterDataList;
-        var expected = 19;
+        // Existing bodies/states + 12 hero directions + 20 monster directions + 8 warning directions.
+        var expected = 19 + 4 * 3 + 5 * 4 + 2 * 4;
         foreach (var character in characters)
         {
             expected += 2 * (character.Motion.WalkFrames + character.Motion.AttackFrames);
