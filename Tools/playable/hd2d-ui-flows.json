@@ -84,7 +84,7 @@
     {
       "id": "PICK",
       "name": "가방 아이템 놓기",
-      "do": "UnityEngine.Time.timeScale = 1f; PlayableProbe.PlaceFirstStashItem();",
+      "do": "UnityEngine.Time.timeScale = 1f; PlayableProbe.PlaceFirstStashItem(); var stash = UnityEngine.Object.FindFirstObjectByType<UI_PrepView>().StashView; stash.ReportPressed(stash.ItemTemplate.Uid); stash.ReportTapped(BagTarget.Cell(0, 0, 1));",
       "capture": true
     },
     {

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 // 가방 칸 하나(기획서 C절 V3). 그리기와 입력 사실 보고만 한다: 누름(칸의 Uid, 빈 칸 −1), 드래그 없이 떼면 탭, 드래그 중·드래그 놓기는 손가락 밑 대상
 public class UI_BagCellView : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
+    [SerializeField] private Sprite[] cellArt;
     [SerializeField] private Image background;
     [SerializeField] private Image border;
     [SerializeField] private Text labelText;
@@ -37,11 +38,8 @@ public class UI_BagCellView : MonoBehaviour, IPointerDownHandler, IDragHandler, 
 
         _uid = display.Uid;
         var hasItem = display.Uid >= 0;
-        var color = display.Mark == BagCellMark.Valid ? validColor
-            : display.Mark == BagCellMark.Invalid ? invalidColor
-            : display.IsPicked ? pickedColor
-            : hasItem ? itemColor : emptyColor;
-        background.color = isDown ? color * downTint : color;
+        background.sprite = cellArt[(int)BagCellArt.Resolve(display)];
+        background.color = isDown ? downTint : Color.white;
         border.gameObject.SetActive(hasItem);
         border.color = isDown ? display.GradeColor * downTint : display.GradeColor;
         labelText.text = display.Label;

@@ -44,6 +44,14 @@ public class HudUiSceneTests
         AssertScreen(prep.GetComponentInChildren<UI_FormationView>(true).transform);
     }
 
+    [Test]
+    public void EntirePrepMeetsArtTextAndTouchContract()
+    {
+        var scene = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        var prep = Array.Find(scene.GetRootGameObjects(), r => r.GetComponentInChildren<UI_PrepView>(true) != null).GetComponentInChildren<UI_PrepView>(true);
+        AssertScreen(prep.transform);
+    }
+
     public static void AssertScreen(Transform root)
     {
         foreach (var text in root.GetComponentsInChildren<Text>(true))

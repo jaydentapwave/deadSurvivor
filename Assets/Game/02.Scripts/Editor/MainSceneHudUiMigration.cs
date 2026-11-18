@@ -320,7 +320,63 @@ public static class MainSceneHudUiMigration
         }
         Refs(formation, "portraitFaces", faces);
     }
-    private static void ApplyBag(Transform canvas) { }
+    private static void ApplyBag(Transform canvas)
+    {
+        var root = Find(canvas, "PrepView");
+        foreach (var bag in root.GetComponentsInChildren<UI_BagView>(true))
+        {
+            foreach (var image in bag.GetComponentsInChildren<Image>(true))
+            {
+                Art(image, image.name == "Border" ? "U9_cell_grade" : "U9_cell_empty");
+            }
+            foreach (var cell in bag.GetComponentsInChildren<UI_BagCellView>(true))
+            {
+                Refs(cell, "cellArt", new Object[] { Sprite("U9_cell_empty"), Sprite("U9_cell_filled"), Sprite("U9_cell_selected"), Sprite("U9_cell_droppable"), Sprite("U9_cell_blocked") });
+            }
+        }
+        var stash = root.GetComponentInChildren<UI_StashView>(true);
+        Art(stash.GetComponent<Image>(), "U1_panel_menu");
+        var stashGrid = stash.Content.GetComponent<GridLayoutGroup>();
+        stashGrid.cellSize = new Vector2(56, 44);
+        stashGrid.spacing = new Vector2(2, 2);
+        ((RectTransform)stash.transform).sizeDelta = new Vector2(180, 110);
+        Picture("TitleLine", stash.transform, "U5_divider_line", new Vector2(0.5f, 1), new Vector2(0, -19), new Vector2(164, 2));
+        foreach (var item in stash.GetComponentsInChildren<UI_StashItemView>(true))
+        {
+            Ref(item, "normalArt", Sprite("U9_cell_filled"));
+            Ref(item, "pickedArt", Sprite("U9_cell_selected"));
+            foreach (var image in item.GetComponentsInChildren<Image>(true))
+            {
+                Art(image, image.name == "Border" ? "U9_cell_grade" : image.name == "New" ? "U12_icon_new" : image.name == "Background" ? "U9_cell_filled" : "U7_bar_fill");
+                if (image.name == "New")
+                {
+                    image.color = Hex("f7ea81");
+                    foreach (var text in image.GetComponentsInChildren<Text>(true))
+                    {
+                        text.gameObject.SetActive(false);
+                    }
+                }
+            }
+            var so = new SerializedObject(item);
+            so.FindProperty("shapeOnColor").colorValue = White;
+            so.FindProperty("shapeOffColor").colorValue = new Color(White.r, White.g, White.b, 0.15f);
+            so.ApplyModifiedPropertiesWithoutUndo();
+        }
+        var info = root.GetComponentInChildren<UI_ItemInfoView>(true);
+        foreach (var image in info.GetComponentsInChildren<Image>(true))
+        {
+            Art(image, image.name == "PreviewScroll" ? "U9_cell_empty" : "U1_panel_menu");
+        }
+        ((RectTransform)info.transform).sizeDelta = new Vector2(180, 110);
+        foreach (var button in info.GetComponentsInChildren<Button>(true))
+        {
+            ButtonArt(button, false, true);
+            Place((RectTransform)button.transform, new Vector2(0.5f, 0), new Vector2(0, 22), new Vector2(80, 44));
+        }
+        TextStyle(root);
+        // Reapply token exceptions after the shared font pass.
+        root.Find("Box/Title").GetComponent<Text>().fontSize = 14;
+    }
     private static void ApplyResult(Transform canvas) { }
 
     private static void Refs(Object owner, string field, Object[] values)
@@ -468,6 +524,7 @@ public static class MainSceneHudUiMigration
         foreach (var text in root.GetComponentsInChildren<Text>(true))
         {
             text.font = AssetDatabase.LoadAssetAtPath<Font>(text.name == "Remaining" || text.name == "Outcome" || text.name == "Title" ? EmphasisFontPath : BodyFontPath);
+            text.resizeTextForBestFit = false;
             text.fontStyle = FontStyle.Normal;
             text.fontSize = Mathf.Max(9, text.fontSize);
             text.color = White;
