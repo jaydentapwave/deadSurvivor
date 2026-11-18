@@ -19,6 +19,11 @@ public class MonsterView : MonoBehaviour
     [SerializeField] private float shakePeriodSeconds = 0.1f;
 
     private float _dashLength;
+    private float _blastRadius;
+    private EffectSpriteCache _effectSpriteCache;
+    private MonsterPhase _lastPhase;
+    private float _warningStarted;
+    private Vector2 _dashDirection;
     private float _unitScale;
     private Sprite _bodySprite;
     private Sprite _warningSprite;
@@ -78,14 +83,24 @@ public class MonsterView : MonoBehaviour
         _dashLength = dashLength;
         _unitScale = unitScale;
 
-        // 원의 지름은 바닥 단위다. 피벗이 아래 가운데인 원을 발 중심으로 옮긴다.
-        var diameter = blastRadius * 2f * unitScale;
-        var spriteSize = areaSprite.bounds.size;
-        var areaTransform = blastAreaRenderer.transform;
-        areaTransform.localRotation = Quaternion.Euler(90f, 0f, 0f);
-        areaTransform.localScale = new Vector3(diameter / spriteSize.x, diameter / spriteSize.y, 1f);
-        areaTransform.localPosition = new Vector3(0f, 0.001f, -diameter * 0.5f);
+        _blastRadius = blastRadius;
+        _lastPhase = MonsterPhase.Approach;
+        foreach (var renderer in new[] { dashLineRenderer, blastAreaRenderer })
+        {
+            renderer.transform.localRotation = Quaternion.Euler(90, 0, 0);
+            renderer.transform.localScale = new Vector3(1, 2, 1);
+            renderer.transform.localPosition = new Vector3(0, .001f, 0);
+        }
         UpdateState(MonsterPhase.Approach, Vector2.zero);
+    }
+
+    public void InitializeEffects(EffectSpriteCache cache)
+    {
+        _effectSpriteCache = cache;
+        if (_blastRadius > 0)
+        {
+            blastAreaRenderer.sprite = cache.Ring("blast", _blastRadius * _unitScale, 0);
+        }
     }
 
     public void InitializeShadow(Sprite sprite, float bodyWidthPixels)
@@ -179,18 +194,26 @@ public class MonsterView : MonoBehaviour
         }
 
         var isWindup = phase == MonsterPhase.Windup;
+        if (phase != _lastPhase)
+        {
+            _warningStarted = Time.time;
+            _lastPhase = phase;
+            if (isWindup)
+            {
+                _dashDirection = dashDirection;
+            }
+        }
         dashLineRenderer.enabled = isWindup;
         blastAreaRenderer.enabled = phase == MonsterPhase.Fuse;
-        if (!isWindup)
+        var elapsed = Time.time - _warningStarted;
+        if (phase == MonsterPhase.Fuse && _blastRadius > 0)
         {
-            return;
+            blastAreaRenderer.sprite = _effectSpriteCache.Ring("blast", _blastRadius * _unitScale, EffectFrameMath.FrameAt(elapsed, 2, 8, true));
         }
-
-        var line = dashDirection * (_dashLength * _unitScale);
-        var lineTransform = dashLineRenderer.transform;
-        lineTransform.localPosition = new Vector3(0f, 0.001f, 0f);
-        lineTransform.localRotation = Quaternion.Euler(0f, -Mathf.Atan2(line.y, line.x) * Mathf.Rad2Deg, 0f)
-            * Quaternion.Euler(90f, 0f, 0f);
-        lineTransform.localScale = new Vector3(line.magnitude / dashLineRenderer.sprite.bounds.size.x, 1f, 1f);
+        if (isWindup && _dashLength > 0)
+        {
+            var angle = Mathf.Atan2(_dashDirection.y, _dashDirection.x) * Mathf.Rad2Deg;
+            dashLineRenderer.sprite = _effectSpriteCache.Dash(_dashLength * _unitScale, angle, EffectFrameMath.FrameAt(elapsed, 3, 12, true));
+        }
     }
 }

@@ -91,6 +91,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         // 생성·등록부
         builder.Register<MonsterViewFactory>(Lifetime.Scoped);
         builder.Register<MonsterViewRegistry>(Lifetime.Scoped);
+        builder.Register<EffectSpriteCache>(Lifetime.Scoped);
         builder.Register<ProjectileViewFactory>(Lifetime.Scoped).WithParameter(combatEffectRoot);
         builder.Register<ProjectileViewRegistry>(Lifetime.Scoped);
         builder.Register<EnemyShotViewFactory>(Lifetime.Scoped).WithParameter(enemyShotPrefab).WithParameter(enemyShotParent);

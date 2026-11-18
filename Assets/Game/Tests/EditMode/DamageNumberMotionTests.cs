@@ -101,7 +101,7 @@ public class DamageNumberMotionTests
         var rules = new FeedbackRulesRepository(resources);
         var factory = new DamageNumberViewFactory(pool, placeholder, atlas, rules, registry,
             resources.Load<DamageNumberView>("Prefab/DamageNumberView"), parent.transform);
-        var monsters = new MonsterViewFactory(pool, resources, new MonsterViewRegistry(), placeholder, atlas, context.RunRules);
+        var monsters = new MonsterViewFactory(pool, resources, new MonsterViewRegistry(), placeholder, atlas, context.RunRules, new EffectSpriteCache());
         using var presenter = new DamageNumberPresenter(context.RunModel, context.CombatFeedbackModel, rules,
             context.RunRules, factory, registry, monsters, context.ViewRules);
         context.RunModel.SetPhase(RunPhase.Battle);

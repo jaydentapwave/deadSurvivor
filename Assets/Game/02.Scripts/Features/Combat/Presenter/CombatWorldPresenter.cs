@@ -15,6 +15,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
     private readonly RunRulesData _runRules;
     private readonly ViewRulesData _viewRules;
     private readonly CombatEffectData _effectData;
+    private readonly EffectSpriteCache _effectSpriteCache;
     private readonly SpriteAtlasService _spriteAtlasService;
     private readonly ProjectileViewFactory _projectileViewFactory;
     private readonly ProjectileViewRegistry _projectileViewRegistry;
@@ -31,7 +32,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
 
     public CombatWorldPresenter(CombatModel combatModel, CombatFeedbackModel combatFeedbackModel, RunModel runModel,
         RunRulesData runRules, CombatEffectData effectData, SpriteAtlasService spriteAtlasService,
-        ProjectileViewFactory projectileViewFactory, ProjectileViewRegistry projectileViewRegistry, ViewRulesData viewRules)
+        ProjectileViewFactory projectileViewFactory, ProjectileViewRegistry projectileViewRegistry, ViewRulesData viewRules, EffectSpriteCache effectSpriteCache)
     {
         _combatModel = combatModel;
         _combatFeedbackModel = combatFeedbackModel;
@@ -39,6 +40,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         _runRules = runRules;
         _viewRules = viewRules;
         _effectData = effectData;
+        _effectSpriteCache = effectSpriteCache;
         _spriteAtlasService = spriteAtlasService;
         _projectileViewFactory = projectileViewFactory;
         _projectileViewRegistry = projectileViewRegistry;
@@ -165,7 +167,6 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
             return;
         }
 
-        var scale = Vector2.one;
         var isFlipped = false;
         switch (burst.Kind)
         {
@@ -179,26 +180,40 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
                 position += TiltedViewMath.UprightOffset(HealHeight, _viewRules.TiltDegrees);
                 break;
             case BurstEffectKind.HealArea:
-                scale *= burst.Radius * _runRules.UnitScale * 2f / (sprite.rect.width / Const.PixelsPerUnit);
                 break;
             case BurstEffectKind.Explosion:
                 position += TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
 
                 break;
             case BurstEffectKind.Pulse:
-                scale *= burst.Radius * _runRules.UnitScale * 2f / (sprite.rect.width / Const.PixelsPerUnit);
                 break;
         }
 
-        DrawFrame(key, spriteName, burst.Seconds - burst.RemainingSeconds, position, isFlipped,
-            burst.Kind == BurstEffectKind.HealArea || burst.Kind == BurstEffectKind.Pulse);
+        var elapsed = burst.Seconds - burst.RemainingSeconds;
+        if (burst.Kind == BurstEffectKind.HealArea || burst.Kind == BurstEffectKind.Pulse)
+        {
+            var frame = EffectFrameMath.FrameAt(elapsed, clip.Frames, clip.Fps, false);
+            var ring = _effectSpriteCache.Ring(burst.Kind == BurstEffectKind.HealArea ? "heal" : "pulse", burst.Radius * _runRules.UnitScale, frame);
+            DrawFrame(key, spriteName, elapsed, position, false, true, ring);
+        }
+        else
+        {
+            DrawFrame(key, spriteName, elapsed, position, isFlipped);
+            if (burst.Kind == BurstEffectKind.Explosion)
+            {
+                var groundClip = _effectData.GetClip("ground_boom");
+                var frame = EffectFrameMath.FrameAt(elapsed, groundClip.Frames, groundClip.Fps, false);
+                DrawFrame(key + 1, "ground_boom", elapsed, World(burst.Position), false, true,
+                    _effectSpriteCache.Ring("boom", burst.Radius * _runRules.UnitScale, frame));
+            }
+        }
     }
 
-    private void DrawFrame(long id, string key, float elapsed, Vector3 position, bool isFlipped = false, bool isGround = false)
+    private void DrawFrame(long id, string key, float elapsed, Vector3 position, bool isFlipped = false, bool isGround = false, Sprite rasterSprite = null)
     {
         var clip = _effectData.GetClip(key);
         var index = EffectFrameMath.FrameAt(elapsed, clip.Frames, clip.Fps, clip.Loop);
-        var sprite = _spriteAtlasService.Get(clip.FrameKey(index));
+        var sprite = rasterSprite == null ? _spriteAtlasService.Get(clip.FrameKey(index)) : rasterSprite;
         _aliveBurstIdSet.Add(id);
         if (!_projectileViewRegistry.TryGetBurst(id, out var view))
         {
