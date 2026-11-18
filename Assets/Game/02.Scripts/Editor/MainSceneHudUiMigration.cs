@@ -44,12 +44,86 @@ public static class MainSceneHudUiMigration
         ApplyResult(canvas.transform);
     }
 
-    private static void ApplyLobby(Transform canvas) { }
+    private static void ApplyLobby(Transform canvas)
+    {
+        var root = Find(canvas, "LobbyView");
+        TextStyle(root);
+        var title = root.Find("Title").GetComponent<Text>();
+        title.fontSize = 16;
+        Place(title.rectTransform, new Vector2(0.5f, 1), new Vector2(0, -22), new Vector2(300, 24));
+        Picture("TitleLine", root, "U5_divider_line", new Vector2(0.5f, 1), new Vector2(0, -38), new Vector2(300, 2)).color = Hex("707070");
+        var cards = root.Find("Cards");
+        Place((RectTransform)cards, new Vector2(0.5f, 0.5f), new Vector2(0, 0), new Vector2(460, 220));
+        foreach (var view in root.GetComponentsInChildren<UI_CharacterCardView>(true))
+        {
+            var card = view.transform;
+            Art(card.GetComponent<Image>(), "U1_panel_menu");
+            Art(card.Find("Color").GetComponent<Image>(), "U8_portrait_L_mask");
+            var so = new SerializedObject(view);
+            var slot = (LayoutElement)so.FindProperty("portraitSlot").objectReferenceValue;
+            slot.preferredHeight = 55;
+            var window = (RectTransform)so.FindProperty("portraitWindow").objectReferenceValue;
+            Portrait(window, "L", 52);
+            var area = so.FindProperty("portraitArea");
+            area.rectIntValue = new RectInt(17, 15, 34, 34);
+            so.ApplyModifiedPropertiesWithoutUndo();
+            card.Find("Name").GetComponent<Text>().fontSize = 12;
+            card.Find("Role").GetComponent<Text>().color = Muted;
+            var line = Picture("Divider", card, "U5_divider_line", new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(90, 3));
+            var layout = line.GetComponent<LayoutElement>() ?? line.gameObject.AddComponent<LayoutElement>();
+            layout.preferredHeight = 3;
+            line.transform.SetSiblingIndex(card.Find("Role").GetSiblingIndex() + 1);
+            Picture("Knot", line.transform, "U5_divider_knot", new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(6, 6));
+            RowLabel(card.Find("Hp").GetComponent<Text>(), "HP");
+            RowLabel(card.Find("Atk").GetComponent<Text>(), "공격");
+            RowLabel(card.Find("Def").GetComponent<Text>(), "방어");
+            RowLabel(card.Find("Item").GetComponent<Text>(), "장비");
+        }
+        var depart = root.Find("DepartButton").GetComponent<Button>();
+        ButtonArt(depart, true);
+        Place((RectTransform)depart.transform, new Vector2(0.5f, 0), new Vector2(0, 34), new Vector2(140, 44));
+    }
     private static void ApplyHudTop(Transform canvas) { }
     private static void ApplyHudBottom(Transform canvas) { }
     private static void ApplyPrep(Transform canvas) { }
     private static void ApplyBag(Transform canvas) { }
     private static void ApplyResult(Transform canvas) { }
+
+    private static void Portrait(RectTransform window, string size, float dimension)
+    {
+        var rectMask = window.GetComponent<RectMask2D>();
+        if (rectMask != null)
+        {
+            Object.DestroyImmediate(rectMask);
+        }
+        var image = window.GetComponent<Image>() ?? window.gameObject.AddComponent<Image>();
+        Art(image, "U8_portrait_" + size + "_mask");
+        image.raycastTarget = false;
+        var mask = window.GetComponent<Mask>() ?? window.gameObject.AddComponent<Mask>();
+        mask.showMaskGraphic = false;
+        var frame = Picture("Frame", window.parent, "U8_portrait_" + size + "_normal", window.anchorMin, window.anchoredPosition, new Vector2(dimension, dimension));
+        frame.rectTransform.anchorMax = window.anchorMax;
+        frame.rectTransform.pivot = window.pivot;
+        var layout = frame.GetComponent<LayoutElement>() ?? frame.gameObject.AddComponent<LayoutElement>();
+        layout.ignoreLayout = true;
+    }
+
+    private static void RowLabel(Text value, string label)
+    {
+        value.alignment = TextAnchor.MiddleRight;
+        var rect = Rect("Caption", value.transform);
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = rect.offsetMax = Vector2.zero;
+        var text = rect.GetComponent<Text>() ?? rect.gameObject.AddComponent<Text>();
+        text.font = AssetDatabase.LoadAssetAtPath<Font>(LightFontPath);
+        text.fontStyle = FontStyle.Normal;
+        text.fontSize = 9;
+        text.alignment = TextAnchor.MiddleLeft;
+        text.color = Muted;
+        text.text = label + " :";
+        text.raycastTarget = false;
+    }
 
     private static Transform Find(Transform root, string name)
     {
