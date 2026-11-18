@@ -1,6 +1,6 @@
 # HD-2D 전투장 지도 절차 생성(PCG) — 설계와 시제품
 
-- 상태: **시제품(11-18)**. 게임에 넣지 않았다. `Assets/`·git 상태·유니티를 건드리지 않았고, 결과는 `output/map-pcg/`에만 있다.
+- 상태: **5b 확정 지시 반영 기준(11-18)**. 사용자·디렉터가 확정한 seed 8 연결 기준은 10절을 따른다. 아래 시제품 측정은 생성 근거이며 본 게임 검증 결과를 뜻하지 않는다.
 - 쓴 날·방법: 2026-11-18, Claude 하위 에이전트(디렉터 지시). 파이썬(`/usr/bin/python3`, numpy·PIL)만 썼다. 유료 생성·네트워크 없음.
 - 계기: 사용자(11-18) 본 게임 캡처 `output/hd2d-background/plates/Main1-2520x1080.png`를 보고 "맵이 너무 구린것 같아, 이것도 우선은 PCG를 만들어서 한번 진행해보면 좋을것 같아, 이것도 스킬이나 툴킷처럼 만들어서 studio-kit에 사용하면 좋을것 같은데".
 - 읽은 것: `CLAUDE.md`, `AGENTS.md`, `.ai/rules/art-core-rules.md`, [5단계 설계](../hd2d-background/prep.md)(1.1 보이는 범위, 4절 R1~R8, 5절 소품 표, 12절 D-1~D-9), [아트 기준서](../../art/아트-기준서.md) r6.1 K18~K28·3.1, [배경 관찰](../../art/reference/hd2d-bg-octopath-20261118/배경-관찰.md), 코드 `FieldLayoutData.cs`·`FieldLayoutMath.cs`·`FieldLayoutBaker.cs`·`FieldView.cs`·`BankMeshMath.cs`·`HD2D_FieldSurface.shader`·`MainSceneHD2DBackgroundMigration.cs`(마스크 굽기), 시험 `FieldLayoutTests.cs`, 데이터 `field_layout.json`·`ground_path.json`·`decor.json`, `Tools/hd2d_field_textures.py`, 최근 커밋 B4~B8.
@@ -163,7 +163,7 @@
 | `Features/Field/View/FieldView.BuildLandscape` | 연못: `FieldPond.asset` 메시 대신 외곽선 경계 상자 크기 물 평면(높이 −0.015) — 땅이 `_WaterMask`로 구멍을 내므로 물은 구멍으로만 보인다. `stream-upper`도 `RibbonMeshMath`로. 턱은 `runs` 오버로드 | 땅 마름모 메시, 세운 판·3D 소품 만들기(B3·B4), 판정 진입점 |
 | `Editor/MainSceneHD2DBackgroundMigration.cs`(마스크 굽기) | 물·턱 마스크를 메시 래스터 대신 PCG 마스크 복사(또는 `runs`·외곽선에서 래스터) | 재질 연결·가져오기 설정 |
 | `Tools/hd2d_field_textures.py` | 길 가림을 `ground_path.json` 칸 합집합 대신 PCG `FieldPathMask.png`로. **풀 질감의 고른 자갈 덩어리 300개(폴카 점) 빼기** — 자갈·닳은 흙은 구역 마스크가 맡음 | 풀 조각 이어 붙이기·2×2 묶기·밝기 ±7(K20), 물·흙·돌 질감 |
-| `Shaders/HD2D/HD2D_FieldSurface.shader` | 바닥 범주에 `_ZoneMask` 한 장: R 닳은 흙(흙 점 섞기), G 자갈(`_Dirt`), B 색조(밝기 보존 색상 이동 ±), A 꽃밭(살짝 밝은 연두) | 나머지 범주(물·턱·나무·UV), `_FlatDepth`·`_Dither` |
+| `Shaders/HD2D/HD2D_FieldSurface.shader` | 바닥 범주에 `_ZoneMask` 한 장: R 닳은 흙(흙 점 섞기), G 자갈(`_Dirt`), B 색조(밝기 보존 색상 이동 ±), A 꽃밭(명도 보존 연두: K20 밝기 예산 유지) | 나머지 범주(물·턱·나무·UV), `_FlatDepth`·`_Dither` |
 | `Editor/FieldLayoutBaker.cs` | `Generate()`의 F 줄·무작위 점·고정 자리(다리 (16.1,12.1), 야영지 (−16,6) 등)는 쓰지 않음 → 메뉴는 PCG 출력 복사 + 연못 메시 복사 생략. 되돌리기용으로 지금 함수는 남김 | 메뉴 이름 |
 | `Tests/EditMode/FieldLayoutTests.cs` | `FCompositionAndLandmarksRemainVisible`의 `banks.Length==2`·`water.Length==3`·돌담 10묶음 → PCG 출력 기준(턱 1, 물 2~4)으로. 길 거리 시험을 칸 L1 ≥ 3에서 **길 중심선 유클리드 − 반폭 ≥ 1.85(키 큰 것)**로. 밀도 시험 상한(나무 6/창) → 결정 D-PCG-2 | 꼭짓점·시작 비움·노란 꽃 시험 |
 | `Tests/EditMode/FieldViewBuildTests.cs` | `pondMesh` 대입·`PartCount("pond")==1`이 메시 없는 연못에 맞게 | |
@@ -194,3 +194,8 @@
 - 도구: `Tools/map_pcg/run.py`(명령), `selftest.py`, `config/deadsurvivor.json`, `map_pcg/{fields,generate,constraints,export,render}.py`
 - 결과: `output/map-pcg/seed-<1..8>/{start,far-nw,topdown}.png`, `…/export/{field_layout.json,ground_path.json,Field*Mask.png,metrics.json}`, `output/map-pcg/current/{start,far-nw,topdown}.png`, `output/map-pcg/compare.png`, `output/map-pcg/summary.json`
 - 다시 돌리기: `/usr/bin/python3 Tools/map_pcg/selftest.py` → `/usr/bin/python3 Tools/map_pcg/run.py seeds 1 2 3 4 5 6 7 8` → `run.py current` → `run.py compare 8 6`
+
+## 10. 5b 확정 결정과 수용 기준
+
+D-PCG-1=seed8(옛 F·옛 길 폐기), D-PCG-2=설정의 밀도 상한 채택, D-PCG-3=0.36m 턱까지만, D-PCG-4=가중치 유지. P0 복사·반복 바이트 / P1 구역 / P2 물·runs / P3 배치·가려짐 / P4 시험 / P5 전체 판정. C10은 실제 맵 전체·시작/갈래길/물가/다리/야영지/가장자리6화면·이동8장. F1~F4·F10 각각 판독한다. G19는7단계, G20과 마감 리뷰는 디렉터·Claude 담당이다.
+
