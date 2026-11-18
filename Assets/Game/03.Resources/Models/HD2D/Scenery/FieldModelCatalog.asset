@@ -90,17 +90,17 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: b2405abe249e84a17b8c6135a67e5275, type: 2}
     FadedMaterial: {fileID: 2100000, guid: 528a2ba832fd94d2b851023ac5bbce6d, type: 2}
     Bounds:
-      m_Center: {x: 0, y: 0.25634426, z: 0}
-      m_Extent: {x: 0.5, y: 0.25634426, z: 0.15}
-    Triangles: 180
+      m_Center: {x: 0, y: 0.2565, z: 0}
+      m_Extent: {x: 0.5, y: 0.2565, z: 0.15}
+    Triangles: 94
   - Id: wall_b
     Prefab: {fileID: 1774560836238923190, guid: e35245544b9b846fa9bac18d42518cc8, type: 3}
     Material: {fileID: 2100000, guid: edf7a8b6b5d3d4f24b32dd47716aeba4, type: 2}
     FadedMaterial: {fileID: 2100000, guid: fd23475ac3bbe4fd2af0f4b2676c5f14, type: 2}
     Bounds:
-      m_Center: {x: 0, y: 0.26040936, z: 0}
-      m_Extent: {x: 0.5, y: 0.26040936, z: 0.15}
-    Triangles: 170
+      m_Center: {x: 0, y: 0.2605, z: 0}
+      m_Extent: {x: 0.5, y: 0.2605, z: 0.15}
+    Triangles: 114
   - Id: grass_v1
     Prefab: {fileID: 487549185428122909, guid: 39075afba58a94d4597b726942e13527, type: 3}
     Material: {fileID: 2100000, guid: 01bf50f5abe5544a0a3ade7efa7d3735, type: 2}
