@@ -72,9 +72,8 @@ Shader "HD2D/HD2D_FieldSurface"
             grass+=tone*half3(-9,3,-4)/255;
             half3 meadow=half3(5,8,1);
             grass+=zone.a*(meadow-dot(meadow,half3(.2126,.7152,.0722)))/255;
-            float dotNoise=frac(sin(dot(floor(i.w.xz*float2(24,12)),float2(127.1,311.7)))*43758.5453);
-            grass=lerp(grass,lerp(grass,soilGround,.45),zone.r*step(dotNoise,.62));
-            grass=lerp(grass,soilGround,zone.g*step(dotNoise,.7));
+            grass=lerp(grass,soilGround,zone.r*.45);
+            grass=lerp(grass,soilGround,zone.g);
             grass=lerp(grass,soilGround,step(.5,path));
             Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));
             float3 cellNormal=normalize(i.n);

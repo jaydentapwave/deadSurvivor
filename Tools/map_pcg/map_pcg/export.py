@@ -64,8 +64,9 @@ def write_masks(L, out_dir):
     Image.fromarray(white(G['water']), 'RGBA').save(out / 'FieldWaterMask.png')
     Image.fromarray(white(G['bank']), 'RGBA').save(out / 'FieldBankMask.png')
     zone = np.zeros((TEX_H, TEX_W, 4), np.uint8)
-    zone[..., 0] = G['worn'] * 255
-    zone[..., 1] = G['gravel'] * 255
+    # Classify each 2x2 texel block once. No isolated dither texels at zone edges.
+    for channel, name in enumerate(('worn', 'gravel')):
+        zone[..., channel] = np.repeat(np.repeat(G[name][::2, ::2], 2, axis=0), 2, axis=1) * 255
     zone[..., 2] = np.clip(128 + G['tone'] * 100, 0, 255).astype(np.uint8)
     zone[..., 3] = G['meadow'] * 255
     Image.fromarray(zone, 'RGBA').save(out / 'FieldZoneMask.png')

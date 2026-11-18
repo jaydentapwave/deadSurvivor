@@ -152,6 +152,10 @@ def main():
         from PIL import Image
         sizes = {f: Image.open(Path(tmp) / f).size for f in ('FieldPathMask.png', 'FieldWaterMask.png', 'FieldBankMask.png', 'FieldZoneMask.png')}
         case('export mask sizes 3456x1728', all(s == (3456, 1728) for s in sizes.values()), str(set(sizes.values())))
+        zones = np.asarray(Image.open(Path(tmp) / 'FieldZoneMask.png'))[..., :2]
+        blocks = zones.reshape(E.TEX_H // 2, 2, E.TEX_W // 2, 2, 2)
+        case('soil and gravel boundaries contain only complete 2x2 blocks',
+             bool(np.all(blocks == blocks[:, :1, :, :1, :])))
         keys = {'seed', 'groundHalfDiagonal', 'pathClearance', 'roadsideClearance', 'startClearance', 'yellowClearance', 'path', 'banks', 'water', 'placements'}
         case('export field_layout keys superset of FieldLayoutData', keys <= set(data), sorted(keys - set(data)))
         four = all(abs(a[0] - b[0]) + abs(a[1] - b[1]) == 1 for a, b in zip(cells, cells[1:]))
