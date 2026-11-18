@@ -1,0 +1,9 @@
+{
+  "grades": [
+    { "id": "common", "name": "일반", "color": "#aeb9bd", "mult": 1 },
+    { "id": "uncommon", "name": "고급", "color": "#93d57c", "mult": 1.4 },
+    { "id": "rare", "name": "희귀", "color": "#76b9ef", "mult": 2 },
+    { "id": "epic", "name": "영웅", "color": "#c394f3", "mult": 3 },
+    { "id": "legendary", "name": "전설", "color": "#ffb75b", "mult": 4.5 }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "amulet",
+  "name": "수호 부적",
+  "mode": "passive",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "power": 0,
+  "interval": 0,
+  "range": 0,
+  "baseEffect": "heal",
+  "baseValue": 1,
+  "bonusEffect": "share",
+  "bonusValue": 1,
+  "bonusTarget": "",
+  "bonusNeedsAdjacent": false,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": "amulet"
+}

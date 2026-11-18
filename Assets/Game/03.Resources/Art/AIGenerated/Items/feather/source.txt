@@ -1,0 +1,75 @@
+# feather production source — Claude 판독 PASS
+
+제작일: 2026-11-17. Codex 세션 01a1e8cc-c9eb-73a0-ba76-68ee68bcfe45. 기준 커밋 3ac9fff.
+도구: 이 세션의 image_gen 직접 호출. 내부 이미지 모델명은 도구 미노출. codex exec/Aether 호출 없음. Aether 크레딧 0. 구독/토큰 비용 미계측.
+분류: /2d-art-produce 기준 그림이 없는 새 종류. 승인된 아트 기준서 r5, 3.3·3.5·3.7, K5/K11/K16; plan.md C2 shape. 새 아이템이므로 시작 아이콘의 회전/조각 재사용으로 대체할 수 없어 신규 생성.
+명세: 캔버스 [16, 16]px, 1칸16px. 외곽선 게임 크기1px/생성 논리1칸, 짙은 갈색#34140e. 팔레트 r5, extra0. Point·PPU48 프리셋 실제 적용은 게임 쪽 실행. shape 없는 칸은 투명, 모든 shape 칸에 물건이 이어짐.
+입력 역할: 첫째 채택 시작 아이콘=선·색 그림체, 둘째 PE-G004=양피지 가방 문맥만, 셋째 완성 도트 안내 그림=고칠 대상·형태·정수 격자. 컨셉 장면·새·문장 복제 금지.
+input: Assets/Game/03.Resources/Art/AIGenerated/Items/sword/sword.png
+sha256: be5acae1e2c1425e69f560bf20d78fbe5a96224aadc9452af23e355fd2801c09
+input: docs/game/concept-20261112/4-야영-가방.jpg
+sha256: a59d728c1bb98800efa9854f7e0e8c040a2e45e747e9251bd943cf0a6e86a3f5
+guide: output/2d-art/icons-archer/feather-guide.png
+sha256: 306a5045e14d64322b3681a7c02ef045af7dfd2c58bf822f1263d39b5a58da5f
+
+회차: 1회 ×4장, 회차마다 설정A2장+B2장. 자동 재시도 없음.
+임시 선택: candidates/r1-2.png -> feather.png. 최종sha256: 186a6343763cd77a74b6725781a18f28a319318586b933a6e847dce4278c5a7a
+고른 이유: 중앙 깃대와 양쪽 깃 면, 갈색 무늬와 크림 가장자리가 구분됨.
+이름 가린 자기 판독: 중립 N번호/순서 섞은 items-archer-blind.png를 직접 열어 갈색 무늬와 중앙 깃대가 있는 크림 깃털(잎 오독 가능성은 다른 계열이 판독해야 함).로 읽음. 제작자가 의도를 이미 알아 독립/진정한 블라인드 판독 아님.
+다른 계열 판독: Claude 리뷰 세션의 general-purpose(Claude Opus 5.5, medium)가 이름 가림 판독 수행. 사용자 전달 결과: AC1/AC2/AC3 PASS, 필수 수정 없음. 이 Codex 세션이 호출한 리뷰가 아님. 검수 입력 sha256 앞16자리 186a6343763cd77a가 현재 파일 및 채택 후보와 일치함. 사용자 최종 판정은 NOT_RUN.
+VERDICT: PASS
+
+후처리: matte.py key #ff00ff로 배경 정리 후 자홍 바탕에 합성하여 pixelize.py의 RGB 입력으로 전달. 원본 모서리의 키색 노이즈1px이 bbox를 화면 끝까지 늘린 문제를 정상 배경 제거로 해결. 원본 content_bbox를 캔버스 논리칸으로 환산, 그 내용물 WxH로 grid 확인/one --palette r5 실행 후 원래 크기 투명 캔버스의 원래 칸 위치에 붙임. 가로 후보가2:1 캔버스로 나온 경우 y오프셋0, 정사각형 중앙 띠면8칸. 내용물을 강제 확대하거나 금지 칸 잘라내기/선 깎기 없음. alpha0/255. 각 후보 실제 명령 결과·raw/processed 지문은 docs/art/sheets/items-archer-checks.json.
+
+r1-1: grid exit=0, native=[15, 16, 78.32999999999981, 0.9380050425484556], expected block=[78.375, 78.375]; fringe exit=0; outside=0; cell pixels={'0,0': 131}; colors=5; alpha=[0, 255]; rawsha=acd0bf7dcc3f3a86b38d386fd5d714ad12f51fc72a10cd40fe89cc6424ccfda8; processedsha=6aa66560fb8672f2d6f1c99f6385f51c8481a3005cbcc9fcd9cbb58425dc781f
+
+r1-2: grid exit=0, native=[15, 16, 78.39999999999979, 0.9383665587475492], expected block=[78.375, 78.375]; fringe exit=0; outside=0; cell pixels={'0,0': 133}; colors=6; alpha=[0, 255]; rawsha=c54024fe488574784cca6c2a33b45213182c38e0b66ce072919a6ddd5aaf3b95; processedsha=186a6343763cd77a74b6725781a18f28a319318586b933a6e847dce4278c5a7a
+
+r1-3: grid exit=0, native=[16, 16, 78.34999999999977, 0.9545756288162377], expected block=[78.375, 78.375]; fringe exit=0; outside=0; cell pixels={'0,0': 134}; colors=6; alpha=[0, 255]; rawsha=0f5e970c7eceb95157f12f93c530c8573ca078a0ff45f657b87590f5370a9f31; processedsha=1f97f74ffc63c0a00b1db43cf68ad9ed3b57ee00339982c000c7948cca088ed4
+
+r1-4: grid exit=0, native=[15, 16, 78.39999999999979, 0.9609479193715582], expected block=[78.375, 78.375]; fringe exit=0; outside=0; cell pixels={'0,0': 133}; colors=6; alpha=[0, 255]; rawsha=e789870dc987167a46bbfa85cc0e1b1a5d53d8c044a4b35644e5c0585eecc78b; processedsha=b16090cc58dc4a70b2184f3c682c681796450d5686dd79db1e3b8394a5ff9310
+
+버림: 임시 선택 외 후보 모두 candidates/와 전체 시트에 보존. quiver r1-1은 native block이 기대의1/2여서 GRID_MISMATCH, 선택 불가. pierce r1-3은 fringe 처음 edge2px FAIL→matte.py fix→동일 크기 pixelize 팔레트 재정리→fringe --whole PASS. 다른 버림은 면 수/윤곽/재질 구분이 덜 좋거나(갈래1회차) 방향표지 오독 여지. failed grid 후보도 버림 비교용으로만 시트에 포함.
+
+AC1: 캔버스/shape 밖0/각shape칸픽셀>0, alpha0/255, 팔레트r5, fringe PASS(명령 기록은 checks JSON). AC2: items-archer.png 선택4+버림16을 원본48×48 투명 비교 캔버스 중앙에 배치, 게임 크기×3(144px). sheet.py --props로 수치 기준 없음 띠, measure.py compare 미사용. AC3: Claude 다른 계열 이름 가림/그림체/칸 채움 판독 PASS(사용자 전달 결과).
+PASS = 기준과 어긋나지 않음, 이름·그림체 판독은 Claude PASS, 사용자 최종 판정은 NOT_RUN.
+게임 전체 확인: 채택 시작 견본 입력 확인, 양피지 가방 UI 아이콘 크기/shape 확인. 게임 동작·같은 화면 이웃·겹침·화면비·성능·Play NOT_RUN. 디렉터 지시로 7~9절 제외. 아이템 데이터icon/장면/Unity .meta는 범위 밖.
+지난 문제 점검: 쇠붙이 강철회색, 격자/빈칸0/모든칸 채움, 배경 번짐 확인. 이번 누락 원인: 원본 키색 모서리 노이즈를 제거하기 전 grid bbox를 해석했고, 갈래1회차가 축 없이 방향표지처럼 보임. 워크플로우 갱신 후보: matte key 선행; 갈래형 물건은 공통 축/분기 접점 명시. 공통 워크플로우 범위 밖이라 미반영. 검사 추가/삭제 없음.
+기본python3 numpy없음→지정/usr/bin/python3로 실제 검사. project-doctor --host codex --require 2d-art.produce configured/findings[]; approve.py verify OK. session_time.py --markdown --session 현재id FAIL(Claude로그 전용). 토큰 NOT_AVAILABLE(현재세션 카운터 미노출), 하위에이전트0. 준비 읽기 시작시각 미계측, 단계별 실측 가능한 시각만 아래 기록.
+{
+  "session": "01a1e8cc-c9eb-73a0-ba76-68ee68bcfe45",
+  "base": "3ac9fff",
+  "generation_started": "2026-11-17T09:20:06.221Z",
+  "r1_processing_completed": "2026-11-17T09:29:29.252Z",
+  "tokens": "NOT_AVAILABLE: session token counters not exposed",
+  "subagents": 0,
+  "time_tool": "FAIL: session_time.py expects Claude log; current Codex session not found",
+  "round1_raw_file_mtime_span": [
+    "2026-11-17T09:20:32.691680+00:00",
+    "2026-11-17T09:30:20.019040+00:00"
+  ],
+  "round2_raw_file_mtime_span": [
+    "2026-11-17T09:27:23.795445+00:00",
+    "2026-11-17T09:30:20.413560+00:00"
+  ],
+  "visual_qa_completed": "2026-11-17T09:30:58.096625+00:00",
+  "measured_span_from_guides_minutes": 11.173938151200613
+}
+안내그림 생성시각 UTC: 2026-11-17T09:19:47.676349+00:00
+정리/검사시각 UTC: 2026-11-17T09:29:59.582804+00:00
+
+프롬프트(호출별 원문):
+
+--- r1-1 ---
+Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one diagonally placed hawk feather with cream beige vane, brown bands, central brown quill, recognizable natural feather, not leaf. Exactly 16x16 logical pixels on a 1024x1024 canvas, each pixel exactly 64x64 image pixels. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting A: preserve simple chunky guide planes with minimal refinement. Variant 1. Deliver one image, one icon only.
+
+--- r1-2 ---
+Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one diagonally placed hawk feather with cream beige vane, brown bands, central brown quill, recognizable natural feather, not leaf. Exactly 16x16 logical pixels on a 1024x1024 canvas, each pixel exactly 64x64 image pixels. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting A: preserve simple chunky guide planes with minimal refinement. Variant 2. Deliver one image, one icon only.
+
+--- r1-3 ---
+Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one diagonally placed hawk feather with cream beige vane, brown bands, central brown quill, recognizable natural feather, not leaf. Exactly 16x16 logical pixels on a 1024x1024 canvas, each pixel exactly 64x64 image pixels. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting B: preserve identical grid and silhouette, shift a single broad material plane to a lighter shade; do not add seams or fine lines. Variant 1. Deliver one image, one icon only.
+
+--- r1-4 ---
+Use case: style-transfer. Tiny pixel inventory icon for our original fantasy game. Input 1 approved sword icon is STYLE reference; input 2 is concept only for parchment inventory context (do not copy scene, UI, bird); input 3 is EDIT TARGET complete pixel guide. Refine image 3, preserving EXACT logical grid, pixel shapes, silhouette, position, occupied cells and blank cells. Subject: one diagonally placed hawk feather with cream beige vane, brown bands, central brown quill, recognizable natural feather, not leaf. Exactly 16x16 logical pixels on a 1024x1024 canvas, each pixel exactly 64x64 image pixels. Warm high-bit pixel art, 1 logical pixel dark brown outline #34140e NOT black, flat 2-3 tone shading, no anti-aliasing, no gradients, no fine details below one block. Steel gray #c8b8b8 #a89898 #786868, leather #774c3b #5c493c #a58751 #c2864d, cream #e3d7c8 #fff9ed. Pure flat #ff00ff background. No cast shadow, text, UI, gems, coins, logos, extra objects. Setting B: preserve identical grid and silhouette, shift a single broad material plane to a lighter shade; do not add seams or fine lines. Variant 2. Deliver one image, one icon only.
+
+마감 리뷰 기록: 이름 가림 번호 quiver #14 / pierce #17 / split #20 / feather #13이 채택본과 대응. split 1회차는 기호로 읽혔고 2회차는 갈라지는 화살로 읽혀 1회차 버림이 확인됨. 참고 지적(필수 수정 아님): pierce는 화살촉/짧은 창으로도 읽혀 관통 의미가 모양만으로 드러나지 않으며, 왼쪽 칸은 2px 자루(64px)지만 연결·채움 기준 위반은 아님. 그림 수정 없음. 워크플로우 갱신 후보의 공통 문서 반영은 여전히 범위 밖.

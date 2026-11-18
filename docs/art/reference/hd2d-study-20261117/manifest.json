@@ -1,0 +1,149 @@
+{
+ "schema": "reference-manifest/1",
+ "reference": "hd2d-study-20261117",
+ "kind": "다른 게임(HD-2D 계열)의 공식 Steam 상점 스크린샷. 기법 값(카메라 각도·원근·흐림 띠·빛·블룸·도트 대 3D 비율)만 공부한다",
+ "mode": "study — 기법 값만 가져온다. 캐릭터·에셋·UI·이름·구도는 가져오지 않는다. 메인 아트 레퍼런스는 그대로 concept-20261112(follow)",
+ "external_send": "금지 — 생성 입력(Codex·이미지 생성 등)이나 게임 에셋, 따라 그릴 원본으로 쓰지 않는다. 외부 서비스에 올리지 않는다",
+ "items": [
+  {
+   "id": "HD-R001",
+   "title": "전투: 높은 각도, 돌 요새 위 다수 피격(밤, 강한 비네트)",
+   "game": "TRIANGLE STRATEGY",
+   "file": "output/reference/hd2d-study-20261117/HD-R001-ts-battle-fort-high.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 345696,
+   "sha256": "b4f68d13ff1e2364324d370117215baea94d473eafa47658a20b88a9b3583e2b",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1850510/ss_93a99846dba83fa1dbc9b55613a0c76392dd1ca8.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/1850510/ (공식 Steam 상점 스크린샷 2번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-17"
+  },
+  {
+   "id": "HD-R002",
+   "title": "전투: 밤 광산 계단식 지형, 유닛 다수, 등불 점광원",
+   "game": "TRIANGLE STRATEGY",
+   "file": "output/reference/hd2d-study-20261117/HD-R002-ts-battle-night-crowd.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 445359,
+   "sha256": "fe8fe93ce3dc8c77d951c0a63979655fb3f7c5c5d9ca6ef9b499800d795fca9d",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1850510/ss_ec18cfda8b4f1f9793b21204e6db65e37dfe6f38.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/1850510/ (공식 Steam 상점 스크린샷 8번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-17"
+  },
+  {
+   "id": "HD-R003",
+   "title": "전투: 폐허 광장 군집 + 번개 효과(따뜻한 빛)",
+   "game": "TRIANGLE STRATEGY",
+   "file": "output/reference/hd2d-study-20261117/HD-R003-ts-battle-skill-crowd.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 475754,
+   "sha256": "340f4976ae126ccd5729aa257db8c10153bd30faa2915db4213a3a98fe8c4786",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1850510/ss_d781a7fcade44bb882ebd98b56278eae090e1a58.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/1850510/ (공식 Steam 상점 스크린샷 4번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-17"
+  },
+  {
+   "id": "HD-R004",
+   "title": "전투: 마름모 타일 광장 내려다봄, 강한 틸트시프트",
+   "game": "TRIANGLE STRATEGY",
+   "file": "output/reference/hd2d-study-20261117/HD-R004-ts-battle-plaza-topdown.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 335161,
+   "sha256": "c1ebe15977e680ae5deb64b64064c02864ca0560c626ad91b77b7ed705f4ecf7",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1850510/ss_5f0ee3d6a0e9cb829acd9fd066056f787cee61a4.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/1850510/ (공식 Steam 상점 스크린샷 6번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-17"
+  },
+  {
+   "id": "HD-R005",
+   "title": "탐험: 낮 숲속 묘지, 안개·역광·긴 그림자",
+   "game": "OCTOPATH TRAVELER",
+   "file": "output/reference/hd2d-study-20261117/HD-R005-ot-field-graveyard-day.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 411442,
+   "sha256": "bbb69b9f6d25e0a2b816f38d1fd064632a34e4db373ad291eb06bbaaac9e6e22",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921570/ss_4e3218569723259a23262ec23cb0ebb6226e46b2.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/921570/ (공식 Steam 상점 스크린샷 5번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-17"
+  },
+  {
+   "id": "HD-R006",
+   "title": "탐험: 낮 마을 광장, 높은 각도, 앞 난간 흐림",
+   "game": "OCTOPATH TRAVELER",
+   "file": "output/reference/hd2d-study-20261117/HD-R006-ot-town-day-high.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 540811,
+   "sha256": "b2f5d2f1cc6f90a5ccb3b43bb02c0cfea88f4acd89c3765ec363309b05ac917c",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921570/ss_d9c13a8f046e48ae57a2f2d6d134850410fe4932.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/921570/ (공식 Steam 상점 스크린샷 0번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-17"
+  },
+  {
+   "id": "HD-R007",
+   "title": "탐험: 마을 거리 군중, 사선 햇빛과 큰 그림자",
+   "game": "OCTOPATH TRAVELER II",
+   "file": "output/reference/hd2d-study-20261117/HD-R007-ot2-town-street-crowd.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 531904,
+   "sha256": "d737c8c9987362757c7314f474c85aad774e10a96a065419e49fd29af9352cb6",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1971650/ss_ffcc9f56fdf7d36ad4c0414dd2d85ed7389b42fe.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/1971650/ (공식 Steam 상점 스크린샷 2번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-17"
+  },
+  {
+   "id": "HD-R008",
+   "title": "탐험: 마을 언덕, 빛줄기(갓레이)·색수차",
+   "game": "LIVE A LIVE",
+   "file": "output/reference/hd2d-study-20261117/HD-R008-lal-town-lightshaft.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 715744,
+   "sha256": "98fb2deeb37f05759d48da30313e6bac5821869f5227234c49d26d692ef0db9c",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2014380/ss_d7bc0c6485167691a3ecb1e14e0ae18a414de4b1.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/2014380/ (공식 Steam 상점 스크린샷 9번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-17"
+  },
+  {
+   "id": "HD-R009",
+   "title": "탐험(전투 전): 대숲 공터, 위에서 비스듬히, 빛줄기",
+   "game": "LIVE A LIVE",
+   "file": "output/reference/hd2d-study-20261117/HD-R009-lal-field-bamboo.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 865261,
+   "sha256": "831667303f79143bb392db719e978934c96d3546949bd0399c121c644172a1a2",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2014380/ss_8ea9055dc00ae214ca08584bac43dfbc83f94f77.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/2014380/ (공식 Steam 상점 스크린샷 1번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-17"
+  },
+  {
+   "id": "HD-R010",
+   "title": "필드: 넓은 초원, 낮은 각도·지평선 보임",
+   "game": "DRAGON QUEST III HD-2D Remake",
+   "file": "output/reference/hd2d-study-20261117/HD-R010-dq3-overworld-field.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 636090,
+   "sha256": "26c88b9abbcd3719779be32c7303ebdac640900705e416817528d46a42bd6739",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2701660/ss_2864b8a4a84e3d9669bf6c5961107521d3899d15.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/2701660/ (공식 Steam 상점 스크린샷 3번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-17"
+  }
+ ],
+ "blocked": [
+  {
+   "scope": "DRAGON QUEST III HD-2D Remake의 전투·높은 각도 필드 화면",
+   "reason": "Steam 상점 스크린샷 5장 중 높은 각도 장면이 없음(정면 전투·낮은 각도 필드뿐). 낮은 각도 필드 1장(HD-R010)만 넣음"
+  },
+  {
+   "scope": "퍼블리셔 공식 사이트·프레스킷(square-enix-games.com 등)",
+   "reason": "이번에는 시도하지 않음. Steam 상점(appdetails API)으로 5개 게임 48장 후보를 받아 10장을 골랐다. 실패한 다운로드 0건"
+  }
+ ]
+}

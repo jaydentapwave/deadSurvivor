@@ -1,0 +1,35 @@
+{
+  "id": "orb",
+  "name": "수정 구슬",
+  "mode": "passive",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 1,
+      "y": 1
+    }
+  ],
+  "power": 0,
+  "interval": 0,
+  "range": 0,
+  "baseEffect": "attack",
+  "baseValue": 0.08,
+  "bonusEffect": "pulse",
+  "bonusValue": 10,
+  "bonusTarget": "",
+  "bonusNeedsAdjacent": false,
+  "effectInterval": 3,
+  "effectRadius": 100,
+  "icon": "orb"
+}

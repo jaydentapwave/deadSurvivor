@@ -1,0 +1,43 @@
+{
+  "seed": 181103,
+  "externalReferenceInputs": [],
+  "derivedFrom": [
+    "Assets/Game/03.Resources/Art/AIGenerated/Decor/tree_01.png"
+  ],
+  "density": [
+    48,
+    24
+  ],
+  "worldPeriod": [
+    42.666666666666664,
+    42.666666666666664
+  ],
+  "grassPalette": [
+    [
+      102,
+      99,
+      64
+    ],
+    [
+      132,
+      128,
+      82
+    ],
+    [
+      169,
+      164,
+      105
+    ],
+    [
+      198,
+      192,
+      123
+    ],
+    [
+      223,
+      216,
+      139
+    ]
+  ],
+  "method": "non-repeating quantized Gaussian patches plus diagonal texel strokes; stepped wandering dirt edge"
+}

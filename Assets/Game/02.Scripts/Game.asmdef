@@ -1,0 +1,23 @@
+{
+    "name": "Game",
+    "rootNamespace": "",
+    "references": [
+        "VContainer",
+        "R3.Unity",
+        "UniTask",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.InputSystem",
+        "UnityEngine.UI",
+        "Unity.TextMeshPro",
+        "HD2D.View"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

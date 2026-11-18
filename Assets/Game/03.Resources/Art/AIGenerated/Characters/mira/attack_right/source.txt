@@ -1,0 +1,6 @@
+output/assets/hd2d-8dir/heroes/anim/mira_right_attack/mira_attack_right_00.png SHA256 ab195e010c303f485a53900b77014a6b43082e34f8f0fc7fa6d43ac00c551973; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/mira_right_attack/mira_attack_right_01.png SHA256 c789692aca66feee5b91e8c2fe33c35934f74ac32aacff6c37d04e555a525b4b; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/mira_right_attack/mira_attack_right_02.png SHA256 d2680a3dd96e7f2e8375a5b2e2a6d439f224bd004246f3a2386cea5b4025b5d3; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/mira_right_attack/mira_attack_right_03.png SHA256 fda83e6186d1b48252662652d2ba2bf97e02d350d2bc28aa7c3e055165b77955; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/mira_right_attack/mira_attack_right_04.png SHA256 4768372015ac45762a6b367ff5e44f35684ec2b86130d1d609b7ab2e00f4f8f3; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/mira_right_attack/mira_attack_right_05.png SHA256 b8c40d8db5bc8b2b04fd649461100d6227f58c54006e3be3c3cc76ba4d5d3fd2; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md

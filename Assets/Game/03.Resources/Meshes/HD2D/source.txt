@@ -1,0 +1,2 @@
+Assets/Game/03.Resources/Art/HD2D/OB-006_Water.asset SHA256 1e54e24c27a8d15bf263018a44eec1887a86af21f1dbf9c4d444cb10c375715c
+Assets/Game/02.Scripts/Editor/HD2D/Round8/FieldLookdevScene8.cs SHA256 2340a8d0bc890d0995a19bda2999edae7d68ca8fa730b9e3c02d2d81560b16df

@@ -1,0 +1,63 @@
+# bruno_downed.png — 출처
+
+- 무엇: 브루노(전사, 게임 기획서 A1) 쓰러진(사망) 그림. 기준서 3.3 "캐릭터 쓰러진 그림", 3.10 사망(이 그림으로 바꾸고 0.3초 어둡게). identity docs/art/identities/bruno.json (기준 그림 front/bruno_front.png)의 새 자세.
+- 규격: 64x64 캔버스, 그림 58x24(칼 포함). 몸 길이(장화 끝~머리 끝) 약 43px, 서 있는 키 48px 이하. 알파 0/255만.
+  피벗 = 캔버스 아래 가운데(앞 그림과 같은 프리셋, alignment 7, pivot (0.5,0)). 그림은 x 5~62, 바닥 63줄. 몸 가운데(배낭·방패)가 x 약 27~30으로 피벗 근처, 칼이 오른쪽으로 더 나가서 그림 전체를 오른쪽 끝에 붙였다(칼까지 64 안에 들어가게).
+- sha256: b6657ecb5160f854fd07bd4de4d07736878143f720817385b949002f2bba25e1
+- 만든 날: 2026-11-17, 대기열 20261117-art-chars 항목 downed-bruno(시도 1), /2d-art-produce "캐릭터 변형 — 새 자세" 경로
+- 채택: 대기열 세션이 디렉터 대신 채택(판독 조건 충족), 사용자 판정 대기
+
+## 쓰러진 그림 4장의 기준 (다음 항목이 따른다)
+- 자세: 엎드려 쓰러짐(얼굴이 바닥을 향함). 머리는 오른쪽, 다리·장화는 왼쪽.
+  이유: (1) 캐릭터가 오른쪽 아래를 본다(K14) — 보던 쪽으로 앞으로 고꾸라진 모양이라 앞 그림에서 이어진다. (2) 엎드리면 등의 배낭이 몸 위로 드러나 "배낭은 등에 붙은 채"가 저절로 지켜진다(바로 누우면 배낭이 몸 밑에 깔려 안 보인다). (3) 얼굴이 가려져 작은 크기에서 표정·눈을 새로 그릴 필요가 없다.
+- 구성: 다리 위로 망토가 덮이고, 오른쪽으로 뻗은 손 옆 바닥에 칼(오른쪽 끝), 몸 옆 바닥에 방패(몸 가운데 아래). 배낭·침낭 말이는 몸 위.
+- 러프: output/2d-art/bruno-downed/rough/rough_a.png(채택 안), rough_b(옆으로 누움), rough_c(a를 좌우 뒤집음). 시트 docs/art/sheets/bruno-downed.png #6~#8.
+- 캔버스: 64x64, 그림을 바닥 줄에 붙이고 칼까지 들어가게 놓는다.
+
+## 도구
+- 생성: codex-cli 0.167.2, codex exec -m gpt-6.1-sol, model_reasoning_effort=medium, 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 생성 세션: 01a1e7cb-5ac5-70a3-802a-20413339efff (1회차, 4장: 설정 A 2장, 설정 B 2장). 채택본 = 설정 A 1번째(r1a_1)
+- 실행: perl alarm 1200 + codex exec -s workspace-write -C <결과 폴더> "<프롬프트>" -i ref1 ref2 ref3 < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256)
+- 첫째(캐릭터·그림체): bruno_front.png 75ebc8c3c00ac046495e460f903b8ce5669f97d57dcb94473e3003793a1c89ee
+  → 배경 #ff00ff 위에 16배(1024x1024) ref1_character.png 55966cfa2e540095395525af36c6f409ea6e9653e66a60cc7c4efae8f769acac
+- 둘째(자세): 마네킹 러프 rough_a.png 0427032ff42ac2924320b1b6f08e991dad30448e68a03cf2e44294e3929686b2
+  (identity 색으로 칠한 머리·몸통·배낭·다리·팔·칼·방패 덩어리, 일회성 스크립트 output/2d-art/bruno-downed/tools/rough.py)
+  → 16배 ref2_pose.png d9f3e1ca807e7e1b4e3827aac18d4fd0dd8243d39f4a95fe34a2789802ad1b62
+- 셋째(설정 B만, 채택본 계보에 없음): 컨셉 3-직업4종.jpg d96f1997… 의 전사 자른 것 (22,165,462,692) 5bd123dc2db36e8e501bea2ba0bdbb17182083a58b231c894f4b88c634c8ebde
+
+## 러프 판독 (생성 전, 이름 가림, 다른 계열: Codex gpt-6.1-sol, 결과 output/2d-art/bruno-downed/blind/readout-r001.md)
+- 두 칸(앞 그림 | 러프), 파일 이름 pair_1~3, 동작 이름 알리지 않음.
+- a: 첫 해석 "엎어져 쓰러짐", 배낭 등 위 / b: "옆으로 쓰러짐", 배낭 등 쪽 / c: "엎어져 쓰러짐", 배낭 등 위. 세 안 모두 통과, a를 고름(위 이유).
+
+## 최종 프롬프트 (설정 A, Codex에 보낸 그대로의 이미지 프롬프트 부분)
+The character and the art style come from the first image; the pose comes from the second image. The first image is a 64x64 pixel sprite of a warrior enlarged so every pixel is one 16x16 flat block (canvas 1024x1024). The second image is a rough colour mannequin (same scale, same block grid) showing the SAME warrior collapsed, lying face-down on the ground, defeated. Draw the warrior from the first image in exactly the pose of the second image: lying flat on his front, body horizontal, head on the RIGHT side resting face-down on the ground (we see mostly his spiky red hair), legs stretched to the LEFT with both brown boots visible at the left end, the big brown backpack with the rolled bedroll still strapped ON HIS BACK and seen on top of the body (not in front of him, not beside him), the red cape lying over his legs, one arm reaching forward to the right on the ground, the straight steel long sword lying flat on the ground just beyond that hand, the round wooden shield with a gold boss lying on the ground by his side.
+Size: keep the same 16x16 block grid. The lying figure from boot soles to top of hair is about 42 blocks long and the whole picture including the sword is at most 48 blocks wide and about 22-26 blocks tall, sitting at the bottom of the canvas, horizontally centred.
+Colours and details from the first image: spiky red hair (#c44334, shading #77211d), red scarf, neutral grey steel armor (#c8b8b8 #a89898 #786868, not beige), brown leather and boots (#af642e), red tabard and cape.
+Pixel rules: every block is ONE flat colour; no detail smaller than one block; no anti-aliasing, no gradients, no dithering, no soft edges. A 1-block dark brown outline (#34140e, not black) around the whole figure, the sword and the shield. Flat 2-3 tone shading.
+Background: flat solid #ff00ff everywhere outside the character. No grid lines, no text, no UI, no ground, no cast shadow.
+(전체 지시문: output/2d-art/bruno-downed/gen/prompt.txt, Git 밖)
+
+## 생성 원본
+- output/2d-art/bruno-downed/gen/r1a_1.png (Git 밖) 1254x1254, 2a292652967279ec1ae32a41c36a843c39b55890ac305ff6c2fd95312667ae7e
+  (요청은 48칸 폭이었지만 칼까지 58칸으로 나옴. 블록 크기는 앞 그림과 같은 약 19.6px)
+
+## 후처리
+1. pixelize.py grid --bg-tol 100 → native grid 58x24 (block 19.5px, score 0.63)
+2. pixelize.py one --size 58x24 --palette <기준서 3.5 r2 팔레트 45색> --bg-tol 100 → e907e655a5a0732d0e697bc931d3ce5008ee187f86446085ef7ed0e099b4af1f
+3. 64x64 캔버스에 놓기: 바닥 63줄, x 5~62(칼까지 들어가게 오른쪽 끝 1px 여백)
+4. 손질 1곳: 배낭 앞면 금색 버클 6px (24,49)(25,49)(30,49)(31,49)(30,50)(31,50)을 #774c3b(팔레트의 어두운 갈색)로.
+   이유: 부위 대조(다른 계열)에서 "배낭의 노란 점 두 개가 눈처럼 보여 상자 괴물로도 읽힘". 손질 뒤 다시 판독해 "얼굴이나 생물로 읽히지 않음".
+
+## 판정 (PASS = 기준과 어긋나지 않음. 자연스러움은 판독·사용자 판정)
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0)
+- measure.py compare --id bruno --pose: 도구 판정 FAIL. 항목별:
+  - 색 9부위 모두 PASS (hair 0.0, scarf 0.0, cape 0.0, shield 0.0, red_shade 0.0, skin 0.26, steel 0.66, backpack 0.33, boots 6.05 / 허용 8), 외곽선 색 PASS 0.16, haze PASS
+  - outline:stroke_ratio FAIL (0.5, 기준 0.1667): 기준 부위 hair가 box_rel(그림 bbox 위 28%)로 잡히는데, 누운 그림에서는 그 자리가 배낭이라 머리 폭이 12→4로 잘못 잡힌 것. 외곽선 굵기 자체는 measure.py와 같은 식(kit2d.stroke_width)으로 따로 재면 앞 그림 2.000, 이 그림 2.000(=1px 선)으로 같다(output/2d-art/bruno-downed/tools/stroke_diag.py, 판정 도구는 고치지 않음).
+  - parts NOT_ASSESSED: bruno identity에 "fixed" 부위가 없어 --pose 판정은 어떤 그림이든 NOT_ASSESSED가 된다.
+  - 부위 면적·치수는 표시만(--pose).
+- 부위 대조(다른 계열: Claude 하위 에이전트, references/part-check.md, 이름 가린 pair_1~4): 이 후보(손질 전) PASS — 머리·망토·회색 갑옷·방패·칼·배낭(등 위)·침낭·장화 같음, 손 1·발 2(겹침), 얼굴·스카프는 엎드려 안 보임. 지적: 배낭 버클이 눈처럼 보임 → 위 4번 손질.
+- 손질 뒤 이름 가린 두 칸 판독(Claude 하위 에이전트, 새 대화): 첫 해석 "쓰러져 엎드린 상태(기절 또는 전투 불능)", 둘째 "엎드려 숨은 자세(포복)". 같은 캐릭터, 배낭 등 위, 얼굴·생물로 읽히는 곳 없음. VERDICT PASS.
+- 다른 후보: r1a_2·r1b_2는 장화 색 FAIL(11.1, 13.4 / 8), r1b_1은 부위 대조 FAIL(방패·갑옷 알아보기 어려움, 짐 더미로 읽힘). 시트 docs/art/sheets/bruno-downed.png(#1 채택본, #2 손질 전, #3~#5 버린 후보, #6~#8 러프, --unverified: measure 도구 판정이 위 이유로 FAIL이라).
+- 사용자 판정·게임 화면 확인: 대기(자리 적용·짧은 Play는 이 항목 범위 밖)

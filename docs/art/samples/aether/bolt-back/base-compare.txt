@@ -1,0 +1,26 @@
+FAIL         bolt_back.png
+  PASS         part:hood:color          ref 0.0 value 0.0786 tol 8
+  INFO         part:hood:area           ref 64.0 value 32.76 tol 0.05  ±48.8% pose change: shown only
+  INFO         part:hood:w              ref 9.0 value 9.0 tol 0.05  ±0.0% pose change: shown only
+  INFO         part:hood:h              ref 8.0 value 4.2 tol 0.05  ±47.5% pose change: shown only
+  PASS         part:robe:color          ref 0.0 value 1.4388 tol 8
+  INFO         part:robe:area           ref 120.0 value 63.72 tol 0.05  ±46.9% pose change: shown only
+  INFO         part:robe:w              ref 6.0 value 12.0 tol 0.05  ±100.0% pose change: shown only
+  INFO         part:robe:h              ref 8.0 value 6.0 tol 0.05  ±25.0% pose change: shown only
+  INFO         part:robe:offset         ref 0.0 value 0.2542 tol 0.03  pose change: shown only
+  NOT_ASSESSED part:hair                ref 62 value 11 tol None  part not identified in the candidate
+  NOT_ASSESSED part:skin                ref 48 value 6 tol None  part not identified in the candidate
+  PASS         part:backpack:color      ref 0.0 value 3.563 tol 8
+  INFO         part:backpack:area       ref 57.0 value 26.28 tol 0.05  ±53.9% pose change: shown only
+  INFO         part:backpack:w          ref 4.0 value 4.8 tol 0.05  ±20.0% pose change: shown only
+  INFO         part:backpack:h          ref 3.0 value 5.4 tol 0.05  ±80.0% pose change: shown only
+  INFO         part:backpack:offset     ref 0.0 value 0.1777 tol 0.03  pose change: shown only
+  PASS         part:lantern:color       ref 0.0 value 1.1175 tol 8
+  INFO         part:lantern:area        ref 39.0 value 7.56 tol 0.05  ±80.6% pose change: shown only
+  INFO         part:lantern:w           ref 9.0 value 4.2 tol 0.05  ±53.3% pose change: shown only
+  INFO         part:lantern:h           ref 10.0 value 6.0 tol 0.05  ±40.0% pose change: shown only
+  INFO         part:lantern:offset      ref 0.0 value 0.2171 tol 0.03  pose change: shown only
+  PASS         outline:color            ref 0.0 value 2.9271 tol 8
+  FAIL         outline:stroke_ratio     ref 0.2222 value 0.1333 tol 0.003
+  NOT_ASSESSED parts                    ref None value None tol None  pose change needs a "fixed" identity part that is found
+  PASS         haze                     ref 0.0 value 0.0 tol 0.002

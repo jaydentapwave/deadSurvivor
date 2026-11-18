@@ -1,0 +1,19 @@
+{
+ "schema": "2d-identity/1",
+ "id": "boar",
+ "ref": "Assets/Game/03.Resources/Art/AIGenerated/Monsters/boar/boar.png",
+ "ref_sha256": "1f35e927653ff9d8744025a163cc23e31fc845e46b5cd24665f98ed942105aa3",
+ "approved": "2026-11-16 — 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기",
+ "note": "몬스터 돌진형 뿔 멧돼지(게임 기획서 A6·F4, 기준서 K12). 슬라임(slime.json) 그림체. 64x64 캔버스, 그림 47x34(키 34px = 캐릭터 48px의 0.7, K13), 피벗 바닥 가운데(다리 바닥 3줄 기준). 오른쪽 아래를 보고 머리를 숙인 돌진 자세. 어두운 갈색 털·황갈 갈기, 크림 뿔 하나와 엄니 둘, 주황 코. box_rel은 그림 bbox 기준.",
+ "width_part": "fur",
+ "outline_exclude": ["fur_shade"],
+ "parts": {
+  "fur": {"hex": "#774c3b"},
+  "fur_shade": {"hex": "#5c493c"},
+  "mane": {"hex": "#a58751"},
+  "horn": {"hex": "#fff9ed"},
+  "horn_shade": {"hex": "#e3d7c8"},
+  "snout": {"hex": "#af642e"},
+  "eye": {"hex": "#ffe08a", "fixed": true}
+ }
+}

@@ -1,0 +1,15 @@
+
+W4 static direction import (2026-11-18). Byte copies; no generation or pixel edits.
+Source notes: output/assets/hd2d-8dir/heroes/notes.md (generation/review/provenance).
+output/assets/hd2d-8dir/heroes/bruno_down.png SHA256 d9472556b773d17a5e25a2eee41d4534f4ab35c95b67aaa5f8000c602a5ee073
+output/assets/hd2d-8dir/heroes/bruno_right.png SHA256 f6361030927a629bfe257c8c539dc41a97004dd77edc38dda47c2d9a2077673d
+output/assets/hd2d-8dir/heroes/bruno_up.png SHA256 05c76c155f043ffb3a430f5c2fa6c9f0853f9fe3c09724dc948e4726fb7d72ac
+output/assets/hd2d-8dir/heroes/lena_down.png SHA256 f1d3bafa46d29bfa7dcd7619c28318dbf5f82bdf87ce337d7caf08a177fde024
+output/assets/hd2d-8dir/heroes/lena_right.png SHA256 0ed3abe4b0f4a8ea4dace51570e520c91312b9409c3d26466eb830c8eec69d8a
+output/assets/hd2d-8dir/heroes/lena_up.png SHA256 4d80ac50214280ddd5cd658632bc713d7aa1c76ae7f75ea9d620e4a6fb3b9040
+output/assets/hd2d-8dir/heroes/mira_down.png SHA256 473ad9851f655398361a7d0b3bbba9747bf5d0fc868f02c20559f09594557bee
+output/assets/hd2d-8dir/heroes/mira_right.png SHA256 b8c40d8db5bc8b2b04fd649461100d6227f58c54006e3be3c3cc76ba4d5d3fd2
+output/assets/hd2d-8dir/heroes/mira_up.png SHA256 7d2c50a1f667ceae69f9a9aaca7e24e128a425112f1dd8ebf06f06b858e2e9da
+output/assets/hd2d-8dir/heroes/bolt_down.png SHA256 3d10407c896dd61cc1c553de5c053d9d5207d864b5be3a06a60e96ad56230300
+output/assets/hd2d-8dir/heroes/bolt_right.png SHA256 a3e8a7fef781b0cb04cfad6f3d96a15508fd6f6ffde0f5f151d0fb93e7659bc9
+output/assets/hd2d-8dir/heroes/bolt_up.png SHA256 06cd70eaa742c335b5c89892f197a78ab87d2ae7a344ea55a2c56a00e37d6282

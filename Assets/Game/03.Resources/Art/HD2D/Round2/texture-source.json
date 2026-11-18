@@ -1,0 +1,29 @@
+{
+  "seed": 18112026,
+  "grassSources": [
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/grass/grass_01.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/grass/grass_02.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/grass/grass_03.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/grass/grass_04.png"
+  ],
+  "pathSources": [
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/path/path_corner_e.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/path/path_corner_n.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/path/path_corner_s.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/path/path_corner_w.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/path/path_end_ne.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/path/path_end_nw.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/path/path_end_se.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/path/path_end_sw.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/path/path_ne.png"
+  ],
+  "floorTexelsPerUnit": [
+    48,
+    24
+  ],
+  "floorWorldPeriod": [
+    42.666666666666664,
+    42.666666666666664
+  ],
+  "method": "stochastic source fragments, irregular low-frequency fields, per-texel road fringe; periodic borders; no whole-tile grid"
+}

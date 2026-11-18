@@ -1,0 +1,58 @@
+{
+ "$comment": "Replay case file (tools/replay.py): the kit's tools/replay-sample.json and a project's harness.replay_cases. Each case puts one past fault into a copy and names what the tool must say when it stops on it. replay.py adds the checks a schema cannot say: unique ids, 'code' on every kind but manual, 'run' for cli/hook/selftest, 'payload' for hook, manual expects not_run, no project base in the kit sample. controls: runs that must pass on the unchanged project, with the case keys and no expect.",
+ "type": "object",
+ "required": ["schema", "cases"],
+ "properties": {
+  "schema": {"enum": ["3dkit-replay-cases/1"]},
+  "note": {"type": "string"},
+  "cases": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": ["id", "fault", "kind", "expect"],
+    "additionalProperties": false,
+    "properties": {
+     "id": {"type": "string"},
+     "src": {"type": "string"},
+     "fault": {"type": "string"},
+     "kind": {"enum": ["judge", "project", "cli", "hook", "selftest", "manual"]},
+     "base": {"enum": ["sample", "project"]},
+     "mutate": {
+      "type": "array",
+      "items": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "file": {"type": "string"},
+        "set": {"type": "string"}, "value": {},
+        "del": {"type": "string"},
+        "scale": {"type": "string"}, "add": {"type": "string"}, "by": {"type": "number"},
+        "append": {"type": "string"},
+        "append_text": {"type": "string"},
+        "replace": {"type": "string"}, "with": {"type": "string"},
+        "write": {"type": "string"}, "text": {"type": "string"}, "mode": {"type": "string"},
+        "rm": {"type": "string"},
+        "copy": {"type": "string"}, "to": {"type": "string"}
+       }
+      }
+     },
+     "run": {"type": "array", "items": {"type": "string"}},
+     "payload": {"type": "object"},
+     "env": {"type": "object", "additionalProperties": {"type": "string"}},
+     "fake_unity": {"type": "object"},
+     "fake_result": {"type": "string"},
+     "hold_editor_lock": {"type": "boolean"},
+     "keeps": {"type": "array", "items": {"type": "string"}},
+     "code": {"type": "string"},
+     "exit": {"type": ["integer", "string"]},
+     "timeout": {"type": "integer", "minimum": 1},
+     "expect": {"enum": ["detected", "missed", "not_run"]},
+     "covered_by": {"type": "string"},
+     "why": {"type": "string"},
+     "note": {"type": "string"}
+    }
+   }
+  },
+  "controls": {"type": "array", "items": {"type": "object"}}
+ }
+}

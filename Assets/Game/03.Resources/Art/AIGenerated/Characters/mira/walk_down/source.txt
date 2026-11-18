@@ -1,0 +1,7 @@
+output/assets/hd2d-8dir/heroes/anim/mira_down_walk/mira_walk_down_00.png SHA256 f66d38180c64e6bd0022f178ef5c21f44156a3ecceeb6f40f38d7253fd06acc3; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/mira_down_walk/mira_walk_down_01.png SHA256 db4b72e953afab476db3ce0c14940c0e231e78d6a7adda989cf5583c7bc2bcf5; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/mira_down_walk/mira_walk_down_02.png SHA256 91a6413633cf001cf2a692440f86cf0412e9dece721ff7e0fa13421ec32fdfad; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/mira_down_walk/mira_walk_down_03.png SHA256 7bc1cfe3b27f2f17b3bbcbcc0fb8687803b2fc1ffedc4367de2888c847c20b72; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/mira_down_walk/mira_walk_down_04.png SHA256 53c149aa6560bce1a120dd3097c152027ef6ba235e2290a4c919168c800d66d6; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/mira_down_walk/mira_walk_down_05.png SHA256 9c0cde5b922809ecda8bb6b69ccd1748419a351c5c8f1a0d43e6ec6df4cf8053; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/mira_down_walk/mira_walk_down_06.png SHA256 a7e32c13ddc79b0433d1001520b8d61d7acbbea8db8c3f4505e53601064b8258; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md

@@ -1,0 +1,230 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "sizes": [
+    [
+      1920,
+      1080
+    ],
+    [
+      2340,
+      1080
+    ],
+    [
+      2520,
+      1080
+    ],
+    [
+      2048,
+      1536
+    ]
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "LOBBY",
+      "name": "로비",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "START",
+      "name": "본 게임 시작 배경",
+      "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
+      "expect": "PlayableProbe.FieldGroundVisibleCount == 1 && PlayableProbe.FieldPartCount(\"bank\") == 2 && PlayableProbe.FieldPartCount(\"pond\") == 1 && PlayableProbe.FieldPartCount(\"stream\") == 1",
+      "capture": true
+    },
+    {
+      "id": "TREE_MOVE",
+      "name": "나무 앞 대원 뒤 겹침으로 이동",
+      "do": "UnityEngine.Time.timeScale=.2f; PlayableProbe.SetMove(1f, -.333333f);",
+      "wait": "PlayableProbe.PartyX * .0113f >= 4.1f",
+      "timeout": 30
+    },
+    {
+      "id": "TREE",
+      "name": "나무 뒤에서 소품만 디더",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldFadedCount > 0",
+      "capture": true
+    },
+    {
+      "id": "TREE_AWAY_MOVE",
+      "name": "겹침 벗어남",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(-1f,0f);",
+      "wait": "PlayableProbe.PartyX * .0113f < .1f",
+      "timeout": 15
+    },
+    {
+      "id": "TREE_CLEAR",
+      "name": "원래 공유 재질 복구",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldFadedCount == 0",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR1",
+      "name": "8방향 down 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(0f, -1f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR1",
+      "name": "8방향 down",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"down\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_down_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR2",
+      "name": "8방향 down-right 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(1f, -1f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR2",
+      "name": "8방향 down-right",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"down-right\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_front_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR3",
+      "name": "8방향 right 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(1f, 0f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR3",
+      "name": "8방향 right",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"right\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_right_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR4",
+      "name": "8방향 up-right 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(1f, 1f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR4",
+      "name": "8방향 up-right",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"up-right\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_back_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR5",
+      "name": "8방향 up 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(0f, 1f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR5",
+      "name": "8방향 up",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"up\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_up_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR6",
+      "name": "8방향 up-left 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(-1f, 1f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR6",
+      "name": "8방향 up-left",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"up-left\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_back_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR7",
+      "name": "8방향 left 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(-1f, 0f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR7",
+      "name": "8방향 left",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"left\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_right_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_DIR8",
+      "name": "8방향 down-left 이동",
+      "do": "UnityEngine.Time.timeScale=1f; PlayableProbe.SetMove(-1f, -1f);",
+      "sleep": 0.4
+    },
+    {
+      "id": "DIR8",
+      "name": "8방향 down-left",
+      "do": "PlayableProbe.SetMove(0f, 0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.MemberFacing(0) == \"down-left\" && PlayableProbe.MemberSpriteName(0).StartsWith(\"bruno_walk_front_\") && PlayableProbe.FacingFallbackCount == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_NE",
+      "name": "다리 북동 정상 조이스틱 이동 한계까지",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(7.2f,3.55f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f && UnityEngine.Mathf.Abs(p.x)+UnityEngine.Mathf.Abs(p.y)>10.5f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "NE",
+      "name": "다리 북동 한계 화면",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldPartCount(\"bridge\")==1 && PlayableProbe.FieldPartVisibleCount(\"bridge\")==1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_W",
+      "name": "야영지 서쪽 정상 조이스틱 이동 한계까지",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(-10.75f,0.0f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f && UnityEngine.Mathf.Abs(p.x)+UnityEngine.Mathf.Abs(p.y)>10.5f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "W",
+      "name": "야영지 서쪽 한계 화면",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldPartVisibleCount(\"tent\")>=1 && PlayableProbe.FieldPartVisibleCount(\"flag\")>=1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_NW",
+      "name": "돌담 북서 정상 조이스틱 이동 한계까지",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(-7.5f,3.25f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f && UnityEngine.Mathf.Abs(p.x)+UnityEngine.Mathf.Abs(p.y)>10.5f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "NW",
+      "name": "돌담 북서 한계 화면",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldPartCount(\"wall\")==40 && PlayableProbe.FieldPartVisibleCount(\"wall\")>=4",
+      "capture": true
+    },
+    {
+      "id": "MOVE_SW",
+      "name": "길 입구 남서 정상 조이스틱 이동 한계까지",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(-5.375f,-5.375f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f && UnityEngine.Mathf.Abs(p.x)+UnityEngine.Mathf.Abs(p.y)>10.5f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "SW",
+      "name": "길 입구 남서 한계 화면",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldGroundVisibleCount==1 && PlayableProbe.GroundTileCount(\"path_\",true)>0 && PlayableProbe.FieldPartVisibleCount(\"fence\")>=3 && PlayableProbe.FieldPartVisibleCount(\"sign\")>=1",
+      "capture": true
+    }
+  ]
+}

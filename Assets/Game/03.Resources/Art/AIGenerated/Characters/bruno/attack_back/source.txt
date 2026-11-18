@@ -1,0 +1,35 @@
+hit_frame: 3
+# bruno attack_back — 뒤 3/4 공격 6장, Aether 영상 프레임(새 생성) → 64칸 도트 + 손질 (기준서 r4·r5 3.10)
+
+- 만든 날: 2026-11-17, 대기열 20261117-art-aether 항목 bruno-back(시도 1), /2d-art-aether 새 생성 길. 손질 기준: docs/art/samples/aether/손질-기준.md
+- 기준 그림: ../back/bruno_back.png sha256 63412b437e51646ccfbf07ea17326a0dabcd9e5c4aee603ae1661411efc4c5ab
+- 끝 그림: 옛 조각 공격 bruno_attack_back_01.png(칼을 앞으로 수평에 가깝게 뻗은 타격, 이 항목에서 지우기 전 사본 output/2d-art/bruno-back-aether/inputs/attack_back_piece01_orig.png) ×8
+- 승인·크레딧: walk_back/source.txt와 같음(잔액 914 → 896, 이 클립 9). 다시 생성 0건.
+- job id 546e934e-e717-4dd0-926a-41e9230a0bde, Succeed, 시트 sha256 77020d21e9b9925a8260149fbfc95e4b88bc683339cf2cbd18e4da349555f4ca
+- 도구: sprite_zenith 36장 first_last_frame, 프롬프트 보강 끔, 키 색 초록
+- 프롬프트: "Isometric 3/4 back view, the character faces away toward the upper-right. Raises the sword overhead with the whole right arm, then swings it down and forward to the right with shoulder, elbow and hand moving together, ending in the end picture pose with the sword held forward to the right. Feet stay planted, shield stays on the left arm. Locked camera, same size, keep the big backpack on the back. The last frame has the same hair and hands as the end picture. Solid green background, no ground, shadows, added objects, slash trails or motion blur."
+
+## 처리
+- 클립 크기: analyze 제안 gain 1.0759(머리카락 면적)로 키 51px → run3에서 키로 다시 잡아 gain 1.0126, 처리 캔버스 96×80(768×640, 든 칼이 64 위로 나감), offset [0,-16].
+- 색: RESTORED(hair 5.8~6.9→0.2~0.4, steel 2.9~6.6→0.4~1.1, outline 6.3~8.4→1.2~3.0), output_fringe PASS.
+- 분석 표시: "끝 자세 불일치" shape 0.628 > 0.15, inside 0.161 > 0.12 — 끝 장의 칼이 끝 입력(12px)보다 훨씬 길고(약 20px) 팔이 곧게 뻗음. "키 검토 필요"(팔·다리 사이 틈). 휘두름 칸(21~24)에 흰·청록 궤적이 그림 안에 그려짐.
+
+| 장 | 원본 칸 | 단계 | 칼 변환 | 칼날 손잡이 자리 | 머리 이동 | 손질 |
+|---|---|---|---|---|---|---|
+| 00 | 10 | 예비: 칼을 오른쪽 머리 위로 듦 | flipx (위·조금 왼쪽) | (46,20) | (-2,-2) | 영상 칼날 자동 지움 |
+| 01 | 18 | 예비 끝: 머리 위로 높이 듦 | flipx | (40,16) | (-3,-2) | 칼을 머리 뒤에(빈 칸에만) — 뒤 3/4에서 든 칼은 보는 사람에게서 먼 쪽 |
+| 02 | 23 | 휘두름 | id (위·조금 오른쪽) | (56,37) 지정 | (1,-1) | 궤적·칼 상자 지움(원본 좌표 x54~95·y14~52, x57~95·y50~53) |
+| 03 | 26 | 타격: 칼을 앞(오른쪽)으로 | rot90 (오른쪽·조금 아래) | (54,42) 지정 | (2,-1) | 64칸 밖으로 뻗은 팔 끝·칼 상자 지움(원본 x55~95·y53~62) — 손을 x51로 당김 |
+| 04 | 26(같은 몸) | 회복 1: 칼끝을 내림 | flipy (아래·오른쪽) | (54,42) 지정 | (2,-1) | 03과 같음 |
+| 05 | — | 회복 2: 대기 그림(기준 그림 그대로) | — | — | (0,0) | — |
+
+- **hit_frame = 3** (bruno_attack_back_03, 칼이 앞으로 뻗은 칸 = 끝 그림 자세)
+- 칼: 기준 칼 조각(parts/arm_back_hand_sword.png) 정수 변환만, 길이 그대로. 둘레 빈칸에 외곽선 #2f1108. 64칸 밖 칼 픽셀: 03에서 2px(칼끝 외곽선).
+- 잘린 픽셀(옛 칼·궤적만): 02 1px. 떨어진 잔조각(지운 날밑·외곽선) 지움 9~14px/장. 쓰지 않은 칸: 들어올리는 중간(11~17), 휘두름 21·22·24(궤적), 뻗은 뒤 27~35(같은 자세).
+- 옛 도트 조각 공격(_00~_04)은 지우고 바꿈. 10fps, 0.6초.
+
+## 확인
+- Tools/check_motion.py --kind attack: PASS 6장 (첫 실행에서 01이 머리 93.6%로 FAIL — 든 칼이 머리 위에 찍혀서. 칼을 머리 뒤로 두고 PASS)
+- 완성 GIF docs/art/samples/aether/bruno-back/attack.gif(10fps, 6장)를 디코딩해 순서대로 직접 봄: 오른팔 전체로 칼을 머리 위로 들고(00→01, 팔이 머리 오른쪽으로 올라감) 앞으로 휘둘러(02) 오른쪽으로 뻗은 뒤(03) 칼끝을 내리고(04) 대기로 돌아옴(05). 칼은 모든 장 기준 길이·모양, 흰 궤적 없음, 머리는 모든 장 같음.
+- 알려진 것(사람 판정): 8방향 정수 변환이라 02 칼 각도가 영상과 다름. 03·04는 팔을 x51에서 끊어 영상보다 팔이 짧음. 04(뻗음)→05(대기)와 대기→00은 자세가 한 번에 바뀜. 망토 아랫단이 기준보다 짧음.
+- 상태: 기술 처리 PASS / 사용자 채택 NOT_RUN / 게임 적용 NOT_RUN

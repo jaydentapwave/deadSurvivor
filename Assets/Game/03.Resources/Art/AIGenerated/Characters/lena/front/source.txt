@@ -1,0 +1,57 @@
+# lena_front.png — 출처
+
+- 무엇: 레나(궁수, 게임 기획서 A1, 직업색 초록, 단궁) 앞 3/4 기준 그림(오른쪽 아래를 봄, 아트 기준서 K14). identity docs/art/identities/lena.json 의 ref.
+- 규격: 64x64 캔버스, 그림 33x48(키 48px, 기준서 3.1 48px 열), 피벗 = 발 가운데 = 캔버스 아래 가운데(x 32, 맨 아래 줄). 알파 0/255만.
+- sha256: d5b59624d31febe35a2736b7901ce6b26276ca3f67768a52adfbc82d0c79e0ab
+- 만든 날: 2026-11-15, 대기열 20261115-art-characters 항목 lena-front(시도 1), /2d-art-produce "새 캐릭터" 경로, bruno-front와 같은 방법
+- 채택: 2026-11-15 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기
+
+## 도구
+- 생성: codex-cli 0.167.2, 모델 gpt-6.1-sol(추론 medium), 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1df91-6c77-7120-80a2-e0f68547d008 (2회차 설정 A, 23:16 시작), 결과 2장 중 2번째
+- 계보의 1회차 세션: 01a1df8e-84c1-76c2-a0f2-1eb1ace8a78c (1회차 설정 A, 23:13 시작), 결과 2장 중 2번째(lena_r1a_2)
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256)
+- 1회차 첫째 참고(그림체·비율·외곽선): 채택된 브루노 Assets/Game/03.Resources/Art/AIGenerated/Characters/bruno/front/bruno_front.png 75ebc8c3c00ac046495e460f903b8ce5669f97d57dcb94473e3003793a1c89ee
+  - #ff00ff 바탕에 놓고 16배 확대(1024x1024) ref1_bruno_x16.png 55966cfa2e540095395525af36c6f409ea6e9653e66a60cc7c4efae8f769acac
+- 1회차 둘째 참고(직업 외형): 컨셉 PE-G003 docs/game/concept-20261112/3-직업4종.jpg d96f1997c089f2453e1c8ef003879c07571924015c1bca30a6825dd0c9378e20
+  (manifest external_send: Codex 참고 그림 사용 허용, 2026-11-15 "넣는다 (추천)")
+  - 궁수만 자른 것 (460,190,800,680, 컨셉 관찰 표의 범위): a3861fd64ddac66d96613add704a8c7bc05efb1a32b9a1c6d9ed7236af58d6d6
+  - 1회차 프롬프트 문장: "Art style, proportions and outline come from the first image; the job look (hood, bow, clothes, colours) comes from the second image."
+- 2회차 첫째 참고(고칠 그림) guide.png 974c7fe589829340c69860751916b05aee58ac30e3e928d14b69a67524812109
+  — 1회차 결과 lena_r1a_2를 pixelize.py one --size 34x48(브루노와 같은 팔레트)로 내려 64x64 캔버스에 놓고 16배 확대(배경 #ff00ff)
+- 2회차 둘째 참고(상세 디자인) design.png = 1회차 결과 lena_r1a_2 원본 6afef8e360417c6f679490e7eeb5a0a619d8f82abf7ba6110efd0ff4305c92ca
+
+## 최종 프롬프트 (2회차 설정 A, Codex에 보낸 그대로)
+[lena-front-r2a] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. Two images are attached: the first is the image to edit, the second is the detailed design of the same archer.
+Copy the two results from the generated images folder into the current working folder as lena_r2a_1.png and lena_r2a_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Edit the first reference image. It is a 64x64 pixel sprite enlarged so that every pixel is one 16x16 flat block (canvas 1024x1024). Keep exactly this pixel grid: the same block size, the same canvas, the same silhouette and the same position. The character stays exactly 48 blocks tall (from the soles of the boots on the bottom row to the top of the hood) and about 32 blocks wide. Repaint the blocks inside the silhouette cleanly so the character matches the second reference: the muddy, broken blocks (especially on the chest, belly and legs) become clean readable shapes with the right colours.
+Character details (take them from the second reference): a green hood (#4f7a2e, light #7fa040, dark #3a3721) with a leaf ornament and a gold bead, short light-brown hair (#c2864d) under the hood, pointed elf ears, big green eyes (each eye 2 blocks wide and 2-3 blocks tall), a small open mouth, a gold clover clasp at the collar, a green cape, a green tunic with a brown leather belt and a gold buckle, brown gloves, dark trousers, brown boots, a wooden short bow held in the hand on the right side of the picture (a clear continuous curved line with a string), arrows with white feathers in a quiver on the back, and a big brown backpack on the left side of the picture. She faces toward the lower-right of the picture, standing idle.
+Pixel rules: every block is ONE flat colour; no detail smaller than one block; no anti-aliasing, no gradients, no dithering, no soft edges. A 1-block dark brown outline (#34140e, not black) around the whole figure. Flat 2-3 tone shading.
+Background: flat solid #ff00ff everywhere outside the character. No grid lines, no text, no UI, no ground, no cast shadow.
+
+## 생성 원본
+- output/2d-art/lena-front/r2a/lena_r2a_2.png (Git 밖) 1254x1254, 44abac2799cc9609c42b52db545d8cd585aa667a3d7f99cc8458887f5f63ee58
+
+## 후처리
+1. pixelize.py grid --bg-tol 100 --size 32x48 → native grid 33x47 (block 19.5px, score 0.56). 생성 그림의 키는 920px = 47칸(1254/64 = 19.6px 칸). 1·2회차 8장이 모두 47칸으로 나왔다.
+2. pixelize.py one --size 33x47 --palette <브루노와 같은 팔레트: 기준서 3.5 36색 + 강철 3색 #c8b8b8 #a89898 #786868> --bg-tol 100 → 33x47 (f5233dd9b124b0295dcdbd5d6d1005a2c6cefee8981e87279bdad23b8b463f4e)
+   - 34x48로 바로 내리면(47칸을 48칸으로 다시 나눔) 몸통·얼굴에 섞인 칸이 늘어 지저분했다(px2_view.png 아랫줄). 그래서 본래 격자 47줄로 내렸다.
+3. 키 48px 맞추기(일회성 스크립트 output/2d-art/lena-front/tools/stretch_row.py): 다리 높이(그림 높이 70~85%) 안에서 아래 줄과 가장 비슷한 줄 하나(35번 줄, 차이 8px)를 한 번 더 넣었다 → 33x48 (383d04405225f219f9209fd50cd228ce60560998ee05ad99ee95506789b25cd4). 다리가 1px 길어진다.
+4. 64x64 캔버스에 놓기(bruno-front의 place.py 그대로): 맨 아래 3줄(신발)의 가로 범위 가운데를 x 32에, 신발 바닥을 63줄에. 오프셋 (16,16).
+5. 다른 편집 없음.
+
+## 판정
+- 격자: 33x47 본래 격자 + 줄 1개 → 33x48 (위 1·3)
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0)
+- 부위 대조(다른 계열: Claude 하위 에이전트 sonnet, references/part-check.md, 이름 가린 cand_A~D, 브루노는 그림체 참고로만 줌): PASS, 4후보 중 1위(cand_B).
+  같음: 초록 두건(잎 장식·금 구슬), 갈색 머리, 뾰족 귀, 초록 눈, 금 클로버 목 장식, 초록 망토, 벨트와 버클, 팔 2(오른쪽 손이 활 손잡이), 다리 2, 갈색 신발,
+  줄이 있는 곡선 활, 흰 깃 화살이 보이는 화살통, 갈색 배낭. 그림체: 브루노와 같은 칸 크기·큰 머리 비율·짙은 갈색 1px 외곽선·오른쪽 아래 시선.
+  게임 크기(2배) 판독: "엘프/숲 궁수". 지적: 배낭 왼쪽 아래 칸이 조금 어지럽다. 머리색이 컨셉보다 주황 쪽이다. 컨셉은 윙크인데 두 눈을 떴다.
+- identity 등록: measure.py identity --id lena PASS (부위 7개 모두 잡힘, 겹치는 쌍 없음)
+- measure.py compare --id lena --img lena_front.png: PASS (기준 그림 자기 대조)
+- PASS = 기준과 어긋나지 않음. 자연스러움·직업이 읽히는지·브루노와 같은 그림체인지는 판독과 사용자 판정이 본다.
+- 사용자 판정: 대기(게임 화면 짧은 Play·자리 적용은 이 항목 범위 밖)

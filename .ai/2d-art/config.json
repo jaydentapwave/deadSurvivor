@@ -1,0 +1,9 @@
+{
+ "schema": "2d-art-config/1",
+ "client_dir": ".",
+ "art_dir": "Assets/Game/03.Resources/Art",
+ "spec": "docs/art/아트-기준서.md",
+ "identities_dir": "docs/art/identities",
+ "work_dir": "output/2d-art",
+ "calibration_log": "docs/art/2d-보정-기록.md"
+}

@@ -1,0 +1,28 @@
+# mira_walk_back_00..06 — 미라 뒤 3/4 제자리 걷기 (Aether 영상 프레임 → 64칸 도트 + 손질)
+
+- 만든 날: 2026-11-17, 대기열 20261117-art-aether 항목 mira-back, /2d-art-aether 절차, 손질 기준 docs/art/samples/aether/손질-기준.md
+- 승인: 사용자 2026-11-15 "16개까지 허용 (추천)" 안, 이 항목 2건(18크레딧)까지. 디렉터 덧붙임 2026-11-17 "걷기·공격 둘 다 Aether로 생성"
+- 기준 그림: mira/back/mira_back.png sha256 32fffc0bfd89de8b6c3d3d29e942476777a33cec31194f8636a874fc059661fb (identity mira)
+
+## 생성
+- job id eaefb8c0-b55c-4fd1-a9ae-99420218ad8d, sprite_zenith 36장 first_last_frame, is_pixel false, 프롬프트 보강 끔, 다시 생성 0
+- 입력: 시작 = 끝 = 기준 그림 최근접 ×8(512×512), 키 색 자홍(init 안쪽 충돌 0, 미라에는 초록이 있어 자홍)
+- 시트 output/2d-art/mira-back-aether/dl/walk_sheet.png sha256 44ca63664d6c9bd8683c689c12c23860a224d7b49ee7bbef28fa368991bf7eda
+- 크레딧: 9. 서비스 잔액 생성 전 833 → 두 건(걷기·공격) 생성 뒤 815
+- 프롬프트: "Isometric 3/4 back view, the character faces away toward the upper-right. The same young girl mage as the start picture: long silver hair, big blue pointed hat with a gold star, blue robe, no beard, small body, big brown backpack on the back. She walks in place, legs clearly alternate front and back under the robe, arms swing, slight body bob. Keep the long wooden staff with the blue orb upright in the hand on the right side. Locked camera, same size. The last frame has the same pose, hat, hair, staff and hands as the end picture. Solid magenta background, no ground, shadows, added objects or motion blur."
+- 결과: 같은 미라 뒷모습(은발, 파란 고깔모자, 큰 배낭), 지팡이는 오른손에 세운 채, 로브 아래 발이 번갈아 나옴
+
+## 처리
+- analyze 표시: 키 검토 필요(팔·지팡이 사이 틈; 손질 뒤 자홍 남은 픽셀 0~1/장을 fix_key_residue가 처리), 클립 크기 모자 면적 1.053배(gain 0.9494 제안)
+- gain 0.98(키 기준: 칸 1~35 발~모자 끝 383~403px, 시작 384px, 평균 약 393. 모자 면적은 영상 모자 챙이 넓어 쓰지 않음 — 미라 앞과 같은 판단), offset y −5(512 캔버스 안에 발), 클립 전체 한 배율. run3(같은 시트 영수증 재처리, 크레딧 0). run2(offset 0)는 캔버스 아래 잘림으로 멈춤
+- 색 되돌리기: 요청 color {} — 미보정(도트 팔레트로 내려 기준서 r5 팔레트 색만 씀). output_fringe PASS
+- 도트: bruno-front/to_dot.py(기준서 3.5 r5 팔레트, 발 맨 아래 줄 63)
+- 쓴 원본 칸: 12, 14, 16, 18, 20, 22, 24 → _00.._06, 10fps, 반복(analyze 반복 후보 1위 시작 12·길이 14)
+- 손질: docs/art/samples/aether/mira-front/fix_mira.py docs/art/samples/aether/mira-back/walk_back.json — 기준 머리(y16~35, 위 14줄 전부, 아래 6줄 x>=21)에서 head-exclude.json mira_back 물건 자리(지팡이 윗부분·구슬)를 빼고 덮음. 머리 이동 [0,0]/[0,-1]/[0,-1]/[0,1]/[0,0]/[0,-1]/[0,0], 머리 둘레 지운 픽셀 318~338/장. 지팡이는 영상 그대로(미라 앞과 같음)
+- 잘린 픽셀 0
+
+## 확인
+- Tools/check_motion.py --kind walk: PASS 7장
+- 완성 GIF docs/art/samples/aether/mira-back/walk.gif(sheet.py anim 10fps, 높이 400, UNVERIFIED 띠)를 디코딩해 7장을 순서대로 직접 봄: 로브 아래 왼발·오른발이 장마다 앞뒤로 바뀜, 몸 1px 오르내림, 지팡이는 모든 장에서 오른손에 세워짐, 머리·모자는 모든 장 같은 미라 뒷모습
+- 알려진 것: 01에서 지팡이 윗부분(구슬 옆 갈고리) 도트가 끊겨 보임, 몸통·다리 도트는 장마다 다름
+- 사람 판정(같은 캐릭터로 자연스러운가): 대기

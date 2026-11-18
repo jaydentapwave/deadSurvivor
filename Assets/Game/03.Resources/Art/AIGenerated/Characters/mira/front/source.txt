@@ -1,0 +1,57 @@
+# mira_front.png — 출처
+
+- 무엇: 미라(마법사, 게임 기획서 A1, 직업색 파랑, 지팡이) 앞 3/4 기준 그림(오른쪽 아래를 봄, 아트 기준서 K14). identity docs/art/identities/mira.json 의 ref.
+- 규격: 64x64 캔버스, 그림 36x48(키 48px, 기준서 3.1 48px 열, 모자 끝~신발 바닥), 피벗 = 발 가운데 = 캔버스 아래 가운데(x 32, 맨 아래 줄). 알파 0/255만.
+- sha256: c492c97619ea6092bfa00e6e9a5834cf08bb602c48c6c2349b167a415c0ce1ae
+- 만든 날: 2026-11-15, 대기열 20261115-art-characters 항목 mira-front(시도 1), /2d-art-produce "새 캐릭터" 경로, bruno-front·lena-front와 같은 방법
+- 채택: 2026-11-15 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기
+- 지팡이: 게임 기획서 A1은 "화염 지팡이"이고 컨셉 PE-G003은 파란 구슬 지팡이다. 그림은 컨셉을 따라 파란 구슬(팔레트에 밝은 파랑이 없어 청록 #7fd0c8로 내려감)이다. 화염은 공격 효과에서 낸다는 가정(사람 판정 대상).
+
+## 도구
+- 생성: codex-cli 0.167.2, 모델 gpt-6.1-sol(추론 medium), 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1dfa4-9ef2-7843-b462-61a97f0277f6 (2회차 설정 B), 결과 2장 중 2번째
+- 계보의 1회차 세션: 01a1dfa2-29ec-7133-9107-cbe558673bab (1회차 설정 A), 결과 2장 중 1번째(mira_r1a_1)
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256)
+- 1회차 첫째 참고(그림체·비율·외곽선): 채택된 브루노 Assets/Game/03.Resources/Art/AIGenerated/Characters/bruno/front/bruno_front.png 75ebc8c3c00ac046495e460f903b8ce5669f97d57dcb94473e3003793a1c89ee
+  - #ff00ff 바탕에 놓고 16배 확대(1024x1024) ref1_bruno_x16.png 55966cfa2e540095395525af36c6f409ea6e9653e66a60cc7c4efae8f769acac
+- 1회차 둘째 참고(직업 외형): 컨셉 PE-G003 docs/game/concept-20261112/3-직업4종.jpg d96f1997c089f2453e1c8ef003879c07571924015c1bca30a6825dd0c9378e20
+  (manifest external_send: Codex 참고 그림 사용 허용, 2026-11-15 "넣는다 (추천)")
+  - 마법사만 자른 것 (800,150,1200,680, 컨셉 관찰 표의 범위): a8e9272df8a51e87372398097eef4a3ebdb35f01bc5a0acc6b202816a0087d66
+  - 1회차 설정 A는 키 48칸, 설정 B는 "49칸"을 요청했다. 4장 모두 약 48칸(칸 19.6px)으로 나왔다(레나 때 47칸과 다름).
+- 2회차 첫째 참고(고칠 그림) guide.png 17db0d8877f4c7effe29dc43e76e24c44d543297119c99b39a431c5bd79d84df
+  — 1회차 결과 mira_r1a_1(d2daeb67…abb)을 pixelize.py one --size 36x48(브루노와 같은 팔레트)로 내려 64x64 캔버스에 놓고 16배 확대(배경 #ff00ff)
+- 2회차 둘째 참고(설정 B): 컨셉 마법사 자른 것(a8e9272d…087d66). 설정 A는 1회차 원본 mira_r1a_1을 넣었다.
+
+## 최종 프롬프트 (2회차 설정 B, Codex에 보낸 그대로)
+[mira-front-r2b] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. Two images are attached: the first is the image to edit, the second is the concept art of the same mage.
+Copy the two results from the generated images folder into the current working folder as mira_r2b_1.png and mira_r2b_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Edit the first reference image. It is a 64x64 pixel sprite enlarged so that every pixel is one 16x16 flat block (canvas 1024x1024). Keep exactly this pixel grid: the same block size, the same canvas, the same silhouette and the same position. The character stays exactly 48 blocks tall (from the soles of the shoes on the bottom row to the top of the hat) and about 36 blocks wide including the staff. Repaint the blocks inside the silhouette cleanly so the character matches the second reference: the muddy, broken blocks (especially on the hat, face, chest, robe and the staff) become clean readable shapes with the right colours; remove the stray purple blocks.
+Character details (take them from the second reference): a tall pointed blue witch hat (#40548b, light #5a74b0, dark #2b3566) with a gold rim band and a gold star ornament, the tip bending back with a small blue gem; long silver-grey hair (#c8b8b8, shade #a89898); big blue eyes (each eye 2 blocks wide and 2-3 blocks tall); a small open mouth; a blue robe with wide sleeves and gold trim; a cream under-dress (#e3d7c8) in the front; a brown belt with a gold buckle; small brown shoes; a long wooden staff held upright in the hand on the right side of the picture, one clear continuous brown line from the floor up to a curl at the top that holds a glowing blue orb; a big brown backpack on the left side of the picture with books and a blue and a red potion bottle. She faces toward the lower-right of the picture, standing idle.
+Pixel rules: every block is ONE flat colour; no detail smaller than one block; no anti-aliasing, no gradients, no dithering, no soft edges. A 1-block dark brown outline (#34140e, not black) around the whole figure. Flat 2-3 tone shading.
+Background: flat solid #ff00ff everywhere outside the character. No grid lines, no text, no UI, no ground, no cast shadow.
+
+## 생성 원본
+- output/2d-art/mira-front/r2b/mira_r2b_2.png (Git 밖) 1254x1254, 8b82587a6fa0941f35d06635a3bcd416f7104765ab0a23e13a9956a909782fbc
+
+## 후처리
+1. pixelize.py grid --bg-tol 100 --size 36x48 → native grid 36x48 (block 19.6px, score 0.77). 키 48칸이라 줄 넣기(레나의 stretch_row)는 쓰지 않았다.
+2. pixelize.py one --size 36x48 --palette <브루노·레나와 같은 팔레트: 기준서 3.5 36색 + 강철 3색 #c8b8b8 #a89898 #786868> --bg-tol 100 → 36x48 (107129acba1c9dfb30f46ad88da57976e413801e980006cc6756d81eb865be59)
+3. 64x64 캔버스에 놓기(bruno-front의 place.py 그대로): 맨 아래 3줄의 가로 범위 가운데를 x 32에, 신발 바닥을 63줄에. 오프셋 (16,16).
+4. 다른 편집 없음.
+
+## 판정
+- 격자: 36x48 본래 격자 그대로
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0)
+- 부위 대조(다른 계열: Claude 하위 에이전트 sonnet, references/part-check.md, 이름 가린 cand_A~D, 브루노는 그림체 참고로만 줌): PASS, 4후보 중 1위(cand_A).
+  같음: 파란 고깔모자(금 띠·금 별 장식·끝의 보석), 긴 은발, 파란 눈, 작은 입, 넓은 소매의 파란 로브와 금 테, 크림색 속옷, 벨트, 오른쪽 손의 긴 나무 지팡이(한 줄로 이어짐)와 파란 구슬, 왼쪽의 갈색 배낭(책·물약),
+  발 2. 그림체: 브루노와 같은 칸 크기·큰 머리 비율·짙은 갈색 1px 외곽선·오른쪽 아래 시선. 게임 크기(2배) 판독: "파란 모자와 지팡이를 든 작은 마법사, 배낭".
+  지적: 버클이 약하다, 배낭의 책이 가는 막대 3개다, 눈이 컨셉보다 작다, 왼손이 소매에 묻혀 손 1개만 분명하다.
+- 탈락 3장(r2a_1, r2a_2, r2b_1): 모자 띠에 보라 칸(팔레트에 밝은 파랑이 없어 #5a74b0이 #b07fd0으로 내려감), fringe FAIL(보라가 키 색 가까이로 잡힘), 판독 FAIL.
+- identity 등록: measure.py identity --id mira PASS (부위 7개 모두 잡힘, 겹치는 쌍 없음)
+- measure.py compare --id mira --img mira_front.png: PASS (기준 그림 자기 대조)
+- PASS = 기준과 어긋나지 않음. 자연스러움·직업이 읽히는지·브루노와 같은 그림체인지는 판독과 사용자 판정이 본다.
+- 사용자 판정: 대기(게임 화면 짧은 Play·자리 적용은 이 항목 범위 밖)

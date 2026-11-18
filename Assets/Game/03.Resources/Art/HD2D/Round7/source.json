@@ -1,0 +1,68 @@
+{
+  "seed": 181104,
+  "externalReferenceInputs": [],
+  "derivedFrom": [
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/grass/grass_01.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/grass/grass_02.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/grass/grass_03.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Ground/grass/grass_04.png",
+    "Assets/Game/03.Resources/Art/AIGenerated/Decor/tree_01.png"
+  ],
+  "density": [
+    48,
+    24
+  ],
+  "worldPeriod": [
+    42.666666666666664,
+    42.666666666666664
+  ],
+  "grassPalette": [
+    [
+      147,
+      143,
+      91
+    ],
+    [
+      158,
+      153,
+      98
+    ],
+    [
+      169,
+      164,
+      105
+    ],
+    [
+      179,
+      174,
+      112
+    ]
+  ],
+  "largeSunlightDeltaSRGB": [
+    -4,
+    4
+  ],
+  "treePalette": [
+    [
+      73,
+      116,
+      107
+    ],
+    [
+      92,
+      141,
+      115
+    ],
+    [
+      143,
+      177,
+      103
+    ],
+    [
+      179,
+      202,
+      123
+    ]
+  ],
+  "method": "native grass fragment overlap with stochastic texel feather, broad low contrast discrete sunlight; native leaf cluster crop without oval scaling"
+}

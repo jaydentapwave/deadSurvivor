@@ -1,0 +1,72 @@
+{
+ "schema": "2d-identity/1",
+ "id": "lena",
+ "ref": "Assets/Game/03.Resources/Art/AIGenerated/Characters/lena/front/lena_front.png",
+ "ref_sha256": "d5b59624d31febe35a2736b7901ce6b26276ca3f67768a52adfbc82d0c79e0ab",
+ "approved": "2026-11-15 — 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기",
+ "note": "레나(궁수, 게임 기획서 A1, 직업색 초록, 단궁) 앞 3/4(오른쪽 아래를 봄, 기준서 K14). 64x64 캔버스, 키 48px, 피벗 발 가운데(캔버스 아래 가운데). 기준 그림은 게임 해상도 도트 그림 자체다. box_rel은 그림 bbox(33x48) 기준. 같은 초록(#4f7a2e)은 두건(hood)과 망토·웃옷(cape)으로, 같은 갈색(#af642e)은 배낭과 활로 나눴다.",
+ "width_part": "hood",
+ "outline_exclude": [
+  "boots"
+ ],
+ "parts": {
+  "hood": {
+   "hex": "#4f7a2e",
+   "box_rel": [
+    0.0,
+    0.0,
+    1.0,
+    0.31
+   ]
+  },
+  "cape": {
+   "hex": "#4f7a2e",
+   "box_rel": [
+    0.0,
+    0.33,
+    0.84,
+    0.85
+   ]
+  },
+  "hair": {
+   "hex": "#d5833a",
+   "box_rel": [
+    0.3,
+    0.12,
+    0.82,
+    0.32
+   ]
+  },
+  "skin": {
+   "hex": "#f8daac"
+  },
+  "backpack": {
+   "hex": "#af642e",
+   "box_rel": [
+    0.0,
+    0.35,
+    0.28,
+    0.66
+   ]
+  },
+  "bow": {
+   "hex": "#af642e",
+   "box_rel": [
+    0.86,
+    0.27,
+    1.0,
+    0.62
+   ]
+  },
+  "boots": {
+   "hex": "#77211d",
+   "box_rel": [
+    0.15,
+    0.86,
+    0.85,
+    1.0
+   ],
+   "lab_tol": 12
+  }
+ }
+}

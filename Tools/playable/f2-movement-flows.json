@@ -1,0 +1,209 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "sizes": [
+    [
+      1920,
+      1080
+    ],
+    [
+      2340,
+      1080
+    ],
+    [
+      2520,
+      1080
+    ],
+    [
+      2048,
+      1536
+    ]
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "L1",
+      "name": "로비 도착",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "B1",
+      "name": "적 수 배율 0으로 출발 → 전투 웨이브 1, 균형형 자리, 카메라 = 원정대 중심",
+      "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
+      "expect": "PlayableProbe.Formation == \"balanced\" && PlayableProbe.MaxSlotError < 0.5f && PlayableProbe.CameraError <= 0.021f"
+    },
+    {
+      "id": "RIGHT",
+      "name": "화면 오른쪽 명령 1초 → 바닥 +x로만 70 이상, 카메라가 따라감",
+      "do": "PlayableProbe.MarkPositions(); PlayableProbe.SetMove(1f, 0f);",
+      "sleep": 1,
+      "expect": "PlayableProbe.PartyDeltaX > 70f && Math.Abs(PlayableProbe.PartyDeltaY) < 0.5f && PlayableProbe.CameraError <= 0.021f",
+      "capture": true
+    },
+    {
+      "id": "UP",
+      "name": "화면 위 명령 1초 → 바닥 +y로만 70 이상",
+      "do": "PlayableProbe.MarkPositions(); PlayableProbe.SetMove(0f, 1f);",
+      "sleep": 1,
+      "expect": "PlayableProbe.PartyDeltaY > 70f && Math.Abs(PlayableProbe.PartyDeltaX) < 0.5f && PlayableProbe.CameraError <= 0.021f"
+    },
+    {
+      "id": "STOP",
+      "name": "명령 0",
+      "do": "PlayableProbe.SetMove(0f, 0f);",
+      "sleep": 0.5,
+      "expect": "PlayableProbe.Screen == \"Battle\""
+    },
+    {
+      "id": "STILL",
+      "name": "멈춘 원정대: 중심이 그대로이고 대원이 모두 자리(0.5 이내)",
+      "do": "PlayableProbe.MarkPositions();",
+      "sleep": 0.5,
+      "expect": "PlayableProbe.PartyMovedSinceMark < 0.01f && PlayableProbe.MaxSlotError < 0.5f"
+    },
+    {
+      "id": "PREP1",
+      "name": "웨이브 1 끝 → 정비",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 40
+    },
+    {
+      "id": "FORM",
+      "name": "정비에서 쐐기형 고르기 → 대기 진형만 바뀜(진형 판넬 캡처)",
+      "do": "PlayableProbe.PressFormation(\"wedge\");",
+      "expect": "PlayableProbe.PendingFormation == \"wedge\" && PlayableProbe.Formation == \"balanced\"",
+      "capture": "all"
+    },
+    {
+      "id": "WEDGE",
+      "name": "다음 웨이브 → 쐐기형 자리",
+      "do": "PlayableProbe.PressNextWave();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 2",
+      "expect": "PlayableProbe.Formation == \"wedge\" && PlayableProbe.MaxSlotError < 0.5f",
+      "capture": true
+    },
+    {
+      "id": "JOY",
+      "name": "화면 가운데를 누르고 위로 끌기 → 조이스틱이 보이고 원정대가 위로",
+      "do": "PlayableProbe.MarkPositions(); PlayableProbe.JoystickDown(0.5f, 0.5f); PlayableProbe.JoystickDrag(0.5f, 0.6f);",
+      "sleep": 1,
+      "expect": "PlayableProbe.IsJoystickShown && PlayableProbe.PartyDeltaY > 70f && Math.Abs(PlayableProbe.PartyDeltaX) < 0.5f",
+      "capture": "all"
+    },
+    {
+      "id": "JOYUP",
+      "name": "조이스틱 놓기 → 사라짐",
+      "do": "PlayableProbe.JoystickUp();",
+      "sleep": 0.3,
+      "expect": "!PlayableProbe.IsJoystickShown"
+    },
+    {
+      "id": "JOYSTILL",
+      "name": "놓은 뒤 중심이 멈춤",
+      "do": "PlayableProbe.MarkPositions();",
+      "sleep": 0.5,
+      "expect": "PlayableProbe.PartyMovedSinceMark < 0.01f"
+    },
+    {
+      "id": "PREP2",
+      "name": "웨이브 2 끝 → 정비",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 2",
+      "timeout": 40
+    },
+    {
+      "id": "LINE",
+      "name": "횡대형 고르고 다음 웨이브 → 횡대형 자리",
+      "do": "PlayableProbe.PressFormation(\"line\"); PlayableProbe.PressNextWave();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 3",
+      "expect": "PlayableProbe.Formation == \"line\" && PlayableProbe.MaxSlotError < 0.5f",
+      "capture": true
+    },
+    {
+      "id": "WINA",
+      "name": "끝까지(시간 배율 20, 정비 자동 넘김) → 승리, 고른 진형 유지",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 60,
+      "expect": "PlayableProbe.Outcome == \"Win\" && PlayableProbe.Formation == \"line\""
+    },
+    {
+      "id": "BOT",
+      "name": "새 판(적 수 배율 1)에서 봇 Move만 → 웨이브 1 동안 원정대가 움직여 정비 도착, 생존 4명, 균형형(G3 진입점)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.UseRunSettings(1, 1f); PlayableProbe.PressToLobby(); PlayableProbe.PressDepart(); PlayableProbe.MarkPositions(); UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.Move);",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 30,
+      "expect": "PlayableProbe.AliveCount == 4 && PlayableProbe.Formation == \"balanced\" && PlayableProbe.PartyMovedSinceMark > 300f",
+      "capture": true
+    },
+    {
+      "id": "MOVE2",
+      "name": "봇 Move + AutoNext → 웨이브 2 전투",
+      "do": "UnityEngine.Time.timeScale = 1f; PlayableProbe.StartBot(PlayableProbe.BotMode.Move | PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 2"
+    },
+    {
+      "id": "AUTONEXT",
+      "name": "전투 중 봇 모드를 Move 없는 AutoNext로(G5 진입점)",
+      "do": "PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "sleep": 0.3,
+      "expect": "PlayableProbe.Screen == \"Battle\""
+    },
+    {
+      "id": "STAND",
+      "name": "Move가 빠지면 원정대 중심이 멈춤",
+      "do": "PlayableProbe.MarkPositions();",
+      "sleep": 0.5,
+      "expect": "PlayableProbe.PartyMovedSinceMark < 0.01f"
+    },
+    {
+      "id": "MOVEALL",
+      "name": "Move + AutoNext 봇으로 결과 화면까지(G7 진입점)",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.Move | PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 60,
+      "expect": "PlayableProbe.WavesSurvived >= 1"
+    },
+    {
+      "id": "DEAD",
+      "name": "적 수 배율을 올린 판을 가만히 두면 대원이 하나씩 쓰러짐(1~3명 생존)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.UseRunSettings(2, 4f); PlayableProbe.PressToLobby(); PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.AliveCount >= 1 && PlayableProbe.AliveCount <= 3",
+      "timeout": 60
+    },
+    {
+      "id": "DEADMOVE",
+      "name": "쓰러진 대원이 있는 채로 오른쪽 1초 → 쓰러진 대원은 제자리",
+      "do": "PlayableProbe.MarkPositions(); PlayableProbe.SetMove(1f, 0f);",
+      "sleep": 1,
+      "expect": "PlayableProbe.AliveCount >= 1 && PlayableProbe.MaxDeadMoved < 0.01f && PlayableProbe.PartyDeltaX > 70f"
+    },
+    {
+      "id": "DEADSTOP",
+      "name": "멈춤 → 살아 있는 대원은 자기 자리, 쓰러진 대원은 제자리",
+      "do": "PlayableProbe.SetMove(0f, 0f);",
+      "sleep": 0.5,
+      "expect": "PlayableProbe.AliveCount >= 1 && PlayableProbe.MaxDeadMoved < 0.01f && PlayableProbe.MaxSlotError < 0.5f",
+      "capture": true
+    },
+    {
+      "id": "LOSE",
+      "name": "시간 배율 20으로 두면 전멸 → 패배",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 60,
+      "expect": "PlayableProbe.Outcome == \"Lose\""
+    },
+    {
+      "id": "RUN4",
+      "name": "로비 → 출발 → 네 번째 판이 균형형 자리, 생존 4명으로 시작",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.PressToLobby(); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
+      "expect": "PlayableProbe.AliveCount == 4 && PlayableProbe.Formation == \"balanced\" && PlayableProbe.MaxSlotError < 0.5f && PlayableProbe.RunCount == 4"
+    }
+  ]
+}

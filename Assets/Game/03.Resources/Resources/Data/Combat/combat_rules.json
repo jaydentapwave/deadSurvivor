@@ -1,0 +1,16 @@
+{
+  "rangeUnit": 42,
+  "defCap": 0.8,
+  "hasteCap": 1,
+  "healPeriod": 3,
+  "shieldPeriod": 8,
+  "meleeHalfAngle": 50,
+  "sweepHalfAngle": 90,
+  "projectileSpeed": 440,
+  "projectileSpread": 0.12,
+  "explosionRadius": 75,
+  "explosionTriggerGap": 5,
+  "chainBaseHits": 3,
+  "chainHopRange": 150,
+  "firedSeconds": 0.18
+}

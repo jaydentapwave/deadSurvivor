@@ -1,0 +1,50 @@
+{
+ "$comment": "3dkit.config.json (project values for the 3dkit tools). Each tool's docstring explains its keys; this file only fixes their shape. Unknown keys are allowed.",
+ "type": "object",
+ "required": ["schema"],
+ "properties": {
+  "schema": {"enum": ["3dkit-config/1"]},
+  "unity": {"type": "object", "properties": {"version": {"type": "string"}}},
+  "assets": {
+   "type": "object",
+   "required": ["profile", "catalog", "content_root", "art_root", "work_root"],
+   "properties": {
+    "profile": {"type": "string"},
+    "profiles_dir": {"type": "string"},
+    "catalog": {"type": "string"},
+    "content_root": {"type": "string"},
+    "art_root": {"type": "string"},
+    "work_root": {"type": "string"},
+    "spec": {"type": "string"},
+    "spec_approval": {"type": "string"},
+    "shaders": {"type": "object", "additionalProperties": {"type": "string"}},
+    "capture": {"type": "object", "properties": {"background": {"type": "array", "items": {"type": "number"}}}},
+    "game_camera": {"type": "object", "additionalProperties": {"type": "number"}}
+   }
+  },
+  "tripo": {
+   "type": "object",
+   "properties": {
+    "cli": {"type": "string"}, "home": {"type": "string"}, "key_env_file": {"type": "string"}, "key_env": {"type": "string"},
+    "new_work_root": {"type": "string"}, "timezone": {"type": "string"}, "regen_limit": {"type": "integer", "minimum": 0}
+   }
+  },
+  "blender": {"type": "string"},
+  "harness": {
+   "type": "object",
+   "properties": {
+    "python": {"type": "string"},
+    "full_runners": {"type": "array", "items": {"type": "object", "required": ["match", "full_if"], "properties": {"match": {"type": "string"}, "full_if": {"type": "string"}}}},
+    "full_override_env": {"type": "string"},
+    "review": {"type": "object", "properties": {"max_rounds_per_topic": {"type": "integer", "minimum": 1}, "override_env": {"type": "string"}}},
+    "context": {"type": "object", "properties": {"warn_tokens": {"type": "integer"}, "new_session_tokens": {"type": "integer"}, "step_tokens": {"type": "integer", "minimum": 1}}},
+    "side_effect_files": {"type": "array", "items": {"type": "string"}},
+    "play": {"type": "object", "properties": {"scene": {"type": "string"}, "probe_file": {"type": "string"}, "probe_dir": {"type": "string"}, "short_pass": {"type": "string"}, "require_capture": {"type": "boolean"}, "full_entry": {"type": "string"}, "full_result": {"type": "string"}, "full_pass": {"type": "string"}, "rebuild_call": {"type": "string"}, "perf": {"type": "object"}}},
+    "evidence": {"type": "object", "properties": {"runtime": {"type": "array", "items": {"type": "string"}}, "visual": {"type": "array", "items": {"type": "string"}}}},
+    "gate": {"type": "object", "properties": {"never_commit": {"type": "array", "items": {"type": "string"}}, "game_paths": {"type": "array", "items": {"type": "string"}}, "art_paths": {"type": "array", "items": {"type": "string"}}, "accepted_check_fails": {"type": "array", "items": {"type": "string"}}, "stage_records": {"type": "array", "items": {"type": "string"}}}},
+    "replay_cases": {"type": "string"},
+    "metrics": {"type": "string"}
+   }
+  }
+ }
+}

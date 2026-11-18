@@ -1,0 +1,880 @@
+{
+  "base_commit": "391e555",
+  "selected": {
+    "orb": 2,
+    "robe": 2,
+    "scripture": 1,
+    "bell": 1
+  },
+  "checks": [
+    {
+      "id": "orb",
+      "n": 1,
+      "raw": "output/2d-art/icons-mystic/orb-1.png",
+      "raw_sha256": "28c470e43e0d2241dc69ff341b882c0682dba0f79fbb48bad4fcc50fb8bd133e",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        77,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        30
+      ],
+      "offset": [
+        0,
+        2
+      ],
+      "native": [
+        32,
+        30,
+        39.17999999999986,
+        0.9221455397950935
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x30 (block 39.2px, score 0.92)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 154,
+        "1,0": 154,
+        "0,1": 154,
+        "1,1": 154
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/orb/candidates/r1-1.png",
+      "sha256": "a7643e320d15de1ba99b5013a83a020261f11173e965f9a76ebddbc8c40b419f"
+    },
+    {
+      "id": "orb",
+      "n": 2,
+      "raw": "output/2d-art/icons-mystic/orb-2.png",
+      "raw_sha256": "1096544ffa9e2dc13622a9d386a62ed3d3369d5cabe6784ec32c1cd58e99a723",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        77,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        30
+      ],
+      "offset": [
+        0,
+        2
+      ],
+      "native": [
+        32,
+        30,
+        39.22999999999985,
+        0.9233800519488536
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x30 (block 39.2px, score 0.92)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 154,
+        "1,0": 154,
+        "0,1": 154,
+        "1,1": 154
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 5,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/orb/candidates/r1-2.png",
+      "sha256": "5e85af168f7167745ea23b15032083c1fd1dfaf7a655599220a16641209fd021"
+    },
+    {
+      "id": "orb",
+      "n": 3,
+      "raw": "output/2d-art/icons-mystic/orb-3.png",
+      "raw_sha256": "73fda755fe5e2fb8c5968879347d2cfd57e935b777976344e568b4d0346ceec2",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        78,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        30
+      ],
+      "offset": [
+        0,
+        2
+      ],
+      "native": [
+        32,
+        30,
+        39.149999999999864,
+        0.9002180213907109
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x30 (block 39.1px, score 0.90)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 154,
+        "1,0": 154,
+        "0,1": 154,
+        "1,1": 154
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/orb/candidates/r1-3.png",
+      "sha256": "3bf2a0a04329342b60e879f73a6107331d37eeb3cf1d98f44d045065f0c2437a"
+    },
+    {
+      "id": "orb",
+      "n": 4,
+      "raw": "output/2d-art/icons-mystic/orb-4.png",
+      "raw_sha256": "52360b658824f587a7d7a86b84345445d267df01780f2daa363b905653f6616f",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        77,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        30
+      ],
+      "offset": [
+        0,
+        2
+      ],
+      "native": [
+        32,
+        30,
+        39.17999999999986,
+        0.8612935880849477
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x30 (block 39.2px, score 0.86)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 154,
+        "1,0": 154,
+        "0,1": 154,
+        "1,1": 154
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/orb/candidates/r1-4.png",
+      "sha256": "f9be743aebe3837867801f846efcdb4b73fd03a0f22bec86055f075d81c0e576"
+    },
+    {
+      "id": "robe",
+      "n": 1,
+      "raw": "output/2d-art/icons-mystic/robe-1.png",
+      "raw_sha256": "fea29164bc3fd3e18bf0c7ffd15f37e68dda97de34fad9575c14a654a88d2e3c",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        38,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        31
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "native": [
+        32,
+        31,
+        39.239999999999846,
+        0.9041575999323077
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x31 (block 39.2px, score 0.90)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 173,
+        "1,0": 0,
+        "0,1": 209,
+        "1,1": 138
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 5,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/robe/candidates/r1-1.png",
+      "sha256": "8ddce7ae36cd4226980b63cb56c90ca6763efdacb41327a65d673a6dbbce2604"
+    },
+    {
+      "id": "robe",
+      "n": 2,
+      "raw": "output/2d-art/icons-mystic/robe-2.png",
+      "raw_sha256": "54e3e7057e87110cfbd14b2b785dcfbfa05cb8a8dbf1fd857708f2b6d318df9d",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        38,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        31
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "native": [
+        32,
+        31,
+        39.22999999999985,
+        0.7674086753670968
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x31 (block 39.2px, score 0.77)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 174,
+        "1,0": 0,
+        "0,1": 208,
+        "1,1": 141
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 6,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/robe/candidates/r1-2.png",
+      "sha256": "0c41d85d2d7fb4cf6ac1bda357f3b1e75bae65604287d7a89421272ee4fbd124"
+    },
+    {
+      "id": "robe",
+      "n": 3,
+      "raw": "output/2d-art/icons-mystic/robe-3.png",
+      "raw_sha256": "5fa3405da861e52d4fc4abd75960bdda8d507c719838cae69699843a0bf9a044",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        38,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        31
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "native": [
+        32,
+        31,
+        39.189999999999856,
+        0.7668456590451274
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x31 (block 39.2px, score 0.77)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 181,
+        "1,0": 0,
+        "0,1": 211,
+        "1,1": 141
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 8,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/robe/candidates/r1-3.png",
+      "sha256": "9c6cc346fe9a8d53395c99492f5739ec2f77dff2aeb21a99ead92de632fff705"
+    },
+    {
+      "id": "scripture",
+      "n": 1,
+      "raw": "output/2d-art/icons-mystic/scripture-1.png",
+      "raw_sha256": "63cdedcefe80104cffb13cc5de0009f4aba0c9ec2f8a92e7becb832e4451be37",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        38,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        31
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "native": [
+        32,
+        31,
+        39.20999999999985,
+        0.9233842308676831
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x31 (block 39.2px, score 0.92)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 219,
+        "1,0": 219,
+        "0,1": 219,
+        "1,1": 219
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/scripture/candidates/r1-1.png",
+      "sha256": "ae5438531031aa4b873cdd1f6dffb5aeec4a8754986306a05e71575c0cf82c2d"
+    },
+    {
+      "id": "scripture",
+      "n": 2,
+      "raw": "output/2d-art/icons-mystic/scripture-2.png",
+      "raw_sha256": "076ac572346a9143a83ac45d25a6e24dbd31f53aabd028b68162a7c9d2f644cf",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        38,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        31
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "native": [
+        32,
+        31,
+        39.22999999999985,
+        0.8788587772127938
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x31 (block 39.2px, score 0.88)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 219,
+        "1,0": 219,
+        "0,1": 222,
+        "1,1": 220
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 9,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/scripture/candidates/r1-2.png",
+      "sha256": "977d181e40f7d0a67a09a310323ca985278d94f10bea3bda442d7bac9bd719e1"
+    },
+    {
+      "id": "bell",
+      "n": 1,
+      "raw": "output/2d-art/icons-mystic/bell-1.png",
+      "raw_sha256": "f58fb4b94314785afb3fa2e4ed64b327bc4407b46410478dcf0e87f0612515e1",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        38,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        31
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "native": [
+        32,
+        31,
+        39.20999999999985,
+        0.6635886711068613
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x31 (block 39.2px, score 0.66)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-1.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 115,
+        "1,0": 0,
+        "0,1": 208,
+        "1,1": 149
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/bell/candidates/r1-1.png",
+      "sha256": "42d57ce51cf35afd8cbf73ac6e3b787deb5238d0189da3234bac848dbd7aafc6"
+    },
+    {
+      "id": "bell",
+      "n": 2,
+      "raw": "output/2d-art/icons-mystic/bell-2.png",
+      "raw_sha256": "72e4866f14b37df4c4fdb2baae989cc4f10b88f721ba1370cd17862e1cbc57c1",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        39,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        31
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "native": [
+        32,
+        31,
+        39.189999999999856,
+        0.8983537470680967
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x31 (block 39.2px, score 0.90)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-2.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 116,
+        "1,0": 0,
+        "0,1": 197,
+        "1,1": 134
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/bell/candidates/r1-2.png",
+      "sha256": "236260bdac62e8ab2254a72f56307cd7297899b4f48dd3468ec9971f4d6c8b11"
+    },
+    {
+      "id": "bell",
+      "n": 3,
+      "raw": "output/2d-art/icons-mystic/bell-3.png",
+      "raw_sha256": "6a050df001fdef4a0a359392120708428839795086556aa96a8741446117e125",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        38,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        31
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "native": [
+        32,
+        31,
+        39.16999999999986,
+        0.9141983076097776
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x31 (block 39.2px, score 0.91)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 117,
+        "1,0": 0,
+        "0,1": 196,
+        "1,1": 128
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 13,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/bell/candidates/r1-3.png",
+      "sha256": "3b5ec6cd0922197ce60866f755332cf8bdc4c62a2ab4ae00b6c04c507e0cc69d"
+    },
+    {
+      "id": "robe",
+      "n": 4,
+      "raw": "output/2d-art/icons-mystic/robe-4.png",
+      "raw_sha256": "6b7f29ba348ff883b48e321590eb5909ee54a75b319e9e0dd2519a770c07fbb2",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        38,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        31
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "native": [
+        32,
+        31,
+        39.199999999999854,
+        0.8318777868943419
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x31 (block 39.2px, score 0.83)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 175,
+        "1,0": 0,
+        "0,1": 211,
+        "1,1": 142
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 7,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/robe/candidates/r1-4.png",
+      "sha256": "b2cf9197cf753c1f7dab30e43559490f3a7b236d98113a562bddfe21d529ee71"
+    },
+    {
+      "id": "scripture",
+      "n": 3,
+      "raw": "output/2d-art/icons-mystic/scripture-3.png",
+      "raw_sha256": "6f4fb1fae6135836969ffb09c4e8672c368dc8d00580f5719c2ab3148498dea7",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        38,
+        1215,
+        1254
+      ],
+      "content_grid": [
+        31,
+        31
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "native": [
+        31,
+        31,
+        39.199999999999854,
+        0.9233724819658433
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 31x31 (block 39.2px, score 0.92)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-3.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 219,
+        "1,0": 219,
+        "0,1": 221,
+        "1,1": 219
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 9,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/scripture/candidates/r1-3.png",
+      "sha256": "5e43f985f8f3de867ce0181d0f46f966b9cdff4eac15daef1d9a0433cc4821e4"
+    },
+    {
+      "id": "scripture",
+      "n": 4,
+      "raw": "output/2d-art/icons-mystic/scripture-4.png",
+      "raw_sha256": "c8a3612d833d81dddd34d64da94c780848acf6f230c11652f4a3d4223b1d2198",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        38,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        31
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "native": [
+        32,
+        31,
+        39.239999999999846,
+        0.902192463072885
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x31 (block 39.2px, score 0.90)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 219,
+        "1,0": 207,
+        "0,1": 222,
+        "1,1": 207
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 11,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/scripture/candidates/r1-4.png",
+      "sha256": "b4d546bfd2e21df9a22cdf8367c28dc868c3b59159d341ae9ddeff732c339f6f"
+    },
+    {
+      "id": "bell",
+      "n": 4,
+      "raw": "output/2d-art/icons-mystic/bell-4.png",
+      "raw_sha256": "ee2bc1bc78144aa906792b5904cac46cc7e259c9129b4a1036df3f431770250f",
+      "size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        0,
+        38,
+        1254,
+        1254
+      ],
+      "content_grid": [
+        32,
+        31
+      ],
+      "offset": [
+        0,
+        1
+      ],
+      "native": [
+        32,
+        31,
+        39.21999999999985,
+        0.8802613551453919
+      ],
+      "grid_exit": 0,
+      "grid": "native grid: 32x31 (block 39.2px, score 0.88)\n",
+      "fringe_exit": 0,
+      "fringe": "PASS r1-4.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)\nPASS fringe: 1 pictures, 0 with key colour left on the rim\n",
+      "cell_pixels": {
+        "0,0": 118,
+        "1,0": 0,
+        "0,1": 214,
+        "1,1": 149
+      },
+      "alpha": [
+        0,
+        255
+      ],
+      "colors": 10,
+      "valid": true,
+      "path": "Assets/Game/03.Resources/Art/AIGenerated/Items/bell/candidates/r1-4.png",
+      "sha256": "1d6013e3b630382e55ee8473764bb78ae3eb908ced8e29a643efd8f211edbd89"
+    }
+  ],
+  "blind_key": {
+    "N01.png": {
+      "id": "bell",
+      "candidate": 2,
+      "selected": false
+    },
+    "N02.png": {
+      "id": "orb",
+      "candidate": 1,
+      "selected": false
+    },
+    "N03.png": {
+      "id": "orb",
+      "candidate": 2,
+      "selected": true
+    },
+    "N04.png": {
+      "id": "robe",
+      "candidate": 2,
+      "selected": true
+    },
+    "N05.png": {
+      "id": "robe",
+      "candidate": 4,
+      "selected": false
+    },
+    "N06.png": {
+      "id": "robe",
+      "candidate": 1,
+      "selected": false
+    },
+    "N07.png": {
+      "id": "scripture",
+      "candidate": 1,
+      "selected": true
+    },
+    "N08.png": {
+      "id": "robe",
+      "candidate": 3,
+      "selected": false
+    },
+    "N09.png": {
+      "id": "scripture",
+      "candidate": 2,
+      "selected": false
+    },
+    "N10.png": {
+      "id": "scripture",
+      "candidate": 4,
+      "selected": false
+    },
+    "N11.png": {
+      "id": "bell",
+      "candidate": 1,
+      "selected": true
+    },
+    "N12.png": {
+      "id": "orb",
+      "candidate": 3,
+      "selected": false
+    },
+    "N13.png": {
+      "id": "bell",
+      "candidate": 3,
+      "selected": false
+    },
+    "N14.png": {
+      "id": "scripture",
+      "candidate": 3,
+      "selected": false
+    },
+    "N15.png": {
+      "id": "orb",
+      "candidate": 4,
+      "selected": false
+    },
+    "N16.png": {
+      "id": "bell",
+      "candidate": 4,
+      "selected": false
+    }
+  },
+  "verification_utc": "2026-11-17T09:58:19Z",
+  "review": "VERDICT: PASS",
+  "review_evidence": {
+    "reviewer": "general-purpose (Claude Opus, medium)",
+    "origin": "사용자가 전달한 Claude 리뷰 세션 결과; 훅 판정 기록",
+    "criteria": {"AC1": "PASS", "AC2": "PASS", "AC3": "PASS"},
+    "blind_read": "16/16 및 선택본 4/4 이름 일치",
+    "required_fixes": [],
+    "followups": ["선택 bell 식별 확신 중상", "버린 N16은 주교관/왕관으로도 읽힐 여지", "가방에서 spellbook과 scripture 구별 미확인"],
+    "human": "NOT_RUN",
+    "unity_connection_play": "NOT_RUN: 항목 범위 밖"
+  },
+  "timing": {
+    "preparation": "09:48~09:52 UTC approximate",
+    "generation_cleanup_checks": "09:52~09:58 UTC",
+    "tokens": "unavailable",
+    "session_time": "failed: no Claude jsonl logs",
+    "agents": 0
+  }
+}

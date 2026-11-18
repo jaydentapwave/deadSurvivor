@@ -1,0 +1,15 @@
+{
+  "id": "slime",
+  "behavior": "contact",
+  "hp": 20,
+  "damage": 5,
+  "speed": 63,
+  "radius": 18,
+  "contactGap": 5,
+  "color": "#819363",
+  "sprite": "slime",
+  "moveStyle": "squash",
+  "contact": {
+    "interval": 1
+  }
+}

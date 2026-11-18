@@ -1,0 +1,23 @@
+{
+  "id": "crystal",
+  "name": "마력 수정",
+  "mode": "passive",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "power": 0,
+  "interval": 0,
+  "range": 0,
+  "baseEffect": "attack",
+  "baseValue": 0.06,
+  "bonusEffect": "attack",
+  "bonusValue": 0.14,
+  "bonusTarget": "attack",
+  "bonusNeedsAdjacent": true,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": "crystal"
+}

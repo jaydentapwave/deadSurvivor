@@ -1,0 +1,31 @@
+{
+  "id": "scope",
+  "name": "사냥꾼의 조준경",
+  "mode": "passive",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 0
+    },
+    {
+      "x": 2,
+      "y": 0
+    }
+  ],
+  "power": 0,
+  "interval": 0,
+  "range": 0,
+  "baseEffect": "attack",
+  "baseValue": 0.08,
+  "bonusEffect": "attack",
+  "bonusValue": 0.22,
+  "bonusTarget": "projectile",
+  "bonusNeedsAdjacent": true,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": "scope"
+}

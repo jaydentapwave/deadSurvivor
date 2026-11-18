@@ -1,0 +1,35 @@
+# Art
+
+데드 서바이버의 스프라이트 원본 폴더. 2d-art 팩 규칙의 프로젝트 쪽 값을 여기에 둔다. 이 폴더 파일을 읽을 때 적용된다.
+
+- 규격·이름·출처: `.ai/rules/2d-asset-standard.md` / 생성: `.ai/rules/2d-generation.md` / 애니메이션: `.ai/rules/2d-animation.md`
+- 아트 결정 값(색·외곽선·해상도·허용 오차)은 아트 기준서 `docs/art/아트-기준서.md`에만 있다. 여기에 복사하지 않는다.
+- 캐릭터별 기준 이미지·부위는 `docs/art/identities/<id>.json`.
+
+## 폴더
+
+| 폴더 | 무엇 |
+|---|---|
+| `AIGenerated/` | AI가 만들거나 편집·분할한 그림. 그림 옆에 `source.txt` |
+| (프로젝트가 채움) | 디자이너 원화 폴더 |
+
+## 프로젝트 정책
+
+새 프로젝트의 제안값이다. 프로젝트가 정한 값이 있으면 그 값으로 고친다.
+
+| 항목 | 값 | 비고 |
+|---|---|---|
+| 임포트 프리셋 | `Assets/Game/03.Resources/Art/Presets/AIGeneratedSprite.preset` | Preset Manager 경로 필터 `glob:"Assets/Game/03.Resources/Art/AIGenerated/**"`. Sprite Single, PPU 48, 피벗 아래 가운데, Point, 압축 없음, 밉맵 끔, Android·iOS RGBA32 덮어쓰기(그림 넣기 기획서 B절) |
+| 월드 그림 배율 | 혼자 서는 그림은 배율 1(원본 크기). 이어지거나 붙는 그림(타일·울타리·말풍선 안 아이콘)은 저작 배율 유지 | 캐릭터 부속은 몸과 같은 비율 |
+| 파일명 유일성 | 코드가 이름 키로 고르는 그림은 이 폴더 전체에서 유일 | 범위를 좁히면 적는다 |
+
+## 임포트 예외
+
+프리셋과 다른 그림만 경로로 적는다. 개별 `.meta`를 손으로 고치지 않고, 프리셋 대조 검사가 있으면 그 검사가 이 표를 읽게 한다.
+예외 프리셋은 Preset Manager 목록에서 일반 프리셋보다 뒤에 둔다(맞는 프리셋이 위에서부터 모두 적용되어 마지막 것이 이긴다). 이미 들어온
+그림에는 `Preset.ApplyTo` + 다시 임포트가 필요하고, 새 그림 1장으로 값이 붙는지 확인한다(`.ai/rules/2d-asset-standard.md` 1절).
+
+| 경로 | 항목 | 값 | 이유 |
+|---|---|---|---|
+
+| `Art/HD2D/UI/**` | 필터·PPU·border | Bilinear, PPU 100, border = slices.json | 기준서 3.13 E, 숫자로 그린 고해상 UI |

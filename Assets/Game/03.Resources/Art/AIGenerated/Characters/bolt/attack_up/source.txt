@@ -1,0 +1,6 @@
+output/assets/hd2d-8dir/heroes/anim/bolt_up_attack/bolt_attack_up_00.png SHA256 b86b76278edb5f56bf8e44fe5ebea7f2967cf444d33e762f7c75a2ec8cae589f; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bolt_up_attack/bolt_attack_up_01.png SHA256 3df260010b41d596d1da023b0fd9b5ad67f13f0206f1ac64fd10d8696fd7ed5e; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bolt_up_attack/bolt_attack_up_02.png SHA256 8e5372684c306e7fdf5cc052e5609b866fa5ed0bfcd6af7ca3e33175f7598575; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bolt_up_attack/bolt_attack_up_03.png SHA256 c3119ef9fd02919024a031fe2ba8c7d3b38de03d8074d9c5c0e94940c941eb26; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bolt_up_attack/bolt_attack_up_04.png SHA256 3df260010b41d596d1da023b0fd9b5ad67f13f0206f1ac64fd10d8696fd7ed5e; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bolt_up_attack/bolt_attack_up_05.png SHA256 be822eefd4f3e0710a4a7aa73d063da3783dc8601210e42fde955bfc324d2abe; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md

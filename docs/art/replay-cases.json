@@ -1,0 +1,6 @@
+{
+ "schema": "3dkit-replay-cases/1",
+ "note": "This project's replay cases (.ai/3d-art/tools/replay.py project): past defects of this project put into its real catalog, measured report (assets.py check) and hooks. The kit's own cases run first (.ai/3d-art/tools/replay-sample.json shows every kind). Shape: .ai/3d-art/tools/schemas/replay-cases.schema.json",
+ "controls": [],
+ "cases": []
+}

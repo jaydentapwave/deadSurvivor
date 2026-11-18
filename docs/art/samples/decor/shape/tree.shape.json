@@ -1,0 +1,35 @@
+{
+ "schema": "2d-shape-out/1",
+ "id": "tree",
+ "name": "나무(둥근 잎 덩어리)",
+ "unit_px": 48.0,
+ "projection": {
+  "depth": 0.5,
+  "height": 1.0
+ },
+ "width_cells": 0.75,
+ "height_cells": 0.83,
+ "aspect": 0.90361,
+ "size_px": [
+  36,
+  40
+ ],
+ "pivot_px": [
+  18.0,
+  39.8
+ ],
+ "gen_px": [
+  759,
+  840
+ ],
+ "gen_canvas": [
+  1536,
+  1024
+ ],
+ "key": "#ff00ff",
+ "slots_cells": [],
+ "slots_px": [],
+ "mask": "mask_tree.png",
+ "gen": "gen_tree.png",
+ "sheet": "tmpl_tree.png"
+}

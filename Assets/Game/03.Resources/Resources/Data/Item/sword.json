@@ -1,0 +1,31 @@
+{
+  "id": "sword",
+  "name": "장검",
+  "mode": "melee",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 0
+    },
+    {
+      "x": 2,
+      "y": 0
+    }
+  ],
+  "power": 22,
+  "interval": 1.0,
+  "range": 3,
+  "baseEffect": "",
+  "baseValue": 0,
+  "bonusEffect": "",
+  "bonusValue": 0,
+  "bonusTarget": "",
+  "bonusNeedsAdjacent": false,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": "sword"
+}

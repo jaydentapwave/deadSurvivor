@@ -1,0 +1,7 @@
+output/assets/hd2d-8dir/heroes/anim/bruno_up_walk/bruno_walk_up_00.png SHA256 00a4b60c508a69a199076aeeca8a8fffee95dc9c63ba5226dc6396036c0d0d55; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bruno_up_walk/bruno_walk_up_01.png SHA256 c8c33416853fa20c5604888577f131f855f70eafa1bdfc3cf5136e0326dddb20; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bruno_up_walk/bruno_walk_up_02.png SHA256 5ff0d06828dd67fc9f6f0589d5b97af2e261fdcf0d3c9c3c1d284aa0f4a12b19; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bruno_up_walk/bruno_walk_up_03.png SHA256 9f2d209cf5e2e8263a7a914bca07ebb233c97b6966d88b5e9b330f8ecbb707e3; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bruno_up_walk/bruno_walk_up_04.png SHA256 f364c9858f0337ff17fb234c8e90efa6f3b016b06c849d541fca8a452bbcf82d; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bruno_up_walk/bruno_walk_up_05.png SHA256 3706b086fed35d637253db7e010766635802f6ca357fc0647f6d832a96e60156; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md
+output/assets/hd2d-8dir/heroes/anim/bruno_up_walk/bruno_walk_up_06.png SHA256 64530def692fab2d711bbdfa66b93b8e6bb8080f98b289da8b7c4c1b08ea42a4; adopted notes output/assets/hd2d-8dir/heroes/anim/notes.md

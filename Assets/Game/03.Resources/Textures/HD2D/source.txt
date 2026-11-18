@@ -1,0 +1,3 @@
+output/assets/hd2d-bridge/dot/albedo.png SHA256 589a152b1fee8109658dbb8919f138dfa9c093188e8661eb6578c9f83491b8eb
+output/assets/hd2d-tent/dot/albedo.png SHA256 50b0fb88fe7e0f014915c72c85817d915bd8bd84ee7755a6268a5e9e0048b37e
+B0: adopted F8, bush_02 mirrored native crop 43x42.

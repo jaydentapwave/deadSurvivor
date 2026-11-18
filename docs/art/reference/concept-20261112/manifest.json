@@ -1,0 +1,55 @@
+{
+ "schema": "reference-manifest/1",
+ "reference": "concept-20261112",
+ "kind": "우리 게임의 컨셉 그림(사용자 제공). 다른 게임의 화면이 아님",
+ "mode": "follow — 2026-11-15 \"컨셉 그림을 따름 (추천)\"",
+ "external_send": "Codex 시안 생성에 그림 입력으로 써도 됨 — 2026-11-15 \"컨셉 그림을 넣음 (추천)\". 게임 그림 생산(캐릭터·몬스터 등)에도 Codex 참고 그림으로 써도 됨 — 2026-11-15 \"넣는다 (추천)\"",
+ "items": [
+  {
+   "id": "PE-G001",
+   "title": "1장 들판 길 전투(밝은 오후)",
+   "file": "docs/game/concept-20261112/1-들판길-낮-전투.jpg",
+   "width": 1672,
+   "height": 941,
+   "bytes": 621180,
+   "sha256": "5b1dd2341dbd988d8c7ce84cbdbd39d033c7bd2d177be5afe211f73aaca10a0d",
+   "source": "사용자 제공 게임 스펙 docs/specs/배낭원정대_게임스펙_20261112.docx 의 '컨셉 이미지' 절에서 추출(2026-11-15)"
+  },
+  {
+   "id": "PE-G002",
+   "title": "5장 밤의 고원 전투(등불 주변만)",
+   "file": "docs/game/concept-20261112/2-밤의고원-등불.jpg",
+   "width": 1672,
+   "height": 941,
+   "bytes": 222552,
+   "sha256": "75874ccb38dfce1184ae0fc1baf2ae60e4f4081769e0d8d86c57b3e248bbaaec",
+   "source": "사용자 제공 게임 스펙 docs/specs/배낭원정대_게임스펙_20261112.docx 의 '컨셉 이미지' 절에서 추출(2026-11-15)"
+  },
+  {
+   "id": "PE-G003",
+   "title": "주인공 직업 4종",
+   "file": "docs/game/concept-20261112/3-직업4종.jpg",
+   "width": 1554,
+   "height": 793,
+   "bytes": 251306,
+   "sha256": "d96f1997c089f2453e1c8ef003879c07571924015c1bca30a6825dd0c9378e20",
+   "source": "사용자 제공 게임 스펙 docs/specs/배낭원정대_게임스펙_20261112.docx 의 '컨셉 이미지' 절에서 추출(2026-11-15)"
+  },
+  {
+   "id": "PE-G004",
+   "title": "야영: 모닥불과 가방 정리",
+   "file": "docs/game/concept-20261112/4-야영-가방.jpg",
+   "width": 1672,
+   "height": 941,
+   "bytes": 495451,
+   "sha256": "a59d728c1bb98800efa9854f7e0e8c040a2e45e747e9251bd943cf0a6e86a3f5",
+   "source": "사용자 제공 게임 스펙 docs/specs/배낭원정대_게임스펙_20261112.docx 의 '컨셉 이미지' 절에서 추출(2026-11-15)"
+  }
+ ],
+ "blocked": [
+  {
+   "scope": "스펙 레퍼런스 게임 7개(20MTD: Emberpath, 20 Minutes Till Dawn, Hyper Light Drifter, Tiny Rogues, HoloCure, Children of Morta, Disfigure)의 화면",
+   "reason": "study 모드이고 스펙이 색·선·빛 쓰는 방식만 참고하라고 정함. 이번에는 화면을 모으지 않았다. 스펙 표의 '가져올 것' 문장만 관찰 문서 5절에 옮겼다"
+  }
+ ]
+}

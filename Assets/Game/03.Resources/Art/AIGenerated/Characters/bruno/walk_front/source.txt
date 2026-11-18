@@ -1,0 +1,28 @@
+# bruno walk_front — 앞 3/4 걷기 7장, Aether 영상 프레임 → 64칸 도트 + 손질 (기준서 r4·r5 3.10)
+
+- 만든 날: 2026-11-17, 대기열 20261117-art-aether 항목 bruno-front-fix, /2d-art-aether "이미 받은 시트 다시 처리" 길
+- 크레딧: 0 (새 생성 없음, Aether 부르지 않음). 시험 때 받은 시트를 영수증으로 다시 씀
+  - 영수증: output/2d-art/bruno-aether/receipt_walk.json — job id d5a6f52a-5bc9-4d5c-99aa-25e0295e3ff6, Succeed,
+    시트 dl/walk_sheet.png sha256 48244205993e036933b35c0add8d4c63531998b894790d1da74b9d0d97dd79db
+  - 처리: run3/walk(--reuse-receipt로 ingest·process 된 결과, 클립 배율 gain 1.0395, 부위별 색 되돌리기)의 processed 000~006
+- 쓴 원본 칸: 15,16,17,18,19,20,21 → bruno_walk_front_00..06 (다리 한 주기, 반복 후보 2위 start 15 len 7). 10fps, 0.7초 주기
+- 기준 그림: ../front/bruno_front.png sha256 75ebc8c3c00ac046495e460f903b8ce5669f97d57dcb94473e3003793a1c89ee
+- 팔레트: 기준서 3.5 r5(57색)로 다시 도트로 내림(docs/art/samples/aether/bruno-front/to_dot.py, 블록 최빈색). 손질 전 시험 프레임(r2 45색)과 장마다 4~16픽셀 다름
+
+## 손질 (docs/art/samples/aether/bruno-front/fix_front.py walk_front.json, 기준: docs/art/samples/aether/손질-기준.md)
+1. 머리: 기준 그림 머리 20줄(y16~35, y30~35는 x>=25만, 379px)을 프레임마다 가장 잘 맞는 정수 이동으로 덮음. 덮기 전 그 둘레 2px의 Aether 머리를 지움.
+   이동(dx,dy): 00~02 (-1,-1), 03 (-1,-2), 04 (-1,-3), 05·06 (-1,-2) — 몸 오르내림 0~2px가 머리에 남음
+2. 방패: 기준 그림 y38~50, x>=39 픽셀을 머리와 같은 이동으로 덮음(Aether가 옆으로 얇게 그린 방패를 기준 방패로)
+3. 칼·손: Aether가 지운 칼을 기준 그림의 손(장갑)+칼날 28px(parts/arm_front_hand_sword.png, 피벗 손 (25,51))로 되살림.
+   자리 = 기준 손 + 머리 이동 + 팔 흔들림 dx [2,2,0,-2,-2,-1,1](가까운 다리 앞뒤와 반대, 발 x 19,18,22,27,26,24,21에서 정함). 칼 둘레 빈칸에만 외곽선 #2f1108
+4. 64×64, 피벗 x32, 발 맨 아래 줄 63 (모든 장). 잘려 나간 픽셀 0
+- 앞에 있던 도트 조각 걷기(_00~_05, 조각 방식)는 지우고 이 파일로 바꿈(기준서 r4: 조각 방식 버림)
+
+## 확인
+- Tools/check_motion.py --kind walk: PASS 7장 (프레임 수, 64×64 RGBA, 발 63, 팔레트, 머리 같은 픽셀 95% 이상)
+- 완성 GIF(docs/art/samples/aether/bruno-front/walk.gif, sheet.py anim 10fps)를 디코딩해 7장을 순서대로 직접 봄:
+  가까운 다리와 먼 다리가 앞뒤로 번갈아 나오고(00·01 가까운 다리 뒤 → 03·04 앞 → 06 뒤로), 칼 든 손이 다리와 반대로 앞뒤 1~2px 흔들림,
+  칼은 기준 그림처럼 아래로 비스듬히 들려 있고 방패는 몸 오른쪽에 기준 모양, 얼굴·머리카락은 모든 장 같은 도트(깜빡임 없음), 망토가 흔들림.
+- 알려진 것: 몸통·다리·망토는 Aether 그림 그대로라 장마다 도트가 다르다(머리·방패·칼만 기준). 손 위치는 팔과 맞춘 자동 추정이 아니라 팔 흔들림 표의 값이다
+- 미리보기 sheet.py는 measure 관문(기준서가 승인 기록 뒤 바뀜: SPEC_NOT_APPROVED)을 못 넘어 UNVERIFIED 띠로 만듦
+- 상태: 기술 처리 PASS / 사용자 채택 NOT_RUN(사람 판정 대기) / 게임 적용 NOT_RUN

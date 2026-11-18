@@ -1,0 +1,622 @@
+{
+  "_about": "Unity spriteBorder 순서 (x=왼쪽, y=아래, z=오른쪽, w=위), 텍셀. 모든 그림은 1080 기준(1기준px = 3텍셀): 임포트 Bilinear, 밉맵 끔, 압축 없음, Image.pixelsPerUnitMultiplier로 기준px에 맞춘다(Canvas 기준 640×360이면 3).",
+  "texelsPerBasePx": 3,
+  "sprites": {
+    "U10_wave_line": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "늘림(Simple, 가로)",
+      "note": "가는 이중선(1px 두 줄, 사이 3px). 끝은 마디가 덮는다",
+      "size": [
+        64,
+        12
+      ]
+    },
+    "U10_wave_node_current": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "36×36",
+      "size": [
+        36,
+        36
+      ]
+    },
+    "U10_wave_node_passed": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "24×24",
+      "size": [
+        24,
+        24
+      ]
+    },
+    "U10_wave_node_remaining": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "24×24",
+      "size": [
+        24,
+        24
+      ]
+    },
+    "U11_select_marker": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "선택된 것 왼쪽에 하나. 오른쪽을 가리키는 마름모 화살촉 + 꼬리 점 [우리 것]",
+      "size": [
+        30,
+        24
+      ]
+    },
+    "U12_icon_close": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "닫기",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "U12_icon_lock": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "잠금",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "U12_icon_new": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "'새' 표시. Image.color #f7ea81(금색)로 곱해 씀",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "U12_icon_pause": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "흰 단색, 그림자 포함. 누름 영역은 44기준px로 따로",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "U12_icon_resume": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "계속(멈춘 상태의 일시정지 버튼). 일시정지와 같은 높이·그림자",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "U12_icon_rotate": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "회전(아이템 돌리기)",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "U12_icon_speed": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "배속. 숫자 ×1·×2는 글자로 옆에",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "U13_joystick_base": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "168px = 56기준px(장면 Ring 56, G4). 처음 판 120px를 비례로 다시 그림",
+      "size": [
+        168,
+        168
+      ]
+    },
+    "U13_joystick_knob": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "72px = 24기준px(장면 Handle 24, G4). 마름모 손잡이 [우리 것]",
+      "size": [
+        72,
+        72
+      ]
+    },
+    "U1_panel_battle": {
+      "spriteBorder": {
+        "x": 16,
+        "y": 16,
+        "z": 16,
+        "w": 16
+      },
+      "kind": "9-slice",
+      "note": "꺾쇠는 왼쪽 위·오른쪽 아래만. 바탕 알파가 그림에 들어 있다(Image.color는 흰색 유지)",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "U1_panel_menu": {
+      "spriteBorder": {
+        "x": 16,
+        "y": 16,
+        "z": 16,
+        "w": 16
+      },
+      "kind": "9-slice",
+      "note": "꺾쇠는 왼쪽 위·오른쪽 아래만. 바탕 알파가 그림에 들어 있다(Image.color는 흰색 유지)",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "U2_glow_band": {
+      "spriteBorder": {
+        "x": 64,
+        "y": 0,
+        "z": 64,
+        "w": 0
+      },
+      "kind": "3-slice(가로)",
+      "note": "가운데 열은 x로 같은 값이라 늘려도 모양 유지. 세로는 Image 높이로 늘림",
+      "size": [
+        192,
+        48
+      ]
+    },
+    "U3_button_disabled": {
+      "spriteBorder": {
+        "x": 60,
+        "y": 0,
+        "z": 60,
+        "w": 0
+      },
+      "kind": "3-slice(가로)",
+      "note": "보이는 판 78px(26기준px), 위 2px·아래 6px 여백(누름 상태가 3px=1기준px 아래로). 높이는 늘리지 않는다",
+      "size": [
+        240,
+        86
+      ]
+    },
+    "U3_button_highlight": {
+      "spriteBorder": {
+        "x": 60,
+        "y": 0,
+        "z": 60,
+        "w": 0
+      },
+      "kind": "3-slice(가로)",
+      "note": "보이는 판 78px(26기준px), 위 2px·아래 6px 여백(누름 상태가 3px=1기준px 아래로). 높이는 늘리지 않는다",
+      "size": [
+        240,
+        86
+      ]
+    },
+    "U3_button_normal": {
+      "spriteBorder": {
+        "x": 60,
+        "y": 0,
+        "z": 60,
+        "w": 0
+      },
+      "kind": "3-slice(가로)",
+      "note": "보이는 판 78px(26기준px), 위 2px·아래 6px 여백(누름 상태가 3px=1기준px 아래로). 높이는 늘리지 않는다",
+      "size": [
+        240,
+        86
+      ]
+    },
+    "U3_button_pressed": {
+      "spriteBorder": {
+        "x": 60,
+        "y": 0,
+        "z": 60,
+        "w": 0
+      },
+      "kind": "3-slice(가로)",
+      "note": "보이는 판 78px(26기준px), 위 2px·아래 6px 여백(누름 상태가 3px=1기준px 아래로). 높이는 늘리지 않는다",
+      "size": [
+        240,
+        86
+      ]
+    },
+    "U4_row_disabled": {
+      "spriteBorder": {
+        "x": 12,
+        "y": 12,
+        "z": 12,
+        "w": 12
+      },
+      "kind": "9-slice",
+      "note": "줄 사이는 테를 겹치지 않고 1기준px 틈(관찰 2절). 보이는 줄 높이 권장 14~16기준px, 누름 영역 44기준px",
+      "size": [
+        64,
+        40
+      ]
+    },
+    "U4_row_normal": {
+      "spriteBorder": {
+        "x": 12,
+        "y": 12,
+        "z": 12,
+        "w": 12
+      },
+      "kind": "9-slice",
+      "note": "줄 사이는 테를 겹치지 않고 1기준px 틈(관찰 2절). 보이는 줄 높이 권장 14~16기준px, 누름 영역 44기준px",
+      "size": [
+        64,
+        40
+      ]
+    },
+    "U4_row_selected": {
+      "spriteBorder": {
+        "x": 12,
+        "y": 12,
+        "z": 12,
+        "w": 12
+      },
+      "kind": "9-slice",
+      "note": "줄 사이는 테를 겹치지 않고 1기준px 틈(관찰 2절). 보이는 줄 높이 권장 14~16기준px, 누름 영역 44기준px",
+      "size": [
+        64,
+        40
+      ]
+    },
+    "U5_divider_knot": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "선 가운데 위에 얹는다. 안을 어둡게 채워 뒤 선을 가린다",
+      "size": [
+        24,
+        24
+      ]
+    },
+    "U5_divider_line": {
+      "spriteBorder": {
+        "x": 24,
+        "y": 0,
+        "z": 24,
+        "w": 0
+      },
+      "kind": "3-slice(가로)",
+      "note": "양 끝이 사라지는 가는 선. 머리줄 밑줄은 Image.color #707070(곱하면 ≈#383634)로 같은 그림을 씀",
+      "size": [
+        96,
+        12
+      ]
+    },
+    "U6_band_bottom": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 3
+      },
+      "kind": "9-slice(세로 위만)",
+      "note": "검정 0.75 + 윗선 1px #292822. 메뉴 아래 도움말 띠. 높이는 위 3px만 고정, 나머지 늘림",
+      "size": [
+        8,
+        96
+      ]
+    },
+    "U6_band_top": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "늘림(Simple)",
+      "note": "위 0.75 → 아래 0. 전투 아래 대원 줄 바탕은 이 그림을 세로로 뒤집어(scale.y=-1) 씀",
+      "size": [
+        8,
+        120
+      ]
+    },
+    "U7_bar_fill": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "늘림(Simple)",
+      "note": "흰색. Image.color로 HP #568757 / 쿨타임 #5b7984 / 적 머리 위 #a4534a. Image.type=Filled(Horizontal) 권장",
+      "size": [
+        4,
+        4
+      ]
+    },
+    "U7_bar_track": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "늘림(Simple)",
+      "note": "검정 0.8, 틀 없음",
+      "size": [
+        4,
+        4
+      ]
+    },
+    "U8_portrait_L_active": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "160×160, 마름모 대각선 144px. 얼굴은 U8_portrait_L_mask로 자른 도트 초상을 틀 위에 둔다",
+      "size": [
+        160,
+        160
+      ]
+    },
+    "U8_portrait_L_dead": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "160×160, 마름모 대각선 144px. 얼굴은 U8_portrait_L_mask로 자른 도트 초상을 틀 위에 둔다",
+      "size": [
+        160,
+        160
+      ]
+    },
+    "U8_portrait_L_mask": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장(Mask)",
+      "note": "uGUI Mask용 흰 마름모. 가장자리는 틀 테두리 밑에 숨는다",
+      "size": [
+        160,
+        160
+      ]
+    },
+    "U8_portrait_L_normal": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "160×160, 마름모 대각선 144px. 얼굴은 U8_portrait_L_mask로 자른 도트 초상을 틀 위에 둔다",
+      "size": [
+        160,
+        160
+      ]
+    },
+    "U8_portrait_S_active": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "84×84, 마름모 대각선 72px. 얼굴은 U8_portrait_S_mask로 자른 도트 초상을 틀 위에 둔다",
+      "size": [
+        84,
+        84
+      ]
+    },
+    "U8_portrait_S_dead": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "84×84, 마름모 대각선 72px. 얼굴은 U8_portrait_S_mask로 자른 도트 초상을 틀 위에 둔다",
+      "size": [
+        84,
+        84
+      ]
+    },
+    "U8_portrait_S_mask": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장(Mask)",
+      "note": "uGUI Mask용 흰 마름모. 가장자리는 틀 테두리 밑에 숨는다",
+      "size": [
+        84,
+        84
+      ]
+    },
+    "U8_portrait_S_normal": {
+      "spriteBorder": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "kind": "낱장",
+      "note": "84×84, 마름모 대각선 72px. 얼굴은 U8_portrait_S_mask로 자른 도트 초상을 틀 위에 둔다",
+      "size": [
+        84,
+        84
+      ]
+    },
+    "U9_cell_blocked": {
+      "spriteBorder": {
+        "x": 6,
+        "y": 6,
+        "z": 6,
+        "w": 6
+      },
+      "kind": "9-slice",
+      "note": "칸 크기는 아이콘 정수 배율에 맞춘다(예: 16텍셀 아이콘 ×4 = 64px → 칸 72px)",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "U9_cell_droppable": {
+      "spriteBorder": {
+        "x": 6,
+        "y": 6,
+        "z": 6,
+        "w": 6
+      },
+      "kind": "9-slice",
+      "note": "칸 크기는 아이콘 정수 배율에 맞춘다(예: 16텍셀 아이콘 ×4 = 64px → 칸 72px)",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "U9_cell_empty": {
+      "spriteBorder": {
+        "x": 6,
+        "y": 6,
+        "z": 6,
+        "w": 6
+      },
+      "kind": "9-slice",
+      "note": "칸 크기는 아이콘 정수 배율에 맞춘다(예: 16텍셀 아이콘 ×4 = 64px → 칸 72px)",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "U9_cell_filled": {
+      "spriteBorder": {
+        "x": 6,
+        "y": 6,
+        "z": 6,
+        "w": 6
+      },
+      "kind": "9-slice",
+      "note": "칸 크기는 아이콘 정수 배율에 맞춘다(예: 16텍셀 아이콘 ×4 = 64px → 칸 72px)",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "U9_cell_grade": {
+      "spriteBorder": {
+        "x": 6,
+        "y": 6,
+        "z": 6,
+        "w": 6
+      },
+      "kind": "9-slice",
+      "note": "G1 등급 테. 흰 1px 테만(안 투명), Image.color = 등급 색. U9_cell_* 칸 위에 같은 크기로 겹친다",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "U9_cell_selected": {
+      "spriteBorder": {
+        "x": 6,
+        "y": 6,
+        "z": 6,
+        "w": 6
+      },
+      "kind": "9-slice",
+      "note": "칸 크기는 아이콘 정수 배율에 맞춘다(예: 16텍셀 아이콘 ×4 = 64px → 칸 72px)",
+      "size": [
+        48,
+        48
+      ]
+    }
+  }
+}

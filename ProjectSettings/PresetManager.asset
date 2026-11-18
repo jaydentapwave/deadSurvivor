@@ -4,4 +4,15 @@
 PresetManager:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_DefaultPresets: {}
+  m_DefaultPresets:
+  - first:
+      m_NativeTypeID: 1006
+      m_ManagedTypePPtr: {fileID: 0}
+      m_ManagedTypeFallback: 
+    second:
+    - m_Preset: {fileID: 2655988077585873504, guid: 8f0c127ec7f9e4fb5b538d908546cb90, type: 2}
+      m_Filter: glob:"Assets/Game/03.Resources/Art/AIGenerated/**"
+      m_Disabled: 0
+    - m_Preset: {fileID: 2655988077585873504, guid: dd20e916b8b5c44c1835f52eb68acee9, type: 2}
+      m_Filter: glob:"Assets/Game/03.Resources/Art/HD2D/UI/**"
+      m_Disabled: 0

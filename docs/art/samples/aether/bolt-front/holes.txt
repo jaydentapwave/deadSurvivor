@@ -1,0 +1,15 @@
+reference bolt_front.png: pieces 1, holes 1, thin gaps 11
+PASS bolt_walk_front_00.png: pieces 1, holes 0, thin gaps 31  INFO +20 thin gap px (look at x=22, y=19)
+PASS bolt_walk_front_01.png: pieces 1, holes 0, thin gaps 16  INFO +5 thin gap px (look at x=22, y=18)
+PASS bolt_walk_front_02.png: pieces 1, holes 0, thin gaps 14  INFO +3 thin gap px (look at x=22, y=17)
+PASS bolt_walk_front_03.png: pieces 1, holes 0, thin gaps 10
+PASS bolt_walk_front_04.png: pieces 1, holes 0, thin gaps 15  INFO +4 thin gap px (look at x=22, y=19)
+PASS bolt_walk_front_05.png: pieces 1, holes 0, thin gaps 17  INFO +6 thin gap px (look at x=22, y=17)
+PASS bolt_walk_front_06.png: pieces 1, holes 0, thin gaps 19  INFO +8 thin gap px (look at x=22, y=19)
+PASS bolt_attack_front_00.png: pieces 1, holes 1, thin gaps 10
+PASS bolt_attack_front_01.png: pieces 1, holes 0, thin gaps 15  INFO +4 thin gap px (look at x=20, y=22)
+PASS bolt_attack_front_02.png: pieces 1, holes 0, thin gaps 23  INFO +12 thin gap px (look at x=20, y=22)
+PASS bolt_attack_front_03.png: pieces 1, holes 0, thin gaps 21  INFO +10 thin gap px (look at x=19, y=22)
+PASS bolt_attack_front_04.png: pieces 1, holes 1, thin gaps 9
+PASS bolt_attack_front_05.png: pieces 1, holes 1, thin gaps 11
+PASS 13 frames, 0 came apart or gained holes

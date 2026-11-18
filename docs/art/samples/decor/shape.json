@@ -1,0 +1,13 @@
+{"schema": "2d-shape/1", "unit_px": 48,
+ "projection": {"depth": 0.5, "height": 1},
+ "height_bar": {"label": "캐릭터 키 48px", "cells": 1.0},
+ "shapes": {
+  "flower": {"name": "꽃 덤불(작은 꽃 무더기)", "footprint": [0.3, 0.15],
+    "parts": [{"type": "rect", "x": [-0.03, 0.03], "y": [0, 0.12]},
+              {"type": "blob", "cx": 0, "y": [0.06, 0.27], "w": 0.3, "wavy": true}]},
+  "tree": {"name": "나무(둥근 잎 덩어리)", "footprint": [0.4, 0.2],
+    "parts": [{"type": "rect", "x": [-0.07, 0.07], "y": [0, 0.33]},
+              {"type": "blob", "cx": 0, "y": [0.25, 0.83], "w": 0.75, "wavy": true}]},
+  "rock": {"name": "돌(낮은 바위)", "footprint": [0.4, 0.2],
+    "parts": [{"type": "blob", "cx": 0, "y": [0.0, 0.22], "w": 0.4}]}
+ }}

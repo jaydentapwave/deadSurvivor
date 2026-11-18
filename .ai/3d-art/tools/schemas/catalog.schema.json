@@ -1,0 +1,60 @@
+{
+ "$comment": "docs/art/asset-catalog.json: the asset registry, budgets with the user's approval text, palettes and project rules. Unknown keys are allowed; the shapes below are what the tools read.",
+ "type": "object",
+ "required": ["schema", "assets", "budgets"],
+ "properties": {
+  "schema": {"enum": ["3dkit-asset-catalog/2"]},
+  "assets": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": ["id", "kind", "status", "method", "folder"],
+    "properties": {
+     "id": {"type": "string"},
+     "kind": {"type": "string"},
+     "status": {"enum": ["adopted", "trial", "retired"]},
+     "method": {"enum": ["build", "existing_rig", "existing_model"]},
+     "folder": {"type": "string"},
+     "height": {"type": "number", "minimum": 0},
+     "fit": {"type": "object", "required": ["height"], "properties": {"height": {"type": "number", "minimum": 0}, "bury": {"type": "number"}}},
+     "source": {"type": "object"},
+     "anim": {"type": "object"},
+     "parts": {"type": "object", "additionalProperties": {"type": "string"}},
+     "replaces": {"type": "array", "items": {"type": "string"}},
+     "variant_of": {"type": "string"},
+     "note": {"type": "string"},
+     "tripo": {
+      "type": "object",
+      "required": ["asset", "budget", "seed", "face_limit", "concept"],
+      "properties": {
+       "asset": {"type": "string"}, "budget": {"type": "string"}, "seed": {"type": "integer"}, "face_limit": {"type": "integer", "minimum": 1},
+       "concept": {"type": ["string", "array"], "items": {"type": "string"}}, "model": {"type": "string"}, "params": {"type": "array", "items": {"type": "string"}}, "work_dir": {"type": "string"},
+       "expect": {"type": "object", "properties": {"feet": {"type": "integer", "minimum": 0}, "separate_parts": {"type": "boolean"}, "top_round": {"type": "boolean"}}}
+      }
+     }
+    }
+   }
+  },
+  "budgets": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "object",
+    "required": ["cap"],
+    "properties": {
+     "cap": {"type": "integer", "minimum": 0},
+     "approval": {"type": "string"},
+     "approval_by_asset": {"type": ["object", "null"], "additionalProperties": {"type": "string"}},
+     "assets": {"type": "array", "items": {"type": "string"}},
+     "step_approvals": {"type": ["object", "null"], "additionalProperties": {"type": "string"}},
+     "lock": {"type": "string"},
+     "legacy_scope": {"type": "string"}
+    }
+   }
+  },
+  "anim_steps": {"type": "object"},
+  "palettes": {"type": "object"},
+  "project": {"type": "object"},
+  "standards_override": {"type": "object"},
+  "migrations": {"type": "object"}
+ }
+}

@@ -1,0 +1,197 @@
+# 디렉터(/director-run)가 이 레포에 일을 맡길 때 읽는 정보. 형식: director 플러그인 schemas/capabilities.schema.json
+schema: 1
+repo: Deadsurvivor
+description: >-
+  2D 파티 생존 전투. 영웅 최대 4명이 진형을 짜고 10개 웨이브의 몬스터를 버티며, 웨이브 사이 정비에서 장비를 얻어 배치·합성한다
+boundaries:
+  export: unrestricted
+  notes:
+    - 배포와 운영 데이터 변경은 사람 승인 없이 하지 않는다.
+handoff:
+  inbox: .director/inbox/
+  outbox: .director/outbox/
+capabilities:
+  - id: design.write
+    summary: 참고 분석과 요청을 바탕으로 우리 게임용 기획서(데이터 스키마, 클라·서버 변경, API 계약)를 쓴다
+    path: docs
+    pack: base
+    playbooks: [feature-design]
+    rules: [CLAUDE.md]
+    gates:
+      - evidence: "docs/features/<기능>/plan.md (수용 기준 표 포함)"
+        level: static
+      - human: 기획서 승인
+        level: human
+  - id: game.direction
+    summary: 게임 아이디어를 대화로 깎아 방향 기록(한 판에서 하는 일, 이기고 지는 조건, 시점과 조작, 콘텐츠 단위, 하지 않는 것)으로 남긴다
+    path: docs
+    pack: base
+    playbooks: [game-direction]
+    rules: [CLAUDE.md]
+    gates:
+      - evidence: "docs/game/direction.md (다섯 가지와 출처, 버린 것과 이유, 레퍼런스에서 볼 것)"
+        level: static
+      - human: 게임 방향 확인
+        level: human
+  - id: game.spec
+    summary: 방향 기록을 게임 전체 기획서(기둥, 루프, 시스템, 화면, 첫 판 기능 순서, 플레이 가능 판정 경로, 목표값)로 굳힌다
+    path: docs
+    pack: base
+    playbooks: [game-spec]
+    rules: [CLAUDE.md]
+    gates:
+      - evidence: "docs/game/gdd.md (구조 검사 check_spec.py 통과)"
+        level: static
+      - human: 게임 기획서 승인
+        level: human
+  - id: unity-client.implement
+    summary: 승인된 기획서대로 유니티 클라이언트를 구현한다
+    path: .
+    pack: unity
+    requires_work_level: true
+    playbooks: [unity-feature]
+    rules: [CLAUDE.md, ./CLAUDE.md]
+    gates:
+      - agent: design-reviewer
+        required_for_work_levels: [L2]
+        level: static
+        when: 작업 규모 L2(구조가 크게 바뀔 때)일 때 구현 전에 한 번 (review_mode와 무관)
+      - evidence: 컴파일 에러 0개 (unity recompile 후 콘솔·Editor.log)
+        level: editor
+      - evidence: EditMode 테스트 통과
+        level: editor
+        when: 테스트 어셈블리가 있거나 기획서 수용 기준에 자동 테스트가 있을 때
+      - agent: spec-reviewer
+        level: static
+        when: 디렉터 리뷰 강도가 solo가 아닐 때 (마감 리뷰 — 품질 리뷰와 한꺼번에 병렬로, 수정 확인은 FAIL이던 리뷰만 한 번)
+      - agent: validator-client
+        required_for_work_levels: [L1, L2]
+        level: static
+        when: 작업 규모 L1·L2일 때 (review_mode와 무관), 또는 full 리뷰
+      - agent: algorithm-tester
+        level: static
+        when: 알고리즘 코드(loop·branch·state machine·generator·shuffle·sort) 변경 (마감 리뷰 묶음 안에서)
+      - evidence: 플레이 모드 진입 후 예외 0개, 기획서의 플레이 확인 기준
+        level: runtime
+      - evidence: Play Mode 스크린샷
+        level: runtime
+        when: UI가 바뀔 때
+  - id: unity-content.produce
+    summary: 코드를 바꾸지 않고 데이터 파일로 콘텐츠(스테이지, 메뉴, 수치)를 추가한다
+    path: .
+    pack: unity
+    rules: [CLAUDE.md, ./CLAUDE.md, ./.ai/rules/data-driven-content.md]
+    gates:
+      - evidence: 프로젝트의 데이터 검사 명령 통과(형식, id 중복, 참조)
+        level: static
+      - evidence: 시뮬레이터나 자동 플레이로 수치 목표 범위 확인
+        level: runtime
+        when: 프로젝트에 그 도구가 있을 때. 없으면 not-run으로 적고 콘텐츠를 늘리기 전에 도구부터 만든다
+    boundaries:
+      notes:
+        - 코드(.cs)를 고치지 않는다. 고쳐야 하면 멈추고 unity-client.implement 작업으로 올린다.
+  - id: unity-client.playable
+    summary: 에디터 Play에서 한 판이 처음부터 끝까지 도는지 판정 경로(tools/playable/route.json)를 밟아 확인한다
+    path: .
+    pack: unity
+    playbooks: [unity-feature]
+    rules: [CLAUDE.md, ./CLAUDE.md, ./.ai/rules/playable-check.md]
+    gates:
+      - cmd: python3 -B ./tools/playable.py
+        level: runtime
+      - evidence: "./Logs/playable/latest/report.json (단계별 결과와 화면 캡처)"
+        level: runtime
+  - id: art-reference.observe
+    summary: 아트 레퍼런스를 모아 출처·해시를 기록하고 관찰과 해석을 나눈 관찰 문서를 만든다
+    path: docs/art/reference
+    pack: art
+    playbooks: [art-reference]
+    rules: [.ai/rules/art-reference-design.md, .ai/rules/art-decisions.md]
+    gates:
+      - evidence: "docs/art/reference/<레퍼런스>/manifest.json (출처 URL·크기·SHA-256)"
+        level: static
+      - evidence: 관찰 문서(관찰·해석 구분, 근거 이미지 id, 따라 하지 않을 것 목록)
+        level: static
+    boundaries:
+      export: design-reference-only
+      notes:
+        - 레퍼런스 원본은 공부용이다. 게임 에셋이나 생성 입력의 원본으로 쓰지 않고 외부 서비스에 올리지 않는다.
+        - 게임에서 추출한 모델·텍스처·뼈대는 열람하지 않는다.
+  - id: art.spec
+    summary: 레퍼런스 관찰 문서로 아트 기준서(아트의 plan.md)를 쓰고 사용자 승인을 한 번 받는다
+    path: docs/art
+    pack: art
+    playbooks: [art-spec]
+    rules: [.ai/rules/art-decisions.md, .ai/rules/art-core-rules.md]
+    gates:
+      - evidence: "docs/art/아트-기준서.md (레퍼런스 모드, 분류된 결정 목록, 3절 본문, 3.8 다르게 가는 것)"
+        level: static
+      - human: 아트 기준서 승인
+        level: human
+  - id: art.direction
+    summary: 방향이 정해지지 않았을 때 멀리 떨어진 시안을 내고 사용자가 골라 아트 방향을 좁힌다 (레퍼런스 모드 study)
+    path: docs/art
+    pack: art
+    playbooks: [art-direction]
+    rules: [.ai/rules/art-decisions.md, .ai/rules/art-core-rules.md, .ai/rules/art-tools.md]
+    gates:
+      - evidence: "docs/art/방향-찾기.md (축, 회차별 시안과 사용자 답 원문, 정해진 것, 버린 것과 이유)"
+        level: static
+      - human: 아트 방향 확인
+        level: human
+    boundaries:
+      notes:
+        - 레퍼런스 원본 이미지를 생성 입력으로 쓰지 않는다. 탐색 시안은 게임 에셋이 아니다.
+  - id: 2d-art.produce
+    summary: 승인된 아트 기준서대로 2D 스프라이트를 만든다(명세 → 생성 → 수치 검증 → 부위 대조 → 채택 → 넣기 → 짧은 Play → 판정)
+    path: Assets/Game/03.Resources/Art
+    pack: 2d-art
+    playbooks: [2d-art-produce]
+    rules: [.ai/rules/2d-generation.md, .ai/rules/2d-asset-standard.md, .ai/rules/art-decisions.md, .ai/rules/art-core-rules.md]
+    gates:
+      - evidence: 기준서 승인 기록(approve.py verify 종료 코드 0)과 3.9절 2d-measure 블록
+        level: static
+      - cmd: /usr/bin/python3 .ai/2d-art/tools/measure.py check
+        level: static
+        when: 측정이 필수인 작업 종류(2d-art-produce 0절 표)
+      - evidence: frames.py jitter PASS 기록
+        level: static
+        when: 애니메이션 프레임을 만들었을 때
+      - evidence: frames.py holes PASS 출력(기준 그림 대비 조각 수·구멍)
+        level: static
+        when: 조각을 옮겨 만든 프레임(픽셀아트)일 때
+      - evidence: tileprev.py 이음 검사 PASS 시트와 기준서 에셋 목록 대조표
+        level: static
+        when: 타일·지형을 만들었을 때
+      - evidence: 다른 모델 계열의 부위 대조 표(검수 모델·입력 sha256)
+        level: static
+        when: 캐릭터를 새로 만들거나 변형했을 때
+      - human: 사용자 채택(sheet.py 나란히 시트)
+        level: human
+      - human: 유료 생성 승인 원문과 상한
+        level: human
+        when: 유료 생성이 있을 때
+      - evidence: 짧은 Play 게임 화면 캡처(애니메이션은 연속 프레임)
+        level: runtime
+      - human: 게임 화면 판정
+        level: human
+  - id: 3d-art.produce
+    summary: 승인된 아트 기준서대로 3D 에셋을 만든다(명세 → 컨셉 → 검수 → 유료 승인 → 생성 → Unity → 캡처)
+    path: .
+    pack: 3d-art
+    playbooks: [3d-art-produce]
+    rules: [.ai/rules/3d-asset-standard.md, .ai/rules/3d-tripo-generation-standard.md, .ai/rules/art-decisions.md, .ai/rules/art-core-rules.md]
+    gates:
+      - evidence: 기준서 머리의 승인 줄(이번 에셋에 해당하는 절이 채워져 있음)
+        level: static
+      - human: 컨셉 이미지 채택
+        level: human
+      - human: 유료 생성 승인 원문과 상한(카탈로그 예산)
+        level: human
+        when: 유료 생성 단계가 있을 때
+      - cmd: /usr/bin/python3 .ai/3d-art/tools/assets.py check
+        level: editor
+      - evidence: 게임 각도 capture 파일과 짧은 Play 기록
+        level: runtime
+      - human: 화면 판정
+        level: human

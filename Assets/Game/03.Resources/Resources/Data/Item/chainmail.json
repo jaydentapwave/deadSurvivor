@@ -1,0 +1,35 @@
+{
+  "id": "chainmail",
+  "name": "쇠사슬 갑옷",
+  "mode": "passive",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 0
+    },
+    {
+      "x": 2,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 1
+    }
+  ],
+  "power": 0,
+  "interval": 0,
+  "range": 0,
+  "baseEffect": "hp",
+  "baseValue": 45,
+  "bonusEffect": "hp",
+  "bonusValue": 30,
+  "bonusTarget": "",
+  "bonusNeedsAdjacent": false,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": "chainmail"
+}

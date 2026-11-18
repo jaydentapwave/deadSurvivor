@@ -1,0 +1,53 @@
+# slime.png — 출처
+
+- 무엇: 몬스터 일반형 슬라임(게임 기획서 C3·F4, 아트 기준서 K12). 몬스터 다섯의 그림체 기준. identity docs/art/identities/slime.json 의 ref.
+- 규격: 64x64 캔버스, 그림 31x24(키 24px = 캐릭터 키 48px의 0.5, 기준서 K13), 피벗 = 바닥 가운데(바닥 3줄 가로 범위 가운데를 x 32, 맨 아래 줄 63). 알파 0/255만. 몸 색 보라(컨셉 관찰 1절: 바닥 노랑 풀과 색상 다르게).
+- sha256: 17f9171cf8aa1319c686e9f6fc0d68d693a19dbb60bad08acd287e4204e20eaf
+- 만든 날: 2026-11-16, 대기열 20261116-art-batch2 항목 monster-slime(시도 1), /2d-art-produce "기준 그림이 없는 새 종류" 길
+- 채택: 2026-11-16 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기
+
+## 도구
+- 생성: codex-cli 0.167.2, 모델 gpt-6.1-sol(추론 medium), 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1dfdd-e705-7dd3-81da-c56cd4085b1f (2회차 설정 A), 결과 2장 중 2번째
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256)
+- 브루노 앞 채택본 Assets/.../Characters/bruno/front/bruno_front.png 75ebc8c3c00ac046495e460f903b8ce5669f97d57dcb94473e3003793a1c89ee
+  - 16배 확대(#ff00ff 바탕) ref1_bruno_front_x16.png 55966cfa2e540095395525af36c6f409ea6e9653e66a60cc7c4efae8f769acac — 1·2회차 그림체 참고
+- 컨셉 PE-G001 docs/game/concept-20261112/1-들판길-낮-전투.jpg 5b1dd2341dbd988d8c7ce84cbdbd39d033c7bd2d177be5afe211f73aaca10a0d
+  (manifest external_send: 게임 그림 생산에 Codex 참고 그림으로 사용 허용, 2026-11-15 "넣는다 (추천)")
+  - 자른 것 (260,170,1000,720) ref2_field_concept.png f3111ab8027d6797de5901714cdc636fac3eb2f88cb994abefc5ab17b25556df — 1회차 몬스터 외형 참고
+- 1회차 결과 slime_r1a_1.png 4bc3ec06d14d1524e1da402dea78eeea5bb6f26c73a557496eb1dd16eed6c479 (본래 격자 24x18, 키 18 — 목표 24보다 작음)
+  - pixelize one --size 24x18 → 16배 확대 design_a_r1_x16.png 759b916181dfb163b8403b56c84961657e9f772777cc39f5a777d7b7442ddedb — 2회차 둘째 참고(디자인)
+  - 그 실루엣을 31x24로 키운 회색 실루엣 안내(외곽선 #34140e, 64x64 바닥 가운데, 16배) guide_a_silhouette24_x16.png 72e70bad7031bad7b37e336e2170708d5143887a27e47089a08dde1dbd776979 — 2회차 첫째(고칠 그림)
+
+## 최종 프롬프트 (2회차 설정 A, Codex에 보낸 그대로)
+[monster-slime-r2a] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. Three images are attached: the first is the image to edit (a grey silhouette guide), the second is the design of the slime monster, the third is our adopted warrior hero sprite (art style reference only).
+Copy the two results from the generated images folder into the current working folder as slime_r2a_1.png and slime_r2a_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Edit the first reference image. It is a 64x64 pixel sprite enlarged so that every pixel is one 16x16 flat block (canvas 1024x1024). Keep exactly this pixel grid: the same block size, the same canvas, the same silhouette and the same position. The grey silhouette is exactly 24 blocks tall (bottom row of the canvas up to the tip of the small drip on top) and 31 blocks wide; keep that size, do not shrink it. Paint the grey area as the slime monster of the second reference: a round dome-shaped jelly blob, purple body (#7a4a9e, light highlight #b07fd0, dark shade #2b3566 along the bottom), a small white shine highlight on the upper-left of the dome, two glowing yellow eyes (#ffe08a), each 2 blocks wide and 3 blocks tall, close together at the front, slightly right of centre (it looks toward the lower-right, isometric 3/4 view like the third reference), no mouth, no arms, no legs. Keep the 1-block dark brown outline (#34140e, not black) around the whole figure, the same outline as the warrior in the third reference.
+Pixel rules: every block is ONE flat colour; no detail smaller than one block; no anti-aliasing, no gradients, no dithering, no soft edges. Flat 2-3 tone shading.
+Background: flat solid #ff00ff everywhere outside the monster. No grid lines, no text, no UI, no ground, no grass, no cast shadow.
+
+## 생성 원본
+- output/2d-art/monster-slime/r2a/slime_r2a_2.png (Git 밖) 1254x1254, 802b1e6f74343b193560ee927349cf048a1b57a56c7f3a14129327ce89ce3088
+
+## 후처리
+1. pixelize.py grid --bg-tol 100 --size 31x24 → native grid 31x24 (block 19.6px, score 0.83) — 목표와 일치
+2. pixelize.py one --size 31x24 --palette <기준서 3.5 팔레트 36색 + 강철 추가 3색(브루노 때 보충)> --bg-tol 100
+3. 64x64 캔버스에 놓기(output/2d-art/monster-slime/tools/place.py, 바닥 3줄 기준): 오프셋 (17,40), bbox x 17..47 y 40..63 → 902de63f…5002
+4. matte.py fringe 첫 판정 FAIL(edge 2px, (23,47) 부근 밝은 보라 #b07fd0이 키 색 #ff00ff 쪽 색조라 테두리 번짐으로 잡힘)
+   → matte.py fix --key '#ff00ff': 5px 다시 칠함(안쪽 색으로). 그 결과 팔레트 밖 색 4px가 생김: #d8bfe8 2, #ab87cd 1, #6e5195 1 (게임 크기에서 안 보임)
+
+## 판정
+- 격자: 31x24 일치(위 1)
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0)
+- 부위 대조(다른 계열: Claude sonnet 하위 에이전트, references/part-check.md, 이름 가린 cand_B): PASS, 3후보 중 1위.
+  판독: 보라 슬라임(위에 작은 꼭지, 노란 눈), 컨셉의 보라 슬라임과 맞음, 키 약 24px = 영웅의 절반, 픽셀 크기·평면 음영 같음, 풀 위에서 셋 중 가장 잘 보임.
+  지적: 실루엣이 오른쪽으로 조금 치우침, 흰 반짝임이 조금 강함. 외곽선이 갈색보다 짙은 남색으로 보인다는 공통 지적 → 실측: 외곽선은 #34140e·#2f1108(K5), 남색 #2b3566은 몸 아래 그늘 띠(외곽선 아님)
+- identity 등록: measure.py identity --id slime PASS (부위 5개 모두 잡힘, 겹침 없음)
+- measure.py compare --id slime --img slime.png: PASS (기준 그림 자기 대조. 기준 그림이 없는 새 종류라 참고 기록)
+- PASS = 기준과 어긋나지 않음. 자연스러움·바닥 위에서 눈에 띄는지는 판독과 사용자 판정이 본다.
+- 시트: docs/art/sheets/monster-slime.png (sheet.py grid --candidates --size 144) — 브루노 앞 채택본, 채택본, 청록 후보 2장
+- 사용자 판정: 대기

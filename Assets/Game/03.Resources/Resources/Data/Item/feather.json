@@ -1,0 +1,23 @@
+{
+  "id": "feather",
+  "name": "매의 깃털",
+  "mode": "passive",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "power": 0,
+  "interval": 0,
+  "range": 0,
+  "baseEffect": "range",
+  "baseValue": 0.08,
+  "bonusEffect": "range",
+  "bonusValue": 0.2,
+  "bonusTarget": "projectile",
+  "bonusNeedsAdjacent": true,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": "feather"
+}

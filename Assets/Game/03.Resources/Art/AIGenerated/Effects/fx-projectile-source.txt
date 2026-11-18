@@ -1,0 +1,58 @@
+# 전투 효과 — 화살·쇠뇌 볼트·화염구·폭발: 출처·프롬프트·회차·판독·팔레트 (대기열 20261117-art-prod 항목 fx-projectile, 시도 1, 2026-11-17)
+
+- 종류: 효과(기준서 r5 3.3 효과 행, K15 "화살 주황 궤적, 화염 주황". 3.4 효과 선 굵기 0 = 외곽선 없음). identity가 없는 종류라 measure.py 판정은 없다.
+  채택은 다른 계열 판독 + 사용자 판정. 시트는 `--unverified "양산 — 사용자 판정"`. PASS = 기준과 어긋나지 않음, 자연스러움은 판독·사용자 판정.
+- 그림체: 기준서 3.7 채택 견본 효과 행(3단계 docs/art/samples/fx/s3/, "3번 (Recommended)"). 빛 번짐은 그림에 넣지 않았다(Light2D 몫).
+- 움직임: 한 장짜리 그림. 날아가는 이동·회전·사라짐은 게임이 변환으로 준다(3.3 "변환"). 투사체 셋은 모두 오른쪽을 향한다(머리가 오른쪽) — 방향은 게임이 회전으로 준다.
+- 회차: 화살 2/2회차(1회차 4장이 1배에서 3px 높이로 촉·대가 뭉개져 다시 생성), 볼트·화염구·폭발 1/2회차. 회차마다 후보 4장. 유료 크레딧 0.
+
+## 채택본
+| 파일 | 게임 화면 크기 px(가상 640×360, 배율 1) | 쓴 색(모두 r5 팔레트 안) | 원 후보 (원본 sha256 앞 16자) | sha256 앞 16자 |
+|---|---|---|---|---|
+| arrow.png | 32×5 | #fff9ed #ffe08a #f8b828 #f88808 #a58751 #c8b8b8 #786868 | arrow_r2/cand_3 (ecb510dcc39f4eaa) | 52164aa7a6e5bb9b |
+| crossbow_bolt.png | 24×6 | #fff9ed #ffe08a #f8b828 #f88808 #774c3b #c8b8b8 #a89898 #786868 #e3d7c8 | bolt/cand_2 (412c7ae140bdb451) | 3f740f730f01774b |
+| fireball.png | 24×9 | #fff9ed #f8d818 #f88808 #d81808 | fireball/cand_2 (bf251f8c3a86b086) | 2328f1a34b60116a |
+| explosion.png | 26×22 | #ffffff #fff9ed #ffe08a #f8d818 #f88808 #d81808 | explosion/cand_1 (d0781eaf2988cc24) | 9e9b9e5866de6a7c |
+
+- 크기 이유: 화염구는 견본 3번 화염구(24×10)와 같은 축척으로 긴 변 24에 맞췄다. 폭발은 화염구 머리(약 9px)의 약 3배, 캐릭터 키 48의 약 절반인 26.
+  화살은 궤적 포함 32(캐릭터 키의 2/3), 높이 5(촉 삼각형 5·대 1px). 1회차처럼 40×3으로 내리면 촉이 1~2px 점이 된다. 볼트는 화살보다 짧고 굵게 24×6.
+- 알파는 0·255뿐. 외곽선·어두운 테 없음(3.4).
+
+## 생성
+- 도구: codex-cli, 모델 gpt-6.1-sol, 추론 medium, 내장 이미지 도구. 실행 폴더 레포 밖(git 무시) output/2d-art/fx-projectile/<arrow|arrow_r2|bolt|fireball|explosion>/.
+  명령: `perl alarm 1500 + codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <폴더> "$(cat prompt.txt)" -i ref1_sample_fireball.png ref1b_sample_slash.png ref2_concept.png < /dev/null`. 5건 모두 exit 0, 후보 4장씩.
+  세션 id: 1회차 4건 01a1e852-63ee-7c20-9ea3-196b7d2d5bad / 01a1e852-63ee-7c11-9ee1-b2215557a303 / 01a1e852-63ee-7391-8a5f-de8ee4fb1657 / 01a1e852-63ee-7313-9882-52579e136e8a, 화살 2회차 01a1e856-c9f0-7c10-9eeb-098ead5862ac.
+- 참고 그림(넣은 순서): 첫째 채택 견본 s3/fireball.png(×16 확대, 자홍 바탕), 둘째 s3/slash.png(×8), 셋째 컨셉 조각(화살·볼트 = concept_bolt.png, 화염구·폭발 = concept_comet.png). 캐릭터·몬스터 그림은 넣지 않았다.
+- 프롬프트 전문: 각 실행 폴더 prompt.txt. 공통 꼬리: 후보 4장(1·2 같은 문구, 3·4는 컨셉에 조금 더 가깝게), 견본 그림체(흰 중심 → 금·주황, 꼬리는 대시·점으로 흩어짐), 단색 #ff00ff 바탕, 그림자·땅·캐릭터·빛 번짐 없음, 외곽선 없음, 안티앨리어싱·그라데이션 없음, 48×32 격자·블록 32px·캔버스 1536×1024, 글자·로고·기존 게임 것 금지.
+  그림별 앞부분: 화살 "ARROW … shaft, small grey steel head pointing RIGHT, fletching, long thin ORANGE light trail"(2회차: 전체 32×5 블록, 촉 삼각형 3×5, 대 정확히 1블록 두께, 큰 블록으로 그리라고 지시), 볼트 "CROSSBOW BOLT short thick, wedge steel head, short thick orange trail", 화염구 "redraw of the first style sample at the same look, about 2.4 times as long as tall", 폭발 "the single biggest frame of a fireball bursting: round burst, white-yellow centre, ragged orange tongues, red rim, loose embers, no smoke".
+- 견본 보고(sample-fx-1 "남긴 것")에서 지킨 것: 캔버스 1536×1024로 지시, 원본을 마젠타 거리(채널 합 > 90)로 먼저 잘라 6px 여백 뒤 pixelize. 빛 번짐은 r5 3.7대로 넣지 않음.
+
+## 도트 정리(K11)
+- `pixelize.py one <잘린 그림> --size <W>x<H> --palette <효과 부분 팔레트> --bg #ff00ff`. 긴 변 고정(화살 32, 볼트 24, 화염구 24, 폭발 26). 강조색 추가 없음(부분 팔레트는 모두 r5 3.5 안).
+- 본래 격자(`pixelize.py grid`): 20장 모두 GRID_MISMATCH 또는 NOT_ESTIMATED(생성기는 32px 블록 지시를 따르지 않고 12~38px로 그림). 채택본: 화살 48×7(블록 24px) → 32×5, 볼트 41×9 → 24×6, 화염구 70×25 → 24×9, 폭발 NOT_ESTIMATED → 26×22.
+  다시 생성하지 않은 이유: 내린 그림을 6배로 보았을 때 채택본에서 뭉개진 곳이 없었다(확대 눈 확인). 화살 1회차는 뭉개져 2회차로 다시 생성했다.
+- 테두리 번짐 `matte.py fringe --key #ff00ff --whole`: 20장 모두 PASS(spill·edge·stray·inner 0). 손질 없음.
+- `Tools/check_sprites.py --palette docs/art/아트-기준서.md --max-size 128x128` 채택 4장: PASS(팔레트 57색, 실패 0).
+
+## 다른 계열 판독(Claude 하위 에이전트, Opus 5.5 medium. 생성은 GPT 계열)
+- 방식: 20장(화살 1회차 4·2회차 4, 볼트·화염구·폭발 각 4)을 섞어 번호만 붙여 6배로, 견본 s3 두 장·컨셉 두 장과 함께 보였다. 파일 이름·무슨 효과인지는 알리지 않았다. 대응표 output/2d-art/fx-projectile/blind_map.json.
+- 판독 묶음: 화염구(3,4,14,19) 4장 모두 화염구 / 폭발(12,13,16,20) 4장 모두 폭발 / 화살(2,5,6,8,9,15 + 틈 있는 1,10) / 쇠뇌 볼트(7,11,17,18) — 20장 모두 의도한 물건으로 읽혔다.
+- 고른 것(모두 판독자의 그 묶음 1위):
+  - 화살 = #2(arrow_r2/cand_3): "Arrow with a glowing trail / partly / reads as one object; stray orange dash detached behind it". 2위 #5(r2 cand_2).
+  - 볼트 = #18(bolt/cand_2): "Crossbow bolt with a longer trail / partly / readable; the trail has a small break" — "clearest head and a longer trail". 2위 #17.
+  - 화염구 = #19(fireball/cand_2): "clean and closest to the adopted sample". 2위 #3.
+  - 폭발 = #20(explosion/cand_1): "dense, readable shape with controlled sparks". 2위 #16.
+- 판독 공통 지적: 불 효과(화염구·폭발)는 견본과 같은 그림체(yes), 화살·볼트는 "partly" — 대·촉이 1~2px라 1배 판독이 가장 큰 위험. 컨셉 조각(보라·청록 혜성)의 색은 어느 후보에도 없다(K15대로 주황·화염색을 썼다).
+- 버린 후보: 화살 1회차 4장(40×3에서 촉이 점, 대가 끊김), 2회차 cand_1·4(대가 사라져 궤적과 촉이 두 조각), cand_2(궤적 끝 잡점), 볼트 cand_1·3·4(갈색 몸과 회색 촉이 뭉침·잡점), 화염구 cand_1·3·4(꼬리 짧음·가늘고 실 같음), 폭발 cand_2·3·4(불꽃 점이 많아 잡음, 작음).
+
+## 시트·합성(직접 열어 본 것)
+- docs/art/sheets/fx-projectile.png: `sheet.py grid --numbered --size 96 --against s3/slash.png s3/fireball.png --unverified "양산 — 사용자 판정" --props <48×32 투명 판에 가운데로 놓은 그림들>` → 게임 크기 ×3 같은 축척. 20칸, 빠진 것 0.
+  순서: REF 견본 베기·화염구 | #1~#4 채택(화살·볼트·화염구·폭발) | #5~#20 버린 후보. 시트 머리는 NOT MEASURED(수치 판정 없음, 형태·색 사용자 판정).
+  열어 본 것: 채택 화염구는 견본 화염구와 같은 흰 머리·노랑·주황·빨강 꼬리이고 크기가 거의 같다. 폭발은 같은 4색 + 흰 중심의 둥근 불꽃. 화살·볼트는 견본보다 훨씬 작고 가늘다(사용자 판정 항목).
+- docs/art/sheets/fx-projectile-battle.png: **합성 — 게임 화면 아님.** 전투 캡처 10-MON-1920x1080(.director/evidence/20261117-screen-fixes/2/1/art-flows/, 읽기 전용)을 640×360으로 내리고 효과를 게임 크기로 얹은 뒤 ×3, 아래에 일부(x20~420, y80~320) ×4. 스크립트 output/2d-art/fx-projectile/build_comp.py.
+  화살·화염구는 왼쪽 몬스터를 향하도록 좌우만 뒤집었다(게임에서는 회전). 비스듬한 회전은 도트가 깨져 합성에서 하지 않았다.
+  - 화살: 리나 왼쪽 위에서 위쪽 슬라임 쪽. 1배에서 가는 선으로 보이고 흰 깃·주황 궤적·회색 촉이 ×4에서 갈린다.
+  - 쇠뇌 볼트: 대원 무리와 멧돼지 사이. 캡처에 원래 있던 흰 투사체 선 위에 겹쳐 놓였다(합성 위치 탓). 작지만 회색 촉·갈색 몸·주황 궤적이 보인다.
+  - 화염구: 아래 가운데 슬라임 오른쪽, 슬라임 쪽으로 날아가는 중. 바닥 위에서 또렷하다.
+  - 폭발: 맨 왼쪽 아래 슬라임 위. 보라 몸 위에서 또렷하지만 아래쪽이 하단 HUD에 조금 잘린다(놓은 자리 탓).
+- 사용자 판정 대기: 네 장이 견본 3번 그림체로 읽히는지, 화살·볼트가 게임 크기에서 너무 작지 않은지(대기열 human 검사).

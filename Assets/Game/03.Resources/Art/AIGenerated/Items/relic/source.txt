@@ -1,0 +1,31 @@
+# relic.png — 출처
+
+- 무엇: 시작 아이템 치유 성물(relic) 가방 아이콘. 아이콘 그림체 견본 묶음(sword·shortbow·firestaff·relic) 중 하나. 칸 모양 (0,0)(1,0)(2,0)(1,1)(docs/features/f3-combat/plan.md C절), 밑그림 docs/art/items/relic.svg.
+- 규격: 48x32 캔버스(1칸 16x16), 칸 모양에 없는 칸은 투명. 외곽선 #34140e 1px(K5), 기준서 3.5 r2 팔레트 색만 씀. 알파 0/255만.
+- sha256: 96574122a6b9385207c9cb6d49173593037874f152eaa564c5e9e90de27d09a5
+- 만든 날: 2026-11-17, 대기열 20261117-art-samples 항목 icons-start(시도 1), /2d-art-produce "기준 그림이 없는 새 종류" 길
+- 채택: 2026-11-17 디렉터 대신 후보 고르기(director-game autonomy 3절: 격자 확인·fringe PASS·이름 가림 판독 PASS 중 최선), 사용자 판정 대기
+- 지난 시도(대기열 20261116-art-icons) 2회차 설정 A, 결과 2장 중 1번째 — 이번 시도는 다시 생성하지 않고 그 통과 후보를 썼다
+
+## 도구
+- 생성: codex-cli 0.167.2, 모델 gpt-6.1-sol(추론 medium), 내장 이미지 도구 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1e096-cd23-7d40-b52c-81a866f24b67
+- 원본: output/2d-art/items-start/gen2/relic_A/relic_r2a_1.png sha256 3a7361580a74526b15e314fecabf561a940e947d5aa3411efc48bd67d3f68f09
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c model_reasoning_effort="medium" -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null (art-tools.md)
+
+## 참고 그림 (sha256, -i 순서)
+1. output/2d-art/items-start/r2/guide2_relic.png 702a52ac6e2b2482cf4029e44143bec81720a2657a82db30513e3156802b4eeb — 고칠 그림(지난 1회차 고른 그림을 목표 격자로 내려 32배)
+2. output/2d-art/items-start/gen/relic_A/relic_r1a_1.png 48d2d89cd9a41c93914a8cd23e9f6ae867a722f0b53755d09087dfebf6807e95 — 지난 1회차 원본(디자인 참고)
+
+## 최종 프롬프트 (Codex에 보낸 그대로)
+[items-start-relic-r2A] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. Two images are attached: the first is the image to edit, the second is the detailed design of the same item.
+Copy the two results from the generated images folder into the current working folder as relic_r2a_1.png and relic_r2a_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Edit the first reference image. It is a 48x32 pixel inventory icon enlarged so that every pixel is one 32x32 flat block (canvas 1536x1024). Keep exactly this pixel grid: the same block size, the same canvas size and aspect ratio, the same silhouette and position; every final pixel must be one clean 32x32 single-colour block aligned to the grid, never smaller details. Repaint the blocks cleanly so the item matches the second reference: a golden holy healing relic: white-and-gold angel wings spread across the full top 48x16 band from a round golden centrepiece holding a glowing green gem; a short golden handle with a round base in the bottom-middle 16x16 square only. Bottom-left and bottom-right squares stay empty magenta. 1-block dark brown outline (#34140e, not black) around the whole item, flat 2-3 tone shading, no anti-aliasing, no gradients. Flat solid #ff00ff magenta background everywhere outside the item. No text, no UI, no frame, no grid lines.
+
+## 후처리
+- 지난 시도 post.py: pixelize.py one (--palette 출발 팔레트 + --extra 3, 그 추가색은 기준서 3.5 r2에 적힘) → 48x32 캔버스에 놓고 칸 모양 밖 칸 투명. 이번에 쓴 색이 모두 r2 팔레트 안인지 다시 확인함
+- 확인: pixelize.py grid — 칸 크기 32px 격자에 맞음(원본 블록 약 32px). matte.py fringe --key '#ff00ff': PASS relic.png: key #ff00ff, spill 0 px, edge 0 px, stray 0 px (allow 0)
+- measure.py는 쓰지 않음(아이콘 그림체 identity 없음, 지시대로). 판정: 이름 가림 판독 PASS(빗금을 고친 그림으로 다시 본 2장 중 최선): "Winged scepter… larger green orb… gold knob" — 4칸 모두 채움, 한 물건, 외곽선 깨끗
+- 판독: Claude(Opus) 하위 에이전트, 파일 이름 가림, 칸 격자·빗금(칸 모양 밖) 위 10배 그림. PASS = 기준과 어긋나지 않음, 자연스러움·그림체 채택은 사용자 판정

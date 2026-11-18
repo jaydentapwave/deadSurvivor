@@ -1,0 +1,68 @@
+{
+ "schema": "2d-identity/1",
+ "id": "bolt",
+ "ref": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/front/bolt_front.png",
+ "ref_sha256": "1bf294037b5cd5661b8f05c3d8d68c5325d7f049ae610ae82546bc20151d3e37",
+ "approved": "2026-11-15 — 디렉터 대신 채택(director-game autonomy 3절), 사용자 판정 대기",
+ "note": "볼트(사제, 게임 기획서 A1, 직업색 흰·금, 치유 성물 = 등불) 앞 3/4(오른쪽 아래를 봄, 기준서 K14). 64x64 캔버스, 키 48px, 피벗 발 가운데(캔버스 아래 가운데). 기준 그림은 게임 해상도 도트 그림 자체다. box_rel은 그림 bbox(30x48) 기준. 같은 흰색(#fff9ed)은 두건(hood)과 로브(robe)로 나눴다. 금발(#e4b87d)과 피부(#f8daac)는 색이 가까워(dE 약 11) lab_tol 5로 좁혔다.",
+ "width_part": "hood",
+ "outline_exclude": [],
+ "parts": {
+  "hood": {
+   "hex": "#fff9ed",
+   "box_rel": [
+    0.0,
+    0.0,
+    1.0,
+    0.17
+   ]
+  },
+  "robe": {
+   "hex": "#fff9ed",
+   "box_rel": [
+    0.0,
+    0.68,
+    1.0,
+    0.95
+   ]
+  },
+  "hair": {
+   "hex": "#e4b87d",
+   "lab_tol": 5,
+   "box_rel": [
+    0.4,
+    0.15,
+    1.0,
+    0.36
+   ]
+  },
+  "skin": {
+   "hex": "#f8daac",
+   "lab_tol": 5,
+   "box_rel": [
+    0.37,
+    0.2,
+    0.85,
+    0.62
+   ]
+  },
+  "backpack": {
+   "hex": "#af642e",
+   "box_rel": [
+    0.0,
+    0.2,
+    0.3,
+    0.72
+   ]
+  },
+  "lantern": {
+   "hex": "#ffe08a",
+   "box_rel": [
+    0.63,
+    0.56,
+    0.9,
+    0.78
+   ]
+  }
+ }
+}

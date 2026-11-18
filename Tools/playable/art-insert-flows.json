@@ -1,0 +1,411 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "sizes": [
+    [
+      1920,
+      1080
+    ],
+    [
+      2340,
+      1080
+    ],
+    [
+      2520,
+      1080
+    ],
+    [
+      2048,
+      1536
+    ]
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "L1",
+      "name": "로비 카드 4장이 초상 그림",
+      "wait": "PlayableProbe.Screen == \"Lobby\"",
+      "expect": "PlayableProbe.CardPortraitCount == 4",
+      "capture": "all"
+    },
+    {
+      "id": "B1",
+      "name": "전투 시작, 대원 4명 그림·앞 오른쪽 (캡처 중 시간 정지, GNDR에서 재개)",
+      "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart(); UnityEngine.Time.timeScale = 0f;",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
+      "expect": "PlayableProbe.MemberSpriteCount == 4 && PlayableProbe.MemberFacing(0) == \"down-right\" && PlayableProbe.MemberFacing(1) == \"down-right\" && PlayableProbe.MemberFacing(2) == \"down-right\" && PlayableProbe.MemberFacing(3) == \"down-right\"",
+      "capture": "all"
+    },
+    {
+      "id": "GND",
+      "name": "바닥: 임시 마름모 0, 풀·흙길 타일이 화면에 있음(바닥 넣기 T1·T2·T5). 4화면비 캡처 동안 게임 시간 멈춤(웨이브 1 시간을 뒤 방향 단계에 남김)",
+      "do": "UnityEngine.Time.timeScale = 0f;",
+      "expect": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.PlaceholderGroundTileCount == 0 && PlayableProbe.GroundTileCount(\"grass_\", true) > 0 && PlayableProbe.GroundTileCount(\"path_\", true) > 0 && PlayableProbe.FieldGroundVisibleCount > 0",
+      "capture": "all"
+    },
+    {
+      "id": "GNDR",
+      "name": "게임 시간 다시 1배",
+      "do": "UnityEngine.Time.timeScale = 1f;"
+    },
+    {
+      "id": "DR",
+      "name": "오른쪽 아래 이동 → 앞·오른쪽",
+      "do": "PlayableProbe.SetMove(1f, -1f);",
+      "sleep": 0.5,
+      "expect": "PlayableProbe.MemberFacing(0) == \"down-right\" && PlayableProbe.MemberFacing(1) == \"down-right\" && PlayableProbe.MemberFacing(2) == \"down-right\" && PlayableProbe.MemberFacing(3) == \"down-right\"",
+      "capture": true
+    },
+    {
+      "id": "DL",
+      "name": "왼쪽 아래 이동 → 앞·왼쪽",
+      "do": "PlayableProbe.SetMove(-1f, -1f);",
+      "sleep": 0.5,
+      "expect": "PlayableProbe.MemberFacing(0) == \"down-left\" && PlayableProbe.MemberFacing(1) == \"down-left\" && PlayableProbe.MemberFacing(2) == \"down-left\" && PlayableProbe.MemberFacing(3) == \"down-left\"",
+      "capture": true
+    },
+    {
+      "id": "UL",
+      "name": "왼쪽 위 이동 → 뒤·왼쪽",
+      "do": "PlayableProbe.SetMove(-1f, 1f);",
+      "sleep": 0.5,
+      "expect": "PlayableProbe.MemberFacing(0) == \"up-left\" && PlayableProbe.MemberFacing(1) == \"up-left\" && PlayableProbe.MemberFacing(2) == \"up-left\" && PlayableProbe.MemberFacing(3) == \"up-left\"",
+      "capture": true
+    },
+    {
+      "id": "UR",
+      "name": "오른쪽 위 이동 → 뒤·오른쪽",
+      "do": "PlayableProbe.SetMove(1f, 1f);",
+      "sleep": 0.5,
+      "expect": "PlayableProbe.MemberFacing(0) == \"up-right\" && PlayableProbe.MemberFacing(1) == \"up-right\" && PlayableProbe.MemberFacing(2) == \"up-right\" && PlayableProbe.MemberFacing(3) == \"up-right\"",
+      "capture": true
+    },
+    {
+      "id": "R",
+      "name": "가로 이동 → 앞·뒤 유지",
+      "do": "PlayableProbe.SetMove(1f, 0f);",
+      "sleep": 0.5,
+      "expect": "PlayableProbe.MemberFacing(0) == \"right\" && PlayableProbe.MemberFacing(1) == \"right\" && PlayableProbe.MemberFacing(2) == \"right\" && PlayableProbe.MemberFacing(3) == \"right\""
+    },
+    {
+      "id": "STOP",
+      "name": "멈춤 → 방향 유지, 대기 두 프레임",
+      "do": "PlayableProbe.SetMove(0f, 0f);",
+      "sleep": 1,
+      "expect": "PlayableProbe.MemberFacing(0) == \"right\" && PlayableProbe.MemberFacing(1) == \"right\" && PlayableProbe.MemberFacing(2) == \"right\" && PlayableProbe.MemberFacing(3) == \"right\" && PlayableProbe.IdleOffsetsSeen == 2",
+      "capture": true
+    },
+    {
+      "id": "END1",
+      "name": "B1 판(적 0) 끝까지 → 결과(로비 복귀는 결과에서만, 설계 DR-01)",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 90
+    },
+    {
+      "id": "MON",
+      "name": "웨이브 6에서 산 몬스터 모두 그림, 임시 도형 0",
+      "do": "PlayableProbe.StopBot(); PlayableProbe.PressToLobby(); PlayableProbe.UseRunSettings(13, 0.2f); PlayableProbe.UseRealTimeAtWave(6); UnityEngine.Time.timeScale = 20f; PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 6 && PlayableProbe.AliveBehaviorKinds == 5",
+      "timeout": 120,
+      "expect": "PlayableProbe.MonsterSpriteCount == PlayableProbe.EnemyCount && PlayableProbe.PlaceholderBodyCount == 0",
+      "capture": "all"
+    },
+    {
+      "id": "PERFREC-START",
+      "name": "기록 전용 — 판정 아님: 웨이브 6 표본 시작",
+      "do": "PlayableProbe.MarkFrameStats();",
+      "sleep": 3
+    },
+    {
+      "id": "PERFREC-WRITE",
+      "name": "기록 전용 — 판정 아님: 성능은 아트 적용 뒤 7단계에서 판단",
+      "do": "PlayableProbe.WritePerfRecord(\"Logs/playable/perf-wave6.json\");"
+    },
+    {
+      "id": "END2",
+      "name": "웨이브 6 판 끝까지 → 결과",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120
+    },
+    {
+      "id": "HIT",
+      "name": "1배 시간 새 판(시드 5, 적 수 배율 3)에서 피격 번쩍임 1회 이상, 한 번이 0.11초 이하",
+      "do": "PlayableProbe.StopBot(); PlayableProbe.PressToLobby(); UnityEngine.Time.timeScale = 1f; PlayableProbe.UseRunSettings(5, 3f); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.MemberHitFlashTotal >= 1 && PlayableProbe.MemberFlashMaxSeconds > 0f",
+      "timeout": 60,
+      "expect": "PlayableProbe.MemberFlashMaxSeconds > 0f && PlayableProbe.MemberFlashMaxSeconds <= 0.11f",
+      "capture": true
+    },
+    {
+      "id": "END3",
+      "name": "HIT 판 끝까지 → 결과",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120
+    },
+    {
+      "id": "DOWN",
+      "name": "1배 새 판(시드 5, 적 수 배율 3)에서 대원이 쓰러지면 쓰러진 그림, 0.3초 뒤 어두운 채(T1)",
+      "do": "PlayableProbe.StopBot(); PlayableProbe.PressToLobby(); UnityEngine.Time.timeScale = 1f; PlayableProbe.UseRunSettings(5, 3f); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.FirstDownMember >= 0",
+      "timeout": 60
+    },
+    {
+      "id": "DIM",
+      "name": "쓰러진 대원: 쓰러진 그림·어두움·HP 막대 없음(T1)",
+      "sleep": 0.5,
+      "expect": "PlayableProbe.FirstDownMember >= 0 && PlayableProbe.MemberSpriteName(PlayableProbe.FirstDownMember).EndsWith(\"_downed\") && PlayableProbe.MemberBodyBrightness(PlayableProbe.FirstDownMember) < 0.5f",
+      "capture": true
+    },
+    {
+      "id": "REVIVE",
+      "name": "정비에서 모두 부활 → 다음 웨이브 전투에서 4명 모두 서 있는 그림·밝기 1(T1)",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 60
+    },
+    {
+      "id": "STAND",
+      "name": "부활 뒤 웨이브 2 전투, 4명 서 있는 그림(T1)",
+      "do": "UnityEngine.Time.timeScale = 1f; for (var i = 0; i < 4; i++) { if (PlayableProbe.CanRevive(i)) { PlayableProbe.PressRevive(i); } } PlayableProbe.PressNextWave();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 2 && PlayableProbe.AliveCount == 4",
+      "timeout": 30,
+      "expect": "!PlayableProbe.MemberSpriteNames.Contains(\"_downed\") && PlayableProbe.MemberBodyBrightness(0) == 1f && PlayableProbe.MemberBodyBrightness(1) == 1f && PlayableProbe.MemberBodyBrightness(2) == 1f && PlayableProbe.MemberBodyBrightness(3) == 1f",
+      "capture": true
+    },
+    {
+      "id": "WIPE",
+      "name": "그 판을 끝까지(이동 없음) → 패배, 4명 모두 각자의 쓰러진 그림(T1)",
+      "do": "UnityEngine.Time.timeScale = 20f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120,
+      "expect": "PlayableProbe.Outcome == \"Lose\" && PlayableProbe.MemberSpriteNames == \"bruno_downed,lena_downed,mira_downed,bolt_downed\""
+    },
+    {
+      "id": "W6",
+      "name": "예고 확인 판(시드 13, 적 수 배율 0.2) 웨이브 6까지 → 1배 시간, 예고 표본 시작",
+      "do": "PlayableProbe.StopBot(); PlayableProbe.PressToLobby(); PlayableProbe.UseRunSettings(13, 0.2f); PlayableProbe.UseRealTimeAtWave(6); UnityEngine.Time.timeScale = 20f; PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 6",
+      "timeout": 120
+    },
+    {
+      "id": "TEL1",
+      "name": "멧돼지 돌진 예고(T2) 시작, 화면 안쪽에 보이는 프레임에 게임 시간 멈춤(명령 왕복 약 1초가 예고 0.8초보다 길다)(예고 표본 시작)",
+      "do": "PlayableProbe.MarkWarnings();",
+      "wait": "PlayableProbe.PauseAtWarningOnScreen(\"boar_telegraph\")",
+      "timeout": 60
+    },
+    {
+      "id": "TEL1C",
+      "name": "멧돼지 돌진 예고(T2) 중 캡처 1(게임 시간 멈춘 채)",
+      "sleep": 0.3,
+      "expect": "PlayableProbe.WarningOnScreenCount(\"boar_telegraph\") >= 1",
+      "capture": true
+    },
+    {
+      "id": "TEL2",
+      "name": "게임 시간 0.15초만 흘리고 다시 멈춤 → 같은 예고가 아직 화면에",
+      "do": "PlayableProbe.AdvanceGameTime(0.15f);",
+      "sleep": 0.6,
+      "expect": "UnityEngine.Time.timeScale == 0f && PlayableProbe.WarningOnScreenCount(\"boar_telegraph\") >= 1"
+    },
+    {
+      "id": "TEL2C",
+      "name": "멧돼지 돌진 예고(T2) 중 캡처 2(게임 시간 멈춘 채)",
+      "sleep": 0.3,
+      "expect": "PlayableProbe.WarningOnScreenCount(\"boar_telegraph\") >= 1",
+      "capture": true
+    },
+    {
+      "id": "TEL3",
+      "name": "예고가 끝나 돌진 → 평소 그림으로 돌아옴, 예고 그림 0.5초 이상, 흔들림 0·+1px 두 자리(T2)",
+      "do": "UnityEngine.Time.timeScale = 1f;",
+      "wait": "PlayableProbe.WarningReturnedCount(\"boar_telegraph\") >= 1",
+      "timeout": 30,
+      "expect": "PlayableProbe.WarningMaxSeconds(\"boar_telegraph\") >= 0.5f && PlayableProbe.WarningShakeOffsetsSeen(\"boar_telegraph\") == 2",
+      "capture": true
+    },
+    {
+      "id": "INF1",
+      "name": "가시복 자폭 점화(T3) 시작, 화면 안쪽에 보이는 프레임에 게임 시간 멈춤(명령 왕복 약 1초가 예고 0.8초보다 길다)(예고 표본 시작)",
+      "wait": "PlayableProbe.PauseAtWarningOnScreen(\"puffer_inflate\")",
+      "timeout": 60
+    },
+    {
+      "id": "INF1C",
+      "name": "가시복 자폭 점화(T3) 중 캡처 1(게임 시간 멈춘 채)",
+      "sleep": 0.3,
+      "expect": "PlayableProbe.WarningOnScreenCount(\"puffer_inflate\") >= 1",
+      "capture": true
+    },
+    {
+      "id": "INF2",
+      "name": "게임 시간 0.15초만 흘리고 다시 멈춤 → 같은 예고가 아직 화면에",
+      "do": "PlayableProbe.AdvanceGameTime(0.15f);",
+      "sleep": 0.6,
+      "expect": "UnityEngine.Time.timeScale == 0f && PlayableProbe.WarningOnScreenCount(\"puffer_inflate\") >= 1"
+    },
+    {
+      "id": "INF2C",
+      "name": "가시복 자폭 점화(T3) 중 캡처 2(게임 시간 멈춘 채)",
+      "sleep": 0.3,
+      "expect": "PlayableProbe.WarningOnScreenCount(\"puffer_inflate\") >= 1",
+      "capture": true
+    },
+    {
+      "id": "INF3",
+      "name": "점화가 끝남(폭발) → 부푼 그림 0.5초 이상, 흔들림 0·+1px 두 자리(T3)",
+      "do": "UnityEngine.Time.timeScale = 1f;",
+      "wait": "PlayableProbe.WarningEndedCount(\"puffer_inflate\") >= 1",
+      "timeout": 30,
+      "expect": "PlayableProbe.WarningMaxSeconds(\"puffer_inflate\") >= 0.5f && PlayableProbe.WarningShakeOffsetsSeen(\"puffer_inflate\") == 2"
+    },
+    {
+      "id": "END4",
+      "name": "예고 확인 판 끝까지 → 결과(예고 시작·끝 시각 기록을 Logs/playable/warning-log.txt에)",
+      "do": "PlayableProbe.WriteWarningLog(\"Logs/playable/warning-log.txt\"); UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120
+    },
+    {
+      "id": "LOBBY",
+      "name": "로비로",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.PressToLobby();",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "FXPREP",
+      "name": "효과 확인 장비 준비: 정상 웨이브 1 종료 → 정비(검증용 전리품은 다음 단계에서 지급)",
+      "do": "PlayableProbe.UseRunSettings(13, 1f); UnityEngine.Time.timeScale = 20f; PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 45
+    },
+    {
+      "id": "FXGEAR",
+      "name": "도끼·쇠뇌·번개·향로: 전리품 지급 API와 가방 드롭 입력으로 장착(기존 시작 장비 유지)",
+      "do": "PlayableProbe.GrantAndEquipEffectTrialItem(\"axe\", 0); PlayableProbe.GrantAndEquipEffectTrialItem(\"crossbow\", 1); PlayableProbe.GrantAndEquipEffectTrialItem(\"wand\", 2); PlayableProbe.GrantAndEquipEffectTrialItem(\"censer\", 3); PlayableProbe.MarkWarnings(); PlayableProbe.UseRealTimeAtWave(2); PlayableProbe.PressNextWave(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 2",
+      "timeout": 60,
+      "expect": "PlayableProbe.HasBattleItem(0,\"axe\") && PlayableProbe.HasBattleItem(1,\"crossbow\") && PlayableProbe.HasBattleItem(2,\"wand\") && PlayableProbe.HasBattleItem(3,\"censer\")"
+    },
+    {
+      "id": "FX1",
+      "name": "효과 화면 확인: slash_sword (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"slash_sword\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"slash_sword\") > 0 && PlayableProbe.EffectShownCount(\"slash_sword\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX2",
+      "name": "효과 화면 확인: slash_axe (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"slash_axe\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"slash_axe\") > 0 && PlayableProbe.EffectShownCount(\"slash_axe\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX3",
+      "name": "효과 화면 확인: arrow (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"arrow\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"arrow\") > 0 && PlayableProbe.EffectShownCount(\"arrow\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX4",
+      "name": "효과 화면 확인: crossbow_bolt (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"crossbow_bolt\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"crossbow_bolt\") > 0 && PlayableProbe.EffectShownCount(\"crossbow_bolt\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX5",
+      "name": "효과 화면 확인: fireball (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"fireball\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"fireball\") > 0 && PlayableProbe.EffectShownCount(\"fireball\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX6",
+      "name": "효과 화면 확인: explosion (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"explosion\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"explosion\") > 0 && PlayableProbe.EffectShownCount(\"explosion\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX7",
+      "name": "효과 화면 확인: lightning (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"lightning\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"lightning\") > 0 && PlayableProbe.EffectShownCount(\"lightning\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX8",
+      "name": "효과 화면 확인: hit_star (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"hit_star\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"hit_star\") > 0 && PlayableProbe.EffectShownCount(\"hit_star\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FXHIT2",
+      "name": "피격 별 연속 표본: 0.05초 진행 뒤 같은 화면의 남은 별",
+      "do": "PlayableProbe.ArmEffectCapture(\"hit_star\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "expect": "PlayableProbe.EffectVisibleCount(\"hit_star\") > 0",
+      "capture": true,
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 30
+    },
+    {
+      "id": "FX9",
+      "name": "효과 화면 확인: heal_single (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"heal_single\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"heal_single\") > 0 && PlayableProbe.EffectShownCount(\"heal_single\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FX10",
+      "name": "효과 화면 확인: heal_area (실제 활성 수·표시 횟수, 캡처 동안 시간 멈춤)",
+      "do": "PlayableProbe.ArmEffectCapture(\"heal_area\", \".director/evidence/20261117-insert-fx/1/1/effect-states\");",
+      "wait": "PlayableProbe.IsEffectCaptureReady",
+      "timeout": 45,
+      "expect": "PlayableProbe.EffectVisibleCount(\"heal_area\") > 0 && PlayableProbe.EffectShownCount(\"heal_area\") > 0",
+      "capture": true
+    },
+    {
+      "id": "FXEND",
+      "name": "효과 확인 판 끝까지",
+      "do": "UnityEngine.Time.timeScale = 20f;",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120
+    },
+    {
+      "id": "FXLOBBY",
+      "name": "로비로, 효과 풀 반환",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.PressToLobby();",
+      "wait": "PlayableProbe.Screen == \"Lobby\"",
+      "expect": "PlayableProbe.EffectVisibleCount(\"hit_star\") == 0 && PlayableProbe.EffectVisibleCount(\"lightning\") == 0"
+    }
+  ]
+}

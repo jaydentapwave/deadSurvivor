@@ -1,0 +1,80 @@
+{
+ "schema": "reference-manifest/1",
+ "reference": "hd2d-ui-octopath-20261118",
+ "kind": "OCTOPATH TRAVELER(1·2) 공식 Steam 상점 스크린샷 중 UI(전투 명령 창·체력 표시·기술 이름 판·약점 칸·메뉴 판넬·버튼)가 잘 보이는 것. UI 형태 언어를 본다",
+ "mode": "follow — UI 형태 언어(판넬 바탕·테두리·모서리 장식·글꼴 계열·색·아이콘 크기·배치 밀도)를 따른다. 실제 UI 그림·글꼴 파일·아이콘·로고·문구는 가져오지 않는다",
+ "decided_by": "사용자 2026-11-18 \"이미지 래퍼런스 나왔으니 ui도 해당 3d 래퍼런스랑 동일한 디자인이면 좋을것 같아\"",
+ "external_send": "금지 — 생성 입력(Codex·이미지 생성 등)이나 게임 에셋, 따라 그릴 원본으로 쓰지 않는다. 외부 서비스에 올리지 않는다",
+ "related": [
+  "hd2d-bg-octopath-20261118의 OT-S005~S009(전투 HUD·명령 창·4인 상태 목록이 보임)는 다시 받지 않고 id로 참조한다. 특히 OT-S008(명령 창), OT-S009(2편 4인 상태 목록), OT-S005·S007(기술 이름 판)",
+  "hd2d-study-20261117의 HD-R005~R007(옥토패스 탐험 화면)은 UI가 말풍선 아이콘뿐이라 참조만 한다"
+ ],
+ "screened": "두 게임 상점 스크린샷 23장 중 이미 있는 13장(OT-S001~S010, HD-R005~R007)을 빼고 남은 10장을 받아 훑었다. UI가 없는 마을·실내 4장(1편 2·5·11·16번)과 OU-S003·S005와 겹치는 효과 전투 1장(1편 15번)을 빼고 5장을 골랐다. 고르지 않은 원본은 저장소 밖 임시 폴더에만 두었다",
+ "items": [
+  {
+   "id": "OU-S001",
+   "title": "메뉴: 화면 가운데 세로 띠 판넬(반투명 검정), 머리줄·밑줄, 도트 인물+항목:값 줄, 가운데 마름모 구분선, 예/아니요 육각 버튼과 손가락 커서, 아래 도움말 띠",
+   "game": "OCTOPATH TRAVELER II",
+   "file": "output/reference/hd2d-ui-octopath-20261118/OU-S001-ot2-duel-confirm-dialog.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 225627,
+   "sha256": "7655b195c827ed02fa267cdc1456b1c21a6e65b6a7477a2b40977cbb5405c64f",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1971650/ss_dd347306294990fbb93e88a9fb6d694a7a2eec13.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/1971650/ (공식 Steam 상점 스크린샷 2번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OU-S002",
+   "title": "전투 HUD: 왼쪽 위 순서 마름모 초상, 오른쪽 위 행동 대원 이름·BP 점·HP 막대, 적 발밑 방패 숫자·약점 칸(실내, 밝은 바닥 위)",
+   "game": "OCTOPATH TRAVELER",
+   "file": "output/reference/hd2d-ui-octopath-20261118/OU-S002-ot1-manor-battle-hud.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 508781,
+   "sha256": "a80fdb559e0417e8dc0679c16ac38493a1812426c6a8c78b5345cf2fa6dbdf68",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921570/ss_1f77510857d899639f49ea1da2bd55d7ea07e37a.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/921570/ (공식 Steam 상점 스크린샷 14번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OU-S003",
+   "title": "전투 HUD: 적 여럿의 약점 칸 3줄, WEAK·피해 숫자(세리프 기울임), 순서 막대",
+   "game": "OCTOPATH TRAVELER",
+   "file": "output/reference/hd2d-ui-octopath-20261118/OU-S003-ot1-multi-enemy-weak-hud.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 477453,
+   "sha256": "b02a4bf9b50c2ba6483e071f4d004a746d4fd0673a87538eae03f228c6842a0a",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921570/ss_f2d62d746b4733802516c7f76120246ee3e29327.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/921570/ (공식 Steam 상점 스크린샷 3번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OU-S004",
+   "title": "전투 HUD: 기술 이름 판(가운데 위), 큰 피해 숫자(세리프 기울임·붉은 외곽), 행동 대원 판",
+   "game": "OCTOPATH TRAVELER",
+   "file": "output/reference/hd2d-ui-octopath-20261118/OU-S004-ot1-skill-name-banner.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 316620,
+   "sha256": "556bff8b99371c0fcfbcedae7058266a8748b61d38865c7fec75c23577698109",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921570/ss_3484779b5058b6bfac043604c2c831c522435c45.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/921570/ (공식 Steam 상점 스크린샷 4번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  },
+  {
+   "id": "OU-S005",
+   "title": "전투 HUD: 기술 이름 판의 모서리 꺾쇠와 별 장식, NEXT TURN 순서 줄, 밤 물가",
+   "game": "OCTOPATH TRAVELER",
+   "file": "output/reference/hd2d-ui-octopath-20261118/OU-S005-ot1-skill-name-star-hud.jpg",
+   "width": 1920,
+   "height": 1080,
+   "bytes": 407757,
+   "sha256": "ac86d0e55eb8396424d9d547ff5452ac810e101c66c154e5078ddc7edf2a5f00",
+   "source": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921570/ss_b601b741b6b44c09bc74e8049db30ebaa6813a22.1920x1080.jpg",
+   "source_page": "https://store.steampowered.com/app/921570/ (공식 Steam 상점 스크린샷 7번, appdetails API로 목록 확인)",
+   "retrieved": "2026-11-18"
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "quiver",
+  "name": "화살통",
+  "mode": "passive",
+  "shape": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 0
+    }
+  ],
+  "power": 0,
+  "interval": 0,
+  "range": 0,
+  "baseEffect": "haste",
+  "baseValue": 0.05,
+  "bonusEffect": "haste",
+  "bonusValue": 0.15,
+  "bonusTarget": "projectile",
+  "bonusNeedsAdjacent": true,
+  "effectInterval": 0,
+  "effectRadius": 0,
+  "icon": "quiver"
+}

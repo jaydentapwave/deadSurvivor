@@ -1,0 +1,9 @@
+{
+  "tiltDegrees": 30,
+  "distance": 20,
+  "nearClip": 0.3,
+  "farClip": 60,
+  "targetFraction": 0.1,
+  "minScale": 1,
+  "facingHoldDegrees": 12
+}

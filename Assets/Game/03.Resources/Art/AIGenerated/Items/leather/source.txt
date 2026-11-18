@@ -1,0 +1,30 @@
+가죽 조끼 — 필수 지적 수정본 (독립 수정 확인 PASS, 사용자 채택 대기)
+도구: Codex 내장 image_gen. 호스트 gpt-6.1-sol, 이미지 백엔드 세부 모델 미노출. 세션01a1e8a5-c5b9-7aa1-8ff3-dc4c97910b8b.
+기준 커밋: 3ac0ed777e909905b43f73e13b6e0b534f4fa681. 시각UTC: 2026-11-17T08:54:31.976791+00:00
+분류: 2d-art-produce 기준 그림이 없는 새 종류. 기준서r5 K5/K11/K16, 3.3/3.5/3.7. plan.md C2의 가죽 조끼.
+규격: shape=[(0,0),(0,1),(1,1)], canvas32×32, 1칸16px, 진갈색 #34140e 외곽선1게임px. 팔레트3.5의 가죽3색 #5c493c #774c3b #d3ae90, 추가색0. PPU48 임포트 미실행.
+리뷰 수신: Claude 독립 판독 — VERDICT: FAIL
+리뷰 수신: spec-reviewer(Codex job20261117-174709-0fdaec) — VERDICT: FAIL
+원인: r1/r2 8장 전부 부츠로 판독. r2-c4 자기 판독의 '가죽 상의'는 독립 판독으로 부정됨. 칸 밖44px를 지워 어깨가 외곽선 없이 잘림. fill1px가 밖으로 튀고 가죽6톤이 얼룩짐.
+조치: 기존 대각선/부츠형 안내를 폐기. 리뷰가 제안한 왼쪽16×32열 정면 조끼(두 어깨·V목·양쪽 암홀·앞 단추·짧은 옷단)+오른쪽 아래 붙은 사각 주머니로 새 구성. 칸 밖 픽셀을 잘라 억지로 맞추지 않음. 새 안내부터 x≤14 안에 오른쪽 어깨 외곽선을 닫음. 최종 몸판은 짧고 넓게 잡음.
+수정 생성: 사용자2026-11-17 FAIL 수정 지시로 재개. 새 구성 r1 4장(설정A2/B2), 몸판이 길어 앞치마 가능성을 보고 r2 4장(설정A2/B2)으로 단축. 추가 생성 없음. 처음 생산2회+이번 수정2회, 총16후보를 보존. 수정 확인은 한 번만 요청.
+선정: leather-fix2-c2. 2톤A의 넓은 면과 중앙 여밈이 단순하고 주머니의 밝은 덮개가 분명함. 사용자 최종 채택을 뜻하지 않음. 독립 수정 확인은 아래 판정 참고.
+참고 입력과SHA256:
+- output/2d-art/icons-defense/leather-fix-guide2.png: b2200b65692f1e3089f296ef65343cfd599f07a570b84f2f66603c5098140b26
+- Assets/Game/03.Resources/Art/AIGenerated/Items/sword/sword.png: be5acae1e2c1425e69f560bf20d78fbe5a96224aadc9452af23e355fd2801c09
+- docs/game/concept-20261112/4-야영-가방.jpg: a59d728c1bb98800efa9854f7e0e8c040a2e45e747e9251bd943cf0a6e86a3f5
+원본: output/2d-art/icons-defense/leather-fix-r2.png sha256=1046a55318482b770c234b071039bc64dcf48472a8c089d4e072b8f23ef42c5c
+최종: Assets/Game/03.Resources/Art/AIGenerated/Items/leather/leather.png sha256=84d01739e5f75705afeb7bbdbadfed2213d1e269f45c597537e15cb97c56034f
+프롬프트:
+Use case: stylized-concept. EDIT the first reference image to refine four pixel-art inventory icons of the SAME BROWN LEATHER VEST. Preserve the guide's NEW composition exactly: a FRONT-FACING sleeveless vest entirely in the LEFT 16x32 logical-pixel column, BOTH shoulders, deep V neckline, TWO concave armholes, vertical button opening, horizontal short garment hem. A square utility pocket attached to its lower right waist fills the lower-right16x16 cell. The top-right16x16 cell is EMPTY solid #ff00ff. Keep BOTH shoulders within x1..14 of EACH32x32 icon, with one-pixel dark outline before missing-cell boundary x16. The right pocket is SQUARE with a flap and attached seam, not a long pointed extension. Do not use a diagonal torso, boot, shoe, laces, sole, foot or long thin leg shape. Guide is exact coarse pixel layout; change only slight surface shading and tidy silhouette, not positions, scale or grid. Each logical pixel is one full16x16 image-pixel square, 1024x1024 canvas =64x64 logical pixels, four32x32 icons in a2x2 arrangement. No smaller detail, antialiasing or gradients. Top pair A: same two-tone leather setting, two slight variations. Bottom pair B: same three-tone leather setting, two slight variations. Limit leather surfaces to #5c493c shadow, #774c3b midtone, #d3ae90 highlight, plus #34140e dark brown 1-logical-pixel outline. No other colors or mottled texture; broad flat 2-3-tone planes matching approved sword STYLE(second image). Tiny plain brown buttons only. Third image bag is material CONTEXT only; do not draw parchment, UI, scenery or text. All outer contours including armholes and the vertical right shoulder must be continuously bounded by ONE logical pixel #34140e, never bare fill against magenta. Flat magenta #ff00ff background. Single connected garment with attached pocket, no detached objects. Keep guide positions and empty top-right cells strictly. CRITICAL UPDATED GUIDE proportions: the LEFT vest is now SHORT and BROAD,14 logical pixels wide and21 high, shoulder row y6..8, hem y26. Keep this SHORT torso; do not stretch it into a long apron or robe. Use ordinary medieval sleeveless leather waistcoat construction, TWO BROAD SHOULDER PANELS, a V NECK, clearly curved armholes on both sides and a central BUTTON opening. Vest x1..14, attached square waist pocket x17..29/y17..29. Keep empty margin above y6, do not expand the object up to y0. Keep the exact guide's short hem. No belt across entire icon, no dangling straps or laces. The whole object silhouette has two upright shoulders, a broad boxy chest and short hem, plus a square pocket on its right waist.
+
+후처리: 실제1254×1254 캔버스 사분면 분할, pixelize.py native_grid→pixelize() 블록 최빈색→지정4색(외곽1+가죽3)으로 양자화. bbox 자동확대/비균등변형 안 함. 배경#ff00ff→alpha0, 나머지alpha255. 최종 후보 색=['#34140e', '#774c3b', '#d3ae90']. 선택본 shape밖 삭제0px, 외곽선 수정0px. 수정r1의 버린4장만 목경계 밝은1px를 갈색으로 닫음(기록에 보존).
+격자: [29, 23, 19.499999999999957, 0.47724878222521666]; 요청16px블록이 전체1254/1024배로 확대되어 실제19.5px, 논리칸 유지. bbox29×23은 상단 여백과짧은몸판 때문이며 캔버스32×32를 늘이지 않음.
+셀 불투명 비율=[0.414, 0.609, 0.676]; shape밖0px; alpha이진. fringe PASS(exit0). 4방향 투명경계의 칠색노출0px: 전체외곽 #34140e로 닫힘. (4,2)는 투명이며 칠색돌출 없음. 최종 실사용은 가죽 2톤 + 외곽선 1색(총3색). 생성 허용팔레트 가죽3색 중 #5c493c는 선정본에서 쓰이지 않음.
+이름가린 자기 판독: items-defense-fix-blind.png를 열어 확인. 넓은 두 어깨와V자목, 양쪽암홀·앞단추·짧은옷단의 민소매 상의 + 붙은주머니로 보임. 만든쪽 자기 판독이며 독립판정 아님. 최종 이름/그림체는 사용자 전달 Claude 수정 확인 PASS.
+measure.py compare NOT_RUN(새종류 identity없음, 지시상사용안함). paint/shape도 NOT_RUN. 팔레트·격자·칸·알파·외곽선·fringe 실측 기록은 checks.json fix에 있음.
+게임전체 확인: 그림체=채택sword, 각도=정면 가방물건, 크기=shape×16, 동작=정적, 이웃=양피지 가방PE-G004. 최신게임배치/화면비/성능/임포트/meta/데이터icon/장면/Play/사용자판정 NOT_RUN(에디터없는worktree, 범위밖).
+워크플로우 후보: fringe는 배경색번짐만 보므로 외곽선닫힘과이름판독을 대체못함. 지운칸경계 포함 투명경계 칠색노출 확인을 이번수정에 반영. 중복 팔레트/fringe 전면재실행은 후속에 생략가능, 수정그림만 재검사. 공통워크플로우문서 수정은 허용범위밖.
+독립 수정확인: 사용자 전달 Claude 이름 가림 판독 — VERDICT: PASS
+독립 수정확인: 사용자 전달 spec-reviewer(Codex gpt-6.1-sol) — VERDICT: PASS
+두 리뷰 모두 필수 수정 없음. 최초 FAIL은 위에 역사로 보존. Unity 가져오기/Play 미실행. 기록의 가죽 톤 수는 실제2톤으로 바로잡음. 비필수 후속: 주머니 윗 외곽선 y17–18의2px 부분을1px로 맞추는 일(이미지는 PASS 상태 유지).

@@ -1,0 +1,62 @@
+# bolt_back.png — 출처
+
+- 무엇: 볼트(사제, 게임 기획서 A1) 뒤 3/4 그림(오른쪽 위를 봄, 아트 기준서 K14). 같은 캐릭터의 앞 기준 그림은 ../front/bolt_front.png (identity bolt).
+- 규격: 64x64 캔버스, 그림 29x48(키 48px = 앞모습과 같음, 캔버스 y 16~63), 피벗 = 발 가운데 = 캔버스 아래 가운데(신발 가운데 x 32, 바닥 63줄). 알파 0/255만.
+- sha256: fe2a3da398f614860d1718313d10c21ea0388b5fbf4d82fc5db37f3e7169219c
+- 만든 날: 2026-11-16, 대기열 20261116-art-batch2 항목 bolt-back(시도 1), lena-back·mira-back과 같은 방법("기준 그림이 없는 새 종류" 길: 측정은 참고, 판독 + 사람 판정)
+- 채택: 디렉터 대신 채택(대기열 자동 실행, fringe PASS + 다른 계열 판독 1위), 사용자 판정 대기
+
+## 도구
+- 생성: codex-cli 0.167.2, 모델 gpt-6.1-sol (model_reasoning_effort medium), 내장 image_gen. 유료 크레딧 사용 없음
+- 채택본 생성 세션: 01a1dfc7-f084-73c3-ba9a-d1ed8a63ec30 (1회차 설정 A, 00:16 시작), 결과 2장 중 2번째 (bolt_r1a_2.png)
+- 설정 B 세션: 01a1dfc7-f084-7e42-bae0-aeff8e18a5c8
+- 실행: perl alarm 1200 + codex exec -m gpt-6.1-sol -c 'model_reasoning_effort="medium"' -s workspace-write -C <결과 폴더> "<프롬프트>" -i <참고 그림들> < /dev/null
+
+## 참고 그림 (sha256, 넣은 순서)
+1. 채택된 볼트 앞 그림 bolt_front.png 1bf294037b5cd5661b8f05c3d8d68c5325d7f049ae610ae82546bc20151d3e37
+   → 자홍 배경 16배 확대(1024x1024) ref1_bolt_front_x16.png 64fca1abd26f5c14c0a6e885a260439670e3d8109e5b8b7b513253e773cde261 (캐릭터·그림체)
+2. 채택된 브루노 뒤 그림 bruno_back.png 63412b437e51646ccfbf07ea17326a0dabcd9e5c4aee603ae1661411efc4c5ab
+   → 자홍 배경 16배 확대 ref2_bruno_back_x16.png 9f5b859b3203879fadb678702c1c8631905757d57a69391170cbd5953da8b6c6 (뒤 3/4 자세·배낭 모양)
+3. 컨셉 PE-G003 docs/game/concept-20261112/3-직업4종.jpg d96f1997c089f2453e1c8ef003879c07571924015c1bca30a6825dd0c9378e20
+   의 사제 부분 (1200,190,1530,680) 7232008b60ef93324b4d2a486ec5e8667d9c3df90ba8de6a50751ea40cfd419f (상세 디자인)
+4. (설정 B만) 앞 그림 실루엣 회색 16배 guide_silhouette_x16.png 59ece44103f7918ae84a75398e11d55388ae9480d7a99607757bf06888b7c841
+
+## 최종 프롬프트 (1회차 설정 A, Codex에 보낸 그대로)
+[bolt-back-r1a] Use your image generation tool (image_gen) to make 2 separate images (two independent generations) with the image prompt below. Three images are attached: the first is our adopted game sprite of the priest (front view), the second is our adopted sprite of another character seen from the back (pose reference only), the third is the concept art of the same priest.
+Copy the two results from the generated images folder into the current working folder as bolt_r1a_1.png and bolt_r1a_2.png. Do not edit, resize or post-process them. Reply with each saved path and its sha256.
+
+Image prompt:
+Draw the SAME character as the first reference, the small priest in a white hood and long white robe, seen from the BACK in a 3/4 back view: the priest has turned around and faces toward the upper-right of the picture (away from the viewer), standing idle, both feet on the ground. Character, colours, art style, proportions and outline come from the first image. The second image shows the 3/4 back pose of another character from our game in the same art style: copy its pose, its angle (turned toward the upper-right) and the way the big backpack covers the middle of the back. The third image is the concept art of the same priest for extra design detail.
+The first reference is a 64x64 pixel sprite enlarged so that every pixel is one 16x16 flat block (canvas 1024x1024). Use exactly this pixel grid: the same block size, the same canvas, the same head size and body proportions (big head, big hood), and the same feet position. The priest is exactly 48 blocks tall (from the soles of the shoes on the bottom row to the top of the hood), exactly as tall as in the first reference, and about 30-34 blocks wide including the candle and lantern, centered like the first reference.
+What is seen from behind: the back of the big white hood (#fff9ed, shade #e3d7c8) with its gold trim band (#e4b67e, dark #c2864d) covering the whole back of the head; a little golden-blonde hair (#e4b87d) at the side under the hood; no eyes and no mouth visible (at most a little cheek at the right edge of the head); the long white robe with wide sleeves and gold trim along the hem; the big brown leather backpack (#af642e, #774c3b, like the one in the first reference) now covers the middle of the back and is the main shape of the torso, with the lit white candle on its gold holder (small orange-yellow flame) rising above the backpack next to the hood; the glowing golden lantern (#ffe08a, #d6c074) that the priest holds in front with both hands peeks out at the RIGHT side of the picture, hanging at waist height; small light-brown shoes (#c9a264 with dark outline), seen from the heels, NOT red.
+Pixel rules: every block is ONE flat colour; no detail smaller than one block; no anti-aliasing, no gradients, no dithering, no soft edges. A 1-block dark brown outline (#34140e, not black) around the whole figure. Flat 2-3 tone shading; keep the white robe mostly white with few gold lines, not a busy pattern. No purple or magenta blocks inside the character.
+Background: flat solid #ff00ff everywhere outside the character. No grid lines, no text, no UI, no ground, no cast shadow.
+
+## 생성 원본 (Git 밖, output/2d-art/bolt-back/)
+- r1a (참고 1·2·3): bolt_r1a_1.png 8017c278… (격자 28x47), bolt_r1a_2.png ef625462b0030951388afeed1cb71063c7c60e0bb076955ff7ef4b0ec814e011 (채택, 격자 29x47, 격자 점수 0.30 LOW)
+- r1b (참고 1·2·3·4): bolt_r1b_1.png 12977986… (30x48), bolt_r1b_2.png d9bb8a71… (31x47)
+- 모두 1254x1254
+
+## 후처리
+1. pixelize.py grid --size 32x48 --bg-tol 100 → native grid 29x47 (block 19.7px, score 0.30 LOW). 낮은 점수라 결과를 x6로 직접 열어 한 칸 크기 부위(십자·버클·등불 창)가 뭉개지지 않았음을 확인.
+2. pixelize.py one --size 29x47 --palette <앞 그림과 같은 팔레트: 기준서 3.5 36색 + 강철 3색, output/2d-art/bolt-back/palette.json> --bg-tol 100
+   → 0e5ba265a2d6a330bbdf7de8e1dd54091658d40b2e69211bc1fc8a3d0e0bb575
+3. 키 48px 맞추기(lena·mira와 같은 stretch_row.py): 다리 높이(70~85%) 안에서 아래 줄과 가장 비슷한 37번 줄(차이 3px)을 한 번 더 넣음 → 29x48 (2046a008db70e264cd6985a602d51ac8b72ee1fef9394284891e382e47574b30). 로브 밑단이 1px 길어진다.
+4. 64x64 캔버스에 놓기(place.py 그대로): 맨 아래 3줄(신발) 가로 범위 가운데를 x 32에, 신발 바닥을 63줄에. 오프셋 (18,16). 다른 편집 없음.
+
+## 판정
+- 테두리 번짐 matte.py fringe --key '#ff00ff': PASS (spill 0, edge 0, stray 0). 후보 4장 모두 PASS
+- 키: 48px, 앞모습과 같은 줄(y 16)에서 두건 끝, 63줄에 발 — place.py 출력으로 확인
+- measure.py compare --id bolt --pose: FAIL — 참고 기록만(뒷모습은 얼굴·앞쪽 부위가 가려져 채택 판정에 쓰지 않음).
+  색은 잡힌 부위 모두 PASS(hood 0.08, robe 1.44, backpack 3.56, lantern 1.12, outline 색 2.93 / 허용 8).
+  FAIL: outline:stroke_ratio 0.1333 (ref 0.2222, tol 0.003) — 4후보 모두 FAIL(0.133~0.143, bruno·lena·mira-back과 같은 양상).
+  hair·skin NOT_ASSESSED(뒷모습에서 거의 안 보임), parts NOT_ASSESSED(identity에 fixed 부위 없음). 전체: output/2d-art/bolt-back/review/measure_adopted.txt, 시트 칸.
+- 다른 계열 판독(Claude sonnet 하위 에이전트, references/part-check.md, 이름 가린 cand_1~4, 채택본 = cand_2): PASS, 4후보 중 1위.
+  읽힌 것: 같은 캐릭터의 뒷모습, 흰 두건 정수리 금 십자와 오른쪽 금 테, 오른쪽 가장자리 금발, 등 가운데를 덮는 갈색 배낭(버클)과 왼쪽 위 촛불,
+  오른쪽 허리에 십자 등불, 밑단 금 줄·십자, 오른쪽 위를 보는 3/4, 얼굴처럼 보이는 무늬 없음, 발 2, 키는 앞모습과 약 1px 안(눈대중), 같은 그림체.
+  다른 후보: r1b_1 PASS 2위(배낭 아래 붉은 기, 왼쪽 주머니가 손처럼 모호), r1b_2 PASS 3위(두건·밑단 십자 없음), r1a_1 PASS 4위(배낭 붉게 치우침, 왼쪽 덩어리 모호).
+  판독은 x2(게임 크기)와 x6 그림을 모두 열었다고 밝혔다.
+- 만든 쪽 확인: 채택본 x6과 시트를 직접 열어 봄 — 두건·로브 색, 배낭이 등에, 촛불·등불이 보이고 앞모습과 키가 같다.
+- PASS = 기준과 어긋나지 않음. 자연스러움과 같은 캐릭터로 보이는지는 사람 판정이 본다.
+- 사용자 판정: 대기(게임 화면 짧은 Play·자리 적용은 이 항목 범위 밖)
+- 시트: docs/art/sheets/bolt-back.png (sheet.py pairs --ref bolt_front.png --size 144 --unverified "<뒷모습 측정은 참고 기록>") — 앞 채택본과 후보 4장

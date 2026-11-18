@@ -1,0 +1,23 @@
+{
+  "id": "wave04",
+  "order": 4,
+  "duration": 40,
+  "hasBurningTime": false,
+  "spawnCount": 201,
+  "hpScale": 1.036,
+  "damageScale": 1.3,
+  "typeWeights": [
+    {
+      "monster": "slime",
+      "weight": 68
+    },
+    {
+      "monster": "mushroom",
+      "weight": 20
+    },
+    {
+      "monster": "boar",
+      "weight": 12
+    }
+  ]
+}
