@@ -1,3 +1,4 @@
+// Native painted background lighting from Assets/Game/03.Resources/Art/HD2D/PixelSpriteLit.shader SHA256 62b98c9663935462ee12f2a7dcc7480d4adbe6ce83e7129eee469e6e43d3e85e
 // Source: Assets/Game/03.Resources/Art/HD2D/Round8/StableSpriteLit.shader SHA256 f0701ac97deae4f6d041567695cb83ca97e93db13d4a0513be14b8061c784a1f
 Shader "HD2D/HD2D_SpriteLit"
 {
@@ -8,6 +9,7 @@ Shader "HD2D/HD2D_SpriteLit"
         _SpriteRenderer ("SpriteRenderer data", Float) = 1
         _BaseColor ("Tint", Color) = (1,1,1,1)
         _Emission ("Emission", Range(0,4)) = 0
+        _BackgroundCard ("Native painted background card", Float) = 0
         _Dither ("Dither amount", Range(0,1)) = 0
         _HueShift ("Palette hue shift", Range(0,1)) = 0
     }
@@ -24,6 +26,7 @@ Shader "HD2D/HD2D_SpriteLit"
         half4 _BaseColor;
         float _Emission;
         float _Dither;
+        float _BackgroundCard;
         float _HueShift;
         float _SpriteRenderer;
         float _ReceiveShadows;
@@ -74,7 +77,7 @@ Shader "HD2D/HD2D_SpriteLit"
             Light sun = GetMainLight(TransformWorldToShadowCoord(i.positionWS));
             half diffuse = saturate(dot(normalize(float3(0,0.85,-0.53)),sun.direction));
             half3 ambient = half3(0.43,0.32,0.27);
-            diffuse = diffuse < .25 ? .58 : (diffuse < .68 ? .80 : 1.0);
+            diffuse = lerp(diffuse < .25 ? .58 : (diffuse < .68 ? .80 : 1.0), diffuse, _BackgroundCard);
             return half4(c.rgb * (ambient + sun.color * diffuse * lerp(1,step(.5,sun.shadowAttenuation),_ReceiveShadows)) + c.rgb * _Emission,1);
         }
         float3 _LightDirection;

@@ -93,6 +93,16 @@ public sealed class HD2DBackgroundRig : MonoBehaviour
         _backgroundCamera.targetTexture = _target;
     }
 
+#if UNITY_EDITOR
+    // Editor plate captures render the same background pipeline into an explicit main-camera target.
+    public void RenderBackgroundForCapture()
+    {
+        Sync();
+        RenderPipeline.SubmitRenderRequest(_backgroundCamera,
+            new UniversalRenderPipeline.SingleCameraRequest { destination = _target });
+    }
+#endif
+
     private void OnDisable()
     {
         RenderPipelineManager.beginContextRendering -= OnBeginContext;

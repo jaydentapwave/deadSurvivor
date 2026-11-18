@@ -63,7 +63,8 @@ Shader "HD2D/HD2D_FieldSurface"
             float3 cellNormal=normalize(i.n);
             float d=saturate(dot(cellNormal,sun.direction));
             float band=d<.25 ? .60 : d<.68 ? .82 : 1;
-            if (_Diagnostic>1.5) { output.color=_Category>2.5 && _Category<3.5 ? (i.n.y>.7 ? half4(1,0,0,1) : i.w.y>.31 ? half4(0,1,0,1) : half4(0,0,1,1)) : half4(0,0,0,1); return output; }
+            float finger=fmod(abs(cells.x+floor(cells.x/5)*3),9)<3 ? .055 : .018;
+            if (_Diagnostic>1.5) { output.color=_Category>2.5 && _Category<3.5 ? (i.n.y>.7 ? half4(1,0,0,1) : i.w.y<=.36-finger && i.w.y>.36-finger-1.0/48 ? half4(0,1,0,1) : i.w.y>.36-finger ? half4(0,0,0,1) : half4(0,0,1,1)) : half4(0,0,0,1); return output; }
             if (_Diagnostic>.5) { output.color=half4(SRGBToLinear(band.xxx),1); return output; }
             half3 c=grass;
             if (_Category>.5 && _Category<1.5)
@@ -82,7 +83,6 @@ Shader "HD2D/HD2D_FieldSurface"
             {
                 float2 soilUV=(floor(float2(i.w.x+i.w.z,i.w.y)*48)+.5)/128;
                 half3 soil=LinearToSRGB(SAMPLE_TEXTURE2D(_Soil,sampler_Soil,soilUV).rgb);
-                float finger=fmod(abs(cells.x+floor(cells.x/5)*3),9)<3 ? .055 : .018;
                 if (i.n.y>.7) c=grass;
                 else if (i.w.y>.36-finger) c=grass;
                 else if (i.w.y>.36-finger-1.0/48) c=saturate(grass*1.2);
