@@ -41,13 +41,27 @@ public class UI_PrepView : MonoBehaviour
         _layoutSize = size;
         // A landscape notch reduces usable height. Wide headers can share the
         // next-wave and member rows horizontally while retaining 44px hit areas.
-        var compact = size.y < 354 && size.x >= 580;
+        var root = (RectTransform)transform;
+        var stashRect = (RectTransform)stashView.transform;
+        // Use the visible panel edge, excluding children clipped by its viewport.
+        var stashTop = root.InverseTransformPoint(stashRect.TransformPoint(new Vector3(0, stashRect.rect.yMax, 0))).y;
+        var normalBagsOverlapStash = false;
+        foreach (var bag in bagViews)
+        {
+            var bagRect = (RectTransform)bag.transform;
+            var normalBottom = root.rect.yMax - 96 - bagRect.rect.height * bagRect.pivot.y;
+            normalBagsOverlapStash |= normalBottom < stashTop;
+        }
+        var compact = normalBagsOverlapStash && size.x >= 580;
         var header = (RectTransform)titleText.transform.parent;
         header.sizeDelta = new Vector2(0, compact ? 64 : 90);
         var anchor = new Vector2(compact ? 0 : 0.5f, 1);
         for (var i = 0; i < memberTexts.Length; i++)
         {
             var x = (compact ? 65 : -168) + i * 112;
+            var bag = (RectTransform)bagViews[i].transform;
+            bag.anchorMin = bag.anchorMax = anchor;
+            bag.anchoredPosition = new Vector2(x, compact ? -70 : -96);
             var member = memberTexts[i].rectTransform;
             member.anchorMin = member.anchorMax = anchor;
             member.anchoredPosition = new Vector2(x - 22, compact ? -42 : -58);
@@ -57,11 +71,6 @@ public class UI_PrepView : MonoBehaviour
             var revive = (RectTransform)reviveViews[i].transform;
             revive.anchorMin = revive.anchorMax = anchor;
             revive.anchoredPosition = new Vector2(x + 36, compact ? -42 : -68);
-        }
-        foreach (var bag in bagViews)
-        {
-            var rect = (RectTransform)bag.transform;
-            rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, compact ? -70 : -96);
         }
     }
 

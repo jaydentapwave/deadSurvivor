@@ -124,8 +124,45 @@ public class HudUiSceneTests
         }
     }
 
+    [TestCase(BattleItemState.Ready)]
+    [TestCase(BattleItemState.Disabled)]
+    public void BattleItemWithoutArtShowsClippedName(BattleItemState state)
+    {
+        var scene = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        var source = Array.Find(scene.GetRootGameObjects(), r => r.GetComponentInChildren<UI_BattleHudView>(true) != null).GetComponentInChildren<UI_BattleHudView>(true).MemberStatusViews[0].BattleItemViews[0];
+        var canvas = new GameObject("FallbackNameTest", typeof(Canvas));
+        var clone = UnityEngine.Object.Instantiate(source, canvas.transform);
+        try
+        {
+            clone.UpdateUI("그림 없는 긴 아이템 이름", null, state, 0, 0);
+            var serialized = new SerializedObject(clone);
+            var text = (Text)serialized.FindProperty("labelText").objectReferenceValue;
+            var icon = (Image)serialized.FindProperty("iconImage").objectReferenceValue;
+            Assert.IsTrue(text.gameObject.activeSelf);
+            Assert.IsFalse(icon.gameObject.activeSelf);
+            Assert.AreEqual("그림 없는 긴 아이템 이름", text.text);
+            Assert.AreEqual(9, text.fontSize);
+            Assert.AreEqual(FontStyle.Normal, text.fontStyle);
+            Assert.AreEqual(HorizontalWrapMode.Wrap, text.horizontalOverflow);
+            Assert.AreEqual(VerticalWrapMode.Truncate, text.verticalOverflow);
+            Assert.AreEqual(new Vector2(16, 16), text.rectTransform.sizeDelta);
+            Assert.AreEqual(state == BattleItemState.Disabled ? new Color(168f / 255, 172f / 255, 175f / 255) : new Color(236f / 255, 236f / 255, 236f / 255), text.color);
+            var sprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/03.Resources/Art/HD2D/UI/U7_bar_fill.png");
+            clone.UpdateUI("item", sprite, state, 0, 0);
+            Assert.IsFalse(text.gameObject.activeSelf);
+            Assert.IsTrue(icon.gameObject.activeSelf);
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(canvas);
+        }
+    }
+
     [TestCase(480f, 360f)]
     [TestCase(698f, 340.6f)]
+    [TestCase(697.846f, 354f)]
+    [TestCase(697.846f, 354.4615f)]
+    [TestCase(697.846f, 360f)]
     public void PrepReflowsWithoutOverlappingBagAndStash(float width, float height)
     {
         var scene = EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
@@ -143,6 +180,20 @@ public class HudUiSceneTests
             var bag = RectTransformUtility.CalculateRelativeRectTransformBounds(rect, clone.BagViews[0].transform);
             var stash = RectTransformUtility.CalculateRelativeRectTransformBounds(rect, clone.StashView.transform);
             Assert.GreaterOrEqual(bag.min.y + 0.001f, stash.max.y);
+            var serialized = new SerializedObject(clone);
+            for (var i = 0; i < clone.BagViews.Count; i++)
+            {
+                var column = RectTransformUtility.CalculateRelativeRectTransformBounds(rect, clone.BagViews[i].transform);
+                var member = (Text)serialized.FindProperty("memberTexts").GetArrayElementAtIndex(i).objectReferenceValue;
+                var fill = (RectTransform)serialized.FindProperty("memberHpFills").GetArrayElementAtIndex(i).objectReferenceValue;
+                var nameBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(rect, member.transform);
+                var hpBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(rect, fill.parent);
+                var revive = RectTransformUtility.CalculateRelativeRectTransformBounds(rect, clone.ReviveViews[i].transform);
+                Assert.AreEqual(column.center.x, nameBounds.center.x + 22, 0.001f, "name column " + i);
+                Assert.AreEqual(column.center.x, hpBounds.center.x + 22, 0.001f, "HP column " + i);
+                Assert.AreEqual(column.center.x, revive.center.x - 36, 0.001f, "revive column " + i);
+                Assert.GreaterOrEqual(column.min.y + 0.001f, stash.max.y, "bag column " + i);
+            }
         }
         finally
         {

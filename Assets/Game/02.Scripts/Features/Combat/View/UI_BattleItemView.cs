@@ -40,10 +40,20 @@ public class UI_BattleItemView : MonoBehaviour
             iconImage.rectTransform.sizeDelta = icon.rect.size * scale;
         }
         iconImage.color = isDisabled ? disabledTextColor : Color.white;
-        labelText.gameObject.SetActive(false);
+        labelText.gameObject.SetActive(!hasIcon);
+        labelText.fontSize = 9;
+        labelText.fontStyle = FontStyle.Normal;
+        labelText.alignment = TextAnchor.MiddleCenter;
+        labelText.horizontalOverflow = HorizontalWrapMode.Wrap;
+        labelText.verticalOverflow = VerticalWrapMode.Truncate;
+        labelText.rectTransform.anchorMin = labelText.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+        labelText.rectTransform.anchoredPosition = new Vector2(0, 1);
+        labelText.rectTransform.sizeDelta = new Vector2(16, 16);
         stateText.gameObject.SetActive(false);
         labelText.text = label;
-        labelText.color = isDisabled ? disabledTextColor : textColor;
+        labelText.color = isDisabled
+            ? new Color(168f / 255, 172f / 255, 175f / 255)
+            : new Color(236f / 255, 236f / 255, 236f / 255);
         stateText.text = GetStateText(state, remainingSeconds);
         stateText.color = isDisabled ? disabledTextColor : state == BattleItemState.Fired ? firedTextColor : textColor;
         var hasBar = state != BattleItemState.Disabled && state != BattleItemState.Passive;
