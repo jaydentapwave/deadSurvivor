@@ -39,6 +39,63 @@
    "source": {
     "model": "output/assets/hd2d-tent/dot/model.fbx"
    }
+  },
+  {
+   "id": "hd2d_pilot_tree",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "시범 3D 나무(잎 덩어리 3~5 + 짧은 줄기), 높이 약 1.7m(K28), 잎 색 K23(지금 세운 판 tree_02 색). 모양만 쓰고 질감은 도트 질감으로 다시 칠함. 사용자 2026-11-18 \"나무까지 전부 3D\"",
+   "tripo": {
+    "asset": "hd2d_pilot_tree",
+    "budget": "hd2d_3d_pilot",
+    "seed": 20261118,
+    "face_limit": 600,
+    "concept": "output/assets/hd2d-3d-pilot/tree/concept.png",
+    "work_dir": "output/assets/hd2d-3d-pilot/tree/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d-pilot/tree/dot/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_pilot_bush",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "시범 3D 덤불(잎 덩어리 2~3), 0.6~0.8m. 잎 색 K23(bush_01 색). 모양만 쓰고 질감은 도트 질감으로 다시 칠함",
+   "tripo": {
+    "asset": "hd2d_pilot_bush",
+    "budget": "hd2d_3d_pilot",
+    "seed": 20261118,
+    "face_limit": 300,
+    "concept": "output/assets/hd2d-3d-pilot/bush/concept.png",
+    "work_dir": "output/assets/hd2d-3d-pilot/bush/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d-pilot/bush/dot/model.fbx"
+   }
+  },
+  {
+   "id": "hd2d_pilot_boulder",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Props",
+   "note": "시범 3D 큰 바위(비대칭 덩어리, 넓은 면), 0.8~1.2m, 색 K22 #d8d3a9/#9d9778/#403d2a. 모양만 쓰고 질감은 도트 질감으로 다시 칠함",
+   "tripo": {
+    "asset": "hd2d_pilot_boulder",
+    "budget": "hd2d_3d_pilot",
+    "seed": 20261118,
+    "face_limit": 300,
+    "concept": "output/assets/hd2d-3d-pilot/boulder/concept.png",
+    "work_dir": "output/assets/hd2d-3d-pilot/boulder/tripo"
+   },
+   "source": {
+    "model": "output/assets/hd2d-3d-pilot/boulder/dot/model.fbx"
+   }
   }
  ],
  "budgets": {
@@ -48,6 +105,15 @@
    "assets": [
     "hd2d_bridge",
     "hd2d_tent"
+   ]
+  },
+  "hd2d_3d_pilot": {
+   "cap": 200,
+   "approval": "2026-11-18 사용자 \"원래 hd2d, 2.5d할떄 기본적으로 캐릭터를 제외하곤 모두 3d로 제작되는거아니야?\" → 선택 \"나무까지 전부 3D\"(캐릭터·몬스터·효과 빼고 모두 3D. 나무·덤불은 도트 질감 3D(잎 덩어리)), 유료 생성 \"그냥 상한 없앨테니 계속해서 해줘\". 시범 3종(나무·덤불·큰 바위) 상한 200크레딧은 디렉터가 정함",
+   "assets": [
+    "hd2d_pilot_tree",
+    "hd2d_pilot_bush",
+    "hd2d_pilot_boulder"
    ]
   }
  }
