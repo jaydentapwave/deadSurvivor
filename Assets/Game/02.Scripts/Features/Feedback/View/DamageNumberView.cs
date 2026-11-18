@@ -5,6 +5,8 @@ using UnityEngine;
 public class DamageNumberView : MonoBehaviour
 {
     [SerializeField] private TextMeshPro text;
+    [SerializeField] private Transform upright;
+    [SerializeField] private Material indicatorMaterial;
 
     private SpriteRenderer[] _digits;
     private Color _color;
@@ -19,9 +21,11 @@ public class DamageNumberView : MonoBehaviour
             for (var i = 0; i < _digits.Length; i++)
             {
                 var child = new GameObject($"Digit{i}");
-                child.transform.SetParent(transform, false);
+                child.transform.SetParent(upright, false);
+                child.layer = upright.gameObject.layer;
                 _digits[i] = child.AddComponent<SpriteRenderer>();
                 _digits[i].sortingOrder = 60;
+                _digits[i].sharedMaterial = indicatorMaterial;
             }
         }
 

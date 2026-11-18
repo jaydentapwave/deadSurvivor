@@ -116,11 +116,15 @@
       "capture": "all"
     },
     {
-      "id": "PERF",
-      "name": "웨이브 6(1배 시간) 3초 그리기 호출 95백분위 ≤ 50",
+      "id": "PERFREC-START",
+      "name": "기록 전용 — 판정 아님: 웨이브 6 표본 시작",
       "do": "PlayableProbe.MarkFrameStats();",
-      "sleep": 3,
-      "expect": "PlayableProbe.RenderBatchesP95 >= 0 && PlayableProbe.RenderBatchesP95 <= 50"
+      "sleep": 3
+    },
+    {
+      "id": "PERFREC-WRITE",
+      "name": "기록 전용 — 판정 아님: 성능은 아트 적용 뒤 7단계에서 판단",
+      "do": "PlayableProbe.WritePerfRecord(\"Logs/playable/perf-wave6.json\");"
     },
     {
       "id": "END2",

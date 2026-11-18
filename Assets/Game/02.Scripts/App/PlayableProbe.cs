@@ -243,7 +243,8 @@ public static class PlayableProbe
     public static int MaxAliveEnemies => Recorder != null ? Recorder.MaxAliveEnemies : 0;
 
     // 기록기를 만들고 이후 모든 판을 기록한다. 웨이브 끝·판 끝마다 path에 파일 전체를 다시 쓴다
-    public static void StartWaveMetrics(string path) => GetOrCreateRecorder().StartRecording(path);
+    public static void StartWaveMetrics(string path, bool shouldCollectFrameTimes = true) =>
+        GetOrCreateRecorder().StartRecording(path, shouldCollectFrameTimes);
 
     // 다음에 그 웨이브 전투가 시작되면 Time.timeScale = 1, Application.runInBackground = true(한 번만)
     public static void UseRealTimeAtWave(int wave) => GetOrCreateRecorder().UseRealTimeAtWave(wave);
@@ -761,6 +762,34 @@ public static class PlayableProbe
         }
 
         sampler.Mark();
+    }
+
+    [System.Serializable]
+    private class PerfRecord
+    {
+        public string verdict = "NOT_JUDGED";
+        public string budget_source = "r6 7단계 미정";
+        public float batches_p95;
+        public float set_pass_p95;
+        public float frame_ms_p95;
+        public int enemy_count;
+        public string quality;
+        public string pipeline;
+    }
+
+    public static void WritePerfRecord(string path)
+    {
+        var record = new PerfRecord
+        {
+            batches_p95 = RenderBatchesP95,
+            set_pass_p95 = SetPassCallsP95,
+            frame_ms_p95 = FrameMsP95SinceMark,
+            enemy_count = EnemyCount,
+            quality = QualitySettings.names[QualitySettings.GetQualityLevel()],
+            pipeline = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline.name,
+        };
+        System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
+        System.IO.File.WriteAllText(path, JsonUtility.ToJson(record, true));
     }
 
     private static PlayableFrameSampler FrameSampler => Object.FindAnyObjectByType<PlayableFrameSampler>();

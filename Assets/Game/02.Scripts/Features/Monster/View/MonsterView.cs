@@ -54,12 +54,13 @@ public class MonsterView : MonoBehaviour
         _dashLength = dashLength;
         _unitScale = unitScale;
 
-        // 바닥의 원 → 아이소 타원. 원 스프라이트 피벗이 아래라 반높이만큼 내려 중심을 발 위치에 맞춘다
-        var areaSize = TiltedViewMath.FloorToScreenPlane(new Vector2(blastRadius * 2f, blastRadius * 2f) * unitScale, .5f);
+        // 원의 지름은 바닥 단위다. 피벗이 아래 가운데인 원을 발 중심으로 옮긴다.
+        var diameter = blastRadius * 2f * unitScale;
         var spriteSize = areaSprite.bounds.size;
         var areaTransform = blastAreaRenderer.transform;
-        areaTransform.localScale = new Vector3(areaSize.x / spriteSize.x, areaSize.y / spriteSize.y, 1f);
-        areaTransform.localPosition = new Vector3(0f, -areaSize.y * 0.5f, 0f);
+        areaTransform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+        areaTransform.localScale = new Vector3(diameter / spriteSize.x, diameter / spriteSize.y, 1f);
+        areaTransform.localPosition = new Vector3(0f, 0.001f, -diameter * 0.5f);
         UpdateState(MonsterPhase.Approach, Vector2.zero);
     }
 
@@ -102,9 +103,11 @@ public class MonsterView : MonoBehaviour
             return;
         }
 
-        var line = TiltedViewMath.FloorToScreenPlane(dashDirection * (_dashLength * _unitScale), .5f);
+        var line = dashDirection * (_dashLength * _unitScale);
         var lineTransform = dashLineRenderer.transform;
-        lineTransform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(line.y, line.x) * Mathf.Rad2Deg);
+        lineTransform.localPosition = new Vector3(0f, 0.001f, 0f);
+        lineTransform.localRotation = Quaternion.Euler(0f, -Mathf.Atan2(line.y, line.x) * Mathf.Rad2Deg, 0f)
+            * Quaternion.Euler(90f, 0f, 0f);
         lineTransform.localScale = new Vector3(line.magnitude / dashLineRenderer.sprite.bounds.size.x, 1f, 1f);
     }
 }

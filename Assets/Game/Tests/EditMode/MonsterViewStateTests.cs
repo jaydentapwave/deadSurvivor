@@ -153,6 +153,21 @@ public class MonsterViewStateTests
         Assert.IsNull(prefab.GetComponent<SpriteRenderer>());
     }
 
+    [Test]
+    public void GroundWarningCircleAndDashUseFloorMetres()
+    {
+        var area = _root.transform.Find("BlastArea");
+        var renderer = area.GetComponent<SpriteRenderer>();
+        var size = Vector3.Scale(renderer.sprite.bounds.size, area.localScale);
+        Assert.AreEqual(90f * 2f * .0113f, size.x, 1e-5f);
+        Assert.AreEqual(size.x, size.y, 1e-5f);
+        Assert.That(Quaternion.Angle(Quaternion.Euler(90f, 0f, 0f), area.localRotation), Is.LessThan(.001f));
+        _view.UpdateState(MonsterPhase.Windup, Vector2.up);
+        var line = _root.transform.Find("DashLine");
+        Assert.That(Vector3.Distance(Vector3.forward, line.right), Is.LessThan(1e-5f));
+        Assert.AreEqual(.001f, line.localPosition.y, 1e-6f);
+    }
+
     private static Sprite CreateSprite(int width, int height, Vector2 pivot)
     {
         var texture = new Texture2D(width, height);

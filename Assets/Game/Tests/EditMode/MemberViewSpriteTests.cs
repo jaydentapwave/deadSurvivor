@@ -29,6 +29,8 @@ public class MemberViewSpriteTests
         serialized.FindProperty("flashRenderer").objectReferenceValue = _flash;
         serialized.FindProperty("hpBackRenderer").objectReferenceValue = _hpBack;
         serialized.FindProperty("hpFillRenderer").objectReferenceValue = hpFill;
+        serialized.FindProperty("shadowCaster").objectReferenceValue = _body.gameObject.AddComponent<UprightShadowCaster>();
+        serialized.FindProperty("shadowCasterMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>("Assets/Game/03.Resources/Materials/HD2D/HD2D_ShadowOnly.mat");
         serialized.ApplyModifiedPropertiesWithoutUndo();
         _front = CreateSprite(64, 64);
         _back = CreateSprite(64, 64);

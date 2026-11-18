@@ -181,11 +181,12 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
                 break;
         }
 
-        Draw(key, spriteName, position, scale, alpha, isFlipped: isFlipped);
+        Draw(key, spriteName, position, scale, alpha, isFlipped: isFlipped,
+            isGround: burst.Kind == BurstEffectKind.HealArea || burst.Kind == BurstEffectKind.Pulse);
     }
 
     private void Draw(long id, string spriteName, Vector3 position, Vector2 scale, float alpha,
-        float angle = 0f, bool isFlipped = false, bool snapToPixels = true)
+        float angle = 0f, bool isFlipped = false, bool snapToPixels = true, bool isGround = false)
     {
         _aliveBurstIdSet.Add(id);
         if (!_projectileViewRegistry.TryGetBurst(id, out var view))
@@ -194,7 +195,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
             MarkShown(spriteName);
         }
 
-        view.UpdateView(position, scale, alpha, angle, isFlipped, snapToPixels);
+        view.UpdateView(position, scale, alpha, angle, isFlipped, snapToPixels, isGround);
     }
 
     private Vector3 World(Vector2 floor) => IsoProjection.FloorToWorldSnapped(floor, _runRules.UnitScale, _viewRules.SinTilt);

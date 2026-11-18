@@ -101,10 +101,10 @@ public class CombatEffectTests
                 var view = pool.Get("ProjectileDirectionTest", prefab, parent.transform);
                 view.Initialize(sprite);
                 view.UpdateView(new Vector2(2f, 3f), direction);
-                var actual = (Vector2)(view.transform.localRotation *
+                var actual = (Vector2)(view.BodyRenderer.transform.localRotation *
                     (view.BodyRenderer.flipX ? Vector3.left : Vector3.right));
                 Assert.Greater(Vector2.Dot(direction, actual), 0.99999f, degrees.ToString());
-                Assert.LessOrEqual(Quaternion.Angle(Quaternion.identity, view.transform.localRotation), 90.001f);
+                Assert.LessOrEqual(Quaternion.Angle(Quaternion.identity, view.BodyRenderer.transform.localRotation), 90.001f);
                 var position = view.transform.localPosition;
                 var pixels = new Vector2(position.x, position.z * .5f) * Const.PixelsPerUnit;
                 Assert.Less(Vector2.Distance(pixels, new Vector2(Mathf.Round(pixels.x), Mathf.Round(pixels.y))), 0.0001f);
@@ -139,7 +139,8 @@ public class CombatEffectTests
         var width = sprite.rect.width / Const.PixelsPerUnit;
         var count = CombatEffectMotion.GetSegmentCount(Vector2.Distance(from, to), width);
         var angle = Mathf.Atan2(to.y - from.y, to.x - from.x) * Mathf.Rad2Deg;
-        var previousEnd = from;
+        var upright = TiltedViewMath.UprightRotation(30f);
+        var previousEnd = upright * (Vector3)from;
         try
         {
             for (var i = 0; i < count; i++)
@@ -147,18 +148,18 @@ public class CombatEffectTests
                 CombatEffectMotion.GetSegment(from, to, width, i, out var center, out var scaleX);
                 var view = pool.Get("LightningBoundaryTest", prefab, parent.transform);
                 view.Initialize(sprite);
-                view.UpdateView(center, new Vector2(scaleX, 1f), 1f, angle, snapToPixels: false);
+                view.UpdateView(upright * (Vector3)center, new Vector2(scaleX, 1f), 1f, angle, snapToPixels: false);
                 var bounds = sprite.bounds;
-                var start = (Vector2)view.BodyRenderer.transform.TransformPoint(
+                var start = view.BodyRenderer.transform.TransformPoint(
                     new Vector3(bounds.min.x, bounds.center.y, 0f));
-                var end = (Vector2)view.BodyRenderer.transform.TransformPoint(
+                var end = view.BodyRenderer.transform.TransformPoint(
                     new Vector3(bounds.max.x, bounds.center.y, 0f));
-                Assert.Less(Vector2.Distance(previousEnd, start) * Const.PixelsPerUnit, 0.001f, $"joint {i}");
+                Assert.Less(Vector3.Distance(previousEnd, start) * Const.PixelsPerUnit, 0.001f, $"joint {i}");
                 previousEnd = end;
                 pool.Release("LightningBoundaryTest", view);
             }
 
-            Assert.Less(Vector2.Distance(to, previousEnd) * Const.PixelsPerUnit, 0.001f, "final endpoint");
+            Assert.Less(Vector3.Distance(upright * (Vector3)to, previousEnd) * Const.PixelsPerUnit, 0.001f, "final endpoint");
         }
         finally
         {

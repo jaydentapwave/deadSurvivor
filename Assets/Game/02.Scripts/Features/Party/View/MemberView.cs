@@ -7,6 +7,8 @@ public class MemberView : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer bodyRenderer;
     [SerializeField] private Material shadowMaterial;
+    [SerializeField] private Material shadowCasterMaterial;
+    [SerializeField] private UprightShadowCaster shadowCaster;
     [SerializeField] private SpriteRenderer flashRenderer;
     [SerializeField] private SpriteRenderer hpBackRenderer;
     [SerializeField] private SpriteRenderer hpFillRenderer;
@@ -72,6 +74,7 @@ public class MemberView : MonoBehaviour
         UiBarUtils.Initialize(hpBackRenderer, hpFillRenderer, hpBarSprite, hpFillSprite,
             (Vector2)hpBarPixels / Const.PixelsPerUnit, new Vector2(barX, barY), hpBackColor, hpFillColor);
         ApplyMotion(SpriteFacing.Front, Vector2Int.zero, false);
+        shadowCaster.Initialize(bodyRenderer, shadowCasterMaterial, HD2DBackgroundRig.BackgroundLayer);
     }
 
     // downedSeconds: 쓰러진 뒤 흐른 시간(산 대원이면 쓰지 않는다)

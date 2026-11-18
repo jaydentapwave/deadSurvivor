@@ -21,6 +21,7 @@ public class FieldView : MonoBehaviour
     public SpriteRenderer AddDecor(Sprite sprite, FieldDecorPlacement placement)
     {
         var decor = new GameObject(placement.Sprite);
+        decor.layer = placement.IsGround ? HD2DBackgroundRig.BackgroundLayer : 0;
         decor.transform.SetParent(transform.parent, false);
         var offsetX = placement.PivotOffsetXPixels / (float)Const.PixelsPerUnit;
         var floor = IsoProjection.IsoCellToFloor(placement.Cell);

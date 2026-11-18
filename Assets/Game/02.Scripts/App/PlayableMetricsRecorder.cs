@@ -19,6 +19,7 @@ public class PlayableMetricsRecorder : MonoBehaviour
     private int _lastRunCount = -1;
     private string _path;
     private int _realTimeWave;
+    private bool _shouldCollectFrameTimes = true;
     private RunRecord _currentRun;
     private PlayableBot _bot;
 
@@ -47,7 +48,7 @@ public class PlayableMetricsRecorder : MonoBehaviour
         var runModel = PlayableProbe.Resolve<RunModel>();
         var isLastWave = runModel.Wave.CurrentValue == PlayableProbe.Resolve<WaveRepository>().WaveDataList.Count;
         // M7은 사람이 보는 1배 시간의 프레임만 잰다
-        if (isLastWave && runModel.IsBurningTime.CurrentValue && Mathf.Approximately(Time.timeScale, 1f))
+        if (_shouldCollectFrameTimes && isLastWave && runModel.IsBurningTime.CurrentValue && Mathf.Approximately(Time.timeScale, 1f))
         {
             _currentRun.Burning.AddSample(Time.unscaledDeltaTime * 1000f, aliveCount);
         }
@@ -56,8 +57,9 @@ public class PlayableMetricsRecorder : MonoBehaviour
     private void OnDestroy() => _phaseSubscription?.Dispose();
 
     // 이후 모든 판을 path에 기록한다(이전 기록은 버린다)
-    public void StartRecording(string path)
+    public void StartRecording(string path, bool shouldCollectFrameTimes = true)
     {
+        _shouldCollectFrameTimes = shouldCollectFrameTimes;
         _path = path;
         _metricsFile.RunList.Clear();
         _currentRun = null;

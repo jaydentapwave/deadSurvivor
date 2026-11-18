@@ -4,6 +4,7 @@ using UnityEngine;
 public class ProjectileView : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer bodyRenderer;
+    [SerializeField] private Transform upright;
     public SpriteRenderer BodyRenderer => bodyRenderer;
 
     public void Initialize(Sprite sprite)
@@ -28,11 +29,11 @@ public class ProjectileView : MonoBehaviour
         }
 
         bodyRenderer.flipX = isFlipped;
-        transform.localRotation = Quaternion.Euler(0f, 0f, angle);
+        bodyRenderer.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
         transform.localScale = Vector3.one;
         var spriteCenter = bodyRenderer.sprite.bounds.center;
         spriteCenter.x *= isFlipped ? -1f : 1f;
-        var center = transform.localRotation * spriteCenter;
+        var center = upright.localRotation * bodyRenderer.transform.localRotation * spriteCenter;
         transform.localPosition = TiltedViewMath.SnapToTexels(worldPosition - center, .5f, Const.PixelsPerUnit);
     }
 }

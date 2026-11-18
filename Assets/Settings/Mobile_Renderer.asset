@@ -69,6 +69,7 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: 1576932915544682461}
   - {fileID: -3972922332332376344}
+  - {fileID: 2521095508656034444}
   m_RendererFeatureMap: 
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
@@ -118,3 +119,20 @@ MonoBehaviour:
   passIndex: 0
   bindDepthStencilAttachment: 0
   m_Version: 1
+--- !u!114 &2521095508656034444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19b11749ef8924559828181f3e69a7db, type: 3}
+  m_Name: Compose point background
+  m_EditorClassIdentifier: HD2D.View::HD2DBackgroundFeature
+  m_Active: 1
+  captureBackground: 0
+  outlineMaterial: {fileID: 2100000, guid: a833b326b23b14e59b5cdec2740a673a, type: 2}
+  depthMaterial: {fileID: 2100000, guid: d6d9ebdb39d324001a4a0baba8484c53, type: 2}
+  compositeMaterial: {fileID: 2100000, guid: 1f745c14c73df4a279ffd0e0beab6bf7, type: 2}

@@ -437,7 +437,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8678214}
   - component: {fileID: 8678215}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: HpFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -485,7 +485,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  - {fileID: 2100000, guid: 3af237cc826294ac38dc6238fdc93575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12257,6 +12257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 350314031}
   - component: {fileID: 350314032}
+  - component: {fileID: 350314033}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -12339,6 +12340,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 1
+--- !u!114 &350314033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350314030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271f0a689136249269c33c657342d43d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HD2D.View::UprightShadowCaster
 --- !u!1 &352498011
 GameObject:
   m_ObjectHideFlags: 0
@@ -13220,7 +13233,7 @@ Transform:
   m_GameObject: {fileID: 380639381}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.020833334}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14557,7 +14570,7 @@ GameObject:
   - component: {fileID: 414625363}
   - component: {fileID: 414625365}
   - component: {fileID: 414625364}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: HpLoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14618,7 +14631,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 3af237cc826294ac38dc6238fdc93575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15687,6 +15700,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::MemberView
   bodyRenderer: {fileID: 707242248}
   shadowMaterial: {fileID: 2100000, guid: b41cc439c697143fc8c9bc74c54ebee7, type: 2}
+  shadowCasterMaterial: {fileID: 2100000, guid: f44b2ee5efbd34088a8e49923f03fcad, type: 2}
+  shadowCaster: {fileID: 707242249}
   flashRenderer: {fileID: 380639383}
   hpBackRenderer: {fileID: 700751199}
   hpFillRenderer: {fileID: 8678215}
@@ -16021,7 +16036,7 @@ GameObject:
   - component: {fileID: 444519379}
   - component: {fileID: 444519381}
   - component: {fileID: 444519380}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: HpLoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16082,7 +16097,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 3af237cc826294ac38dc6238fdc93575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17105,6 +17120,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::MemberView
   bodyRenderer: {fileID: 350314032}
   shadowMaterial: {fileID: 2100000, guid: b41cc439c697143fc8c9bc74c54ebee7, type: 2}
+  shadowCasterMaterial: {fileID: 2100000, guid: f44b2ee5efbd34088a8e49923f03fcad, type: 2}
+  shadowCaster: {fileID: 350314033}
   flashRenderer: {fileID: 650420343}
   hpBackRenderer: {fileID: 1831667332}
   hpFillRenderer: {fileID: 653439942}
@@ -18457,6 +18474,7 @@ GameObject:
   m_Component:
   - component: {fileID: 543062327}
   - component: {fileID: 543062328}
+  - component: {fileID: 543062329}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -18539,6 +18557,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 1
+--- !u!114 &543062329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543062326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271f0a689136249269c33c657342d43d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HD2D.View::UprightShadowCaster
 --- !u!1 &543347159
 GameObject:
   m_ObjectHideFlags: 0
@@ -23337,7 +23367,7 @@ Transform:
   m_GameObject: {fileID: 650420341}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.020833334}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23735,7 +23765,7 @@ GameObject:
   m_Component:
   - component: {fileID: 653439943}
   - component: {fileID: 653439942}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: HpFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23768,7 +23798,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  - {fileID: 2100000, guid: 3af237cc826294ac38dc6238fdc93575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25130,7 +25160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 700751198}
   - component: {fileID: 700751199}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: HpBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25179,7 +25209,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  - {fileID: 2100000, guid: 3af237cc826294ac38dc6238fdc93575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25301,6 +25331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 707242247}
   - component: {fileID: 707242248}
+  - component: {fileID: 707242249}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -25383,6 +25414,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 1
+--- !u!114 &707242249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707242246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271f0a689136249269c33c657342d43d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HD2D.View::UprightShadowCaster
 --- !u!1 &717456534
 GameObject:
   m_ObjectHideFlags: 0
@@ -32180,7 +32223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 925276494}
   - component: {fileID: 925276495}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: HpBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32229,7 +32272,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  - {fileID: 2100000, guid: 3af237cc826294ac38dc6238fdc93575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -34461,7 +34504,7 @@ GameObject:
   m_Component:
   - component: {fileID: 981845302}
   - component: {fileID: 981845303}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: HpFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34509,7 +34552,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  - {fileID: 2100000, guid: 3af237cc826294ac38dc6238fdc93575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -37331,7 +37374,7 @@ Transform:
   m_GameObject: {fileID: 1049418331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.020833334}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -37936,6 +37979,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1060563849}
   - component: {fileID: 1060563850}
+  - component: {fileID: 1060563851}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -38018,6 +38062,18 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 1
+--- !u!114 &1060563851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060563848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 271f0a689136249269c33c657342d43d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HD2D.View::UprightShadowCaster
 --- !u!1 &1061068480
 GameObject:
   m_ObjectHideFlags: 0
@@ -38735,7 +38791,7 @@ GameObject:
   - component: {fileID: 1080322212}
   - component: {fileID: 1080322214}
   - component: {fileID: 1080322213}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: HpLoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38796,7 +38852,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 3af237cc826294ac38dc6238fdc93575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -50101,6 +50157,7 @@ GameObject:
   - component: {fileID: 1442982265}
   - component: {fileID: 1442982264}
   - component: {fileID: 1442982268}
+  - component: {fileID: 1442982269}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -50238,6 +50295,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3681e7bcb5341ec8db42fdc254b7a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HD2D.View::TiltedCameraRig
+--- !u!114 &1442982269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442982262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3046607be8154a1d8c5841a5c1a97cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HD2D.View::HD2DBackgroundRig
+  backgroundRendererIndex: 2
 --- !u!1 &1444913481
 GameObject:
   m_ObjectHideFlags: 0
@@ -50410,7 +50480,7 @@ GameObject:
   - component: {fileID: 1450006851}
   - component: {fileID: 1450006850}
   - component: {fileID: 1450006849}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Field
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50883,7 +50953,7 @@ Transform:
   m_GameObject: {fileID: 1470584675}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.020833334}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56763,7 +56833,7 @@ GameObject:
   - component: {fileID: 1619611883}
   - component: {fileID: 1619611882}
   - component: {fileID: 1619611881}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: HpLoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56809,7 +56879,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 3af237cc826294ac38dc6238fdc93575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -63928,7 +63998,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1827842282}
   - component: {fileID: 1827842283}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: HpBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63977,7 +64047,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  - {fileID: 2100000, guid: 3af237cc826294ac38dc6238fdc93575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -64020,7 +64090,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1831667331}
   - component: {fileID: 1831667332}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: HpBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64069,7 +64139,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  - {fileID: 2100000, guid: 3af237cc826294ac38dc6238fdc93575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -65170,7 +65240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1872607399}
   - component: {fileID: 1872607400}
-  m_Layer: 0
+  m_Layer: 26
   m_Name: HpFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65218,7 +65288,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  - {fileID: 2100000, guid: 3af237cc826294ac38dc6238fdc93575, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -65626,6 +65696,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::MemberView
   bodyRenderer: {fileID: 1060563850}
   shadowMaterial: {fileID: 2100000, guid: b41cc439c697143fc8c9bc74c54ebee7, type: 2}
+  shadowCasterMaterial: {fileID: 2100000, guid: f44b2ee5efbd34088a8e49923f03fcad, type: 2}
+  shadowCaster: {fileID: 1060563851}
   flashRenderer: {fileID: 1470584677}
   hpBackRenderer: {fileID: 1827842283}
   hpFillRenderer: {fileID: 1872607400}
@@ -71727,6 +71799,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::MemberView
   bodyRenderer: {fileID: 543062328}
   shadowMaterial: {fileID: 2100000, guid: b41cc439c697143fc8c9bc74c54ebee7, type: 2}
+  shadowCasterMaterial: {fileID: 2100000, guid: f44b2ee5efbd34088a8e49923f03fcad, type: 2}
+  shadowCaster: {fileID: 543062329}
   flashRenderer: {fileID: 1049418333}
   hpBackRenderer: {fileID: 925276495}
   hpFillRenderer: {fileID: 981845303}
