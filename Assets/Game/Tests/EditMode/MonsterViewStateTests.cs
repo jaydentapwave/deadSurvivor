@@ -148,7 +148,7 @@ public class MonsterViewStateTests
 
         Assert.AreNotSame(prefab.gameObject, body.gameObject);
         Assert.AreSame(prefab.transform.Find("Upright"), body.transform.parent);
-        Assert.AreEqual(0f, Quaternion.Angle(Quaternion.Euler(30,0,0), body.transform.parent.localRotation), 1e-3f);
+        Assert.AreEqual(0f, Quaternion.Angle(Quaternion.Euler(30, 0, 0), body.transform.parent.localRotation), 1e-3f);
         Assert.AreEqual(SpriteSortPoint.Pivot, body.spriteSortPoint);
         Assert.IsNull(prefab.GetComponent<SpriteRenderer>());
     }
@@ -166,6 +166,27 @@ public class MonsterViewStateTests
         var line = _root.transform.Find("DashLine");
         Assert.That(Vector3.Distance(Vector3.forward, line.right), Is.LessThan(1e-5f));
         Assert.AreEqual(.001f, line.localPosition.y, 1e-6f);
+    }
+
+    [Test]
+    public void WarningAndNormalPicturesKeepEightDirectionFacingAcrossPoolReuse()
+    {
+        var normal = CreateSprite(64, 64, new Vector2(.5f, 0f));
+        var warning = CreateSprite(64, 64, new Vector2(.5f, 0f));
+        _view.Initialize(normal, warning, true, normal, normal, 0f, 0f, .0113f);
+        var right = CreateSprite(64, 64, new Vector2(.5f, 0f));
+        _view.InitializeDirections(new[] { normal, normal, right, normal, normal },
+            new[] { warning, warning, null, warning, warning });
+        _view.ApplyMotion(new SpriteFacing(FacingDirection.Right, true), Vector2Int.zero);
+        Assert.AreSame(right, _root.GetComponent<SpriteRenderer>().sprite);
+        _view.UpdateState(MonsterPhase.Windup, Vector2.left);
+        Assert.AreSame(warning, _root.GetComponent<SpriteRenderer>().sprite);
+        Assert.AreEqual("left", _view.Facing.Label);
+        _view.UpdateState(MonsterPhase.Approach, Vector2.zero);
+        Assert.AreSame(right, _root.GetComponent<SpriteRenderer>().sprite);
+        _view.Initialize(normal, warning, true, normal, normal, 0f, 0f, .0113f);
+        Assert.AreEqual(SpriteFacing.Front, _view.Facing);
+        Assert.IsFalse(_view.IsFlipped);
     }
 
     private static Sprite CreateSprite(int width, int height, Vector2 pivot)

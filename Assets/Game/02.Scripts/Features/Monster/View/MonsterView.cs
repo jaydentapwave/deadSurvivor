@@ -23,6 +23,17 @@ public class MonsterView : MonoBehaviour
     private Sprite _bodySprite;
     private Sprite _warningSprite;
     private FootShadowView _shadow;
+    private Sprite[] _directionSprites;
+    private Sprite[] _warningSprites;
+    private int _spriteMask;
+    private int _warningMask;
+    public SpriteFacing Facing { get; private set; } = SpriteFacing.Front;
+    public string WarningSpriteName => _warningSprite.name;
+    public int FacingFallbackCount
+    {
+        get; private set;
+    }
+
 
     public bool IsDashLineVisible => dashLineRenderer.enabled;
     public bool IsBlastAreaVisible => blastAreaRenderer.enabled;
@@ -31,9 +42,15 @@ public class MonsterView : MonoBehaviour
     public float MovePeriodSeconds => movePeriodSeconds;
     public float StaggerSeconds => staggerSeconds;
     public float ShakePeriodSeconds => shakePeriodSeconds;
-    public bool HasArt { get; private set; }
+    public bool HasArt
+    {
+        get; private set;
+    }
     // 예고 그림을 보이는 중
-    public bool IsWarning { get; private set; }
+    public bool IsWarning
+    {
+        get; private set;
+    }
     public string BodySpriteName => bodyRenderer.sprite.name;
     public bool IsFlipped => bodyRenderer.flipX;
     public Vector3 BodyOffset => bodyRenderer.transform.localPosition;
@@ -46,6 +63,11 @@ public class MonsterView : MonoBehaviour
         _bodySprite = bodySprite;
         _warningSprite = warningSprite;
         IsWarning = false;
+        Facing = SpriteFacing.Front;
+        _directionSprites = new[] { null, bodySprite, null, null, null };
+        _warningSprites = new[] { null, warningSprite, null, null, null };
+        _spriteMask = 1 << (int)FacingDirection.DownRight;
+        _warningMask = warningSprite == null ? 0 : _spriteMask;
         bodyRenderer.sprite = bodySprite;
         HasArt = hasArt;
         ApplyMotion(false, Vector2Int.zero);
@@ -78,11 +100,47 @@ public class MonsterView : MonoBehaviour
 
     public void UpdateView(Vector3 worldPosition) => transform.localPosition = worldPosition;
 
-    // 좌우 반전과 몸 오프셋(정수 픽셀)
-    public void ApplyMotion(bool isFlipped, Vector2Int bodyOffsetPixels)
+    public void InitializeDirections(Sprite[] bodySprites, Sprite[] warningSprites)
     {
-        bodyRenderer.flipX = isFlipped;
+        _directionSprites = bodySprites;
+        _warningSprites = warningSprites;
+        _spriteMask = 0;
+        _warningMask = 0;
+        FacingFallbackCount = 0;
+        for (var i = 0; i < 5; i++)
+        {
+            if (bodySprites[i] != null)
+            {
+                _spriteMask |= 1 << i;
+            }
+            if (warningSprites[i] != null)
+            {
+                _warningMask |= 1 << i;
+            }
+            if (bodySprites[i] == null || (_warningSprite != null && warningSprites[i] == null))
+            {
+                FacingFallbackCount++;
+            }
+        }
+        ApplySprite();
+    }
+
+    public void ApplyMotion(bool isFlipped, Vector2Int bodyOffsetPixels) =>
+        ApplyMotion(new SpriteFacing(FacingDirection.DownRight, isFlipped), bodyOffsetPixels);
+
+    public void ApplyMotion(SpriteFacing facing, Vector2Int bodyOffsetPixels)
+    {
+        Facing = facing;
+        ApplySprite();
+        bodyRenderer.flipX = facing.IsFlipped;
         bodyRenderer.transform.localPosition = SpriteMotion.ToUnits(bodyOffsetPixels);
+    }
+
+    private void ApplySprite()
+    {
+        var mask = IsWarning ? _warningMask : _spriteMask;
+        var sprites = IsWarning ? _warningSprites : _directionSprites;
+        bodyRenderer.sprite = sprites[(int)SpriteFacing.ResolveAvailable(Facing.Direction, mask)];
     }
 
     // dashDirection: 바닥 평면 단위 벡터(Windup일 때만 쓴다)
@@ -92,7 +150,7 @@ public class MonsterView : MonoBehaviour
         if (isWarning != IsWarning)
         {
             IsWarning = isWarning;
-            bodyRenderer.sprite = isWarning ? _warningSprite : _bodySprite;
+            ApplySprite();
         }
 
         var isWindup = phase == MonsterPhase.Windup;

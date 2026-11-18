@@ -1,86 +1,47 @@
 using NUnit.Framework;
 using UnityEngine;
-
-// 그림 넣기 AC6 — 방향 규칙(기획서 E절): 축마다 따로, 기준 아래인 축은 지난 값
 public class SpriteFacingTests
 {
-    private const float MinMove = 0.25f / Const.PixelsPerUnit;
-    private const float AxisRatio = 0.25f;
-    private const float Step = 2f / Const.PixelsPerUnit;
-
-    private static SpriteFacing Member(SpriteFacing last, float x, float y) =>
-        SpriteFacing.Next(last, new Vector2(x, y) * Step, MinMove, AxisRatio, true);
-
-    [TestCase(1f, -1f, false, false, "front-right")]
-    [TestCase(-1f, -1f, false, true, "front-left")]
-    [TestCase(-1f, 1f, true, true, "back-left")]
-    [TestCase(1f, 1f, true, false, "back-right")]
-    public void DiagonalsGiveFourDirections(float x, float y, bool isBack, bool isFlipped, string label)
+    [TestCase(0, "right")]
+    [TestCase(-45, "down-right")]
+    [TestCase(-90, "down")]
+    [TestCase(45, "up-right")]
+    [TestCase(90, "up")]
+    [TestCase(180, "left")]
+    [TestCase(-135, "down-left")]
+    [TestCase(135, "up-left")]
+    public void D1EightDirections(float degrees, string label)
     {
-        foreach (var last in new[] { SpriteFacing.Front, new SpriteFacing(true, true) })
-        {
-            var facing = Member(last, x, y);
-
-            Assert.AreEqual(isBack, facing.IsBack);
-            Assert.AreEqual(isFlipped, facing.IsFlipped);
-            Assert.AreEqual(label, facing.Label);
-        }
+        var delta = new Vector2(Mathf.Cos(degrees * Mathf.Deg2Rad), Mathf.Sin(degrees * Mathf.Deg2Rad));
+        Assert.AreEqual(label, SpriteFacing.Next(SpriteFacing.Front, delta, .001f, 0).Label);
     }
-
     [Test]
-    public void HorizontalKeepsFrontBack()
+    public void D2BoundaryHold()
     {
-        var facing = Member(new SpriteFacing(true, true), 1f, 0f);
-
-        Assert.IsTrue(facing.IsBack);
-        Assert.IsFalse(facing.IsFlipped);
+        var last = new SpriteFacing(FacingDirection.Right, false);
+        Vector2 At(float d) => new(Mathf.Cos(d * Mathf.Deg2Rad), Mathf.Sin(d * Mathf.Deg2Rad));
+        Assert.AreEqual("right", SpriteFacing.Next(last, At(-30), .001f, 12).Label);
+        Assert.AreEqual("down-right", SpriteFacing.Next(last, At(-35), .001f, 12).Label);
     }
-
     [Test]
-    public void VerticalKeepsFlip()
+    public void D3D4KeepLastFlip()
     {
-        var facing = Member(new SpriteFacing(false, true), 0f, 1f);
-
-        Assert.IsTrue(facing.IsBack);
-        Assert.IsTrue(facing.IsFlipped);
-    }
-
-    [Test]
-    public void StopAndTinyMoveKeepLastFacing()
-    {
-        var last = new SpriteFacing(true, true);
-
-        Assert.AreEqual("back-left", SpriteFacing.Next(last, Vector2.zero, MinMove, AxisRatio, true).Label);
-        Assert.AreEqual("back-left", SpriteFacing.Next(last, new Vector2(MinMove * 0.9f, -MinMove * 0.9f), MinMove, AxisRatio, true).Label);
-    }
-
-    [Test]
-    public void VerticalBelowAxisRatioDoesNotChangeFrontBack()
-    {
-        var facing = Member(SpriteFacing.Front, 1f, 0.2f);
-
-        Assert.IsFalse(facing.IsBack);
-        Assert.IsFalse(facing.IsFlipped);
-        Assert.IsTrue(Member(new SpriteFacing(true, false), 1f, -0.2f).IsBack);
-    }
-
-    [Test]
-    public void MonsterModeIsAlwaysFrontAndOnlyFlips()
-    {
-        var up = SpriteFacing.Next(SpriteFacing.Front, new Vector2(-1f, 1f) * Step, MinMove, AxisRatio, false);
-        var right = SpriteFacing.Next(up, new Vector2(1f, 1f) * Step, MinMove, AxisRatio, false);
-
-        Assert.IsFalse(up.IsBack);
+        var last = new SpriteFacing(FacingDirection.DownRight, true);
+        Assert.AreEqual(last, SpriteFacing.Next(last, new Vector2(.001f, .001f), .01f, 12));
+        var up = SpriteFacing.Next(last, Vector2.up, .001f, 0);
+        Assert.AreEqual(FacingDirection.Up, up.Direction);
         Assert.IsTrue(up.IsFlipped);
-        Assert.IsFalse(right.IsBack);
-        Assert.IsFalse(right.IsFlipped);
     }
-
     [Test]
-    public void NewRunStartsFrontRight()
+    public void D5NearestAvailableTieFacesFront()
     {
-        Assert.AreEqual("front-right", SpriteFacing.Front.Label);
-        Assert.IsFalse(SpriteFacing.Front.IsBack);
-        Assert.IsFalse(SpriteFacing.Front.IsFlipped);
+        var mask = (1 << (int)FacingDirection.DownRight) | (1 << (int)FacingDirection.UpRight);
+        Assert.AreEqual(FacingDirection.DownRight, SpriteFacing.ResolveAvailable(FacingDirection.Down, mask));
+        Assert.AreEqual(FacingDirection.DownRight, SpriteFacing.ResolveAvailable(FacingDirection.Right, mask));
+        Assert.AreEqual(FacingDirection.UpRight, SpriteFacing.ResolveAvailable(FacingDirection.Up, mask));
+        foreach (FacingDirection direction in System.Enum.GetValues(typeof(FacingDirection)))
+        {
+            Assert.AreEqual(FacingDirection.DownRight, SpriteFacing.ResolveAvailable(direction, 1 << (int)FacingDirection.DownRight));
+        }
     }
 }

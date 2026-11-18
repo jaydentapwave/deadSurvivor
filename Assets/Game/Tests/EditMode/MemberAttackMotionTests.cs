@@ -15,7 +15,7 @@ public class MemberAttackMotionTests
     {
         var data = new CharacterRepository(new ResourceService()).Get(id).Motion;
         var motion = new MemberAttackMotion();
-        motion.Start(data, new SpriteFacing(isBack, true), 5f);
+        motion.Start(data, new SpriteFacing(isBack ? FacingDirection.UpRight : FacingDirection.DownRight, true), 5f);
         Assert.AreEqual(hitSeconds, motion.HitSeconds, 1e-5f);
         Assert.IsFalse(motion.Advance(hitSeconds - 0.001f));
         Assert.IsTrue(motion.Advance(0.001f));
@@ -24,6 +24,31 @@ public class MemberAttackMotionTests
         Assert.IsTrue(motion.IsPlaying);
         motion.Advance(1f);
         Assert.IsFalse(motion.IsPlaying);
+    }
+
+    // D7: enumerate both previous source directions and every specified target angle.
+    [Test]
+    public void D7PreviousBackOnlyChangesTimingInTheApprovedHorizontalSectors()
+    {
+        var data = new CharacterRepository(new ResourceService()).Get("bruno").Motion;
+        foreach (var wasBack in new[] { false, true })
+        {
+            foreach (var angle in new[] { 0f, 10f, 18f, 30f, -10f, -30f, 90f, 170f, 180f })
+            {
+                var radians = angle * Mathf.Deg2Rad;
+                var screen = new Vector2(Mathf.Cos(radians), Mathf.Sin(radians));
+                var oldBack = Mathf.Abs(screen.y) >= .25f * Mathf.Abs(screen.x) ? screen.y > 0f : wasBack;
+                var last = new SpriteFacing(wasBack ? FacingDirection.UpRight : FacingDirection.DownRight, false);
+                var facing = SpriteFacing.Next(last, screen, .001f, 0f);
+                var newBack = facing.Direction == FacingDirection.UpRight || facing.Direction == FacingDirection.Up;
+                var oldSeconds = (oldBack ? data.HitBack : data.HitFront) / (float)data.Fps;
+                var newSeconds = data.HitSeconds(facing.Direction);
+                var horizontal = Mathf.Abs(Mathf.DeltaAngle(0f, angle)) < 14f || Mathf.Abs(Mathf.DeltaAngle(180f, angle)) < 14f;
+                var positiveNearHorizontal = angle == 18f;
+                Assert.AreEqual((wasBack && horizontal) || positiveNearHorizontal, oldBack != newBack, $"{wasBack}/{angle}");
+                Assert.AreEqual(oldBack != newBack ? .1f : 0f, Mathf.Abs(oldSeconds - newSeconds), 1e-5f);
+            }
+        }
     }
 
     [Test]

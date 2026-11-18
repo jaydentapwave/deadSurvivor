@@ -47,6 +47,28 @@ public class MemberMotionData
     public int HitFront => hitFront;
     public int HitBack => hitBack;
 
-    public float HitSeconds(bool isBack) => (isBack ? hitBack : hitFront) / (float)fps;
+    // Optional per-direction source frame; -1 uses the adopted front/back timing.
+    [SerializeField] private int hitDown = -1;
+    [SerializeField] private int hitDownRight = -1;
+    [SerializeField] private int hitRight = -1;
+    [SerializeField] private int hitUpRight = -1;
+    [SerializeField] private int hitUp = -1;
+
+    public float HitSeconds(FacingDirection direction)
+    {
+        var frame = direction switch
+        {
+            FacingDirection.Down => hitDown,
+            FacingDirection.DownRight => hitDownRight,
+            FacingDirection.Right => hitRight,
+            FacingDirection.UpRight => hitUpRight,
+            _ => hitUp,
+        };
+        if (frame < 0)
+        {
+            frame = direction == FacingDirection.UpRight || direction == FacingDirection.Up ? hitBack : hitFront;
+        }
+        return frame / (float)fps;
+    }
     public float AttackSeconds => attackFrames / (float)fps;
 }

@@ -31,14 +31,18 @@ public class MemberView : MonoBehaviour
     [SerializeField] private float minMovePixels = 0.25f;
     [SerializeField] private float facingAxisRatio = 0.25f;
 
-    private Sprite _frontSprite;
-    private Sprite _backSprite;
     private Sprite _downedSprite;
     private Sprite _motionSprite;
-    private Sprite[] _walkFrontFrames;
-    private Sprite[] _walkBackFrames;
-    private Sprite[] _attackFrontFrames;
-    private Sprite[] _attackBackFrames;
+    private Sprite[] _directionSprites;
+    private Sprite[][] _walkFrameTable;
+    private Sprite[][] _attackFrameTable;
+    private int _spriteMask;
+    private int _walkMask;
+    private int _attackMask;
+    public int FacingFallbackCount
+    {
+        get; private set;
+    }
     private MemberMotionData _motionData;
     private FootShadowView _shadow;
 
@@ -50,8 +54,14 @@ public class MemberView : MonoBehaviour
     public float HitFlashSeconds => hitFlashSeconds;
     public float MinMovePixels => minMovePixels;
     public float FacingAxisRatio => facingAxisRatio;
-    public bool HasArt { get; private set; }
-    public bool IsDowned { get; private set; }
+    public bool HasArt
+    {
+        get; private set;
+    }
+    public bool IsDowned
+    {
+        get; private set;
+    }
     public string BodySpriteName => bodyRenderer.sprite.name;
     public Color BodyColor => bodyRenderer.color;
     public SpriteFacing Facing { get; private set; } = SpriteFacing.Front;
@@ -62,8 +72,8 @@ public class MemberView : MonoBehaviour
     public void Initialize(Sprite frontSprite, Sprite backSprite, Sprite downedSprite, Sprite hpBarSprite, Sprite hpFillSprite, bool hasArt)
     {
         _motionSprite = null;
-        _frontSprite = frontSprite;
-        _backSprite = backSprite;
+        _directionSprites = new[] { null, frontSprite, null, backSprite, null };
+        _spriteMask = SpriteMask(_directionSprites);
         _downedSprite = downedSprite;
         HasArt = hasArt;
         IsDowned = false;
@@ -101,13 +111,35 @@ public class MemberView : MonoBehaviour
         flashRenderer.enabled = isFlashOn;
     }
 
+    public void InitializeDirections(Sprite[] sprites)
+    {
+        _directionSprites = sprites;
+        _spriteMask = SpriteMask(sprites);
+        ApplySprite();
+    }
+
     public void InitializeClips(MemberMotionData data, Sprite[] walkFront, Sprite[] walkBack, Sprite[] attackFront, Sprite[] attackBack)
     {
+        InitializeClips(data, new[] { null, walkFront, null, walkBack, null },
+            new[] { null, attackFront, null, attackBack, null });
+    }
+
+    public void InitializeClips(MemberMotionData data, Sprite[][] walkFrameTable, Sprite[][] attackFrameTable)
+    {
         _motionData = data;
-        _walkFrontFrames = walkFront;
-        _walkBackFrames = walkBack;
-        _attackFrontFrames = attackFront;
-        _attackBackFrames = attackBack;
+        _walkFrameTable = walkFrameTable;
+        _attackFrameTable = attackFrameTable;
+        _walkMask = ClipMask(walkFrameTable);
+        _attackMask = ClipMask(attackFrameTable);
+        FacingFallbackCount = 0;
+        for (var i = 0; i < 5; i++)
+        {
+            var bit = 1 << i;
+            if ((_spriteMask & bit) == 0 || (_walkMask & bit) == 0 || (_attackMask & bit) == 0)
+            {
+                FacingFallbackCount++;
+            }
+        }
     }
 
     public void InitializeShadow(Sprite sprite, float bodyWidthPixels)
@@ -130,12 +162,14 @@ public class MemberView : MonoBehaviour
         {
             if (attack.IsPlaying)
             {
-                var frames = attack.Facing.IsBack ? _attackBackFrames : _attackFrontFrames;
+                var direction = SpriteFacing.ResolveAvailable(attack.Facing.Direction, _attackMask);
+                var frames = _attackFrameTable[(int)direction];
                 _motionSprite = frames[attack.GetFrame(frames.Length)];
             }
             else if (isMoving)
             {
-                var frames = Facing.IsBack ? _walkBackFrames : _walkFrontFrames;
+                var direction = SpriteFacing.ResolveAvailable(Facing.Direction, _walkMask);
+                var frames = _walkFrameTable[(int)direction];
                 var frame = Mathf.FloorToInt(walkClock * _motionData.Fps + 1e-5f) % frames.Length;
                 _motionSprite = frames[frame];
             }
@@ -149,10 +183,36 @@ public class MemberView : MonoBehaviour
     // 쓰러짐이면 쓰러진 그림, 아니면 방향의 앞·뒤 그림. 좌우 반전은 늘 Facing(쓰러진 뒤에는 쓰러질 때 방향)
     private void ApplySprite()
     {
-        var sprite = IsDowned ? _downedSprite : _motionSprite != null ? _motionSprite : Facing.IsBack ? _backSprite : _frontSprite;
+        var sprite = IsDowned ? _downedSprite : _motionSprite != null ? _motionSprite : _directionSprites[(int)SpriteFacing.ResolveAvailable(Facing.Direction, _spriteMask)];
         bodyRenderer.sprite = sprite;
         bodyRenderer.flipX = Facing.IsFlipped;
         flashRenderer.sprite = sprite;
         flashRenderer.flipX = Facing.IsFlipped;
     }
+    private static int SpriteMask(Sprite[] sprites)
+    {
+        var mask = 0;
+        for (var i = 0; i < sprites.Length; i++)
+        {
+            if (sprites[i] != null)
+            {
+                mask |= 1 << i;
+            }
+        }
+        return mask;
+    }
+
+    private static int ClipMask(Sprite[][] frames)
+    {
+        var mask = 0;
+        for (var i = 0; i < frames.Length; i++)
+        {
+            if (frames[i] != null && frames[i].Length > 0)
+            {
+                mask |= 1 << i;
+            }
+        }
+        return mask;
+    }
+
 }

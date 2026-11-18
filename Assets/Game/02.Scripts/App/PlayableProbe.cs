@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using VContainer;
@@ -484,7 +485,10 @@ public static class PlayableProbe
         }
     }
 
-    // "front-right"·"front-left"·"back-right"·"back-left"
+    // Missing static/walk/attack direction entries that require nearest-source substitution.
+    public static int FacingFallbackCount => Resolve<IReadOnlyList<MemberView>>().Sum(view => view.FacingFallbackCount)
+        + Object.FindObjectsByType<MonsterView>(FindObjectsSortMode.None).Sum(view => view.FacingFallbackCount);
+
     public static string MemberFacing(int member) => Resolve<IReadOnlyList<MemberView>>()[member].Facing.Label;
     public static int IdleOffsetsSeen => Resolve<WorldPresenter>().IdleOffsetsSeen;
 
@@ -562,7 +566,7 @@ public static class PlayableProbe
         foreach (var monster in Resolve<MonsterModel>().MonsterList)
         {
             if (!monster.IsAlive || !registry.TryGet(monster.Id, out var view) || !view.IsWarning
-                || view.BodySpriteName.Replace(CloneSuffix, string.Empty) != spriteName)
+                || view.WarningSpriteName.Replace(CloneSuffix, string.Empty) != spriteName)
             {
                 continue;
             }
@@ -1111,7 +1115,7 @@ public class PlayableWarningSampler : MonoBehaviour
             var isShown = _shownDict.TryGetValue(monster.Id, out var shown);
             if (view.IsWarning)
             {
-                var spriteName = view.BodySpriteName.Replace(CloneSuffix, string.Empty);
+                var spriteName = view.WarningSpriteName.Replace(CloneSuffix, string.Empty);
                 if (!isShown)
                 {
                     _shownDict.Add(monster.Id, (spriteName, Time.time));

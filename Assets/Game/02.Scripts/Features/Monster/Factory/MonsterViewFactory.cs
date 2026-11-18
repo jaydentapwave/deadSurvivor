@@ -26,6 +26,7 @@ public class MonsterViewFactory
 
     private readonly Dictionary<string, (Sprite sprite, Sprite warningSprite, bool hasArt)> _bodySpriteDict = new();
     private readonly Dictionary<string, float> _headHeightDict = new();
+    private readonly Dictionary<string, (Sprite[] body, Sprite[] warning)> _directionDict = new();
     private MonsterView _prefab;
     private Sprite _dashLineSprite;
     private Sprite _blastAreaSprite;
@@ -56,6 +57,18 @@ public class MonsterViewFactory
         var view = _poolManager.Get(PoolKey, _prefab, parent);
         var body = GetBodySprite(data);
         view.Initialize(body.sprite, body.warningSprite, body.hasArt, _dashLineSprite, _blastAreaSprite, dashLength, blastRadius, _runRules.UnitScale);
+        if (body.hasArt)
+        {
+            if (!_directionDict.TryGetValue(data.Id, out var directions))
+            {
+                var warningKey = data.Behavior == MonsterBehavior.Charge ? data.Sprite + SpriteAtlasService.TelegraphSuffix
+                    : data.Behavior == MonsterBehavior.Bomb ? data.Sprite + SpriteAtlasService.InflateSuffix : null;
+                directions = (_spriteAtlasService.GetDirections(data.Sprite, true), warningKey == null ? new Sprite[5]
+                    : _spriteAtlasService.GetDirections(warningKey, true));
+                _directionDict.Add(data.Id, directions);
+            }
+            view.InitializeDirections(directions.body, directions.warning);
+        }
         view.InitializeShadow(_spriteAtlasService.Get("shadow"), _spriteAtlasService.GetVisibleWidth(body.sprite));
         _monsterViewRegistry.Register(monster.Id, view);
         return view;

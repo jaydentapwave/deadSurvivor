@@ -79,7 +79,7 @@ public class MemberViewSpriteTests
     {
         _view.Initialize(_front, _back, _downed, _bar, _bar, true);
 
-        _view.ApplyMotion(new SpriteFacing(isBack, isFlipped), Vector2Int.zero, true);
+        _view.ApplyMotion(new SpriteFacing(isBack ? FacingDirection.UpRight : FacingDirection.DownRight, isFlipped), Vector2Int.zero, true);
 
         Assert.AreSame(isBack ? _back : _front, _body.sprite);
         Assert.AreSame(_body.sprite, _flash.sprite);
@@ -109,7 +109,7 @@ public class MemberViewSpriteTests
     public void DownedSwapsSpriteDimsAndRevives(bool isBack, bool isFlipped)
     {
         _view.Initialize(_front, _back, _downed, _bar, _bar, true);
-        var facing = new SpriteFacing(isBack, isFlipped);
+        var facing = new SpriteFacing(isBack ? FacingDirection.UpRight : FacingDirection.DownRight, isFlipped);
         _view.ApplyMotion(facing, Vector2Int.zero, false);
         _view.UpdateView(Vector2.zero, 1f, true, 0f);
         Assert.AreEqual(Color.white, _body.color);
@@ -164,7 +164,7 @@ public class MemberViewSpriteTests
     public void WalkLoopsAttackOverridesIdleAndDownedOverridesBoth(bool isBack, bool isFlipped)
     {
         var data = JsonUtility.FromJson<MemberMotionData>("{\"fps\":10,\"walkFrames\":2,\"attackFrames\":2,\"hitFront\":1,\"hitBack\":1}");
-        var facing = new SpriteFacing(isBack, isFlipped);
+        var facing = new SpriteFacing(isBack ? FacingDirection.UpRight : FacingDirection.DownRight, isFlipped);
         var attack = new MemberAttackMotion();
         _view.Initialize(_front, _back, _downed, _bar, _bar, true);
         _view.InitializeClips(data, new[] { _front, _bar }, new[] { _back, _bar },
@@ -207,6 +207,25 @@ public class MemberViewSpriteTests
         Assert.Less(shadow.GetComponent<SpriteRenderer>().sortingOrder, _body.sortingOrder);
         var scale = shadow.transform.localScale.x;
         Assert.AreEqual(Mathf.Round(scale), scale);
+    }
+
+    [Test]
+    public void StaticRightUsesNewPictureWhileMissingWalkUsesNearestFrontClip()
+    {
+        var data = JsonUtility.FromJson<MemberMotionData>("{\"fps\":10,\"walkFrames\":2,\"attackFrames\":2,\"hitFront\":1,\"hitBack\":1}");
+        _view.Initialize(_front, _back, _downed, _bar, _bar, true);
+        _view.InitializeDirections(new[] { _front, _front, _bar, _back, _downed });
+        _view.InitializeClips(data, new[] { _front, _front }, new[] { _back, _back },
+            new[] { _front, _front }, new[] { _back, _back });
+        _view.ApplyMotion(new SpriteFacing(FacingDirection.Right, true), Vector2Int.zero, false);
+        Assert.AreSame(_bar, _body.sprite);
+        Assert.IsTrue(_body.flipX);
+        _view.ApplyAnimation(true, .1f, new MemberAttackMotion());
+        Assert.AreSame(_front, _body.sprite);
+        Assert.AreEqual(FacingDirection.Right, _view.Facing.Direction);
+        Assert.AreEqual(3, _view.FacingFallbackCount);
+        _view.ApplyAnimation(false, 0f, new MemberAttackMotion());
+        Assert.AreSame(_bar, _body.sprite);
     }
 
     private static SpriteRenderer CreateChild(string name, Transform parent)

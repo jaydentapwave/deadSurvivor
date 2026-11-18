@@ -54,7 +54,10 @@ public class WorldPresenter : IInitializable, ILateTickable
     private int _idleOffsetSeenMask;
 
     // 판정 진입점용(이번 판): 번쩍임 시작 수, 끝난 번쩍임 한 번이 켜져 있던 최대 시간(없으면 −1), 대원 0이 지난 대기 오프셋 종류 수
-    public int MemberHitFlashTotal { get; private set; }
+    public int MemberHitFlashTotal
+    {
+        get; private set;
+    }
     public float MemberFlashMaxSeconds { get; private set; } = -1f;
     public int IdleOffsetsSeen => (_idleOffsetSeenMask & 1) + ((_idleOffsetSeenMask >> 1) & 1);
 
@@ -227,15 +230,17 @@ public class WorldPresenter : IInitializable, ILateTickable
 
             var hpBarSprite = _spriteAtlasService.GetUi("hp_bar_bg");
             view.Initialize(frontSprite, backSprite, downedSprite, hpBarSprite, _spriteAtlasService.GetUi("hp_bar_fill"), hasArt);
+            if (hasArt)
+            {
+                view.InitializeDirections(_spriteAtlasService.GetDirections(key));
+            }
             view.InitializeShadow(_spriteAtlasService.Get("shadow"), _spriteAtlasService.GetVisibleWidth(frontSprite));
             var motion = characterDataList[i].Motion;
             if (hasArt && motion != null)
             {
                 view.InitializeClips(motion,
-                    _spriteAtlasService.GetMemberFrames(key, "walk_front", motion.WalkFrames),
-                    _spriteAtlasService.GetMemberFrames(key, "walk_back", motion.WalkFrames),
-                    _spriteAtlasService.GetMemberFrames(key, "attack_front", motion.AttackFrames),
-                    _spriteAtlasService.GetMemberFrames(key, "attack_back", motion.AttackFrames));
+                    _spriteAtlasService.GetDirectionFrames(key, "walk", motion.WalkFrames),
+                    _spriteAtlasService.GetDirectionFrames(key, "attack", motion.AttackFrames));
             }
         }
     }
@@ -340,7 +345,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         if (hasStepped)
         {
             var minMove = view.MinMovePixels / Const.PixelsPerUnit;
-            facing = SpriteFacing.Next(view.Facing, TiltedViewMath.FloorToScreenPlane(delta * _runRules.UnitScale, _viewRules.SinTilt), minMove, view.FacingAxisRatio, true);
+            facing = SpriteFacing.Next(view.Facing, TiltedViewMath.FloorToScreenPlane(delta * _runRules.UnitScale, _viewRules.SinTilt), minMove, _viewRules.FacingHoldDegrees);
             _isMemberMovings[index] = delta.sqrMagnitude >= Mathf.Pow(minMove / _runRules.UnitScale, 2);
             if (_isMemberMovings[index])
             {
@@ -422,14 +427,14 @@ public class WorldPresenter : IInitializable, ILateTickable
         }
     }
 
-    // 좌우 반전(늘 앞)과 이동 중 hop/squash, 예고 중 좌우 1px 흔들림. hop 시작은 (번호 × stagger) mod 주기로 어긋낸다(결정적)
+    // 8방향과 이동 중 hop/squash, 예고 중 좌우 1px 흔들림. hop 시작은 (번호 × stagger) mod 주기로 어긋낸다(결정적)
     private void UpdateMonsterMotion(MonsterView view, Monster monster, bool hasStepped, Vector2 delta)
     {
-        var isFlipped = view.IsFlipped;
+        var facing = view.Facing;
         if (hasStepped)
         {
             var minMove = view.MinMovePixels / Const.PixelsPerUnit;
-            isFlipped = SpriteFacing.Next(new SpriteFacing(false, isFlipped), TiltedViewMath.FloorToScreenPlane(delta * _runRules.UnitScale, _viewRules.SinTilt), minMove, view.FacingAxisRatio, false).IsFlipped;
+            facing = SpriteFacing.Next(view.Facing, TiltedViewMath.FloorToScreenPlane(delta * _runRules.UnitScale, _viewRules.SinTilt), minMove, _viewRules.FacingHoldDegrees);
             if (delta.sqrMagnitude >= Mathf.Pow(minMove / _runRules.UnitScale, 2))
             {
                 _movingMonsterIdSet.Add(monster.Id);
@@ -448,6 +453,6 @@ public class WorldPresenter : IInitializable, ILateTickable
         }
 
         var offsetX = SpriteMotion.GetShakeOffsetX(view.IsWarning, _motionClock, view.ShakePeriodSeconds);
-        view.ApplyMotion(isFlipped, new Vector2Int(offsetX, offsetY));
+        view.ApplyMotion(facing, new Vector2Int(offsetX, offsetY));
     }
 }

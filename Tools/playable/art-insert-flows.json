@@ -37,7 +37,7 @@
       "name": "전투 시작, 대원 4명 그림·앞 오른쪽",
       "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart();",
       "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
-      "expect": "PlayableProbe.MemberSpriteCount == 4 && PlayableProbe.MemberFacing(0) == \"front-right\" && PlayableProbe.MemberFacing(1) == \"front-right\" && PlayableProbe.MemberFacing(2) == \"front-right\" && PlayableProbe.MemberFacing(3) == \"front-right\"",
+      "expect": "PlayableProbe.MemberSpriteCount == 4 && PlayableProbe.MemberFacing(0) == \"down-right\" && PlayableProbe.MemberFacing(1) == \"down-right\" && PlayableProbe.MemberFacing(2) == \"down-right\" && PlayableProbe.MemberFacing(3) == \"down-right\"",
       "capture": "all"
     },
     {
@@ -57,7 +57,7 @@
       "name": "오른쪽 아래 이동 → 앞·오른쪽",
       "do": "PlayableProbe.SetMove(1f, -1f);",
       "sleep": 0.5,
-      "expect": "PlayableProbe.MemberFacing(0) == \"front-right\" && PlayableProbe.MemberFacing(1) == \"front-right\" && PlayableProbe.MemberFacing(2) == \"front-right\" && PlayableProbe.MemberFacing(3) == \"front-right\"",
+      "expect": "PlayableProbe.MemberFacing(0) == \"down-right\" && PlayableProbe.MemberFacing(1) == \"down-right\" && PlayableProbe.MemberFacing(2) == \"down-right\" && PlayableProbe.MemberFacing(3) == \"down-right\"",
       "capture": true
     },
     {
@@ -65,7 +65,7 @@
       "name": "왼쪽 아래 이동 → 앞·왼쪽",
       "do": "PlayableProbe.SetMove(-1f, -1f);",
       "sleep": 0.5,
-      "expect": "PlayableProbe.MemberFacing(0) == \"front-left\" && PlayableProbe.MemberFacing(1) == \"front-left\" && PlayableProbe.MemberFacing(2) == \"front-left\" && PlayableProbe.MemberFacing(3) == \"front-left\"",
+      "expect": "PlayableProbe.MemberFacing(0) == \"down-left\" && PlayableProbe.MemberFacing(1) == \"down-left\" && PlayableProbe.MemberFacing(2) == \"down-left\" && PlayableProbe.MemberFacing(3) == \"down-left\"",
       "capture": true
     },
     {
@@ -73,7 +73,7 @@
       "name": "왼쪽 위 이동 → 뒤·왼쪽",
       "do": "PlayableProbe.SetMove(-1f, 1f);",
       "sleep": 0.5,
-      "expect": "PlayableProbe.MemberFacing(0) == \"back-left\" && PlayableProbe.MemberFacing(1) == \"back-left\" && PlayableProbe.MemberFacing(2) == \"back-left\" && PlayableProbe.MemberFacing(3) == \"back-left\"",
+      "expect": "PlayableProbe.MemberFacing(0) == \"up-left\" && PlayableProbe.MemberFacing(1) == \"up-left\" && PlayableProbe.MemberFacing(2) == \"up-left\" && PlayableProbe.MemberFacing(3) == \"up-left\"",
       "capture": true
     },
     {
@@ -81,7 +81,7 @@
       "name": "오른쪽 위 이동 → 뒤·오른쪽",
       "do": "PlayableProbe.SetMove(1f, 1f);",
       "sleep": 0.5,
-      "expect": "PlayableProbe.MemberFacing(0) == \"back-right\" && PlayableProbe.MemberFacing(1) == \"back-right\" && PlayableProbe.MemberFacing(2) == \"back-right\" && PlayableProbe.MemberFacing(3) == \"back-right\"",
+      "expect": "PlayableProbe.MemberFacing(0) == \"up-right\" && PlayableProbe.MemberFacing(1) == \"up-right\" && PlayableProbe.MemberFacing(2) == \"up-right\" && PlayableProbe.MemberFacing(3) == \"up-right\"",
       "capture": true
     },
     {
@@ -89,14 +89,14 @@
       "name": "가로 이동 → 앞·뒤 유지",
       "do": "PlayableProbe.SetMove(1f, 0f);",
       "sleep": 0.5,
-      "expect": "PlayableProbe.MemberFacing(0) == \"back-right\" && PlayableProbe.MemberFacing(1) == \"back-right\" && PlayableProbe.MemberFacing(2) == \"back-right\" && PlayableProbe.MemberFacing(3) == \"back-right\""
+      "expect": "PlayableProbe.MemberFacing(0) == \"right\" && PlayableProbe.MemberFacing(1) == \"right\" && PlayableProbe.MemberFacing(2) == \"right\" && PlayableProbe.MemberFacing(3) == \"right\""
     },
     {
       "id": "STOP",
       "name": "멈춤 → 방향 유지, 대기 두 프레임",
       "do": "PlayableProbe.SetMove(0f, 0f);",
       "sleep": 1,
-      "expect": "PlayableProbe.MemberFacing(0) == \"back-right\" && PlayableProbe.MemberFacing(1) == \"back-right\" && PlayableProbe.MemberFacing(2) == \"back-right\" && PlayableProbe.MemberFacing(3) == \"back-right\" && PlayableProbe.IdleOffsetsSeen == 2",
+      "expect": "PlayableProbe.MemberFacing(0) == \"right\" && PlayableProbe.MemberFacing(1) == \"right\" && PlayableProbe.MemberFacing(2) == \"right\" && PlayableProbe.MemberFacing(3) == \"right\" && PlayableProbe.IdleOffsetsSeen == 2",
       "capture": true
     },
     {

@@ -28,29 +28,77 @@ public class SpriteAtlasService : IDisposable
         _resourceService = resourceService;
     }
 
-    // 없는 이름이면 오류 로그를 남기고 null(부르는 쪽이 F1 임시 도형으로 그린다)
+    // Legacy aliases live here only; old HUD/portrait keys remain valid.
+    private static readonly string[] DirectionSuffixes = { "_down", "_downright", "_right", "_upright", "_up" };
+    private static readonly Dictionary<string, string> DirectionAliasDict = new()
+    {
+        { "_downright", "_front" }, { "_upright", "_back" },
+    };
+
     public Sprite Get(string spriteName, string atlasPath = CharactersAtlasPath)
     {
-        if (_spriteDict.TryGetValue(spriteName, out var sprite))
+        if (TryGet(spriteName, out var sprite, atlasPath))
         {
             return sprite;
         }
+        GameLogger.LogError($"[SpriteAtlasService] No sprite {spriteName}");
+        return null;
+    }
 
+    // Missing optional directions/clips are normal while stage 5 art is being produced.
+    public bool TryGet(string spriteName, out Sprite sprite, string atlasPath = CharactersAtlasPath)
+    {
+        var canonical = spriteName;
+        foreach (var alias in DirectionAliasDict)
+        {
+            canonical = canonical.Replace(alias.Key, alias.Value);
+        }
+        if (_spriteDict.TryGetValue(spriteName, out sprite))
+        {
+            return sprite != null;
+        }
         if (!_atlasDict.TryGetValue(atlasPath, out var atlas))
         {
             atlas = _resourceService.Load<SpriteAtlas>(atlasPath);
             _atlasDict.Add(atlasPath, atlas);
         }
-
+        // Newly supplied directions take precedence over legacy aliases.
         sprite = atlas.GetSprite(spriteName);
-        if (sprite == null)
+        if (sprite == null && canonical != spriteName)
         {
-            GameLogger.LogError($"[SpriteAtlasService] No sprite {spriteName}");
-            return null;
+            TryGet(canonical, out sprite, atlasPath);
         }
-
         _spriteDict.Add(spriteName, sprite);
-        return sprite;
+        return sprite != null;
+    }
+
+    public Sprite[] GetDirections(string key, bool isMonster = false)
+    {
+        var sprites = new Sprite[5];
+        for (var i = 0; i < sprites.Length; i++)
+        {
+            TryGet(key + DirectionSuffixes[i], out sprites[i]);
+        }
+        if (isMonster && sprites[(int)FacingDirection.DownRight] == null)
+        {
+            sprites[(int)FacingDirection.DownRight] = Get(key);
+        }
+        return sprites;
+    }
+
+    public Sprite[][] GetDirectionFrames(string key, string action, int frameCount)
+    {
+        var table = new Sprite[5][];
+        for (var i = 0; i < table.Length; i++)
+        {
+            var clip = action + DirectionSuffixes[i];
+            if (!TryGet($"{key}_{clip}_00", out _))
+            {
+                continue;
+            }
+            table[i] = GetMemberFrames(key, clip, frameCount);
+        }
+        return table;
     }
 
     // UI는 회전·tight packing이 꺼진 Characters 아틀라스에 함께 들어간다.
@@ -123,9 +171,12 @@ public class SpriteAtlasService : IDisposable
 
     public void Dispose()
     {
-        foreach (var sprite in _spriteDict.Values)
+        foreach (var sprite in new HashSet<Sprite>(_spriteDict.Values))
         {
-            Object.Destroy(sprite);
+            if (sprite != null)
+            {
+                Object.Destroy(sprite);
+            }
         }
 
         _spriteDict.Clear();

@@ -1,45 +1,82 @@
 using UnityEngine;
 
-// 그림이 보는 방향(그림 넣기 기획서 E절, 아트 기준서 K14·3.1): 앞(오른쪽 아래)·뒤(오른쪽 위) + 좌우 반전 = 4방향.
-// 이번 프레임 화면(월드) 이동량으로 축마다 따로 정하고, 기준 아래인 축은 지난 값을 둔다.
+public enum FacingDirection
+{
+    Down, DownRight, Right, UpRight, Up
+}
+
 public readonly struct SpriteFacing
 {
-    // 한 판 시작·풀에서 꺼냄: 앞 + 반전 없음(오른쪽 아래, 기준서 정면)
-    public static readonly SpriteFacing Front = new(false, false);
-
-    public bool IsBack { get; }
-    public bool IsFlipped { get; }
-
-    // 판정 경로 표기: "front-right"·"front-left"·"back-right"·"back-left"
-    public string Label => (IsBack ? "back" : "front") + (IsFlipped ? "-left" : "-right");
-
-    public SpriteFacing(bool isBack, bool isFlipped)
+    public static readonly SpriteFacing Front = new(FacingDirection.DownRight, false);
+    public FacingDirection Direction
     {
-        IsBack = isBack;
+        get;
+    }
+    public bool IsFlipped
+    {
+        get;
+    }
+    public string Label => Direction switch
+    {
+        FacingDirection.Down => "down",
+        FacingDirection.Up => "up",
+        FacingDirection.Right => IsFlipped ? "left" : "right",
+        FacingDirection.UpRight => IsFlipped ? "up-left" : "up-right",
+        _ => IsFlipped ? "down-left" : "down-right"
+    };
+    public SpriteFacing(FacingDirection direction, bool isFlipped)
+    {
+        Direction = direction;
         IsFlipped = isFlipped;
     }
-
-    // canFaceBack = false(몬스터)면 늘 앞이고 좌우만 바뀐다
-    public static SpriteFacing Next(SpriteFacing last, Vector2 delta, float minMove, float axisRatio, bool canFaceBack)
+    public static SpriteFacing Next(SpriteFacing last, Vector2 delta, float minMove, float holdDegrees)
     {
-        var absX = Mathf.Abs(delta.x);
-        var absY = Mathf.Abs(delta.y);
-        var isBack = last.IsBack;
-        if (!canFaceBack)
+        if (Mathf.Abs(delta.x) < minMove && Mathf.Abs(delta.y) < minMove)
         {
-            isBack = false;
+            return last;
         }
-        else if (absY >= minMove && absY >= axisRatio * absX)
+        var angle = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg;
+        var center = ((int)last.Direction - 2) * 45f;
+        if (last.IsFlipped)
         {
-            isBack = delta.y > 0f;
+            center = 180f - center;
         }
-
-        var isFlipped = last.IsFlipped;
-        if (absX >= minMove && absX >= axisRatio * absY)
+        if (Mathf.Abs(Mathf.DeltaAngle(center, angle)) <= 22.5f + holdDegrees)
         {
-            isFlipped = delta.x < 0f;
+            return last;
         }
-
-        return new SpriteFacing(isBack, isFlipped);
+        var sector = Mathf.RoundToInt(angle / 45f);
+        return sector switch
+        {
+            0 => new(FacingDirection.Right, false),
+            -1 => new(FacingDirection.DownRight, false),
+            -2 => new(FacingDirection.Down, last.IsFlipped),
+            1 => new(FacingDirection.UpRight, false),
+            2 => new(FacingDirection.Up, last.IsFlipped),
+            -3 => new(FacingDirection.DownRight, true),
+            3 => new(FacingDirection.UpRight, true),
+            _ => new(FacingDirection.Right, true)
+        };
+    }
+    // The five source pictures cover -90..90 degrees. Lower direction wins a tie.
+    public static FacingDirection ResolveAvailable(FacingDirection wanted, int availableMask)
+    {
+        var best = wanted;
+        var distance = int.MaxValue;
+        for (var i = 0; i < 5; i++)
+        {
+            if ((availableMask & (1 << i)) == 0)
+            {
+                continue;
+            }
+            var candidate = Mathf.Abs(i - (int)wanted);
+            if (candidate >= distance)
+            {
+                continue;
+            }
+            distance = candidate;
+            best = (FacingDirection)i;
+        }
+        return best;
     }
 }

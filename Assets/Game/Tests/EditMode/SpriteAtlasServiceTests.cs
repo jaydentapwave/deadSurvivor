@@ -13,6 +13,7 @@ public class SpriteAtlasServiceTests
 
     private static readonly string[] SpriteNames =
     {
+        "boar_down", "boar_right", "boar_telegraph_down", "boar_telegraph_right", "boar_telegraph_up", "boar_telegraph_upright", "boar_up", "boar_upright", "bolt_down", "bolt_right", "bolt_up", "bruno_down", "bruno_right", "bruno_up", "lena_down", "lena_right", "lena_up", "mira_down", "mira_right", "mira_up", "mushroom_down", "mushroom_right", "mushroom_up", "mushroom_upright", "puffer_down", "puffer_inflate_down", "puffer_inflate_right", "puffer_inflate_up", "puffer_inflate_upright", "puffer_right", "puffer_up", "puffer_upright", "rock_down", "rock_right", "rock_up", "rock_upright", "slime_down", "slime_right", "slime_up", "slime_upright",
         "bruno_front", "bruno_back", "lena_front", "lena_back", "mira_front", "mira_back", "bolt_front", "bolt_back",
         "slime", "mushroom", "boar", "rock", "puffer",
         "bruno_downed", "lena_downed", "mira_downed", "bolt_downed", "boar_telegraph", "puffer_inflate",
@@ -74,7 +75,7 @@ public class SpriteAtlasServiceTests
         var service = new SpriteAtlasService(new ResourceService());
         foreach (var character in new CharacterRepository(new ResourceService()).CharacterDataList)
         {
-            foreach (var clip in new[] { "walk_front", "walk_back", "attack_front", "attack_back" })
+            foreach (var clip in new[] { "walk_downright", "walk_upright", "attack_downright", "attack_upright" })
             {
                 var count = clip.StartsWith("walk") ? character.Motion.WalkFrames : character.Motion.AttackFrames;
                 var frames = service.GetMemberFrames(character.Sprite, clip, count);
@@ -88,6 +89,25 @@ public class SpriteAtlasServiceTests
                 }
             }
         }
+    }
+
+    [Test]
+    public void OptionalClipsUseOneAliasTableAndKeepMissingDirectionsEmpty()
+    {
+        var service = new SpriteAtlasService(new ResourceService());
+        var table = service.GetDirectionFrames("bruno", "walk", 4);
+        Assert.IsNull(table[(int)FacingDirection.Down]);
+        Assert.IsNull(table[(int)FacingDirection.Right]);
+        Assert.IsNull(table[(int)FacingDirection.Up]);
+        Assert.AreSame(service.Get("bruno_walk_front_00"), table[(int)FacingDirection.DownRight][0]);
+        Assert.AreSame(service.Get("bruno_walk_back_00"), table[(int)FacingDirection.UpRight][0]);
+        Assert.AreSame(service.Get("bruno_front"), service.Get("bruno_downright"));
+        foreach (var sprite in service.GetDirections("bruno"))
+        {
+            Assert.IsNotNull(sprite);
+        }
+        Assert.IsFalse(service.TryGet("missing_optional_direction", out _));
+        LogAssert.NoUnexpectedReceived();
     }
 
     [Test]
