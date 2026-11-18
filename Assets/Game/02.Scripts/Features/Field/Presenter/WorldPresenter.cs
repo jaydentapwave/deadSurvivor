@@ -110,6 +110,7 @@ public class WorldPresenter : IInitializable, ILateTickable
             }
         }
 
+        _fieldView.FinishScenery(_fieldLayout);
         _fieldView.BuildProps(_fieldLayout,
             _spriteAtlasService.Get("flag_01", SpriteAtlasService.GroundAtlasPath),
             _spriteAtlasService.Get("shadow", SpriteAtlasService.CharactersAtlasPath));

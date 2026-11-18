@@ -361,6 +361,39 @@
    "stone": 30,
    "bush": 18,
    "flowers": 220
+  },
+  "edgeClusters": {
+   "centers": [
+    [
+     15,
+     1
+    ],
+    [
+     16,
+     -6
+    ],
+    [
+     -5,
+     -18
+    ],
+    [
+     2,
+     -19
+    ],
+    [
+     11,
+     -15
+    ]
+   ],
+   "radius": 2.6,
+   "trees": 4,
+   "bushes": 5,
+   "boulders": 2,
+   "flowers": 30,
+   "startMargin": [
+    2,
+    4
+   ]
   }
  },
  "score": {

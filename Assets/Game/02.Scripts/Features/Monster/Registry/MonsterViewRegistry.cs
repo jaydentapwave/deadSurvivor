@@ -6,6 +6,7 @@ public class MonsterViewRegistry
     private readonly Dictionary<int, MonsterView> _viewDict = new();
 
     public IEnumerable<int> MonsterIds => _viewDict.Keys;
+    public IEnumerable<MonsterView> Views => _viewDict.Values;
 
     public void Register(int monsterId, MonsterView view) => _viewDict.Add(monsterId, view);
 

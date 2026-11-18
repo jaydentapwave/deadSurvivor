@@ -26,6 +26,8 @@ Shader "HD2D/HD2D_SpriteLit"
         half4 _BaseColor;
         float _Emission;
         float _Dither;
+        int _OcclusionRectCount;
+        float4 _OcclusionRects[64];
         float _BackgroundCard;
         float _HueShift;
         float _SpriteRenderer;
@@ -44,6 +46,7 @@ Shader "HD2D/HD2D_SpriteLit"
             float2 uv : TEXCOORD0;
             float3 positionWS : TEXCOORD1;
             half4 color : COLOR;
+            float4 screen : TEXCOORD2;
         };
         // Same flip and alpha in all three passes, including the shadow silhouette.
         Varyings SpriteVertex(Attributes v)
@@ -53,6 +56,7 @@ Shader "HD2D/HD2D_SpriteLit"
             float3 p = float3(v.positionOS.xy * lerp(float2(1,1), unity_SpriteProps.xy, _SpriteRenderer), v.positionOS.z);
             o.positionWS = TransformObjectToWorld(p);
             o.positionCS = TransformWorldToHClip(o.positionWS);
+            o.screen = ComputeScreenPos(o.positionCS);
             o.uv = v.uv;
             o.color = v.color * lerp(half4(1,1,1,1), unity_SpriteColor, _SpriteRenderer) * _BaseColor;
             return o;
@@ -61,7 +65,17 @@ Shader "HD2D/HD2D_SpriteLit"
         {
             half4 c = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(0.00001, 0.00001)) * i.color;
             clip(c.a - 0.5);
-            clip(frac(dot(floor(i.positionCS.xy),float2(.754877666,.569840296)))-_Dither);
+            if (_Dither > .001)
+            {
+                float2 uv=i.screen.xy/i.screen.w;
+                for (int index=0;index<_OcclusionRectCount;index++)
+                {
+                float4 window=_OcclusionRects[index];
+                float2 nearEdge=min(uv-window.xy,window.zw-uv)*_ScaledScreenParams.xy;
+                float border=min(nearEdge.x,nearEdge.y);
+                if (border>0) clip(frac(dot(floor(i.positionCS.xy),float2(.754877666,.569840296)))-_Dither*saturate(border/2));
+                }
+            }
             return c;
         }
         half4 LitFragment(Varyings i) : SV_Target

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using VContainer;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -125,7 +126,11 @@ public static class HD2DMainPlateCapture
                     {
                         var index = _shot-3;
                         _camera.transform.position = _origin+Vector3.right*(index/48f);
+                        Object.FindFirstObjectByType<GameSceneLifetimeScope>().Container.Resolve<FieldOcclusionPresenter>().Tick();
                         Capture("Main1-move-" + index + ".png",1920,1080);
+                        SetEffects(false);
+                        Capture("Main1-move-raw-" + index + ".png",1920,1080);
+                        SetEffects(true);
                     }
                     else
                     {
@@ -448,20 +453,23 @@ public static class HD2DMainPlateCapture
         }
         finally { _camera.transform.position = pondPosition; }
         File.WriteAllText(GateOutput + "/pond-crop-before.json", "{\"box\":[" + _pondCropX + "," + _pondCropY + "," + (_pondCropX + 600) + "," + (_pondCropY + 240) + "],\"source\":\"nearest PCG pond contour in same-zoom pond view, projected before declaration\"}");
-        int[] Box(SpriteRenderer renderer, bool interior)
+        int[] Box(Renderer renderer, bool interior)
         {
             var min=Vector2.one*float.PositiveInfinity;var max=Vector2.one*float.NegativeInfinity;
-            foreach (var vertex in renderer.sprite.vertices)
+            var sprite = renderer as SpriteRenderer;
+            var vertices = sprite != null
+                ? sprite.sprite.vertices.Select(v => new Vector3(v.x * (sprite.flipX ? -1 : 1), v.y, 0)).ToArray()
+                : renderer.GetComponent<MeshFilter>().sharedMesh.vertices;
+            foreach (var vertex in vertices)
             {
-                var local=new Vector3(vertex.x*(renderer.flipX?-1:1),vertex.y,0);
-                var point=_camera.WorldToViewportPoint(renderer.transform.TransformPoint(local));
+                var point=_camera.WorldToViewportPoint(renderer.transform.TransformPoint(vertex));
                 min=Vector2.Min(min,point);max=Vector2.Max(max,point);
             }
             var rect=Rect.MinMaxRect(min.x,min.y,max.x,max.y);
             var left=rect.xMin*1920;var top=(1-rect.yMax)*1080;
             if (interior)
             {
-                var rock=renderer.name.Contains("boulder_01");
+                var rock=renderer.GetComponentsInParent<Transform>().Any(t=>t.name.StartsWith("3D:boulder:")) || renderer.name.Contains("boulder_01");
                 var xInset=rock?.2f:.2f;var topInset=rock?.25f:.15f;var bottom=rock?.85f:.55f;
                 return new[] { Mathf.RoundToInt(left+rect.width*1920*xInset),Mathf.RoundToInt(top+rect.height*1080*topInset),Mathf.RoundToInt(left+rect.width*1920*(1-xInset)),Mathf.RoundToInt(top+rect.height*1080*bottom) };
             }
@@ -474,25 +482,131 @@ public static class HD2DMainPlateCapture
                 && rect.xMin >= 0 && rect.xMax <= 1 && rect.yMin >= 0 && rect.yMax <= 1;
         }
         var field=Object.FindFirstObjectByType<FieldView>();
-        var cards=field.Landscape.GetComponentsInChildren<SpriteRenderer>();
-        // Measure native paint in the focus band; intentional edge blur is assessed separately.
-        var tree=cards.Where(v=>v.name.StartsWith("tree:") && Visible(v))
-            .OrderBy(v=>{ var p=_camera.WorldToViewportPoint(v.bounds.center); return new Vector2(p.x-.5f,p.y-.5f).sqrMagnitude; }).First();
-        var rock=cards.First(v=>v.name.Contains("boulder_01") && Visible(v));
+        var scenery=field.Landscape.GetComponentsInChildren<Renderer>().Where(r => r.enabled).ToArray();
+        bool Kind(Renderer renderer, string kind) => field.UsesModelScenery
+            ? renderer.GetComponentsInParent<Transform>().Any(t => t.name.StartsWith("3D:" + kind + ":"))
+            : renderer.name.StartsWith(kind + ":");
+        // Select actual mesh geometry after the card-to-model migration; criteria remain unchanged.
+        bool ClearSurface(Renderer renderer)
+        {
+            var box = Box(renderer,true);
+            var sample = Rect.MinMaxRect(box[0]/1920f,1-box[3]/1080f,box[2]/1920f,1-box[1]/1080f);
+            var block = new MaterialPropertyBlock();
+            renderer.GetPropertyBlock(block);
+            if (renderer.sharedMaterial.GetFloat("_Dither") < .001f) return true;
+            var windows=block.GetVectorArray("_OcclusionRects");
+            for (var index=0;index<block.GetInt("_OcclusionRectCount");index++)
+            {
+                var window=windows[index];
+                if (sample.Overlaps(Rect.MinMaxRect(window.x,window.y,window.z,window.w))) return false;
+            }
+            return true;
+        }
+        var tree=scenery.Where(v=>Kind(v,"tree") && Visible(v) && ClearSurface(v))
+            .OrderBy(v=>{var box=Box(v,true); return new Vector2((box[0]+box[2])/3840f-.5f,(box[1]+box[3])/2160f-.5f).sqrMagnitude;}).First();
+        var rock=scenery.Where(v=>Kind(v,"boulder") && Visible(v))
+            .First(v=>{var box=Box(v,false); return box[0]>=CropX && box[1]>=CropY && box[2]<=CropX+CropWidth && box[3]<=CropY+CropHeight;});
         var monsters=Object.FindObjectsByType<MonsterView>(FindObjectsSortMode.InstanceID);
-        var monster=monsters.Select(v=>(SpriteRenderer)new SerializedObject(v).FindProperty("bodyRenderer").objectReferenceValue).First(IsVisibleSlime);
-        // Keep the same floor samples in world metres when collecting a normal moved battle view.
-        var groundA = _camera.WorldToViewportPoint(new Vector3(-10f / 3, 0, -265f / 48));
-        var groundB = _camera.WorldToViewportPoint(new Vector3(10f / 3, 0, -361f / 48));
-        var groundBox = new[] { Mathf.RoundToInt(groundA.x * 1920), Mathf.RoundToInt((1 - groundA.y) * 1080), Mathf.RoundToInt(groundB.x * 1920), Mathf.RoundToInt((1 - groundB.y) * 1080) };
+        var monster=monsters.Select(v=>v.BodyRenderer).Where(IsVisibleSlime)
+            .OrderBy(v=>{var p=_camera.WorldToViewportPoint(v.bounds.center);return new Vector2(p.x-.5f,p.y-.5f).sqrMagnitude;}).First();
+        var groundBox = EmptyGrassPanel(field);
         var groundSmall = new[] { groundBox[0], groundBox[1], groundBox[0] + 80, groundBox[1] + 45 };
-        var regions=new Regions { source="pre-capture: actual fully visible Main sprite vertices; tree nearest vertical focus; ground anchored to the same empty world-floor rectangle during normal party movement",hero=Box(Hero(),false),ground=new[] { groundBox },props=new[] { new Region { name="tree",box=Box(tree,true),ground_box=groundSmall },new Region {name="stone",box=Box(rock,false),ground_box=groundSmall} },monsters=new[]{new Region {name=monster.sprite.name,box=Box(monster,true),ground_box=groundSmall}} };
+        var regions=new Regions { source="pre-capture: actual fully visible Main sprite or mesh vertices; clear prop surfaces nearest focus; empty grass panel excludes scenery, actors, cast shadows and authored path/water/soil masks before capture",hero=Box(Hero(),false),ground=new[] { groundBox },props=new[] { new Region { name="tree",box=Box(tree,true),ground_box=groundSmall },new Region {name="stone",box=Box(rock,true),ground_box=groundSmall} },monsters=new[]{new Region {name=monster.sprite.name,box=Box(monster,true),ground_box=groundSmall}} };
         // JsonUtility cannot serialize jagged arrays. Write the simple region declaration explicitly.
         string Array(int[] a)=>"["+string.Join(",",a)+"]";
         string Entry(Region e)=>"{\"name\":\""+e.name+"\",\"box\":"+Array(e.box)+",\"ground_box\":"+Array(e.ground_box)+"}";
         File.WriteAllText(GateOutput+"/regions-before.json","{\"source\":\""+regions.source+"\",\"hero\":"+Array(regions.hero)+",\"ground\":["+Array(regions.ground[0])+"],\"props\":["+string.Join(",",regions.props.Select(Entry))+"],\"monsters\":["+string.Join(",",regions.monsters.Select(Entry))+"]}");
         var dependencies=AssetDatabase.GetDependencies("Assets/Game/01.Scene/Main.unity",true).Where(File.Exists).ToArray();
         File.WriteAllText(GateOutput+"/dependencies.json","{\"result\":["+string.Join(",",dependencies.Select(p=>"\""+p+"\""))+"]}");
+    }
+
+    private static int[] EmptyGrassPanel(FieldView field)
+    {
+        var obstacles = new List<Rect>();
+        Rect PixelRect(Bounds bounds)
+        {
+            var rect = OcclusionMath.ProjectBounds(_camera,bounds);
+            return Rect.MinMaxRect(rect.xMin*1920,(1-rect.yMax)*1080,rect.xMax*1920,(1-rect.yMin)*1080);
+        }
+        var direction = RenderSettings.sun.transform.forward;
+        foreach (var renderer in field.Landscape.GetComponentsInChildren<Renderer>(true).Where(r=>r.enabled && !r.name.StartsWith("3D plant batch ")))
+        {
+            if (new[] { "ground","bank","pond","stream","stream-upper","waterfall" }.Contains(renderer.name)) continue;
+            var bounds=renderer.bounds;
+            if (!renderer.gameObject.activeInHierarchy && renderer is MeshRenderer)
+            {
+                var local=renderer.GetComponent<MeshFilter>().sharedMesh.bounds;
+                var first=true;
+                for (var i=0;i<8;i++)
+                {
+                    var corner=local.center+Vector3.Scale(local.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));
+                    var point=renderer.transform.TransformPoint(corner);
+                    if (first) { bounds=new Bounds(point,Vector3.zero);first=false; }
+                    bounds.Encapsulate(point);
+                }
+            }
+            obstacles.Add(PixelRect(bounds));
+            if (renderer.shadowCastingMode == ShadowCastingMode.Off) continue;
+            var projected = new Bounds();
+            var initialized = false;
+            for (var i=0;i<8;i++)
+            {
+                var point=bounds.center+Vector3.Scale(bounds.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));
+                point-=direction*(point.y/direction.y);
+                if (!initialized) { projected=new Bounds(point,Vector3.zero);initialized=true; }
+                projected.Encapsulate(point);
+            }
+            obstacles.Add(PixelRect(projected));
+        }
+        foreach (var member in Object.FindObjectsByType<MemberView>(FindObjectsSortMode.None)) obstacles.Add(PixelRect(member.BodyRenderer.bounds));
+        foreach (var monster in Object.FindObjectsByType<MonsterView>(FindObjectsSortMode.None)) obstacles.Add(PixelRect(monster.BodyRenderer.bounds));
+        var masks = new List<Texture2D>();
+        try
+        {
+            foreach (var name in new[] { "Path","Water","Zone" })
+            {
+                var texture = new Texture2D(2,2,TextureFormat.RGBA32,false,true);
+                texture.LoadImage(File.ReadAllBytes("Assets/Game/03.Resources/Textures/HD2D/Field"+name+"Mask.png"));
+                masks.Add(texture);
+            }
+            var plane = new Plane(Vector3.up,new Vector3(0,.36f,0));
+            // Same 61,440-pixel area as the previous 640x96 panel, with aspect choices
+            // for the new groves; do not mistake a sparse plant batch's AABB for filled ground.
+            foreach (var size in new[] { new Vector2Int(640,96),new Vector2Int(480,128),new Vector2Int(384,160),new Vector2Int(320,192) })
+            for (var top=400;top<=920;top+=24)
+            {
+                for (var left=64;left<=1536;left+=24)
+                {
+                    if (left+size.x>1856 || top+size.y>1040) continue;
+                    var rect = new Rect(left,top,size.x,size.y);
+                    if (obstacles.Any(o=>o.Overlaps(rect))) continue;
+                    var isGrass=true;
+                    for (var y=top;y<=top+size.y && isGrass;y+=16)
+                    {
+                        for (var x=left;x<=left+size.x;x+=16)
+                        {
+                            var ray=_camera.ViewportPointToRay(new Vector3(x/1920f,1-y/1080f,0));
+                            plane.Raycast(ray,out var distance);
+                            var point=ray.GetPoint(distance);
+                            var u=(point.x+36)/72;var v=(point.z+36)/72;
+                            for (var k=0;k<masks.Count;k++)
+                            {
+                                var mask=masks[k];
+                                var color=mask.GetPixel(Mathf.Clamp((int)(u*mask.width),0,mask.width-1),Mathf.Clamp((int)(v*mask.height),0,mask.height-1));
+                                if (color.r>.1f || k==2 && color.g>.1f) { isGrass=false;break; }
+                            }
+                            if (!isGrass) break;
+                        }
+                    }
+                    if (isGrass) return new[] {left,top,left+size.x,top+size.y};
+                }
+            }
+            throw new InvalidOperationException("No unobstructed 61,440-pixel grass panel at this normal-movement focus.");
+        }
+        finally
+        {
+            foreach (var texture in masks) Object.DestroyImmediate(texture);
+        }
     }
 
     private static void Cleanup()

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Tilemaps;
@@ -23,13 +24,22 @@ public class FieldView : MonoBehaviour
     [SerializeField] private Material ditherSpriteMaterial;
     [SerializeField] private Material ditherWoodMaterial;
     [SerializeField] private Material ditherTentMaterial;
+    [SerializeField] private Material flagMaterial;
+    [SerializeField] private Material ditherFlagMaterial;
+    [SerializeField] private FieldModelCatalog modelCatalog;
+    [SerializeField] private bool useModelScenery;
+    public bool UsesModelScenery => useModelScenery;
+    private int _modelSeed;
+    private readonly Dictionary<string, Vector3[]> _modelPointDict = new();
     private readonly List<FieldOccluder> _occluderList = new();
     public IReadOnlyList<FieldOccluder> Occluders => _occluderList;
     public void RegisterOccluder(Transform anchor, Renderer[] renderers)
     {
         _occluderList.Add(new FieldOccluder(anchor, renderers, original =>
             original == cardMaterial ? ditherSpriteMaterial :
-            original == woodMaterial ? ditherWoodMaterial : ditherTentMaterial));
+            original == woodMaterial ? ditherWoodMaterial :
+            original == tentMaterial ? ditherTentMaterial :
+            original == flagMaterial ? ditherFlagMaterial : modelCatalog.Entries.First(e => e.Material == original).FadedMaterial));
     }
     private Mesh _woodMesh;
     public Material CardMaterial => cardMaterial;
@@ -59,6 +69,7 @@ public class FieldView : MonoBehaviour
 
     public void BuildLandscape(FieldLayoutData layout)
     {
+        _modelSeed = layout.seed;
         _landscape = new GameObject("HD2D Field Landscape").transform;
         _landscape.SetParent(transform, true);
         tilemap.GetComponent<TilemapRenderer>().enabled = false;
@@ -125,15 +136,24 @@ public class FieldView : MonoBehaviour
         {
             renderer.color = new Color(.72f, .72f, .72f, 1);
         }
+        if (useModelScenery)
+        {
+            renderer.enabled = false;
+            if (!FieldModelMath.IsWallRun(placement.group))
+            {
+                AddModel(sprite, placement);
+            }
+            return renderer;
+        }
         if (placement.isCastingShadow)
         {
             card.AddComponent<UprightFootShadow>().Initialize(renderer, footShadowMaterial, placement.height, lightDirection);
         }
-        if (placement.sprite.StartsWith("tree_") || placement.sprite == "boulder_01")
+        if (placement.sprite.StartsWith("tree_") || placement.sprite.StartsWith("bush_") || placement.sprite == "boulder_01")
         {
             RegisterOccluder(card.transform, new Renderer[] { renderer });
         }
-        if (placement.group.StartsWith("wall_"))
+        if (FieldModelMath.IsWallRun(placement.group))
         {
             if (!_partDict.TryGetValue("wall",out var walls))
             {
@@ -142,6 +162,93 @@ public class FieldView : MonoBehaviour
             walls.Add(renderer);
         }
         return renderer;
+    }
+
+    private void AddModel(Sprite sprite, FieldLayoutPlacement placement)
+    {
+        var seed = FieldModelMath.Seed(_modelSeed, placement);
+        var entry = modelCatalog.Find(FieldModelMath.ModelId(placement.sprite, seed));
+        var yaw = FieldModelMath.Yaw(seed);
+        if (!_modelPointDict.TryGetValue(entry.Id, out var vertices))
+        {
+            vertices = entry.Prefab.GetComponentsInChildren<MeshFilter>()
+                .SelectMany(f => f.sharedMesh.vertices.Select(v => entry.Prefab.transform.InverseTransformPoint(f.transform.TransformPoint(v)))).ToArray();
+            _modelPointDict.Add(entry.Id, vertices);
+        }
+        var footprint = FieldModelMath.ProjectedSize(vertices, yaw, _tiltDegrees);
+        var heightScale = sprite.bounds.size.y / footprint.y;
+        var widthScale = sprite.bounds.size.x / (footprint.x * heightScale);
+        var variation = placement.sprite.StartsWith("rock_") ? FieldModelMath.StoneScale(seed) : 1f;
+        var root = new GameObject("3D:" + placement.group + ":" + entry.Id);
+        root.transform.SetParent(_landscape, false);
+        root.transform.localPosition = new Vector3(placement.x, placement.height, placement.y);
+        root.transform.localScale = new Vector3(widthScale, 1, 1) * (variation * placement.scale);
+        var model = Instantiate(entry.Prefab, root.transform);
+        model.transform.localRotation = Quaternion.Euler(0, yaw, 0);
+        model.transform.localScale = Vector3.one * heightScale;
+        if (placement.sprite.StartsWith("tree_") || placement.sprite.StartsWith("bush_") || placement.sprite.StartsWith("boulder_"))
+        {
+            RegisterOccluder(root.transform, model.GetComponentsInChildren<Renderer>());
+        }
+    }
+
+    public void FinishScenery(FieldLayoutData layout)
+    {
+        if (!useModelScenery)
+        {
+            return;
+        }
+        foreach (var group in layout.placements.Where(p => p.kind == "card" && FieldModelMath.IsWallRun(p.group))
+                     .GroupBy(p => p.group).OrderBy(g => g.Key, System.StringComparer.Ordinal))
+        {
+            var (first, last) = FieldModelMath.WallEndpoints(group);
+            var direction = last.Floor - first.Floor;
+            var yaw = direction.sqrMagnitude > .000001f ? Mathf.Atan2(-direction.y, direction.x) * Mathf.Rad2Deg : 0;
+            var centers = FieldModelMath.WallCenters(first.Floor, last.Floor);
+            var seed = FieldModelMath.Seed(layout.seed, first);
+            for (var i = 0; i < centers.Length; i++)
+            {
+                var entry = modelCatalog.Find((seed + i) % 2 == 0 ? "wall_a" : "wall_b");
+                var model = Instantiate(entry.Prefab, _landscape);
+                model.name = "3D:" + group.Key + ":" + i;
+                model.transform.localPosition = new Vector3(centers[i].x, first.height, centers[i].y);
+                model.transform.localRotation = Quaternion.Euler(0, yaw, 0);
+                var renderers = model.GetComponentsInChildren<Renderer>();
+                if (!_partDict.TryGetValue("wall", out var walls))
+                {
+                    walls = new List<Renderer>();
+                    _partDict.Add("wall", walls);
+                }
+                walls.AddRange(renderers);
+                RegisterOccluder(model.transform, renderers);
+            }
+        }
+        CombineSmallScenery();
+    }
+
+    private void CombineSmallScenery()
+    {
+        // 4m spatial chunks retain local culling. Only the non-occluding small plants merge.
+        var roots = _landscape.Cast<Transform>().Where(t => t.name.StartsWith("3D:flowers:")).ToArray();
+        var groups = roots.SelectMany(t => t.GetComponentsInChildren<MeshFilter>())
+            .GroupBy(f => (Material: f.GetComponent<MeshRenderer>().sharedMaterial,
+                X: Mathf.FloorToInt(f.transform.position.x / 4), Z: Mathf.FloorToInt(f.transform.position.z / 4)));
+        foreach (var group in groups)
+        {
+            var mesh = new Mesh { name = "Small scenery " + group.Key.X + ":" + group.Key.Z };
+            var parts = group.Select(f => new CombineInstance
+            {
+                mesh = f.sharedMesh,
+                transform = _landscape.worldToLocalMatrix * f.transform.localToWorldMatrix
+            }).ToArray();
+            mesh.CombineMeshes(parts, true, true);
+            AddPart("3D plant batch " + group.Key.Material.name + ":" + group.Key.X + ":" + group.Key.Z,
+                mesh, new[] { group.Key.Material });
+        }
+        foreach (var root in roots)
+        {
+            root.gameObject.SetActive(false);
+        }
     }
 
     public void BuildProps(FieldLayoutData layout, Sprite flag, Sprite shadow)
@@ -174,14 +281,17 @@ public class FieldView : MonoBehaviour
                 foreach (var x in new[] { -.4f, .4f })
                 {
                     AddWood(root.transform, new Vector3(x,.3f,0), new Vector3(.12f,.6f,.12f));
-                    var blob = new GameObject("Fence foot shadow").AddComponent<SpriteRenderer>();
-                    blob.transform.SetParent(root.transform, false);
-                    blob.transform.localPosition = new Vector3(x,.004f,0);
-                    blob.transform.localRotation = Quaternion.Euler(90,0,0);
-                    blob.transform.localScale = new Vector3(.8f,.6f,1);
-                    blob.gameObject.layer = HD2DBackgroundRig.BackgroundLayer;
-                    blob.sprite = shadow;
-                    blob.sharedMaterial = hardShadowMaterial;
+                    if (!useModelScenery)
+                    {
+                        var blob = new GameObject("Fence foot shadow").AddComponent<SpriteRenderer>();
+                        blob.transform.SetParent(root.transform, false);
+                        blob.transform.localPosition = new Vector3(x,.004f,0);
+                        blob.transform.localRotation = Quaternion.Euler(90,0,0);
+                        blob.transform.localScale = new Vector3(.8f,.6f,1);
+                        blob.gameObject.layer = HD2DBackgroundRig.BackgroundLayer;
+                        blob.sprite = shadow;
+                        blob.sharedMaterial = hardShadowMaterial;
+                    }
                 }
                 foreach (var y in new[] { .2f, .42f })
                 {
@@ -196,13 +306,32 @@ public class FieldView : MonoBehaviour
             else if (placement.prop == "flag")
             {
                 AddWood(root.transform,new Vector3(0,.8f,0),new Vector3(.065f,1.6f,.065f));
-                var cloth = new GameObject("Flag cloth").AddComponent<SpriteRenderer>();
+                var cloth = new GameObject("Flag cloth");
                 cloth.transform.SetParent(root.transform,false);
                 cloth.transform.localPosition = new Vector3(flag.rect.width / flag.pixelsPerUnit / 2,1.6f - flag.rect.height / flag.pixelsPerUnit,0);
                 cloth.transform.rotation = Quaternion.Euler(_tiltDegrees,0,0);
-                cloth.sprite = flag;
-                cloth.sharedMaterial = cardMaterial;
-                cloth.shadowCastingMode = ShadowCastingMode.Off;
+                if (useModelScenery)
+                {
+                    var mesh = new Mesh { name = "Flag cloth UV mesh" };
+                    mesh.vertices = flag.vertices.Select(v => new Vector3(v.x, v.y, 0)).ToArray();
+                    mesh.uv = flag.vertices.Select(v => (v * flag.pixelsPerUnit + flag.pivot) / flag.rect.size).ToArray();
+                    mesh.triangles = flag.triangles.Select(i => (int)i).ToArray();
+                    mesh.RecalculateNormals();
+                    mesh.RecalculateBounds();
+                    _ownedMeshList.Add(mesh);
+                    cloth.AddComponent<MeshFilter>().sharedMesh = mesh;
+                    var renderer = cloth.AddComponent<MeshRenderer>();
+                    renderer.sharedMaterial = flagMaterial;
+                    renderer.shadowCastingMode = ShadowCastingMode.TwoSided;
+                    cloth.layer = HD2DBackgroundRig.BackgroundLayer;
+                }
+                else
+                {
+                    var renderer = cloth.AddComponent<SpriteRenderer>();
+                    renderer.sprite = flag;
+                    renderer.sharedMaterial = cardMaterial;
+                    renderer.shadowCastingMode = ShadowCastingMode.Off;
+                }
             }
             if (!_partDict.TryGetValue(placement.prop,out var partList))
             {
@@ -227,7 +356,7 @@ public class FieldView : MonoBehaviour
         part.AddComponent<MeshFilter>().sharedMesh = _woodMesh;
         var renderer = part.AddComponent<MeshRenderer>();
         renderer.sharedMaterial = woodMaterial;
-        renderer.shadowCastingMode = ShadowCastingMode.Off;
+        renderer.shadowCastingMode = useModelScenery ? ShadowCastingMode.On : ShadowCastingMode.Off;
     }
 
     private MeshRenderer AddPart(string kind, Mesh mesh, Material[] materials, bool ownsMesh = true)
@@ -307,6 +436,9 @@ public sealed class FieldOccluder
     private readonly Renderer[] _renderers;
     private readonly Material[][] _normal;
     private readonly Material[][] _faded;
+    private readonly MaterialPropertyBlock _properties = new();
+    public const int MaxOcclusionRects = 64;
+    private readonly Vector4[] _cutouts = new Vector4[MaxOcclusionRects];
     public bool IsFaded { get; private set; }
     public Bounds Bounds
     {
@@ -328,6 +460,40 @@ public sealed class FieldOccluder
             _normal[i] = renderers[i].sharedMaterials;
             _faded[i] = new Material[_normal[i].Length];
             for (var j = 0; j < _normal[i].Length; j++) _faded[i][j] = fadedMaterial(_normal[i][j]);
+        }
+    }
+    public void SetOcclusionRects(IReadOnlyList<Rect> viewportRects)
+    {
+        var count = Mathf.Min(MaxOcclusionRects, viewportRects.Count);
+        for (var i = 0; i < viewportRects.Count; i++)
+        {
+            var rect = viewportRects[i];
+            var value = new Vector4(rect.xMin, rect.yMin, rect.xMax, rect.yMax);
+            if (i < MaxOcclusionRects)
+            {
+                _cutouts[i] = value;
+                continue;
+            }
+            // An unusually dense crowd still reveals every actor. Merge only the nearest
+            // existing window on overflow, rather than cutting gaps between all actors.
+            var nearest = 0;
+            var distance = float.PositiveInfinity;
+            for (var j = 0; j < count; j++)
+            {
+                var old = _cutouts[j];
+                var delta = new Vector2(old.x + old.z - value.x - value.z, old.y + old.w - value.y - value.w);
+                if (delta.sqrMagnitude < distance) { nearest = j; distance = delta.sqrMagnitude; }
+            }
+            var window = _cutouts[nearest];
+            _cutouts[nearest] = new Vector4(Mathf.Min(window.x, value.x), Mathf.Min(window.y, value.y),
+                Mathf.Max(window.z, value.z), Mathf.Max(window.w, value.w));
+        }
+        foreach (var renderer in _renderers)
+        {
+            renderer.GetPropertyBlock(_properties);
+            _properties.SetInt("_OcclusionRectCount", count);
+            _properties.SetVectorArray("_OcclusionRects", _cutouts);
+            renderer.SetPropertyBlock(_properties);
         }
     }
     public void SetFaded(bool faded)

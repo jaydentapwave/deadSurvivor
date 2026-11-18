@@ -107,7 +107,7 @@ def finish():
         c15.append({'image':key,'corner':corner,'center':center,'ratio':corner/center,'vignetteIntensity':shot['settings']['vignetteIntensity'],'vignetteSmoothness':shot['settings']['vignetteSmoothness']})
     dump(paths['C15'],{'frames':c15,'volume_constant':len({(v['vignetteIntensity'],v['vignetteSmoothness']) for v in c15})==1,'interpretation':'If volume values are constant, brightness ratio variation comes from changing picture content; light/effect tuning deferred to phase6.'})
     moves=[shots[f'Main1-move-{i}.png'] for i in range(8)]
-    motion={'measure_from_images':True,'hero_box':p['regions']['hero'],'background_box':[680,805,1260,895],'hero':[],'background':[]}
+    motion={'measure_from_images':True,'hero_box':p['regions']['hero'],'background_box':p['regions']['ground'][0],'hero':[],'background':[]}
     for i,(a,key) in enumerate(zip(frames,p['motion'])):
         dx=-round((moves[i]['cameraPosition']['x']-moves[0]['cameraPosition']['x'])*96)
         for region in ['hero','background']:
@@ -124,7 +124,7 @@ def finish():
     diag=gate.image(paths['lighting-image']);values=np.unique(gate.crop(diag,p['lighting_region']).reshape(-1,3),axis=0)
     gray=[int(c[0]) for c in values if c.max()-c.min()<2 and c[0]>140]
     steps=len(gray)
-    dump(paths['lighting'],{'prop_steps':[steps],'measured_gray_levels':gray,'source':'Main-scene bank and fence lighting-only diagnostic; actual 2D rock paint is not claimed as 3D lighting coefficients.'})
+    dump(paths['lighting'],{'prop_steps':[steps],'measured_gray_levels':gray,'source':'Main-scene mesh lighting-only diagnostic; UV albedo is excluded from the measured lighting coefficients.'})
     dump(paths['shadow'],{'space':'world','length':collection['shadowLength'],'hero_height':1,'source':'Furthest opaque source texel corner projected along directional-light rays onto y=0, measured from feet in XZ.'})
     main=gate.image(paths['main']);field=gate.crop(main,p['regions']['ground'][0]);gray=field[:,:,0]*.2126+field[:,:,1]*.7152+field[:,:,2]*.0722;blocks=[gray[y:y+24,x:x+24].mean() for y in range(0,len(gray)-23,24) for x in range(0,gray.shape[1]-23,24)]
     threshold=gate.read(KIT.parent/'config/gate.default.json')['checks']['G15']['thresholds']

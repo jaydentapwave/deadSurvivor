@@ -1,10 +1,10 @@
 {
  "schema": "art-spec-approval/1",
  "spec": "docs/art/아트-기준서.md",
- "revision": "r7",
+ "revision": "r8",
  "approved_on": "2026-11-18",
- "user_quote": "승인, 이 방향으로 진행",
- "sha256": "77d19bdb28834c151bd5e2af3949791b2a7588d819f34de6c76e9bc873acc836",
- "recorded_at": "2026-11-18T16:31:54+0900",
- "note": "r7(=r6.2~r6.4) 사용자 승인 2026-11-18: 배경 전부 3D·PCG seed 8·다리 천막 실측·본 게임 배경 적용. 질문 원문은 기준서 머리 승인 줄"
+ "user_quote": "승인",
+ "sha256": "ec7653901d58c1fc840d36027ec925972f5551aec296f133f88cc1a0f2c0a74a",
+ "recorded_at": "2026-11-18T17:24:38+0900",
+ "note": "r8(K21 걷는 땅 기복) 사용자 승인 2026-11-18 — 질문: r8 개정 승인할까요? 초안 docs/art/아트-기준서-r8-초안.md"
 }

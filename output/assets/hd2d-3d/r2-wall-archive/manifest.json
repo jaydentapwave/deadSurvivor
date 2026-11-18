@@ -1,0 +1,1044 @@
+{
+ "schema": "hd2d-3d-manifest/1",
+ "units": "1 unit = 1 m, pivot = ground centre, +Y up (FBX axis_forward -Z, up Y, FBX_SCALE_ALL)",
+ "texel_density": "48 texel/m (UV built at 48/m, Closest filter)",
+ "assets": {
+  "hd2d_tree_v1": {
+   "replaces": "tree,rim / tree_02",
+   "fbx": "output/assets/hd2d-3d/tree_v1/model.fbx",
+   "glb": "output/assets/hd2d-3d/tree_v1/model.glb",
+   "albedo": "output/assets/hd2d-3d/tree_v1/albedo.png",
+   "albedo_size": [
+    256,
+    256
+   ],
+   "tris": 472,
+   "tri_budget": 600,
+   "size_m": {
+    "x_width": 1.505,
+    "depth": 1.098,
+    "height": 1.69
+   },
+   "palette": {
+    "L0": "#b3ca7b",
+    "L1": "#5c8d73",
+    "L2": "#49746b",
+    "W0": "#774c3b",
+    "W1": "#5c493c"
+   },
+   "texels": {
+    "L0": 1254,
+    "L1": 12206,
+    "L2": 4928,
+    "W0": 2136,
+    "W1": 145
+   },
+   "smooth_parts": [
+    "leaf"
+   ],
+   "judge": {
+    "source": "judge/r1-a/anchor-results.json",
+    "image_sha256": "37ae14a811b50a40ef8b06267da430ffa56aa47796c9a8c3728b04302dcef80f",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 3,
+       "depth": 3,
+       "readability": 4,
+       "ground": 2,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": []
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 2,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 화면 전체 바닥: 질감 없는 단색 평면이라 풀의 도트 질감과 높이 단이 없다",
+       "main.png 두 나무 수관 둘레: 외곽선이 갈색 계열보다 검은색에 가까워 캐릭터 외곽선과 색 결이 조금 다르다"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_tree_v2": {
+   "replaces": "tree,rim / tree_02",
+   "fbx": "output/assets/hd2d-3d/tree_v2/model.fbx",
+   "glb": "output/assets/hd2d-3d/tree_v2/model.glb",
+   "albedo": "output/assets/hd2d-3d/tree_v2/albedo.png",
+   "albedo_size": [
+    256,
+    256
+   ],
+   "tris": 532,
+   "tri_budget": 600,
+   "size_m": {
+    "x_width": 1.096,
+    "depth": 0.988,
+    "height": 2.062
+   },
+   "palette": {
+    "L0": "#b3ca7b",
+    "L1": "#5c8d73",
+    "L2": "#49746b",
+    "W0": "#774c3b",
+    "W1": "#5c493c"
+   },
+   "texels": {
+    "L0": 1170,
+    "L1": 10412,
+    "L2": 4269,
+    "W0": 2347,
+    "W1": 145
+   },
+   "smooth_parts": [
+    "leaf"
+   ],
+   "judge": {
+    "source": "judge/r1-a/anchor-results.json",
+    "image_sha256": "7fbc0d8137ba3846ccebc82ba9f230ce75784e5da930daf4f13ff0ba8d87d07a",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 3,
+       "depth": 2,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 바닥 전체: 단색 면으로 보여 풀 재질과 지면의 세부 변화가 드러나지 않는다.",
+       "main.png 중앙·오른쪽 나무 수관: 캐릭터의 단순한 명암 띠에 비해 잔명암이 많아 표현 밀도에 차이가 있다."
+      ]
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 2,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 1,
+      "defects": [
+       "main.png 화면 전체: 바닥이 도트 질감과 명암 띠가 없는 평평한 단색이라 도트 디오라마 바닥으로 읽히지 않는다",
+       "main.png 왼쪽 아래 캐릭터 발밑: 나무에는 그림자가 있는데 캐릭터에는 바닥 그림자가 거의 없어 떠 보인다",
+       "main.png 가운데·오른쪽 나무: 잎이 청록으로 차갑고 줄기 외곽선이 검은 쪽이라 캐릭터의 갈색 외곽선과 색 결이 어긋난다"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_tree_v3": {
+   "replaces": "tree,rim / tree_02",
+   "fbx": "output/assets/hd2d-3d/tree_v3/model.fbx",
+   "glb": "output/assets/hd2d-3d/tree_v3/model.glb",
+   "albedo": "output/assets/hd2d-3d/tree_v3/albedo.png",
+   "albedo_size": [
+    256,
+    256
+   ],
+   "tris": 482,
+   "tri_budget": 600,
+   "size_m": {
+    "x_width": 1.99,
+    "depth": 1.094,
+    "height": 1.599
+   },
+   "palette": {
+    "L0": "#b3ca7b",
+    "L1": "#5c8d73",
+    "L2": "#49746b",
+    "W0": "#774c3b",
+    "W1": "#5c493c"
+   },
+   "texels": {
+    "L0": 1148,
+    "L1": 11495,
+    "L2": 4797,
+    "W0": 2442,
+    "W1": 170
+   },
+   "smooth_parts": [
+    "leaf"
+   ],
+   "judge": {
+    "source": "judge/r1-a/anchor-results.json",
+    "image_sha256": "0bb6c69ae611518ec4be12b2b9884cfb6efef2deff5e96178c7d374d8ab7bd2a",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 3,
+       "depth": 2,
+       "readability": 4,
+       "ground": 2,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": []
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 2,
+       "readability": 3,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 1,
+      "defects": [
+       "main.png 화면 전체 바닥: 도트 질감이나 명암 띠 없이 평평한 단색이라 디오라마 바닥으로 읽히지 않는다(큰 결함)",
+       "main.png 두 나무 줄기: 도트 띠가 거의 없는 매끈한 갈색 면이라 수관·캐릭터보다 질감이 약하다",
+       "main.png 오른쪽 나무 수관: 면이 각진 로우폴리 덩어리로 보이는 부분이 있어 캐릭터의 도트 결과 조금 어긋난다",
+       "main.png 왼쪽 아래 캐릭터: 발끝이 화면 아래 가장자리에 붙어 잘릴 듯하다"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_bush_v1": {
+   "replaces": "bush / bush_01",
+   "fbx": "output/assets/hd2d-3d/bush_v1/model.fbx",
+   "glb": "output/assets/hd2d-3d/bush_v1/model.glb",
+   "albedo": "output/assets/hd2d-3d/bush_v1/albedo.png",
+   "albedo_size": [
+    256,
+    256
+   ],
+   "tris": 280,
+   "tri_budget": 300,
+   "size_m": {
+    "x_width": 1.205,
+    "depth": 0.882,
+    "height": 0.662
+   },
+   "palette": {
+    "L0": "#b3ca7b",
+    "L1": "#5c8d73",
+    "L2": "#49746b"
+   },
+   "texels": {
+    "L0": 979,
+    "L1": 9834,
+    "L2": 3442
+   },
+   "smooth_parts": [
+    "leaf"
+   ],
+   "judge": {
+    "source": "judge/r2/anchor-results.json",
+    "image_sha256": "a3d2c1a6f0b0f7ababdee1fa8364b6d69e94c8811122b8202dac38b18971bd21",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 3,
+       "depth": 2,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": []
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 2,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 가운데·오른쪽 덤불: 윗면 일부가 다각형 면으로 각지게 끊겨 로우폴리 결이 살짝 보임(작은 결함)",
+       "main.png 화면 전체 바닥: 질감 없는 단색 평면이라 풀 재질이 표현되지 않음"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_bush_v2": {
+   "replaces": "bush / bush_02",
+   "fbx": "output/assets/hd2d-3d/bush_v2/model.fbx",
+   "glb": "output/assets/hd2d-3d/bush_v2/model.glb",
+   "albedo": "output/assets/hd2d-3d/bush_v2/albedo.png",
+   "albedo_size": [
+    256,
+    128
+   ],
+   "tris": 200,
+   "tri_budget": 300,
+   "size_m": {
+    "x_width": 0.816,
+    "depth": 0.622,
+    "height": 0.494
+   },
+   "palette": {
+    "L0": "#b3ca7b",
+    "L1": "#5c8d73",
+    "L2": "#49746b"
+   },
+   "texels": {
+    "L0": 536,
+    "L1": 4647,
+    "L2": 1775
+   },
+   "smooth_parts": [
+    "leaf"
+   ],
+   "judge": {
+    "source": "judge/r2/anchor-results.json",
+    "image_sha256": "662e84fa78909640f5528327fcd7abfab66b18e5eca045ac97d4a121002c2817",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 3,
+       "depth": 2,
+       "readability": 4,
+       "ground": 2,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": []
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 2,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 가운데·오른쪽 덤불: 외곽선이 기준의 갈색 계열이 아니라 짙은 녹색·검정이고, 몸통 색이 누런 올리브 바닥과 동떨어진 청록이다",
+       "main.png 화면 전체 바닥: 재질 없는 단색 면이라 풀 질감·흙길·물 구분이 없다",
+       "main.png 왼쪽 캐릭터 발밑: 접지 그림자가 덤불 그림자보다 훨씬 약해 빛 방향이 일관돼 보이지 않는다",
+       "main.png 화면 가장자리: 디오라마 느낌을 줄 가장자리 흐림·어둡게 처리가 없다"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_boulder_v1": {
+   "replaces": "boulder / boulder_01",
+   "fbx": "output/assets/hd2d-3d/boulder_v1/model.fbx",
+   "glb": "output/assets/hd2d-3d/boulder_v1/model.glb",
+   "albedo": "output/assets/hd2d-3d/boulder_v1/albedo.png",
+   "albedo_size": [
+    128,
+    128
+   ],
+   "tris": 70,
+   "tri_budget": 300,
+   "size_m": {
+    "x_width": 1.197,
+    "depth": 0.803,
+    "height": 0.797
+   },
+   "palette": {
+    "R0": "#d8d3a9",
+    "R1": "#9d9778",
+    "R2": "#403d2a"
+   },
+   "texels": {
+    "R0": 5433,
+    "R1": 714,
+    "R2": 10
+   },
+   "smooth_parts": [
+    "rock (auto-smooth 48°)"
+   ],
+   "judge": {
+    "source": "judge/r2/anchor-results.json",
+    "image_sha256": "351111d4ca5980f93fd9dd2a4dd99f35f37fbfd2c3ea2b2127167dc3a1e379fa",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 4,
+       "depth": 3,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 전체 바닥: 단색으로만 채워져 풀의 재질과 지형 경계가 드러나지 않는다."
+      ]
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 1,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 오른쪽 바위: 큰 앞면 명암이 띠보다 매끈한 그라데이션에 가까워 왼쪽 바위와 캐릭터의 띠 명암보다 조금 부드러움",
+       "main.png 화면 전체: 바닥이 단색 평면이라 디오라마 높이 단이나 재질 구분이 없음(소품 단독 견본으로 보임)"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_boulder_v2": {
+   "replaces": "boulder / boulder_01",
+   "fbx": "output/assets/hd2d-3d/boulder_v2/model.fbx",
+   "glb": "output/assets/hd2d-3d/boulder_v2/model.glb",
+   "albedo": "output/assets/hd2d-3d/boulder_v2/albedo.png",
+   "albedo_size": [
+    128,
+    64
+   ],
+   "tris": 28,
+   "tri_budget": 300,
+   "size_m": {
+    "x_width": 0.649,
+    "depth": 0.473,
+    "height": 0.475
+   },
+   "palette": {
+    "R0": "#d8d3a9",
+    "R1": "#9d9778",
+    "R2": "#403d2a"
+   },
+   "texels": {
+    "R0": 1951,
+    "R1": 14,
+    "R2": 2
+   },
+   "smooth_parts": [
+    "rock (auto-smooth 48°)"
+   ],
+   "judge": {
+    "source": "judge/r1-a/anchor-results.json",
+    "image_sha256": "fe4f1e811aacb36a1cc84aaeb2a0d93fe2fdceb0d386a4c47defdaa1101c771d",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 4,
+       "depth": 2,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 바닥 전체: 단색 면으로만 되어 있어 풀 재질과 지형 경계가 드러나지 않는다."
+      ]
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 2,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 화면 전체: 바닥이 질감 없는 단색 평면이라 디오라마 바닥 재질(풀·흙·물)이 표현되지 않음",
+       "main.png 오른쪽 두 바위: 면 안쪽 명암이 띠보다 약간 부드럽게 이어져 캐릭터보다 매끈해 보임"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_stone_v1": {
+   "replaces": "stone,shore / rock_01",
+   "fbx": "output/assets/hd2d-3d/stone_v1/model.fbx",
+   "glb": "output/assets/hd2d-3d/stone_v1/model.glb",
+   "albedo": "output/assets/hd2d-3d/stone_v1/albedo.png",
+   "albedo_size": [
+    64,
+    64
+   ],
+   "tris": 27,
+   "tri_budget": 120,
+   "size_m": {
+    "x_width": 0.498,
+    "depth": 0.363,
+    "height": 0.247
+   },
+   "palette": {
+    "R0": "#d8d3a9",
+    "R1": "#9d9778",
+    "R2": "#403d2a"
+   },
+   "texels": {
+    "R0": 747,
+    "R1": 167,
+    "R2": 0
+   },
+   "smooth_parts": [
+    "rock (auto-smooth 48°)"
+   ],
+   "judge": {
+    "source": "judge/r2/anchor-results.json",
+    "image_sha256": "cfa802ace9ffbc17c568e3bbe58789519a75b767f7e3752b28b41a6c3962d80c",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 4,
+       "depth": 1,
+       "readability": 4,
+       "ground": 2,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": []
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 1,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 1,
+      "defects": [
+       "main.png 화면 전체: 바닥이 질감·도트 무늬 없는 평평한 단색이라 디오라마 배경으로 보이지 않는다(풀·흙·물 재질 없음, 높이 단 없음)",
+       "main.png 가운데·오른쪽 바위: 면이 각진 다각형으로 나뉘어 캐릭터 도트보다 로우폴리 면 느낌이 약간 난다"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_stone_v2": {
+   "replaces": "stone,shore / rock_02",
+   "fbx": "output/assets/hd2d-3d/stone_v2/model.fbx",
+   "glb": "output/assets/hd2d-3d/stone_v2/model.glb",
+   "albedo": "output/assets/hd2d-3d/stone_v2/albedo.png",
+   "albedo_size": [
+    64,
+    64
+   ],
+   "tris": 30,
+   "tri_budget": 120,
+   "size_m": {
+    "x_width": 0.56,
+    "depth": 0.342,
+    "height": 0.268
+   },
+   "palette": {
+    "R0": "#d8d3a9",
+    "R1": "#9d9778",
+    "R2": "#403d2a"
+   },
+   "texels": {
+    "R0": 1007,
+    "R1": 6,
+    "R2": 0
+   },
+   "smooth_parts": [
+    "rock (auto-smooth 48°)"
+   ],
+   "judge": {
+    "source": "judge/r1-b/anchor-results.json",
+    "image_sha256": "839c8c2e512cfc5d2447705af336a2b233543cf783c67baae15b211e70b33d8e",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 3,
+       "depth": 1,
+       "readability": 4,
+       "ground": 2,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 전체 바닥: 단색 면으로만 표현되어 풀 재질과 지형의 높낮이가 읽히지 않는다.",
+       "main.png 중앙·오른쪽 바위: 넓고 단순한 명암 면 때문에 캐릭터보다 묘사 밀도가 낮고 바닥에 놓인 입체감이 약하다."
+      ]
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 1,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 전체 바닥: 질감·재질 구분이 없는 단색 올리브 평면이다. 풀·흙길·물이 없고 도트 띠도 없다.",
+       "main.png 전체: 높이 단·턱이 없고 가장자리 흐림·어둡게 처리도 없어 디오라마 입체감이 약하다.",
+       "main.png 오른쪽 바위(가로 약 350~410px): 윗면이 평평하고 각진 면으로 잘려 로우폴리 면처럼 보인다. 왼쪽 바위보다 도트 질감이 약하다.",
+       "main.png 바위 두 개 아래: 바닥 그림자가 아주 작고 흐릿해서 땅에 붙은 느낌이 약하다."
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_wall_a": {
+   "replaces": "wall_0~8 / rock_01·rock_02 (토막 1.0m)",
+   "fbx": "output/assets/hd2d-3d/wall_a/model.fbx",
+   "glb": "output/assets/hd2d-3d/wall_a/model.glb",
+   "albedo": "output/assets/hd2d-3d/wall_a/albedo.png",
+   "albedo_size": [
+    256,
+    128
+   ],
+   "tris": 180,
+   "tri_budget": 200,
+   "size_m": {
+    "x_width": 1.0,
+    "depth": 0.3,
+    "height": 0.513
+   },
+   "palette": {
+    "R0": "#d8d3a9",
+    "R1": "#9d9778",
+    "R2": "#403d2a"
+   },
+   "texels": {
+    "R0": 6373,
+    "R1": 3064,
+    "R2": 228
+   },
+   "smooth_parts": [],
+   "judge": {
+    "source": "judge/r2/anchor-results.json",
+    "image_sha256": "595cec477e5aa2cc41bfb8d998607ea57b4555b8a07adfc555810e2993163cc1",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 3,
+       "depth": 3,
+       "readability": 4,
+       "ground": 2,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": []
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 2,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 1,
+      "defects": [
+       "main.png 전체 바닥: 도트 질감이나 풀·흙 재질이 없는 평평한 단색 면이라 배경 디오라마가 아니라 빈 판처럼 보인다.",
+       "main.png 오른쪽 돌담: 비스듬한 면에서 벽돌 줄 도트가 기울고 일부 뭉개져, 가운데 담과 인물보다 도트 격자가 덜 또렷하다.",
+       "main.png 왼쪽 인물 발밑: 접지 그림자가 거의 없어 담들처럼 바닥에 붙어 보이지 않는다."
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_wall_b": {
+   "replaces": "wall_0~8 / rock_01·rock_02 (토막 1.0m)",
+   "fbx": "output/assets/hd2d-3d/wall_b/model.fbx",
+   "glb": "output/assets/hd2d-3d/wall_b/model.glb",
+   "albedo": "output/assets/hd2d-3d/wall_b/albedo.png",
+   "albedo_size": [
+    256,
+    128
+   ],
+   "tris": 170,
+   "tri_budget": 200,
+   "size_m": {
+    "x_width": 1.0,
+    "depth": 0.3,
+    "height": 0.521
+   },
+   "palette": {
+    "R0": "#d8d3a9",
+    "R1": "#9d9778",
+    "R2": "#403d2a"
+   },
+   "texels": {
+    "R0": 6308,
+    "R1": 2665,
+    "R2": 228
+   },
+   "smooth_parts": [],
+   "judge": {
+    "source": "judge/r2/anchor-results.json",
+    "image_sha256": "c8cae971981968f43ff515a67c2262c4713c3d95a0cabc9df8079c93b7d80bb5",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 3,
+       "depth": 3,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png: 바닥 전체가 단색으로 처리되어 지면 재질과 자연스러운 경계를 확인하기 어렵다.",
+       "main.png: 가운데 돌담은 윗면과 옆면이 드러나지 않아 오른쪽 돌담보다 평면적으로 보인다."
+      ]
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 2,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 전체 바닥: 풀·흙 질감이 없는 평평한 올리브 단색이라 밝은 낮 들판 바닥으로 읽히지 않는다",
+       "main.png 왼쪽 캐릭터 발밑: 돌담과 달리 바닥 그림자가 거의 없어 살짝 떠 보인다",
+       "main.png 오른쪽 돌담 블록 윗면 모서리: 3D 원근으로 외곽선이 계단처럼 끊겨 정면 돌담보다 선이 거칠다"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_grass_v1": {
+   "replaces": "flowers / grass_tuft_01",
+   "fbx": "output/assets/hd2d-3d/grass_v1/model.fbx",
+   "glb": "output/assets/hd2d-3d/grass_v1/model.glb",
+   "albedo": "output/assets/hd2d-3d/grass_v1/albedo.png",
+   "albedo_size": [
+    64,
+    64
+   ],
+   "tris": 20,
+   "tri_budget": 40,
+   "size_m": {
+    "x_width": 0.228,
+    "depth": 0.225,
+    "height": 0.191
+   },
+   "palette": {
+    "G0": "#3a3721",
+    "G1": "#4f7a2e",
+    "G2": "#7fa040",
+    "G3": "#a8c828"
+   },
+   "texels": {
+    "G0": 253,
+    "G1": 137,
+    "G2": 160,
+    "G3": 65
+   },
+   "smooth_parts": [],
+   "judge": {
+    "source": "judge/r1-b/anchor-results.json",
+    "image_sha256": "409ad99cfe447754bc4b7145028c31e9001fad67307344b3f31dc8c71bb8e69e",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 3,
+       "depth": 0,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": []
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 0,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 1,
+      "defects": [
+       "main.png 화면 전체: 바닥이 질감·명암 띠 없는 단색 평면이라 3D 디오라마 배경이 없다(높이 단·바위·나무·물 없음)",
+       "main.png 오른쪽 두 덤불(가운데 오른쪽·오른쪽 끝): 캐릭터에 비해 아주 작고 듬성듬성해서 배경 소품 역할이 약하다"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_grass_v2": {
+   "replaces": "flowers / grass_tuft_02",
+   "fbx": "output/assets/hd2d-3d/grass_v2/model.fbx",
+   "glb": "output/assets/hd2d-3d/grass_v2/model.glb",
+   "albedo": "output/assets/hd2d-3d/grass_v2/albedo.png",
+   "albedo_size": [
+    128,
+    64
+   ],
+   "tris": 26,
+   "tri_budget": 40,
+   "size_m": {
+    "x_width": 0.271,
+    "depth": 0.277,
+    "height": 0.258
+   },
+   "palette": {
+    "G0": "#3a3721",
+    "G1": "#4f7a2e",
+    "G2": "#7fa040",
+    "G3": "#b3a954"
+   },
+   "texels": {
+    "G0": 326,
+    "G1": 348,
+    "G2": 274,
+    "G3": 97
+   },
+   "smooth_parts": [],
+   "judge": {
+    "source": "judge/r1-b/anchor-results.json",
+    "image_sha256": "0ec8c6c0315d9fd66861844f33a7703d5cfe85cc00ebc674966a0345fd468f83",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 3,
+       "depth": 0,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png: 화면 전역의 바닥이 균일한 단색으로, 지형의 높이와 재질을 읽을 단서가 부족하다."
+      ]
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 0,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 1,
+      "defects": [
+       "main.png 화면 전체: 바닥이 도트 질감도 명암 띠도 없는 평평한 단색 면이라, 도트로 그린 캐릭터·덤불과 결이 맞지 않고 디오라마 같은 입체감이 전혀 없다",
+       "main.png 왼쪽 캐릭터 발밑: 접지 그림자가 없어 땅 위에 떠 보인다",
+       "main.png 화면 전체: 물·흙길·나무·높이 턱 같은 배경 요소가 없어 들판 재질 구성을 판단할 수 없다"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_flower_white": {
+   "replaces": "flowers / flower_01",
+   "fbx": "output/assets/hd2d-3d/flower_white/model.fbx",
+   "glb": "output/assets/hd2d-3d/flower_white/model.glb",
+   "albedo": "output/assets/hd2d-3d/flower_white/albedo.png",
+   "albedo_size": [
+    128,
+    64
+   ],
+   "tris": 38,
+   "tri_budget": 40,
+   "size_m": {
+    "x_width": 0.375,
+    "depth": 0.356,
+    "height": 0.277
+   },
+   "palette": {
+    "S0": "#4f7a2e",
+    "S1": "#7fa040",
+    "F0": "#fff9ed",
+    "F1": "#f8b828"
+   },
+   "texels": {
+    "S0": 270,
+    "S1": 147,
+    "F0": 525,
+    "F1": 23
+   },
+   "smooth_parts": [],
+   "judge": {
+    "source": "judge/r1-b/anchor-results.json",
+    "image_sha256": "632bfa36593e72955ad61eab1f290b4c66ecce37d2969505d2a715ce9f1c550c",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 4,
+       "depth": 1,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 전체 바닥: 단색 평면이라 풀의 재질과 지형 경계가 드러나지 않는다.",
+       "main.png 전체 공간: 높이 단·턱과 입체 지형이 없어 디오라마 깊이가 약하다."
+      ]
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 1,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 1,
+      "defects": [
+       "main.png 화면 전체: 바닥이 질감·명암 띠·재질 구분이 없는 단색 면이라 도트 디오라마 바닥으로 보이지 않는다.",
+       "main.png 오른쪽 꽃 두 개: 외곽선이 갈색 계열이 아닌 검녹색이고, 도트가 인물보다 조금 거칠다."
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_flower_yellow": {
+   "replaces": "flowers / flower_02",
+   "fbx": "output/assets/hd2d-3d/flower_yellow/model.fbx",
+   "glb": "output/assets/hd2d-3d/flower_yellow/model.glb",
+   "albedo": "output/assets/hd2d-3d/flower_yellow/albedo.png",
+   "albedo_size": [
+    128,
+    64
+   ],
+   "tris": 38,
+   "tri_budget": 40,
+   "size_m": {
+    "x_width": 0.375,
+    "depth": 0.35,
+    "height": 0.277
+   },
+   "palette": {
+    "S0": "#4f7a2e",
+    "S1": "#7fa040",
+    "F0": "#ffe08a",
+    "F1": "#f8b828",
+    "F2": "#d5833a"
+   },
+   "texels": {
+    "S0": 268,
+    "S1": 138,
+    "F0": 254,
+    "F1": 274,
+    "F2": 27
+   },
+   "smooth_parts": [],
+   "judge": {
+    "source": "judge/r1-b/anchor-results.json",
+    "image_sha256": "b826057db267b57381cf8a170ed1e92aab66160b56d19dbdf25bd34ba7912ce1",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 4,
+       "depth": 1,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": []
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 1,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 전체 바닥: 도트 질감 없는 단색 평면이고 풀·흙·물 재질 구분이 없음",
+       "main.png 전체: 높이 단·턱이 없고 가장자리 흐림·어두워짐이 없어 디오라마 입체감이 약함",
+       "main.png 가운데·오른쪽 꽃: 외곽선이 캐릭터의 갈색 외곽선보다 어둡고 녹색 쪽이라 결이 약간 다름"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  },
+  "hd2d_flower_purple": {
+   "replaces": "flowers / flower_03",
+   "fbx": "output/assets/hd2d-3d/flower_purple/model.fbx",
+   "glb": "output/assets/hd2d-3d/flower_purple/model.glb",
+   "albedo": "output/assets/hd2d-3d/flower_purple/albedo.png",
+   "albedo_size": [
+    128,
+    64
+   ],
+   "tris": 38,
+   "tri_budget": 40,
+   "size_m": {
+    "x_width": 0.375,
+    "depth": 0.358,
+    "height": 0.277
+   },
+   "palette": {
+    "S0": "#4f7a2e",
+    "S1": "#7fa040",
+    "F0": "#b07fd0",
+    "F1": "#7a4a9e",
+    "F2": "#f8b828"
+   },
+   "texels": {
+    "S0": 274,
+    "S1": 123,
+    "F0": 263,
+    "F1": 266,
+    "F2": 25
+   },
+   "smooth_parts": [],
+   "judge": {
+    "source": "judge/r1-b/anchor-results.json",
+    "image_sha256": "385fd6117f02da837ab60c27c6e772f85f5ac2a1da37b76082701e5e156175e1",
+    "readers": {
+     "codex-gpt-6.1-sol": {
+      "scores": {
+       "style": 4,
+       "depth": 1,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 전체 바닥: 단색 면으로만 표현되어 지면 재질과 디오라마 지형의 높이 차가 드러나지 않는다."
+      ]
+     },
+     "claude-opus-5.5": {
+      "scores": {
+       "style": 3,
+       "depth": 1,
+       "readability": 4,
+       "ground": 1,
+       "motion": null
+      },
+      "major_defects": 0,
+      "defects": [
+       "main.png 전체 바닥: 질감과 명암 없는 단색 평면이라 디오라마 바닥으로 보이지 않는다",
+       "main.png 오른쪽 아래 두 꽃: 갈색 외곽선이 없고 명암 띠가 적어 캐릭터보다 단순하다",
+       "main.png 오른쪽 아래 두 꽃 그림자: 경계가 딱 떨어지는 짙은 덩어리라 바닥과 어울리지 않는다",
+       "main.png 왼쪽 캐릭터 발밑: 바닥에 떨어지는 그림자가 거의 없어 떠 보인다"
+      ]
+     }
+    }
+   },
+   "judge_style_both_ge3": true
+  }
+ }
+}

@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "sizes": [
+    [
+      1920,
+      1080
+    ],
+    [
+      2340,
+      1080
+    ],
+    [
+      2520,
+      1080
+    ],
+    [
+      2048,
+      1536
+    ]
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "LOBBY",
+      "name": "로비",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "START",
+      "name": "본 게임 시작 배경",
+      "do": "PlayableProbe.UseRunSettings(1, 0f); PlayableProbe.PressDepart();",
+      "wait": "PlayableProbe.Screen == \"Battle\" && PlayableProbe.Wave == 1",
+      "expect": "PlayableProbe.FieldGroundVisibleCount == 1 && PlayableProbe.FieldPartCount(\"bank\") == 1 && PlayableProbe.FieldPartCount(\"pond\") == 1 && PlayableProbe.FieldPartCount(\"stream\") == 1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_NE",
+      "name": "PCG 다리 북서 한계로 정상 이동",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(-5.1f,5.65f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f && UnityEngine.Mathf.Abs(p.x)+UnityEngine.Mathf.Abs(p.y)>10.5f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "NE",
+      "name": "PCG 다리 화면",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldPartCount(\"bridge\")==1 && PlayableProbe.FieldPartVisibleCount(\"bridge\")==1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_W",
+      "name": "PCG 야영지 남서 한계로 정상 이동",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(-6.0f,-4.75f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f && UnityEngine.Mathf.Abs(p.x)+UnityEngine.Mathf.Abs(p.y)>10.5f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "W",
+      "name": "PCG 야영지 화면",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldPartVisibleCount(\"tent\")>=1 && PlayableProbe.FieldPartVisibleCount(\"flag\")>=1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_NW",
+      "name": "다리와 다른 북쪽 이동 한계로 정상 이동",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(0f,10.75f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f && UnityEngine.Mathf.Abs(p.x)+UnityEngine.Mathf.Abs(p.y)>10.5f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "NW",
+      "name": "북쪽 가장자리 배경",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldGroundVisibleCount==1 && PlayableProbe.PartyY*.0113f>10.5f",
+      "capture": true
+    },
+    {
+      "id": "MOVE_SW",
+      "name": "PCG 갈래길로 정상 이동",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(-2.0f,-4.0f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "SW",
+      "name": "PCG 갈래길·표지판 화면",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldGroundVisibleCount==1 && PlayableProbe.GroundTileCount(\"path_\",true)>0 && PlayableProbe.FieldPartVisibleCount(\"sign\")>=1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_WATER",
+      "name": "PCG 연못 물가로 정상 이동",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(5.75f,4.5f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && d.magnitude<.15f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "WATER",
+      "name": "PCG 연못·둑 화면",
+      "do": "PlayableProbe.SetMove(0f,0f); UnityEngine.Time.timeScale=0f;",
+      "expect": "PlayableProbe.FieldPartVisibleCount(\"pond\")==1 && PlayableProbe.FieldPartVisibleCount(\"bank\")==1",
+      "capture": true
+    },
+    {
+      "id": "MOVE_EDGE_N",
+      "name": "N 최대 이동 한계까지 일반 입력",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(0f,12f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && p.y*1>10.74f && UnityEngine.Mathf.Abs(p.x)<.01f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "EDGE_N",
+      "name": "N 실제 가장자리 1920×1080",
+      "do": "PlayableProbe.SetMove(0,0); UnityEngine.Time.timeScale=0; System.IO.Directory.CreateDirectory(\"output/hd2d-3d-part1\"); System.IO.File.AppendAllText(\"output/hd2d-3d-part1/edge-positions.jsonl\", Newtonsoft.Json.JsonConvert.SerializeObject(new { direction=\"N\", x=PlayableProbe.PartyX*.0113f, y=PlayableProbe.PartyY*.0113f, frame=UnityEngine.Time.frameCount, utc=System.DateTime.UtcNow.ToString(\"O\")})+\"\\n\");",
+      "expect": "PlayableProbe.FieldGroundVisibleCount==1 && PlayableProbe.PartyY*.0113f*1>10.74f && UnityEngine.Mathf.Abs(PlayableProbe.PartyX*.0113f)<.01f",
+      "capture": true
+    },
+    {
+      "id": "MOVE_EDGE_E",
+      "name": "E 최대 이동 한계까지 일반 입력",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(12f,0f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && p.x*1>10.74f && UnityEngine.Mathf.Abs(p.y)<.01f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "EDGE_E",
+      "name": "E 실제 가장자리 1920×1080",
+      "do": "PlayableProbe.SetMove(0,0); UnityEngine.Time.timeScale=0; System.IO.Directory.CreateDirectory(\"output/hd2d-3d-part1\"); System.IO.File.AppendAllText(\"output/hd2d-3d-part1/edge-positions.jsonl\", Newtonsoft.Json.JsonConvert.SerializeObject(new { direction=\"E\", x=PlayableProbe.PartyX*.0113f, y=PlayableProbe.PartyY*.0113f, frame=UnityEngine.Time.frameCount, utc=System.DateTime.UtcNow.ToString(\"O\")})+\"\\n\");",
+      "expect": "PlayableProbe.FieldGroundVisibleCount==1 && PlayableProbe.PartyX*.0113f*1>10.74f && UnityEngine.Mathf.Abs(PlayableProbe.PartyY*.0113f)<.01f",
+      "capture": true
+    },
+    {
+      "id": "MOVE_EDGE_S",
+      "name": "S 최대 이동 한계까지 일반 입력",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(0f,-12f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && p.y*-1>10.74f && UnityEngine.Mathf.Abs(p.x)<.01f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "EDGE_S",
+      "name": "S 실제 가장자리 1920×1080",
+      "do": "PlayableProbe.SetMove(0,0); UnityEngine.Time.timeScale=0; System.IO.Directory.CreateDirectory(\"output/hd2d-3d-part1\"); System.IO.File.AppendAllText(\"output/hd2d-3d-part1/edge-positions.jsonl\", Newtonsoft.Json.JsonConvert.SerializeObject(new { direction=\"S\", x=PlayableProbe.PartyX*.0113f, y=PlayableProbe.PartyY*.0113f, frame=UnityEngine.Time.frameCount, utc=System.DateTime.UtcNow.ToString(\"O\")})+\"\\n\");",
+      "expect": "PlayableProbe.FieldGroundVisibleCount==1 && PlayableProbe.PartyY*.0113f*-1>10.74f && UnityEngine.Mathf.Abs(PlayableProbe.PartyX*.0113f)<.01f",
+      "capture": true
+    },
+    {
+      "id": "MOVE_EDGE_W",
+      "name": "W 최대 이동 한계까지 일반 입력",
+      "do": "UnityEngine.Time.timeScale=.5f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "new System.Func<bool>(()=>{var p=new UnityEngine.Vector2(PlayableProbe.PartyX,PlayableProbe.PartyY)*.0113f;var d=new UnityEngine.Vector2(-12f,0f)-p;PlayableProbe.SetMove(d.x,d.y*.5f);return PlayableProbe.Screen==\"Battle\" && p.x*-1>10.74f && UnityEngine.Mathf.Abs(p.y)<.01f;})()",
+      "timeout": 90
+    },
+    {
+      "id": "EDGE_W",
+      "name": "W 실제 가장자리 1920×1080",
+      "do": "PlayableProbe.SetMove(0,0); UnityEngine.Time.timeScale=0; System.IO.Directory.CreateDirectory(\"output/hd2d-3d-part1\"); System.IO.File.AppendAllText(\"output/hd2d-3d-part1/edge-positions.jsonl\", Newtonsoft.Json.JsonConvert.SerializeObject(new { direction=\"W\", x=PlayableProbe.PartyX*.0113f, y=PlayableProbe.PartyY*.0113f, frame=UnityEngine.Time.frameCount, utc=System.DateTime.UtcNow.ToString(\"O\")})+\"\\n\");",
+      "expect": "PlayableProbe.FieldGroundVisibleCount==1 && PlayableProbe.PartyX*.0113f*-1>10.74f && UnityEngine.Mathf.Abs(PlayableProbe.PartyY*.0113f)<.01f",
+      "capture": true
+    }
+  ]
+}

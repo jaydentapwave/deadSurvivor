@@ -51,6 +51,26 @@ def main():
         case('seed %d all checks' % s, not v, '; '.join(v[:3]))
 
     L = base[3]
+    # Outer additions cannot silently re-roll or prune the user-selected seed 8 screen.
+    adopted_cfg = copy.deepcopy(CFG)
+    adopted_cfg['placement'].pop('edgeClusters', None)
+    adopted = G.generate(8, adopted_cfg)
+    expanded = G.generate(8, CFG)
+    extra = expanded.placements[len(adopted.placements):]
+    case('seed 8 original placements retained byte-for-byte',
+         expanded.placements[:len(adopted.placements)] == adopted.placements)
+    ss = CFG['bounds']['startScreen']
+    mx, my = CFG['placement']['edgeClusters']['startMargin']
+    case('outer additions exclude start screen plus canopy and shadow margin', bool(extra) and all(
+        abs(p['x'] - ss['center'][0]) > ss['halfWidth'] + mx
+        or abs(p['y'] - ss['center'][1]) > ss['halfDepth'] + my for p in extra))
+    case('southern and eastern screens both gain clustered scenery',
+         all(sum(p['x'] > 12 if side == 'east' else p['y'] < -15 for p in extra) >= 20
+             for side in ('east', 'south')))
+    density = C.metrics(expanded)['densityWindowMax']
+    case('expanded seed 8 obeys every existing density cap', all(
+        density[group] <= cap for group, cap in CFG['placement']['densityCap'].items()))
+    case('expanded seed 8 all gameplay constraints', not C.check(expanded))
     # 2. Determinism: same seed -> identical layout json and masks; different seed differs.
     with tempfile.TemporaryDirectory() as tmp:
         hashes = []
@@ -152,6 +172,10 @@ def main():
         from PIL import Image
         sizes = {f: Image.open(Path(tmp) / f).size for f in ('FieldPathMask.png', 'FieldWaterMask.png', 'FieldBankMask.png', 'FieldZoneMask.png')}
         case('export mask sizes 3456x1728', all(s == (3456, 1728) for s in sizes.values()), str(set(sizes.values())))
+        zones = np.asarray(Image.open(Path(tmp) / 'FieldZoneMask.png'))[..., :2]
+        blocks = zones.reshape(E.TEX_H // 2, 2, E.TEX_W // 2, 2, 2)
+        case('soil and gravel boundaries contain only complete 2x2 blocks',
+             bool(np.all(blocks == blocks[:, :1, :, :1, :])))
         keys = {'seed', 'groundHalfDiagonal', 'pathClearance', 'roadsideClearance', 'startClearance', 'yellowClearance', 'path', 'banks', 'water', 'placements'}
         case('export field_layout keys superset of FieldLayoutData', keys <= set(data), sorted(keys - set(data)))
         four = all(abs(a[0] - b[0]) + abs(a[1] - b[1]) == 1 for a, b in zip(cells, cells[1:]))

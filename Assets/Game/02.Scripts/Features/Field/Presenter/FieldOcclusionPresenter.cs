@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using VContainer.Unity;
 
-// Only foreground scenery changes material. Party art and simulation stay untouched.
+// B7 reveals party members only. Monsters behind scenery do not fade that scenery.
 public sealed class FieldOcclusionPresenter : ITickable
 {
     private readonly FieldView _field;
     private readonly Camera _camera;
     private readonly IReadOnlyList<MemberView> _members;
+    private readonly List<Rect> _cutouts = new();
     public int FadedCount { get; private set; }
 
     public FieldOcclusionPresenter(FieldView field, Camera camera, IReadOnlyList<MemberView> members)
@@ -22,23 +23,18 @@ public sealed class FieldOcclusionPresenter : ITickable
         FadedCount = 0;
         foreach (var prop in _field.Occluders)
         {
-            var isCovered = false;
+            _cutouts.Clear();
             var bounds = prop.Bounds;
             var rect = OcclusionMath.ProjectBounds(_camera, bounds);
             var depth = _camera.WorldToViewportPoint(prop.Anchor.position).z;
             foreach (var member in _members)
             {
-                var body = member.BodyRenderer;
-                if (!body.enabled || !body.gameObject.activeInHierarchy)
-                {
-                    continue;
-                }
-                if (OcclusionMath.Covers(rect, depth, OcclusionMath.ProjectBounds(_camera, body.bounds),
-                    _camera.WorldToViewportPoint(member.transform.position).z))
-                {
-                    isCovered = true;
-                    break;
-                }
+                IncludeCoveredActor(member.BodyRenderer, member.transform, rect, depth);
+            }
+            var isCovered = _cutouts.Count > 0;
+            if (isCovered)
+            {
+                prop.SetOcclusionRects(_cutouts);
             }
             prop.SetFaded(isCovered);
             if (isCovered)
@@ -46,5 +42,23 @@ public sealed class FieldOcclusionPresenter : ITickable
                 FadedCount++;
             }
         }
+    }
+
+    private void IncludeCoveredActor(Renderer body, Transform actor, Rect propRect, float propDepth)
+    {
+        if (!body.enabled || !body.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+        var actorRect = OcclusionMath.ProjectBounds(_camera, body.bounds);
+        if (!OcclusionMath.Covers(propRect, propDepth, actorRect, _camera.WorldToViewportPoint(actor.position).z))
+        {
+            return;
+        }
+        // A small two-output-pixel margin reveals feet and hair without fading the whole prop.
+        var margin = 2f / Mathf.Max(1, _camera.pixelHeight);
+        actorRect = Rect.MinMaxRect(actorRect.xMin - margin, actorRect.yMin - margin,
+            actorRect.xMax + margin, actorRect.yMax + margin);
+        _cutouts.Add(actorRect);
     }
 }

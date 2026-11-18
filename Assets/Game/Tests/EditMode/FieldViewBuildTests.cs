@@ -130,6 +130,9 @@ public class FieldViewBuildTests
             Assert.AreEqual(48, card.sprite.pixelsPerUnit);
             Assert.AreEqual(UnityEngine.Rendering.ShadowCastingMode.Off, card.shadowCastingMode);
             Assert.IsEmpty(card.GetComponentsInChildren<Collider>());
+            var bushSprite = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/03.Resources/Art/AIGenerated/Decor/bush_02.png");
+            var bush = field.AddCard(bushSprite, new FieldLayoutPlacement { x = 4, y = 2, group = "bush", sprite = "bush_02" }, Vector3.down);
+            Assert.IsTrue(field.Occluders.Any(prop => prop.Anchor == bush.transform), "Bushes must participate in actor occlusion fading");
         }
         finally
         {
