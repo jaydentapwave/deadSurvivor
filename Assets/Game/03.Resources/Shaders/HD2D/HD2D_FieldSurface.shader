@@ -12,6 +12,7 @@ Shader "HD2D/HD2D_FieldSurface"
         _MainTex("UV albedo",2D)="white" {}
         _PathMask("Game path mask",2D)="black" {}
         _WaterMask("Water opening",2D)="black" {}
+        _ZoneMask("R worn, G gravel, B tone, A meadow",2D)="gray" {}
         _FieldRect("Field rectangle",Vector)=(-36,-36,72,72)
         _FlatDepth("Depth at floor",Float)=0
         _Dither("Dither amount",Range(0,1))=0
@@ -30,6 +31,7 @@ Shader "HD2D/HD2D_FieldSurface"
         TEXTURE2D(_Dirt); SAMPLER(sampler_Dirt);
         TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
         TEXTURE2D(_WaterMask); SAMPLER(sampler_WaterMask);
+        TEXTURE2D(_ZoneMask); SAMPLER(sampler_ZoneMask);
         TEXTURE2D(_PathMask); SAMPLER(sampler_PathMask);
         CBUFFER_START(UnityPerMaterial)
         float4 _FieldRect; float _FlatDepth; float _Dither;
@@ -58,6 +60,14 @@ Shader "HD2D/HD2D_FieldSurface"
             half3 grass=LinearToSRGB(SAMPLE_TEXTURE2D(_Ground,sampler_Ground,floorUV).rgb);
             float path=SAMPLE_TEXTURE2D(_PathMask,sampler_PathMask,(i.w.xz-_FieldRect.xy)/_FieldRect.zw).r;
             half3 soilGround=LinearToSRGB(SAMPLE_TEXTURE2D(_Dirt,sampler_Dirt,i.w.xz/2.666667).rgb);
+            half4 zone=SAMPLE_TEXTURE2D(_ZoneMask,sampler_PointClamp,(i.w.xz-_FieldRect.xy)/_FieldRect.zw);
+            // Tone vector has zero luminance; meadow raises luminance by 6.86/255 < .03.
+            float tone=(zone.b*255-128)/100;
+            grass+=tone*half3(-9,3,-4)/255;
+            grass+=zone.a*half3(5,8,1)/255;
+            float dotNoise=frac(sin(dot(floor(i.w.xz*float2(24,12)),float2(127.1,311.7)))*43758.5453);
+            grass=lerp(grass,lerp(grass,soilGround,.45),zone.r*step(dotNoise,.62));
+            grass=lerp(grass,soilGround,zone.g*step(dotNoise,.7));
             grass=lerp(grass,soilGround,step(.5,path));
             Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));
             float3 cellNormal=normalize(i.n);

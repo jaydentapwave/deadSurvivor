@@ -7,6 +7,21 @@ using UnityEngine.Tilemaps;
 public class FieldViewBuildTests
 {
     [Test]
+    public void ZoneMaskUsesAllChannelsWithoutFilteringOrColorConversion()
+    {
+        const string path = "Assets/Game/03.Resources/Textures/HD2D/FieldZoneMask.png";
+        var importer = (TextureImporter)AssetImporter.GetAtPath(path);
+        Assert.IsFalse(importer.sRGBTexture);
+        Assert.IsFalse(importer.mipmapEnabled);
+        Assert.IsFalse(importer.alphaIsTransparency);
+        Assert.AreEqual(FilterMode.Point, importer.filterMode);
+        Assert.AreEqual(TextureWrapMode.Clamp, importer.wrapMode);
+        Assert.AreEqual(4096, importer.maxTextureSize);
+        var material = AssetDatabase.LoadAssetAtPath<Material>("Assets/Game/03.Resources/Materials/HD2D/HD2D_Field_Ground.mat");
+        Assert.AreSame(AssetDatabase.LoadAssetAtPath<Texture2D>(path), material.GetTexture("_ZoneMask"));
+    }
+
+    [Test]
     public void LandscapeKeepsTileDataAndBuildsOwnedPartsWithoutCollision()
     {
         var root = new GameObject("FieldBuildTest");
