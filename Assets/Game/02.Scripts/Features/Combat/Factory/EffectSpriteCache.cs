@@ -7,6 +7,7 @@ using Object = UnityEngine.Object;
 public class EffectSpriteCache : IDisposable
 {
     private readonly Dictionary<(string, int, double, int, int), Sprite> _spriteDict = new();
+    private readonly Dictionary<(int, int, uint, int), Sprite> _chainDict = new();
     private readonly List<Object> _createdList = new();
 
     public Sprite Ring(string kind, double radiusMeters, int frame)
@@ -29,6 +30,17 @@ public class EffectSpriteCache : IDisposable
         {
             sprite = Create(GroundMarkRaster.DashPath(lengthMeters, direction * 11.25, frame), $"dash_line_{frame + 1}");
             _spriteDict.Add(key, sprite);
+        }
+        return sprite;
+    }
+
+    public Sprite Chain(int dx, int dy, uint seed, int frame)
+    {
+        var key = (dx, dy, seed, frame);
+        if (!_chainDict.TryGetValue(key, out var sprite))
+        {
+            sprite = Create(ChainBoltRaster.Draw(dx, dy, seed, frame), $"chain_bolt_{frame + 1}");
+            _chainDict.Add(key, sprite);
         }
         return sprite;
     }
@@ -64,6 +76,7 @@ public class EffectSpriteCache : IDisposable
             }
         }
         _spriteDict.Clear();
+        _chainDict.Clear();
         _createdList.Clear();
     }
 }

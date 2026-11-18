@@ -146,23 +146,23 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         var spriteName = _effectData.Get(burst.ItemId).Burst;
         var clip = _effectData.GetClip(spriteName);
         var sprite = _spriteAtlasService.Get(clip.FrameKey(0));
-        var alpha = Mathf.Clamp01(burst.RemainingSeconds / burst.Seconds);
         var position = World(burst.Position);
         var key = (long)burst.Id << 32;
         if (burst.Kind == BurstEffectKind.Chain)
         {
             var from = position + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
             var to = World(burst.EndPosition) + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
-            var screen = Screen(burst.EndPosition - burst.Position);
-            var width = sprite.rect.width / Const.PixelsPerUnit;
-            var count = CombatEffectMotion.GetSegmentCount(screen.magnitude, width);
-            var angle = Mathf.Atan2(screen.y, screen.x) * Mathf.Rad2Deg;
-            for (var i = 0; i < count; i++)
+            var delta = to - from;
+            var dx = Mathf.RoundToInt(delta.x * 48);
+            var dy = Mathf.RoundToInt(delta.z * _viewRules.SinTilt * 48);
+            if (dx == 0 && dy == 0)
             {
-                CombatEffectMotion.GetSegment(Vector2.zero, screen, width, i, out var center, out var scaleX);
-                var ratio = screen.sqrMagnitude > 0 ? Vector2.Dot(center, screen) / screen.sqrMagnitude : .5f;
-                Draw(key + i, spriteName, Vector3.Lerp(from, to, ratio), new Vector2(scaleX, 1f), alpha, angle, snapToPixels: false);
+                return;
             }
+            var chainElapsed = burst.Seconds - burst.RemainingSeconds;
+            var frame = EffectFrameMath.FrameAt(chainElapsed, clip.Frames, clip.Fps, false);
+            DrawFrame(key, spriteName, chainElapsed, from, false, false,
+                _effectSpriteCache.Chain(dx, dy, (uint)burst.Id, frame));
 
             return;
         }
@@ -220,7 +220,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
             view = _projectileViewFactory.CreateBurst(id, sprite);
             MarkShown(key);
         }
-        view.UpdateFrame(position, sprite, key, index + 1, clip.MaterialIndex, isFlipped, isGround, _viewRules.SinTilt);
+        view.UpdateView(position, sprite, key, index + 1, clip.MaterialIndex, isFlipped, isGround, _viewRules.SinTilt);
         if (!_frameSeenDict.TryGetValue(key, out var frames))
         {
             frames = new List<int>();
@@ -231,19 +231,6 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         {
             frames.Add(index + 1);
         }
-    }
-
-    private void Draw(long id, string spriteName, Vector3 position, Vector2 scale, float alpha,
-        float angle = 0f, bool isFlipped = false, bool snapToPixels = true, bool isGround = false)
-    {
-        _aliveBurstIdSet.Add(id);
-        if (!_projectileViewRegistry.TryGetBurst(id, out var view))
-        {
-            view = _projectileViewFactory.CreateBurst(id, _spriteAtlasService.Get(_effectData.GetClip(spriteName).FrameKey(0)));
-            MarkShown(spriteName);
-        }
-
-        view.UpdateView(position, scale, alpha, angle, isFlipped, snapToPixels, isGround);
     }
 
     private Vector3 World(Vector2 floor) => IsoProjection.FloorToWorldSnapped(floor, _runRules.UnitScale, _viewRules.SinTilt);

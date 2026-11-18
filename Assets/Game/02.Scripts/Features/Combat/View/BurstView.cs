@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// T1~T3: 한 장짜리 효과. 피벗은 임포트 규약 그대로, 표시 중심만 보정한다.
+// 알파 클립 프레임 효과. 임포트 중심/시작점 피벗을 그대로 배치한다.
 public class BurstView : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer bodyRenderer;
@@ -12,7 +12,7 @@ public class BurstView : MonoBehaviour
     public string EffectKey { get; private set; }
     public int FrameNumber { get; private set; }
 
-    public void UpdateFrame(Vector3 worldPosition, Sprite frame, string key, int frameNumber,
+    public void UpdateView(Vector3 worldPosition, Sprite frame, string key, int frameNumber,
         int materialIndex, bool isFlipped = false, bool isGround = false, float sinTilt = .5f)
     {
         EffectKey = key;
@@ -43,23 +43,4 @@ public class BurstView : MonoBehaviour
         bodyRenderer.flipY = false;
     }
 
-    public void UpdateView(Vector3 worldPosition, Vector2 scale, float alpha, float angle = 0f, bool isFlipped = false,
-        bool snapToPixels = true, bool isGround = false)
-    {
-        upright.localRotation = isGround ? Quaternion.Euler(90f, 0f, 0f) : _uprightRotation;
-        bodyRenderer.transform.localRotation = Quaternion.Euler(0f, 0f, angle);
-        bodyRenderer.transform.localScale = new Vector3(scale.x, scale.y, 1f);
-        bodyRenderer.flipX = isFlipped;
-        bodyRenderer.color = new Color(1f, 1f, 1f, alpha);
-        var center = bodyRenderer.sprite.bounds.center;
-        center.x *= isFlipped ? -scale.x : scale.x;
-        center.y *= scale.y;
-        var position = worldPosition - upright.localRotation * bodyRenderer.transform.localRotation * center;
-        if (isGround)
-        {
-            position.y = 0.001f;
-        }
-        // 연결 마디의 반 픽셀 중심은 유지해야 한다. 마디마다 스냅하면 짧은 끝 마디에 겹침·빈틈이 생긴다.
-        transform.localPosition = snapToPixels ? TiltedViewMath.SnapToTexels(position, .5f, Const.PixelsPerUnit) : position;
-    }
 }

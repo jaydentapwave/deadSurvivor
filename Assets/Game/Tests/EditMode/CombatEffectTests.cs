@@ -142,42 +142,11 @@ public class CombatEffectTests
     [TestCase(1f, 1f)]
     public void LightningViewBoundariesRemainJoinedAfterPlacement(float xPixels, float yPixels)
     {
-        var pool = new PoolManager();
-        var parent = new GameObject("LightningBoundaryTest");
-        var prefab = Resources.Load<BurstView>("Prefab/BurstView");
-        var sprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(
-            "Assets/Game/03.Resources/Art/AIGenerated/Effects/lightning.png");
-        var from = CombatEffectMotion.Snap(new Vector2(0.1f, 0.2f));
-        var to = CombatEffectMotion.Snap(from + new Vector2(xPixels, yPixels) / Const.PixelsPerUnit);
-        var width = sprite.rect.width / Const.PixelsPerUnit;
-        var count = CombatEffectMotion.GetSegmentCount(Vector2.Distance(from, to), width);
-        var angle = Mathf.Atan2(to.y - from.y, to.x - from.x) * Mathf.Rad2Deg;
-        var upright = TiltedViewMath.UprightRotation(30f);
-        var previousEnd = upright * (Vector3)from;
-        try
-        {
-            for (var i = 0; i < count; i++)
-            {
-                CombatEffectMotion.GetSegment(from, to, width, i, out var center, out var scaleX);
-                var view = pool.Get("LightningBoundaryTest", prefab, parent.transform);
-                view.Initialize(sprite);
-                view.UpdateView(upright * (Vector3)center, new Vector2(scaleX, 1f), 1f, angle, snapToPixels: false);
-                var bounds = sprite.bounds;
-                var start = view.BodyRenderer.transform.TransformPoint(
-                    new Vector3(bounds.min.x, bounds.center.y, 0f));
-                var end = view.BodyRenderer.transform.TransformPoint(
-                    new Vector3(bounds.max.x, bounds.center.y, 0f));
-                Assert.Less(Vector3.Distance(previousEnd, start) * Const.PixelsPerUnit, 0.001f, $"joint {i}");
-                previousEnd = end;
-                pool.Release("LightningBoundaryTest", view);
-            }
-
-            Assert.Less(Vector3.Distance(upright * (Vector3)to, previousEnd) * Const.PixelsPerUnit, 0.001f, "final endpoint");
-        }
-        finally
-        {
-            Object.DestroyImmediate(parent);
-        }
+        var image = ChainBoltRaster.Draw((int)xPixels, (int)yPixels, 7, 0);
+        var ox = xPixels >= 0 ? 10 : image.Width - 10;
+        var oy = yPixels >= 0 ? 10 : image.Height - 10;
+        Assert.AreEqual(255, image.Pixels[oy * image.Width + ox].a);
+        Assert.AreEqual(255, image.Pixels[(oy + (int)yPixels) * image.Width + ox + (int)xPixels].a);
     }
 
     [Test]
