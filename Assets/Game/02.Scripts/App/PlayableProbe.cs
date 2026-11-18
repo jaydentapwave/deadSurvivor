@@ -655,6 +655,8 @@ public static class PlayableProbe
     }
 
     // T1~T5: 실제 풀에서 표시한 횟수와 현재 카메라 안 그림 수. 짧은 효과는 상태 숫자와 함께 확인한다.
+    public static string EffectFrameSequence(string key) => Resolve<CombatWorldPresenter>().GetFrameSequence(key);
+
     public static int EffectShownCount(string spriteName) => Resolve<CombatWorldPresenter>().GetShownCount(spriteName);
 
     public static int EffectVisibleCount(string spriteName)
@@ -753,7 +755,7 @@ public static class PlayableProbe
     private static bool IsEffectVisible(SpriteRenderer renderer, string spriteName)
     {
         var point = Resolve<Camera>().WorldToViewportPoint(renderer.bounds.center);
-        return renderer.sprite.name == spriteName + "(Clone)" && renderer.color.a > 0f
+        return (renderer.sprite.name == spriteName + "(Clone)" || renderer.sprite.name.StartsWith(Resolve<CombatEffectData>().GetClip(spriteName).Sprite + "_", StringComparison.Ordinal)) && renderer.color.a > 0f
             && point.z > 0f && point.x > 0f && point.x < 1f && point.y > 0f && point.y < 1f;
     }
 

@@ -25,6 +25,9 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
     private readonly List<HitEffect> _hitList = new();
     private readonly Dictionary<string, int> _shownCountDict = new();
     private int _nextHitId;
+    private readonly Dictionary<string, List<int>> _frameSeenDict = new();
+    private readonly Dictionary<string, long> _frameObservedIdDict = new();
+    public string GetFrameSequence(string key) => _frameSeenDict.TryGetValue(key, out var frames) ? string.Join(",", frames) : "";
 
     public CombatWorldPresenter(CombatModel combatModel, CombatFeedbackModel combatFeedbackModel, RunModel runModel,
         RunRulesData runRules, CombatEffectData effectData, SpriteAtlasService spriteAtlasService,
@@ -81,8 +84,8 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
                 continue;
             }
 
-            Draw((long)hit.Id << 32, "hit_star", World(hit.Position) + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees),
-                Vector2.one, Mathf.Clamp01(hit.Remaining / HitSeconds));
+            DrawFrame((long)hit.Id << 32, "hit_star", HitSeconds - hit.Remaining,
+                World(hit.Position) + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees));
         }
 
         _releaseBurstIdList.Clear();
@@ -134,7 +137,8 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
     private void DrawBurst(BurstState burst)
     {
         var spriteName = _effectData.Get(burst.ItemId).Burst;
-        var sprite = _spriteAtlasService.Get(spriteName);
+        var clip = _effectData.GetClip(spriteName);
+        var sprite = _spriteAtlasService.Get(clip.FrameKey(0));
         var alpha = Mathf.Clamp01(burst.RemainingSeconds / burst.Seconds);
         var position = World(burst.Position);
         var key = (long)burst.Id << 32;
@@ -167,22 +171,46 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
                 isFlipped = burst.Direction.x > 0f;
                 break;
             case BurstEffectKind.Heal:
-                position += TiltedViewMath.UprightOffset(HealHeight + (1f - alpha) * 4f / Const.PixelsPerUnit, _viewRules.TiltDegrees);
+                position += TiltedViewMath.UprightOffset(HealHeight, _viewRules.TiltDegrees);
                 break;
             case BurstEffectKind.HealArea:
                 scale *= burst.Radius * _runRules.UnitScale * 2f / (sprite.rect.width / Const.PixelsPerUnit);
                 break;
             case BurstEffectKind.Explosion:
                 position += TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
-                scale *= 1f + (1f - alpha) * 0.2f;
+
                 break;
             case BurstEffectKind.Pulse:
                 scale *= burst.Radius * _runRules.UnitScale * 2f / (sprite.rect.width / Const.PixelsPerUnit);
                 break;
         }
 
-        Draw(key, spriteName, position, scale, alpha, isFlipped: isFlipped,
-            isGround: burst.Kind == BurstEffectKind.HealArea || burst.Kind == BurstEffectKind.Pulse);
+        DrawFrame(key, spriteName, burst.Seconds - burst.RemainingSeconds, position, isFlipped,
+            burst.Kind == BurstEffectKind.HealArea || burst.Kind == BurstEffectKind.Pulse);
+    }
+
+    private void DrawFrame(long id, string key, float elapsed, Vector3 position, bool isFlipped = false, bool isGround = false)
+    {
+        var clip = _effectData.GetClip(key);
+        var index = EffectFrameMath.FrameAt(elapsed, clip.Frames, clip.Fps, clip.Loop);
+        var sprite = _spriteAtlasService.Get(clip.FrameKey(index));
+        _aliveBurstIdSet.Add(id);
+        if (!_projectileViewRegistry.TryGetBurst(id, out var view))
+        {
+            view = _projectileViewFactory.CreateBurst(id, sprite);
+            MarkShown(key);
+        }
+        view.UpdateFrame(position, sprite, key, index + 1, clip.MaterialIndex, isFlipped, isGround, _viewRules.SinTilt);
+        if (!_frameSeenDict.TryGetValue(key, out var frames))
+        {
+            frames = new List<int>();
+            _frameSeenDict.Add(key, frames);
+            _frameObservedIdDict.Add(key, id);
+        }
+        if (_frameObservedIdDict[key] == id && (frames.Count == 0 || frames[frames.Count - 1] != index + 1))
+        {
+            frames.Add(index + 1);
+        }
     }
 
     private void Draw(long id, string spriteName, Vector3 position, Vector2 scale, float alpha,
@@ -191,7 +219,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         _aliveBurstIdSet.Add(id);
         if (!_projectileViewRegistry.TryGetBurst(id, out var view))
         {
-            view = _projectileViewFactory.CreateBurst(id, _spriteAtlasService.Get(spriteName));
+            view = _projectileViewFactory.CreateBurst(id, _spriteAtlasService.Get(_effectData.GetClip(spriteName).FrameKey(0)));
             MarkShown(spriteName);
         }
 

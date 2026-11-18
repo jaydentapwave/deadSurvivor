@@ -57,12 +57,14 @@ public class CombatEffectClipData
     [SerializeField] private float fps;
     [SerializeField] private bool loop;
     [SerializeField] private bool directional;
+    [SerializeField] private int materialIndex;
     public string Key => key;
     public string Sprite => sprite;
     public int Frames => frames;
     public float Fps => fps;
     public bool Loop => loop;
     public bool Directional => directional;
+    public int MaterialIndex => materialIndex;
     public string FrameKey(int index, string direction = "right") =>
         directional ? $"{sprite}_{direction}_{index + 1}" : $"{sprite}_{index + 1}";
 }

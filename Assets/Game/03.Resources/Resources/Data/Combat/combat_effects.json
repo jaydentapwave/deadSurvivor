@@ -53,7 +53,8 @@
       "frames": 5,
       "fps": 20,
       "loop": false,
-      "directional": false
+      "directional": false,
+      "materialIndex": 0
     },
     {
       "key": "slash_axe",
@@ -61,7 +62,8 @@
       "frames": 5,
       "fps": 20,
       "loop": false,
-      "directional": false
+      "directional": false,
+      "materialIndex": 0
     },
     {
       "key": "hit_star",
@@ -69,7 +71,8 @@
       "frames": 3,
       "fps": 20,
       "loop": false,
-      "directional": false
+      "directional": false,
+      "materialIndex": 1
     },
     {
       "key": "explosion",
@@ -77,7 +80,8 @@
       "frames": 6,
       "fps": 24,
       "loop": false,
-      "directional": false
+      "directional": false,
+      "materialIndex": 1
     },
     {
       "key": "heal_single",
@@ -85,7 +89,8 @@
       "frames": 5,
       "fps": 20,
       "loop": false,
-      "directional": false
+      "directional": false,
+      "materialIndex": 1
     },
     {
       "key": "heal_area",
@@ -93,7 +98,8 @@
       "frames": 5,
       "fps": 20,
       "loop": false,
-      "directional": false
+      "directional": false,
+      "materialIndex": 3
     },
     {
       "key": "pulse",
@@ -101,7 +107,8 @@
       "frames": 5,
       "fps": 20,
       "loop": false,
-      "directional": false
+      "directional": false,
+      "materialIndex": 4
     },
     {
       "key": "ground_boom",
@@ -109,7 +116,8 @@
       "frames": 4,
       "fps": 16,
       "loop": false,
-      "directional": false
+      "directional": false,
+      "materialIndex": 5
     },
     {
       "key": "ground_blast",
@@ -117,7 +125,8 @@
       "frames": 2,
       "fps": 8,
       "loop": true,
-      "directional": false
+      "directional": false,
+      "materialIndex": 6
     },
     {
       "key": "dash_line",
@@ -125,7 +134,8 @@
       "frames": 3,
       "fps": 12,
       "loop": true,
-      "directional": false
+      "directional": false,
+      "materialIndex": 6
     },
     {
       "key": "lightning",
@@ -133,7 +143,8 @@
       "frames": 3,
       "fps": 12,
       "loop": false,
-      "directional": false
+      "directional": false,
+      "materialIndex": 1
     },
     {
       "key": "fireball",
@@ -141,7 +152,8 @@
       "frames": 3,
       "fps": 12,
       "loop": true,
-      "directional": true
+      "directional": true,
+      "materialIndex": 1
     },
     {
       "key": "arrow",
@@ -149,7 +161,8 @@
       "frames": 1,
       "fps": 1,
       "loop": true,
-      "directional": true
+      "directional": true,
+      "materialIndex": 0
     },
     {
       "key": "crossbow_bolt",
@@ -157,7 +170,8 @@
       "frames": 1,
       "fps": 1,
       "loop": true,
-      "directional": true
+      "directional": true,
+      "materialIndex": 0
     },
     {
       "key": "spore",
@@ -165,7 +179,8 @@
       "frames": 3,
       "fps": 8,
       "loop": true,
-      "directional": false
+      "directional": false,
+      "materialIndex": 2
     }
   ]
 }
