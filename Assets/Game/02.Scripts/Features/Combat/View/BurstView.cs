@@ -5,6 +5,7 @@ public class BurstView : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer bodyRenderer;
     [SerializeField] private Transform upright;
+    [SerializeField] private Material[] effectMaterials;
     private Quaternion _uprightRotation;
     public SpriteRenderer BodyRenderer => bodyRenderer;
 

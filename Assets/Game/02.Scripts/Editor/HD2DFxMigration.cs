@@ -72,4 +72,70 @@ public static class HD2DFxMigration
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
     }
+    [MenuItem("DeadSurvivor/HD2D/FX/02 Wire Materials")]
+    public static void WireMaterials()
+    {
+        if (Application.isPlaying)
+        {
+            throw new InvalidOperationException("FX wiring requires Edit Mode");
+        }
+        const string root = "Assets/Game/03.Resources/Materials/HD2D/";
+        var names = new[] { "EffectGlow_Blade", "EffectGlow_Fire", "EffectGlow_Enemy", "EffectGround_Heal", "EffectGround_Pulse", "EffectGround_Boom", "EffectGround_Warn" };
+        var intensities = new[] { 1f, 2.4f, 1.6f, 1.6f, 2.2f, 1.6f, 1f };
+        var materials = new Material[names.Length];
+        for (var i = 0; i < names.Length; i++)
+        {
+            var path = root + "HD2D_" + names[i] + ".mat";
+            var material = AssetDatabase.LoadAssetAtPath<Material>(path);
+            if (material == null)
+            {
+                material = new Material(Shader.Find("HD2D/HD2D_EffectGlow"));
+                AssetDatabase.CreateAsset(material, path);
+            }
+            material.SetFloat("_CoreIntensity", intensities[i]);
+            material.SetFloat("_BodyIntensity", 1f);
+            material.SetFloat("_ZWrite", i < 3 ? 1f : 0f);
+            material.renderQueue = i < 3 ? 2450 : 2440;
+            EditorUtility.SetDirty(material);
+            materials[i] = material;
+        }
+        foreach (var name in new[] { "BurstView", "EnemyShotView", "MonsterView" })
+        {
+            var path = "Assets/Game/03.Resources/Resources/Prefab/" + name + ".prefab";
+            var prefab = PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                var owner = prefab.GetComponent(name);
+                var so = new SerializedObject(owner);
+                if (name == "MonsterView")
+                {
+                    foreach (var field in new[] { "dashLineRenderer", "blastAreaRenderer" })
+                    {
+                        ((SpriteRenderer)so.FindProperty(field).objectReferenceValue).sharedMaterial = materials[6];
+                    }
+                }
+                else
+                {
+                    ((SpriteRenderer)so.FindProperty("bodyRenderer").objectReferenceValue).sharedMaterial = materials[name == "BurstView" ? 1 : 2];
+                    if (name == "BurstView")
+                    {
+                        var array = so.FindProperty("effectMaterials");
+                        array.arraySize = materials.Length;
+                        for (var i = 0; i < materials.Length; i++)
+                        {
+                            array.GetArrayElementAtIndex(i).objectReferenceValue = materials[i];
+                        }
+                        so.ApplyModifiedPropertiesWithoutUndo();
+                    }
+                }
+                PrefabUtility.SaveAsPrefabAsset(prefab, path);
+            }
+            finally
+            {
+                PrefabUtility.UnloadPrefabContents(prefab);
+            }
+        }
+        AssetDatabase.SaveAssets();
+    }
+
 }
