@@ -77,6 +77,7 @@ public class MonsterProjectileData
     [SerializeField] private float shotTravelScale;
     [SerializeField] private float shotHitRadius;
     [SerializeField] private string shotColor;
+    [SerializeField] private string shotSprite;
 
     public float Range => range;
     public float ApproachRatio => approachRatio;
@@ -86,6 +87,7 @@ public class MonsterProjectileData
     public float ShotTravelScale => shotTravelScale;
     public float ShotHitRadius => shotHitRadius;
     public string ShotColor => shotColor;
+    public string ShotSprite => shotSprite;
 }
 
 [Serializable]

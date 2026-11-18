@@ -1,0 +1,29 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "script eval",
+    "parameters": {
+      "code": "return new { screen=PlayableProbe.Screen, wave=PlayableProbe.Wave, frame=UnityEngine.Time.frameCount, sword=PlayableProbe.EffectFrameSequence(\"slash_sword\"), axe=PlayableProbe.EffectFrameSequence(\"slash_axe\") };"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": {
+        "screen": "Prep",
+        "wave": 1,
+        "frame": 6748,
+        "sword": "1,2,3,4,5",
+        "axe": ""
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

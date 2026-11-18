@@ -37,7 +37,7 @@ public class ProjectileBehavior : IMonsterBehavior
         {
             _nextShotId++;
             _monsterModel.AddEnemyShot(new EnemyShot(_nextShotId, monster.Position, direction, projectile.ShotSpeed, monster.Damage,
-                projectile.Range * projectile.ShotTravelScale, projectile.ShotHitRadius, projectile.ShotColor));
+                projectile.Range * projectile.ShotTravelScale, projectile.ShotHitRadius, projectile.ShotColor, projectile.ShotSprite));
             monster.AttackClock = projectile.Interval;
         }
     }

@@ -7,10 +7,12 @@ public class MonsterViewStateTests
 {
     private GameObject _root;
     private MonsterView _view;
+    private EffectSpriteCache _effects;
 
     [SetUp]
     public void SetUp()
     {
+        _effects = new EffectSpriteCache();
         _root = new GameObject("MonsterView");
         var body = _root.AddComponent<SpriteRenderer>();
         var line = new GameObject("DashLine").AddComponent<SpriteRenderer>();
@@ -25,10 +27,15 @@ public class MonsterViewStateTests
         serialized.ApplyModifiedPropertiesWithoutUndo();
         _view.Initialize(CreateSprite(8, 8, new Vector2(0.5f, 0f)), null, false, CreateSprite(4, 2, new Vector2(0f, 0.5f)),
             CreateSprite(64, 64, new Vector2(0.5f, 0f)), 322f, 90f, 0.0113f);
+        _view.InitializeEffects(_effects);
     }
 
     [TearDown]
-    public void TearDown() => Object.DestroyImmediate(_root);
+    public void TearDown()
+    {
+        Object.DestroyImmediate(_root);
+        _effects.Dispose();
+    }
 
     [Test]
     public void StartsWithBothOff()
@@ -158,13 +165,13 @@ public class MonsterViewStateTests
     {
         var area = _root.transform.Find("BlastArea");
         var renderer = area.GetComponent<SpriteRenderer>();
-        var size = Vector3.Scale(renderer.sprite.bounds.size, area.localScale);
-        Assert.AreEqual(90f * 2f * .0113f, size.x, 1e-5f);
-        Assert.AreEqual(size.x, size.y, 1e-5f);
-        Assert.That(Quaternion.Angle(Quaternion.Euler(90f, 0f, 0f), area.localRotation), Is.LessThan(.001f));
+        Assert.AreEqual(new Vector3(1, 2, 1), area.localScale);
+        Assert.That(renderer.sprite.rect.width / 48f, Is.InRange(90f * 2 * .0113f, 90f * 2 * .0113f + .13f));
+        Assert.That(Quaternion.Angle(Quaternion.Euler(90, 0, 0), area.localRotation), Is.LessThan(.001f));
         _view.UpdateState(MonsterPhase.Windup, Vector2.up);
         var line = _root.transform.Find("DashLine");
-        Assert.That(Vector3.Distance(Vector3.forward, line.right), Is.LessThan(1e-5f));
+        Assert.AreEqual(0f, line.localEulerAngles.y);
+        Assert.AreEqual(new Vector3(1, 2, 1), line.localScale);
         Assert.AreEqual(.001f, line.localPosition.y, 1e-6f);
     }
 

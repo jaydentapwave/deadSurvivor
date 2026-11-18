@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "script eval",
+    "parameters": {
+      "code": "var t=System.AppDomain.CurrentDomain.GetAssemblies().Select(a=>a.GetType(\"UnityEditor.Search.SearchDatabase\")).First(x=>x!=null); var m=t.GetMethod(\"CreateDefaultIndexAndImport\",System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic); var db=(UnityEngine.Object)m.Invoke(null,null); return new { database=db == null ? null : UnityEditor.AssetDatabase.GetAssetPath(db) };"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": {
+        "database": ""
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

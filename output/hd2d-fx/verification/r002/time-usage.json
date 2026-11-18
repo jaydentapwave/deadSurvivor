@@ -1,0 +1,14 @@
+{
+  "measured_from_utc": "2026-11-18T06:32:30.427215+00:00",
+  "measured_until_utc": "2026-11-18T06:39:15.728378+00:00",
+  "observed_seconds": 405.3,
+  "basis": "r002 doctor 증거 생성 후부터 집계. 앞선 읽기/수정은 시작 시각 미수집으로 미포함.",
+  "tests_seconds": {
+    "combat-tests": 7.73,
+    "chain-tests": 5.3,
+    "ground-tests": 7.02
+  },
+  "play_seconds": 23.2,
+  "tokens": "NOT_AVAILABLE: Codex host usage not exposed; external review usage not supplied",
+  "invoked_subagents": 0
+}

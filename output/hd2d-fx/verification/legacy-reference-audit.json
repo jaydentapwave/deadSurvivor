@@ -1,0 +1,18 @@
+{
+  "utc": "2026-11-18T06:22:30.226990+00:00",
+  "legacy_pngs": 10,
+  "active_game_reference_count": 0,
+  "active_references": [],
+  "all_assets_game_reference_count": 2,
+  "preserved_lookdev_references": [
+    {
+      "path": "Assets/Game/01.Scene/Lookdev_HD2D.unity",
+      "legacy": "Assets/Game/03.Resources/Art/AIGenerated/Effects/slash_sword.png.meta"
+    },
+    {
+      "path": "Assets/Game/01.Scene/Lookdev_HD2D.unity",
+      "legacy": "Assets/Game/03.Resources/Art/AIGenerated/Effects/fireball.png.meta"
+    }
+  ],
+  "scope_evidence": "docs/game/hd2d-사전조사.md:282 — Lookdev_HD2D is an unbuilt first-stage trial; scene and Round1~8 preservation instruction applies"
+}

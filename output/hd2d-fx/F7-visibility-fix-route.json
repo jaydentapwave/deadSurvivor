@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "FXSEQ-START",
+      "name": "웨이브1 종료 후 시험 장비 준비",
+      "do": "PlayableProbe.UseRunSettings(1, 1f); PlayableProbe.PressDepart(); UnityEngine.Time.timeScale=12f;",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-EQUIP",
+      "name": "확정 효과 9종을 실제 장비 입력으로 장착",
+      "do": "PlayableProbe.GrantAndEquipEffectTrialItem(\"axe\",0); PlayableProbe.GrantAndEquipEffectTrialItem(\"crossbow\",1); PlayableProbe.GrantAndEquipEffectTrialItem(\"wand\",2); PlayableProbe.GrantAndEquipEffectTrialItem(\"orb\",2); PlayableProbe.GrantAndEquipEffectTrialItem(\"censer\",3); UnityEngine.Time.timeScale=1f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext); PlayableProbe.PressNextWave();",
+      "wait": "PlayableProbe.Screen == \"Battle\"",
+      "timeout": 15
+    },
+    {
+      "id": "FXSEQ-arrow",
+      "name": "arrow 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"arrow\", \"output/hd2d-fx/sequence/arrow\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-pulse",
+      "name": "pulse 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"pulse\", \"output/hd2d-fx/sequence/pulse\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXBATTLE",
+      "name": "매 프레임 웨이브3 이상 베기·별·고리 동시 표시를 잡음",
+      "do": "PlayableProbe.ArmBattleFxCapture();",
+      "wait": "PlayableProbe.IsBattleFxReady",
+      "timeout": 90,
+      "expect": "UnityEngine.Time.timeScale == 0f && PlayableProbe.Wave >= 3",
+      "capture": true
+    }
+  ]
+}

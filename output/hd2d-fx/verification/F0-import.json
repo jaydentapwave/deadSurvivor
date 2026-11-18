@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "script eval",
+    "parameters": {
+      "code": "HD2DFxMigration.ImportFrames(); return \"imported\";"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": "imported"
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

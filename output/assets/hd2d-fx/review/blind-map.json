@@ -1,0 +1,69 @@
+{
+  "1": {
+    "key": "ground_pulse",
+    "fps": 20,
+    "frames": [
+      "raster/ground_pulse_1.png",
+      "raster/ground_pulse_2.png",
+      "raster/ground_pulse_3.png",
+      "raster/ground_pulse_4.png",
+      "raster/ground_pulse_5.png"
+    ]
+  },
+  "2": {
+    "key": "dash_line",
+    "fps": 12,
+    "frames": [
+      "raster/dash_line_1.png",
+      "raster/dash_line_2.png",
+      "raster/dash_line_3.png"
+    ]
+  },
+  "3": {
+    "key": "hit_star",
+    "fps": 20,
+    "frames": [
+      "frames/hit_star/hit_star_1.png",
+      "frames/hit_star/hit_star_2.png",
+      "frames/hit_star/hit_star_3.png"
+    ]
+  },
+  "4": {
+    "key": "ground_boom",
+    "fps": 16,
+    "frames": [
+      "raster/ground_boom_1.png",
+      "raster/ground_boom_2.png",
+      "raster/ground_boom_3.png",
+      "raster/ground_boom_4.png"
+    ]
+  },
+  "5": {
+    "key": "chain_bolt",
+    "fps": 12,
+    "frames": [
+      "raster/chain_bolt_1.png",
+      "raster/chain_bolt_2.png",
+      "raster/chain_bolt_3.png"
+    ]
+  },
+  "6": {
+    "key": "ground_heal",
+    "fps": 20,
+    "frames": [
+      "raster/ground_heal_1.png",
+      "raster/ground_heal_2.png",
+      "raster/ground_heal_3.png",
+      "raster/ground_heal_4.png",
+      "raster/ground_heal_5.png"
+    ]
+  },
+  "7": {
+    "key": "ground_blast",
+    "fps": 8,
+    "frames": [
+      "raster/ground_blast_1.png",
+      "raster/ground_blast_2.png"
+    ]
+  }
+}

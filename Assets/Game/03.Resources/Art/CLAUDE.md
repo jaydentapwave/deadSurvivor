@@ -33,3 +33,5 @@
 |---|---|---|---|
 
 | `Art/HD2D/UI/**` | 필터·PPU·border | Bilinear, PPU 100, border = slices.json | 기준서 3.13 E, 숫자로 그린 고해상 UI |
+
+| `Art/HD2D/Effects/**` | 피벗·Full Rect | 가운데, Full Rect, EffectsSprite.preset | FX 설계 F0; 프레임 고정 중심. 런타임 래스터의 시작점 피벗은 코드가 정함 |

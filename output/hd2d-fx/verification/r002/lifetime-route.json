@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "FXSEQ-START",
+      "name": "웨이브1 종료 후 시험 장비 준비",
+      "do": "PlayableProbe.UseRunSettings(1, 1f); PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.Move); UnityEngine.Time.timeScale=12f;",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 60
+    },
+    {
+      "id": "FXFIX-CAST",
+      "name": "실제 번개10회 이상 발동",
+      "do": "PlayableProbe.GrantAndEquipEffectTrialItem(\"wand\",2); PlayableProbe.PressNextWave(); PlayableProbe.StartBot(PlayableProbe.BotMode.Move); UnityEngine.Time.timeScale=4f;",
+      "wait": "PlayableProbe.EffectShownCount(\"lightning\") >= 10",
+      "timeout": 60
+    },
+    {
+      "id": "FXFIX-END",
+      "name": "Scope를 유지한 정비에서 번개 자원0",
+      "wait": "PlayableProbe.Screen == \"Prep\" && ((System.Collections.IDictionary)typeof(EffectSpriteCache).GetField(\"_chainDict\", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(typeof(PlayableProbe).GetMethod(\"Resolve\", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static).MakeGenericMethod(typeof(EffectSpriteCache)).Invoke(null, null))).Count == 0",
+      "timeout": 60,
+      "expect": "((System.Collections.IDictionary)typeof(EffectSpriteCache).GetField(\"_chainDict\", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(typeof(PlayableProbe).GetMethod(\"Resolve\", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static).MakeGenericMethod(typeof(EffectSpriteCache)).Invoke(null, null))).Count == 0",
+      "do": "UnityEngine.Time.timeScale=12f;"
+    },
+    {
+      "id": "FXFIX-RECORD",
+      "name": "번개 종료 수명 상태 기록",
+      "do": "System.IO.File.WriteAllText(\"output/hd2d-fx/verification/r002/play-lifetime.txt\", \"screen=\"+PlayableProbe.Screen+\" lightningShown=\"+PlayableProbe.EffectShownCount(\"lightning\")+\" chainEntries=\"+((System.Collections.IDictionary)typeof(EffectSpriteCache).GetField(\"_chainDict\", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(typeof(PlayableProbe).GetMethod(\"Resolve\", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static).MakeGenericMethod(typeof(EffectSpriteCache)).Invoke(null, null))).Count);"
+    }
+  ]
+}

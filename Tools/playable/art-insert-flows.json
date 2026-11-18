@@ -406,6 +406,149 @@
       "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale = 1f; PlayableProbe.PressToLobby();",
       "wait": "PlayableProbe.Screen == \"Lobby\"",
       "expect": "PlayableProbe.EffectVisibleCount(\"hit_star\") == 0 && PlayableProbe.EffectVisibleCount(\"lightning\") == 0"
+    },
+    {
+      "id": "FXSEQ-START",
+      "name": "웨이브1 종료 후 시험 장비 준비",
+      "do": "PlayableProbe.UseRunSettings(1, 1f); PlayableProbe.PressDepart(); UnityEngine.Time.timeScale=12f;",
+      "wait": "PlayableProbe.Screen == \"Prep\" && PlayableProbe.CompletedWave == 1",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-EQUIP",
+      "name": "확정 효과 9종을 실제 장비 입력으로 장착",
+      "do": "PlayableProbe.GrantAndEquipEffectTrialItem(\"axe\",0); PlayableProbe.GrantAndEquipEffectTrialItem(\"crossbow\",1); PlayableProbe.GrantAndEquipEffectTrialItem(\"wand\",2); PlayableProbe.GrantAndEquipEffectTrialItem(\"orb\",2); PlayableProbe.GrantAndEquipEffectTrialItem(\"censer\",3); UnityEngine.Time.timeScale=1f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext); PlayableProbe.PressNextWave();",
+      "wait": "PlayableProbe.Screen == \"Battle\"",
+      "timeout": 15
+    },
+    {
+      "id": "FXSEQ-slash_sword",
+      "name": "slash_sword 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"slash_sword\", \"output/hd2d-fx/sequence/slash_sword\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-slash_axe",
+      "name": "slash_axe 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"slash_axe\", \"output/hd2d-fx/sequence/slash_axe\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-arrow",
+      "name": "arrow 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"arrow\", \"output/hd2d-fx/sequence/arrow\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-crossbow_bolt",
+      "name": "crossbow_bolt 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"crossbow_bolt\", \"output/hd2d-fx/sequence/crossbow_bolt\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-fireball",
+      "name": "fireball 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"fireball\", \"output/hd2d-fx/sequence/fireball\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-explosion",
+      "name": "explosion 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"explosion\", \"output/hd2d-fx/sequence/explosion\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-hit_star",
+      "name": "hit_star 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"hit_star\", \"output/hd2d-fx/sequence/hit_star\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-lightning",
+      "name": "lightning 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"lightning\", \"output/hd2d-fx/sequence/lightning\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-heal_area",
+      "name": "heal_area 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"heal_area\", \"output/hd2d-fx/sequence/heal_area\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-pulse",
+      "name": "pulse 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"pulse\", \"output/hd2d-fx/sequence/pulse\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-heal_single",
+      "name": "heal_single 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"heal_single\", \"output/hd2d-fx/sequence/heal_single\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-ground_boom",
+      "name": "ground_boom 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"ground_boom\", \"output/hd2d-fx/sequence/ground_boom\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-spore",
+      "name": "spore 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"spore\", \"output/hd2d-fx/sequence/spore\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-dash_line",
+      "name": "dash_line 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"dash_line\", \"output/hd2d-fx/sequence/dash_line\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-ground_blast",
+      "name": "ground_blast 실제 게임 1/60s 연속21장",
+      "do": "PlayableProbe.ArmEffectSequence(\"ground_blast\", \"output/hd2d-fx/sequence/ground_blast\", .35f);",
+      "wait": "PlayableProbe.IsEffectSequenceReady",
+      "expect": "PlayableProbe.EffectSequenceHasAllFrames",
+      "timeout": 60
+    },
+    {
+      "id": "FXSEQ-BATTLE",
+      "name": "매 프레임 웨이브3 이상 베기·별·고리 동시 표시를 잡음",
+      "do": "PlayableProbe.ArmBattleFxCapture();",
+      "wait": "PlayableProbe.IsBattleFxReady",
+      "timeout": 90,
+      "expect": "UnityEngine.Time.timeScale == 0f && PlayableProbe.Wave >= 3",
+      "capture": true
     }
   ]
 }

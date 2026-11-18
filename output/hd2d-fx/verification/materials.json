@@ -1,0 +1,44 @@
+{
+  "HD2D_EffectGlow_Blade": {
+    "guid": "ecd31a68ef274437da56164682144a8e",
+    "core": 1.0,
+    "zWrite": 1,
+    "queue": 2450
+  },
+  "HD2D_EffectGlow_Enemy": {
+    "guid": "e97abe37326e849dd92b626988d701c9",
+    "core": 1.6,
+    "zWrite": 1,
+    "queue": 2450
+  },
+  "HD2D_EffectGlow_Fire": {
+    "guid": "382dfe366d14c49b18e7e08664390412",
+    "core": 2.4,
+    "zWrite": 1,
+    "queue": 2450
+  },
+  "HD2D_EffectGround_Boom": {
+    "guid": "ca1636aba88834a5592e5f80543013af",
+    "core": 1.6,
+    "zWrite": 0,
+    "queue": 2440
+  },
+  "HD2D_EffectGround_Heal": {
+    "guid": "1ebce069fa37449dd8a9576b718e53f2",
+    "core": 1.6,
+    "zWrite": 0,
+    "queue": 2440
+  },
+  "HD2D_EffectGround_Pulse": {
+    "guid": "893e8cae010c64ad3ba7fefe62b83c22",
+    "core": 2.2,
+    "zWrite": 0,
+    "queue": 2440
+  },
+  "HD2D_EffectGround_Warn": {
+    "guid": "236edd706f0bf477590067239fa67b52",
+    "core": 1.0,
+    "zWrite": 0,
+    "queue": 2440
+  }
+}

@@ -1,0 +1,1 @@
+key=slash_sword samples=21 expectedFrames=5 seen=1,2,3,4,5 hasAllFrames=True

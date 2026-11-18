@@ -1,0 +1,1 @@
+key=crossbow_bolt samples=21 expectedFrames=1 seen=1 hasAllFrames=True

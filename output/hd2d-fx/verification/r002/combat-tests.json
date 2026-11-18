@@ -1,0 +1,273 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "test run",
+    "parameters": {
+      "mode": "editor",
+      "filter": "CombatEffectTests"
+    },
+    "result": {
+      "Summary": {
+        "Total": 34,
+        "Passed": 34,
+        "Failed": 0,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "CombatEffectTests.ChainRecordsActualHopOrderAndStopsWithoutAnotherTarget",
+          "Status": "Passed",
+          "Duration": 0.0480436,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.EveryActionAndPulseHasAnExistingSprite",
+          "Status": "Passed",
+          "Duration": 0.0123297,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.HitNotificationDoesNotConsumeDamageNumberRecords",
+          "Status": "Passed",
+          "Duration": 0.0008273,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.LegacySingleSpriteDataDefaultsToOneUnsuffixedFrameWithoutActiveLegacyReferences",
+          "Status": "Passed",
+          "Duration": 0.0007617,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.LightningSegmentsCoverTheWholeLine(0.0f,0)",
+          "Status": "Passed",
+          "Duration": 0.0016046,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.LightningSegmentsCoverTheWholeLine(0.3f,1)",
+          "Status": "Passed",
+          "Duration": 0.0001167,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.LightningSegmentsCoverTheWholeLine(2.0f,2)",
+          "Status": "Passed",
+          "Duration": 0.0000229,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.LightningSegmentsCoverTheWholeLine(2.2f,3)",
+          "Status": "Passed",
+          "Duration": 0.0000181,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.LightningViewBoundariesRemainJoinedAfterPlacement(81.0f,0.0f)",
+          "Status": "Passed",
+          "Duration": 0.0031373,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.LightningViewBoundariesRemainJoinedAfterPlacement(81.0f,33.0f)",
+          "Status": "Passed",
+          "Duration": 0.0001619,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.LightningViewBoundariesRemainJoinedAfterPlacement(-81.0f,33.0f)",
+          "Status": "Passed",
+          "Duration": 0.0001081,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.LightningViewBoundariesRemainJoinedAfterPlacement(1.0f,1.0f)",
+          "Status": "Passed",
+          "Duration": 0.0000555,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.MappingMatchesApprovedItemKinds(\"sword\",\"\",\"slash_sword\")",
+          "Status": "Passed",
+          "Duration": 0.0007241,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.MappingMatchesApprovedItemKinds(\"axe\",\"\",\"slash_axe\")",
+          "Status": "Passed",
+          "Duration": 0.0000825,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.MappingMatchesApprovedItemKinds(\"shortbow\",\"arrow\",\"\")",
+          "Status": "Passed",
+          "Duration": 0.0000998,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.MappingMatchesApprovedItemKinds(\"crossbow\",\"crossbow_bolt\",\"\")",
+          "Status": "Passed",
+          "Duration": 0.0000825,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.MappingMatchesApprovedItemKinds(\"firestaff\",\"fireball\",\"explosion\")",
+          "Status": "Passed",
+          "Duration": 0.0000836,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.MappingMatchesApprovedItemKinds(\"wand\",\"\",\"lightning\")",
+          "Status": "Passed",
+          "Duration": 0.000082,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.MappingMatchesApprovedItemKinds(\"relic\",\"\",\"heal_single\")",
+          "Status": "Passed",
+          "Duration": 0.000088,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.MappingMatchesApprovedItemKinds(\"censer\",\"\",\"heal_area\")",
+          "Status": "Passed",
+          "Duration": 0.0000792,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.MappingMatchesApprovedItemKinds(\"orb\",\"\",\"pulse\")",
+          "Status": "Passed",
+          "Duration": 0.0000808,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.PooledProjectileViewFacesAllEightDirectionsAndResetsFlip",
+          "Status": "Passed",
+          "Duration": 0.0158921,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.ProjectileCornersStayOnNativeGridForEveryBakedDirectionAndFlip(\"arrow\")",
+          "Status": "Passed",
+          "Duration": 0.0021851,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.ProjectileCornersStayOnNativeGridForEveryBakedDirectionAndFlip(\"crossbow_bolt\")",
+          "Status": "Passed",
+          "Duration": 0.0005653,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.ProjectileCornersStayOnNativeGridForEveryBakedDirectionAndFlip(\"fireball\")",
+          "Status": "Passed",
+          "Duration": 0.0005126,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.ProjectileRotationSelectsEightDirections(1.0f,0.0f,0.0f)",
+          "Status": "Passed",
+          "Duration": 0.0003294,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.ProjectileRotationSelectsEightDirections(0.0f,1.0f,90.0f)",
+          "Status": "Passed",
+          "Duration": 0.0000414,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.ProjectileRotationSelectsEightDirections(-1.0f,0.0f,180.0f)",
+          "Status": "Passed",
+          "Duration": 0.0000352,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.ProjectileRotationSelectsEightDirections(0.0f,-1.0f,-90.0f)",
+          "Status": "Passed",
+          "Duration": 0.0000223,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.ProjectileRotationSelectsEightDirections(1.0f,0.2f,0.0f)",
+          "Status": "Passed",
+          "Duration": 0.0000281,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.ProjectileRotationSelectsEightDirections(1.0f,1.0f,45.0f)",
+          "Status": "Passed",
+          "Duration": 0.0000241,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.ProjectileRotationSelectsEightDirections(-1.0f,1.0f,135.0f)",
+          "Status": "Passed",
+          "Duration": 0.0000327,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.ProjectileRotationSelectsEightDirections(-1.0f,-1.0f,-135.0f)",
+          "Status": "Passed",
+          "Duration": 0.0000298,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CombatEffectTests.ProjectileRotationSelectsEightDirections(1.0f,-1.0f,-45.0f)",
+          "Status": "Passed",
+          "Duration": 0.0000281,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 7.73,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: CombatEffectTests",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

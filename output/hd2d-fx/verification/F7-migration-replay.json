@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "command": "command",
+  "data": {
+    "command": "script eval",
+    "parameters": {
+      "code": "HD2DFxMigration.ImportFrames(); HD2DFxMigration.WireMaterials(); HD2DFxMigration.WireProjectileShadow(); HD2DFxMigration.WireEnemyShot(); HD2DFxMigration.RetireLegacyReferences(); return \"replayed 01-05\";"
+    },
+    "result": {
+      "output": null,
+      "diagnostics": [],
+      "success": true,
+      "result": "replayed 01-05"
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "/Users/hyeongwoo/Desktop/Workspace/Deadsurvivor/.director/worktrees/hd2d-fx"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

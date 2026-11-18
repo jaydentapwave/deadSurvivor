@@ -1,0 +1,66 @@
+{
+  "utc": "2026-11-18T06:22:13.473776+00:00",
+  "stages": [
+    {
+      "stage": "F0",
+      "start_utc": "2026-11-18T05:13:23.747722+00:00",
+      "end_utc": "2026-11-18T05:17:34+00:00",
+      "seconds": 250.3,
+      "end_commit": "94a6e39"
+    },
+    {
+      "stage": "F1",
+      "start_utc": "2026-11-18T05:17:34+00:00",
+      "end_utc": "2026-11-18T05:24:01+00:00",
+      "seconds": 387,
+      "end_commit": "29192b8"
+    },
+    {
+      "stage": "F2",
+      "start_utc": "2026-11-18T05:24:01+00:00",
+      "end_utc": "2026-11-18T05:27:29+00:00",
+      "seconds": 208,
+      "end_commit": "f63448d"
+    },
+    {
+      "stage": "F3",
+      "start_utc": "2026-11-18T05:27:29+00:00",
+      "end_utc": "2026-11-18T05:29:23+00:00",
+      "seconds": 114,
+      "end_commit": "0024a72"
+    },
+    {
+      "stage": "F4",
+      "start_utc": "2026-11-18T05:29:23+00:00",
+      "end_utc": "2026-11-18T05:34:53+00:00",
+      "seconds": 330,
+      "end_commit": "41cd92f"
+    },
+    {
+      "stage": "F5",
+      "start_utc": "2026-11-18T05:34:53+00:00",
+      "end_utc": "2026-11-18T05:38:25+00:00",
+      "seconds": 212,
+      "end_commit": "dd7a0e9"
+    },
+    {
+      "stage": "F6",
+      "start_utc": "2026-11-18T05:38:25+00:00",
+      "end_utc": "2026-11-18T05:44:11+00:00",
+      "seconds": 346,
+      "end_commit": "3872fb3"
+    },
+    {
+      "stage": "F7",
+      "start_utc": "2026-11-18T05:44:11+00:00",
+      "end_utc": "2026-11-18T06:22:13.473776+00:00",
+      "seconds": 2282.5,
+      "end_commit": "집계 시점 / commit pending"
+    }
+  ],
+  "total_observed_seconds": 4129.8,
+  "basis": "F0 시작은 재개 세션 doctor 증거 파일 생성 시각, 이후 단위 시작/끝은 이전/해당 단위 커밋 시각. F7은 이 집계 시점까지. F0 보정/Claude 대기 및 그 앞 규칙 읽기는 별도이며 이 합계에 포함하지 않음.",
+  "token_usage": "NOT_AVAILABLE: Codex host usage not exposed; Claude external review usage not supplied. Invoked subagents=0.",
+  "session_time_tool": "FAIL: no Claude jsonl for this Codex worktree",
+  "adjustment": "F1-gpu-pixels.txt가 F7 전체 테스트에서도 갱신되므로 파일mtime을 단계 종료로 쓰면 F1이 잘못 길어진다. 커밋 경계로 고쳤음."
+}

@@ -63,6 +63,25 @@ public class ArtImportSettingsTests
         StringAssert.Contains($"| 임포트 프리셋 | `{PresetPath}` |", policy);
     }
 
+    [Test]
+    public void Hd2dEffectsUseFixedCenterAndPointTexels()
+    {
+        var guids = AssetDatabase.FindAssets("t:Texture2D", new[] { "Assets/Game/03.Resources/Art/HD2D/Effects" });
+        Assert.AreEqual(68, guids.Length);
+        foreach (var guid in guids)
+        {
+            var importer = (TextureImporter)AssetImporter.GetAtPath(AssetDatabase.GUIDToAssetPath(guid));
+            var settings = new TextureImporterSettings();
+            importer.ReadTextureSettings(settings);
+            Assert.AreEqual(48f, importer.spritePixelsPerUnit);
+            Assert.AreEqual(FilterMode.Point, importer.filterMode);
+            Assert.AreEqual((int)SpriteAlignment.Center, settings.spriteAlignment);
+            Assert.AreEqual(SpriteMeshType.FullRect, settings.spriteMeshType);
+            Assert.IsFalse(importer.mipmapEnabled);
+            Assert.AreEqual(TextureImporterCompression.Uncompressed, importer.textureCompression);
+        }
+    }
+
     private static void AssertImportValues(string[] guids)
     {
         foreach (var guid in guids)
