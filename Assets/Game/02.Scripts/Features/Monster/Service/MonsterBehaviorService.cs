@@ -6,13 +6,15 @@ public class MonsterBehaviorService
 {
     private readonly MonsterModel _monsterModel;
     private readonly PartyService _partyService;
+    private readonly float _fieldLimit;
     // MonsterBehavior 값 → 행동 객체
     private readonly IMonsterBehavior[] _behaviorTable;
 
-    public MonsterBehaviorService(MonsterModel monsterModel, PartyService partyService, IReadOnlyList<IMonsterBehavior> behaviorList)
+    public MonsterBehaviorService(MonsterModel monsterModel, PartyService partyService, IReadOnlyList<IMonsterBehavior> behaviorList, RunRulesData runRules, MonsterRepository monsterRepository)
     {
         _monsterModel = monsterModel;
         _partyService = partyService;
+        _fieldLimit = runRules.FieldCells / (2f * runRules.UnitScale) - monsterRepository.SpawnRules.FieldEdgeMargin;
         var kinds = (MonsterBehavior[])Enum.GetValues(typeof(MonsterBehavior));
         _behaviorTable = new IMonsterBehavior[kinds.Length];
         foreach (var kind in kinds)
@@ -53,6 +55,8 @@ public class MonsterBehaviorService
             }
 
             _behaviorTable[(int)monster.Behavior].Tick(monster, target, deltaSeconds);
+            // Dash damage is evaluated on the original step segment before clipping its final position.
+            monster.Position = PartyMoveMath.ClampToDiamond(monster.Position, _fieldLimit);
         }
     }
 }

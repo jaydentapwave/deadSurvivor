@@ -8,6 +8,71 @@ public class MonsterBehaviorTests
     private const float Tolerance = 1e-3f;
 
     [Test]
+    public void B3ProjectileRetreatStopsAtBoundaryAndSlidesAlongIt()
+    {
+        var context = new TestRunContext();
+        var target = KeepOnly(context, 0);
+        var limit = context.RunRules.FieldCells / (2f * context.RunRules.UnitScale);
+        var start = new Vector2(limit * .5f, limit * .5f - 1f);
+        target.Position = start - Vector2.right * 50f;
+        var monster = context.CreateMonster(1, "mushroom", start);
+        context.MonsterModel.Add(monster);
+        context.MonsterBehaviorService.Tick(1f);
+        Assert.AreEqual(limit, Mathf.Abs(monster.Position.x) + Mathf.Abs(monster.Position.y), .001f);
+        Assert.Less(monster.Position.y, start.y);
+        var beforeSlide = monster.Position;
+        target.Position = beforeSlide - Vector2.right * 50f;
+        context.MonsterBehaviorService.Tick(.1f);
+        Assert.Greater(monster.Position.x, beforeSlide.x);
+        Assert.Less(monster.Position.y, beforeSlide.y);
+        Assert.AreEqual(limit, Mathf.Abs(monster.Position.x) + Mathf.Abs(monster.Position.y), .001f);
+    }
+
+    [Test]
+    public void B5OutwardDashClipsFinalPositionWithoutChangingHitsForFourLegallyPlacedMembers()
+    {
+        // At 1920x1080 the legal party centre and real formation remain far from the exterior segment.
+        // Exterior dash hits are unreachable in supported gameplay; the existing dash tests cover interior hit-once behavior.
+        var clipped = new TestRunContext();
+        var baseline = new TestRunContext();
+        foreach (var context in new[] { clipped, baseline })
+        {
+            context.RunService.StartRun(1, 0f);
+            var extent = TiltedViewMath.Footprint(PixelScaleMath.OrthographicSize(1080, 48, 2), 16f / 9f, .5f) / context.RunRules.UnitScale;
+            var limit = context.RunRules.FieldCells / (2f * context.RunRules.UnitScale);
+            context.PartyModel.SetCenter(new Vector2(limit - extent.x - extent.y, 0f));
+            context.PartyMoveService.StartWave();
+            var monster = context.CreateMonster(1, "boar", new Vector2(limit - 10f, 0f));
+            monster.Phase = MonsterPhase.Dash;
+            monster.PhaseClock = monster.Data.Charge.DashSeconds;
+            monster.DashDirection = new Vector2(.8f, .6f);
+            context.MonsterModel.Add(monster);
+            var end = monster.Position + monster.DashDirection * monster.Data.Charge.DashSpeed * monster.PhaseClock;
+            Assert.Greater(Mathf.Abs(end.x) + Mathf.Abs(end.y), limit);
+            foreach (var member in context.PartyModel.MemberList)
+            {
+                var slot = member.Position - context.PartyModel.Center;
+                Assert.LessOrEqual(Mathf.Abs(slot.x) + Mathf.Abs(slot.y), 102f + .001f);
+                Assert.Greater(SegmentMath.Distance(monster.Position, end, member.Position), monster.Data.Charge.DashHitRadius);
+            }
+        }
+        var rawMonster = baseline.MonsterModel.MonsterList[0];
+        new ChargeBehavior(baseline.MonsterModel, baseline.PartyModel, baseline.PartyService)
+            .Tick(rawMonster, baseline.PartyService.FindNearestAlive(rawMonster.Position), rawMonster.PhaseClock);
+        var boundedMonster = clipped.MonsterModel.MonsterList[0];
+        clipped.MonsterBehaviorService.Tick(boundedMonster.PhaseClock);
+        for (var i = 0; i < 4; i++)
+        {
+            Assert.AreEqual(baseline.PartyModel.MemberList[i].Hp, clipped.PartyModel.MemberList[i].Hp, Tolerance);
+        }
+        Assert.AreEqual(rawMonster.DashHitMemberList.Count, boundedMonster.DashHitMemberList.Count);
+        Assert.AreEqual(0, boundedMonster.DashHitMemberList.Count);
+        var boundary = clipped.RunRules.FieldCells / (2f * clipped.RunRules.UnitScale);
+        Assert.AreEqual(boundary, Mathf.Abs(boundedMonster.Position.x) + Mathf.Abs(boundedMonster.Position.y), .001f);
+        Assert.Greater(Mathf.Abs(rawMonster.Position.x) + Mathf.Abs(rawMonster.Position.y), boundary);
+    }
+
+    [Test]
     public void ContactApproachesThenHitsEveryInterval()
     {
         var context = new TestRunContext();

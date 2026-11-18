@@ -13,17 +13,19 @@ public class MonsterRecycleService
     private readonly PartyModel _partyModel;
     private readonly MonsterRepository _monsterRepository;
     private readonly MonsterSpawnService _monsterSpawnService;
+    private readonly float _fieldLimit;
 
     // 밖 시간이 긴 순(같으면 목록 순)으로 줄 세운 재배치 후보
     private readonly List<Monster> _eligibleList = new();
 
     public MonsterRecycleService(MonsterModel monsterModel, PartyModel partyModel, MonsterRepository monsterRepository,
-        MonsterSpawnService monsterSpawnService)
+        MonsterSpawnService monsterSpawnService, RunRulesData runRules)
     {
         _monsterModel = monsterModel;
         _partyModel = partyModel;
         _monsterRepository = monsterRepository;
         _monsterSpawnService = monsterSpawnService;
+        _fieldLimit = runRules.FieldCells / (2f * runRules.UnitScale) - monsterRepository.SpawnRules.FieldEdgeMargin;
     }
 
     public void BeginWave()
@@ -81,7 +83,7 @@ public class MonsterRecycleService
             var direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
             var distance = Mathf.Min((halfExtent.x + recycle.PlaceMargin) / Mathf.Max(MinAxis, Mathf.Abs(direction.x)),
                 (halfExtent.y + recycle.PlaceMargin) / Mathf.Max(MinAxis, Mathf.Abs(direction.y)));
-            monster.Position = center + direction * distance;
+            monster.Position = PartyMoveMath.ClampToDiamond(center + direction * distance, _fieldLimit);
             monster.OutsideSeconds = 0f;
             monster.AttackClock = Mathf.Max(recycle.MinAttackDelay, monster.AttackClock);
             monster.FlockDirection = Vector2.zero;

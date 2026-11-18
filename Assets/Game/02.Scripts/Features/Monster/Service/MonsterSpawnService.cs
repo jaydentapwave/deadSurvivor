@@ -147,7 +147,10 @@ public class MonsterSpawnService
         var distance = _monsterModel.ViewHalfExtent.magnitude + rules.SpawnMargin;
         var direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
         _nextMonsterId++;
-        _monsterModel.Add(new Monster(_nextMonsterId, data, _partyModel.Center + direction * distance,
+        // Limits and positions are gameplay floor units, not rendered metres.
+        var limit = _runRules.FieldCells / (2f * _runRules.UnitScale) - rules.FieldEdgeMargin;
+        var position = PartyMoveMath.ClampToDiamond(_partyModel.Center + direction * distance, limit);
+        _monsterModel.Add(new Monster(_nextMonsterId, data, position,
             data.Hp * _waveData.HpScale, data.Damage * _waveData.DamageScale, rules.InitialAttackDelay));
     }
 

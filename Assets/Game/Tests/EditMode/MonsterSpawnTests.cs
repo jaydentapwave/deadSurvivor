@@ -9,6 +9,31 @@ public class MonsterSpawnTests
     private const int DirectionSamples = 10000;
     private const float ShareTolerance = 0.02f;
 
+    [TestCase(2400f, true)]
+    [TestCase(0f, false)]
+    public void B1B2SpawnClipsBoundaryFixtureButPreservesCentralDistance(float centerX, bool isClipped)
+    {
+        var context = new TestRunContext();
+        var wave = context.BeginWaveOnly(1, 9);
+        var size = PixelScaleMath.OrthographicSize(1080, 48, 2);
+        var extent = TiltedViewMath.Footprint(size, 16f / 9f, .5f) / context.RunRules.UnitScale;
+        context.MonsterService.SetViewHalfExtent(extent);
+        context.PartyModel.SetCenter(new Vector2(centerX, 0f));
+        typeof(MonsterSpawnService).GetField("_positionRandom", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+            .SetValue(context.MonsterSpawnService, new FixedPositionRandom());
+        context.MonsterService.TickSpawn(context.RunRules.SimStep, context.RunRules.SimStep, false, wave.Duration * .5f);
+        var position = context.MonsterModel.MonsterList[0].Position;
+        var limit = context.RunRules.FieldCells / (2f * context.RunRules.UnitScale);
+        Assert.LessOrEqual(Mathf.Abs(position.x) + Mathf.Abs(position.y), limit + .001f);
+        Assert.AreEqual(isClipped ? limit : extent.magnitude + context.MonsterRepository.SpawnRules.SpawnMargin, position.x, .001f);
+        Assert.AreEqual(0f, position.y, .001f);
+    }
+
+    private class FixedPositionRandom : System.Random
+    {
+        public override double NextDouble() => 0d;
+    }
+
     [Test]
     public void RealDataCountsTypesAndFirstWaves()
     {

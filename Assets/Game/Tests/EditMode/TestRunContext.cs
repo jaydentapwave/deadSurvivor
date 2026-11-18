@@ -67,14 +67,14 @@ internal class TestRunContext
         PartyService = new PartyService(PartyModel, CharacterRepository, CombatFeedbackModel);
         MonsterRepository = new MonsterRepository(ResourceService);
         MonsterSpawnService = new MonsterSpawnService(MonsterModel, PartyModel, MonsterRepository, RunRules);
-        MonsterRecycleService = new MonsterRecycleService(MonsterModel, PartyModel, MonsterRepository, MonsterSpawnService);
+        MonsterRecycleService = new MonsterRecycleService(MonsterModel, PartyModel, MonsterRepository, MonsterSpawnService, RunRules);
         MonsterBehaviorService = new MonsterBehaviorService(MonsterModel, PartyService, new IMonsterBehavior[]
         {
             new ContactBehavior(PartyService),
             new ProjectileBehavior(MonsterModel),
             new ChargeBehavior(MonsterModel, PartyModel, PartyService),
             new BombBehavior(MonsterModel, PartyModel, PartyService),
-        });
+        }, RunRules, MonsterRepository);
         EnemyShotService = new EnemyShotService(MonsterModel, PartyModel, PartyService);
         MonsterService = new MonsterService(MonsterModel, MonsterSpawnService, MonsterRecycleService, MonsterBehaviorService,
             EnemyShotService, CombatFeedbackModel);

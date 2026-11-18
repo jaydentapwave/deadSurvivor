@@ -28,5 +28,6 @@
     "maxPerCheck": 2,
     "checkInterval": 0.5,
     "minAttackDelay": 1
-  }
+  },
+  "fieldEdgeMargin": 0
 }

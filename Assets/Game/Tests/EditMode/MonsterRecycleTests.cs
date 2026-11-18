@@ -6,6 +6,32 @@ using UnityEngine;
 public class MonsterRecycleTests
 {
     [Test]
+    public void B4RecycleNearLegalPartyLimitClipsToFieldEdge()
+    {
+        var context = new TestRunContext();
+        context.BeginWaveOnly(1, 3);
+        var extent = TiltedViewMath.Footprint(PixelScaleMath.OrthographicSize(1080, 48, 2), 16f / 9f, .5f) / context.RunRules.UnitScale;
+        context.MonsterService.SetViewHalfExtent(extent);
+        var limit = context.RunRules.FieldCells / (2f * context.RunRules.UnitScale);
+        context.PartyModel.SetCenter(new Vector2(limit - extent.x - extent.y, 0f));
+        context.MonsterRecycleService.BeginWave();
+        var rules = context.MonsterRepository.SpawnRules.Recycle;
+        var monster = context.CreateMonster(1, "slime", context.PartyModel.Center - Vector2.right * (extent.x + rules.OutsideMargin + 100f));
+        context.MonsterModel.Add(monster);
+        typeof(MonsterSpawnService).GetField("_positionRandom", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
+            .SetValue(context.MonsterSpawnService, new DiagonalPositionRandom());
+        var unclippedAxis = Mathf.Min(extent.x + rules.PlaceMargin, extent.y + rules.PlaceMargin);
+        Assert.Greater(context.PartyModel.Center.x + unclippedAxis * 2f, limit);
+        context.MonsterRecycleService.Tick(rules.HoldSeconds + .01f);
+        Assert.AreEqual(limit, Mathf.Abs(monster.Position.x) + Mathf.Abs(monster.Position.y), .001f);
+    }
+
+    private class DiagonalPositionRandom : System.Random
+    {
+        public override double NextDouble() => .125d;
+    }
+
+    [Test]
     public void FarBehindMovedAfterHold()
     {
         var context = new TestRunContext();

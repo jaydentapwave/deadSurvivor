@@ -7,6 +7,7 @@ using UnityEngine;
 public class SpawnRulesData
 {
     [SerializeField] private float spawnMargin;
+    [SerializeField] private float fieldEdgeMargin;
     [SerializeField] private float spawnEndGap;
     [SerializeField] private float initialAttackDelay;
     [SerializeField] private float burningIntervalScale;
@@ -16,6 +17,7 @@ public class SpawnRulesData
     [SerializeField] private SpawnRecycleData recycle;
 
     public float SpawnMargin => spawnMargin;
+    public float FieldEdgeMargin => fieldEdgeMargin;
     public float SpawnEndGap => spawnEndGap;
     public float InitialAttackDelay => initialAttackDelay;
     public float BurningIntervalScale => burningIntervalScale;
