@@ -158,3 +158,42 @@ Unity 검사에서38개재질에 새 셰이더 기본값만 자동 직렬화됨.
 신뢰 가능한 시작05:39:10UTC부터 문서 마감06:55UTC까지 약75분50초(앞선 최초 문서 읽기 시간은 미계측). 상세 활동은 `.director/evidence/20261118-hd2d-light/1/time-and-tokens.json`. Codex 토큰 API 미제공 **NOT_AVAILABLE**, Claude실행0/서브에이전트0/리뷰0. session_time.py의 기존 출력은 다른 Claude세션이어서 현재 사용량으로 인용하지 않는다. 가장 큰 낭비는 L3 원인 가설 확정 전 캡처 반복·L6 물리 배치와 요구 화면비 누락. 후보는 작업 개선 기록에 반영했고, 같은 변경에 전체시험 반복은 실행하지 않았다. 결함 못 잡은 고비용 검사 제거는 근거 부족으로 이번에 없음.
 
 06:55UTC 소유 Play 종료 후 Application.isPlaying=false/isCompiling=false 직접 확인. 성능 측정/로그 열람 **NOT_RUN**(7단계). 다른 dirty 파일 보존, push 없음. 마감 리뷰3종은 **NOT_RUN**(사용자 지시로 Claude가 실행), 결과를 자가 검토로 대체하지 않는다. 현재 상태 **needs-review**, 최종 핸드오프는 실제 VERDICT 수령 뒤 작성한다.
+
+
+## 첫 리뷰 수정 확인 (2026-11-19)
+
+받은 판정 원문: algorithm-tester `VERDICT: FAIL`, spec-reviewer `VERDICT: FAIL`, validator-client `VERDICT: NOT ASSESSED`. 마지막 것은 출력 강제 종료로 결과 미수령, **not-run**(사용자 지정). 이 세션은 리뷰를 호출하지 않았고 받은 FAIL을 자가 PASS로 바꾸지 않는다. 훅 기록 `.director/outbox/20261118-hd2d-light-1.agents.jsonl`.
+
+| 지적 | 조치 / 근거 | 현재 |
+|---|---|---|
+| ALG1 깃발 normal/Fade `_FlagWind=0` | 두 재질1로 수정, 실제 AssetDatabase 재질 회귀시험. 실제 시간 흐름 연속8장 재촬영 | 구현 확인, 독립 수정리뷰 대기 |
+| SPEC1 C15 미완료 | 자동튜닝하지 않음. 기존2회 실패와 새 판1.165011 보존. 실제 화면 결함과 측정 내용 의존을 디렉터가 나눠 방향 결정할 때까지 정지 | **FAIL / 사람 결정 필요** |
+| SPEC2 아래≥위 흐림 강도 | 같은4출력px Point줄무늬 두 판, 각 띠 중간 깊이(v.08/.88), 동일 프레임ON/OFF 수집. 내부96×44px HF감소율 아래.129723≥위.124385 | 명령 검사 PASS, 독립 수정리뷰 대기 |
+| SPEC3 흐림 띠 안 HP막대 | 실제 MonsterHpBarViewFactory→PoolManager로 생성, layer26 원본track/fill·비율.625. v.08에 놓고 중립 바탕에서ON/OFF. 두 장 직접 열어 가로32px 막대·채움 경계 선명 확인, 막대 포함88×34px영역 max/mean차0 | 명령 검사 PASS, 독립 수정리뷰 대기 |
+| SPEC4 재고 집계 | 27행 자산재고0차이를 반영하여 요약40개/남은3개(2,42,43)로 수정. L3 수용조건 실패는 별도 유지 | 문서 수정, 독립 수정리뷰 대기 |
+
+### 실행과 직접 본 것
+
+project-doctor configured/findings0, editor_ready PASS. script eval로 시작Play=false, 해당 프로젝트 port7800/Unity6000.4.3f1 확인. 수정은 재질2·테스트·기존Editor촬영기·기존측정도구·지정문서뿐. runtime 게임 C#·Main·렌더러·볼륨·흐림 셰이더 변경 없음. `.ai/rules/fix-and-recheck.md` 및 원본킷 동명 파일은 검색해도 없어서 사용자 메시지의 상한/재확인 규칙을 직접 적용, 새 전역규칙 설치 없음.
+
+새 회귀시험 첫9/10 실패: Resources.Load 경로가03.Resources 밖이라null(실제 재질이0이라는 실패와 별개인 시험 경로 결함). AssetDatabase 경로로 고친 뒤 재컴파일 completed/errors0. 직후 테스트 요청은 Pipeline 재연결 전 EDITOR_NOT_RUNNING으로 **BLOCKED**였고, status ready/isPlayingfalse 확인 후 재실행 `tests3.json` **10/10 PASS7.62초**. 전체623개를 돌렸다고 하지 않는다. 이전622/622와 전체판정8/8은 이전 코드의 실제 기록이며 이번에는 반복하지 않음(시각재질/Editor시험만 변경).
+
+`review1/play/report.json`5/5 PASS32.0초(기존wave6·실제모션8장·blurreview쌍). `review1/flag-play/report.json`3/3 PASS32.0초(깃발만 실제 카메라에 가운데 놓는 시각 fixture). flag/states.csv에서 게임시간.25초 간격·pose1/2/1/0/1/2/1/0·normal/fade모두1. 기존수집기는 내구표적/낮은 적 배수 시각fixture로서 실제 한판 성공 증거와 구별된다.
+
+직접 열람: `review1/flag-sheet.png`(원본8장1920×1080→중앙깃발잘라Point4배, sheet.py UNVERIFIED는 독립리뷰 전 표기). 끝 천이0/오른쪽/왼쪽의3자리로 바뀌고 깃대는 고정, 또렷한 격자. 기존 L5 시트의 물과 깃발을 함께 보았다는 기록은 **깃발 비활성 상태를 놓친 오판**이었다. L5의 깃발 움직임 관측 주장은 철회하고 이 수정8장으로 대체한다. 물 순수계산/먼지 상태와 별개로 기록한다.
+
+`review1/blur/{texture-on,texture-off,hp-on,hp-off}.png` 네 장1920×1080 직접 열람. transient URP Unlit point stripe quad와 실제 풀HP막대만 올린 소유 정지Play이며 scene/재질자산을 저장하지 않음. feature만OFF로 쌍을 만들고 finally복구/Release. `texture-measure/measure.json`: onHF아래12.477825/off14.337762, 위12.507473/off14.284211, 감소율1−on/off. **서로 다른 띠 폭의 같은 정규화 깊이 .5** 비교이며 화면 가장자리에서 동일 픽셀거리 비교라고 하지 않는다. HF는수평방향 인접픽셀차 평균, 9탭경계 판정과 별개. `hp-measure/measure.json`: box[916,976,1004,1010] 차0, hp-renderers.txt에 원본U7/layer26/viewport.08. backdrop 영역이평탄하므로 배경 흐림을 막대 선명도 변화와 혼동하지 않음.
+
+깃발 수정이 이동 판에 닿으므로 이전 main2를 덮지 않고 `output/hd2d-관문/main2-review1/`에 새 선언 **Main2-Review1-20261119T072855Z**(hash05a9289185be9c40fddcdfaf7d40c5614e6c7cb7038b0d127980784e5edfa781), 소스1424개로 수집. 지정흐름8/8 PASS72.5초, finish before/after일치, source-check.json mismatch0. 원본kit gate/config 유지, 최종ON **12PASS/G03BLOCKED/G19N/A/G20BLOCKED**, 전체FAIL. G09/G11은 이전수치와같이PASS. C3/C8/C9/C10도같이PASS, C15 **1.165011 FAIL**. `review1/plates/Main1-main.png` 직접 열어 깃발·동일전투색 확인, battle-main.png를 이 최신본으로 갱신, 앞그림은review1/battle-before-flag-fix.png로 보존.
+
+### 누락 원인 / 워크플로우 갱신
+
+1. 깃발은 시간계산만 시험하고 연결재질의 실제 branch enable을 검증하지 않아 비활성화를 놓쳤다. 실제 두 재질 검사10번째 시험과 집중8장캡처를 추가하여 **이 작업에 반영**. 대신 깃발 수정을 위해 전체판정/전체시험을 반복하지 않음.
+2. G09 `_Diagnostic`은 비탈계산 이전에 return한다. 기존148/204/255 3단은 **소품 툰 램프** 증거이며 L1b 비탈 명암의 독립3단진단으로 쓰지 않는다. 비탈은 높이경로 계산·실제K21캡처·디렉터판독을 따로 본다. 브리핑에 반영.
+3. 부분재고 갱신 후 요약을 같은단위에서 다시 세지 않음→40/3 정정. 자산 재고와 수용조건을 분리해 유지하도록 기준서에 반영.
+4. 위아래강도/HP각각 별도 증거가 필요했는데 경계/숫자로 대신 추정. 같은질감ON/OFF와 실제풀HP막대 시험을 기존촬영기/측정기 한 곳에 추가. 별도 일회성 측정스크립트 추가0.
+5. 재컴파일completed 직후 연결이아직없을수있음→status ready를 확인하고 테스트 재실행. 표준화 후보로만 기록, 킷 수정 없음. host기본python3에는numpy없으므로 문서 지정 `/usr/bin/python3` 사용. 첫 측정 명령의실행불가를 성공으로세지 않음.
+
+### 중단 사유
+
+**사람이 정해야 하는 경우**: spec-reviewer 필수 C15 지적은 'Don't keep auto-tuning; the director should separate the measurement method from a real screen defect, decide the direction, then re-check against the same criterion.'다. 기준값.6~.8 변경/실패수용 없이 디렉터 판단이 먼저다. 다른필수수정은 한꺼번에 적용·관련검사·커밋 후 **partial**로 넘긴다. 이 열린 판단만을 이유로 재리뷰를 요청하지 않음. 디렉터가 방향을 정한 뒤 변경에 닿는 확인과 아직PASS아닌 algorithm-tester/spec-reviewer/validator-client만 재실행해야 한다. 기존FAIL두개/not-run하나를 유지한다.

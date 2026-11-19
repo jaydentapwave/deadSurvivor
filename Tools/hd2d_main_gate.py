@@ -168,10 +168,21 @@ def measure(args):
     if args.pair:
         b=gate.image(args.pair);diff=np.abs(a-b)
         report['pair']={'image':args.pair,'sha256':gate.sha(args.pair),'groundMeanDifference':float(gate.crop(diff,regions['ground'][0]).mean()),'maximumDifference':int(diff.max())}
+        if 'blurStrength' in regions:
+            strengths={}
+            for name,box in regions['blurStrength'].items():
+                on=lum(gate.crop(a,box));off=lum(gate.crop(b,box))
+                on_hf=float(np.abs(np.diff(on,axis=1)).mean())
+                off_hf=float(np.abs(np.diff(off,axis=1)).mean())
+                strengths[name]={'box':box,'onHF':on_hf,'offHF':off_hf,'attenuation':1-on_hf/off_hf}
+            report['blurStrength']={'method':'identical 4-output-pixel stripes, equal normalized depth .5 in each band; horizontal HF attenuation relative to OFF', 'samples':strengths,'bottomAtLeastTop':strengths['bottom']['attenuation']>=strengths['top']['attenuation']}
+        if 'hpSharpness' in regions:
+            box=regions['hpSharpness'];local=gate.crop(diff,box)
+            report['hpSharpness']={'box':box,'maximumDifference':int(local.max()),'meanDifference':float(local.mean()),'identical':bool(not local.any())}
     if args.motion:
         for index,path in enumerate(sorted(Path(args.motion).glob('motion-[0-7].png'))):
-            shot=Image.open(path).convert('RGB');flag=shot.crop((130,850,250,1000));water=shot.crop((800,55,1000,100))
-            detail=Image.new('RGB',(320,150),(32,32,32));detail.paste(flag,(0,0));detail.paste(water,(120,0));OUT.mkdir(parents=True,exist_ok=True);detail.resize((1280,600),Image.Resampling.NEAREST).save(OUT/f'motion-detail-{index}.png')
+            shot=Image.open(path).convert('RGB');flag=shot.crop(regions.get('motionFlagBox',(130,850,250,1000)));water=shot.crop((800,55,1000,100))
+            detail=Image.new('RGB',(flag.width+water.width,max(flag.height,water.height)),(32,32,32));detail.paste(flag,(0,0));detail.paste(water,(flag.width,0));OUT.mkdir(parents=True,exist_ok=True);detail.resize((detail.width*4,detail.height*4),Image.Resampling.NEAREST).save(OUT/f'motion-detail-{index}.png')
     directory=Path(args.image).parent
     if (directory/'shadow.json').exists():report['G18']=gate.read(directory/'shadow.json')
     if (directory/'sun-off.png').exists():

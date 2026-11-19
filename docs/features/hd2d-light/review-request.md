@@ -57,3 +57,12 @@
 6.38개재질 새 셰이더 기본값 자동 직렬화는 `L6-serialized-defaults.json`로 authored 변경0 증명; 소스지문 포함/커밋. 다른세션 dirty파일은 제외. 유료생성·성능·push·리뷰호출0.
 
 리뷰 뒤 FAIL만 수정 확인 요청한다. 여기서 스스로 적은 관측은 독립 VERDICT가 아니다.
+
+
+## 첫 회차 수정 뒤 — 디렉터 판단에서 정지
+
+이 문서의 앞부분은 a0a8a21 첫 리뷰 입력이다. 받은 판정 algorithm-tester/spec-reviewer **VERDICT: FAIL**, validator-client **VERDICT: NOT ASSESSED**. 수정점·실행증거는 verification.md의 '첫 리뷰 수정 확인'과 `output/hd2d-light/review1/`에 있다. 깃발2재질 활성화·회귀시험10/10·실제3자세연속8장·matchingtexture흐림강도·아래v.08실제HP막대선명도·재고요약40/3을 수정했다. G09 진단3단은비탈계산 전return이므로 비탈3단증거와 구별한다. 틀린 지적으로 반려한 항목 없음.
+
+현재 **partial**, 새 리뷰 요청 아님: 필수 C15는 디렉터가 측정방법/실화면결함을나눠방향을정해야 한다는 지적 그대로 정지. 전체아트/T4FAIL, G03/G20BLOCKED유지. C15/Bloom자동튜닝/유료/원본아트수정 없음. G20/K21·B0대조조건·강경계/배낭판단은 열린 지적으로 핸드오프 review_open에 보존.
+
+다음 재개에서 다시 받을 리뷰는 **algorithm-tester, spec-reviewer, validator-client**(PASS한리뷰0). 기준 a0a8a21 → 이번 수정 커밋, 수용ALG1·SPEC1~4 및L3/L5/L6. 앞회차PASS로이어쓸리뷰없음. runtime C#은변경하지않았고, Editor촬영·Test·두재질·기존측정도구·지정문서만 바뀜. 최신판은 `output/hd2d-관문/main2-review1/`(run Main2-Review1-20261119T072855Z), **12PASS/G03BLOCKED/G19N/A/G20BLOCKED**. 앞main2는a0a8a21증거로보존. 다른세션Font차이는원복하지않음: 실제수집소스지문에는포함되며 커밋만으로완전재현가능하다고하지않는다.

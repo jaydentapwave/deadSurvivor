@@ -25,6 +25,18 @@ public class AmbientMotionMathTests
     }
 
     [Test]
+    public void NormalAndFadeFlagMaterialsEnableDiscreteWind()
+    {
+        foreach (var suffix in new[] { "", "_Fade" })
+        {
+            var material = UnityEditor.AssetDatabase.LoadAssetAtPath<Material>(
+                "Assets/Game/03.Resources/Materials/HD2D/Scenery/flag_cloth" + suffix + ".mat");
+            Assert.NotNull(material, suffix);
+            Assert.That(material.GetFloat("_FlagWind"), Is.EqualTo(1f), suffix);
+        }
+    }
+
+    [Test]
     public void NativeParticleSystemKeepsCapAndAuthoredRate()
     {
         var prefab = Resources.Load<ParticleSystem>("Prefab/HD2DAmbientDust");

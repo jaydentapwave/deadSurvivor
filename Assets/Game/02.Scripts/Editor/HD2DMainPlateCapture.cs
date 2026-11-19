@@ -481,6 +481,73 @@ public static class HD2DMainPlateCapture
         finally { Output = oldOutput; }
     }
 
+    // Transient view-only patches: identical point stripes in the two blur bands,
+    // and an actual pooled HP bar. No scene or gameplay asset is saved.
+    public static void CaptureBlurReview(string directory)
+    {
+        if (!Application.isPlaying || Time.timeScale != 0)
+            throw new InvalidOperationException("Freeze the owned light frame first.");
+        _camera = Camera.main;
+        Directory.CreateDirectory(directory);
+        var feature = AssetDatabase.LoadAllAssetsAtPath("Assets/Settings/Mobile_Renderer.asset")
+            .OfType<ScriptableRendererFeature>().Single(f => f.name == "HD2D focus band");
+        var wasActive = feature.isActive;
+        var texture = new Texture2D(128, 1, TextureFormat.RGBA32, false, true);
+        texture.filterMode = FilterMode.Point;
+        texture.wrapMode = TextureWrapMode.Clamp;
+        texture.SetPixels(Enumerable.Range(0, 128).Select(x => (x / 4) % 2 == 0 ? new Color(.2f,.2f,.2f) : new Color(.6f,.6f,.6f)).ToArray());
+        texture.Apply();
+        var material = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
+        material.SetTexture("_BaseMap", texture);
+        material.SetFloat("_Cull", 0);
+        var patches = new List<GameObject>();
+        var container = Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container;
+        var factory = container.Resolve<MonsterHpBarViewFactory>();
+        const int barId = 19061119;
+        MonsterHpBarView bar = null;
+        try
+        {
+            var pixel = 2 * _camera.orthographicSize / 1080;
+            // Same normalized band depth: bottom .08/.16, top (.88-.76)/.24.
+            foreach (var v in new[] { .08f, .88f })
+            {
+                var patch = GameObject.CreatePrimitive(PrimitiveType.Quad);
+                patches.Add(patch);
+                Object.DestroyImmediate(patch.GetComponent<Collider>());
+                patch.name = "Transient identical blur texture";
+                patch.transform.SetPositionAndRotation(_camera.ViewportToWorldPoint(new Vector3(.5f,v,5)), _camera.transform.rotation);
+                patch.transform.localScale = new Vector3(128 * pixel,64 * pixel,1);
+                patch.GetComponent<MeshRenderer>().sharedMaterial = material;
+                patch.GetComponent<MeshRenderer>().shadowCastingMode = ShadowCastingMode.Off;
+            }
+            CaptureCamera(directory + "/texture-on.png", 1920, 1080);
+            feature.SetActive(false);
+            CaptureCamera(directory + "/texture-off.png", 1920, 1080);
+            feature.SetActive(wasActive);
+            foreach (var patch in patches) patch.SetActive(false);
+            texture.SetPixels(Enumerable.Repeat(new Color(.4f,.4f,.4f),128).ToArray());
+            texture.Apply();
+            patches[0].transform.position = _camera.ViewportToWorldPoint(new Vector3(.5f,.08f,6));
+            patches[0].SetActive(true);
+            bar = factory.Create(barId);
+            bar.UpdateView(Vector3.zero, .625f);
+            bar.transform.position = _camera.ViewportToWorldPoint(new Vector3(.5f,.08f,5));
+            CaptureCamera(directory + "/hp-on.png", 1920, 1080);
+            feature.SetActive(false);
+            CaptureCamera(directory + "/hp-off.png", 1920, 1080);
+            var barRenderers = bar.GetComponentsInChildren<SpriteRenderer>();
+            File.WriteAllText(directory + "/hp-renderers.txt", string.Join("\n",barRenderers.Select(r => r.name + " layer=" + r.gameObject.layer + " enabled=" + r.enabled + " sprite=" + r.sprite.name + " viewport=" + _camera.WorldToViewportPoint(r.bounds.center))));
+        }
+        finally
+        {
+            if (bar != null) factory.Release(barId);
+            feature.SetActive(wasActive);
+            foreach (var patch in patches) Object.DestroyImmediate(patch);
+            Object.DestroyImmediate(material);
+            Object.DestroyImmediate(texture);
+        }
+    }
+
     private static SpriteRenderer Hero() => Object.FindObjectsByType<MemberView>(FindObjectsSortMode.None)
         .First(v => v.BodySpriteName.StartsWith("bruno")).BodyRenderer;
 
