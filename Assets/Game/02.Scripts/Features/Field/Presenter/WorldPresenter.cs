@@ -50,6 +50,10 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly List<int> _releaseIdList = new();
     private Vector2 _viewHalfExtent;
     private readonly float[] _lastHps;
+    private readonly string[] _visibleCharacterIds;
+    private readonly FirstExpeditionService _firstExpedition;
+    private int _lastEncounterSteps;
+    private int _waitingSlot = -1;
     private readonly HitFlash[] _hitFlashes;
     private float _motionClock;
     private float _lastRemainingSeconds;
@@ -72,7 +76,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, FieldLayoutData fieldLayout, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
         MonsterViewRegistry monsterViewRegistry, SpriteAtlasService spriteAtlasService, RunModel runModel, FieldView fieldView,
-        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig, TerrainHeightGrid terrain)
+        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig, TerrainHeightGrid terrain, FirstExpeditionService firstExpedition)
     {
         _combatModel = combatModel;
         _moveRules = moveRules;
@@ -98,6 +102,8 @@ public class WorldPresenter : IInitializable, ILateTickable
         _lastMemberFloors = new Vector2[memberViewList.Count];
         _memberViewList = memberViewList;
         _lastHps = new float[memberViewList.Count];
+        _visibleCharacterIds = new string[memberViewList.Count];
+        _firstExpedition = firstExpedition;
         _hitFlashes = new HitFlash[memberViewList.Count];
         _isMemberMovings = new bool[memberViewList.Count];
         _downedSeconds = new float[memberViewList.Count];
@@ -139,7 +145,10 @@ public class WorldPresenter : IInitializable, ILateTickable
         var lastClock = _motionClock;
         _motionClock = SpriteMotion.Advance(_motionClock, Time.deltaTime, isRunning);
         // 남은 시간은 시뮬레이션 걸음마다 줄어든다
-        var hasStepped = _runModel.RemainingSeconds.CurrentValue != _lastRemainingSeconds;
+        var encounterSteps = _firstExpedition.EncounterSteps;
+        var hasStepped = _runModel.RemainingSeconds.CurrentValue != _lastRemainingSeconds
+            || encounterSteps != _lastEncounterSteps;
+        _lastEncounterSteps = encounterSteps;
         _lastRemainingSeconds = _runModel.RemainingSeconds.CurrentValue;
         var isRunStarted = _runModel.RunCount.CurrentValue != _lastRunCount;
         _lastRunCount = _runModel.RunCount.CurrentValue;
@@ -223,48 +232,53 @@ public class WorldPresenter : IInitializable, ILateTickable
 
         for (var i = 0; i < _memberViewList.Count; i++)
         {
-            var view = _memberViewList[i];
-            view.SetVisible(false);
-            if (i >= characterDataList.Count)
+            _memberViewList[i].SetVisible(false);
+            if (i < characterDataList.Count)
             {
-                continue;
+                BindCharacter(i, characterDataList[i].Id);
             }
+        }
+    }
 
-            // 그림 키가 있으면 앞·뒤·쓰러진 그림, 비었거나 하나라도 없으면 F1 임시 원
-            var key = characterDataList[i].Sprite;
-            Sprite frontSprite = null;
-            Sprite backSprite = null;
-            Sprite downedSprite = null;
-            if (!string.IsNullOrEmpty(key))
-            {
-                frontSprite = _spriteAtlasService.Get(key + SpriteAtlasService.FrontSuffix);
-                backSprite = _spriteAtlasService.Get(key + SpriteAtlasService.BackSuffix);
-                downedSprite = _spriteAtlasService.Get(key + SpriteAtlasService.DownedSuffix);
-            }
+    private void BindCharacter(int index, string characterId)
+    {
+        _visibleCharacterIds[index] = characterId;
+        var view = _memberViewList[index];
+        var data = _characterRepository.Get(characterId);
+        // 그림 키가 있으면 앞·뒤·쓰러진 그림, 비었거나 하나라도 없으면 F1 임시 원
+        var key = data.Sprite;
+        Sprite frontSprite = null;
+        Sprite backSprite = null;
+        Sprite downedSprite = null;
+        if (!string.IsNullOrEmpty(key))
+        {
+            frontSprite = _spriteAtlasService.Get(key + SpriteAtlasService.FrontSuffix);
+            backSprite = _spriteAtlasService.Get(key + SpriteAtlasService.BackSuffix);
+            downedSprite = _spriteAtlasService.Get(key + SpriteAtlasService.DownedSuffix);
+        }
 
-            var hasArt = frontSprite != null && backSprite != null && downedSprite != null;
-            if (!hasArt)
-            {
-                frontSprite = _placeholderSpriteFactory.CreateCircle(view.BodyDiameterPixels,
-                    _placeholderSpriteFactory.ParseColor(characterDataList[i].Color));
-                backSprite = frontSprite;
-                downedSprite = frontSprite;
-            }
+        var hasArt = frontSprite != null && backSprite != null && downedSprite != null;
+        if (!hasArt)
+        {
+            frontSprite = _placeholderSpriteFactory.CreateCircle(view.BodyDiameterPixels,
+                _placeholderSpriteFactory.ParseColor(data.Color));
+            backSprite = frontSprite;
+            downedSprite = frontSprite;
+        }
 
-            var hpBarSprite = _spriteAtlasService.GetUi("hp_bar_bg");
-            view.Initialize(frontSprite, backSprite, downedSprite, hpBarSprite, _spriteAtlasService.GetUi("hp_bar_fill"), hasArt);
-            if (hasArt)
-            {
-                view.InitializeDirections(_spriteAtlasService.GetDirections(key));
-            }
-            view.InitializeShadow();
-            var motion = characterDataList[i].Motion;
-            if (hasArt && motion != null)
-            {
-                view.InitializeClips(motion,
-                    _spriteAtlasService.GetDirectionFrames(key, "walk", motion.WalkFrames),
-                    _spriteAtlasService.GetDirectionFrames(key, "attack", motion.AttackFrames));
-            }
+        var hpBarSprite = _spriteAtlasService.GetUi("hp_bar_bg");
+        view.Initialize(frontSprite, backSprite, downedSprite, hpBarSprite, _spriteAtlasService.GetUi("hp_bar_fill"), hasArt);
+        if (hasArt)
+        {
+            view.InitializeDirections(_spriteAtlasService.GetDirections(key));
+        }
+        view.InitializeShadow();
+        var motion = data.Motion;
+        if (hasArt && motion != null)
+        {
+            view.InitializeClips(motion,
+                _spriteAtlasService.GetDirectionFrames(key, "walk", motion.WalkFrames),
+                _spriteAtlasService.GetDirectionFrames(key, "attack", motion.AttackFrames));
         }
     }
 
@@ -331,11 +345,39 @@ public class WorldPresenter : IInitializable, ILateTickable
             var view = _memberViewList[i];
             if (i >= count)
             {
+                if (i == count && _firstExpedition.WaitingCharacterId is string waitingId)
+                {
+                    if (_waitingSlot != i || _visibleCharacterIds[i] != waitingId)
+                    {
+                        BindCharacter(i, waitingId);
+                        _waitingSlot = i;
+                    }
+
+                    var waitingPosition = IsoProjection.FloorToWorldSnapped(
+                        _firstExpedition.EncounterPosition, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
+                    view.SetVisible(true);
+                    view.UpdateView(waitingPosition, 1f, true, 0f);
+                    view.HideHealthBar();
+                    view.SetGround(_terrain, TerrainHeightMath.Normal(_terrain, waitingPosition.x, waitingPosition.z), _fieldView.TerrainShadowMaterial);
+                    continue;
+                }
+
                 view.SetVisible(false);
+                if (_waitingSlot == i)
+                {
+                    _waitingSlot = -1;
+                }
+
                 continue;
             }
 
             var member = memberList[i];
+            var didCharacterChange = _visibleCharacterIds[i] != member.CharacterId;
+            if (didCharacterChange)
+            {
+                BindCharacter(i, member.CharacterId);
+            }
+
             var position = IsoProjection.FloorToWorldSnapped(member.Position, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
             var delta = member.Position - _lastMemberFloors[i];
             _lastMemberFloors[i] = member.Position;
@@ -343,8 +385,13 @@ public class WorldPresenter : IInitializable, ILateTickable
             _downedSeconds[i] = member.IsAlive ? 0f : _downedSeconds[i] + Time.deltaTime;
             view.UpdateView(position, member.Hp / member.MaxHp, member.IsAlive, _downedSeconds[i]);
             view.SetGround(_terrain, TerrainHeightMath.Normal(_terrain, position.x, position.z), _fieldView.TerrainShadowMaterial);
-            if (isRunStarted)
+            if (isRunStarted || didCharacterChange || _waitingSlot == i)
             {
+                if (_waitingSlot == i)
+                {
+                    _waitingSlot = -1;
+                }
+
                 // 판 시작: 앞·오른쪽, 첫 표시의 자리 점프는 방향을 바꾸지 않는다
                 _lastHps[i] = member.Hp;
                 _hitFlashes[i].Stop();

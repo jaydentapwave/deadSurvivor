@@ -374,7 +374,7 @@ public static class PlayableProbe
     }
 
     // 집기 → 회전 rotation번 맞추기 → 대상에 놓기(드래그 놓기와 같은 처리)
-    internal static void PressDrop(int uid, int rotation, BagTarget target)
+    public static void PressDrop(int uid, int rotation, BagTarget target)
     {
         var bagPresenter = Resolve<BagPresenter>();
         bagPresenter.OnItemPressed(uid);
@@ -989,7 +989,24 @@ public static class PlayableProbe
 
     private static PlayableFrameSampler FrameSampler => Object.FindAnyObjectByType<PlayableFrameSampler>();
 
-    public static void PressDepart() => Resolve<LobbyPresenter>().OnDepartClicked();
+    public static void PressDepart() => Resolve<LobbyPresenter>().StartRegularRun();
+
+    public static void PressFirstDeparture() => Resolve<LobbyPresenter>().OnDepartClicked();
+
+    public static bool HasFirstEncounter => Resolve<FirstExpeditionService>().HasEncounter;
+
+    public static bool IsFirstExpeditionPending => Resolve<FirstExpeditionService>().IsPending;
+
+    public static float FirstEncounterDistance =>
+        Vector2.Distance(Resolve<FirstExpeditionService>().EncounterPosition, Resolve<PartyModel>().Center);
+
+    public static void DragTowardFirstEncounter()
+    {
+        var offset = Resolve<FirstExpeditionService>().EncounterPosition - Resolve<PartyModel>().Center;
+        var direction = new Vector2(offset.x, offset.y * Resolve<ViewRulesData>().SinTilt).normalized;
+        JoystickDown(.5f, .5f);
+        JoystickDrag(.5f + direction.x * .09f, .5f + direction.y * .14f);
+    }
 
     public static void PressNextWave() => Resolve<PrepPresenter>().OnNextWaveClicked();
 

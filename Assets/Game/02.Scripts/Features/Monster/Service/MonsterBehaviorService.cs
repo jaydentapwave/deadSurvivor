@@ -42,7 +42,7 @@ public class MonsterBehaviorService
         for (var i = 0; i < monsterList.Count; i++)
         {
             var monster = monsterList[i];
-            if (!monster.IsAlive)
+            if (!monster.IsAlive || monster.IsWaitingForEncounter)
             {
                 continue;
             }

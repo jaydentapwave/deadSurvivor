@@ -65,6 +65,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register<CombatFeedbackModel>(Lifetime.Scoped);
 
         // 서비스
+        builder.Register<FirstExpeditionService>(Lifetime.Scoped);
         builder.Register<RunService>(Lifetime.Scoped);
         builder.Register<PartyService>(Lifetime.Scoped);
         builder.Register<IItemPlacementInfo, BagPlacementInfo>(Lifetime.Scoped);
@@ -123,6 +124,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterEntryPoint<PrepPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<ResultPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<WorldPresenter>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<FirstExpeditionPresenter>(Lifetime.Scoped);
         builder.RegisterEntryPoint<FieldOcclusionPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<AmbientEffectsPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<BattleItemListPresenter>(Lifetime.Scoped).AsSelf();

@@ -56,7 +56,7 @@ public class MonsterRecycleService
             var isOutside = Mathf.Abs(offset.x) > halfExtent.x + recycle.OutsideMargin
                 || Mathf.Abs(offset.y) > halfExtent.y + recycle.OutsideMargin;
             var isBehind = !_monsterModel.IsPartyMoving || Vector2.Dot(offset, _monsterModel.PartyHeading) < 0f;
-            if (!monster.IsAlive || monster.Phase != MonsterPhase.Approach || !isOutside || !isBehind)
+            if (!monster.IsAlive || monster.IsWaitingForEncounter || monster.Phase != MonsterPhase.Approach || !isOutside || !isBehind)
             {
                 monster.OutsideSeconds = 0f;
                 continue;

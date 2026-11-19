@@ -55,13 +55,15 @@ public class BagModel : IDisposable
         _bagList.Clear();
         for (var i = 0; i < memberCount; i++)
         {
-            _bagList.Add(new List<BagItem>());
+            AddBag();
         }
 
         _stashList.Clear();
         _lastGrantedUidList.Clear();
         NextUid = 1;
     }
+
+    public void AddBag() => _bagList.Add(new List<BagItem>());
 
     public int TakeUid() => NextUid++;
 

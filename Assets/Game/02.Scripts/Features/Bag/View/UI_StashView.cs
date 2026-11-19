@@ -24,6 +24,7 @@ public class UI_StashView : MonoBehaviour, IPointerDownHandler, IPointerClickHan
     public UI_StashItemView ItemTemplate => itemTemplate;
     public RectTransform Content => content;
     public int ItemViewCount => _itemViewList.Count;
+    public UnityEngine.UI.Graphic GetItemGraphic(int index) => _itemViewList[index].Background;
 
     // 템플릿을 첫 항목으로 쓴다(Presenter.Initialize가 한 번 부른다)
     public void Initialize() => AddItemView(itemTemplate);

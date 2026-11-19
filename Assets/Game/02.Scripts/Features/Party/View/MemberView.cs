@@ -73,6 +73,8 @@ public class MemberView : MonoBehaviour
     public void Initialize(Sprite frontSprite, Sprite backSprite, Sprite downedSprite, Sprite hpBarSprite, Sprite hpFillSprite, bool hasArt)
     {
         _motionSprite = null;
+        _motionData = null;
+        FacingFallbackCount = 0;
         _directionSprites = new[] { null, frontSprite, null, backSprite, null };
         _spriteMask = SpriteMask(_directionSprites);
         _downedSprite = downedSprite;
@@ -101,6 +103,12 @@ public class MemberView : MonoBehaviour
             IsDowned = !isAlive;
             ApplySprite();
         }
+    }
+
+    public void HideHealthBar()
+    {
+        hpBackRenderer.enabled = false;
+        hpFillRenderer.enabled = false;
     }
 
     // 방향(앞·뒤 스프라이트, 좌우 반전)·몸 오프셋(정수 픽셀)·흰 번쩍임을 한 번에 적용

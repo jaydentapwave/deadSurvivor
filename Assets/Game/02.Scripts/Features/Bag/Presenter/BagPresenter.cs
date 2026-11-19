@@ -352,6 +352,7 @@ public class BagPresenter : IInitializable, IDisposable
             }
 
             var hasBag = member < _bagModel.MemberCount;
+            bagViews[member].gameObject.SetActive(hasBag);
             if (hasBag)
             {
                 foreach (var item in _bagModel.GetBag(member))

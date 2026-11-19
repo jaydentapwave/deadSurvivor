@@ -20,6 +20,8 @@ public class UI_BagCellView : MonoBehaviour, IPointerDownHandler, IDragHandler, 
     private int _uid = -1;
     private UI_ItemIconView _iconView;
 
+    public Graphic Background => background;
+
     public BagTarget Target { get; private set; }
 
     public void Bind(UI_BagView owner, int member, int x, int y)

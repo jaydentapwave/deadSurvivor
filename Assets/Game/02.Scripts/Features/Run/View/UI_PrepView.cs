@@ -88,6 +88,7 @@ public class UI_PrepView : MonoBehaviour
         {
             var hasMember = i < memberLineList.Count;
             memberTexts[i].gameObject.SetActive(hasMember);
+            memberHpFills[i].parent.gameObject.SetActive(hasMember);
             if (hasMember)
             {
                 memberTexts[i].text = memberLineList[i];

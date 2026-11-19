@@ -10,6 +10,7 @@ public class LobbyPresenter : IInitializable, IDisposable
     private readonly RunModel _runModel;
     private readonly RunSettingsModel _runSettingsModel;
     private readonly RunService _runService;
+    private readonly FirstExpeditionService _firstExpedition;
     private readonly CharacterRepository _characterRepository;
     private readonly ItemRepository _itemRepository;
     private readonly PlaceholderSpriteFactory _placeholderSpriteFactory;
@@ -22,11 +23,13 @@ public class LobbyPresenter : IInitializable, IDisposable
 
     public LobbyPresenter(RunModel runModel, RunSettingsModel runSettingsModel, RunService runService,
         CharacterRepository characterRepository, ItemRepository itemRepository,
-        PlaceholderSpriteFactory placeholderSpriteFactory, SpriteAtlasService spriteAtlasService, UI_LobbyView lobbyView)
+        PlaceholderSpriteFactory placeholderSpriteFactory, SpriteAtlasService spriteAtlasService, UI_LobbyView lobbyView,
+        FirstExpeditionService firstExpedition)
     {
         _runModel = runModel;
         _runSettingsModel = runSettingsModel;
         _runService = runService;
+        _firstExpedition = firstExpedition;
         _characterRepository = characterRepository;
         _itemRepository = itemRepository;
         _placeholderSpriteFactory = placeholderSpriteFactory;
@@ -60,5 +63,8 @@ public class LobbyPresenter : IInitializable, IDisposable
 
     public void Dispose() => _disposables.Dispose();
 
-    public void OnDepartClicked() => _runService.StartRun(_runSettingsModel.Seed, _runSettingsModel.EnemyCountScale);
+    public void OnDepartClicked() =>
+        _runService.StartRun(_runSettingsModel.Seed, _runSettingsModel.EnemyCountScale, _firstExpedition.IsPending);
+
+    public void StartRegularRun() => _runService.StartRun(_runSettingsModel.Seed, _runSettingsModel.EnemyCountScale);
 }

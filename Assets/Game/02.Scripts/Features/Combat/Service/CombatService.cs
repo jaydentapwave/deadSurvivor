@@ -66,6 +66,18 @@ public class CombatService
         }
     }
 
+    public void AddMemberState()
+    {
+        var index = _combatModel.MemberStateList.Count;
+        var member = _partyModel.MemberList[index];
+        var state = new MemberCombatState();
+        RebuildSlots(state, member);
+        _combatModel.AddMemberState(state);
+        RefreshStats(index);
+        member.Hp = member.MaxHp;
+        member.Shield = state.Stats.StartShield;
+    }
+
     // 웨이브를 열 때(B7): 장착 목록이 바뀐 대원만 칸을 새로, 능력치 다시 계산, 산 대원 보호막 = 시작 보호막, 시계 0
     public void PrepareWave()
     {
@@ -339,7 +351,7 @@ public class CombatService
             var damage = item.BonusValue * slot.GradeMultiplier;
             foreach (var monster in _monsterModel.MonsterList)
             {
-                if (monster.IsAlive && Vector2.Distance(member.Position, monster.Position) <= item.EffectRadius)
+                if (monster.CanBeTargeted && Vector2.Distance(member.Position, monster.Position) <= item.EffectRadius)
                 {
                     _monsterService.ApplyDamage(monster, damage);
                 }
@@ -457,7 +469,7 @@ public class CombatService
                 HitCone(member.Position, direction, range, _rules.SweepHalfAngle, power, item.Id);
                 break;
             case ItemMode.Chain:
-                if (nearest.IsAlive)
+                if (nearest.CanBeTargeted)
                 {
                     HitChain(member.Position, nearest, slot.Stats.Chain, power, item.Id);
                 }
@@ -515,7 +527,7 @@ public class CombatService
         var nearestDistance = float.MaxValue;
         foreach (var monster in _monsterModel.MonsterList)
         {
-            if (!monster.IsAlive || (excludedIdSet != null && excludedIdSet.Contains(monster.Id)))
+            if (!monster.CanBeTargeted || (excludedIdSet != null && excludedIdSet.Contains(monster.Id)))
             {
                 continue;
             }
@@ -536,7 +548,7 @@ public class CombatService
         foreach (var monster in _monsterModel.MonsterList)
         {
             var offset = monster.Position - origin;
-            if (monster.IsAlive && offset.magnitude <= range && Vector2.Angle(direction, offset) <= halfAngle)
+            if (monster.CanBeTargeted && offset.magnitude <= range && Vector2.Angle(direction, offset) <= halfAngle)
             {
                 _monsterService.ApplyDamage(monster, power);
             }
@@ -598,7 +610,7 @@ public class CombatService
 
             foreach (var monster in _monsterModel.MonsterList)
             {
-                if (!monster.IsAlive || projectile.HitMonsterIdSet.Contains(monster.Id))
+                if (!monster.CanBeTargeted || projectile.HitMonsterIdSet.Contains(monster.Id))
                 {
                     continue;
                 }
@@ -628,7 +640,7 @@ public class CombatService
     {
         foreach (var monster in _monsterModel.MonsterList)
         {
-            if (monster.IsAlive && Vector2.Distance(projectile.Position, monster.Position) < projectile.ExplosionRadius)
+            if (monster.CanBeTargeted && Vector2.Distance(projectile.Position, monster.Position) < projectile.ExplosionRadius)
             {
                 _monsterService.ApplyDamage(monster, projectile.Damage);
             }

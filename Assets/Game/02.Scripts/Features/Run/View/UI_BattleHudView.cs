@@ -24,6 +24,7 @@ public class UI_BattleHudView : MonoBehaviour
     [SerializeField] private Text pauseText;
     [SerializeField] private UI_MemberStatusView[] memberStatusViews;
 
+    public Font EncounterCueFont => waveText.font;
     public Button SpeedButton => speedButton;
     public Button PauseButton => pauseButton;
     public IReadOnlyList<UI_MemberStatusView> MemberStatusViews => memberStatusViews;
@@ -49,7 +50,7 @@ public class UI_BattleHudView : MonoBehaviour
     }
 
     public void UpdateUI(int wave, int waveCount, int kills, int threat, float remainingSeconds, bool isBurningTime,
-        float speed, bool isPaused)
+        float speed, bool isPaused, bool hasEncounter = false)
     {
         waveText.text = $"{wave}/{waveCount}";
         for (var i = 0; i < waveNodes.Length; i++)
@@ -62,7 +63,7 @@ public class UI_BattleHudView : MonoBehaviour
         killsText.text = $"처치 {kills}";
         threatText.text = $"위협 {threat}";
         var seconds = Mathf.CeilToInt(remainingSeconds);
-        remainingText.text = $"{seconds / 60}:{seconds % 60:00}";
+        remainingText.text = hasEncounter ? "—" : $"{seconds / 60}:{seconds % 60:00}";
         burningLabel.SetActive(isBurningTime);
         speedText.text = $"×{speed:0.#}";
         pauseText.text = "";

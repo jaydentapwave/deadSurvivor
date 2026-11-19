@@ -14,11 +14,12 @@ public class BattleHudPresenter : IInitializable, ILateTickable, IDisposable
     private readonly CharacterRepository _characterRepository;
     private readonly SpriteAtlasService _spriteAtlasService;
     private readonly UI_BattleHudView _battleHudView;
+    private readonly FirstExpeditionService _firstExpedition;
     private readonly CompositeDisposable _disposables = new();
 
     public BattleHudPresenter(RunModel runModel, RunService runService, RunRulesData runRules, WaveRepository waveRepository,
         PartyModel partyModel, MonsterService monsterService, CharacterRepository characterRepository,
-        SpriteAtlasService spriteAtlasService, UI_BattleHudView battleHudView)
+        SpriteAtlasService spriteAtlasService, UI_BattleHudView battleHudView, FirstExpeditionService firstExpedition)
     {
         _runModel = runModel;
         _runService = runService;
@@ -29,6 +30,7 @@ public class BattleHudPresenter : IInitializable, ILateTickable, IDisposable
         _characterRepository = characterRepository;
         _spriteAtlasService = spriteAtlasService;
         _battleHudView = battleHudView;
+        _firstExpedition = firstExpedition;
     }
 
     public void Initialize()
@@ -51,7 +53,7 @@ public class BattleHudPresenter : IInitializable, ILateTickable, IDisposable
 
         _battleHudView.UpdateUI(_runModel.Wave.CurrentValue, _waveRepository.WaveDataList.Count, _runModel.Kills.CurrentValue,
             _monsterService.AliveCount, _runModel.RemainingSeconds.CurrentValue, _runModel.IsBurningTime.CurrentValue,
-            _runRules.SpeedOptions[_runModel.SpeedIndex.CurrentValue], _runModel.IsPaused.CurrentValue);
+            _runRules.SpeedOptions[_runModel.SpeedIndex.CurrentValue], _runModel.IsPaused.CurrentValue, _firstExpedition.HasEncounter);
         UpdateMemberStatusViews();
     }
 

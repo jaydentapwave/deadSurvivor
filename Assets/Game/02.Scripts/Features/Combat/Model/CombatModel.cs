@@ -27,6 +27,8 @@ public class CombatModel : IDisposable
         _memberStateList.AddRange(memberStates);
     }
 
+    public void AddMemberState(MemberCombatState state) => _memberStateList.Add(state);
+
     public int GetFireCount(string itemId) => _fireCountDict.TryGetValue(itemId, out var count) ? count : 0;
 
     public void AddFireCount(string itemId) => _fireCountDict[itemId] = GetFireCount(itemId) + 1;

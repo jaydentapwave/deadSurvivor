@@ -17,6 +17,7 @@ public class RunService
     private readonly PartyMoveService _partyMoveService;
     private readonly BagService _bagService;
     private readonly LootService _lootService;
+    private readonly FirstExpeditionService _firstExpedition;
 
     // 프레임 시간 × 배속을 걸음 단위(double)로 모은다. 프레임마다 반올림하면 같은 시간을 다르게 나눴을 때 걸음 수가 갈린다(AC11)
     private double _accumulatedSteps;
@@ -27,7 +28,8 @@ public class RunService
 
     public RunService(RunModel runModel, WaveRepository waveRepository, RunRulesData runRules, PartyService partyService,
         CombatService combatService, MonsterService monsterService, FormationService formationService,
-        PartyMoveService partyMoveService, BagService bagService, LootService lootService)
+        PartyMoveService partyMoveService, BagService bagService, LootService lootService,
+        FirstExpeditionService firstExpedition)
     {
         _runModel = runModel;
         _waveRepository = waveRepository;
@@ -39,10 +41,11 @@ public class RunService
         _partyMoveService = partyMoveService;
         _bagService = bagService;
         _lootService = lootService;
+        _firstExpedition = firstExpedition;
     }
 
     // seed 0 = 시작 시각에서 뽑는다(A11)
-    public void StartRun(int seed, float enemyCountScale)
+    public void StartRun(int seed, float enemyCountScale, bool isFirstExpedition = false)
     {
         if (_runModel.Phase.CurrentValue != RunPhase.Lobby)
         {
@@ -53,7 +56,7 @@ public class RunService
         var runSeed = seed != 0 ? seed : Environment.TickCount;
         _enemyCountScale = enemyCountScale;
         _finishedWaveSeconds = 0f;
-        _partyService.CreateParty();
+        _firstExpedition.CreateParty(isFirstExpedition);
         _formationService.ResetForRun();
         _partyMoveService.ResetForRun();
         // 가방을 장착 목록으로 만든다(F5 A6). 전투 칸의 등급 배수가 가방을 읽으므로 CombatService.ResetRun보다 먼저
@@ -106,6 +109,12 @@ public class RunService
             return;
         }
 
+        if (_firstExpedition.HasEncounter)
+        {
+            StepEncounter(stepSeconds);
+            return;
+        }
+
         // ① 걸음 시간을 남은 웨이브 시간으로 자름
         var remaining = _runModel.RemainingSeconds.CurrentValue;
         var deltaSeconds = Mathf.Min(stepSeconds, remaining);
@@ -128,11 +137,8 @@ public class RunService
         _partyMoveService.Step(deltaSeconds);
 
         // ④ 전투 진행: 대원 순서대로 지속 효과 → 장착 순서대로 발동 → 투사체 이동·명중(F3 B절)
-        _combatService.Step(deltaSeconds);
-        _runModel.SetKills(_runModel.Kills.CurrentValue + _monsterService.RemoveDead());
-
         // ⑤ 적 이동·접촉 공격
-        _monsterService.TickMove(deltaSeconds);
+        StepCombat(deltaSeconds);
 
         // ⑥ 생존 0이면 즉시 패배(시간 끝과 겹쳐도 패배가 먼저)
         if (_partyService.AliveCount == 0)
@@ -148,6 +154,27 @@ public class RunService
         }
     }
 
+    private void StepEncounter(float stepSeconds)
+    {
+        _partyMoveService.Step(stepSeconds);
+        _firstExpedition.BeforeEncounterCombat();
+        StepCombat(stepSeconds);
+        _firstExpedition.AfterEncounterCombat();
+        if (_partyService.AliveCount == 0)
+        {
+            EndRun(RunOutcome.Lose);
+        }
+    }
+
+    private void StepCombat(float stepSeconds)
+    {
+        _combatService.Step(stepSeconds);
+        _runModel.SetKills(_runModel.Kills.CurrentValue + _monsterService.RemoveDead());
+        _monsterService.TickMove(stepSeconds);
+    }
+
+    public bool CanStartNextWave => _firstExpedition.CanLeaveCamp(_runModel.CompletedWave.CurrentValue);
+
     public void NextWave()
     {
         if (_runModel.Phase.CurrentValue != RunPhase.Prep)
@@ -156,7 +183,10 @@ public class RunService
             return;
         }
 
-        BeginWave(_runModel.Wave.CurrentValue + 1);
+        if (CanStartNextWave)
+        {
+            BeginWave(_runModel.Wave.CurrentValue + 1);
+        }
     }
 
     // 적·한 판 상태를 비우고 로비로
@@ -219,9 +249,10 @@ public class RunService
         _runModel.SetRemainingSeconds(waveData.Duration);
         _runModel.SetBurningTime(false);
         _combatService.PrepareWave();
-        _monsterService.BeginWave(waveData, _enemyCountScale);
+        _monsterService.BeginWave(waveData, _enemyCountScale * _firstExpedition.ScaleSpawns(wave));
         _formationService.ApplyPending();
         _partyMoveService.StartWave();
+        _firstExpedition.BeginEncounter(wave);
         _runModel.SetPhase(RunPhase.Battle);
     }
 
@@ -241,13 +272,22 @@ public class RunService
         _runModel.SetBurningTime(false);
         _runModel.SetCompletedWave(wave);
         // 전리품 3~5개를 보관함에(F5 B1). 마지막 웨이브·전멸은 여기를 지나지 않는다
-        _lootService.GrantWaveLoot(wave);
+        if (!_firstExpedition.GrantEarlyLoot(wave))
+        {
+            _lootService.GrantWaveLoot(wave);
+        }
+
+        if (wave == 3)
+        {
+            _firstExpedition.CompleteOpening();
+        }
         _runModel.SetPhase(RunPhase.Prep);
     }
 
     // 버틴 웨이브: 승리는 마지막 웨이브 번호, 패배는 진 웨이브 − 1
     private void EndRun(RunOutcome outcome)
     {
+        _firstExpedition.ClearEncounter();
         var wave = _runModel.Wave.CurrentValue;
         _monsterService.ClearMonsters();
         _combatService.ClearProjectiles();

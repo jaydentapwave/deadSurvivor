@@ -22,6 +22,8 @@ public class UI_StashItemView : MonoBehaviour, IPointerDownHandler, IDragHandler
     private UI_StashView _owner;
     private UI_ItemIconView _iconView;
 
+    public Graphic Background => background;
+
     public int Uid { get; private set; } = -1;
 
     public void Bind(UI_StashView owner) => _owner = owner;

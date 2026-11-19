@@ -83,7 +83,7 @@ public class MonsterService
     // 끝에 피드백 기록 한 줄(F6 A절: 준 값, 맞은 순간의 바닥 좌표, 숫자 자리를 정할 반지름)
     public void ApplyDamage(Monster monster, float amount)
     {
-        if (!monster.IsAlive)
+        if (!monster.CanBeTargeted)
         {
             return;
         }

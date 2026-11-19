@@ -34,13 +34,25 @@ public class BagService
         _bagModel.Reset(memberList.Count);
         for (var member = 0; member < memberList.Count; member++)
         {
-            foreach (var itemId in memberList[member].EquippedItemIdList)
-            {
-                PlaceStartItem(member, itemId);
-            }
+            PlaceStartItems(member);
         }
 
         _bagModel.IncrementVersion();
+    }
+
+    public void AddMemberBag()
+    {
+        _bagModel.AddBag();
+        PlaceStartItems(_bagModel.MemberCount - 1);
+        _bagModel.IncrementVersion();
+    }
+
+    private void PlaceStartItems(int member)
+    {
+        foreach (var itemId in _partyModel.MemberList[member].EquippedItemIdList)
+        {
+            PlaceStartItem(member, itemId);
+        }
     }
 
     // 로비로 갈 때: 가방·보관함을 비운다

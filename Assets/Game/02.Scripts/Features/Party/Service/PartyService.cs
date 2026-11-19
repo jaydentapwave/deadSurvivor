@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // 원정대 편성(S8)과 피해. 대원 자리·원정대 중심은 PartyMoveService가 정한다(F2).
@@ -32,17 +33,31 @@ public class PartyService
     }
 
     // 데이터 order 순서로 만들고 HP를 최대로, 장착 목록에 시작 아이템 하나. 좌표는 PartyMoveService.ResetForRun이 정한다
-    public void CreateParty()
+    public void CreateParty(IReadOnlyList<string> characterIds = null)
     {
         _partyModel.Clear();
-        var characterDataList = _characterRepository.CharacterDataList;
-        for (var i = 0; i < characterDataList.Count; i++)
+        if (characterIds != null)
         {
-            var data = characterDataList[i];
-            var member = new PartyMember(data.Id, data.Hp, data.Def, Vector2.zero);
-            member.Equip(data.StartItem);
-            _partyModel.Add(member);
+            foreach (var id in characterIds)
+            {
+                AddMember(id, Vector2.zero);
+            }
+
+            return;
         }
+
+        foreach (var data in _characterRepository.CharacterDataList)
+        {
+            AddMember(data.Id, Vector2.zero);
+        }
+    }
+
+    public void AddMember(string characterId, Vector2 position)
+    {
+        var data = _characterRepository.Get(characterId);
+        var member = new PartyMember(data.Id, data.Hp, data.Def, position);
+        member.Equip(data.StartItem);
+        _partyModel.Add(member);
     }
 
     public void ClearParty() => _partyModel.Clear();

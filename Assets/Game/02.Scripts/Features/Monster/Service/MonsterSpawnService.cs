@@ -146,14 +146,29 @@ public class MonsterSpawnService
         var rules = _monsterRepository.SpawnRules;
         var distance = _monsterModel.ViewHalfExtent.magnitude + rules.SpawnMargin;
         var direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-        _nextMonsterId++;
         // Limits and positions are gameplay floor units, not rendered metres.
         var limit = _runRules.FieldCells / (2f * _runRules.UnitScale) - rules.FieldEdgeMargin;
         var position = PartyMoveMath.ClampToDiamond(_partyModel.Center + direction * distance, limit);
-        var monster = new Monster(_nextMonsterId, data, position,
-            data.Hp * _waveData.HpScale, data.Damage * _waveData.DamageScale, rules.InitialAttackDelay);
+        AddMonster(data, position, _waveData.HpScale, _waveData.DamageScale);
+    }
+
+    public Monster SpawnEncounterGuard(Vector2 position)
+    {
+        var rules = _monsterRepository.SpawnRules;
+        var limit = _runRules.FieldCells / (2f * _runRules.UnitScale) - rules.FieldEdgeMargin;
+        var data = _monsterRepository.Get("slime");
+        var monster = AddMonster(data, PartyMoveMath.ClampToDiamond(position, limit), 0.65f, 0.55f);
+        monster.IsWaitingForEncounter = true;
+        return monster;
+    }
+
+    private Monster AddMonster(MonsterData data, Vector2 position, float hpScale, float damageScale)
+    {
+        var monster = new Monster(++_nextMonsterId, data, position, data.Hp * hpScale, data.Damage * damageScale,
+            _monsterRepository.SpawnRules.InitialAttackDelay);
         monster.PlacementVersion++;
         _monsterModel.Add(monster);
+        return monster;
     }
 
     private float NextPositionRoll() => (float)_positionRandom.NextDouble();

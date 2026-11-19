@@ -45,6 +45,7 @@ internal class TestRunContext
     public readonly BagService BagService;
     public readonly LootService LootService;
     public readonly RunService RunService;
+    public readonly FirstExpeditionService FirstExpedition;
 
     // 기준 화면 640×360px(PPU 48)이 보는 바닥 영역의 반 크기(바닥 단위)
     public Vector2 ReferenceViewHalfExtent => TiltedViewMath.Footprint(360f / Const.PixelsPerUnit / 2f, 16f/9f, .5f) / RunRules.UnitScale;
@@ -92,8 +93,10 @@ internal class TestRunContext
         BagService = new BagService(BagModel, RunModel, PartyModel, PartyService, ItemRepository, GradeRepository,
             BagRulesRepository);
         LootService = new LootService(BagModel, BagService, PartyModel, ItemRepository, LootRulesRepository);
+        FirstExpedition = new FirstExpeditionService(PartyModel, PartyService, PartyMoveService, MonsterSpawnService,
+            BagService, CombatService, ItemRepository);
         RunService = new RunService(RunModel, WaveRepository, RunRules, PartyService, CombatService, MonsterService,
-            FormationService, PartyMoveService, BagService, LootService);
+            FormationService, PartyMoveService, BagService, LootService, FirstExpedition);
         MonsterService.SetViewHalfExtent(ReferenceViewHalfExtent);
         PartyMoveService.SetViewHalfExtent(ReferenceViewHalfExtent);
     }

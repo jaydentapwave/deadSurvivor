@@ -66,13 +66,15 @@ public class PartyMoveService
         }
     }
 
+    public Vector2 ClampCenter(Vector2 center) => PartyMoveMath.ClampToDiamond(center, _centerLimit);
+
     // 한 걸음(A절 1~4): 중심 이동 → 들판 마름모 안으로 → 살아 있는 대원이 자리 쪽으로 다가감. 쓰러진 대원은 그대로
     public void Step(float deltaSeconds)
     {
         var moveInput = _partyMoveModel.MoveInput;
         var direction = PartyMoveMath.ScreenToFloorDirection(moveInput, _viewRules.SinTilt);
         var center = _partyModel.Center + direction * (moveInput.magnitude * _moveRules.MoveSpeed * deltaSeconds);
-        center = PartyMoveMath.ClampToDiamond(center, _centerLimit);
+        center = ClampCenter(center);
         _partyModel.SetCenter(center);
 
         var ratio = _moveRules.FollowRate * deltaSeconds;

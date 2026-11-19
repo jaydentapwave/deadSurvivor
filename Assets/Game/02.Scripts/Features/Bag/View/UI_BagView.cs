@@ -21,6 +21,7 @@ public class UI_BagView : MonoBehaviour
     // 드래그를 끝내고 뗀 곳의 대상(없으면 null)
     public Observable<BagTarget?> Dropped => _dropped;
     public int CellCount => cellViews.Length;
+    public UnityEngine.UI.Graphic GetCellGraphic(int index) => cellViews[index].Background;
 
     public void Initialize(int member, int width)
     {
