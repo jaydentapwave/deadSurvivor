@@ -117,7 +117,7 @@
 | 높이 | **사용자 "걷는 땅도 높낮이"**(17:1x): 규칙은 평평한 바닥 좌표 그대로, 보이는 쪽만 높이 H(x,z)(제안) — 설계 → design-reviewer(L2) → 3D 교체 뒤 구현 → 6단계. 3D 2부(메시 교체) 실행 중 | | 설계 중 |
 | 높이-설계 | **design-reviewer PASS**(17:57, fix-r004): r001 FAIL 6 → fix-r001 FAIL 4 → fix-r002 FAIL 2 → fix-r003 FAIL 1 → r004 PASS. 핵심: 생성 여유 pad(이동 한계 1920×1080 10.75→9.84m), 화면 평면 텍셀 맞춤, 바닥 그림 순서(땅 1990→그림자 1995→효과 1996, 깊이 안 읽음), 기존 효과 셰이더 보존. 기준서 r8 사용자 승인 기록 | `docs/features/hd2d-terrain-height/design-review*.md` | 3D 2부 끝나면 구현 |
 | 5~8, U | 진행 — 5단계 Codex(새 대화) 11:2x 시작(B0~B3 커밋). **12:1x U단계를 워크트리 `.director/worktrees/hd2d-ui`(브랜치 `claude/hd2d-ui`, 에디터 따로)에서 나란히 시작**(사용자 "워크트리를 만들어서 서로 병렬작업을해도 되고"). 장면 변경은 이행 메뉴로만 → 합칠 때 다시 돌림. 6단계(빛)는 배경 땅·물·턱 색을 재야 해서 5단계 뒤 | | |
-| 6 | **attempt2 수치 관문 확인·마감 리뷰 3종 대기**(2026-11-19): D-L1 C15 .7262~.7307/G11 .09416 PASS, D-L2 효과심 켬/끔 차1LSB·풀0, D-L3 같은 최종 렌더 소스 B0 촬영/높이 복구, D-L4 강선유지·배낭명도수용. G03/G20 BLOCKED·G19N/A·전체아트/T4 미완료 | `../features/hd2d-light/verification.md`·`../features/hd2d-light/review-request.md` | algorithm-tester·spec-reviewer·validator-client 수정 확인 필요. 모서리 급경계/미세Bloom·K21은 디렉터 판독 |
+| 6 | **구현·마감 리뷰3종 PASS, 디렉터 시각 판독 대기**(2026-11-19): D-L1 C15 .7262~.7307/G11 .09416 PASS, D-L2 효과심1LSB·풀0, D-L3 같은렌더소스B0/높이복구, D-L4 강선유지·배낭명도수용. V-META3889943 validator PASS. G03/G20 BLOCKED·G19N/A·전체아트/T4 미완료 | `../features/hd2d-light/verification.md`·`.director/outbox/20261118-hd2d-light-1.md` | 코드리뷰 재요청없음. 모서리급경계/미세Bloom·K21은 디렉터 판독 |
 
 ## 7. 완성 보고 때 사용자에게 확인받을 것 (디렉터가 모음)
 
