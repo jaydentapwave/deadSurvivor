@@ -42,10 +42,15 @@
     {
       "id": "HURT",
       "name": "원정대가 맞으면 빨간 구간·흔들림·진동 호출",
-      "wait": "PlayableProbe.MemberWithHpLoss >= 0",
+      "wait": "new System.Func<bool>(()=>{if(PlayableProbe.MemberWithHpLoss<0){return false;}UnityEngine.Time.timeScale=0f;System.IO.File.WriteAllText(\"output/hd2d-terrain/a3-hurt-state.txt\",$\"member={PlayableProbe.MemberWithHpLoss} ratio={PlayableProbe.HpLossRatio(PlayableProbe.MemberWithHpLoss)} shakes={PlayableProbe.ShakeCount} haptics={PlayableProbe.HapticCount}\");return true;})()",
       "timeout": 30,
       "expect": "PlayableProbe.HpLossRatio(PlayableProbe.MemberWithHpLoss) > 0 && PlayableProbe.ShakeCount >= 1 && PlayableProbe.HapticCount >= 1 && PlayableProbe.HapticCount <= PlayableProbe.ShakeCount + 1",
       "capture": true
+    },
+    {
+      "id": "HURT_RESUME",
+      "name": "짧은 피드백 프레임 관측 뒤 정상 시간 재개",
+      "do": "UnityEngine.Time.timeScale=1f;"
     },
     {
       "id": "MHP",

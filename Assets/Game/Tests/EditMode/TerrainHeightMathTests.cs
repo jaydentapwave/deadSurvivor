@@ -91,7 +91,7 @@ public class TerrainHeightMathTests
     {
         var p = IsoProjection.FloorToWorld(new Vector2(2, 3), 1, Plane(.2f, .1f));
         Assert.AreEqual(.7f, p.y, 1e-6);
-        Assert.AreEqual(IsoProjection.FloorToWorld(new Vector2(2, 3), 1), IsoProjection.FloorToWorld(new Vector2(2, 3), 1, TerrainHeightGrid.Flat));
+        Assert.AreEqual(new Vector3(2, 0, 3), IsoProjection.FloorToWorld(new Vector2(2, 3), 1, TerrainHeightGrid.Flat));
     }
     [Test]
     public void TV2_ClampedSpawnAndRecycleRespectPadAfterClampingCenter()

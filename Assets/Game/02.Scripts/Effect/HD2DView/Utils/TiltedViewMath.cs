@@ -7,6 +7,10 @@ public static class TiltedViewMath
         new(delta.x, delta.y * Mathf.Sqrt(1f - sinTilt * sinTilt) + delta.z * sinTilt);
     public static Vector3 SnapScreenPlane(Vector3 world, float sinTilt, float pixelsPerUnit)
     {
+        if (world.y == 0f)
+        {
+            return SnapToTexels(world, sinTilt, pixelsPerUnit);
+        }
         var screen = WorldToScreenPlane(world, sinTilt);
         return new Vector3(Mathf.Round(screen.x * pixelsPerUnit) / pixelsPerUnit, world.y,
             (Mathf.Round(screen.y * pixelsPerUnit) / pixelsPerUnit - world.y * Mathf.Sqrt(1f - sinTilt * sinTilt)) / sinTilt);

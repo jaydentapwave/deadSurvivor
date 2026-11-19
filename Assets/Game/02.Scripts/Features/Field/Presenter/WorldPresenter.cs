@@ -102,6 +102,9 @@ public class WorldPresenter : IInitializable, ILateTickable
     {
         _rig.Initialize(_viewRules.TiltDegrees, _viewRules.Distance, _viewRules.NearClip, _viewRules.FarClip, _viewRules.TargetFraction, _viewRules.MinScale);
         _fieldView.Initialize(_viewRules.TiltDegrees);
+        // Atlas source pixels, lowest opaque row (including downed bruno), PPU 48.
+        const float footHalfWidth = .625f;
+        Shader.SetGlobalFloat("_HD2DActorDepthBias", TerrainHeightMath.ActorDepthBias(_terrain, footHalfWidth, _viewRules.SinTilt));
         BuildField();
         _fieldView.BuildLandscape(_fieldLayout, _terrain);
         foreach (var placement in _fieldLayout.placements)
@@ -124,7 +127,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     {
         _rig.UpdateScreen(_camera.pixelWidth, _camera.pixelHeight);
         UpdateViewExtent();
-        var center = IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale);
+        var center = IsoProjection.FloorToWorldSnapped(_partyModel.Center, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
         _rig.SetFocus(center);
         var isRunning = _runModel.Phase.CurrentValue == RunPhase.Battle && !_runModel.IsPaused.CurrentValue;
         var lastClock = _motionClock;
@@ -283,7 +286,7 @@ public class WorldPresenter : IInitializable, ILateTickable
             }
 
             var member = memberList[i];
-            var position = IsoProjection.FloorToWorldSnapped(member.Position, _runRules.UnitScale, _viewRules.SinTilt);
+            var position = IsoProjection.FloorToWorldSnapped(member.Position, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
             var delta = member.Position - _lastMemberFloors[i];
             _lastMemberFloors[i] = member.Position;
             view.SetVisible(true);
@@ -408,7 +411,7 @@ public class WorldPresenter : IInitializable, ILateTickable
                 view = _monsterViewFactory.Create(monster, null);
             }
 
-            var position = IsoProjection.FloorToWorldSnapped(monster.Position, _runRules.UnitScale, _viewRules.SinTilt);
+            var position = IsoProjection.FloorToWorldSnapped(monster.Position, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
             // 새로 꺼낸 그림은 이동량 0으로 본다(풀에 있던 자리에서 뛰지 않게)
             var delta = isNew ? Vector2.zero : monster.Position - _lastMonsterFloors[monster.Id];
             _lastMonsterFloors[monster.Id] = monster.Position;

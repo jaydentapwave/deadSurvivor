@@ -25,7 +25,7 @@ public class BurstView : MonoBehaviour
         bodyRenderer.transform.localRotation = Quaternion.identity;
         bodyRenderer.transform.localScale = new Vector3(1, isGround ? 1f / sinTilt : 1f, 1);
         upright.localRotation = isGround ? Quaternion.Euler(90, 0, 0) : _uprightRotation;
-        transform.localPosition = TiltedViewMath.SnapToTexels(worldPosition, sinTilt, Const.PixelsPerUnit);
+        transform.localPosition = TiltedViewMath.SnapScreenPlane(worldPosition, sinTilt, Const.PixelsPerUnit);
         if (isGround)
         {
             var position = transform.localPosition;

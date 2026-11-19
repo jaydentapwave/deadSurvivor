@@ -31,6 +31,10 @@ public static class TerrainHeightMath
 
     public static Vector3 SnapOnTerrain(TerrainHeightGrid grid, float x, float z, float sinTilt, float pixelsPerUnit)
     {
+        if (grid.IsFlat && grid.Height(0, 0) == 0f)
+        {
+            return TiltedViewMath.SnapToTexels(new Vector3(x, 0, z), sinTilt, pixelsPerUnit);
+        }
         x = Mathf.Round(x * pixelsPerUnit) / pixelsPerUnit;
         var cos = Mathf.Sqrt(1f - sinTilt * sinTilt);
         var target = Mathf.Round((Sample(grid, x, z) * cos + z * sinTilt) * pixelsPerUnit) / pixelsPerUnit;

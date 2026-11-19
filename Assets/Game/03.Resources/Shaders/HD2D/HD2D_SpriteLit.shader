@@ -33,6 +33,7 @@ Shader "HD2D/HD2D_SpriteLit"
         float _SpriteRenderer;
         float _ReceiveShadows;
         CBUFFER_END
+        float _HD2DActorDepthBias;
         struct Attributes
         {
             float3 positionOS : POSITION;
@@ -56,6 +57,10 @@ Shader "HD2D/HD2D_SpriteLit"
             float3 p = float3(v.positionOS.xy * lerp(float2(1,1), unity_SpriteProps.xy, _SpriteRenderer), v.positionOS.z);
             o.positionWS = TransformObjectToWorld(p);
             o.positionCS = TransformWorldToHClip(o.positionWS);
+            if (_HD2DActorDepthBias > 0 && _BackgroundCard < .5)
+            {
+                o.positionCS.z += UNITY_MATRIX_P._m22 * _HD2DActorDepthBias;
+            }
             o.screen = ComputeScreenPos(o.positionCS);
             o.uv = v.uv;
             o.color = v.color * lerp(half4(1,1,1,1), unity_SpriteColor, _SpriteRenderer) * _BaseColor;

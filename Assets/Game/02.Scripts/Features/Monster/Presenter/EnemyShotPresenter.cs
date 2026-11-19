@@ -7,6 +7,7 @@ public class EnemyShotPresenter : ITickable
     private readonly MonsterModel _monsterModel;
     private readonly RunRulesData _runRules;
     private readonly ViewRulesData _viewRules;
+    private readonly TerrainHeightGrid _terrain;
     private readonly EnemyShotViewFactory _enemyShotViewFactory;
     private readonly EnemyShotViewRegistry _enemyShotViewRegistry;
 
@@ -14,11 +15,12 @@ public class EnemyShotPresenter : ITickable
     private readonly List<int> _releaseIdList = new();
 
     public EnemyShotPresenter(MonsterModel monsterModel, RunRulesData runRules, EnemyShotViewFactory enemyShotViewFactory,
-        EnemyShotViewRegistry enemyShotViewRegistry, ViewRulesData viewRules)
+        EnemyShotViewRegistry enemyShotViewRegistry, ViewRulesData viewRules, TerrainHeightGrid terrain)
     {
         _monsterModel = monsterModel;
         _runRules = runRules;
         _viewRules = viewRules;
+        _terrain = terrain;
         _enemyShotViewFactory = enemyShotViewFactory;
         _enemyShotViewRegistry = enemyShotViewRegistry;
     }
@@ -39,7 +41,7 @@ public class EnemyShotPresenter : ITickable
                 view = _enemyShotViewFactory.Create(shot);
             }
 
-            view.UpdateView(IsoProjection.FloorToWorldSnapped(shot.Position, _runRules.UnitScale, _viewRules.SinTilt), shot.Travel / shot.Speed);
+            view.UpdateView(IsoProjection.FloorToWorldSnapped(shot.Position, _runRules.UnitScale, _viewRules.SinTilt, _terrain), shot.Travel / shot.Speed);
         }
 
         _releaseIdList.Clear();

@@ -88,8 +88,9 @@ public class DamageNumberMotionTests
         }
     }
 
-    [Test]
-    public void N1NonzeroDepthSurvivesRiseAndPoolReuse()
+    [TestCase(false)]
+    [TestCase(true)]
+    public void N1N2NonzeroDepthAndTerrainSurviveRiseAndPoolReuse(bool hasTerrain)
     {
         var context = new TestRunContext();
         var resources = context.ResourceService;
@@ -102,8 +103,17 @@ public class DamageNumberMotionTests
         var factory = new DamageNumberViewFactory(pool, placeholder, atlas, rules, registry,
             resources.Load<DamageNumberView>("Prefab/DamageNumberView"), parent.transform);
         var monsters = new MonsterViewFactory(pool, resources, new MonsterViewRegistry(), placeholder, atlas, context.RunRules, new EffectSpriteCache());
+        var heights = new int[73 * 73];
+        for (var j = 0; j < 73; j++)
+        {
+            for (var i = 0; i < 73; i++)
+            {
+                heights[j * 73 + i] = i >= 36 ? 250 : -100;
+            }
+        }
+        var terrain = hasTerrain ? TerrainHeightGrid.FromMillimetres(1, -36, -36, 73, 73, heights) : TerrainHeightGrid.Flat;
         using var presenter = new DamageNumberPresenter(context.RunModel, context.CombatFeedbackModel, rules,
-            context.RunRules, factory, registry, monsters, context.ViewRules);
+            context.RunRules, factory, registry, monsters, context.ViewRules, terrain);
         context.RunModel.SetPhase(RunPhase.Battle);
         context.RunModel.SetPaused(true);
         DamageNumberView previous = null;
@@ -115,8 +125,12 @@ public class DamageNumberMotionTests
                 context.CombatFeedbackModel.AddMonsterHit(1,12,floor,monster);
                 presenter.LateTick();
                 var entry = registry.EntryList[0];
-                var anchor = IsoProjection.FloorToWorldSnapped(floor,context.RunRules.UnitScale,context.ViewRules.SinTilt);
+                var anchor = IsoProjection.FloorToWorldSnapped(floor,context.RunRules.UnitScale,context.ViewRules.SinTilt, terrain);
                 Assert.That(Vector3.Distance(anchor,entry.AnchorPosition),Is.LessThan(1e-5));
+                if (hasTerrain)
+                {
+                    Assert.AreEqual(floor.x > 0 ? .25f : -.1f, anchor.y, .000001f);
+                }
                 entry.Age = .3f;
                 presenter.LateTick();
                 var h = monsters.GetHeadHeight(monster)+rules.Rules.DamageNumber.OffsetPx/Const.PixelsPerUnit

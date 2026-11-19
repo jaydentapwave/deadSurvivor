@@ -24,4 +24,26 @@ public class TiltedCameraRigTests
         var diff=camera.position+camera.forward*rig.Distance-camera.right*rig.ShakeOffset.x-camera.up*rig.ShakeOffset.y-expected;
         return new Vector2(Vector3.Dot(diff,camera.right),Vector3.Dot(diff,camera.up)).magnitude;
     }
+    [Test]
+    public void TS3_TerrainFocusRemainsOnTheSnappedScreenPlane()
+    {
+        var go = new GameObject("Terrain camera", typeof(Camera), typeof(TiltedCameraRig));
+        try
+        {
+            var rig = go.GetComponent<TiltedCameraRig>();
+            rig.Initialize(30, 50, .1f, 100, .1f, 1);
+            var grid = TerrainHeightMathTests.Plane(0, .2f);
+            var foot = TerrainHeightMath.SnapOnTerrain(grid, 0, .02f, .5f, 48);
+            rig.SetFocus(foot);
+            var restored = go.transform.position + go.transform.forward * rig.Distance;
+            Assert.AreEqual(.03094649f, restored.z, .000004f);
+            Assert.Less(Vector3.Distance(restored, foot), .000005f);
+            var unsnapped = IsoProjection.FloorToWorld(new Vector2(0, .02f), 1, grid);
+            Assert.LessOrEqual(TiltedViewMath.WorldToScreenPlane(restored - unsnapped, .5f).magnitude, .0147f);
+        }
+        finally
+        {
+            Object.DestroyImmediate(go);
+        }
+    }
 }

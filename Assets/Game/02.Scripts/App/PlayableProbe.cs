@@ -193,7 +193,7 @@ public static class PlayableProbe
     {
         get
         {
-            var expected = IsoProjection.FloorToWorld(Resolve<PartyModel>().Center, Resolve<RunRulesData>().UnitScale);
+            var expected = IsoProjection.FloorToWorld(Resolve<PartyModel>().Center, Resolve<RunRulesData>().UnitScale, Resolve<TerrainHeightGrid>());
             var camera = Resolve<Camera>().transform;
             var rig = Resolve<TiltedCameraRig>();
             var restored = camera.position + camera.forward * rig.Distance - camera.right * rig.ShakeOffset.x - camera.up * rig.ShakeOffset.y;
@@ -792,7 +792,7 @@ public static class PlayableProbe
         var rules = Resolve<RunRulesData>();
         foreach (var member in Resolve<PartyModel>().MemberList)
         {
-            var foot = IsoProjection.FloorToWorld(member.Position, rules.UnitScale);
+            var foot = IsoProjection.FloorToWorld(member.Position, rules.UnitScale, Resolve<TerrainHeightGrid>());
             var camera = Resolve<Camera>();
             var center = camera.WorldToViewportPoint(renderer.bounds.center);
             foot = camera.WorldToViewportPoint(foot);

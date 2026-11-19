@@ -41,7 +41,7 @@ public sealed class TiltedCameraRig : MonoBehaviour
     public void SetShakeOffset(Vector2 offset) { ShakeOffset = offset; Apply(); }
     private void Apply()
     {
-        transform.position = TiltedViewMath.SnapToTexels(_focus, _sinTilt, 48) - transform.forward * Distance
+        transform.position = TiltedViewMath.SnapScreenPlane(_focus, _sinTilt, 48) - transform.forward * Distance
             + transform.right * ShakeOffset.x + transform.up * ShakeOffset.y;
     }
 }
