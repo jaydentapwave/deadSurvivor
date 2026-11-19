@@ -111,7 +111,7 @@ public class FieldView : MonoBehaviour
             {
                 if (!_terrainQueueStateDict.ContainsKey(material))
                 {
-                    _terrainQueueStateDict.Add(material, material.renderQueue);
+                    _terrainQueueStateDict.Add(material, material.rawRenderQueue);
                 }
                 material.renderQueue = 1990;
             }

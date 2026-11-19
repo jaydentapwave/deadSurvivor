@@ -139,6 +139,38 @@ public class FieldViewBuildTests
             Object.DestroyImmediate(root);
         }
     }
+    [TestCase(-1)]
+    [TestCase(2017)]
+    public void TerrainQueueRestoresInheritedOrExplicitRawState(int rawQueue)
+    {
+        EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        var field = Object.FindFirstObjectByType<FieldView>();
+        var shader = Shader.Find("HD2D/HD2D_FieldSurface");
+        var material = new Material(shader) { renderQueue = rawQueue };
+        var so = new SerializedObject(field);
+        foreach (var name in new[] { "groundMaterial","waterMaterial","bankMaterial","bridgeMaterial" })
+        {
+            so.FindProperty(name).objectReferenceValue = material;
+        }
+        so.ApplyModifiedPropertiesWithoutUndo();
+        try
+        {
+            var layout = JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_layout.json"));
+            field.Initialize(30);
+            field.BuildLandscape(layout,TerrainHeightMathTests.Plane(.02f,0));
+            Assert.AreEqual(1990,material.rawRenderQueue);
+            Object.DestroyImmediate(field.gameObject);
+            Assert.AreEqual(rawQueue,material.rawRenderQueue);
+            Assert.AreEqual(rawQueue == -1 ? shader.renderQueue : rawQueue,material.renderQueue);
+            Assert.IsFalse(material.IsKeywordEnabled("_TERRAIN_HEIGHT"));
+        }
+        finally
+        {
+            Object.DestroyImmediate(material);
+            EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        }
+    }
+
     [Test]
     public void DT8_LoadingBoundaryLogsAndRethrowsInvalidHeight()
     {

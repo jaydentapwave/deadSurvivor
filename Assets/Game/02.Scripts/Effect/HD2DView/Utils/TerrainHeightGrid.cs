@@ -81,17 +81,48 @@ public sealed class TerrainHeightGrid
     {
         var min = float.PositiveInfinity;
         var max = float.NegativeInfinity;
-        for (var j = 0; j < Depth; j++)
+        for (var j = 0; j < Depth - 1; j++)
         {
-            for (var i = 0; i < Width; i++)
+            for (var i = 0; i < Width - 1; i++)
             {
-                if (Mathf.Abs(OriginX + i * Cell) + Mathf.Abs(OriginZ + j * Cell) <= halfDiagonal)
-                {
-                    min = Mathf.Min(min, Height(i, j));
-                    max = Mathf.Max(max, Height(i, j));
-                }
+                var a = new Vector3(OriginX + i * Cell, Height(i, j), OriginZ + j * Cell);
+                var b = new Vector3(a.x + Cell, Height(i + 1, j), a.z);
+                var c = new Vector3(a.x + Cell, Height(i + 1, j + 1), a.z + Cell);
+                var d = new Vector3(a.x, Height(i, j + 1), a.z + Cell);
+                Include(a, b, c);
+                Include(a, c, d);
             }
         }
         return max >= min ? max - min : 0f;
+
+        void Include(Vector3 a, Vector3 b, Vector3 c)
+        {
+            var polygon = new List<Vector3> { a, b, c };
+            foreach (var normal in new[] { new Vector2(1, 1), new Vector2(-1, 1), new Vector2(-1, -1), new Vector2(1, -1) })
+            {
+                var clipped = new List<Vector3>();
+                for (var k = 0; k < polygon.Count; k++)
+                {
+                    var from = polygon[k];
+                    var to = polygon[(k + 1) % polygon.Count];
+                    var fromDistance = normal.x * from.x + normal.y * from.z - halfDiagonal;
+                    var toDistance = normal.x * to.x + normal.y * to.z - halfDiagonal;
+                    if (fromDistance <= 0f)
+                    {
+                        clipped.Add(from);
+                    }
+                    if ((fromDistance <= 0f) != (toDistance <= 0f))
+                    {
+                        clipped.Add(Vector3.LerpUnclamped(from, to, fromDistance / (fromDistance - toDistance)));
+                    }
+                }
+                polygon = clipped;
+            }
+            foreach (var point in polygon)
+            {
+                min = Mathf.Min(min, point.y);
+                max = Mathf.Max(max, point.y);
+            }
+        }
     }
 }

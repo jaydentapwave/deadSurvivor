@@ -34,6 +34,48 @@ public class TerrainHeightMathTests
     }
 
     [Test]
+    public void TH1TH3_ArbitraryThreeByThreeCornersAndBothCellBoundaries()
+    {
+        var grid = TerrainHeightGrid.FromMillimetres(1, -1, -1, 3, 3,
+            new[] { 12, 31, 7, 43, -9, 26, 19, 37, -14 });
+        for (var j = 0; j < 3; j++)
+        {
+            for (var i = 0; i < 3; i++)
+            {
+                Assert.AreEqual(grid.Height(i,j), TerrainHeightMath.Sample(grid, i-1,j-1), 1e-6);
+            }
+        }
+        foreach (var t in new[] { -.9f, -.3f, .2f, .8f })
+        {
+            Assert.Less(Mathf.Abs(TerrainHeightMath.Sample(grid,-1e-5f,t)-TerrainHeightMath.Sample(grid,1e-5f,t)), 1e-5);
+            Assert.Less(Mathf.Abs(TerrainHeightMath.Sample(grid,t,-1e-5f)-TerrainHeightMath.Sample(grid,t,1e-5f)), 1e-5);
+        }
+    }
+
+    [Test]
+    public void TS2_ActualTerrainFullCoordinateRangeKeepsOriginalTexelAndGroundTolerance()
+    {
+        var data = JsonUtility.FromJson<FieldHeightData>(System.IO.File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_height.json"));
+        var grid = TerrainHeightGrid.FromMillimetres(data.cell,data.originX,data.originZ,data.width,data.depth,data.heightsMm);
+        Check(2.1666667f,-24.757904f);
+        for (var j = 0; j <= 144; j++)
+        {
+            for (var i = 0; i <= 144; i++) { Check(-36 + i*.5f + .013f,-36+j*.5f+.017f); }
+        }
+        var random = new System.Random(180004);
+        for (var i = 0; i < 10000; i++) { Check((float)(random.NextDouble()*72-36),(float)(random.NextDouble()*72-36)); }
+        void Check(float x,float z)
+        {
+            var p = TerrainHeightMath.SnapOnTerrain(grid,x,z,.5f,48);
+            var screen = TiltedViewMath.WorldToScreenPlane(p,.5f)*48;
+            Assert.AreEqual(Mathf.Round(screen.x),screen.x,1e-5, $"x grid {x},{z}");
+            Assert.AreEqual(Mathf.Round(screen.y),screen.y,1e-5, $"y grid {x},{z}");
+            Assert.AreEqual(TerrainHeightMath.Sample(grid,p.x,p.z),p.y,1e-6,$"ground {x},{z}");
+            Assert.AreEqual(p,TiltedViewMath.SnapScreenPlane(p,.5f,48),$"identity {x},{z}");
+        }
+    }
+
+    [Test]
     public void TH5TH7TP1TP2_NormalMinimumAndPlaneProjection()
     {
         var grid = Plane(.2f, 0);

@@ -690,6 +690,9 @@ public static class PlayableProbe
     }
 
     public static bool IsTerrainWalkCaptured => UnityEngine.Object.FindAnyObjectByType<PlayableTerrainWalkSampler>()?.IsCaptured == true;
+    public static bool TerrainWalkCrossedPeak => UnityEngine.Object.FindAnyObjectByType<PlayableTerrainWalkSampler>()?.CrossedPeak == true;
+    public static float TerrainWalkMaxFootError => UnityEngine.Object.FindAnyObjectByType<PlayableTerrainWalkSampler>().MaximumFootError;
+    public static float TerrainWalkMaxCameraError => UnityEngine.Object.FindAnyObjectByType<PlayableTerrainWalkSampler>().MaximumCameraError;
     public static void CaptureTerrainWalk(string directory)
     {
         var sampler = new GameObject("Terrain eight-frame walk evidence").AddComponent<PlayableTerrainWalkSampler>();
@@ -1613,42 +1616,75 @@ public class PlayableBattleFxSampler : MonoBehaviour
         }
     }
 }
-#endif
 
-// Eight consecutive simulation-frame captures; uses the normal movement input/service.
+// Eight ordered samples during continuous normal-service movement across the hill fixture.
 public class PlayableTerrainWalkSampler : MonoBehaviour
 {
     public bool IsCaptured { get; private set; }
+    public bool CrossedPeak { get; private set; }
+    public float MaximumFootError { get; private set; }
+    public float MaximumCameraError { get; private set; }
     private float _oldCaptureDelta;
+    private PartyMoveService _moveService;
+    private Vector2 _oldExtent;
+    private bool _isArmed;
     public void Arm(string directory)
     {
         _oldCaptureDelta = Time.captureDeltaTime;
+        _moveService = PlayableProbe.Resolve<PartyMoveService>();
+        _oldExtent = PlayableProbe.Resolve<MonsterModel>().ViewHalfExtent;
+        // This is a hill-crossing fixture outside the normal camera-centre limit.
+        // Widen only this fixture's movement limit, then restore it; no pad/data change.
+        _moveService.SetViewHalfExtent(Vector2.zero);
+        _isArmed = true;
         Time.captureDeltaTime = 1f / 30f;
         Time.timeScale = 1f;
-        PlayableProbe.SetMove(0, -1);
+        PlayableProbe.SetMove(1, 0);
         StartCoroutine(Capture(directory));
     }
     private System.Collections.IEnumerator Capture(string directory)
     {
         System.IO.Directory.CreateDirectory(directory);
-        var log = new System.Text.StringBuilder("frame,partyX,partyZ,height,footError,cameraError\n");
+        var log = new System.Text.StringBuilder("sample,simulationSeconds,partyX,partyZ,height,footError,cameraError\n");
+        var heights = new float[8];
+        var frame = 0;
         for (var i = 0; i < 8; i++)
         {
-            yield return new WaitForEndOfFrame();
+            // 36 consecutive 30Hz simulation frames between samples (1.2s). Nothing
+            // teleports between them: PartyMoveService consumes the regular input.
+            var frames = i == 0 ? 1 : 36;
+            for (var step = 0; step < frames; step++)
+            {
+                yield return new WaitForEndOfFrame();
+                frame++;
+                MaximumFootError = Mathf.Max(MaximumFootError,PlayableProbe.TerrainFootError);
+                MaximumCameraError = Mathf.Max(MaximumCameraError,PlayableProbe.CameraError);
+            }
             var texture = ScreenCapture.CaptureScreenshotAsTexture();
             System.IO.File.WriteAllBytes(System.IO.Path.Combine(directory, $"walk-{i + 1:00}.png"), texture.EncodeToPNG());
             Destroy(texture);
-            var p = PlayableProbe.Resolve<PartyModel>().Center * PlayableProbe.Resolve<RunRulesData>().UnitScale;
-            log.AppendLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},{1},{2},{3},{4},{5}", i + 1, p.x, p.y,
-                PlayableProbe.PartyGroundHeight, PlayableProbe.TerrainFootError, PlayableProbe.CameraError));
+            var position = PlayableProbe.Resolve<PartyModel>().Center * PlayableProbe.Resolve<RunRulesData>().UnitScale;
+            heights[i] = PlayableProbe.PartyGroundHeight;
+            log.AppendLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},{1},{2},{3},{4},{5},{6}", i + 1, frame / 30f, position.x, position.y,
+                heights[i], PlayableProbe.TerrainFootError, PlayableProbe.CameraError));
         }
+        var peak = 0;
+        for (var i = 1; i < heights.Length; i++) { if (heights[i] > heights[peak]) { peak = i; } }
+        CrossedPeak = peak > 0 && peak < 7 && heights[peak] - heights[0] > .05f && heights[peak] - heights[7] > .05f;
         System.IO.File.WriteAllText(System.IO.Path.Combine(directory, "walk.csv"), log.ToString());
         PlayableProbe.SetMove(0, 0);
-        Time.captureDeltaTime = _oldCaptureDelta;
+        Restore();
         Time.timeScale = 0f;
         IsCaptured = true;
     }
-    private void OnDestroy() { Time.captureDeltaTime = _oldCaptureDelta; }
+    private void Restore()
+    {
+        if (!_isArmed) { return; }
+        Time.captureDeltaTime = _oldCaptureDelta;
+        _moveService.SetViewHalfExtent(_oldExtent);
+        _isArmed = false;
+    }
+    private void OnDestroy() => Restore();
 }
 
 // CLI latency must not turn four 7.5-second intervals into a longer observation.
@@ -1679,3 +1715,5 @@ public class PlayableTerrainSpawnSampler : MonoBehaviour
     }
     private void OnDestroy() { Time.captureDeltaTime = _oldCaptureDelta; }
 }
+
+#endif

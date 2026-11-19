@@ -32,7 +32,10 @@ def vertex_curvature(h, cell=1):
     maximum = 0.
     for i, a in enumerate(incident):
         for b in incident[i+1:]:
-            maximum = max(maximum, float(np.nanmax(np.linalg.norm(a-b, axis=-1))))
+            distance = np.linalg.norm(a-b, axis=-1)
+            finite = distance[np.isfinite(distance)]
+            if finite.size:
+                maximum = max(maximum, float(finite.max()))
     return maximum
 
 
@@ -41,13 +44,41 @@ def coordinates(data):
                        data['originZ'] + np.arange(data['depth']) * data['cell'])
 
 
+def clipped_relief(data, half_diagonal=32):
+    """Extrema of triangles clipped to the diamond, including edge crossings."""
+    h = np.asarray(data['heightsMm']).reshape(data['depth'], data['width']) / 1000.
+    x, z = coordinates(data)
+    vertices = np.stack((x, h, z), -1)
+    triangles = np.concatenate((np.stack((vertices[:-1,:-1], vertices[:-1,1:], vertices[1:,1:]), -2).reshape(-1,3,3),
+                                np.stack((vertices[:-1,:-1], vertices[1:,1:], vertices[1:,:-1]), -2).reshape(-1,3,3)))
+    values = h[np.abs(x) + np.abs(z) <= half_diagonal].tolist()
+    normals = [(1,1), (-1,1), (-1,-1), (1,-1)]
+    inside = np.abs(triangles[:,:,0]) + np.abs(triangles[:,:,2]) <= half_diagonal
+    candidates = ~inside.all(axis=1)
+    for nx, nz in normals:
+        candidates &= ~(nx * triangles[:,:,0] + nz * triangles[:,:,2] > half_diagonal).all(axis=1)
+    for triangle in triangles[candidates]:
+        polygon = list(triangle)
+        for nx, nz in normals:
+            clipped = []
+            for k, a in enumerate(polygon):
+                b = polygon[(k+1) % len(polygon)]
+                da, db = nx*a[0] + nz*a[2] - half_diagonal, nx*b[0] + nz*b[2] - half_diagonal
+                if da <= 0:
+                    clipped.append(a)
+                if (da <= 0) != (db <= 0):
+                    clipped.append(a + (b-a) * (da / (da-db)))
+            polygon = clipped
+        values.extend(p[1] for p in polygon)
+    return float(max(values)-min(values)) if values else 0.
+
+
 def metrics(data, hill_count=0):
     h = np.asarray(data['heightsMm']).reshape(data['depth'], data['width']) / 1000.
     x, z = coordinates(data)
     lo, up = gradients(h, data['cell'])
-    walk = h[np.abs(x) + np.abs(z) <= 32]
     return dict(maxSlope=float(max(np.linalg.norm(lo, axis=-1).max(), np.linalg.norm(up, axis=-1).max())),
-                maxVertexCurvature=vertex_curvature(h, data['cell']), relief=float(np.ptp(walk)),
+                maxVertexCurvature=vertex_curvature(h, data['cell']), relief=clipped_relief(data),
                 startWindowAbsHeight=float(np.abs(h[(np.abs(x)<=10) & (np.abs(z)<=11.25)]).max()), hillCount=hill_count)
 
 

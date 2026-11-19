@@ -3,6 +3,8 @@ using UnityEngine;
 
 public static class TerrainHeightMath
 {
+    public const float ScreenGridToleranceTexels = 1e-5f;
+    public const float GroundToleranceMetres = 1e-6f;
     public static bool ShadowFragmentSurvives(float silhouetteAlpha, float distanceFromContact, float contactRadius, float bankMask, bool isContactOnBank)
     {
         return silhouetteAlpha >= .5f && (contactRadius <= 0 || distanceFromContact <= contactRadius)
@@ -50,17 +52,42 @@ public static class TerrainHeightMath
             var error = height * cos + z * sinTilt - target;
             if (Mathf.Abs(error) <= .0000001f)
             {
-                return new Vector3(x, height, z);
+                return AlignFloatPoint(new Vector3(x, height, z));
             }
             var normal = Normal(grid, x, z);
             z -= error / (sinTilt - normal.z / normal.y * cos);
         }
-        var result = new Vector3(x, Sample(grid, x, z), z);
-        if (Mathf.Abs(result.y * cos + result.z * sinTilt - target) > .00001f)
+        return AlignFloatPoint(new Vector3(x, Sample(grid, x, z), z));
+
+        Vector3 AlignFloatPoint(Vector3 point)
         {
-            throw new InvalidOperationException("[TerrainHeightMath] Terrain snap did not converge within four triangles.");
+            if (Aligned(point)) { return point; }
+            // At far coordinates one float ULP can exceed 1e-5 texels. Search adjacent
+            // representable z values, then compensate only within the existing 1e-6m
+            // grounding allowance. Both public tolerances remain unchanged.
+            for (var offset = -3; offset <= 3; offset++)
+            {
+                var bits = BitConverter.SingleToInt32Bits(point.z);
+                var candidateZ = BitConverter.Int32BitsToSingle(bits + offset);
+                var height = Sample(grid, x, candidateZ);
+                for (var adjustment = 0; adjustment <= 8; adjustment++)
+                {
+                    var delta = adjustment == 0 ? 0 : ((adjustment + 1) / 2) * .00000025f * (adjustment % 2 == 1 ? 1 : -1);
+                    var candidate = new Vector3(x, height + delta, candidateZ);
+                    if (Mathf.Abs(candidate.y - height) <= GroundToleranceMetres && Aligned(candidate))
+                    {
+                        return candidate;
+                    }
+                }
+            }
+            throw new InvalidOperationException("[TerrainHeightMath] Terrain snap exceeds screen/ground tolerances after four triangles.");
         }
-        return result;
+        bool Aligned(Vector3 point)
+        {
+            var screen = TiltedViewMath.WorldToScreenPlane(point, sinTilt) * pixelsPerUnit;
+            return Mathf.Abs(screen.x - Mathf.Round(screen.x)) <= ScreenGridToleranceTexels &&
+                Mathf.Abs(screen.y - Mathf.Round(screen.y)) <= ScreenGridToleranceTexels;
+        }
     }
 
     public static Vector3 ProjectOntoPlane(Vector3 point, Vector3 direction, Vector3 planePoint, Vector3 planeNormal) =>

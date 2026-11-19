@@ -24,6 +24,12 @@ public static class TiltedViewMath
             return SnapToTexels(world, sinTilt, pixelsPerUnit);
         }
         var screen = WorldToScreenPlane(world, sinTilt);
+        var texels = screen * pixelsPerUnit;
+        if (Mathf.Abs(texels.x - Mathf.Round(texels.x)) <= TerrainHeightMath.ScreenGridToleranceTexels &&
+            Mathf.Abs(texels.y - Mathf.Round(texels.y)) <= TerrainHeightMath.ScreenGridToleranceTexels)
+        {
+            return world;
+        }
         return new Vector3(Mathf.Round(screen.x * pixelsPerUnit) / pixelsPerUnit, world.y,
             (Mathf.Round(screen.y * pixelsPerUnit) / pixelsPerUnit - world.y * Mathf.Sqrt(1f - sinTilt * sinTilt)) / sinTilt);
     }

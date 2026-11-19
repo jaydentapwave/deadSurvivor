@@ -222,6 +222,13 @@ def main():
     rounded=altered(h)
     case('terrain counterexample rounding rechecked', any('maxVertexCurvature' in v for v in T.check(active,rounded)))
 
+    plane = dict(cell=1., originX=-33., originZ=-33., width=67, depth=67,
+                 heightsMm=np.tile(np.arange(-33,34) * 10, (67,1)).ravel().tolist())
+    case('terrain clipped boundary relief .50 to .51', abs(T.clipped_relief(plane,25.5)-.51) < 1e-9)
+    enclosing = dict(cell=20., originX=-10., originZ=-10., width=2, depth=2, heightsMm=[-100,100,-100,100])
+    case('terrain diamond wholly inside cell', abs(T.clipped_relief(enclosing,.5)-.01) < 1e-9)
+    case('terrain minimum grid curvature finite', T.vertex_curvature(np.zeros((2,2))) == 0.)
+
     bad = [r for r in results if not r[1]]
     print('\n%d/%d PASS' % (len(results) - len(bad), len(results)))
     return 1 if bad else 0

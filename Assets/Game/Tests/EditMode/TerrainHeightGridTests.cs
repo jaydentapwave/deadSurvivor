@@ -27,4 +27,21 @@ public class TerrainHeightGridTests
         var ridge = TerrainHeightGrid.FromMillimetres(1, -1, 0, 3, 2, new[] { 50, 0, 50, 50, 0, 50 });
         Assert.AreEqual(.1f, ridge.MaxVertexCurvature, 1e-6);
     }
+    [Test]
+    public void TD4_ReliefIncludesClippedTriangleBoundaryExtrema()
+    {
+        var mm = new int[53 * 53];
+        for (var j = 0; j < 53; j++)
+        {
+            for (var i = 0; i < 53; i++) { mm[j * 53 + i] = (i - 26) * 10; }
+        }
+        var grid = TerrainHeightGrid.FromMillimetres(1, -26, -26, 53, 53, mm);
+        Assert.LessOrEqual(grid.MaxSlope, .2f);
+        Assert.LessOrEqual(grid.MaxVertexCurvature, .08f);
+        Assert.AreEqual(.51f, grid.ReliefWithin(25.5f), 1e-6);
+        var enclosing = TerrainHeightGrid.FromMillimetres(20, -10, -10, 2, 2, new[] { -100, 100, -100, 100 });
+        Assert.AreEqual(.01f, enclosing.ReliefWithin(.5f), 1e-6);
+        Assert.AreEqual(0, enclosing.ReliefWithin(0), 1e-6);
+    }
+
 }

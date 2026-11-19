@@ -71,6 +71,30 @@ public class GroundDecalMathTests
     }
 
     [Test]
+    public void TC4_RandomBoundedGridsKeepFiveHundredFootprintFragments()
+    {
+        var random = new System.Random(180004);
+        for (var i = 0; i < 500; i++)
+        {
+            var mm = new int[25];
+            for (var j = 0; j < 25; j++) { mm[j] = random.Next(-8,9); }
+            var grid = TerrainHeightGrid.FromMillimetres(1,-2,-2,5,5,mm);
+            Assert.LessOrEqual(grid.MaxSlope,.2f);
+            Assert.LessOrEqual(grid.MaxVertexCurvature,.08f);
+            var contact = new Vector3((float)random.NextDouble()-.5f,0,(float)random.NextDouble()-.5f);
+            var normal = TerrainHeightMath.Normal(grid,contact.x,contact.z);
+            contact.y = TerrainHeightMath.Sample(grid,contact.x,contact.z);
+            var angle = (float)random.NextDouble()*Mathf.PI*2;
+            var radius = Mathf.Sqrt((float)random.NextDouble())*.5f;
+            var x = Mathf.Cos(angle)*radius;
+            var z = Mathf.Sin(angle)*radius;
+            var point = contact + new Vector3(x, -(normal.x*x+normal.z*z)/normal.y+.002f,z);
+            Assert.IsTrue(TerrainHeightMath.ShadowFragmentSurvives(1,radius,0,0,false));
+            Assert.LessOrEqual(TerrainHeightMath.RayGroundDepthGap(grid,point,Mathf.PI/6),.122f);
+        }
+    }
+
+    [Test]
     public void TC5_GroundEffectPairsPreserveOriginalShadeAndAlphaClip()
     {
         foreach (var key in new[] { "Boom", "Heal", "Pulse", "Warn" })
@@ -95,6 +119,18 @@ public class GroundDecalMathTests
                     Assert.AreEqual(alpha >= .5f, shownA);
                     Assert.AreEqual(shownA, shownB);
                     Assert.AreEqual(a, b);
+                    // Frag multiplies sampled texture by vertex colour before clip.
+                    foreach (var vertexAlpha in new[] { .49f/.8f, .5f/.8f, .51f/.8f })
+                    {
+                        var texture = color.linear; texture.a = .8f;
+                        var vertex = new Color(.7f,.9f,1f,vertexAlpha);
+                        var multiplied = texture * vertex;
+                        var originalOutput = EffectGlowMath.Shade(multiplied,original.GetFloat("_CoreIntensity"),original.GetFloat("_BodyIntensity"),out var visibleOriginal);
+                        var pairOutput = EffectGlowMath.Shade(multiplied,pair.GetFloat("_CoreIntensity"),pair.GetFloat("_BodyIntensity"),out var visiblePair);
+                        Assert.AreEqual(multiplied.a >= .5f,visibleOriginal);
+                        Assert.AreEqual(visibleOriginal,visiblePair);
+                        Assert.AreEqual(originalOutput,pairOutput);
+                    }
                 }
             }
         }
