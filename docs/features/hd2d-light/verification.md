@@ -53,3 +53,7 @@ L0: 촬영 fixture 보완 후 4/12단계(UNIT까지) PASS, 28.5초, wave6/frame6
 ### L1 (2026-11-19 05:56 UTC 전후)
 
 그림자 배경배율 .44/.43/.39→.52/.45/.36, 곱셈 그림자 .44/.43/.39→.62/.53/.40(선형). 해·환경광·거리·그림자 정책은 이미 기준과 같아 유지. 컴파일 up-to-date/failed=false; 해당 흐름UNIT4/12 PASS, frame60 일치. main.png·sun-off.png 직접 열어 대원/나무 그림자가 발·밑동에 붙고 갈색이 됨을 확인. 길이1.155508(1~1.5)·색 H41.538/V.298(추정15~50/>.10) PASS. C3 ΔE6.811 그대로. 검정으로 눌리던 배경그림자가 덜 진해짐. 근거 `output/hd2d-light/L1-measure/measure.json`, L1/frame.json·shadow.json. 3.12 값을 같은 커밋에 고침. 놓친 것: 없음. 전체Play/전체시험/성능 NOT_RUN(이 단위 대상 밖).
+
+### L1b
+
+높이 격자 mesh에서 재계산된 normal의XZ만4배, dot.47/.59에서 .90/1/1.07의3단. 셰이더 `_TERRAIN_HEIGHT` 안 ground에만 적용. 정점·높이 데이터·이동·판정·OFF 경로 그대로. 컴파일 오류0, 지형 지정흐름7/7 PASS(26.8초). 직접 연 것 k21/T2.png·T7.png·Main1-hill.png: 넓고 경계가 있는 밝고 어두운 띠, 세부 풀 결 유지. T2 시각 fixture는 정상 이동 한계 밖, 새 정상 도달 주장 없음. C3는 k21/measure/measure.json; G20/K21의 독립 눈가림은 NOT_RUN(디렉터 몫), 이것을 PASS로 바꾸지 않음. 높이·field_layout 파일 해시 변경 없음.

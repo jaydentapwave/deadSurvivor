@@ -19,6 +19,7 @@ Shader "HD2D/HD2D_FieldSurface"
         _Cull("Cull mode",Float)=2
         _AlphaClip("UV alpha cutout",Float)=0
         _Diagnostic("Lighting factor only",Float)=0
+        _TerrainLightSlope("View-only slope light exaggeration",Float)=4
     }
     SubShader
     {
@@ -40,6 +41,7 @@ Shader "HD2D/HD2D_FieldSurface"
         float4 _FieldRect; float _FlatDepth; float _Dither;
         float _Category;
         float _Diagnostic; float _AlphaClip; int _OcclusionRectCount;
+        float _TerrainLightSlope;
         float4 _OcclusionRects[64];
         CBUFFER_END
         #if defined(_TERRAIN_HEIGHT)
@@ -119,6 +121,16 @@ Shader "HD2D/HD2D_FieldSurface"
         #endif
             if (_Diagnostic>.5) { output.color=half4(SRGBToLinear(band.xxx),1); return output; }
             half3 c=grass;
+        #if defined(_TERRAIN_HEIGHT)
+            // Normals originate in the height-grid mesh. Exaggerate only lighting;
+            // positions, support heights and the keyword-OFF path stay unchanged.
+            if (_Category < .5)
+            {
+                float3 slopeNormal=normalize(float3(i.n.x*_TerrainLightSlope,i.n.y,i.n.z*_TerrainLightSlope));
+                float slopeLight=dot(slopeNormal,sun.direction);
+                c*=slopeLight<.47 ? .90 : slopeLight<.59 ? 1 : 1.07;
+            }
+        #endif
             if (_Category>.5 && _Category<1.5)
             {
                 float rank=d<.12 ? 0 : d<.45 ? 1 : 2;
