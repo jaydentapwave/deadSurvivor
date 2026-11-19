@@ -61,12 +61,9 @@ def main():
     levels=levels[:h,:w]
     levels=np.repeat(np.repeat(levels[::2,::2],2,axis=0),2,axis=1)
     levels=np.median(np.stack([levels,np.roll(levels,1,0),np.roll(levels,-1,0),np.roll(levels,1,1),np.roll(levels,-1,1)]),axis=0).astype(np.uint8)
-    # Broad nonperiodic, low-contrast light variation, bounded by 7/255 < .03.
-    coarse=rng.integers(0,256,(9,17),dtype=np.uint8)
-    sunlight=np.asarray(Image.fromarray(coarse).resize((w,h),Image.Resampling.BILINEAR)).astype(float)
-    delta=np.clip(np.round((sunlight-128)/48)*3,-7,7)
-    yy,xx=np.mgrid[:h,:w]
-    ground=np.clip(palette[levels]+delta[:,:,None],0,255).astype(np.uint8)
+    # Large bilinear light blobs looked like repeating diagonal bands in the
+    # tilted camera. Terrain lighting now owns broad light; retain native blades.
+    ground=palette[levels].astype(np.uint8)
     Image.fromarray(ground).save(OUT/'FieldGrassOnly.png')
     # The selected PCG owns the path boundary; do not reconstruct it from iso cells.
     shutil.copyfile(ROOT/'output/map-pcg/seed-8/export/FieldPathMask.png', OUT/'FieldPathMask.png')

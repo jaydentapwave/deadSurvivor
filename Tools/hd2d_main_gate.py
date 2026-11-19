@@ -198,7 +198,7 @@ def measure(args):
     if 'hero' in regions:
 
         hero=color(gate.crop(a,regions['hero']));report['C16']={'grassS':grass['S'],'heroS':hero['S'],'status':'WARN' if grass['S']>=hero['S'] else 'PASS','judgment':'excluded; use C3'}
-    OUT.mkdir(parents=True,exist_ok=True);dump(OUT/'measure.json',report);print(json.dumps(report,ensure_ascii=False,indent=2))
+    OUT.mkdir(parents=True,exist_ok=True);Image.fromarray(field.astype(np.uint8)).save(OUT/'grass.png');dump(OUT/'measure.json',report);print(json.dumps(report,ensure_ascii=False,indent=2))
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish','measure']);parser.add_argument('--out');parser.add_argument('--captures');parser.add_argument('--image');parser.add_argument('--pair');parser.add_argument('--regions');args=parser.parse_args()

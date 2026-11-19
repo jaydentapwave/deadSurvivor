@@ -73,3 +73,11 @@ Bloom: 풀 평균차0 PASS, 효과 쌍 전체 최대차0 **FAIL[추정]**. 실�
 L3 진단 Prepare는 'No unobstructed 61,440-pixel grass panel'로 실패했다. 아직 Main2 선언을 하지 않았으며 기존 판 상자를 바꾸지 않았다. L6에서 다른 정상 이동 초점을 사전 선택하거나 차단을 그대로 기록한다.
 
 놓친 것/워크플로우 후보: HDR 기준과 effect core만으로 원인 확정하지 않기; 동일프레임 토글은 실제 camera volumeStack 값을 함께 남기기; SaveAssets 대신 지정 SaveAssetIfDirty(자동 shader-default 부수 변경은 기존 authored 값 보존하며 Editor SerializedObject로 제거). 공통 워크플로우 확대 없이 이 기록에 반영.
+
+### L4
+
+C3·C8·C9·C10이 이미 범위 안이어서 해/환경광/색조정0을 추가로 바꾸지 않음. 허용된 grass 생성기의 큰 bilinear 명암 얼룩만 제거(그 역할은 높이 명암으로 이동);125000개 native 풀잎 조각·4색·Point·길/물/zone 마스크 유지. 잎 UV tint(1.15,1,.85)로 청록을 따뜻하게, 모델/알베도 그림/UV 안 바꿈.
+
+컴파일 failed=false, 생성기 기존시험2/2 PASS1.955초. 본 게임 시작 지정흐름3/3 PASS. L4/main.png 직접 열어 넓은 풀 얼룩 대비가 줄고 풀잎 결이 유지됨을 봄; 아직 G20 반복무늬 재판독 NOT_RUN(디렉터). 실제 측정: C3 #999765 ΔE6.811/S.342466 PASS; C8 −.274510 PASS; C9 V.243137 PASS; C10 테1.200726/옆.438986 PASS(테 배율1.2 유지); C16 풀S.3425<인물S.5724 PASS, 판정제외. paint.py 실제 풀 crop 측정 L4-paint.json.
+
+작은 지적 처리: 대원 그림자 길이1.1555/갈색/덜 진함 L1, 가장자리 L3 FAIL 유지(C15 L4재측정.809385), 잎은 재질 tint. 강 경계 갈색 한 줄은 현재 K19 실루엣 테로 남아 있어 미해결, 배낭-길 명도는 배낭만 바꾸려면 채택 그림의 부위 색 판단이 필요해 미해결로 유지(이번 단계에서 새 원본 아트 수정 안 함). 이 둘을 고쳤다고 주장하지 않음.

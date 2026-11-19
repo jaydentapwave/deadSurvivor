@@ -10,6 +10,7 @@ Shader "HD2D/HD2D_FieldSurface"
         _Category("0 floor, 2 water, 3 bank, 4 wood, 5 UV",Float)=0
         _Dirt("Soil gravel ground",2D)="white" {}
         _MainTex("UV albedo",2D)="white" {}
+        _AlbedoTint("UV painted tint",Vector)=(1,1,1,1)
         _PathMask("Game path mask",2D)="black" {}
         _WaterMask("Water opening",2D)="black" {}
         _ZoneMask("R worn, G gravel, B tone, A meadow",2D)="gray" {}
@@ -42,6 +43,7 @@ Shader "HD2D/HD2D_FieldSurface"
         float _Category;
         float _Diagnostic; float _AlphaClip; int _OcclusionRectCount;
         float _TerrainLightSlope;
+        float4 _AlbedoTint;
         float4 _OcclusionRects[64];
         CBUFFER_END
         #if defined(_TERRAIN_HEIGHT)
@@ -170,7 +172,7 @@ Shader "HD2D/HD2D_FieldSurface"
                     c=soil*bandSide;
                 }
             }
-            else if (_Category>4.5) { c=LinearToSRGB(SAMPLE_TEXTURE2D(_MainTex,sampler_PointClamp,i.uv).rgb); }
+            else if (_Category>4.5) { c=LinearToSRGB(SAMPLE_TEXTURE2D(_MainTex,sampler_PointClamp,i.uv).rgb)*_AlbedoTint.rgb; }
             else if (_Category>3.5)
             {
                 float rank=(d<.25 ? 0 : d<.68 ? 1 : 2);
