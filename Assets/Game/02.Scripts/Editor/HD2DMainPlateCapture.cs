@@ -441,7 +441,11 @@ public static class HD2DMainPlateCapture
                     vignette.intensity.value = 0;
                     Capture("vignette-off.png", 1920, 1080);
                 }
-                finally { vignette.intensity.value = intensity; }
+                finally
+                {
+                    vignette.intensity.value = intensity;
+                    UpdateAndSelectVolumeStack();
+                }
                 File.WriteAllText(directory + "/settings.json", JsonUtility.ToJson(ActualSettings(), true));
             }
             if (mode == "baseline" || mode == "sun")
@@ -565,6 +569,14 @@ public static class HD2DMainPlateCapture
     private static SpriteRenderer Hero() => Object.FindObjectsByType<MemberView>(FindObjectsSortMode.None)
         .First(v => v.BodySpriteName.StartsWith("bruno")).BodyRenderer;
 
+    private static void UpdateAndSelectVolumeStack()
+    {
+        _camera.UpdateVolumeStack();
+        var data = _camera.GetUniversalAdditionalCameraData();
+        if (data.volumeStack != null) VolumeManager.instance.stack = data.volumeStack;
+        else VolumeManager.instance.Update(data.volumeTrigger != null ? data.volumeTrigger : _camera.transform, data.volumeLayerMask);
+    }
+
     private static void CaptureCamera(string path, int width, int height)
     {
         var oldTarget = _camera.targetTexture;
@@ -584,10 +596,7 @@ public static class HD2DMainPlateCapture
             // SingleCameraRequest does not run RenderCameraStack's volume selection.
             // UpdateVolumeStack fills the camera-local stack but does not select it
             // globally. Select that stack explicitly after the background request.
-            _camera.UpdateVolumeStack();
-            var data = _camera.GetUniversalAdditionalCameraData();
-            if (data.volumeStack != null) VolumeManager.instance.stack = data.volumeStack;
-            else VolumeManager.instance.Update(data.volumeTrigger != null ? data.volumeTrigger : _camera.transform, data.volumeLayerMask);
+            UpdateAndSelectVolumeStack();
             RenderPipeline.SubmitRenderRequest(_camera,new UniversalRenderPipeline.SingleCameraRequest { destination=target });
             File.WriteAllText(path + ".settings.json", JsonUtility.ToJson(ActualSettings(), true));
             RenderTexture.active=target;

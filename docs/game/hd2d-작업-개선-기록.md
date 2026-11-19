@@ -160,3 +160,9 @@
 - 놓친것: ScriptEval의Vector3JSON순환참조·Resolve<T>확장using미포함. x/y/z스칼라/Resolve(typeof)로고침. 본판COLLECT완료와누락쌍실패를분리해누락부분만복구, 전체본판/전체게임재반복없음. **갱신후보반영**: fixture흐름에스칼라/명시적DI해석, 더할사전검사후보는구문/직렬화만. 대신뺄반복은그오류때문에끝난본판/전체판정경로다시찍기.
 - D-L3 평지B0는finally높이원본바이트/ImportAsset복구·해시확인. 같은렌더소스/다른높이만의진단방식에반영. D-L4강선유지/배낭명도수용은디렉터결정으로별도기록, 원본그림수정0.
 - 시간은attempt2/time-and-tokens.json(07:38:52UTC부터, 최초문서읽기일부미계측). 비용은카메라stack조사·fixture구문오류복구가컸다. 시험은지정10개7.42초·측정selftest4개, 전체Editor/전체게임0회. 불필요한광역검사추가없음. Codex/리뷰토큰집계API없음, 직접하위/리뷰호출0.
+
+
+### 빛 요약 metadata 수정 확인
+
+- validator-client가 찾은것: Vignette profile복구후stack갱신전에요약을써OFF0이남았다. profile/stack을같게취급한순서오류. 즉시갱신·선택후기록하도록고쳤고기존렌더전선택로직은공유private메서드로추출했다.
+- **갱신후보반영**: 실제8쌍촬영에서summary/ON/OFF/live stack을assert하는지정흐름(4/4·47.8초)으로확인. 끝난전투판/전체게임/전체Editor/순수계산시험재반복0. 기존잘못된요약은보존,새증거경로를명시. algorithm/spec PASS유지·validator만수정확인. 시간/토큰은metadata-fix/time-and-tokens.json,토큰API없음/직접하위·리뷰호출0.

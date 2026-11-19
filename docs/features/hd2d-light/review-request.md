@@ -1,3 +1,16 @@
+# 현재 수정 확인 — validator-client만
+
+수정 기준 **deac03331e5ba80d38250e7b9330279744326932**, 대상은 이번 metadata 수정 커밋(최종 응답/핸드오프 state.commit). **algorithm-tester·spec-reviewer는 VERDICT: PASS 유지, 다시 부르지 않는다. validator-client의 VERDICT: FAIL 한 건만 수정 확인**한다. 틀린 지적으로 반려한 항목 없음.
+
+필수 수정 V-META: `Assets/Game/02.Scripts/Editor/HD2DMainPlateCapture.cs`의Vignette복구finally에서복구된카메라stack을즉시갱신·전역선택한뒤요약settings.json을쓴다. 기존렌더전stack선택코드는private메서드로추출해그대로재사용. C15함수·그림렌더전처리·자료/셰이더/Volume값·runtime게임코드수정0.
+
+증거: `output/hd2d-light/metadata-fix/{compile.json,play/report.json,assertions.json}`. 실제8쌍 `pairs/0~7/`에서요약.5=ON.5=live.5,OFF0,부드러움.03일치. 지정4/4흐름47.8초/8assertPASS. ON/OFF첫쌍직접열람. 기존attempt2의요약0은결함이력으로보존,새수정결과는metadata-fix/pairs를본다. 원본main2와C15계산은deac033증거로유지하며현재커밋새gate로재실행했다고하지않는다.
+
+수용 기준: validator-client **V-META**(원445행 요약설정복구순서). 기준문서와다른점없음. 이미정해진D-L1~4유지. **이번판정밖**: PASS받은알고리즘/기획의재검, G20/K21·검정모서리/미세Bloom품질(디렉터), 자연장면추정FAIL/교정PASS분리, 지시문미추적/Font한계, G19성능(7단계). 후속열린지적만으로재리뷰를늘리지않는다. 핸드오프review_open에최신원문을기록한다.
+
+---
+아래는 deac033에서 이미 끝난 attempt2의 첫 마감 리뷰 브리핑이다. 현재 재호출 목록이 아니다.
+
 # attempt 2 마감 리뷰 요청 — D-L1~D-L4
 
 Claude 리뷰 세션에서 **algorithm-tester·spec-reviewer·validator-client**를 실행한다. 구현자는Codex이며직접리뷰호출0. 이전판정algorithm-tester/spec-reviewer `VERDICT: FAIL`, validator-client `VERDICT: NOT ASSESSED`(출력강제종료로미수령). **PASS인리뷰0**, 세역할만다시받는다. 기준범위12e0567→이번마감커밋, 수정확인diff **a0a8a21→이번마감커밋**(d48e66b의깃발수정도아직독립PASS를못받음). 정확한대상해시는최종응답/핸드오프state.commit. 반려한틀린지적없음.

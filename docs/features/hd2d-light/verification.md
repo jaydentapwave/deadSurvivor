@@ -259,3 +259,18 @@ flat-flow는B0기존자리(0,0),seed8,첫전투직전0속도,대원자리±.55/�
 4. 자연질감으로작은흐림강도의경계위치를추정하면대비에따라경계가이동함→고대비진단도함께보고,자연FAIL유지. **이작업진단흐름에반영**,측정문턱삭제/완화없음.
 
 시간·토큰은attempt2/time-and-tokens.json. 신뢰가능한시작07:38:52UTC, 앞문서읽기일부미계측. 가장비효율적인부분은같은프레임촬영결함진단과fixture구문오류복구였다. 전체게임검사반복으로메우지않음. Codex토큰API없음/외부리뷰토큰미제공, 직접하위/리뷰호출0. **현재needs-review**, 마감3종(algorithm-tester/spec-reviewer/validator-client)외부판정을기다린다. 첫FAIL2·NOTASSESSED1을자가PASS로바꾸지않음.
+
+
+## validator-client 요약 설정 수정 확인 (deac033 다음)
+
+받은 마지막 판정: algorithm-tester **VERDICT: PASS**, spec-reviewer **VERDICT: PASS**, validator-client **VERDICT: FAIL**. 필수 지적은 Vignette 복구 후 settings.json이 OFF stack을 읽는 순서 오류1건이다. PNG별ON/OFF와C15계산은 무효가 아니라는 리뷰 범위를 유지한다.
+
+`CaptureLightUnit` Vignette finally에서 profile세기를복구한즉시 **카메라 stack갱신·전역선택**을끝내고 요약을쓴다. 기존CaptureCamera의동일선택코드를private `UpdateAndSelectVolumeStack`로추출하여 재사용했다. PNG렌더전선택로직·계산·볼륨/재질/셰이더값은그대로다.
+
+project-doctor configured/findings0, editor_ready PASS, 시작Play=false확인. 컴파일completed/failed=false/errors0. `output/hd2d-light/metadata-fix/flow.json` 지정흐름 **4/4 PASS47.8초**, 실제정지wave6의8카메라자리에서매번 summary=.5·ON=.5·OFF=0·복구후live=.5·smoothness=.03일치를assert(`assertions.json`8/8). 첫ON/OFF두장1920×1080직접열어심한모서리/중앙은기존과같은값임을봤다. 마지막Play=false/console errors0.
+
+기존attempt2/final-plates/C15-motion/*/settings.json의0기록은 deac033 결함 증거로 **그대로보존**하며고쳐썼다고하지않는다. 새수정증거는metadata-fix/pairs/0~7/settings.json이다. 원본main2는deac033에묶인수집기록으로유지, 현재수정커밋의새관문성공으로보고하지않음. 전체관문/전체게임/전체Editor시험/지정Native시험/C15계산재실행0(이미PASS·이번수정비대상).
+
+놓친원인: profile복구와stack복구를같다고생각해, 요약을쓴뒤outerfinally에서늦게갱신했다. **워크플로우갱신후보반영**: 같은실제촬영경로에서summary/ON/OFF/live stack일치를함께assert하는좁은회귀흐름을추가. 대신끝난전투판/전체시험반복은안함. 시간·토큰 metadata-fix/time-and-tokens.json, 토큰API없음·직접하위/리뷰호출0.
+
+이번다시받을리뷰는 **validator-client만**. algorithm-tester/spec-reviewer PASS는deac033 판정그대로잇는다. 검정모서리·미세Bloom·K21/G20·자연장면추정FAIL·지시문미추적/Font재현한계는열린기록을유지하며추가수정/재리뷰이유로삼지않는다.
