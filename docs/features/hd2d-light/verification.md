@@ -343,3 +343,18 @@ C9는 앞 회차부터 쓰던 `L6-colour-regions.json`의 강 상자 [900,190,10
 마지막 범위 확인: 무늬 혼합 감소를 `_TERRAIN_HEIGHT` ON에만 제한해 OFF의 .45/1 식을 보존했다. 다른 세션 Play 중인 한 번은 수집기가 시작 전 중단했고 에디터를 끄지 않았다. false 확인 후 새 run을 수집했다. ON 본판과 직전 통과 본판의 PNG 바이트가 같다. 최종 수집10/10 77.1초, K21 높이7/7 33.1초·평지도 재촬영/seed8 복구. D-L7의 3~4단이 원 L1b 2~3단보다 우선하며, G09의 소품 진단과는 다르다.
 
 수집 후 외부 변경: 튜토리얼 세션이 App/GameSceneLifetimeScope.cs에 Dialogue Presenter 등록 한 줄을 추가했다. 현재 소스 해시1개 불일치이며 **현재1447개 전부 일치로 주장하지 않는다**. 수집 당시 전후 지문/자동12PASS는 그대로이며, 현재 전체소스 재검은 미완료다. 원본 수집 해시와 정확히 같은 Scope snapshot을 현재 코드에서 새 등록 한 줄만 제외해 output에 재구성했다(source-drift.json의 방법/해시). Assets 파일을 되돌리거나 manifest/source-before를 고치지 않았다. 이 통합 사항은 핸드오프의 별도 blocked 관문과 열린 질문에 남긴다.
+
+
+## attempt 3 마감 리뷰 수령 — 구현·코드 리뷰 완료
+
+사용자 전달 및 hook 판정 기록으로 세 리뷰를 수령했다. 대상 **3b1efc4**, 실행자는 Codex gpt-6.1-sol medium이며 구현 세션은 직접 리뷰를 호출하지 않았다.
+
+| 역할 | evidence | job | 범위·한계 |
+|---|---|---|---|
+| validator-client | VERDICT: PASS | 20261119-184714-f50b9d | D-L6 C#7개·DI/수집 당시 Scope SHA·수/수명/글꼴/정리·베기 원복 확인. Unity 재실행 없음 |
+| algorithm-tester | VERDICT: PASS | 20261119-184711-a288ca | 대상 계산 원문을 .NET10.0.201/Unity shim으로5묶음 독립 실행. 실제 GPU/Unity/풀 재실행 없음 |
+| spec-reviewer | VERDICT: PASS | 20261119-184713-a19bf4 | D-L5~7·C3/C10·G09/G11·L6·SOURCE-INTEGRATION 충족. Unity/시험/캡처 판독 재실행 없음 |
+
+필수 수정0. 후속 회귀 시험 제안은 추가 구현의 이유로 삼지 않고 열린 기록으로 남긴다. 이번 마감에서는 게임 코드·볼륨·재질·셰이더·그림을 바꾸지 않았고 컴파일/Play/시험/관문을 재실행하지 않았다. 기존 로그를 이번 성공으로 다시 적지 않는다.
+
+G20 최종 가독성·옅은 호형 전이·미세 Bloom, K21 최종4장 점수 NOT_RUN(이전 FAIL 유지), 자연장면 흐림 추정 FAIL/교정 PASS 분리, 지시문 미추적과 Font 재현 한계, 수집 후 튜토리얼 통합 미확인을 그대로 유지한다. 코드 리뷰3종 PASS는 **G03/G20·전체아트/T4 완료가 아니다**. 다음은 디렉터의 판독과 소스 안정 후 통합 확인이다.
