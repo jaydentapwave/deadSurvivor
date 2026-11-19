@@ -397,3 +397,12 @@ K21은 r003 PASS를 잇고 이번 재판독/수정0. algorithm-tester의 D-L6 �
 후속(이번 판정 밖): 풀 잔무늬·흙길 경계·그림자 띠·다리 그림자·이동 중 도트 흔들림. 고치지 않았다. G03/G20·전체아트/T4는 새 디렉터 판독 전 미완료, 성능은7단계. push/PR/merge·외부 전송·유료 생성·리뷰 직접 호출0.
 
 마감 시 외부 변경: 수집 완료 뒤 WorldPresenter/FieldView/HD2D_FieldSurface 세 파일의 해시가 달라졌다(중복 선언을 빼면3파일). 이번 D-L8은 수정하지 않은 파일들이다. 원 수집 SHA와 일치하는 HEAD 사본을 output에 보존했다(source-drift.json). 수집 전후 지문 일치/당시12PASS를 현재 전체소스 PASS로 넓히지 않는다. 현재 통합 판정은 다시 미확인으로 남긴다.
+
+
+## attempt 4 마감 리뷰 수령
+
+대상 `e313696`(기준 `0a2841e`)의 validator-client **VERDICT: PASS**(job `20261119-192903-986920`, 98초), spec-reviewer **VERDICT: PASS**(job `20261119-192902-3b256a`, 78초)를 수령했다. 필수 수정 없음. 두 리뷰가 전후 캡처와 기록을 확인했고 validator-client는 측정 함수를 제공 state로 실행해 몸 겹침 7.1733%→0.4198%, 숫자–몸/상체 0px²를 재현했다. Unity·시험·관문 재실행은 하지 않았다. 이번 마감은 문서만 변경하며 새 리뷰를 요청하지 않는다.
+
+기존 algorithm-tester **VERDICT: PASS**는 attempt 3에서 이어 쓴다(D-L6 순수 계산 불변). K21 r003 PASS는 디렉터 판독으로 유지한다. D8 구현/마감 리뷰 완료와 전체 아트/T4 완료는 구별한다. 새 G20 가독성 채택·G03/G20 BLOCKED, 자연 장면 흐림 추정 FAIL/교정 PASS, 미세 Bloom, 외부 세션 변경 후 현재 소스 통합 미확인은 그대로 열려 있다. 몸 상자의 잔여 약2px 접촉과 `clearBodies=false`도 삭제하지 않았다.
+
+근거: `output/hd2d-light/attempt4/review-closure.json`, 핸드오프 attempt 4. 시간은 위 두 리뷰 실행 시간이며 병렬 합계/현재 세션 전체 시간으로 해석하지 않는다. 토큰은 제공 API가 없어 NOT_AVAILABLE. 직접 리뷰 호출·게임 변경·추가 Play·push·PR·merge 없음.
