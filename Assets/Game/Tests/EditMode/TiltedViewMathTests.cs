@@ -3,6 +3,29 @@ using UnityEngine;
 
 public class TiltedViewMathTests
 {
+    [Test]
+    public void AT02_ZeroHeightRidgeContactResnapPreservesEveryFloatBit()
+    {
+        var ridge = TerrainHeightGrid.FromMillimetres(1,-1,-1,3,3,
+            new[] { 30,30,30,0,0,0,30,30,30 });
+        var contact = TerrainHeightMath.SnapOnTerrain(ridge,.013f,-.01f,.5f,48);
+        Assert.AreEqual(0f,contact.y);
+        // Keep the reported output explicitly too: a different runtime may solve
+        // the ridge at exact zero, which would otherwise hide the old branch bug.
+        foreach (var point in new[] { contact,new Vector3(1f/48f,0f,9.313226e-10f) })
+        {
+            var screen = TiltedViewMath.WorldToScreenPlane(point,.5f)*48;
+            Assert.LessOrEqual(Mathf.Abs(screen.x-Mathf.Round(screen.x)),1e-5f);
+            Assert.LessOrEqual(Mathf.Abs(screen.y-Mathf.Round(screen.y)),1e-5f);
+            var actual = TiltedViewMath.SnapScreenPlane(point,.5f,48);
+            Assert.AreEqual(System.BitConverter.SingleToInt32Bits(point.x),System.BitConverter.SingleToInt32Bits(actual.x));
+            Assert.AreEqual(System.BitConverter.SingleToInt32Bits(point.y),System.BitConverter.SingleToInt32Bits(actual.y));
+            Assert.AreEqual(System.BitConverter.SingleToInt32Bits(point.z),System.BitConverter.SingleToInt32Bits(actual.z));
+        }
+        var unaligned = new Vector3(.013f,0,.03f);
+        Assert.AreEqual(TiltedViewMath.SnapToTexels(unaligned,.5f,48),TiltedViewMath.SnapScreenPlane(unaligned,.5f,48));
+    }
+
     [TestCase(10.5f, 9.592308f)]
     [TestCase(10.74f, 9.832308f)]
     [TestCase(12f, 9.842308f)]
