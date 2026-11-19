@@ -66,6 +66,7 @@ Material:
     - _Cull: 2
     - _Diagnostic: 0
     - _Dither: 0
+    - _FlagWind: 0
     - _FlatDepth: 0
     - _TerrainLightSlope: 4
     m_Colors:

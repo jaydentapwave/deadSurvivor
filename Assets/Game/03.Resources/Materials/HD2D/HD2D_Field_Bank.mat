@@ -61,11 +61,16 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
     - _Category: 3
+    - _Cull: 2
     - _Diagnostic: 0
     - _Dither: 0
+    - _FlagWind: 0
     - _FlatDepth: 1
+    - _TerrainLightSlope: 4
     m_Colors:
+    - _AlbedoTint: {r: 1, g: 1, b: 1, a: 1}
     - _FieldRect: {r: -36, g: -36, b: 72, a: 72}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
