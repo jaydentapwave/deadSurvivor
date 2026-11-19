@@ -1,14 +1,34 @@
 using UnityEngine;
 
 // 방향을 굽힌 그림을 고른다. 뿌리=바닥 점, 세운 그림과 바닥 그림자는 별도 자식이다.
-public class ProjectileView : MonoBehaviour
+public class ProjectileView : MonoBehaviour, IEffectFrameSource
 {
     [SerializeField] private SpriteRenderer bodyRenderer;
     [SerializeField] private Transform upright;
+    [SerializeField] private Material terrainShadowMaterial;
+    private TerrainHeightGrid _terrain = TerrainHeightGrid.Flat;
     [SerializeField] private SpriteRenderer shadowRenderer;
     [SerializeField] private Material litMaterial;
     [SerializeField] private Material glowMaterial;
     public SpriteRenderer BodyRenderer => bodyRenderer;
+    public Renderer ActiveRenderer => bodyRenderer;
+    public Sprite SourceSprite => bodyRenderer.sprite;
+    public float Alpha => bodyRenderer.color.a;
+    public bool IsShown => gameObject.activeInHierarchy && bodyRenderer.enabled;
+    public void SetTerrain(TerrainHeightGrid terrain) => _terrain = terrain;
+
+    private void UpdateGroundShadow()
+    {
+        if (_terrain.IsFlat)
+        {
+            return;
+        }
+        var normal = TerrainHeightMath.Normal(_terrain, transform.position.x, transform.position.z);
+        shadowRenderer.gameObject.layer = HD2DBackgroundRig.BackgroundLayer;
+        shadowRenderer.sharedMaterial = terrainShadowMaterial;
+        shadowRenderer.transform.localRotation = Quaternion.FromToRotation(Vector3.up, normal) * Quaternion.Euler(90, 0, 0);
+        shadowRenderer.transform.localPosition = normal * .001f;
+    }
     public string EffectKey { get; private set; }
     public int FrameNumber { get; private set; }
 
@@ -40,7 +60,8 @@ public class ProjectileView : MonoBehaviour
         bodyRenderer.flipY = facing.flipY;
         bodyRenderer.transform.localRotation = Quaternion.identity;
         transform.localScale = Vector3.one;
-        transform.localPosition = TiltedViewMath.SnapToTexels(worldPosition, .5f, Const.PixelsPerUnit);
+        transform.localPosition = TiltedViewMath.SnapScreenPlane(worldPosition, .5f, Const.PixelsPerUnit);
+        UpdateGroundShadow();
         // 뿌리/그림자를 움직이지 않고 그림의 왼쪽 아래 모서리 위상만 보정한다.
         var sprite = bodyRenderer.sprite;
         var pivot = new Vector2(facing.flipX ? sprite.rect.width - sprite.pivot.x : sprite.pivot.x,

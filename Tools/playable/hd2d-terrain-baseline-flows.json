@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "LOBBY",
+      "name": "fixed seed lobby",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "START",
+      "name": "pause before first simulation step",
+      "do": "UnityEngine.Random.InitState(8); PlayableProbe.UseRunSettings(1,0f); PlayableProbe.PressDepart(); UnityEngine.Time.timeScale=0f;",
+      "wait": "PlayableProbe.Screen == \"Battle\""
+    },
+    {
+      "id": "B0_SET",
+      "name": "시작 화면 준비",
+      "do": "UnityEngine.Time.timeScale=0f; var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); party.SetCenter(new UnityEngine.Vector2(0f,0f)/.0113f); party.MemberList[0].Position=new UnityEngine.Vector2(-0.55f,0.35f)/.0113f; party.MemberList[1].Position=new UnityEngine.Vector2(0.55f,0.35f)/.0113f; party.MemberList[2].Position=new UnityEngine.Vector2(-0.55f,-0.35f)/.0113f; party.MemberList[3].Position=new UnityEngine.Vector2(0.55f,-0.35f)/.0113f; ",
+      "sleep": 0.2
+    },
+    {
+      "id": "B0",
+      "name": "시작 화면",
+      "expect": "PlayableProbe.Screen == \"Battle\"",
+      "capture": true,
+      "do": "var lines=new System.Collections.Generic.List<string>(); foreach(var renderer in UnityEngine.Object.FindObjectsByType<UnityEngine.Renderer>(UnityEngine.FindObjectsSortMode.None)){if(!renderer.enabled || !renderer.gameObject.activeInHierarchy){continue;} if(renderer.GetComponentInParent<MemberView>()==null && renderer.GetComponentInParent<MonsterView>()==null && renderer.GetComponentInParent<ProjectileView>()==null && renderer.GetComponentInParent<BurstView>()==null && renderer.GetComponentInParent<EnemyShotView>()==null){continue;} var box=OcclusionMath.ProjectBounds(PlayableProbe.EffectCamera,renderer.bounds); lines.Add(string.Format(System.Globalization.CultureInfo.InvariantCulture,\"{0},{1},{2},{3}\",box.xMin,box.yMin,box.xMax,box.yMax));} System.IO.File.WriteAllLines(\"output/hd2d-terrain/boxes-B0.csv\",lines);"
+    },
+    {
+      "id": "B1_SET",
+      "name": "덤불 바위 앞뒤 준비",
+      "do": "UnityEngine.Time.timeScale=0f; var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); party.SetCenter(new UnityEngine.Vector2(0f,0f)/.0113f); party.MemberList[0].Position=new UnityEngine.Vector2(-7.814f,2.0f)/.0113f; party.MemberList[1].Position=new UnityEngine.Vector2(-7.814f,2.4f)/.0113f; party.MemberList[2].Position=new UnityEngine.Vector2(-2.553f,5.6f)/.0113f; party.MemberList[3].Position=new UnityEngine.Vector2(-2.553f,6.0f)/.0113f; ",
+      "sleep": 0.2
+    },
+    {
+      "id": "B1",
+      "name": "덤불 바위 앞뒤",
+      "expect": "PlayableProbe.Screen == \"Battle\"",
+      "capture": true,
+      "do": "var lines=new System.Collections.Generic.List<string>(); foreach(var renderer in UnityEngine.Object.FindObjectsByType<UnityEngine.Renderer>(UnityEngine.FindObjectsSortMode.None)){if(!renderer.enabled || !renderer.gameObject.activeInHierarchy){continue;} if(renderer.GetComponentInParent<MemberView>()==null && renderer.GetComponentInParent<MonsterView>()==null && renderer.GetComponentInParent<ProjectileView>()==null && renderer.GetComponentInParent<BurstView>()==null && renderer.GetComponentInParent<EnemyShotView>()==null){continue;} var box=OcclusionMath.ProjectBounds(PlayableProbe.EffectCamera,renderer.bounds); lines.Add(string.Format(System.Globalization.CultureInfo.InvariantCulture,\"{0},{1},{2},{3}\",box.xMin,box.yMin,box.xMax,box.yMax));} System.IO.File.WriteAllLines(\"output/hd2d-terrain/boxes-B1.csv\",lines);"
+    },
+    {
+      "id": "B2_SET",
+      "name": "다리·턱 뒤쪽과 위 준비",
+      "do": "UnityEngine.Time.timeScale=0f; var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); party.SetCenter(new UnityEngine.Vector2(0f,5.5f)/.0113f); party.MemberList[0].Position=new UnityEngine.Vector2(-7.743f,8.6f)/.0113f; party.MemberList[1].Position=new UnityEngine.Vector2(-7.743f,9.2f)/.0113f; party.MemberList[2].Position=new UnityEngine.Vector2(7.4f,8.0f)/.0113f; party.MemberList[3].Position=new UnityEngine.Vector2(7.4f,8.6f)/.0113f; ",
+      "sleep": 0.2
+    },
+    {
+      "id": "B2",
+      "name": "다리·턱 뒤쪽과 위",
+      "expect": "PlayableProbe.Screen == \"Battle\"",
+      "capture": true,
+      "do": "var lines=new System.Collections.Generic.List<string>(); foreach(var renderer in UnityEngine.Object.FindObjectsByType<UnityEngine.Renderer>(UnityEngine.FindObjectsSortMode.None)){if(!renderer.enabled || !renderer.gameObject.activeInHierarchy){continue;} if(renderer.GetComponentInParent<MemberView>()==null && renderer.GetComponentInParent<MonsterView>()==null && renderer.GetComponentInParent<ProjectileView>()==null && renderer.GetComponentInParent<BurstView>()==null && renderer.GetComponentInParent<EnemyShotView>()==null){continue;} var box=OcclusionMath.ProjectBounds(PlayableProbe.EffectCamera,renderer.bounds); lines.Add(string.Format(System.Globalization.CultureInfo.InvariantCulture,\"{0},{1},{2},{3}\",box.xMin,box.yMin,box.xMax,box.yMax));} System.IO.File.WriteAllLines(\"output/hd2d-terrain/boxes-B2.csv\",lines);"
+    },
+    {
+      "id": "B3_SET",
+      "name": "투사체 적 탄 소품 앞 준비",
+      "do": "UnityEngine.Time.timeScale=0f; var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); party.SetCenter(new UnityEngine.Vector2(0f,0f)/.0113f); party.MemberList[0].Position=new UnityEngine.Vector2(-0.55f,0.35f)/.0113f; party.MemberList[1].Position=new UnityEngine.Vector2(0.55f,0.35f)/.0113f; party.MemberList[2].Position=new UnityEngine.Vector2(-0.55f,-0.35f)/.0113f; party.MemberList[3].Position=new UnityEngine.Vector2(0.55f,-0.35f)/.0113f; combat.AddProjectile(new ProjectileState(9001,new UnityEngine.Vector2(-2.6f,5.6f)/.0113f,UnityEngine.Vector2.right,100f,1f,1000f,0,false,0,UnityEngine.Vector2.zero,\"shortbow\")); monsters.AddEnemyShot(new EnemyShot(9001,new UnityEngine.Vector2(-7.8f,2.1f)/.0113f,UnityEngine.Vector2.right,10f,1f,1000f,1f,\"#FFFFFF\",\"spore\"));",
+      "sleep": 0.2
+    },
+    {
+      "id": "B3",
+      "name": "투사체 적 탄 소품 앞",
+      "expect": "PlayableProbe.Screen == \"Battle\"",
+      "capture": true,
+      "do": "var lines=new System.Collections.Generic.List<string>(); foreach(var renderer in UnityEngine.Object.FindObjectsByType<UnityEngine.Renderer>(UnityEngine.FindObjectsSortMode.None)){if(!renderer.enabled || !renderer.gameObject.activeInHierarchy){continue;} if(renderer.GetComponentInParent<MemberView>()==null && renderer.GetComponentInParent<MonsterView>()==null && renderer.GetComponentInParent<ProjectileView>()==null && renderer.GetComponentInParent<BurstView>()==null && renderer.GetComponentInParent<EnemyShotView>()==null){continue;} var box=OcclusionMath.ProjectBounds(PlayableProbe.EffectCamera,renderer.bounds); lines.Add(string.Format(System.Globalization.CultureInfo.InvariantCulture,\"{0},{1},{2},{3}\",box.xMin,box.yMin,box.xMax,box.yMax));} System.IO.File.WriteAllLines(\"output/hd2d-terrain/boxes-B3.csv\",lines);"
+    },
+    {
+      "id": "B4_SET",
+      "name": "치유 폭발 소품·물 겹침 준비",
+      "do": "UnityEngine.Time.timeScale=0f; var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); party.SetCenter(new UnityEngine.Vector2(0f,0f)/.0113f); party.MemberList[0].Position=new UnityEngine.Vector2(-0.55f,0.35f)/.0113f; party.MemberList[1].Position=new UnityEngine.Vector2(0.55f,0.35f)/.0113f; party.MemberList[2].Position=new UnityEngine.Vector2(-0.55f,-0.35f)/.0113f; party.MemberList[3].Position=new UnityEngine.Vector2(0.55f,-0.35f)/.0113f; combat.AddBurst(new BurstState(9002,new UnityEngine.Vector2(-2.6f,5.5f)/.0113f,150f,.5f,\"censer\",BurstEffectKind.HealArea){RemainingSeconds=.4f}); combat.AddBurst(new BurstState(9003,new UnityEngine.Vector2(7f,7f)/.0113f,120f,.5f,\"firestaff\",BurstEffectKind.Explosion){RemainingSeconds=.4f});",
+      "sleep": 0.2
+    },
+    {
+      "id": "B4",
+      "name": "치유 폭발 소품·물 겹침",
+      "expect": "PlayableProbe.Screen == \"Battle\"",
+      "capture": true,
+      "do": "var lines=new System.Collections.Generic.List<string>(); foreach(var renderer in UnityEngine.Object.FindObjectsByType<UnityEngine.Renderer>(UnityEngine.FindObjectsSortMode.None)){if(!renderer.enabled || !renderer.gameObject.activeInHierarchy){continue;} if(renderer.GetComponentInParent<MemberView>()==null && renderer.GetComponentInParent<MonsterView>()==null && renderer.GetComponentInParent<ProjectileView>()==null && renderer.GetComponentInParent<BurstView>()==null && renderer.GetComponentInParent<EnemyShotView>()==null){continue;} var box=OcclusionMath.ProjectBounds(PlayableProbe.EffectCamera,renderer.bounds); lines.Add(string.Format(System.Globalization.CultureInfo.InvariantCulture,\"{0},{1},{2},{3}\",box.xMin,box.yMin,box.xMax,box.yMax));} System.IO.File.WriteAllLines(\"output/hd2d-terrain/boxes-B4.csv\",lines);"
+    },
+    {
+      "id": "B5_SET",
+      "name": "폭발 예고와 돌진 선 준비",
+      "do": "UnityEngine.Time.timeScale=0f; var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); party.SetCenter(new UnityEngine.Vector2(0f,0f)/.0113f); party.MemberList[0].Position=new UnityEngine.Vector2(-0.55f,0.35f)/.0113f; party.MemberList[1].Position=new UnityEngine.Vector2(0.55f,0.35f)/.0113f; party.MemberList[2].Position=new UnityEngine.Vector2(-0.55f,-0.35f)/.0113f; party.MemberList[3].Position=new UnityEngine.Vector2(0.55f,-0.35f)/.0113f; foreach(var data in repo.MonsterDataList){if(data.Behavior==MonsterBehavior.Bomb || data.Behavior==MonsterBehavior.Charge){var m=new Monster(data.Behavior==MonsterBehavior.Bomb?9004:9005,data,new UnityEngine.Vector2(data.Behavior==MonsterBehavior.Bomb?-2.6f:-7.8f,data.Behavior==MonsterBehavior.Bomb?5.5f:2.1f)/.0113f,100,1,0); m.Phase=data.Behavior==MonsterBehavior.Bomb?MonsterPhase.Fuse:MonsterPhase.Windup; m.DashDirection=UnityEngine.Vector2.right; monsters.Add(m);}}",
+      "sleep": 0.2
+    },
+    {
+      "id": "B5",
+      "name": "폭발 예고와 돌진 선",
+      "expect": "PlayableProbe.Screen == \"Battle\"",
+      "capture": true,
+      "do": "var lines=new System.Collections.Generic.List<string>(); foreach(var renderer in UnityEngine.Object.FindObjectsByType<UnityEngine.Renderer>(UnityEngine.FindObjectsSortMode.None)){if(!renderer.enabled || !renderer.gameObject.activeInHierarchy){continue;} if(renderer.GetComponentInParent<MemberView>()==null && renderer.GetComponentInParent<MonsterView>()==null && renderer.GetComponentInParent<ProjectileView>()==null && renderer.GetComponentInParent<BurstView>()==null && renderer.GetComponentInParent<EnemyShotView>()==null){continue;} var box=OcclusionMath.ProjectBounds(PlayableProbe.EffectCamera,renderer.bounds); lines.Add(string.Format(System.Globalization.CultureInfo.InvariantCulture,\"{0},{1},{2},{3}\",box.xMin,box.yMin,box.xMax,box.yMax));} System.IO.File.WriteAllLines(\"output/hd2d-terrain/boxes-B5.csv\",lines);"
+    },
+    {
+      "id": "B6_SET",
+      "name": "피해 숫자 HP 막대 앞 몬스터 준비",
+      "do": "UnityEngine.Time.timeScale=0f; var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); party.SetCenter(new UnityEngine.Vector2(0f,0f)/.0113f); party.MemberList[0].Position=new UnityEngine.Vector2(-0.55f,0.35f)/.0113f; party.MemberList[1].Position=new UnityEngine.Vector2(0.55f,0.35f)/.0113f; party.MemberList[2].Position=new UnityEngine.Vector2(-0.55f,-0.35f)/.0113f; party.MemberList[3].Position=new UnityEngine.Vector2(0.55f,-0.35f)/.0113f; var data=repo.MonsterDataList[0]; var p=new UnityEngine.Vector2(.4f,1f)/.0113f; monsters.Add(new Monster(9010,data,p,100,1,0){Hp=50}); ((CombatFeedbackModel)c.Resolve(typeof(CombatFeedbackModel))).AddMonsterHit(9010,12,p,data);",
+      "sleep": 0.2
+    },
+    {
+      "id": "B6",
+      "name": "피해 숫자 HP 막대 앞 몬스터",
+      "expect": "PlayableProbe.Screen == \"Battle\"",
+      "capture": true,
+      "do": "var lines=new System.Collections.Generic.List<string>(); foreach(var renderer in UnityEngine.Object.FindObjectsByType<UnityEngine.Renderer>(UnityEngine.FindObjectsSortMode.None)){if(!renderer.enabled || !renderer.gameObject.activeInHierarchy){continue;} if(renderer.GetComponentInParent<MemberView>()==null && renderer.GetComponentInParent<MonsterView>()==null && renderer.GetComponentInParent<ProjectileView>()==null && renderer.GetComponentInParent<BurstView>()==null && renderer.GetComponentInParent<EnemyShotView>()==null){continue;} var box=OcclusionMath.ProjectBounds(PlayableProbe.EffectCamera,renderer.bounds); lines.Add(string.Format(System.Globalization.CultureInfo.InvariantCulture,\"{0},{1},{2},{3}\",box.xMin,box.yMin,box.xMax,box.yMax));} System.IO.File.WriteAllLines(\"output/hd2d-terrain/boxes-B6.csv\",lines);"
+    }
+  ]
+}

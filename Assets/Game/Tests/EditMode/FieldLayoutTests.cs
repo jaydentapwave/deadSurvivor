@@ -10,14 +10,33 @@ public class FieldLayoutTests
     [Test]
     public void BakeCopiesSelectedSeedBytesAndRepeatsExactly()
     {
-        System.Type.GetType("FieldLayoutBaker, Game.Editor").GetMethod("Bake").Invoke(null, null);
-        foreach (var file in new[] { "field_layout.json", "ground_path.json", "FieldPathMask.png", "FieldWaterMask.png", "FieldBankMask.png", "FieldZoneMask.png" })
+        var names = new[] { "field_layout.json", "ground_path.json", "field_height.json", "FieldPathMask.png", "FieldWaterMask.png", "FieldBankMask.png", "FieldZoneMask.png" };
+        var destinations = names.ToDictionary(file => file, file => "Assets/Game/03.Resources/" +
+            (file.EndsWith("json") ? "Resources/Data/Field/" : "Textures/HD2D/") + file);
+        var originals = destinations.ToDictionary(pair => pair.Key, pair => File.ReadAllBytes(pair.Value));
+        try
         {
-            var destination = "Assets/Game/03.Resources/" + (file.EndsWith("json") ? "Resources/Data/Field/" : "Textures/HD2D/") + file;
-            var first = File.ReadAllBytes(destination);
-            CollectionAssert.AreEqual(File.ReadAllBytes("output/map-pcg/seed-8/export/" + file), first, file);
-            System.Type.GetType("FieldLayoutBaker, Game.Editor").GetMethod("Bake").Invoke(null, null);
-            CollectionAssert.AreEqual(first, File.ReadAllBytes(destination), file);
+            var bake = System.Type.GetType("FieldLayoutBaker, Game.Editor").GetMethod("Bake");
+            bake.Invoke(null, null);
+            var first = destinations.ToDictionary(pair => pair.Key, pair => File.ReadAllBytes(pair.Value));
+            foreach (var file in names)
+            {
+                CollectionAssert.AreEqual(File.ReadAllBytes("output/map-pcg/seed-8/export/" + file), first[file], file);
+            }
+            bake.Invoke(null, null);
+            foreach (var file in names)
+            {
+                CollectionAssert.AreEqual(first[file], File.ReadAllBytes(destinations[file]), file);
+            }
+        }
+        finally
+        {
+            // Baking is the operation under test, not permission to enable H5 terrain.
+            foreach (var file in names)
+            {
+                File.WriteAllBytes(destinations[file], originals[file]);
+            }
+            UnityEditor.AssetDatabase.Refresh();
         }
     }
 

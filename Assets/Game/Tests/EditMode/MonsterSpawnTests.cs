@@ -22,6 +22,7 @@ public class MonsterSpawnTests
         typeof(MonsterSpawnService).GetField("_positionRandom", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
             .SetValue(context.MonsterSpawnService, new FixedPositionRandom());
         context.MonsterService.TickSpawn(context.RunRules.SimStep, context.RunRules.SimStep, false, wave.Duration * .5f);
+        Assert.AreEqual(1, context.MonsterModel.MonsterList[0].PlacementVersion);
         var position = context.MonsterModel.MonsterList[0].Position;
         var limit = context.RunRules.FieldCells / (2f * context.RunRules.UnitScale);
         Assert.LessOrEqual(Mathf.Abs(position.x) + Mathf.Abs(position.y), limit + .001f);

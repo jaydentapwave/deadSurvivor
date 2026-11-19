@@ -1,0 +1,232 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "LOBBY",
+      "name": "fixed seed lobby",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "START",
+      "name": "pause before first simulation step",
+      "do": "UnityEngine.Random.InitState(8); PlayableProbe.UseRunSettings(8,0f); PlayableProbe.PressDepart(); UnityEngine.Time.timeScale=0f;",
+      "wait": "PlayableProbe.Screen == \"Battle\""
+    },
+    {
+      "id": "T1_SET",
+      "name": "① seed 8 시작 화면 (정지한 그림 확인 배치)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale=0f; PlayableProbe.SetMove(0,0); var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); var p=new UnityEngine.Vector2(0.0f,0.0f); party.SetCenter(p/.0113f); party.MemberList[0].Position=(p+new UnityEngine.Vector2(-0.55f,0.35f))/.0113f; party.MemberList[1].Position=(p+new UnityEngine.Vector2(0.55f,0.35f))/.0113f; party.MemberList[2].Position=(p+new UnityEngine.Vector2(-0.55f,-0.35f))/.0113f; party.MemberList[3].Position=(p+new UnityEngine.Vector2(0.55f,-0.35f))/.0113f; ",
+      "sleep": 0.2
+    },
+    {
+      "id": "T1",
+      "name": "① seed 8 시작 화면",
+      "expect": "PlayableProbe.TerrainFootError <= .001f && PlayableProbe.CameraError <= .021f",
+      "capture": true,
+      "do": "System.IO.File.AppendAllText(\"output/hd2d-terrain/terrain-metrics.txt\", \"T1 \"+PlayableProbe.TerrainFootError+\" \"+PlayableProbe.PartyGroundHeight+\" \"+PlayableProbe.CameraError+\"\\n\"); var conform=UnityEngine.Object.FindObjectsByType<ConformedDecal>(UnityEngine.FindObjectsSortMode.None).Length; System.IO.File.AppendAllText(\"output/hd2d-terrain/decal-counts.txt\", \"T1=\"+conform+\"\\n\");"
+    },
+    {
+      "id": "T2_SET",
+      "name": "② 걷는 땅 최고점 0.401m (정지한 그림 확인 배치)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale=0f; PlayableProbe.SetMove(0,0); var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); var p=new UnityEngine.Vector2(4.0f,21.0f); party.SetCenter(p/.0113f); party.MemberList[0].Position=(p+new UnityEngine.Vector2(-0.55f,0.35f))/.0113f; party.MemberList[1].Position=(p+new UnityEngine.Vector2(0.55f,0.35f))/.0113f; party.MemberList[2].Position=(p+new UnityEngine.Vector2(-0.55f,-0.35f))/.0113f; party.MemberList[3].Position=(p+new UnityEngine.Vector2(0.55f,-0.35f))/.0113f; ",
+      "sleep": 0.2
+    },
+    {
+      "id": "T2",
+      "name": "② 걷는 땅 최고점 0.401m",
+      "expect": "PlayableProbe.TerrainFootError <= .001f && PlayableProbe.CameraError <= .021f && System.Math.Abs(PlayableProbe.PartyGroundHeight) > .001f",
+      "capture": true,
+      "do": "System.IO.File.AppendAllText(\"output/hd2d-terrain/terrain-metrics.txt\", \"T2 \"+PlayableProbe.TerrainFootError+\" \"+PlayableProbe.PartyGroundHeight+\" \"+PlayableProbe.CameraError+\"\\n\"); var conform=UnityEngine.Object.FindObjectsByType<ConformedDecal>(UnityEngine.FindObjectsSortMode.None).Length; System.IO.File.AppendAllText(\"output/hd2d-terrain/decal-counts.txt\", \"T2=\"+conform+\"\\n\");"
+    },
+    {
+      "id": "T3_SET",
+      "name": "③ 가로 경사에서 발과 소품 가림 (정지한 그림 확인 배치)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale=0f; PlayableProbe.SetMove(0,0); var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); var p=new UnityEngine.Vector2(3.0f,17.0f); party.SetCenter(p/.0113f); party.MemberList[0].Position=(p+new UnityEngine.Vector2(-0.55f,0.35f))/.0113f; party.MemberList[1].Position=(p+new UnityEngine.Vector2(0.55f,0.35f))/.0113f; party.MemberList[2].Position=(p+new UnityEngine.Vector2(-0.55f,-0.35f))/.0113f; party.MemberList[3].Position=(p+new UnityEngine.Vector2(0.55f,-0.35f))/.0113f; ",
+      "sleep": 0.2
+    },
+    {
+      "id": "T3",
+      "name": "③ 가로 경사에서 발과 소품 가림",
+      "expect": "PlayableProbe.TerrainFootError <= .001f && PlayableProbe.CameraError <= .021f && System.Math.Abs(PlayableProbe.PartyGroundHeight) > .001f",
+      "capture": true,
+      "do": "System.IO.File.AppendAllText(\"output/hd2d-terrain/terrain-metrics.txt\", \"T3 \"+PlayableProbe.TerrainFootError+\" \"+PlayableProbe.PartyGroundHeight+\" \"+PlayableProbe.CameraError+\"\\n\"); var conform=UnityEngine.Object.FindObjectsByType<ConformedDecal>(UnityEngine.FindObjectsSortMode.None).Length; System.IO.File.AppendAllText(\"output/hd2d-terrain/decal-counts.txt\", \"T3=\"+conform+\"\\n\");"
+    },
+    {
+      "id": "T4_SET",
+      "name": "④ 언덕 위 몬스터 무리 (정지한 그림 확인 배치)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale=0f; PlayableProbe.SetMove(0,0); var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); var p=new UnityEngine.Vector2(3.0f,17.0f); party.SetCenter(p/.0113f); party.MemberList[0].Position=(p+new UnityEngine.Vector2(-0.55f,0.35f))/.0113f; party.MemberList[1].Position=(p+new UnityEngine.Vector2(0.55f,0.35f))/.0113f; party.MemberList[2].Position=(p+new UnityEngine.Vector2(-0.55f,-0.35f))/.0113f; party.MemberList[3].Position=(p+new UnityEngine.Vector2(0.55f,-0.35f))/.0113f; for(var i=0;i<8;i++){monsters.Add(new Monster(9200+i,repo.MonsterDataList[0],(p+new UnityEngine.Vector2(-3+i*.8f,1.5f))/.0113f,100,1,0));}",
+      "sleep": 0.2
+    },
+    {
+      "id": "T4",
+      "name": "④ 언덕 위 몬스터 무리",
+      "expect": "PlayableProbe.TerrainFootError <= .001f && PlayableProbe.CameraError <= .021f && System.Math.Abs(PlayableProbe.PartyGroundHeight) > .001f",
+      "capture": true,
+      "do": "System.IO.File.AppendAllText(\"output/hd2d-terrain/terrain-metrics.txt\", \"T4 \"+PlayableProbe.TerrainFootError+\" \"+PlayableProbe.PartyGroundHeight+\" \"+PlayableProbe.CameraError+\"\\n\"); var conform=UnityEngine.Object.FindObjectsByType<ConformedDecal>(UnityEngine.FindObjectsSortMode.None).Length; System.IO.File.AppendAllText(\"output/hd2d-terrain/decal-counts.txt\", \"T4=\"+conform+\"\\n\");"
+    },
+    {
+      "id": "T4_MOVE",
+      "name": "④ 실제 몬스터 이동 서비스로 언덕 접근 60걸음(카메라 배치 고정)",
+      "do": "var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var model=(MonsterModel)c.Resolve(typeof(MonsterModel)); var grid=(TerrainHeightGrid)c.Resolve(typeof(TerrainHeightGrid)); var rules=(RunRulesData)c.Resolve(typeof(RunRulesData)); var service=(MonsterService)c.Resolve(typeof(MonsterService)); var before=new System.Collections.Generic.List<UnityEngine.Vector2>(); foreach(var m in model.MonsterList){before.Add(m.Position);} for(var tick=0;tick<60;tick++){service.TickMove(1f/30f);} var moved=0f; var climbed=0f; for(var i=0;i<before.Count;i++){var a=before[i]*rules.UnitScale; var b=model.MonsterList[i].Position*rules.UnitScale; moved=UnityEngine.Mathf.Max(moved,UnityEngine.Vector2.Distance(a,b)); climbed=UnityEngine.Mathf.Max(climbed,UnityEngine.Mathf.Abs(TerrainHeightMath.Sample(grid,a.x,a.y)-TerrainHeightMath.Sample(grid,b.x,b.y)));} System.IO.File.WriteAllText(\"output/hd2d-terrain/monster-slope-motion.json\", Newtonsoft.Json.JsonConvert.SerializeObject(new { steps=60,seconds=2,monsterCount=model.MonsterList.Count,maxDisplacementMetres=moved,maxTerrainHeightChange=climbed }));",
+      "sleep": 0.2
+    },
+    {
+      "id": "T4_AFTER",
+      "name": "④ 언덕을 건너온 무리의 발·그림자",
+      "expect": "PlayableProbe.TerrainFootError <= .001f && (float)Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText(\"output/hd2d-terrain/monster-slope-motion.json\"))[\"maxDisplacementMetres\"] > .1f && (float)Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText(\"output/hd2d-terrain/monster-slope-motion.json\"))[\"maxTerrainHeightChange\"] > .001f",
+      "capture": true
+    },
+    {
+      "id": "T5_SET",
+      "name": "⑤ 경사에 붙은 폭발 예고·돌진 선 (정지한 그림 확인 배치)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale=0f; PlayableProbe.SetMove(0,0); var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); var p=new UnityEngine.Vector2(3.0f,17.0f); party.SetCenter(p/.0113f); party.MemberList[0].Position=(p+new UnityEngine.Vector2(-0.55f,0.35f))/.0113f; party.MemberList[1].Position=(p+new UnityEngine.Vector2(0.55f,0.35f))/.0113f; party.MemberList[2].Position=(p+new UnityEngine.Vector2(-0.55f,-0.35f))/.0113f; party.MemberList[3].Position=(p+new UnityEngine.Vector2(0.55f,-0.35f))/.0113f; foreach(var data in repo.MonsterDataList){if(data.Behavior==MonsterBehavior.Bomb || data.Behavior==MonsterBehavior.Charge){var m=new Monster(data.Behavior==MonsterBehavior.Bomb?9301:9302,data,(p+new UnityEngine.Vector2(data.Behavior==MonsterBehavior.Bomb?-2:2,1))/.0113f,100,1,0); m.Phase=data.Behavior==MonsterBehavior.Bomb?MonsterPhase.Fuse:MonsterPhase.Windup; m.DashDirection=UnityEngine.Vector2.right; monsters.Add(m);}}",
+      "sleep": 0.2
+    },
+    {
+      "id": "T5",
+      "name": "⑤ 경사에 붙은 폭발 예고·돌진 선",
+      "expect": "PlayableProbe.TerrainFootError <= .001f && PlayableProbe.CameraError <= .021f && System.Math.Abs(PlayableProbe.PartyGroundHeight) > .001f",
+      "capture": true,
+      "do": "System.IO.File.AppendAllText(\"output/hd2d-terrain/terrain-metrics.txt\", \"T5 \"+PlayableProbe.TerrainFootError+\" \"+PlayableProbe.PartyGroundHeight+\" \"+PlayableProbe.CameraError+\"\\n\"); var conform=UnityEngine.Object.FindObjectsByType<ConformedDecal>(UnityEngine.FindObjectsSortMode.None).Length; System.IO.File.AppendAllText(\"output/hd2d-terrain/decal-counts.txt\", \"T5=\"+conform+\"\\n\");"
+    },
+    {
+      "id": "T6_SET",
+      "name": "⑥ 경사에 걸친 치유 고리 (정지한 그림 확인 배치)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale=0f; PlayableProbe.SetMove(0,0); var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); var p=new UnityEngine.Vector2(3.0f,17.0f); party.SetCenter(p/.0113f); party.MemberList[0].Position=(p+new UnityEngine.Vector2(-0.55f,0.35f))/.0113f; party.MemberList[1].Position=(p+new UnityEngine.Vector2(0.55f,0.35f))/.0113f; party.MemberList[2].Position=(p+new UnityEngine.Vector2(-0.55f,-0.35f))/.0113f; party.MemberList[3].Position=(p+new UnityEngine.Vector2(0.55f,-0.35f))/.0113f; combat.AddBurst(new BurstState(9401,p/.0113f,150f,.5f,\"censer\",BurstEffectKind.HealArea){RemainingSeconds=.4f});",
+      "sleep": 0.2
+    },
+    {
+      "id": "T6",
+      "name": "⑥ 경사에 걸친 치유 고리",
+      "expect": "PlayableProbe.TerrainFootError <= .001f && PlayableProbe.CameraError <= .021f && System.Math.Abs(PlayableProbe.PartyGroundHeight) > .001f",
+      "capture": true,
+      "do": "System.IO.File.AppendAllText(\"output/hd2d-terrain/terrain-metrics.txt\", \"T6 \"+PlayableProbe.TerrainFootError+\" \"+PlayableProbe.PartyGroundHeight+\" \"+PlayableProbe.CameraError+\"\\n\"); var conform=UnityEngine.Object.FindObjectsByType<ConformedDecal>(UnityEngine.FindObjectsSortMode.None).Length; System.IO.File.AppendAllText(\"output/hd2d-terrain/decal-counts.txt\", \"T6=\"+conform+\"\\n\");"
+    },
+    {
+      "id": "T7_SET",
+      "name": "⑦ 완만한 단 가장자리 (정지한 그림 확인 배치)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale=0f; PlayableProbe.SetMove(0,0); var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); var p=new UnityEngine.Vector2(6.0f,17.0f); party.SetCenter(p/.0113f); party.MemberList[0].Position=(p+new UnityEngine.Vector2(-0.55f,0.35f))/.0113f; party.MemberList[1].Position=(p+new UnityEngine.Vector2(0.55f,0.35f))/.0113f; party.MemberList[2].Position=(p+new UnityEngine.Vector2(-0.55f,-0.35f))/.0113f; party.MemberList[3].Position=(p+new UnityEngine.Vector2(0.55f,-0.35f))/.0113f; ",
+      "sleep": 0.2
+    },
+    {
+      "id": "T7",
+      "name": "⑦ 완만한 단 가장자리",
+      "expect": "PlayableProbe.TerrainFootError <= .001f && PlayableProbe.CameraError <= .021f && System.Math.Abs(PlayableProbe.PartyGroundHeight) > .001f",
+      "capture": true,
+      "do": "System.IO.File.AppendAllText(\"output/hd2d-terrain/terrain-metrics.txt\", \"T7 \"+PlayableProbe.TerrainFootError+\" \"+PlayableProbe.PartyGroundHeight+\" \"+PlayableProbe.CameraError+\"\\n\"); var conform=UnityEngine.Object.FindObjectsByType<ConformedDecal>(UnityEngine.FindObjectsSortMode.None).Length; System.IO.File.AppendAllText(\"output/hd2d-terrain/decal-counts.txt\", \"T7=\"+conform+\"\\n\");"
+    },
+    {
+      "id": "T8_READY_SET",
+      "name": "⑧ 언덕 횡단 경로 시작 (정상 카메라 이동 한계 밖 검증 fixture)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale=0f; PlayableProbe.SetMove(0,0); var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); var p=new UnityEngine.Vector2(-3.0f,21.0f); party.SetCenter(p/.0113f); party.MemberList[0].Position=(p+new UnityEngine.Vector2(-0.55f,0.35f))/.0113f; party.MemberList[1].Position=(p+new UnityEngine.Vector2(0.55f,0.35f))/.0113f; party.MemberList[2].Position=(p+new UnityEngine.Vector2(-0.55f,-0.35f))/.0113f; party.MemberList[3].Position=(p+new UnityEngine.Vector2(0.55f,-0.35f))/.0113f; ",
+      "sleep": 0.2
+    },
+    {
+      "id": "T8_READY",
+      "name": "⑧ 언덕 횡단 전 접지·카메라",
+      "expect": "PlayableProbe.TerrainFootError <= .001f && PlayableProbe.CameraError <= .021f && System.Math.Abs(PlayableProbe.PartyGroundHeight) > .001f",
+      "capture": true,
+      "do": "System.IO.File.AppendAllText(\"output/hd2d-terrain/terrain-metrics.txt\", \"T8_READY \"+PlayableProbe.TerrainFootError+\" \"+PlayableProbe.PartyGroundHeight+\" \"+PlayableProbe.CameraError+\"\\n\"); var conform=UnityEngine.Object.FindObjectsByType<ConformedDecal>(UnityEngine.FindObjectsSortMode.None).Length; System.IO.File.AppendAllText(\"output/hd2d-terrain/decal-counts.txt\", \"T8_READY=\"+conform+\"\\n\");"
+    },
+    {
+      "id": "T8",
+      "name": "⑧ 연속 이동 8표본·오르막/정점/내리막 (30Hz 시뮬레이션, 표본 간 1.2초)",
+      "do": "PlayableProbe.CaptureTerrainWalk(\"output/hd2d-terrain/terrain-walk\"); var conform=UnityEngine.Object.FindObjectsByType<ConformedDecal>(UnityEngine.FindObjectsSortMode.None).Length; System.IO.File.AppendAllText(\"output/hd2d-terrain/decal-counts.txt\", \"T8=\"+conform+\"\\n\");",
+      "wait": "PlayableProbe.IsTerrainWalkCaptured",
+      "expect": "PlayableProbe.TerrainFootError <= .001f && PlayableProbe.CameraError <= .021f && PlayableProbe.TerrainWalkCrossedPeak && PlayableProbe.TerrainWalkMaxFootError <= .001f && PlayableProbe.TerrainWalkMaxCameraError <= .021f",
+      "timeout": 30,
+      "capture": true
+    },
+    {
+      "id": "T10_SET",
+      "name": "⑩ 경사 위 투사체·적 탄 그림자 (정지한 그림 확인 배치)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale=0f; PlayableProbe.SetMove(0,0); var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); var p=new UnityEngine.Vector2(3.0f,17.0f); party.SetCenter(p/.0113f); party.MemberList[0].Position=(p+new UnityEngine.Vector2(-0.55f,0.35f))/.0113f; party.MemberList[1].Position=(p+new UnityEngine.Vector2(0.55f,0.35f))/.0113f; party.MemberList[2].Position=(p+new UnityEngine.Vector2(-0.55f,-0.35f))/.0113f; party.MemberList[3].Position=(p+new UnityEngine.Vector2(0.55f,-0.35f))/.0113f; combat.AddProjectile(new ProjectileState(9501,(p+new UnityEngine.Vector2(-1,0))/.0113f,UnityEngine.Vector2.right,100f,1f,1000f,0,false,0,UnityEngine.Vector2.zero,\"shortbow\")); monsters.AddEnemyShot(new EnemyShot(9502,(p+new UnityEngine.Vector2(1,0))/.0113f,UnityEngine.Vector2.right,10f,1f,1000f,1f,\"#FFFFFF\",\"spore\"));",
+      "sleep": 0.2
+    },
+    {
+      "id": "T10",
+      "name": "⑩ 경사 위 투사체·적 탄 그림자",
+      "expect": "PlayableProbe.TerrainFootError <= .001f && PlayableProbe.CameraError <= .021f && System.Math.Abs(PlayableProbe.PartyGroundHeight) > .001f",
+      "capture": true,
+      "do": "System.IO.File.AppendAllText(\"output/hd2d-terrain/terrain-metrics.txt\", \"T10 \"+PlayableProbe.TerrainFootError+\" \"+PlayableProbe.PartyGroundHeight+\" \"+PlayableProbe.CameraError+\"\\n\"); var conform=UnityEngine.Object.FindObjectsByType<ConformedDecal>(UnityEngine.FindObjectsSortMode.None).Length; System.IO.File.AppendAllText(\"output/hd2d-terrain/decal-counts.txt\", \"T10=\"+conform+\"\\n\");"
+    },
+    {
+      "id": "WATER_SET",
+      "name": "F-02 연못·개울 위 그림자·효과 (정지한 그림 확인 배치)",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale=0f; PlayableProbe.SetMove(0,0); var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container; var party=(PartyModel)c.Resolve(typeof(PartyModel)); var monsters=(MonsterModel)c.Resolve(typeof(MonsterModel)); var combat=(CombatModel)c.Resolve(typeof(CombatModel)); var repo=(MonsterRepository)c.Resolve(typeof(MonsterRepository)); monsters.Clear(); combat.ClearProjectiles(); var p=new UnityEngine.Vector2(3.0f,5.0f); party.SetCenter(p/.0113f); party.MemberList[0].Position=(p+new UnityEngine.Vector2(-0.55f,0.35f))/.0113f; party.MemberList[1].Position=(p+new UnityEngine.Vector2(0.55f,0.35f))/.0113f; party.MemberList[2].Position=(p+new UnityEngine.Vector2(-0.55f,-0.35f))/.0113f; party.MemberList[3].Position=(p+new UnityEngine.Vector2(0.55f,-0.35f))/.0113f; combat.AddBurst(new BurstState(9601,new UnityEngine.Vector2(11,6)/.0113f,180f,.5f,\"censer\",BurstEffectKind.HealArea){RemainingSeconds=.4f}); combat.AddBurst(new BurstState(9602,new UnityEngine.Vector2(-2.139f,9.815f)/.0113f,180f,.5f,\"firestaff\",BurstEffectKind.Explosion){RemainingSeconds=.4f}); monsters.Add(new Monster(9603,repo.MonsterDataList[0],new UnityEngine.Vector2(11,6)/.0113f,100,1,0)); monsters.Add(new Monster(9604,repo.MonsterDataList[0],new UnityEngine.Vector2(-2.139f,9.815f)/.0113f,100,1,0));",
+      "sleep": 0.2
+    },
+    {
+      "id": "WATER",
+      "name": "F-02 연못·개울 위 그림자·효과",
+      "expect": "PlayableProbe.TerrainFootError <= .001f && PlayableProbe.CameraError <= .021f",
+      "capture": true,
+      "do": "System.IO.File.AppendAllText(\"output/hd2d-terrain/terrain-metrics.txt\", \"WATER \"+PlayableProbe.TerrainFootError+\" \"+PlayableProbe.PartyGroundHeight+\" \"+PlayableProbe.CameraError+\"\\n\"); var conform=UnityEngine.Object.FindObjectsByType<ConformedDecal>(UnityEngine.FindObjectsSortMode.None).Length; System.IO.File.AppendAllText(\"output/hd2d-terrain/decal-counts.txt\", \"WATER=\"+conform+\"\\n\");"
+    },
+    {
+      "id": "FIXTURE_END",
+      "name": "배치 판 정상 종료",
+      "do": "UnityEngine.Time.timeScale=30f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Result\"",
+      "timeout": 120
+    },
+    {
+      "id": "FIXTURE_LOBBY",
+      "name": "생성 관측 전 로비",
+      "do": "PlayableProbe.StopBot(); UnityEngine.Time.timeScale=1f; PlayableProbe.PressToLobby();",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "N9_LOBBY",
+      "name": "생성 관측 시작 로비",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "N9_START",
+      "name": "같은 시드 8·정상 배율 시작",
+      "do": "UnityEngine.Random.InitState(8); PlayableProbe.UseRunSettings(8,1f); PlayableProbe.PressDepart(); UnityEngine.Time.timeScale=0f; PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Battle\""
+    },
+    {
+      "id": "N9_CORNER_0",
+      "name": "이동 한계 모서리 0 생성·재활용 7.5초",
+      "do": "PlayableProbe.CaptureTerrainSpawnQuarter(0);",
+      "wait": "PlayableProbe.IsTerrainSpawnQuarterCaptured",
+      "timeout": 45
+    },
+    {
+      "id": "N9_CORNER_1",
+      "name": "이동 한계 모서리 1 생성·재활용 7.5초",
+      "do": "PlayableProbe.CaptureTerrainSpawnQuarter(1);",
+      "wait": "PlayableProbe.IsTerrainSpawnQuarterCaptured",
+      "timeout": 45
+    },
+    {
+      "id": "N9_CORNER_2",
+      "name": "이동 한계 모서리 2 생성·재활용 7.5초",
+      "do": "PlayableProbe.CaptureTerrainSpawnQuarter(2);",
+      "wait": "PlayableProbe.IsTerrainSpawnQuarterCaptured",
+      "timeout": 45
+    },
+    {
+      "id": "N9_CORNER_3",
+      "name": "이동 한계 모서리 3 생성·재활용 7.5초",
+      "do": "PlayableProbe.CaptureTerrainSpawnQuarter(3);",
+      "wait": "PlayableProbe.IsTerrainSpawnQuarterCaptured",
+      "timeout": 45
+    },
+    {
+      "id": "N9_RESULT",
+      "name": "발·몸 관측과 최대 머리 높이 기록",
+      "do": "PlayableProbe.WriteTerrainSpawnReport(\"output/hd2d-terrain/spawn-current.json\");",
+      "capture": true,
+      "expect": "PlayableProbe.TerrainFootError <= .001f && PlayableProbe.SpawnFootVisibleCount == 0 && PlayableProbe.SpawnBodyVisibleCount <= (int)Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText(\"output/hd2d-terrain/spawn-baseline-exact30.json\"))[\"SpawnBodyVisibleCount\"]"
+    }
+  ]
+}

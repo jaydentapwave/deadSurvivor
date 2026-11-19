@@ -7,6 +7,7 @@ import math
 import numpy as np
 
 from . import fields as F
+from . import terrain as T
 from .generate import _visible, _in_corner_box
 
 
@@ -169,7 +170,8 @@ def check(L):
     out = []
     for fn in (check_path_continuity, check_clear_center, check_spacing, check_bounds, check_water_and_path, check_landmarks):
         out += fn(L)
-    return out
+    from .terrain import check as check_terrain
+    return out + check_terrain(L)
 
 
 def max_window_count(points, w=20.0, h=22.5):
@@ -229,6 +231,7 @@ def metrics(L):
         'counts': groups, 'densityWindowMax': dens,
         'hasStream': L.stream is not None, 'hasFalls': L.falls is not None, 'hasIsland': L.island is not None,
         'hasCamp': L.camp is not None,
+        'terrain': T.metrics(L.terrain, L.terrain_hill_count) if getattr(L, 'terrain', None) is not None else None,
     }
 
 

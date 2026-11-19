@@ -890,4 +890,7 @@ def generate(seed, cfg, grid=None):
         L.branch_mask = np.zeros(grid.x.shape, bool)
     _zones(rng, cfg, L, grid)
     L.placements = _place(rng, cfg, L, grid)
+    if cfg.get("terrain", {}).get("enabled", False):
+        from .terrain import generate as generate_terrain
+        generate_terrain(L)
     return L

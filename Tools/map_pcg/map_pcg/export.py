@@ -201,6 +201,8 @@ def layout_json(L):
 def write_all(L, out_dir, metrics=None, masks=True):
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
+    if getattr(L, "terrain", None) is not None:
+        (out / "field_height.json").write_text(json.dumps(L.terrain, separators=(",", ":")) + "\n")
     data = layout_json(L)
     (out / 'field_layout.json').write_text(json.dumps(data, indent=1, ensure_ascii=False) + '\n')
     cells = iso_cells(L.path, L.cfg['bounds']['fieldL1'])

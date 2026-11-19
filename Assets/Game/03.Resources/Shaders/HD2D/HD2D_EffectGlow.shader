@@ -5,6 +5,7 @@ Shader "HD2D/HD2D_EffectGlow"
         [PerRendererData] _MainTex ("Sprite", 2D) = "white" {}
         _CoreIntensity ("Core intensity", Float) = 2.4
         _BodyIntensity ("Body intensity", Float) = 1
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Depth test", Float) = 4
         [Enum(Off,0,On,1)] _ZWrite ("Depth write", Float) = 1
     }
     SubShader
@@ -15,7 +16,7 @@ Shader "HD2D/HD2D_EffectGlow"
             Tags { "LightMode"="SRPDefaultUnlit" }
             Cull Off
             ZWrite [_ZWrite]
-            ZTest LEqual
+            ZTest [_ZTest]
             HLSLPROGRAM
             #pragma vertex Vert
             #pragma fragment Frag

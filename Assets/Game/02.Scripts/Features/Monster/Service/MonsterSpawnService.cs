@@ -150,8 +150,10 @@ public class MonsterSpawnService
         // Limits and positions are gameplay floor units, not rendered metres.
         var limit = _runRules.FieldCells / (2f * _runRules.UnitScale) - rules.FieldEdgeMargin;
         var position = PartyMoveMath.ClampToDiamond(_partyModel.Center + direction * distance, limit);
-        _monsterModel.Add(new Monster(_nextMonsterId, data, position,
-            data.Hp * _waveData.HpScale, data.Damage * _waveData.DamageScale, rules.InitialAttackDelay));
+        var monster = new Monster(_nextMonsterId, data, position,
+            data.Hp * _waveData.HpScale, data.Damage * _waveData.DamageScale, rules.InitialAttackDelay);
+        monster.PlacementVersion++;
+        _monsterModel.Add(monster);
     }
 
     private float NextPositionRoll() => (float)_positionRandom.NextDouble();

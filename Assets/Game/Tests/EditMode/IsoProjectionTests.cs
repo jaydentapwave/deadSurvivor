@@ -14,7 +14,7 @@ public class IsoProjectionTests
     public void RoundTripKeepsValue(float x, float y)
     {
         var floor = new Vector2(x, y);
-        var back = IsoProjection.WorldToFloor(IsoProjection.FloorToWorld(floor, UnitScale), UnitScale);
+        var back = IsoProjection.WorldToFloor(IsoProjection.FloorToWorld(floor, UnitScale, TerrainHeightGrid.Flat), UnitScale);
 
         Assert.AreEqual(floor.x, back.x, 1e-4f);
         Assert.AreEqual(floor.y, back.y, 1e-4f);

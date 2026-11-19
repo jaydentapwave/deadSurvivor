@@ -237,4 +237,62 @@ public class CombatEffectTests
             Object.DestroyImmediate(view.gameObject);
         }
     }
+    [Test]
+    public void P1_FirstFrameAndReusedProjectileUseTheLocalTerrainTangent()
+    {
+        var grid = TerrainHeightMathTests.Plane(0, .2f);
+        var floor = new Vector2(.2f, .3f);
+        var direction = Vector2.one.normalized;
+        var a = IsoProjection.FloorToWorld(floor, 1, grid);
+        var b = IsoProjection.FloorToWorld(floor + direction * .25f, 1, grid);
+        var tangent = TiltedViewMath.WorldToScreenPlane(b - a, .5f);
+        Assert.AreEqual(34f, Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg, .1f);
+        var facing = EffectFrameMath.DirectionSprite(Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg);
+        var view = Object.Instantiate(Resources.Load<ProjectileView>("Prefab/ProjectileView"));
+        try
+        {
+            var sprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(
+                $"Assets/Game/03.Resources/Art/HD2D/Effects/arrow_{EffectFrameMath.DirectionName(facing.index)}_1.png");
+            foreach (var position in new[] { floor, -floor })
+            {
+                view.Initialize(sprite);
+                view.SetFrame(sprite, "arrow", 1, false);
+                var foot = IsoProjection.FloorToWorldSnapped(position, 1, .5f, grid);
+                view.UpdateView(foot, tangent);
+                Assert.AreEqual(facing.flipX, view.BodyRenderer.flipX);
+                Assert.AreEqual(facing.flipY, view.BodyRenderer.flipY);
+                Assert.Less(Vector3.Distance(foot, view.transform.position), 1e-6f);
+            }
+        }
+        finally
+        {
+            Object.DestroyImmediate(view.gameObject);
+        }
+    }
+    [Test]
+    public void E1_GroundBurstReportsTheActiveConformedRendererAndReuseRestoresSprite()
+    {
+        var view = Object.Instantiate(Resources.Load<BurstView>("Prefab/BurstView"));
+        var frame = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/03.Resources/Art/HD2D/Effects/ground_boom_1.png");
+        try
+        {
+            view.Initialize(frame);
+            view.SetTerrain(TerrainHeightMathTests.Plane(.2f, 0));
+            view.UpdateView(new Vector3(.2f,.04f,.3f), frame, "ground_boom", 1, 5, false, true);
+            var source = (IEffectFrameSource)view;
+            Assert.IsTrue(source.IsShown);
+            Assert.AreSame(frame, source.SourceSprite);
+            Assert.IsInstanceOf<MeshRenderer>(source.ActiveRenderer);
+            Assert.IsFalse(view.BodyRenderer.enabled);
+            Assert.AreEqual(1996, source.ActiveRenderer.sharedMaterial.renderQueue);
+            view.UpdateView(new Vector3(.2f,.04f,.3f), frame, "explosion", 2, 1);
+            Assert.AreSame(view.BodyRenderer, source.ActiveRenderer);
+            Assert.IsTrue(view.BodyRenderer.enabled);
+            Assert.AreEqual(2, source.FrameNumber);
+        }
+        finally
+        {
+            Object.DestroyImmediate(view.gameObject);
+        }
+    }
 }

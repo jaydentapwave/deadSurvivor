@@ -88,6 +88,12 @@
       "capture": true
     },
     {
+      "id": "JOY_CENTER",
+      "name": "조이스틱 축 판정 전 경계 미끄러짐을 피하도록 정상 이동으로 중앙 복귀",
+      "wait": "new System.Func<bool>(()=>{var x=PlayableProbe.PartyX;var y=PlayableProbe.PartyY;var d=new UnityEngine.Vector2(-x,-y);PlayableProbe.SetMove(d.x/200f,d.y*.5f/200f);if(d.magnitude<5f){PlayableProbe.SetMove(0f,0f);return true;}return false;})()",
+      "timeout": 20
+    },
+    {
       "id": "JOY",
       "name": "화면 가운데를 누르고 위로 끌기 → 조이스틱이 보이고 원정대가 위로",
       "do": "PlayableProbe.MarkPositions(); PlayableProbe.JoystickDown(0.5f, 0.5f); PlayableProbe.JoystickDrag(0.5f, 0.6f);",

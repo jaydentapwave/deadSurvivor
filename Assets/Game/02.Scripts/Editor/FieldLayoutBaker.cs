@@ -16,7 +16,7 @@ public static class FieldLayoutBaker
     public static void Bake()
     {
         const string source = "output/map-pcg/seed-8/export";
-        foreach (var name in new[] { "field_layout.json", "ground_path.json" })
+        foreach (var name in new[] { "field_layout.json", "ground_path.json", "field_height.json" })
         {
             File.Copy(source + "/" + name, Path.GetDirectoryName(DataPath) + "/" + name, true);
         }

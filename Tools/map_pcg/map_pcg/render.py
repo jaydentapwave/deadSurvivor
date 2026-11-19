@@ -105,6 +105,14 @@ def paint_pcg(L, X, Y):
     ripple = F.value_noise(X * 0.5, Y * 3, 0.5, L.seed + 8)
     wl = np.digitize(ripple, [0.42, 0.72])
     rgb = np.where(G['water'][..., None], WATER[wl], rgb)
+    if getattr(L, 'terrain', None) is not None:
+        from .terrain import sample
+        h = sample(L.terrain, X, Y)
+        dz = (sample(L.terrain, X, Y+.05) - sample(L.terrain, X, Y-.05))/.1
+        shade = np.where(dz > .025, 1.07, np.where(dz < -.025, .92, 1.0))
+        rgb *= shade[..., None]
+        contour = (np.abs(h*10-np.round(h*10)) < .012) & (np.abs(dz) > .012)
+        rgb = np.where(contour[..., None], rgb*.87, rgb)
     raised = G['bank'] | G['upper']
     return np.clip(rgb, 0, 255), raised
 
@@ -332,8 +340,16 @@ def start_view(placements, ground_rgb, raised, cam=(0.0, 0.0), heroes=True, labe
 
 def pcg_start_view(L, label=None, cam=(0.0, 0.0)):
     X, Y = _texel_grid(*cam)
+    placements = L.placements
+    if getattr(L, 'terrain', None) is not None:
+        from .terrain import sample
+        screen_y = Y.copy()
+        focus = float(sample(L.terrain, *cam))
+        for _ in range(8):
+            Y = screen_y - (sample(L.terrain, X, Y)-focus) * PH/PY
+        placements = [dict(it, height=it['height']+float(sample(L.terrain,it['x'],it['y']))-focus) for it in placements]
     rgb, raised = paint_pcg(L, X, Y)
-    return start_view(L.placements, rgb, raised, cam=cam, label=label, heroes=cam == (0.0, 0.0))
+    return start_view(placements, rgb, raised, cam=cam, label=label, heroes=cam == (0.0, 0.0))
 
 
 def current_start_view(layout_path, label=None, cam=(0.0, 0.0)):
@@ -425,6 +441,25 @@ def pcg_topdown(L, title):
     from .export import sample_ground
 
     def extra(d, T):
+        if getattr(L, 'terrain', None) is not None:
+            from .terrain import coordinates
+            data = L.terrain
+            heights = np.asarray(data['heightsMm']).reshape(data['depth'],data['width'])/1000.
+            x,z = coordinates(data)
+            for j in range(data['depth']-1):
+                for i in range(data['width']-1):
+                    for triangle in [[(j,i),(j,i+1),(j+1,i+1)],[(j,i),(j+1,i+1),(j+1,i)]]:
+                        values=[heights[p] for p in triangle]
+                        for level in np.arange(np.ceil(min(values)*10)/10,max(values),.1):
+                            points=[]
+                            for k in range(3):
+                                a,b=triangle[k],triangle[(k+1)%3]
+                                ha,hb=heights[a],heights[b]
+                                if (ha <= level < hb) or (hb <= level < ha):
+                                    t=(level-ha)/(hb-ha)
+                                    points.append(T(x[a]+t*(x[b]-x[a]),z[a]+t*(z[b]-z[a])))
+                            if len(points)==2:
+                                d.line(points,fill=(63,90,43),width=1)
         if L.cross is not None:
             x, y = T(*L.cross)
             d.ellipse([x - 4, y - 4, x + 4, y + 4], outline=(255, 0, 0), width=2)

@@ -42,17 +42,30 @@ Shader "HD2D/HD2D_FieldSurface"
         float _Diagnostic; float _AlphaClip; int _OcclusionRectCount;
         float4 _OcclusionRects[64];
         CBUFFER_END
+        #if defined(_TERRAIN_HEIGHT)
+        struct A { float3 p:POSITION; float3 n:NORMAL; float2 uv:TEXCOORD0; float2 terrain:TEXCOORD1; };
+        struct V { float4 p:SV_POSITION; float3 w:TEXCOORD0; float3 n:TEXCOORD1; float2 uv:TEXCOORD2; float2 floorDepth:TEXCOORD3; float4 screen:TEXCOORD4; float href:TEXCOORD5; };
+        #else
         struct A { float3 p:POSITION; float3 n:NORMAL; float2 uv:TEXCOORD0; };
         struct V { float4 p:SV_POSITION; float3 w:TEXCOORD0; float3 n:TEXCOORD1; float2 uv:TEXCOORD2; float2 floorDepth:TEXCOORD3; float4 screen:TEXCOORD4; };
+        #endif
         V Vert(A i)
         {
+        #if defined(_TERRAIN_HEIGHT)
+            V o; o.w=TransformObjectToWorld(i.p); o.n=TransformObjectToWorldNormal(i.n); o.p=TransformWorldToHClip(o.w); o.uv=i.uv; o.screen=ComputeScreenPos(o.p); o.href=i.terrain.x; float4 flat=TransformWorldToHClip(float3(o.w.x,o.href,o.w.z)); o.floorDepth=flat.zw; return o;
+        #else
             V o; o.w=TransformObjectToWorld(i.p); o.n=TransformObjectToWorldNormal(i.n); o.p=TransformWorldToHClip(o.w); o.uv=i.uv; o.screen=ComputeScreenPos(o.p); float4 flat=TransformWorldToHClip(float3(o.w.x,0,o.w.z)); o.floorDepth=flat.zw; return o;
+        #endif
         }
         void ClipOpening(V i)
         {
             if (_AlphaClip > .5) clip(SAMPLE_TEXTURE2D(_MainTex,sampler_PointClamp,i.uv).a-.5);
             float waterOpening=SAMPLE_TEXTURE2D(_WaterMask,sampler_PointClamp,(i.w.xz-_FieldRect.xy)/_FieldRect.zw).r;
+        #if defined(_TERRAIN_HEIGHT)
+            if (_Category < .5 && i.w.y-i.href < .002) clip(.5-waterOpening);
+        #else
             if (_Category < .5 && i.w.y < .002) clip(.5-waterOpening);
+        #endif
             if (_Category>1.5 && _Category<2.5) clip(waterOpening-.5);
         }
         void ClipSurface(V i)
@@ -99,7 +112,11 @@ Shader "HD2D/HD2D_FieldSurface"
             float d=saturate(dot(cellNormal,sun.direction));
             float band=d<.25 ? .60 : d<.68 ? .82 : 1;
             float finger=fmod(abs(cells.x+floor(cells.x/5)*3),9)<3 ? .055 : .018;
+        #if defined(_TERRAIN_HEIGHT)
+            if (_Diagnostic>1.5) { output.color=_Category<.5 && i.w.y-i.href>.3 ? half4(1,0,0,1) : _Category>2.5 && _Category<3.5 ? (i.n.y>.7 ? half4(1,0,0,1) : i.w.y-i.href<=.36-finger && i.w.y-i.href>.36-finger-1.0/48 ? half4(0,1,0,1) : i.w.y-i.href>.36-finger ? half4(0,0,0,1) : half4(0,0,1,1)) : half4(0,0,0,1); return output; }
+        #else
             if (_Diagnostic>1.5) { output.color=_Category<.5 && i.w.y>.3 ? half4(1,0,0,1) : _Category>2.5 && _Category<3.5 ? (i.n.y>.7 ? half4(1,0,0,1) : i.w.y<=.36-finger && i.w.y>.36-finger-1.0/48 ? half4(0,1,0,1) : i.w.y>.36-finger ? half4(0,0,0,1) : half4(0,0,1,1)) : half4(0,0,0,1); return output; }
+        #endif
             if (_Diagnostic>.5) { output.color=half4(SRGBToLinear(band.xxx),1); return output; }
             half3 c=grass;
             if (_Category>.5 && _Category<1.5)
@@ -116,14 +133,27 @@ Shader "HD2D/HD2D_FieldSurface"
             }
             else if (_Category>2.5 && _Category<3.5)
             {
+        #if defined(_TERRAIN_HEIGHT)
+                float2 soilUV=(floor(float2(i.w.x+i.w.z,i.w.y-i.href)*48)+.5)/128;
+        #else
                 float2 soilUV=(floor(float2(i.w.x+i.w.z,i.w.y)*48)+.5)/128;
+        #endif
                 half3 soil=LinearToSRGB(SAMPLE_TEXTURE2D(_Soil,sampler_Soil,soilUV).rgb);
                 if (i.n.y>.7) c=grass;
+        #if defined(_TERRAIN_HEIGHT)
+                else if (i.w.y-i.href>.36-finger) c=grass;
+                else if (i.w.y-i.href>.36-finger-1.0/48) c=saturate(grass*1.2);
+        #else
                 else if (i.w.y>.36-finger) c=grass;
                 else if (i.w.y>.36-finger-1.0/48) c=saturate(grass*1.2);
+        #endif
                 else
                 {
+        #if defined(_TERRAIN_HEIGHT)
+                    float row=floor((i.w.y-i.href)*24);
+        #else
                     float row=floor(i.w.y*24);
+        #endif
                     float bandSide=row<3 ? .7 : row<6 ? .88 : 1.05;
                     c=soil*bandSide;
                 }
@@ -157,6 +187,7 @@ Shader "HD2D/HD2D_FieldSurface"
             Name "ForwardLit"
             Tags { "LightMode"="UniversalForward" }
             HLSLPROGRAM
+            #pragma multi_compile_local _ _TERRAIN_HEIGHT
             #pragma vertex Vert
             #pragma fragment Frag
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
@@ -168,6 +199,7 @@ Shader "HD2D/HD2D_FieldSurface"
             Tags { "LightMode"="ShadowCaster" }
             ColorMask 0
             HLSLPROGRAM
+            #pragma multi_compile_local _ _TERRAIN_HEIGHT
             #pragma vertex Shadow
             #pragma fragment ShadowDepth
             ENDHLSL
@@ -177,6 +209,7 @@ Shader "HD2D/HD2D_FieldSurface"
             Name "DepthNormals"
             Tags { "LightMode"="DepthNormalsOnly" }
             HLSLPROGRAM
+            #pragma multi_compile_local _ _TERRAIN_HEIGHT
             #pragma vertex Vert
             #pragma fragment Normals
             F Normals(V i) { ClipSurface(i); F o; o.color=half4(normalize(i.n),0); o.depth=lerp(i.p.z,i.floorDepth.x/i.floorDepth.y,_FlatDepth); return o; }
@@ -188,6 +221,7 @@ Shader "HD2D/HD2D_FieldSurface"
             Tags { "LightMode"="DepthOnly" }
             ColorMask R
             HLSLPROGRAM
+            #pragma multi_compile_local _ _TERRAIN_HEIGHT
             #pragma vertex Vert
             #pragma fragment Depth
             ENDHLSL

@@ -14,6 +14,7 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
     private readonly MonsterHpRulesData _rules;
     private readonly RunRulesData _runRules;
     private readonly ViewRulesData _viewRules;
+    private readonly TerrainHeightGrid _terrain;
     private readonly MonsterHpBarViewFactory _monsterHpBarViewFactory;
     private readonly MonsterHpBarViewRegistry _monsterHpBarViewRegistry;
     private readonly MonsterViewFactory _monsterViewFactory;
@@ -33,7 +34,7 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
 
     public MonsterHpBarPresenter(RunModel runModel, MonsterModel monsterModel, PartyModel partyModel,
         FeedbackRulesRepository feedbackRulesRepository, RunRulesData runRules, MonsterHpBarViewFactory monsterHpBarViewFactory,
-        MonsterHpBarViewRegistry monsterHpBarViewRegistry, MonsterViewFactory monsterViewFactory, ViewRulesData viewRules)
+        MonsterHpBarViewRegistry monsterHpBarViewRegistry, MonsterViewFactory monsterViewFactory, ViewRulesData viewRules, TerrainHeightGrid terrain)
     {
         _runModel = runModel;
         _monsterModel = monsterModel;
@@ -41,6 +42,7 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
         _rules = feedbackRulesRepository.Rules.MonsterHp;
         _runRules = runRules;
         _viewRules = viewRules;
+        _terrain = terrain;
         _monsterHpBarViewFactory = monsterHpBarViewFactory;
         _monsterHpBarViewRegistry = monsterHpBarViewRegistry;
         _monsterViewFactory = monsterViewFactory;
@@ -236,7 +238,7 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
     // 몬스터 머리 위: 위로 (몸 그림 높이 + offsetPx ÷ PPU). 몬스터 키가 24~51px로 달라 반지름 대신 그림 경계를 쓴다(20261117-screen-fixes T5)
     private Vector3 GetBarPosition(Monster monster)
     {
-        var foot = IsoProjection.FloorToWorldSnapped(monster.Position, _runRules.UnitScale, _viewRules.SinTilt);
+        var foot = IsoProjection.FloorToWorldSnapped(monster.Position, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
         return foot + TiltedViewMath.UprightOffset(_monsterViewFactory.GetHeadHeight(monster.Data) + _rules.OffsetPx / Const.PixelsPerUnit, _viewRules.TiltDegrees);
     }
 

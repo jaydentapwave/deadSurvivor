@@ -14,6 +14,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
     private readonly RunModel _runModel;
     private readonly RunRulesData _runRules;
     private readonly ViewRulesData _viewRules;
+    private readonly TerrainHeightGrid _terrain;
     private readonly CombatEffectData _effectData;
     private readonly EffectSpriteCache _effectSpriteCache;
     private readonly SpriteAtlasService _spriteAtlasService;
@@ -32,13 +33,14 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
 
     public CombatWorldPresenter(CombatModel combatModel, CombatFeedbackModel combatFeedbackModel, RunModel runModel,
         RunRulesData runRules, CombatEffectData effectData, SpriteAtlasService spriteAtlasService,
-        ProjectileViewFactory projectileViewFactory, ProjectileViewRegistry projectileViewRegistry, ViewRulesData viewRules, EffectSpriteCache effectSpriteCache)
+        ProjectileViewFactory projectileViewFactory, ProjectileViewRegistry projectileViewRegistry, ViewRulesData viewRules, EffectSpriteCache effectSpriteCache, TerrainHeightGrid terrain)
     {
         _combatModel = combatModel;
         _combatFeedbackModel = combatFeedbackModel;
         _runModel = runModel;
         _runRules = runRules;
         _viewRules = viewRules;
+        _terrain = terrain;
         _effectData = effectData;
         _effectSpriteCache = effectSpriteCache;
         _spriteAtlasService = spriteAtlasService;
@@ -114,7 +116,14 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
             _aliveProjectileIdSet.Add(projectile.Id);
             var spriteName = _effectData.Get(projectile.ItemId).Projectile;
             var clip = _effectData.GetClip(spriteName);
-            var facing = EffectFrameMath.DirectionSprite(Mathf.Atan2(Screen(projectile.Direction).y, Screen(projectile.Direction).x) * Mathf.Rad2Deg);
+            var tangent = Screen(projectile.Direction);
+            if (!_terrain.IsFlat)
+            {
+                var from = IsoProjection.FloorToWorld(projectile.Position, _runRules.UnitScale, _terrain);
+                var to = IsoProjection.FloorToWorld(projectile.Position + projectile.Direction.normalized * (.25f / _runRules.UnitScale), _runRules.UnitScale, _terrain);
+                tangent = TiltedViewMath.WorldToScreenPlane(to - from, _viewRules.SinTilt);
+            }
+            var facing = EffectFrameMath.DirectionSprite(Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg);
             var index = EffectFrameMath.FrameAt(projectile.Traveled / projectile.Speed, clip.Frames, clip.Fps, clip.Loop);
             var sprite = _spriteAtlasService.Get(clip.FrameKey(index, EffectFrameMath.DirectionName(facing.index)));
             if (!_projectileViewRegistry.TryGetProjectile(projectile.Id, out var view))
@@ -123,8 +132,9 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
                 MarkShown(spriteName);
             }
 
+            view.SetTerrain(_terrain);
             view.SetFrame(sprite, spriteName, index + 1, clip.MaterialIndex == 1);
-            view.UpdateView(World(projectile.Position), Screen(projectile.Direction));
+            view.UpdateView(World(projectile.Position), tangent);
         }
 
         _releaseProjectileIdList.Clear();
@@ -155,7 +165,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
             var to = World(burst.EndPosition) + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
             var delta = to - from;
             var dx = Mathf.RoundToInt(delta.x * 48);
-            var dy = Mathf.RoundToInt(delta.z * _viewRules.SinTilt * 48);
+            var dy = Mathf.RoundToInt(TiltedViewMath.WorldToScreenPlane(delta, _viewRules.SinTilt).y * 48);
             if (dx == 0 && dy == 0)
             {
                 return;
@@ -225,6 +235,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
             view = _projectileViewFactory.CreateBurst(id, sprite);
             MarkShown(key);
         }
+        view.SetTerrain(_terrain);
         view.UpdateView(position, sprite, key, index + 1, clip.MaterialIndex, isFlipped, isGround, _viewRules.SinTilt);
         if (!_frameSeenDict.TryGetValue(key, out var frames))
         {
@@ -238,7 +249,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         }
     }
 
-    private Vector3 World(Vector2 floor) => IsoProjection.FloorToWorldSnapped(floor, _runRules.UnitScale, _viewRules.SinTilt);
+    private Vector3 World(Vector2 floor) => IsoProjection.FloorToWorldSnapped(floor, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
     private Vector2 Screen(Vector2 floor) => TiltedViewMath.FloorToScreenPlane(floor * _runRules.UnitScale, _viewRules.SinTilt);
     private Vector3 _viewRulesOffset(Vector2 screen) => TiltedViewMath.UprightRotation(_viewRules.TiltDegrees) * (Vector3)screen;
 

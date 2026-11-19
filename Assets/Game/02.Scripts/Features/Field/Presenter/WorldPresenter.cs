@@ -26,6 +26,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly ViewRulesData _viewRules;
     private readonly GroundPathData _groundPath;
     private readonly FieldLayoutData _fieldLayout;
+    private readonly TerrainHeightGrid _terrain;
     private readonly PlaceholderCombatData _combatData;
     private readonly PlaceholderSpriteFactory _placeholderSpriteFactory;
     private readonly MonsterViewFactory _monsterViewFactory;
@@ -37,6 +38,12 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly TiltedCameraRig _rig;
     private readonly Vector2[] _lastMemberFloors;
     private readonly Dictionary<int, Vector2> _lastMonsterFloors = new();
+    private readonly Dictionary<int, int> _placementVersionDict = new();
+    private readonly List<string> _placementObservationRows = new();
+    private bool _isRecordingPlacements;
+    public string PlacementObservations => string.Join("\n", _placementObservationRows);
+    public int SpawnFootVisibleCount { get; private set; }
+    public int SpawnBodyVisibleCount { get; private set; }
     private readonly IReadOnlyList<MemberView> _memberViewList;
 
     private readonly HashSet<int> _aliveMonsterIdSet = new();
@@ -65,7 +72,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, FieldLayoutData fieldLayout, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
         MonsterViewRegistry monsterViewRegistry, SpriteAtlasService spriteAtlasService, RunModel runModel, FieldView fieldView,
-        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig)
+        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig, TerrainHeightGrid terrain)
     {
         _combatModel = combatModel;
         _moveRules = moveRules;
@@ -78,6 +85,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         _viewRules = viewRules;
         _groundPath = groundPath;
         _fieldLayout = fieldLayout;
+        _terrain = terrain;
         _combatData = combatData;
         _placeholderSpriteFactory = placeholderSpriteFactory;
         _monsterViewFactory = monsterViewFactory;
@@ -100,8 +108,11 @@ public class WorldPresenter : IInitializable, ILateTickable
     {
         _rig.Initialize(_viewRules.TiltDegrees, _viewRules.Distance, _viewRules.NearClip, _viewRules.FarClip, _viewRules.TargetFraction, _viewRules.MinScale);
         _fieldView.Initialize(_viewRules.TiltDegrees);
+        // Atlas source pixels, lowest opaque row (including downed bruno), PPU 48.
+        const float footHalfWidth = .625f;
+        Shader.SetGlobalFloat("_HD2DActorDepthBias", TerrainHeightMath.ActorDepthBias(_terrain, footHalfWidth, _viewRules.SinTilt));
         BuildField();
-        _fieldView.BuildLandscape(_fieldLayout);
+        _fieldView.BuildLandscape(_fieldLayout, _terrain);
         foreach (var placement in _fieldLayout.placements)
         {
             if (placement.kind == "card")
@@ -122,7 +133,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     {
         _rig.UpdateScreen(_camera.pixelWidth, _camera.pixelHeight);
         UpdateViewExtent();
-        var center = IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale);
+        var center = IsoProjection.FloorToWorldSnapped(_partyModel.Center, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
         _rig.SetFocus(center);
         var isRunning = _runModel.Phase.CurrentValue == RunPhase.Battle && !_runModel.IsPaused.CurrentValue;
         var lastClock = _motionClock;
@@ -134,6 +145,11 @@ public class WorldPresenter : IInitializable, ILateTickable
         _lastRunCount = _runModel.RunCount.CurrentValue;
         if (isRunStarted)
         {
+            _isRecordingPlacements = false;
+            _placementObservationRows.Clear();
+            SpawnFootVisibleCount = 0;
+            SpawnBodyVisibleCount = 0;
+            _placementVersionDict.Clear();
             MemberHitFlashTotal = 0;
             MemberFlashMaxSeconds = -1f;
             _idleOffsetSeenMask = 0;
@@ -256,7 +272,8 @@ public class WorldPresenter : IInitializable, ILateTickable
     private void UpdateViewExtent()
     {
         var halfHeight = _camera.orthographicSize;
-        var floorHalfExtent = TiltedViewMath.Footprint(halfHeight, _camera.aspect, _viewRules.SinTilt) / _runRules.UnitScale;
+        var floorHalfExtent = (TiltedViewMath.Footprint(halfHeight, _camera.aspect, _viewRules.SinTilt)
+            + Vector2.up * _viewRules.TerrainDepthPad) / _runRules.UnitScale;
         if (floorHalfExtent == _viewHalfExtent)
         {
             return;
@@ -265,6 +282,44 @@ public class WorldPresenter : IInitializable, ILateTickable
         _viewHalfExtent = floorHalfExtent;
         _monsterService.SetViewHalfExtent(floorHalfExtent);
         _partyMoveService.SetViewHalfExtent(floorHalfExtent);
+    }
+
+    public void BeginPlacementObservation()
+    {
+        _isRecordingPlacements = true;
+        _placementObservationRows.Clear();
+        _placementObservationRows.Add("time,id,version,type,footX,footY,bodyXMin,bodyYMin,bodyXMax,bodyYMax,footVisible,bodyVisible");
+        SpawnFootVisibleCount = 0;
+        SpawnBodyVisibleCount = 0;
+    }
+
+    private void ObservePlacement(Monster monster, MonsterView view)
+    {
+        if (_placementVersionDict.TryGetValue(monster.Id, out var version) && version == monster.PlacementVersion)
+        {
+            return;
+        }
+        _placementVersionDict[monster.Id] = monster.PlacementVersion;
+        var foot = _camera.WorldToViewportPoint(view.transform.position);
+        var isFootVisible = foot.z > 0 && foot.x >= 0 && foot.x <= 1 && foot.y >= 0 && foot.y <= 1;
+        if (isFootVisible)
+        {
+            SpawnFootVisibleCount++;
+        }
+        var body = view.BodyRenderer;
+        var bounds = OcclusionMath.ProjectBounds(_camera, body.bounds);
+        var isBodyVisible = body.enabled && body.gameObject.activeInHierarchy && _camera.WorldToViewportPoint(body.bounds.center).z > 0
+            && bounds.Overlaps(new Rect(0, 0, 1, 1));
+        if (isBodyVisible)
+        {
+            SpawnBodyVisibleCount++;
+        }
+        if (_isRecordingPlacements)
+        {
+            _placementObservationRows.Add(string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", Time.time, monster.Id, monster.PlacementVersion,
+                monster.Data.Id, foot.x, foot.y, bounds.xMin, bounds.yMin, bounds.xMax, bounds.yMax, isFootVisible, isBodyVisible));
+        }
     }
 
     private void UpdateMemberViews(bool isRunning, bool hasStepped, float deltaSeconds, bool isRunStarted)
@@ -281,12 +336,13 @@ public class WorldPresenter : IInitializable, ILateTickable
             }
 
             var member = memberList[i];
-            var position = IsoProjection.FloorToWorldSnapped(member.Position, _runRules.UnitScale, _viewRules.SinTilt);
+            var position = IsoProjection.FloorToWorldSnapped(member.Position, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
             var delta = member.Position - _lastMemberFloors[i];
             _lastMemberFloors[i] = member.Position;
             view.SetVisible(true);
             _downedSeconds[i] = member.IsAlive ? 0f : _downedSeconds[i] + Time.deltaTime;
             view.UpdateView(position, member.Hp / member.MaxHp, member.IsAlive, _downedSeconds[i]);
+            view.SetGround(_terrain, TerrainHeightMath.Normal(_terrain, position.x, position.z), _fieldView.TerrainShadowMaterial);
             if (isRunStarted)
             {
                 // 판 시작: 앞·오른쪽, 첫 표시의 자리 점프는 방향을 바꾸지 않는다
@@ -406,15 +462,17 @@ public class WorldPresenter : IInitializable, ILateTickable
                 view = _monsterViewFactory.Create(monster, null);
             }
 
-            var position = IsoProjection.FloorToWorldSnapped(monster.Position, _runRules.UnitScale, _viewRules.SinTilt);
+            var position = IsoProjection.FloorToWorldSnapped(monster.Position, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
             // 새로 꺼낸 그림은 이동량 0으로 본다(풀에 있던 자리에서 뛰지 않게)
             var delta = isNew ? Vector2.zero : monster.Position - _lastMonsterFloors[monster.Id];
             _lastMonsterFloors[monster.Id] = monster.Position;
             view.UpdateView(position);
+            view.SetTerrain(_terrain, TerrainHeightMath.Normal(_terrain, position.x, position.z), _fieldView.TerrainShadowMaterial);
             if (isRunning)
             {
                 UpdateMonsterMotion(view, monster, hasStepped, delta);
             }
+            ObservePlacement(monster, view);
         }
 
         _releaseIdList.Clear();
@@ -431,6 +489,7 @@ public class WorldPresenter : IInitializable, ILateTickable
             _monsterViewFactory.Release(id);
             _movingMonsterIdSet.Remove(id);
             _lastMonsterFloors.Remove(id);
+            _placementVersionDict.Remove(id);
         }
     }
 

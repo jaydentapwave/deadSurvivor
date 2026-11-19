@@ -398,5 +398,6 @@
  },
  "score": {
   "candidates": 6
- }
+ },
+ "terrain": {"enabled": true, "cell": 1.0, "maxSlope": 0.2, "maxVertexCurvature": 0.08, "relief": 0.5, "pathSlope": 0.12, "pathCrossSlope": 0.08}
 }

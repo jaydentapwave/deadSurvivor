@@ -63,6 +63,29 @@ public class MonsterViewStateTests
     }
 
     [Test]
+    public void WarningFrameSourcesFollowActualFlatAndConformedRenderers()
+    {
+        _view.UpdateState(MonsterPhase.Windup, Vector2.right);
+        Assert.IsTrue(_view.DashFrameSource.IsShown);
+        Assert.IsFalse(_view.BlastFrameSource.IsShown);
+        Assert.That(_view.DashFrameSource.ActiveRenderer, Is.TypeOf<SpriteRenderer>());
+        Assert.That(_view.DashFrameSource.SourceSprite.name, Does.StartWith("dash_line_"));
+        var grid = TerrainHeightGrid.FromMillimetres(1, 0, 0, 2, 2, new[] { 0, 40, 0, 40 });
+        var material = AssetDatabase.LoadAssetAtPath<Material>("Assets/Game/03.Resources/Materials/HD2D/HD2D_GroundShadow.mat");
+        var serialized = new SerializedObject(_view);
+        serialized.FindProperty("terrainWarningMaterial").objectReferenceValue = AssetDatabase.LoadAssetAtPath<Material>("Assets/Game/03.Resources/Materials/HD2D/HD2D_EffectGround_Warn_Terrain.mat");
+        serialized.ApplyModifiedPropertiesWithoutUndo();
+        _view.InitializeShadow(CreateSprite(8, 4, new Vector2(.5f, .5f)), 8);
+        _view.SetTerrain(grid, Vector3.up, material);
+        _view.UpdateState(MonsterPhase.Fuse, Vector2.zero);
+        Assert.IsTrue(_view.BlastFrameSource.IsShown);
+        Assert.IsFalse(_view.DashFrameSource.IsShown);
+        Assert.That(_view.BlastFrameSource.ActiveRenderer, Is.TypeOf<MeshRenderer>());
+        Assert.That(_view.BlastFrameSource.SourceSprite.name, Does.StartWith("ground_blast_"));
+        Assert.That(_view.BlastFrameSource.FrameNumber, Is.InRange(1, 2));
+    }
+
+    [Test]
     public void OtherPhasesTurnBothOff()
     {
         foreach (var phase in new[] { MonsterPhase.Approach, MonsterPhase.Dash, MonsterPhase.Recover, MonsterPhase.Swarm })

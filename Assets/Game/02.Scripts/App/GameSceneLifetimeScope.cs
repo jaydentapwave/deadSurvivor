@@ -36,6 +36,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<RunRulesData>(RunRulesPath), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<GroundPathData>(GroundPathPath), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<FieldLayoutData>("Data/Field/field_layout"), Lifetime.Scoped);
+        builder.Register(resolver => CreateTerrainGrid(resolver.Resolve<ResourceService>().LoadJson<FieldHeightData>("Data/Field/field_height")), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<PlaceholderCombatData>(PlaceholderCombatPath),
             Lifetime.Scoped);
         builder.Register<CharacterRepository>(Lifetime.Scoped);
@@ -136,5 +137,18 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterEntryPoint<HpLossPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<HitReactionPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<MonsterHpBarPresenter>(Lifetime.Scoped).AsSelf();
+    }
+    // D-T8: logging belongs to the Game loading boundary, never HD2D.View.
+    private static TerrainHeightGrid CreateTerrainGrid(FieldHeightData data)
+    {
+        try
+        {
+            return TerrainHeightGrid.FromMillimetres(data.cell, data.originX, data.originZ, data.width, data.depth, data.heightsMm);
+        }
+        catch (System.ArgumentException exception)
+        {
+            GameLogger.LogError($"[GameSceneLifetimeScope] Invalid field_height: {exception.Message}");
+            throw;
+        }
     }
 }

@@ -193,7 +193,7 @@ public static class PlayableProbe
     {
         get
         {
-            var expected = IsoProjection.FloorToWorld(Resolve<PartyModel>().Center, Resolve<RunRulesData>().UnitScale);
+            var expected = IsoProjection.FloorToWorld(Resolve<PartyModel>().Center, Resolve<RunRulesData>().UnitScale, Resolve<TerrainHeightGrid>());
             var camera = Resolve<Camera>().transform;
             var rig = Resolve<TiltedCameraRig>();
             var restored = camera.position + camera.forward * rig.Distance - camera.right * rig.ShakeOffset.x - camera.up * rig.ShakeOffset.y;
@@ -655,6 +655,130 @@ public static class PlayableProbe
     }
 
     // T1~T5: 실제 풀에서 표시한 횟수와 현재 카메라 안 그림 수. 짧은 효과는 상태 숫자와 함께 확인한다.
+    public static IEnumerable<IEffectFrameSource> EffectSources()
+    {
+        var registry = Resolve<ProjectileViewRegistry>();
+        foreach (var id in registry.ProjectileIds)
+        {
+            registry.TryGetProjectile(id, out var view);
+            yield return view;
+        }
+        foreach (var id in registry.BurstIds)
+        {
+            registry.TryGetBurst(id, out var view);
+            yield return view;
+        }
+        var shots = Resolve<EnemyShotViewRegistry>();
+        foreach (var id in shots.ShotIds)
+        {
+            shots.TryGet(id, out var view);
+            yield return view;
+        }
+        foreach (var monster in Resolve<MonsterViewRegistry>().Views)
+        {
+            yield return monster.DashFrameSource;
+            yield return monster.BlastFrameSource;
+        }
+    }
+
+    public static bool IsTerrainSpawnQuarterCaptured => UnityEngine.Object.FindAnyObjectByType<PlayableTerrainSpawnSampler>()?.IsCaptured == true;
+    public static void CaptureTerrainSpawnQuarter(int corner)
+    {
+        var sampler = UnityEngine.Object.FindAnyObjectByType<PlayableTerrainSpawnSampler>();
+        if (sampler == null) { sampler = new GameObject("Exact terrain spawn observation").AddComponent<PlayableTerrainSpawnSampler>(); }
+        sampler.Arm(corner);
+    }
+
+    public static bool IsTerrainWalkCaptured => UnityEngine.Object.FindAnyObjectByType<PlayableTerrainWalkSampler>()?.IsCaptured == true;
+    public static bool TerrainWalkCrossedPeak => UnityEngine.Object.FindAnyObjectByType<PlayableTerrainWalkSampler>()?.CrossedPeak == true;
+    public static float TerrainWalkMaxFootError => UnityEngine.Object.FindAnyObjectByType<PlayableTerrainWalkSampler>().MaximumFootError;
+    public static float TerrainWalkMaxCameraError => UnityEngine.Object.FindAnyObjectByType<PlayableTerrainWalkSampler>().MaximumCameraError;
+    public static void CaptureTerrainWalk(string directory)
+    {
+        var sampler = new GameObject("Terrain eight-frame walk evidence").AddComponent<PlayableTerrainWalkSampler>();
+        sampler.Arm(directory);
+    }
+
+    public static float PartyCenterLimitWorld
+    {
+        get
+        {
+            var rules = Resolve<RunRulesData>();
+            var extent = Resolve<MonsterModel>().ViewHalfExtent * rules.UnitScale;
+            return rules.FieldCells * .5f - extent.x - extent.y;
+        }
+    }
+
+    public static float TerrainCaptureThreshold(float oldThreshold) => PartyCenterLimitWorld - (10.75f - oldThreshold);
+    public static Vector2 TerrainCaptureTarget(float x, float z) =>
+        TiltedViewMath.RemapBoundaryPoint(new Vector2(x, z), 10.75f, PartyCenterLimitWorld);
+
+    public static float PartyGroundHeight
+    {
+        get
+        {
+            var position = Resolve<PartyModel>().Center * Resolve<RunRulesData>().UnitScale;
+            return TerrainHeightMath.Sample(Resolve<TerrainHeightGrid>(), position.x, position.y);
+        }
+    }
+
+    public static float TerrainFootError
+    {
+        get
+        {
+            var grid = Resolve<TerrainHeightGrid>();
+            var error = 0f;
+            foreach (var view in Resolve<IReadOnlyList<MemberView>>())
+            {
+                if (view.gameObject.activeInHierarchy) { Check(view.transform.position); }
+            }
+            foreach (var view in Resolve<MonsterViewRegistry>().Views)
+            {
+                if (view.gameObject.activeInHierarchy) { Check(view.transform.position); }
+            }
+            return error;
+            void Check(Vector3 foot)
+            {
+                error = Mathf.Max(error, Mathf.Abs(foot.y - TerrainHeightMath.Sample(grid, foot.x, foot.z)));
+            }
+        }
+    }
+
+    public static int SpawnFootVisibleCount => Resolve<WorldPresenter>().SpawnFootVisibleCount;
+    public static int SpawnBodyVisibleCount => Resolve<WorldPresenter>().SpawnBodyVisibleCount;
+
+    // Boundary fixture for terrain flow 9: offsets are preserved, rules still own motion.
+    public static void PlaceTerrainPartyAtBoundary(int corner)
+    {
+        var party = Resolve<PartyModel>();
+        var extent = Resolve<MonsterModel>().ViewHalfExtent;
+        var rules = Resolve<RunRulesData>();
+        var limit = rules.FieldCells / (2f * rules.UnitScale) - extent.x - extent.y;
+        var signs = new[] { new Vector2(-1, -1), new Vector2(1, -1), new Vector2(1, 1), new Vector2(-1, 1) };
+        var next = Vector2.Scale(signs[corner], new Vector2(limit * .75f, limit * .25f));
+        var delta = next - party.Center;
+        party.SetCenter(next);
+        foreach (var member in party.MemberList)
+        {
+            member.Position += delta;
+        }
+        SetMove(0, 0);
+    }
+
+    public static void WriteTerrainSpawnReport(string path)
+    {
+        var height = 0f;
+        foreach (var data in Resolve<MonsterRepository>().MonsterDataList)
+        {
+            height = Mathf.Max(height, Resolve<MonsterViewFactory>().GetHeadHeight(data));
+        }
+        System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
+        System.IO.File.WriteAllText(System.IO.Path.ChangeExtension(path, "csv"), Resolve<WorldPresenter>().PlacementObservations);
+        System.IO.File.WriteAllText(path, string.Format(System.Globalization.CultureInfo.InvariantCulture,
+            "{{\"SpawnFootVisibleCount\":{0},\"SpawnBodyVisibleCount\":{1},\"maxMonsterHeadHeight\":{2},\"TerrainFootError\":{3},\"PartyGroundHeight\":{4}}}",
+            SpawnFootVisibleCount, SpawnBodyVisibleCount, height, TerrainFootError, PartyGroundHeight));
+    }
+
     public static string EffectFrameSequence(string key) => Resolve<CombatWorldPresenter>().GetFrameSequence(key);
 
     public static int EffectShownCount(string spriteName) => Resolve<CombatWorldPresenter>().GetShownCount(spriteName);
@@ -666,7 +790,7 @@ public static class PlayableProbe
         foreach (var id in registry.ProjectileIds)
         {
             registry.TryGetProjectile(id, out var view);
-            if (IsEffectVisible(view.BodyRenderer, spriteName) && IsProjectileAwayFromParty(view.BodyRenderer))
+            if (IsEffectVisible(view, spriteName) && IsProjectileAwayFromParty(view))
             {
                 count++;
             }
@@ -675,7 +799,7 @@ public static class PlayableProbe
         foreach (var id in registry.BurstIds)
         {
             registry.TryGetBurst(id, out var view);
-            if (IsEffectVisible(view.BodyRenderer, spriteName))
+            if (IsEffectVisible(view, spriteName))
             {
                 count++;
             }
@@ -787,12 +911,13 @@ public static class PlayableProbe
     }
 
     // 투사체가 발사자 몸과 겹친 첫 프레임 대신, 궤적을 읽을 수 있는 비행 중 프레임을 잡는다.
-    private static bool IsProjectileAwayFromParty(SpriteRenderer renderer)
+    private static bool IsProjectileAwayFromParty(IEffectFrameSource source)
     {
+        var renderer = source.ActiveRenderer;
         var rules = Resolve<RunRulesData>();
         foreach (var member in Resolve<PartyModel>().MemberList)
         {
-            var foot = IsoProjection.FloorToWorld(member.Position, rules.UnitScale);
+            var foot = IsoProjection.FloorToWorld(member.Position, rules.UnitScale, Resolve<TerrainHeightGrid>());
             var camera = Resolve<Camera>();
             var center = camera.WorldToViewportPoint(renderer.bounds.center);
             foot = camera.WorldToViewportPoint(foot);
@@ -807,10 +932,14 @@ public static class PlayableProbe
         return true;
     }
 
-    private static bool IsEffectVisible(SpriteRenderer renderer, string spriteName)
+    private static bool IsEffectVisible(IEffectFrameSource source, string spriteName)
     {
-        var point = Resolve<Camera>().WorldToViewportPoint(renderer.bounds.center);
-        return (renderer.sprite.name == spriteName + "(Clone)" || renderer.sprite.name.StartsWith(Resolve<CombatEffectData>().GetClip(spriteName).Sprite + "_", StringComparison.Ordinal)) && renderer.color.a > 0f
+        if (!source.IsShown)
+        {
+            return false;
+        }
+        var point = Resolve<Camera>().WorldToViewportPoint(source.ActiveRenderer.bounds.center);
+        return (source.SourceSprite.name == spriteName + "(Clone)" || source.SourceSprite.name.StartsWith(Resolve<CombatEffectData>().GetClip(spriteName).Sprite + "_", StringComparison.Ordinal)) && source.Alpha > 0f
             && point.z > 0f && point.x > 0f && point.x < 1f && point.y > 0f && point.y < 1f;
     }
 
@@ -1313,7 +1442,7 @@ public class PlayableEffectSequenceSampler : MonoBehaviour
 
     private System.Collections.IEnumerator Capture()
     {
-        SpriteRenderer selected = null;
+        IEffectFrameSource selected = null;
         var started = false;
         var ended = false;
         var rectangle = new RectInt();
@@ -1325,20 +1454,20 @@ public class PlayableEffectSequenceSampler : MonoBehaviour
             yield return new WaitForEndOfFrame();
             if (!started)
             {
-                foreach (var candidate in Object.FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None))
+                foreach (var candidate in PlayableProbe.EffectSources())
                 {
-                    if (!Matches(candidate) || FrameNumber(candidate.sprite) != 1)
+                    if (!Matches(candidate) || candidate.FrameNumber != 1 || !HasEnoughFlight(candidate))
                     {
                         continue;
                     }
-                    var viewport = camera.WorldToViewportPoint(candidate.bounds.center);
+                    var viewport = camera.WorldToViewportPoint(candidate.ActiveRenderer.bounds.center);
                     if (viewport.z <= 0 || viewport.x <= .05f || viewport.x >= .95f || viewport.y <= .1f || viewport.y >= .9f)
                     {
                         continue;
                     }
                     selected = candidate;
                     started = true;
-                    var center = camera.WorldToScreenPoint(candidate.bounds.center);
+                    var center = camera.WorldToScreenPoint(candidate.ActiveRenderer.bounds.center);
                     var width = Mathf.Min(640, Screen.width);
                     var height = Mathf.Min(480, Screen.height);
                     rectangle = new RectInt(Mathf.Clamp(Mathf.RoundToInt(center.x - width / 2f), 0, Screen.width - width),
@@ -1355,9 +1484,9 @@ public class PlayableEffectSequenceSampler : MonoBehaviour
             {
                 ended = true;
             }
-            var index = visible ? FrameNumber(selected.sprite) : 0;
-            var source = visible ? ReadPixels(selected.sprite) : (binary: true, core: 0);
-            var coreIntensity = visible && selected.sharedMaterial.HasProperty("_CoreIntensity") ? selected.sharedMaterial.GetFloat("_CoreIntensity") : 1;
+            var index = visible ? selected.FrameNumber : 0;
+            var source = visible ? ReadPixels(selected.SourceSprite) : (binary: true, core: 0);
+            var coreIntensity = visible && selected.ActiveRenderer.sharedMaterial.HasProperty("_CoreIntensity") ? selected.ActiveRenderer.sharedMaterial.GetFloat("_CoreIntensity") : 1;
             var core = coreIntensity > 2 ? source.core : 0;
             if (visible)
             {
@@ -1367,8 +1496,8 @@ public class PlayableEffectSequenceSampler : MonoBehaviour
                     _seenOrder.Add(index);
                 }
             }
-            var alpha = visible ? Mathf.RoundToInt(selected.color.a * 255) : 0;
-            log.AppendLine($"{recorded},{Time.frameCount},{Time.time:F6},{index},{(visible ? selected.sprite.name : "none")},{alpha},{core},{source.binary},{(visible ? 1 : 0)}");
+            var alpha = visible ? Mathf.RoundToInt(selected.Alpha * 255) : 0;
+            log.AppendLine($"{recorded},{Time.frameCount},{Time.time:F6},{index},{(visible ? selected.SourceSprite.name : "none")},{alpha},{core},{source.binary},{(visible ? 1 : 0)}");
             var full = ScreenCapture.CaptureScreenshotAsTexture();
             var crop = new Texture2D(rectangle.width, rectangle.height, TextureFormat.RGBA32, false);
             crop.SetPixels(full.GetPixels(rectangle.x, rectangle.y, rectangle.width, rectangle.height));
@@ -1383,11 +1512,30 @@ public class PlayableEffectSequenceSampler : MonoBehaviour
         System.IO.File.WriteAllText(System.IO.Path.Combine(_directory, "state.txt"),
             $"key={_key} samples={recorded} expectedFrames={_frameCount} seen={string.Join(",", _seenSet.OrderBy(i=>i))} hasAllFrames={HasAllFrames}\n");
         RestoreClock();
+        Time.timeScale = 0f; // Keep the measured frame stable until the next sampler is armed.
         IsCaptured = true;
     }
 
-    private bool Matches(SpriteRenderer renderer) => renderer != null && renderer.enabled && renderer.gameObject.activeInHierarchy
-        && renderer.sprite != null && renderer.sprite.name.StartsWith(_prefix, StringComparison.Ordinal);
+    // A real projectile that hits its target before frame N cannot evidence a full clip.
+    // Select a new flight with enough remaining range; never extend its actual lifetime.
+    private bool HasEnoughFlight(IEffectFrameSource source)
+    {
+        if (source is not ProjectileView projectileView || _frameCount <= 1) { return true; }
+        var registry = PlayableProbe.Resolve<ProjectileViewRegistry>();
+        var clip = PlayableProbe.EffectClip(_key);
+        var seconds = (_frameCount - 1f) / clip.Fps + 1f / 30f;
+        foreach (var projectile in PlayableProbe.Resolve<CombatModel>().ProjectileList)
+        {
+            if (!registry.TryGetProjectile(projectile.Id, out var view) || view != projectileView) { continue; }
+            var remaining = projectile.Range - projectile.Traveled;
+            if (projectile.IsExplosion) { remaining = Mathf.Min(remaining, Vector2.Distance(projectile.Position, projectile.TargetPosition)); }
+            return remaining > projectile.Speed * seconds;
+        }
+        return false;
+    }
+
+    private bool Matches(IEffectFrameSource source) => source != null && source.IsShown
+        && source.SourceSprite != null && source.SourceSprite.name.StartsWith(_prefix, StringComparison.Ordinal);
 
     private static int FrameNumber(Sprite sprite)
     {
@@ -1468,4 +1616,104 @@ public class PlayableBattleFxSampler : MonoBehaviour
         }
     }
 }
+
+// Eight ordered samples during continuous normal-service movement across the hill fixture.
+public class PlayableTerrainWalkSampler : MonoBehaviour
+{
+    public bool IsCaptured { get; private set; }
+    public bool CrossedPeak { get; private set; }
+    public float MaximumFootError { get; private set; }
+    public float MaximumCameraError { get; private set; }
+    private float _oldCaptureDelta;
+    private PartyMoveService _moveService;
+    private Vector2 _oldExtent;
+    private bool _isArmed;
+    public void Arm(string directory)
+    {
+        _oldCaptureDelta = Time.captureDeltaTime;
+        _moveService = PlayableProbe.Resolve<PartyMoveService>();
+        _oldExtent = PlayableProbe.Resolve<MonsterModel>().ViewHalfExtent;
+        // This is a hill-crossing fixture outside the normal camera-centre limit.
+        // Widen only this fixture's movement limit, then restore it; no pad/data change.
+        _moveService.SetViewHalfExtent(Vector2.zero);
+        _isArmed = true;
+        Time.captureDeltaTime = 1f / 30f;
+        Time.timeScale = 1f;
+        PlayableProbe.SetMove(1, 0);
+        StartCoroutine(Capture(directory));
+    }
+    private System.Collections.IEnumerator Capture(string directory)
+    {
+        System.IO.Directory.CreateDirectory(directory);
+        var log = new System.Text.StringBuilder("sample,simulationSeconds,partyX,partyZ,height,footError,cameraError\n");
+        var heights = new float[8];
+        var frame = 0;
+        for (var i = 0; i < 8; i++)
+        {
+            // 36 consecutive 30Hz simulation frames between samples (1.2s). Nothing
+            // teleports between them: PartyMoveService consumes the regular input.
+            var frames = i == 0 ? 1 : 36;
+            for (var step = 0; step < frames; step++)
+            {
+                yield return new WaitForEndOfFrame();
+                frame++;
+                MaximumFootError = Mathf.Max(MaximumFootError,PlayableProbe.TerrainFootError);
+                MaximumCameraError = Mathf.Max(MaximumCameraError,PlayableProbe.CameraError);
+            }
+            var texture = ScreenCapture.CaptureScreenshotAsTexture();
+            System.IO.File.WriteAllBytes(System.IO.Path.Combine(directory, $"walk-{i + 1:00}.png"), texture.EncodeToPNG());
+            Destroy(texture);
+            var position = PlayableProbe.Resolve<PartyModel>().Center * PlayableProbe.Resolve<RunRulesData>().UnitScale;
+            heights[i] = PlayableProbe.PartyGroundHeight;
+            log.AppendLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},{1},{2},{3},{4},{5},{6}", i + 1, frame / 30f, position.x, position.y,
+                heights[i], PlayableProbe.TerrainFootError, PlayableProbe.CameraError));
+        }
+        var peak = 0;
+        for (var i = 1; i < heights.Length; i++) { if (heights[i] > heights[peak]) { peak = i; } }
+        CrossedPeak = peak > 0 && peak < 7 && heights[peak] - heights[0] > .05f && heights[peak] - heights[7] > .05f;
+        System.IO.File.WriteAllText(System.IO.Path.Combine(directory, "walk.csv"), log.ToString());
+        PlayableProbe.SetMove(0, 0);
+        Restore();
+        Time.timeScale = 0f;
+        IsCaptured = true;
+    }
+    private void Restore()
+    {
+        if (!_isArmed) { return; }
+        Time.captureDeltaTime = _oldCaptureDelta;
+        _moveService.SetViewHalfExtent(_oldExtent);
+        _isArmed = false;
+    }
+    private void OnDestroy() => Restore();
+}
+
+// CLI latency must not turn four 7.5-second intervals into a longer observation.
+[DefaultExecutionOrder(20000)]
+public class PlayableTerrainSpawnSampler : MonoBehaviour
+{
+    public bool IsCaptured { get; private set; }
+    private float _elapsed;
+    private float _oldCaptureDelta;
+    public void Arm(int corner)
+    {
+        PlayableProbe.PlaceTerrainPartyAtBoundary(corner);
+        _elapsed = 0;
+        if (corner == 0) { PlayableProbe.Resolve<WorldPresenter>().BeginPlacementObservation(); }
+        IsCaptured = false;
+        _oldCaptureDelta = Time.captureDeltaTime;
+        Time.captureDeltaTime = 1f / 30f;
+        Time.timeScale = 1;
+    }
+    private void LateUpdate()
+    {
+        if (IsCaptured || Time.timeScale == 0) { return; }
+        _elapsed += Time.deltaTime;
+        if (_elapsed < 7.5f - .0001f) { return; }
+        Time.timeScale = 0;
+        Time.captureDeltaTime = _oldCaptureDelta;
+        IsCaptured = true;
+    }
+    private void OnDestroy() { Time.captureDeltaTime = _oldCaptureDelta; }
+}
+
 #endif
