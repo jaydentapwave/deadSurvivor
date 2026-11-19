@@ -358,3 +358,42 @@ C9는 앞 회차부터 쓰던 `L6-colour-regions.json`의 강 상자 [900,190,10
 필수 수정0. 후속 회귀 시험 제안은 추가 구현의 이유로 삼지 않고 열린 기록으로 남긴다. 이번 마감에서는 게임 코드·볼륨·재질·셰이더·그림을 바꾸지 않았고 컴파일/Play/시험/관문을 재실행하지 않았다. 기존 로그를 이번 성공으로 다시 적지 않는다.
 
 G20 최종 가독성·옅은 호형 전이·미세 Bloom, K21 최종4장 점수 NOT_RUN(이전 FAIL 유지), 자연장면 흐림 추정 FAIL/교정 PASS 분리, 지시문 미추적과 Font 재현 한계, 수집 후 튜토리얼 통합 미확인을 그대로 유지한다. 코드 리뷰3종 PASS는 **G03/G20·전체아트/T4 완료가 아니다**. 다음은 디렉터의 판독과 소스 안정 후 통합 확인이다.
+
+
+## attempt 4 — 디렉터 r003/D-L8
+
+현재 회차는 이 절을 따른다. K21 r003 PASS: Codex T2=3>평지1, Claude T2=2>평지1. 기존 G20은 Codex readability2 한 칸 FAIL(몸/숫자 겹침), 사용자 선택은 간격 넓힘·숫자 위로다. 과거 진형 동결은 D-L8로 대체됐다. 비탈·빛 값은 변경0.
+
+변경은 Formation balanced/wedge/line 슬롯 **균일1.5배**, feedback damageNumber.offsetPx **5→80**뿐이다. balanced (±30,±72)→(±45,±108), wedge (0,±72)/(±52,0)→(0,±108)/(±78,0), line x−90/−30/30/90→−135/−45/45/135. 모양·순서·숫자 수40/수명.65/font8/상승12와 D-L6 C#은 불변. data-contract.json은 원래 HEAD bytes/SHA와 대조했다.
+
+| 측정 | 전 | 최종 |
+|---|---:|---:|
+| 몸 상자 겹침 합/네 몸 상자 면적 합 |7.173284%|.419826%|
+| 가장 많이 겹친 쌍의 작은 상자 대비 |14.893584%|2.127660%|
+| 숫자와 몸 겹침 면적 |2461.265px²|0px²|
+| 숫자와 상체(위50%) 겹침 면적 |1400.412px²|0px²|
+
+source alpha≥.5 경계를 실제 Transform/flip/pivot/카메라로 투영한 보수적 상자다. 같은 시드8/wave6 frame60, 각 state는 같은 멈춘 Unity frame을 assert한다. 공격자세 상자 끝 약2px 접촉은 남았다. main2/D-L8.json의 clearBodies=false는 엄밀한0%가 아니라는 표시다. '거의'를 사후 임계값으로 바꾸지 않는다. 최종 숫자6개가 실제 보이며, 최종 가독성 채택은 디렉터 G20이다. before/main.png와 final-feedback/main.png, battle-main.png1920×1080, 최종4화면비를 직접 열어 몸4명/머리 위 숫자/HP/HUD를 봤다. before-after-sheet.png는 sheet.py UNVERIFIED 비교다.
+
+숫자72px 후보는 상체121.548px²가 남아 실패,80에서0으로 해소. 진형은1.5배 첫 후보 그대로 게임 검사를 통과해 더 조정하지 않았다.
+
+| 이번 실행 | 결과 | 근거 |
+|---|---|---|
+| 컴파일 |up_to_date/오류0|attempt4/compile.json|
+| 관련 EditMode |진형5/5·숫자8/8·이동9/9,22PASS|클래스별 json|
+| 전체 판정 경로1회 |8/8 PASS148.6초|full-play/report.json, metrics 경로만 다른 full-route.json|
+| wave_targets1회 |42행 FAIL0, M5 패배웨이브3 범위2~5 OK|wave-targets.log/full-wave-metrics.json|
+| M7 성능 |미측정/수집끔|기존 경로의 false 유지, 성능 로그 열람0|
+| 측정 자체시험 |새3/3·기존7/7 PASS|measure-selftest-final.log|
+| 최종 판 수집1회 |11/11 PASS68.6초|final-play/report.json|
+| main2 gate |자동12PASS/G03·G20 BLOCKED/G19 N/A|Main2-20261119T101437Z,source1451/files1519|
+
+G09 .050569/.107034, G11 인물 .005731/배경 .087343 PASS. 새 aux 전후 state/image/결과5파일과 데이터4파일을 선언 전에 묶었다. 선언 후 역할·상자·요구 파일·킷·문턱 변경0. 이전 판 main2-Main2-20261119T093359Z와 attempt3 핸드오프를 별도 보존했다. runtime C#·장면·UI·셰이더·볼륨·그림·모델 변경0. 전체 Editor622개를 또 돌리지 않았다.
+
+K21은 r003 PASS를 잇고 이번 재판독/수정0. algorithm-tester의 D-L6 순수 쌓기 PASS도 그대로 잇는다. **새 리뷰는 validator-client·spec-reviewer**만 Claude에 요청. 수집 시 미커밋 튜토리얼/Scope/Font가 포함돼 커밋 단독 완전 재현으로 주장하지 않는다. 현재 Scope snapshot과 수집 SHA를 대조했다.
+
+놓친 것/절차 반영: 전후 감사 JSON을 만들며 같은 dict를 수정해 before 값도 변한 별칭 실수가 데이터 계약 assert에 걸렸다. 실제 before 캡처/게임 데이터는 정상이며, before 감사값은 Git 원본과 처음 기록한 SHA로 복구했다. 새 측정 스크립트 대신 기존 측정 도구 옵션을 사용했고, 엄밀한0%와 거의 없는 상자 겹침을 구별해 기록했다. full/wave/관련시험은 통과 후 재반복0. 시간·토큰은 attempt4/time-and-tokens.json(API 부재로 토큰 NOT_AVAILABLE).
+
+후속(이번 판정 밖): 풀 잔무늬·흙길 경계·그림자 띠·다리 그림자·이동 중 도트 흔들림. 고치지 않았다. G03/G20·전체아트/T4는 새 디렉터 판독 전 미완료, 성능은7단계. push/PR/merge·외부 전송·유료 생성·리뷰 직접 호출0.
+
+마감 시 외부 변경: 수집 완료 뒤 WorldPresenter/FieldView/HD2D_FieldSurface 세 파일의 해시가 달라졌다(중복 선언을 빼면3파일). 이번 D-L8은 수정하지 않은 파일들이다. 원 수집 SHA와 일치하는 HEAD 사본을 output에 보존했다(source-drift.json). 수집 전후 지문 일치/당시12PASS를 현재 전체소스 PASS로 넓히지 않는다. 현재 통합 판정은 다시 미확인으로 남긴다.

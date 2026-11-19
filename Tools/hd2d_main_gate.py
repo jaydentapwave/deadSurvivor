@@ -23,7 +23,7 @@ gate.dependencies()
 def dump(path,value):
     path.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n')
 
-def plan(vignette_pairs=False, vignette_baseline=None, vignette_baseline_off=None):
+def plan(vignette_pairs=False, vignette_baseline=None, vignette_baseline_off=None, feedback_state=None, feedback_image=None, feedback_baseline=None, feedback_baseline_image=None):
     OUT.mkdir(parents=True,exist_ok=True)
     m={'schema':'25d-gate-manifest/1','run_id':OUT.name.title()+'-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ'),'required_plates':['Main1'],'required_settings':{'quality':'Mobile','renderScale':1.0,'srpBatcher':True},'files':{},'sources':[],'capture_record':'capture-record','plates':[]}
     def add(key,path,size=None):
@@ -50,6 +50,12 @@ def plan(vignette_pairs=False, vignette_baseline=None, vignette_baseline_off=Non
         add('vignette-baseline',Path(vignette_baseline).resolve(),[1920,1080])
         add('vignette-baseline-off',Path(vignette_baseline_off).resolve(),[1920,1080])
         add('D-L5',OUT/'D-L5.json')
+    if feedback_state:
+        add('feedback-state',Path(feedback_state).resolve())
+        add('feedback-image',Path(feedback_image).resolve(),[1920,1080])
+        add('feedback-baseline',Path(feedback_baseline).resolve())
+        add('feedback-baseline-image',Path(feedback_baseline_image).resolve(),[1920,1080])
+        add('D-L8',OUT/'D-L8.json')
     dependencies=json.loads((OUT/'dependencies.json').read_text())['result']
     sources=set()
     for folder in ['Assets/Game/02.Scripts/Effect/HD2DView','Assets/Game/02.Scripts/Features/Field','Assets/Game/03.Resources/Materials/HD2D','Assets/Game/03.Resources/Shaders/HD2D','Assets/Game/03.Resources/Textures/HD2D','Assets/Game/03.Resources/Models/HD2D','Assets/Game/03.Resources/Art/AIGenerated/Decor','Assets/Game/03.Resources/Art/AIGenerated/Characters','Assets/Game/03.Resources/Art/AIGenerated/Monsters']:
@@ -60,6 +66,8 @@ def plan(vignette_pairs=False, vignette_baseline=None, vignette_baseline_off=Non
     # D-L6 changes must be bound even though pure C# services are not Unity asset dependencies.
     sources.update(str(p) for p in (ROOT/'Assets/Game/02.Scripts/Features/Feedback').rglob('*.cs'))
     sources.update(['Assets/Game/02.Scripts/Features/Combat/View/BurstView.cs','Assets/Game/Tests/EditMode/DamageNumberMotionTests.cs','Assets/Game/Tests/EditMode/CombatEffectTests.cs'])
+    sources.update(str(p) for p in (ROOT/'Assets/Game/03.Resources/Resources/Data/Formation').glob('*.json'))
+    sources.add('Assets/Game/03.Resources/Resources/Data/Feedback/feedback_rules.json')
     # B9 updates completion counts; bind immutable copies of the capture-time criteria.
     for original,name in [('docs/features/hd2d-background/prep.md','prep-before.md'),('docs/art/아트-기준서.md','art-spec-before.md')]:
         snapshot=OUT/name;snapshot.write_bytes((ROOT/original).read_bytes());sources.add(str(snapshot))
@@ -140,6 +148,35 @@ def compare_vignette_shape(on,off,baseline,baseline_off):
     return {'current':current,'baseline':old,'smootherThanBaseline':current['maximumAdjacentDifference']<old['maximumAdjacentDifference'],
         'PASS':current['noBlackCorners'] and current['maximumAdjacentDifference']<old['maximumAdjacentDifference']}
 
+def feedback_geometry(state):
+    """D-L8 opaque sprite boxes in the frozen 1920x1080 camera, alpha>=.5."""
+    def area(b):return max(0,b[2]-b[0])*max(0,b[3]-b[1])
+    def overlap(a,b):return area([max(a[0],b[0]),max(a[1],b[1]),min(a[2],b[2]),min(a[3],b[3])])
+    if state['frame']!=state['endFrame'] or state['timeScale']!=0:raise ValueError('D-L8 needs one frozen frame')
+    groups={}
+    for r in state['sprites']:
+        key=(r['group'],str(r['id']));box=r['box']
+        if key in groups:
+            b=groups[key];groups[key]=[min(b[0],box[0]),min(b[1],box[1]),max(b[2],box[2]),max(b[3],box[3])]
+        else:groups[key]=box
+    bodies=[dict(id=k[1],box=b) for k,b in groups.items() if k[0]=='member']
+    numbers=[dict(id=k[1],box=b) for k,b in groups.items() if k[0]=='number']
+    if len(bodies)!=4 or not numbers:raise ValueError('D-L8 needs four bodies and visible damage numbers')
+    pairs=[dict(a=a['id'],b=b['id'],intersection=overlap(a['box'],b['box']),ratioToSmaller=overlap(a['box'],b['box'])/min(area(a['box']),area(b['box']))) for i,a in enumerate(bodies) for b in bodies[i+1:]]
+    hits=[]
+    for n in numbers:
+        for b in bodies:
+            full=overlap(n['box'],b['box']);upper=list(b['box']);upper[3]=(upper[1]+upper[3])/2
+            if full>0:hits.append(dict(number=n['id'],member=b['id'],bodyIntersection=full,upperBodyIntersection=overlap(n['box'],upper)))
+    return dict(method='Opaque alpha>=.5 boxes; summed pair intersections / sum of four body areas. Upper body is top half of each opaque box; word boxes union enabled digits.',bodies=bodies,numbers=numbers,pairs=pairs,bodyOverlapRatio=sum(v['intersection'] for v in pairs)/sum(area(b['box']) for b in bodies),maximumPairRatio=max(v['ratioToSmaller'] for v in pairs),numberBodyOverlaps=hits,numberUpperBodyOverlapArea=sum(v['upperBodyIntersection'] for v in hits),numberBodyOverlapArea=sum(v['bodyIntersection'] for v in hits))
+
+def feedback(args):
+    state=gate.read(args.feedback_state)
+    a=gate.image(args.image)
+    if a.shape[:2]!=(1080,1920):raise ValueError('D-L8 capture must be 1920x1080')
+    result=feedback_geometry(state);result.update(image=args.image,imageSha256=gate.sha(args.image),stateSha256=gate.sha(args.feedback_state),frame=state['frame'])
+    OUT.mkdir(parents=True,exist_ok=True);dump(OUT/'feedback.json',result);print(json.dumps(result,ensure_ascii=False,indent=2))
+
 def selftest():
     off=np.full((1080,1920,3),100.0)
     assert abs(vignette_ratio(off,off)['ratio']-1)<1e-12
@@ -157,6 +194,15 @@ def selftest():
     assert shape['PASS'] and shape['current']['cornerBlackPercent']==0
     assert not compare_vignette_shape(hard,off,smooth,off)['PASS']
     assert abs(vignette_shape(smooth*.4,off)['maximumAdjacentDifference']-shape['current']['maximumAdjacentDifference'])<1e-12
+    fixture=lambda sprites:dict(frame=1,endFrame=1,timeScale=0,sprites=sprites)
+    sprites=[dict(group='member',id=i,box=[i*20,0,i*20+10,20]) for i in range(4)]+[dict(group='number',id=0,box=[0,-20,8,-12])]
+    a=feedback_geometry(fixture(sprites));assert a['bodyOverlapRatio']==0 and a['numberBodyOverlapArea']==0
+    sprites[1]['box']=[5,0,15,20];sprites[-1]['box']=[5,1,8,3]
+    a=feedback_geometry(fixture(sprites));assert a['bodyOverlapRatio']==.125 and a['maximumPairRatio']==.5 and a['numberUpperBodyOverlapArea']==12
+    try:feedback_geometry(fixture(sprites[:-1]))
+    except ValueError:pass
+    else:raise AssertionError('D-L8 missing numbers accepted')
+    print('D-L8 geometry selftest PASS 3/3: clear boxes, measured overlap, missing numbers rejection')
     print('C15 + D-L5 selftest PASS 7/7: neutral, exposure cancellation, corner attenuation, invalid black reference, smooth/no-black pass, hard-black rejection, radial exposure cancellation')
 
 def finish():
@@ -189,6 +235,9 @@ def finish():
         old=gate.image(paths['vignette-baseline']);old_off=gate.image(paths['vignette-baseline-off'])
         dump(paths['D-L5'],{'baselineSha256':gate.sha(paths['vignette-baseline']),'baselineOffSha256':gate.sha(paths['vignette-baseline-off']),
             'frames':[compare_vignette_shape(gate.image(paths['vignetteOn'+str(i)]),gate.image(paths['vignetteOff'+str(i)]),old,old_off) for i in range(8)]})
+    if 'feedback-state' in paths:
+        current=feedback_geometry(gate.read(paths['feedback-state']));baseline=feedback_geometry(gate.read(paths['feedback-baseline']))
+        dump(paths['D-L8'],dict(current=current,baseline=baseline,bodyOverlapDelta=current['bodyOverlapRatio']-baseline['bodyOverlapRatio'],clearBodies=current['bodyOverlapRatio']==0,numbersClearOfUpperBodies=current['numberUpperBodyOverlapArea']==0,interpretation='Quantitative boxes only; G20 readability is the director decision.'))
     moves=[shots[f'Main1-move-{i}.png'] for i in range(8)]
     motion={'measure_from_images':True,'hero_box':p['regions']['hero'],'background_box':p['regions']['ground'][0],'hero':[],'background':[]}
     for i,(a,key) in enumerate(zip(frames,p['motion'])):
@@ -307,11 +356,12 @@ def measure(args):
     OUT.mkdir(parents=True,exist_ok=True);Image.fromarray(field.astype(np.uint8)).save(OUT/'grass.png');dump(OUT/'measure.json',report);print(json.dumps(report,ensure_ascii=False,indent=2))
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish','measure','selftest']);parser.add_argument('--out');parser.add_argument('--captures');parser.add_argument('--image');parser.add_argument('--pair');parser.add_argument('--regions');parser.add_argument('--motion');parser.add_argument('--vignette-pair',action='store_true');parser.add_argument('--vignette-baseline');parser.add_argument('--vignette-baseline-off');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish','measure','selftest','feedback']);parser.add_argument('--out');parser.add_argument('--captures');parser.add_argument('--image');parser.add_argument('--pair');parser.add_argument('--regions');parser.add_argument('--feedback-state');parser.add_argument('--feedback-baseline');parser.add_argument('--motion');parser.add_argument('--vignette-pair',action='store_true');parser.add_argument('--vignette-baseline');parser.add_argument('--vignette-baseline-off');args=parser.parse_args()
     if bool(args.vignette_baseline)!=bool(args.vignette_baseline_off):parser.error('Both vignette baseline ON and OFF are required')
     if args.phase=='measure' and args.vignette_pair and not args.pair:parser.error('--vignette-pair requires --pair')
     if args.out: OUT=Path(args.out).resolve()
     if args.captures: CAP=Path(args.captures).resolve()
-    if args.phase == 'measure': measure(args)
-    elif args.phase == 'plan':plan(vignette_pairs=args.vignette_pair,vignette_baseline=args.vignette_baseline,vignette_baseline_off=args.vignette_baseline_off)
+    if args.phase == 'feedback':feedback(args)
+    elif args.phase == 'measure': measure(args)
+    elif args.phase == 'plan':plan(vignette_pairs=args.vignette_pair,vignette_baseline=args.vignette_baseline,vignette_baseline_off=args.vignette_baseline_off,feedback_state=args.feedback_state,feedback_image=args.image,feedback_baseline=args.feedback_baseline,feedback_baseline_image=args.pair)
     else: {'selftest':selftest,'finish':finish}[args.phase]()
