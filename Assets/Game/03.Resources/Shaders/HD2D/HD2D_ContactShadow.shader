@@ -33,7 +33,7 @@ Shader "HD2D/HD2D_ContactShadow"
                 float shadowDepth=-TransformWorldToView(i.world).z;
                 if (distance(i.world.xz,_Contact.xy)>.4) clip(.04-abs(receiver-shadowDepth));
                 if (_Contact.z>0) clip(_Contact.z-distance(i.world.xz,_Contact.xy));
-                return half4(.44,.43,.39,1);
+                return half4(.62,.53,.40,1);
             }
             ENDHLSL
         }

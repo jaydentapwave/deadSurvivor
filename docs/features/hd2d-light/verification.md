@@ -49,3 +49,7 @@ L0: 촬영 fixture 보완 후 4/12단계(UNIT까지) PASS, 28.5초, wave6/frame6
 | C16 | 풀S.3464<인물S.5152 |PASS, 판정제외 |
 
 누락 원인/후보: 재컴파일 started를 completed로 오인하지 않기; Editor 어셈블리 MonoBehaviour를 붙이지 않기; 플레이 fixture는 예산/생존·필수효과 동시표시를 처음부터 고정. 이 작업 흐름에 반영, 공통 규칙 추가 없음. session_time.py는 기본이 Claude 로그를 읽어 현재 Codex 시간으로 쓸 수 없음. 해당 출력은 현재 사용량 증거가 아님; Codex 토큰 API미제공, 직접 하위 에이전트0. 이후 단위 시작/끝 시각을 기록.
+
+### L1 (2026-11-19 05:56 UTC 전후)
+
+그림자 배경배율 .44/.43/.39→.52/.45/.36, 곱셈 그림자 .44/.43/.39→.62/.53/.40(선형). 해·환경광·거리·그림자 정책은 이미 기준과 같아 유지. 컴파일 up-to-date/failed=false; 해당 흐름UNIT4/12 PASS, frame60 일치. main.png·sun-off.png 직접 열어 대원/나무 그림자가 발·밑동에 붙고 갈색이 됨을 확인. 길이1.155508(1~1.5)·색 H41.538/V.298(추정15~50/>.10) PASS. C3 ΔE6.811 그대로. 검정으로 눌리던 배경그림자가 덜 진해짐. 근거 `output/hd2d-light/L1-measure/measure.json`, L1/frame.json·shadow.json. 3.12 값을 같은 커밋에 고침. 놓친 것: 없음. 전체Play/전체시험/성능 NOT_RUN(이 단위 대상 밖).

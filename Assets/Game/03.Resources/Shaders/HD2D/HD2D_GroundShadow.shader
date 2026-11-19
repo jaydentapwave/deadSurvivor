@@ -31,7 +31,7 @@ Shader "HD2D/HD2D_GroundShadow"
                     clip(_Contact.w>.1 ? bank-.5 : .5-bank);
                 }
                 if (_Contact.z>0) clip(_Contact.z-distance(i.world.xz,_Contact.xy));
-                return half4(.44,.43,.39,1);
+                return half4(.62,.53,.40,1);
             }
             ENDHLSL
         }

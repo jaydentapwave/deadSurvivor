@@ -167,7 +167,7 @@ Shader "HD2D/HD2D_FieldSurface"
                 c=rank<.5 ? half3(66,52,32)/255 : rank<1.5 ? half3(111,94,62)/255 : half3(168,165,133)/255;
             }
             float shadow=(_Category>.5 && _Category<1.5) ? 1 : _Category>2.5 && _Category<3.5 && i.n.y<.7 ? 1 : step(.5,sun.shadowAttenuation);
-            half3 shadowFactor=lerp(half3(.44,.43,.39),half3(1,1,1),shadow);
+            half3 shadowFactor=lerp(half3(.52,.45,.36),half3(1,1,1),shadow);
             // Toon face shade and hard shadow describe the same occluded light.
             // Applying both multiplicatively crushed tent cloth to grey.
             c*=_Category>4.5 ? min(band.xxx,shadowFactor) : shadowFactor;
