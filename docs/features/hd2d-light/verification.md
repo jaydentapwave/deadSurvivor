@@ -61,3 +61,15 @@ L0: 촬영 fixture 보완 후 4/12단계(UNIT까지) PASS, 28.5초, wave6/frame6
 ### L2
 
 FieldSurface 램프 .60/.82/1→.58/.80/1(문턱.25/.68), SpriteLit는 이미 일치. 기존 턱 옆면 그림자 중복 제외·몬스터 수신Off 유지. 컴파일 failed=false, ShaderHasError=false/messages0. 시작흐름3/3 PASS23.6초, 진단148/204/255의3단 PASS. L2/main.png·정확한 [420,96,1644,804] Point4배 closeup.png 직접 열어 바위·식물 도트 계단/단색면, 중앙 부드러운 그라데이션 없음 확인. 최종ON G09/G11은 L3/L6에서 같은 원본 관문으로 다시 판단(아직 전체아트FAIL 유지).
+
+### L3 — 부분 구현, 미해결 유지
+
+Vignette override(.23→.26, smoothness.2), 색 조정0 추가; Bloom2/.1/.25/Dual/Quarter·Neutral·32bits 유지. BandBlur 중복 radial dim 제거; 2출력px Point9탭, 경계에서0으로 줄이는 것은 오프셋이 아니라 강도(.35→.5). 중앙은 즉시 원색 반환(half 누산 오차 제거). 에디터 값은 L3-edit-values.json(Play=false). 지정흐름UNIT4/12 PASS32.2초, shader/script 컴파일 오류0. L3-valid/main.png·bloom-off.png 직접 열어 HP/숫자 선명·중앙 도트·밖 약한 흐림을 봄.
+
+C15 .837780(.23)→.815059(.26): 0.6~0.8 **FAIL**. 흐림 실측경계 v .143056/.782870(.35)→.148611/.781019(.5): 아래 PASS, 위 허용 상한.78보다.001019 커 **FAIL**. 측정은2LSB 이하 누산잡음 제외한 행별 차·고주파곡선 저장. 단위2회 수정 실패 상한이므로 같은 항목을 혼자 세번째 튜닝하지 않고 열린 항목으로 보존, 다른 단위 계속. 문턱 변경 없음.
+
+Bloom: 풀 평균차0 PASS, 효과 쌍 전체 최대차0 **FAIL[추정]**. 실제 explosion_3을 기존 풀/재질로 같은 정지 frame60에 추가한 시각 시험이다. 흰 핵2.4→6→32 시도에서도0. 카메라 ViaScripting 캐시 발견→CaptureCamera.UpdateVolumeStack 추가, intensity0 OFF로 재확인했으나 여전히0. 미입증 핵32/6 변경은 원래2.4(Pulse2.2/Heal1.6)로 되돌림. 앞선 캐시미갱신 쌍은 무효, 마지막 valid쌍도 FAIL을 유지한다. Unity GammaToLinearSpace(2)=4.594794; 앞 commentary 약4.95는 정정. 원인이 확정됐다는 초기 해석도 철회한다. 이 추정 검사만으로 추가 그림 변경 반복을 열지 않음.
+
+L3 진단 Prepare는 'No unobstructed 61,440-pixel grass panel'로 실패했다. 아직 Main2 선언을 하지 않았으며 기존 판 상자를 바꾸지 않았다. L6에서 다른 정상 이동 초점을 사전 선택하거나 차단을 그대로 기록한다.
+
+놓친 것/워크플로우 후보: HDR 기준과 effect core만으로 원인 확정하지 않기; 동일프레임 토글은 실제 camera volumeStack 값을 함께 남기기; SaveAssets 대신 지정 SaveAssetIfDirty(자동 shader-default 부수 변경은 기존 authored 값 보존하며 Editor SerializedObject로 제거). 공통 워크플로우 확대 없이 이 기록에 반영.

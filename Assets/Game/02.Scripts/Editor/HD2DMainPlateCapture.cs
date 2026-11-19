@@ -451,13 +451,13 @@ public static class HD2DMainPlateCapture
             {
                 var profile = Object.FindObjectsByType<Volume>(FindObjectsSortMode.None).First(v => v.sharedProfile != null && v.sharedProfile.Has<Bloom>()).profile;
                 profile.TryGet<Bloom>(out var bloom);
-                var wasActive = bloom.active;
+                var intensity = bloom.intensity.value;
                 try
                 {
-                    bloom.active = false;
+                    bloom.intensity.value = 0;
                     Capture("bloom-off.png", 1920, 1080);
                 }
-                finally { bloom.active = wasActive; }
+                finally { bloom.intensity.value = intensity; }
                 File.WriteAllText(directory + "/settings.json", JsonUtility.ToJson(ActualSettings(), true));
             }
             if (mode == "baseline" || mode == "bloom")
@@ -499,6 +499,9 @@ public static class HD2DMainPlateCapture
             foreach (var canvas in canvases) canvas.enabled=false;
             _camera.targetTexture=target;
             _camera.GetComponent<HD2DBackgroundRig>().RenderBackgroundForCapture();
+            // Main uses ViaScripting volume updates. Refresh the cached camera stack
+            // for same-frame ON/OFF pairs; a render request alone retains old values.
+            _camera.UpdateVolumeStack();
             RenderPipeline.SubmitRenderRequest(_camera,new UniversalRenderPipeline.SingleCameraRequest { destination=target });
             RenderTexture.active=target;
             texture.ReadPixels(new Rect(0,0,width,height),0,0);texture.Apply();
