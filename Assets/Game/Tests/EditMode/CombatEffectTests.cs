@@ -269,4 +269,30 @@ public class CombatEffectTests
             Object.DestroyImmediate(view.gameObject);
         }
     }
+    [Test]
+    public void E1_GroundBurstReportsTheActiveConformedRendererAndReuseRestoresSprite()
+    {
+        var view = Object.Instantiate(Resources.Load<BurstView>("Prefab/BurstView"));
+        var frame = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/03.Resources/Art/HD2D/Effects/ground_boom_1.png");
+        try
+        {
+            view.Initialize(frame);
+            view.SetTerrain(TerrainHeightMathTests.Plane(.2f, 0));
+            view.UpdateView(new Vector3(.2f,.04f,.3f), frame, "ground_boom", 1, 5, false, true);
+            var source = (IEffectFrameSource)view;
+            Assert.IsTrue(source.IsShown);
+            Assert.AreSame(frame, source.SourceSprite);
+            Assert.IsInstanceOf<MeshRenderer>(source.ActiveRenderer);
+            Assert.IsFalse(view.BodyRenderer.enabled);
+            Assert.AreEqual(1996, source.ActiveRenderer.sharedMaterial.renderQueue);
+            view.UpdateView(new Vector3(.2f,.04f,.3f), frame, "explosion", 2, 1);
+            Assert.AreSame(view.BodyRenderer, source.ActiveRenderer);
+            Assert.IsTrue(view.BodyRenderer.enabled);
+            Assert.AreEqual(2, source.FrameNumber);
+        }
+        finally
+        {
+            Object.DestroyImmediate(view.gameObject);
+        }
+    }
 }

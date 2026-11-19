@@ -29,6 +29,28 @@ public class FieldView : MonoBehaviour
     [SerializeField] private FieldModelCatalog modelCatalog;
     [SerializeField] private bool useModelScenery;
     public bool UsesModelScenery => useModelScenery;
+    private Material _terrainShadowMaterial;
+    public Material TerrainShadowMaterial
+    {
+        get
+        {
+            if (_terrain.IsFlat)
+            {
+                return footShadowMaterial;
+            }
+            if (_terrainShadowMaterial == null)
+            {
+                _terrainShadowMaterial = new Material(footShadowMaterial)
+                {
+                    name = "Terrain ground shadows",
+                    shader = Shader.Find("HD2D/HD2D_GroundShadow"),
+                    renderQueue = 1995
+                };
+            }
+            return _terrainShadowMaterial;
+        }
+    }
+    private readonly Dictionary<Material, int> _terrainQueueStateDict = new();
     private int _modelSeed;
     private TerrainHeightGrid _terrain = TerrainHeightGrid.Flat;
     private readonly Dictionary<Material, bool> _terrainKeywordStateDict = new();
@@ -82,6 +104,17 @@ public class FieldView : MonoBehaviour
                      bridgeMaterial, tentMaterial, ditherSpriteMaterial, ditherWoodMaterial, ditherTentMaterial, flagMaterial, ditherFlagMaterial })
         {
             ConfigureTerrainMaterial(material);
+        }
+        if (!terrain.IsFlat)
+        {
+            foreach (var material in new[] { groundMaterial, waterMaterial, bankMaterial, bridgeMaterial })
+            {
+                if (!_terrainQueueStateDict.ContainsKey(material))
+                {
+                    _terrainQueueStateDict.Add(material, material.renderQueue);
+                }
+                material.renderQueue = 1990;
+            }
         }
         _modelSeed = layout.seed;
         _landscape = new GameObject("HD2D Field Landscape").transform;
@@ -322,6 +355,14 @@ public class FieldView : MonoBehaviour
                     AddWood(root.transform, new Vector3(x,.3f,0), new Vector3(.12f,.6f,.12f));
                     if (!useModelScenery)
                     {
+                        if (!_terrain.IsFlat)
+                        {
+                            var decal = new GameObject("Fence terrain foot shadow").AddComponent<ConformedDecal>();
+                            decal.transform.SetParent(root.transform, false);
+                            decal.UpdateView(_terrain, root.transform.TransformPoint(new Vector3(x, 0, 0)), shadow,
+                                TerrainShadowMaterial, new Vector2(.8f, .6f), false, root.transform.eulerAngles.y);
+                            continue;
+                        }
                         var blob = new GameObject("Fence foot shadow").AddComponent<SpriteRenderer>();
                         blob.transform.SetParent(root.transform, false);
                         blob.transform.localPosition = new Vector3(x,.004f,0);
@@ -442,6 +483,24 @@ public class FieldView : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (_terrainShadowMaterial != null)
+        {
+            if (Application.isPlaying)
+            {
+                Destroy(_terrainShadowMaterial);
+            }
+            else
+            {
+                DestroyImmediate(_terrainShadowMaterial);
+            }
+        }
+        foreach (var pair in _terrainQueueStateDict)
+        {
+            if (pair.Key != null)
+            {
+                pair.Key.renderQueue = pair.Value;
+            }
+        }
         foreach (var pair in _terrainKeywordStateDict)
         {
             if (pair.Key == null)

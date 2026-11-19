@@ -8,6 +8,10 @@ public class MonsterView : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer bodyRenderer;
     [SerializeField] private Material shadowMaterial;
+    [SerializeField] private Material terrainWarningMaterial;
+    private TerrainHeightGrid _terrain = TerrainHeightGrid.Flat;
+    private ConformedDecal _dashDecal;
+    private ConformedDecal _blastDecal;
     [SerializeField] private SpriteRenderer dashLineRenderer;
     [SerializeField] private SpriteRenderer blastAreaRenderer;
     // 방향·이동 움직임 값(기획서 E절, 가정 AI2·AI4)
@@ -42,8 +46,35 @@ public class MonsterView : MonoBehaviour
     }
 
 
-    public bool IsDashLineVisible => dashLineRenderer.enabled;
-    public bool IsBlastAreaVisible => blastAreaRenderer.enabled;
+    public bool IsDashLineVisible => _terrain.IsFlat ? dashLineRenderer.enabled : _dashDecal != null && _dashDecal.ActiveRenderer.enabled;
+    public bool IsBlastAreaVisible => _terrain.IsFlat ? blastAreaRenderer.enabled : _blastDecal != null && _blastDecal.ActiveRenderer.enabled;
+    private IEffectFrameSource _dashFrameSource;
+    private IEffectFrameSource _blastFrameSource;
+    public IEffectFrameSource DashFrameSource => _dashFrameSource ??= new WarningFrameSource(this, true);
+    public IEffectFrameSource BlastFrameSource => _blastFrameSource ??= new WarningFrameSource(this, false);
+
+    // Each warning has its own sprite/frame and its own active flat or conformed renderer.
+    private sealed class WarningFrameSource : IEffectFrameSource
+    {
+        private readonly MonsterView _owner;
+        private readonly bool _isDash;
+        public WarningFrameSource(MonsterView owner, bool isDash) { _owner = owner; _isDash = isDash; }
+        private SpriteRenderer Source => _isDash ? _owner.dashLineRenderer : _owner.blastAreaRenderer;
+        public Renderer ActiveRenderer => _owner._terrain.IsFlat ? Source : (_isDash ? _owner._dashDecal : _owner._blastDecal)?.ActiveRenderer;
+        public Sprite SourceSprite => Source.sprite;
+        public float Alpha => Source.color.a;
+        public bool IsShown => _owner.gameObject.activeInHierarchy && ActiveRenderer != null && ActiveRenderer.enabled;
+        public int FrameNumber
+        {
+            get
+            {
+                if (SourceSprite == null) { return 0; }
+                var name = SourceSprite.name.Replace("(Clone)", string.Empty);
+                return int.TryParse(name.Substring(name.LastIndexOf('_') + 1), out var frame) ? frame : 1;
+            }
+        }
+    }
+
     public float MinMovePixels => minMovePixels;
     public float FacingAxisRatio => facingAxisRatio;
     public float MovePeriodSeconds => movePeriodSeconds;
@@ -120,6 +151,35 @@ public class MonsterView : MonoBehaviour
     }
 
     public void UpdateView(Vector3 worldPosition) => transform.localPosition = worldPosition;
+
+    public void SetTerrain(TerrainHeightGrid terrain, Vector3 normal, Material groundShadow)
+    {
+        _terrain = terrain;
+        if (!terrain.IsFlat)
+        {
+            _shadow.SetGround(normal, groundShadow);
+        }
+    }
+
+    private void UpdateDecal(ref ConformedDecal decal, SpriteRenderer source, bool isVisible)
+    {
+        source.enabled = false;
+        if (!isVisible)
+        {
+            if (decal != null)
+            {
+                decal.SetVisible(false);
+            }
+            return;
+        }
+        if (decal == null)
+        {
+            var child = new GameObject("Terrain " + source.name);
+            child.transform.SetParent(transform, false);
+            decal = child.AddComponent<ConformedDecal>();
+        }
+        decal.UpdateView(_terrain, transform.position, source.sprite, terrainWarningMaterial, new Vector2(1, 2));
+    }
 
     public void InitializeDirections(Sprite[] bodySprites, Sprite[] warningSprites)
     {
@@ -215,6 +275,11 @@ public class MonsterView : MonoBehaviour
         {
             var angle = Mathf.Atan2(_dashDirection.y, _dashDirection.x) * Mathf.Rad2Deg;
             dashLineRenderer.sprite = _effectSpriteCache.Dash(_dashLength * _unitScale, angle, EffectFrameMath.FrameAt(elapsed, 3, 12, true));
+        }
+        if (!_terrain.IsFlat)
+        {
+            UpdateDecal(ref _dashDecal, dashLineRenderer, isWindup);
+            UpdateDecal(ref _blastDecal, blastAreaRenderer, phase == MonsterPhase.Fuse);
         }
     }
 }

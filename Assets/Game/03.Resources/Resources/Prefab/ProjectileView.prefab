@@ -230,6 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::ProjectileView
   bodyRenderer: {fileID: 6056312069036864706}
   upright: {fileID: 9132191258475502459}
+  terrainShadowMaterial: {fileID: 2100000, guid: c5f320766dc55469ea1a530682678e9b, type: 2}
   shadowRenderer: {fileID: 7607959370052268344}
   litMaterial: {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
   glowMaterial: {fileID: 2100000, guid: 382dfe366d14c49b18e7e08664390412, type: 2}

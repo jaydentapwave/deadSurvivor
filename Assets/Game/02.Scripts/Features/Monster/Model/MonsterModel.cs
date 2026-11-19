@@ -70,6 +70,7 @@ public class Monster
 
     public int Id { get; }
     public MonsterData Data { get; }
+    public int PlacementVersion { get; set; }
     public MonsterBehavior Behavior => Data.Behavior;
     // 바닥 평면 좌표
     public Vector2 Position { get; set; }

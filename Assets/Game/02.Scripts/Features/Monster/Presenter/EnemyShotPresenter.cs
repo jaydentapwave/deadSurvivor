@@ -41,6 +41,7 @@ public class EnemyShotPresenter : ITickable
                 view = _enemyShotViewFactory.Create(shot);
             }
 
+            view.SetTerrain(_terrain);
             view.UpdateView(IsoProjection.FloorToWorldSnapped(shot.Position, _runRules.UnitScale, _viewRules.SinTilt, _terrain), shot.Travel / shot.Speed);
         }
 

@@ -14,6 +14,16 @@ public class FootShadowView : MonoBehaviour
         transform.localScale = new Vector3(scale, scale, 1f);
     }
 
+    public void SetGround(Vector3 normal, Material material)
+    {
+        _renderer.sharedMaterial = material;
+        var properties = new MaterialPropertyBlock();
+        properties.SetFloat("_UseBankMask", 1);
+        transform.localRotation = Quaternion.FromToRotation(Vector3.up, normal) * Quaternion.Euler(90, 0, 0);
+        transform.localPosition = normal * .001f;
+        _renderer.SetPropertyBlock(properties);
+    }
+
     public void Initialize(Sprite sprite, float bodyWidthPixels, int sortingLayerId, Material material)
     {
         if (_renderer == null)

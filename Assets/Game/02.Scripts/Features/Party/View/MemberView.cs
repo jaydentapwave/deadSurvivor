@@ -143,6 +143,14 @@ public class MemberView : MonoBehaviour
         }
     }
 
+    public void SetGround(TerrainHeightGrid terrain, Vector3 normal, Material terrainShadow)
+    {
+        if (!terrain.IsFlat)
+        {
+            _contactShadow.SetGround(normal, terrainShadow);
+        }
+    }
+
     public void InitializeShadow()
     {
         if (_contactShadow == null)

@@ -38,6 +38,9 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly TiltedCameraRig _rig;
     private readonly Vector2[] _lastMemberFloors;
     private readonly Dictionary<int, Vector2> _lastMonsterFloors = new();
+    private readonly Dictionary<int, int> _placementVersionDict = new();
+    public int SpawnFootVisibleCount { get; private set; }
+    public int SpawnBodyVisibleCount { get; private set; }
     private readonly IReadOnlyList<MemberView> _memberViewList;
 
     private readonly HashSet<int> _aliveMonsterIdSet = new();
@@ -139,6 +142,9 @@ public class WorldPresenter : IInitializable, ILateTickable
         _lastRunCount = _runModel.RunCount.CurrentValue;
         if (isRunStarted)
         {
+            SpawnFootVisibleCount = 0;
+            SpawnBodyVisibleCount = 0;
+            _placementVersionDict.Clear();
             MemberHitFlashTotal = 0;
             MemberFlashMaxSeconds = -1f;
             _idleOffsetSeenMask = 0;
@@ -272,6 +278,26 @@ public class WorldPresenter : IInitializable, ILateTickable
         _partyMoveService.SetViewHalfExtent(floorHalfExtent);
     }
 
+    private void ObservePlacement(Monster monster, MonsterView view)
+    {
+        if (_placementVersionDict.TryGetValue(monster.Id, out var version) && version == monster.PlacementVersion)
+        {
+            return;
+        }
+        _placementVersionDict[monster.Id] = monster.PlacementVersion;
+        var foot = _camera.WorldToViewportPoint(view.transform.position);
+        if (foot.z > 0 && foot.x >= 0 && foot.x <= 1 && foot.y >= 0 && foot.y <= 1)
+        {
+            SpawnFootVisibleCount++;
+        }
+        var body = view.BodyRenderer;
+        if (body.enabled && body.gameObject.activeInHierarchy && _camera.WorldToViewportPoint(body.bounds.center).z > 0
+            && OcclusionMath.ProjectBounds(_camera, body.bounds).Overlaps(new Rect(0, 0, 1, 1)))
+        {
+            SpawnBodyVisibleCount++;
+        }
+    }
+
     private void UpdateMemberViews(bool isRunning, bool hasStepped, float deltaSeconds, bool isRunStarted)
     {
         var memberList = _partyModel.MemberList;
@@ -292,6 +318,7 @@ public class WorldPresenter : IInitializable, ILateTickable
             view.SetVisible(true);
             _downedSeconds[i] = member.IsAlive ? 0f : _downedSeconds[i] + Time.deltaTime;
             view.UpdateView(position, member.Hp / member.MaxHp, member.IsAlive, _downedSeconds[i]);
+            view.SetGround(_terrain, TerrainHeightMath.Normal(_terrain, position.x, position.z), _fieldView.TerrainShadowMaterial);
             if (isRunStarted)
             {
                 // 판 시작: 앞·오른쪽, 첫 표시의 자리 점프는 방향을 바꾸지 않는다
@@ -416,10 +443,12 @@ public class WorldPresenter : IInitializable, ILateTickable
             var delta = isNew ? Vector2.zero : monster.Position - _lastMonsterFloors[monster.Id];
             _lastMonsterFloors[monster.Id] = monster.Position;
             view.UpdateView(position);
+            view.SetTerrain(_terrain, TerrainHeightMath.Normal(_terrain, position.x, position.z), _fieldView.TerrainShadowMaterial);
             if (isRunning)
             {
                 UpdateMonsterMotion(view, monster, hasStepped, delta);
             }
+            ObservePlacement(monster, view);
         }
 
         _releaseIdList.Clear();
@@ -436,6 +465,7 @@ public class WorldPresenter : IInitializable, ILateTickable
             _monsterViewFactory.Release(id);
             _movingMonsterIdSet.Remove(id);
             _lastMonsterFloors.Remove(id);
+            _placementVersionDict.Remove(id);
         }
     }
 

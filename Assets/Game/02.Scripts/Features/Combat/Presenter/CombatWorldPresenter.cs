@@ -132,6 +132,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
                 MarkShown(spriteName);
             }
 
+            view.SetTerrain(_terrain);
             view.SetFrame(sprite, spriteName, index + 1, clip.MaterialIndex == 1);
             view.UpdateView(World(projectile.Position), tangent);
         }
@@ -234,6 +235,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
             view = _projectileViewFactory.CreateBurst(id, sprite);
             MarkShown(key);
         }
+        view.SetTerrain(_terrain);
         view.UpdateView(position, sprite, key, index + 1, clip.MaterialIndex, isFlipped, isGround, _viewRules.SinTilt);
         if (!_frameSeenDict.TryGetValue(key, out var frames))
         {

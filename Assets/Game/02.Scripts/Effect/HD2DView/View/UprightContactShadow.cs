@@ -13,6 +13,8 @@ public sealed class UprightContactShadow : MonoBehaviour
     private MaterialPropertyBlock _properties;
     private Texture2D _readback;
     private bool _isVisible = true;
+    private Vector3 _groundNormal = Vector3.up;
+    private bool _hasTerrain;
 
     public void Initialize(SpriteRenderer body, Material material)
     {
@@ -31,6 +33,13 @@ public sealed class UprightContactShadow : MonoBehaviour
         }
         _renderer.sharedMaterial = material;
         LateUpdate();
+    }
+
+    public void SetGround(Vector3 normal, Material material)
+    {
+        _groundNormal = normal;
+        _hasTerrain = true;
+        _renderer.sharedMaterial = material;
     }
 
     public void SetVisible(bool isVisible)
@@ -59,6 +68,10 @@ public sealed class UprightContactShadow : MonoBehaviour
             var point = _body.transform.TransformPoint(local);
             var projected = point + direction * ((supportY - point.y) / direction.y);
             projected.y = supportY + .002f;
+            if (_hasTerrain)
+            {
+                projected = TerrainHeightMath.ProjectOntoPlane(point, direction, transform.position, _groundNormal) + _groundNormal * .002f;
+            }
             vertexList.Add(_renderer.transform.InverseTransformPoint(projected));
         }
         uvList.AddRange(sprite.uv);
@@ -78,7 +91,10 @@ public sealed class UprightContactShadow : MonoBehaviour
             foreach (var corner in new[] { point - side - along * .04f, point + side - along * .04f,
                          point + side + along * .15f, point - side + along * .15f })
             {
-                vertexList.Add(_renderer.transform.InverseTransformPoint(corner));
+                var groundCorner = _hasTerrain
+                    ? TerrainHeightMath.ProjectOntoPlane(corner, Vector3.down, transform.position, _groundNormal) + _groundNormal * .002f
+                    : corner;
+                vertexList.Add(_renderer.transform.InverseTransformPoint(groundCorner));
                 uvList.Add(new Vector2(-1f, -1f));
             }
             indexList.InsertRange(0, new[] { index, index + 1, index + 2, index, index + 2, index + 3 });

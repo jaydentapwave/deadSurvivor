@@ -22,7 +22,9 @@ public class MonsterRecycleTests
             .SetValue(context.MonsterSpawnService, new DiagonalPositionRandom());
         var unclippedAxis = Mathf.Min(extent.x + rules.PlaceMargin, extent.y + rules.PlaceMargin);
         Assert.Greater(context.PartyModel.Center.x + unclippedAxis * 2f, limit);
+        var version = monster.PlacementVersion;
         context.MonsterRecycleService.Tick(rules.HoldSeconds + .01f);
+        Assert.AreEqual(version + 1, monster.PlacementVersion);
         Assert.AreEqual(limit, Mathf.Abs(monster.Position.x) + Mathf.Abs(monster.Position.y), .001f);
     }
 

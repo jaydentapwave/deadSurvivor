@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "N9_LOBBY",
+      "name": "생성 관측 시작 로비",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "N9_START",
+      "name": "같은 시드 8·정상 배율 시작",
+      "do": "PlayableProbe.UseRunSettings(8,1f); PlayableProbe.PressDepart(); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext);",
+      "wait": "PlayableProbe.Screen == \"Battle\""
+    },
+    {
+      "id": "N9_CORNER_0",
+      "name": "이동 한계 모서리 0 생성·재활용 7.5초",
+      "do": "PlayableProbe.PlaceTerrainPartyAtBoundary(0);",
+      "sleep": 7.5
+    },
+    {
+      "id": "N9_CORNER_1",
+      "name": "이동 한계 모서리 1 생성·재활용 7.5초",
+      "do": "PlayableProbe.PlaceTerrainPartyAtBoundary(1);",
+      "sleep": 7.5
+    },
+    {
+      "id": "N9_CORNER_2",
+      "name": "이동 한계 모서리 2 생성·재활용 7.5초",
+      "do": "PlayableProbe.PlaceTerrainPartyAtBoundary(2);",
+      "sleep": 7.5
+    },
+    {
+      "id": "N9_CORNER_3",
+      "name": "이동 한계 모서리 3 생성·재활용 7.5초",
+      "do": "PlayableProbe.PlaceTerrainPartyAtBoundary(3);",
+      "sleep": 7.5
+    },
+    {
+      "id": "N9_RESULT",
+      "name": "발·몸 관측과 최대 머리 높이 기록",
+      "do": "PlayableProbe.WriteTerrainSpawnReport(\"output/hd2d-terrain/spawn-current.json\");",
+      "capture": true
+    }
+  ]
+}

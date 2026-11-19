@@ -3,6 +3,12 @@ using UnityEngine;
 
 public static class TerrainHeightMath
 {
+    public static bool ShadowFragmentSurvives(float silhouetteAlpha, float distanceFromContact, float contactRadius, float bankMask, bool isContactOnBank)
+    {
+        return silhouetteAlpha >= .5f && (contactRadius <= 0 || distanceFromContact <= contactRadius)
+            && (isContactOnBank ? bankMask >= .5f : bankMask <= .5f);
+    }
+
     public static float Sample(TerrainHeightGrid grid, float x, float z)
     {
         Coordinates(grid, x, z, out var i, out var j, out var fx, out var fz);

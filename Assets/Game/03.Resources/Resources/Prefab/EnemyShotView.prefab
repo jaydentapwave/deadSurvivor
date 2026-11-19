@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Game::EnemyShotView
   bodyRenderer: {fileID: 6911176771613090535}
   upright: {fileID: 6478726579662678624}
+  terrainShadowMaterial: {fileID: 2100000, guid: c5f320766dc55469ea1a530682678e9b, type: 2}
   shadowRenderer: {fileID: 8144534195934546525}
 --- !u!1 &3983347195483016424
 GameObject:
