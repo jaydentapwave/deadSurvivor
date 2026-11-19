@@ -6,6 +6,21 @@ public static class TerrainMeshMath
 {
     public static Mesh Build(TerrainHeightGrid grid, float halfDiagonal = 36f)
     {
+        // Preserve the original rasterisation when the data describes one plane.
+        // Non-flat terrain retains the full, matching triangular height grid below.
+        if (grid.IsFlat)
+        {
+            var height = grid.Height(0, 0);
+            var flat = new Mesh
+            {
+                name = "Terrain flat ground",
+                vertices = new[] { new Vector3(0, height, halfDiagonal), new Vector3(halfDiagonal, height, 0), new Vector3(0, height, -halfDiagonal), new Vector3(-halfDiagonal, height, 0) },
+                triangles = new[] { 0, 1, 2, 0, 2, 3 }
+            };
+            flat.RecalculateNormals();
+            flat.RecalculateBounds();
+            return flat;
+        }
         var vertices = new Vector3[grid.Width * grid.Depth];
         var uv = new Vector2[vertices.Length];
         var uv2 = new Vector2[vertices.Length];

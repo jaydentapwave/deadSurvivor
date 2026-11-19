@@ -26,6 +26,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly ViewRulesData _viewRules;
     private readonly GroundPathData _groundPath;
     private readonly FieldLayoutData _fieldLayout;
+    private readonly TerrainHeightGrid _terrain;
     private readonly PlaceholderCombatData _combatData;
     private readonly PlaceholderSpriteFactory _placeholderSpriteFactory;
     private readonly MonsterViewFactory _monsterViewFactory;
@@ -65,7 +66,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, FieldLayoutData fieldLayout, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
         MonsterViewRegistry monsterViewRegistry, SpriteAtlasService spriteAtlasService, RunModel runModel, FieldView fieldView,
-        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig)
+        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig, TerrainHeightGrid terrain)
     {
         _combatModel = combatModel;
         _moveRules = moveRules;
@@ -78,6 +79,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         _viewRules = viewRules;
         _groundPath = groundPath;
         _fieldLayout = fieldLayout;
+        _terrain = terrain;
         _combatData = combatData;
         _placeholderSpriteFactory = placeholderSpriteFactory;
         _monsterViewFactory = monsterViewFactory;
@@ -101,7 +103,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         _rig.Initialize(_viewRules.TiltDegrees, _viewRules.Distance, _viewRules.NearClip, _viewRules.FarClip, _viewRules.TargetFraction, _viewRules.MinScale);
         _fieldView.Initialize(_viewRules.TiltDegrees);
         BuildField();
-        _fieldView.BuildLandscape(_fieldLayout);
+        _fieldView.BuildLandscape(_fieldLayout, _terrain);
         foreach (var placement in _fieldLayout.placements)
         {
             if (placement.kind == "card")

@@ -30,16 +30,22 @@ public class FieldView : MonoBehaviour
     [SerializeField] private bool useModelScenery;
     public bool UsesModelScenery => useModelScenery;
     private int _modelSeed;
+    private TerrainHeightGrid _terrain = TerrainHeightGrid.Flat;
+    private readonly Dictionary<Material, bool> _terrainKeywordStateDict = new();
     private readonly Dictionary<string, Vector3[]> _modelPointDict = new();
     private readonly List<FieldOccluder> _occluderList = new();
     public IReadOnlyList<FieldOccluder> Occluders => _occluderList;
     public void RegisterOccluder(Transform anchor, Renderer[] renderers)
     {
         _occluderList.Add(new FieldOccluder(anchor, renderers, original =>
-            original == cardMaterial ? ditherSpriteMaterial :
-            original == woodMaterial ? ditherWoodMaterial :
-            original == tentMaterial ? ditherTentMaterial :
-            original == flagMaterial ? ditherFlagMaterial : modelCatalog.Entries.First(e => e.Material == original).FadedMaterial));
+        {
+            var faded = original == cardMaterial ? ditherSpriteMaterial :
+                original == woodMaterial ? ditherWoodMaterial :
+                original == tentMaterial ? ditherTentMaterial :
+                original == flagMaterial ? ditherFlagMaterial : modelCatalog.Entries.First(e => e.Material == original).FadedMaterial;
+            ConfigureTerrainMaterial(faded);
+            return faded;
+        }));
     }
     private Mesh _woodMesh;
     public Material CardMaterial => cardMaterial;
@@ -67,24 +73,43 @@ public class FieldView : MonoBehaviour
         return count;
     }
 
-    public void BuildLandscape(FieldLayoutData layout)
+    public void BuildLandscape(FieldLayoutData layout) => BuildLandscape(layout, TerrainHeightGrid.Flat);
+
+    public void BuildLandscape(FieldLayoutData layout, TerrainHeightGrid terrain)
     {
+        _terrain = terrain;
+        foreach (var material in new[] { groundMaterial, bankMaterial, waterMaterial, cardMaterial, woodMaterial,
+                     bridgeMaterial, tentMaterial, ditherSpriteMaterial, ditherWoodMaterial, ditherTentMaterial, flagMaterial, ditherFlagMaterial })
+        {
+            ConfigureTerrainMaterial(material);
+        }
         _modelSeed = layout.seed;
         _landscape = new GameObject("HD2D Field Landscape").transform;
         _landscape.SetParent(transform, true);
         tilemap.GetComponent<TilemapRenderer>().enabled = false;
         var h = layout.groundHalfDiagonal;
-        var ground = new Mesh { name = "Field and flat rim L1 36" };
-        ground.vertices = new[] { new Vector3(0, 0, h), new Vector3(h, 0, 0), new Vector3(0, 0, -h), new Vector3(-h, 0, 0) };
-        ground.triangles = new[] { 0, 1, 2, 0, 2, 3 };
-        ground.RecalculateNormals();
-        ground.RecalculateBounds();
+        var ground = TerrainMeshMath.Build(_terrain, h);
         AddPart("ground", ground, new[] { groundMaterial });
         foreach (var bank in layout.banks)
         {
             var mesh = bank.runs != null
                 ? BankMeshMath.Build(bank.runs, bank.cell, bank.height)
                 : BankMeshMath.Build(bank.rectangles, bank.cell, bank.height, bank.seed);
+            if (!_terrain.IsFlat)
+            {
+                var vertices = mesh.vertices;
+                var references = new Vector2[vertices.Length];
+                for (var i = 0; i < vertices.Length; i++)
+                {
+                    var height = TerrainHeightMath.Sample(_terrain, vertices[i].x, vertices[i].z);
+                    references[i] = new Vector2(height, 0);
+                    vertices[i].y += height;
+                }
+                mesh.vertices = vertices;
+                mesh.uv2 = references;
+                mesh.RecalculateNormals();
+                mesh.RecalculateBounds();
+            }
             AddPart("bank", mesh, new[] { groundMaterial, bankMaterial });
         }
         foreach (var water in layout.water)
@@ -125,7 +150,7 @@ public class FieldView : MonoBehaviour
         var card = new GameObject(placement.group + ":" + placement.sprite);
         card.transform.SetParent(_landscape, false);
         card.transform.rotation = Quaternion.Euler(_tiltDegrees, 0, 0);
-        card.transform.position = CardSnapMath.Snap(new Vector3(placement.x, placement.height + .001f, placement.y), sprite.pivot, sprite.pixelsPerUnit, _tiltDegrees);
+        card.transform.position = CardSnapMath.Snap(new Vector3(placement.x, placement.height + TerrainHeightMath.Sample(_terrain, placement.x, placement.y) + .001f, placement.y), sprite.pivot, sprite.pixelsPerUnit, _tiltDegrees);
         var renderer = card.AddComponent<SpriteRenderer>();
         renderer.sprite = sprite;
         renderer.flipX = placement.isFlipped;
@@ -147,7 +172,7 @@ public class FieldView : MonoBehaviour
         }
         if (placement.isCastingShadow)
         {
-            card.AddComponent<UprightFootShadow>().Initialize(renderer, footShadowMaterial, placement.height, lightDirection);
+            card.AddComponent<UprightFootShadow>().Initialize(renderer, footShadowMaterial, placement.height + TerrainHeightMath.Sample(_terrain, placement.x, placement.y), lightDirection);
         }
         if (placement.sprite.StartsWith("tree_") || placement.sprite.StartsWith("bush_") || placement.sprite == "boulder_01")
         {
@@ -181,9 +206,16 @@ public class FieldView : MonoBehaviour
         var variation = placement.sprite.StartsWith("rock_") ? FieldModelMath.StoneScale(seed) : 1f;
         var root = new GameObject("3D:" + placement.group + ":" + entry.Id);
         root.transform.SetParent(_landscape, false);
-        root.transform.localPosition = new Vector3(placement.x, placement.height, placement.y);
+        root.transform.localPosition = new Vector3(placement.x, placement.height + TerrainHeightMath.MinUnder(_terrain, placement.x, placement.y, sprite.bounds.size.x * placement.scale * variation * .5f), placement.y);
         root.transform.localScale = new Vector3(widthScale, 1, 1) * (variation * placement.scale);
         var model = Instantiate(entry.Prefab, root.transform);
+        foreach (var renderer in model.GetComponentsInChildren<Renderer>())
+        {
+            foreach (var material in renderer.sharedMaterials)
+            {
+                ConfigureTerrainMaterial(material);
+            }
+        }
         model.transform.localRotation = Quaternion.Euler(0, yaw, 0);
         model.transform.localScale = Vector3.one * heightScale;
         if (placement.sprite.StartsWith("tree_") || placement.sprite.StartsWith("bush_") || placement.sprite.StartsWith("boulder_"))
@@ -211,9 +243,16 @@ public class FieldView : MonoBehaviour
                 var entry = modelCatalog.Find((seed + i) % 2 == 0 ? "wall_a" : "wall_b");
                 var model = Instantiate(entry.Prefab, _landscape);
                 model.name = "3D:" + group.Key + ":" + i;
-                model.transform.localPosition = new Vector3(centers[i].x, first.height, centers[i].y);
+                model.transform.localPosition = new Vector3(centers[i].x, first.height + TerrainHeightMath.MinUnder(_terrain, centers[i].x, centers[i].y, .5f), centers[i].y);
                 model.transform.localRotation = Quaternion.Euler(0, yaw, 0);
                 var renderers = model.GetComponentsInChildren<Renderer>();
+                foreach (var renderer in renderers)
+                {
+                    foreach (var material in renderer.sharedMaterials)
+                    {
+                        ConfigureTerrainMaterial(material);
+                    }
+                }
                 if (!_partDict.TryGetValue("wall", out var walls))
                 {
                     walls = new List<Renderer>();
@@ -263,7 +302,7 @@ public class FieldView : MonoBehaviour
             }
             var root = new GameObject(placement.prop);
             root.transform.SetParent(_landscape, false);
-            root.transform.localPosition = new Vector3(placement.x, placement.height, placement.y);
+            root.transform.localPosition = new Vector3(placement.x, placement.height + TerrainHeightMath.Sample(_terrain, placement.x, placement.y), placement.y);
             root.transform.localRotation = Quaternion.Euler(0, placement.yaw, 0);
             root.transform.localScale = Vector3.one * placement.scale;
             if (placement.prop == "bridge" || placement.prop == "tent")
@@ -381,8 +420,43 @@ public class FieldView : MonoBehaviour
         return renderer;
     }
 
+    private void ConfigureTerrainMaterial(Material material)
+    {
+        if (material == null || material.shader.name != "HD2D/HD2D_FieldSurface")
+        {
+            return;
+        }
+        if (!_terrainKeywordStateDict.ContainsKey(material))
+        {
+            _terrainKeywordStateDict.Add(material, material.IsKeywordEnabled("_TERRAIN_HEIGHT"));
+        }
+        if (_terrain.IsFlat)
+        {
+            material.DisableKeyword("_TERRAIN_HEIGHT");
+        }
+        else
+        {
+            material.EnableKeyword("_TERRAIN_HEIGHT");
+        }
+    }
+
     private void OnDestroy()
     {
+        foreach (var pair in _terrainKeywordStateDict)
+        {
+            if (pair.Key == null)
+            {
+                continue;
+            }
+            if (pair.Value)
+            {
+                pair.Key.EnableKeyword("_TERRAIN_HEIGHT");
+            }
+            else
+            {
+                pair.Key.DisableKeyword("_TERRAIN_HEIGHT");
+            }
+        }
         foreach (var mesh in _ownedMeshList)
         {
             if (Application.isPlaying)

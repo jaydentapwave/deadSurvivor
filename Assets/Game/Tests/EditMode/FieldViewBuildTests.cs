@@ -139,4 +139,12 @@ public class FieldViewBuildTests
             Object.DestroyImmediate(root);
         }
     }
+    [Test]
+    public void DT8_LoadingBoundaryLogsAndRethrowsInvalidHeight()
+    {
+        var method = typeof(GameSceneLifetimeScope).GetMethod("CreateTerrainGrid", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        UnityEngine.TestTools.LogAssert.Expect(LogType.Error, new System.Text.RegularExpressions.Regex("\\[GameSceneLifetimeScope\\] Invalid field_height"));
+        var error = Assert.Throws<System.Reflection.TargetInvocationException>(() => method.Invoke(null, new object[] { new FieldHeightData { cell = 1, width = 2, depth = 2, heightsMm = new int[3] } }));
+        Assert.IsInstanceOf<System.ArgumentException>(error.InnerException);
+    }
 }
