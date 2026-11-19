@@ -21,11 +21,13 @@ public class DamageNumberEntry
     public Vector3 StartPosition { get; }
     public Vector3 AnchorPosition { get; }
     public float Age { get; set; }
+    public int MonsterId { get; }
 
-    public DamageNumberEntry(DamageNumberView view, Vector3 startPosition, Vector3 anchorPosition)
+    public DamageNumberEntry(DamageNumberView view, Vector3 startPosition, Vector3 anchorPosition, int monsterId = -1)
     {
         View = view;
         StartPosition = startPosition;
         AnchorPosition = anchorPosition;
+        MonsterId = monsterId;
     }
 }

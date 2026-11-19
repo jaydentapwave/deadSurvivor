@@ -12,3 +12,10 @@
 - L6: 변경 없이 Main2 선언→수집→finish→원본gate. 전체EditMode/플레이 각1회(장면/런타임 바뀐 경우),4화면비·전투캡처 직접 열람. 런타임 변경이면 validator-client/spec-reviewer/algorithm-tester를 Claude 세션에 요청. G20·K21은 디렉터, G19는7단계.
 
 기준과 다른 점·이미 결정된 것·범위 밖: verification.md 머리 참조. 시안/Assets/DeadSurvivor/킷gate/유료생성/성능/새UI/아트 원본 모델 수정 없음. 근거 없는 검사 추가 없음. 대체할 중복 검사 후보: 같은 단위의 전체플레이 반복(이번에 실행하지 않음).
+
+## D-L5~D-L7 구현 범위 (attempt 3)
+
+- D-L5: 기존 Vignette의 값만 .52/.04/rounded Off/중성 곱셈색 .425. 기존 측정기에 ON/OFF 방사32구간·모서리 최저/검정 비율 옵션을 추가. 넓은 .8/.6 방식은 도트·이동 검사를 깨뜨려 폐기했다. 최종 노출0.
+- D-L6: 기존 피해 숫자 Entry에 MonsterId를 전달하고 순수 계산으로 같은 대상만 글자 높이+2px 간격/좌우±3px 쌓기. 최신 시작 위치를 공유해 이동 중에도 간격 유지. 검/도끼 body만 카메라 안쪽 .6m, root/판정/진형 유지·풀 재사용 초기화.
+- D-L7: 실제 걷는 땅 기준 높이 i.href와 과장 법선의 해 dot으로 넓은4단. 장식 턱 높이를 포함하지 않는다. worn/soil 혼합만 줄이며 원본 그림/높이/이동/OFF 경로는 보존. K21 최종4장 판독은 디렉터.
+- 최신 지시대로 바뀐 범위 시험과 main2만 확인. validator-client/algorithm-tester는 D-L6만, spec-reviewer는 값·요구 대조. 이전 세 리뷰 PASS는 새 범위를 대신하지 않는다. 전체 아트/T4 완료는 새 G20/K21 판독 뒤다.

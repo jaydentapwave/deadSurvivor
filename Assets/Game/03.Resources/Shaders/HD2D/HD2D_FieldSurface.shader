@@ -115,8 +115,8 @@ Shader "HD2D/HD2D_FieldSurface"
             grass+=tone*half3(-9,3,-4)/255;
             half3 meadow=half3(5,8,1);
             grass+=zone.a*(meadow-dot(meadow,half3(.2126,.7152,.0722)))/255;
-            grass=lerp(grass,soilGround,zone.r*.45);
-            grass=lerp(grass,soilGround,zone.g);
+            grass=lerp(grass,soilGround,zone.r*.18);
+            grass=lerp(grass,soilGround,zone.g*.45);
             grass=lerp(grass,soilGround,step(.5,path));
             Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));
             float3 cellNormal=normalize(i.n);
@@ -137,7 +137,11 @@ Shader "HD2D/HD2D_FieldSurface"
             {
                 float3 slopeNormal=normalize(float3(i.n.x*_TerrainLightSlope,i.n.y,i.n.z*_TerrainLightSlope));
                 float slopeLight=dot(slopeNormal,sun.direction);
-                c*=slopeLight<.47 ? .90 : slopeLight<.59 ? 1 : 1.07;
+                // Broad peak-to-foot contours, shifted toward the sun by the lighting-only normal.
+                // No change to vertex/support height or the flat keyword-OFF path.
+                // Use the walking-ground reference, not the decorative bank top (+.36m).
+                float contour=i.href+(slopeLight-.529919)*.12;
+                c*=contour<.03 ? .94 : contour<.16 ? 1.02 : contour<.30 ? 1.13 : 1.25;
             }
         #endif
             if (_Category>.5 && _Category<1.5)

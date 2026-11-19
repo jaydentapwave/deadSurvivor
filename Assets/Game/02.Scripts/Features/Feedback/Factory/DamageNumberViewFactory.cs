@@ -32,12 +32,12 @@ public class DamageNumberViewFactory
         }
     }
 
-    public void Create(int value, Vector3 startPosition, Vector3 anchorPosition)
+    public void Create(int value, Vector3 startPosition, Vector3 anchorPosition, int monsterId = -1)
     {
         var view = _poolManager.Get(PoolKey, _prefab, _parent);
         view.Initialize(value, _textColor, _fontSize, _digits);
         view.UpdateView(startPosition, 1f);
-        _damageNumberViewRegistry.Register(new DamageNumberEntry(view, startPosition, anchorPosition));
+        _damageNumberViewRegistry.Register(new DamageNumberEntry(view, startPosition, anchorPosition, monsterId));
     }
 
     // index = 등록부 안 위치(0 = 가장 오래된 것)

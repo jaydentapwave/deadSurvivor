@@ -88,6 +88,52 @@ public class DamageNumberMotionTests
         }
     }
 
+    [Test]
+    public void SameTargetStacksApartAcrossFramesAndMovementWhileOtherTargetsStayIndependent()
+    {
+        var entryList = new List<DamageNumberEntry>
+        {
+            new(null, Vector3.zero, Vector3.zero, 7) { Age = .3f },
+            new(null, Vector3.one * 20, Vector3.zero, 8),
+            new(null, Vector3.one * 2, Vector3.zero, 7) { Age = .1f },
+            new(null, Vector3.one * 3, Vector3.zero, 7)
+        };
+        var rules = Rules;
+        var old = DamageNumberMotion.GetStackOffsetPx(entryList, 0, rules.FontSizePx);
+        var middle = DamageNumberMotion.GetStackOffsetPx(entryList, 2, rules.FontSizePx);
+        Assert.AreEqual(-3, old.x);
+        Assert.AreEqual(3, middle.x);
+        Assert.AreEqual(Vector2.zero, DamageNumberMotion.GetStackOffsetPx(entryList, 3, rules.FontSizePx));
+        Assert.AreEqual(Vector2.zero, DamageNumberMotion.GetStackOffsetPx(entryList, 1, rules.FontSizePx));
+        var gap = Mathf.Ceil(rules.FontSizePx) + 2;
+        Assert.AreEqual(gap * 2, old.y);
+        Assert.AreEqual(gap, middle.y);
+        Assert.GreaterOrEqual(old.y + DamageNumberMotion.GetRisePx(.3f, rules)
+            - middle.y - DamageNumberMotion.GetRisePx(.1f, rules), gap);
+        foreach (var index in new[] { 0, 2, 3 })
+        {
+            Assert.AreEqual(Vector3.one * 3, DamageNumberMotion.GetStackOrigin(entryList, index));
+        }
+        Assert.AreEqual(Vector3.one * 20, DamageNumberMotion.GetStackOrigin(entryList, 1));
+        entryList.RemoveAt(0);
+        Assert.AreEqual(middle, DamageNumberMotion.GetStackOffsetPx(entryList, 1, rules.FontSizePx));
+    }
+
+    [Test]
+    public void UnassignedTargetsAndNewRegistryDoNotInheritStackSlots()
+    {
+        var entryList = new List<DamageNumberEntry>
+        {
+            new(null, Vector3.one, Vector3.zero),
+            new(null, Vector3.zero, Vector3.zero)
+        };
+        Assert.AreEqual(Vector2.zero, DamageNumberMotion.GetStackOffsetPx(entryList, 0, Rules.FontSizePx));
+        Assert.AreEqual(Vector3.one, DamageNumberMotion.GetStackOrigin(entryList, 0));
+        entryList.Clear();
+        entryList.Add(new DamageNumberEntry(null, Vector3.zero, Vector3.zero, 7));
+        Assert.AreEqual(Vector2.zero, DamageNumberMotion.GetStackOffsetPx(entryList, 0, Rules.FontSizePx));
+    }
+
     [TestCase(false)]
     [TestCase(true)]
     public void N1N2NonzeroDepthAndTerrainSurviveRiseAndPoolReuse(bool hasTerrain)

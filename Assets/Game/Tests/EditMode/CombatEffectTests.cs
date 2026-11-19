@@ -269,6 +269,38 @@ public class CombatEffectTests
             Object.DestroyImmediate(view.gameObject);
         }
     }
+    [TestCase("slash_sword")]
+    [TestCase("slash_axe")]
+    public void SlashMovesOnlyItsPictureBehindBodiesAndPoolReuseClearsTheDepth(string key)
+    {
+        var view = Object.Instantiate(Resources.Load<BurstView>("Prefab/BurstView"));
+        var frame = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/03.Resources/Art/HD2D/Effects/ground_boom_1.png");
+        var position = new Vector3(1, 0, 2);
+        try
+        {
+            view.Initialize(frame);
+            view.UpdateView(position, frame, key, 1, 0);
+            var root = view.transform.position;
+            Assert.AreEqual(new Vector3(0, 0, .6f), view.BodyRenderer.transform.localPosition);
+            var displacement = view.BodyRenderer.transform.position - root;
+            var cameraForward = Quaternion.Euler(30, 0, 0) * Vector3.forward;
+            Assert.Less(Vector3.Cross(cameraForward, displacement).magnitude, 1e-5f);
+            Assert.Greater(Vector3.Dot(cameraForward, displacement), .59f);
+            Assert.IsTrue(view.IsShown);
+            Assert.AreEqual(1, view.Alpha);
+            view.UpdateView(position, frame, "explosion", 1, 0);
+            Assert.AreEqual(root, view.transform.position);
+            Assert.AreEqual(Vector3.zero, view.BodyRenderer.transform.localPosition);
+            view.UpdateView(position, frame, key, 1, 0);
+            view.Initialize(frame);
+            Assert.AreEqual(Vector3.zero, view.BodyRenderer.transform.localPosition);
+        }
+        finally
+        {
+            Object.DestroyImmediate(view.gameObject);
+        }
+    }
+
     [Test]
     public void E1_GroundBurstReportsTheActiveConformedRendererAndReuseRestoresSprite()
     {

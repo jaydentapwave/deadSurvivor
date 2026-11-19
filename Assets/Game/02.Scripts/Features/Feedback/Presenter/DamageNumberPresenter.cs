@@ -103,7 +103,7 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
                 _damageNumberViewFactory.Release(0);
             }
 
-            _damageNumberViewFactory.Create(DamageNumberMotion.GetValue(hit.Amount), GetStartPosition(hit), IsoProjection.FloorToWorldSnapped(hit.Position, _runRules.UnitScale, _viewRules.SinTilt, _terrain));
+            _damageNumberViewFactory.Create(DamageNumberMotion.GetValue(hit.Amount), GetStartPosition(hit), IsoProjection.FloorToWorldSnapped(hit.Position, _runRules.UnitScale, _viewRules.SinTilt, _terrain), hit.MonsterId);
         }
 
         _combatFeedbackModel.AddDamageNumbersShown(_mergedHitList.Count, _damageNumberViewRegistry.Count);
@@ -111,10 +111,15 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
 
     private void UpdateViews()
     {
-        foreach (var entry in _damageNumberViewRegistry.EntryList)
+        var entryList = _damageNumberViewRegistry.EntryList;
+        for (var i = 0; i < entryList.Count; i++)
         {
-            var rise = DamageNumberMotion.GetRisePx(entry.Age, _rules) / Const.PixelsPerUnit;
-            entry.View.UpdateView(entry.StartPosition + TiltedViewMath.UprightOffset(rise, _viewRules.TiltDegrees), DamageNumberMotion.GetAlpha(entry.Age, _rules));
+            var entry = entryList[i];
+            var stack = DamageNumberMotion.GetStackOffsetPx(entryList, i, _rules.FontSizePx);
+            var rise = (DamageNumberMotion.GetRisePx(entry.Age, _rules) + stack.y) / Const.PixelsPerUnit;
+            var offset = Vector3.right * (stack.x / Const.PixelsPerUnit)
+                + TiltedViewMath.UprightOffset(rise, _viewRules.TiltDegrees);
+            entry.View.UpdateView(DamageNumberMotion.GetStackOrigin(entryList, i) + offset, DamageNumberMotion.GetAlpha(entry.Age, _rules));
         }
     }
 

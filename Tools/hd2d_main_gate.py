@@ -23,7 +23,7 @@ gate.dependencies()
 def dump(path,value):
     path.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n')
 
-def plan(vignette_pairs=False):
+def plan(vignette_pairs=False, vignette_baseline=None, vignette_baseline_off=None):
     OUT.mkdir(parents=True,exist_ok=True)
     m={'schema':'25d-gate-manifest/1','run_id':OUT.name.title()+'-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ'),'required_plates':['Main1'],'required_settings':{'quality':'Mobile','renderScale':1.0,'srpBatcher':True},'files':{},'sources':[],'capture_record':'capture-record','plates':[]}
     def add(key,path,size=None):
@@ -46,6 +46,10 @@ def plan(vignette_pairs=False):
     add('pond-crop-before',OUT/'pond-crop-before.json')
     add('C10',OUT/'C10.json')
     add('C15',OUT/'C15.json')
+    if vignette_baseline:
+        add('vignette-baseline',Path(vignette_baseline).resolve(),[1920,1080])
+        add('vignette-baseline-off',Path(vignette_baseline_off).resolve(),[1920,1080])
+        add('D-L5',OUT/'D-L5.json')
     dependencies=json.loads((OUT/'dependencies.json').read_text())['result']
     sources=set()
     for folder in ['Assets/Game/02.Scripts/Effect/HD2DView','Assets/Game/02.Scripts/Features/Field','Assets/Game/03.Resources/Materials/HD2D','Assets/Game/03.Resources/Shaders/HD2D','Assets/Game/03.Resources/Textures/HD2D','Assets/Game/03.Resources/Models/HD2D','Assets/Game/03.Resources/Art/AIGenerated/Decor','Assets/Game/03.Resources/Art/AIGenerated/Characters','Assets/Game/03.Resources/Art/AIGenerated/Monsters']:
@@ -53,6 +57,9 @@ def plan(vignette_pairs=False):
     sources.update(dependencies)
     sources.update(str(p) for p in (ROOT/'Assets/Game/02.Scripts/Effect/Ambient').rglob('*') if p.is_file())
     sources.update(['Assets/Game/03.Resources/Resources/Prefab/HD2DAmbientDust.prefab','Assets/Game/02.Scripts/App/HD2DLightCapture.cs','Tools/hd2d_main_gate.py','Tools/hd2d_field_textures.py','Tools/test_hd2d_field_textures.py','Assets/Game/03.Resources/Resources/Data/Field/field_layout.json','Assets/Game/03.Resources/Resources/Data/Field/ground_path.json','Assets/Game/02.Scripts/Editor/HD2DMainPlateCapture.cs'])
+    # D-L6 changes must be bound even though pure C# services are not Unity asset dependencies.
+    sources.update(str(p) for p in (ROOT/'Assets/Game/02.Scripts/Features/Feedback').rglob('*.cs'))
+    sources.update(['Assets/Game/02.Scripts/Features/Combat/View/BurstView.cs','Assets/Game/Tests/EditMode/DamageNumberMotionTests.cs','Assets/Game/Tests/EditMode/CombatEffectTests.cs'])
     # B9 updates completion counts; bind immutable copies of the capture-time criteria.
     for original,name in [('docs/features/hd2d-background/prep.md','prep-before.md'),('docs/art/아트-기준서.md','art-spec-before.md')]:
         snapshot=OUT/name;snapshot.write_bytes((ROOT/original).read_bytes());sources.add(str(snapshot))
@@ -103,6 +110,36 @@ def vignette_ratio(on,off):
     corner_ratio=corner/off_corner;center_ratio=center/off_center
     return {'method':'D-L1: (corners ON/OFF) / (centre ON/OFF), same frozen frame','cornerOn':corner,'cornerOff':off_corner,'centerOn':center,'centerOff':off_center,'cornerRatio':corner_ratio,'centerRatio':center_ratio,'ratio':corner_ratio/center_ratio,'range':'.6~.8'}
 
+def vignette_shape(on,off):
+    """D-L5: fixed corner boxes; 32 annuli along centre-to-corner radius.
+    Divide paired luminance per pixel first so changing terrain content does not
+    masquerade as a hard vignette edge. Never blur the observed samples.
+    """
+    if on.shape != off.shape:raise ValueError('D-L5 requires matching ON/OFF dimensions')
+    lum=lambda a:a[:,:,0]*.2126+a[:,:,1]*.7152+a[:,:,2]*.0722
+    l=lum(on);ref=lum(off);h,w=l.shape
+    corner=np.concatenate([l[20:100,20:100].ravel(),l[20:100,-100:-20].ravel(),l[-100:-20,20:100].ravel(),l[-100:-20,-100:-20].ravel()])
+    center_on=float(l[440:640,800:1120].mean());center_off=float(ref[440:640,800:1120].mean())
+    if min(center_on,center_off)<=0:raise ValueError('D-L5 requires nonzero centre')
+    center=center_on/center_off
+    y,x=np.mgrid[:h,:w]
+    radius=np.sqrt(((x+.5)/w-.5)**2+((y+.5)/h-.5)**2)*2**.5
+    bins=np.minimum((radius*32).astype(int),31)
+    valid=ref>0
+    ratio=np.divide(l,ref,out=np.zeros_like(l,dtype=float),where=valid)/center
+    counts=np.bincount(bins[valid],minlength=32)
+    if (counts==0).any():raise ValueError('D-L5 needs a nonzero reference in every radial bin')
+    profile=np.bincount(bins[valid],weights=ratio[valid],minlength=32)/counts
+    minimum=float(corner.min());black=float(np.mean(corner==0)*100)
+    return {'method':'D-L5: fixed C15 corner boxes; paired per-pixel luminance attenuation, exposure-normalized, 32 unfiltered normalized radial bins',
+        'cornerMinimumLuminance':minimum,'cornerBlackPercent':black,'radialAttenuation':profile.tolist(),
+        'maximumAdjacentDifference':float(np.abs(np.diff(profile)).max()),'noBlackCorners':minimum>0 and black==0}
+
+def compare_vignette_shape(on,off,baseline,baseline_off):
+    current=vignette_shape(on,off);old=vignette_shape(baseline,baseline_off)
+    return {'current':current,'baseline':old,'smootherThanBaseline':current['maximumAdjacentDifference']<old['maximumAdjacentDifference'],
+        'PASS':current['noBlackCorners'] and current['maximumAdjacentDifference']<old['maximumAdjacentDifference']}
+
 def selftest():
     off=np.full((1080,1920,3),100.0)
     assert abs(vignette_ratio(off,off)['ratio']-1)<1e-12
@@ -113,7 +150,14 @@ def selftest():
     try:vignette_ratio(on,off*0)
     except ValueError:pass
     else:raise AssertionError('zero reference accepted')
-    print('C15 selftest PASS 4/4: neutral, exposure cancellation, corner attenuation, invalid black reference')
+    y,x=np.mgrid[:1080,:1920];r=np.sqrt(((x+.5)/1920-.5)**2+((y+.5)/1080-.5)**2)*2**.5
+    hard=off*np.where(r<.8,1.,0.)[:,:,None]
+    smooth=off*(1-r*.3)[:,:,None]
+    shape=compare_vignette_shape(smooth,off,hard,off)
+    assert shape['PASS'] and shape['current']['cornerBlackPercent']==0
+    assert not compare_vignette_shape(hard,off,smooth,off)['PASS']
+    assert abs(vignette_shape(smooth*.4,off)['maximumAdjacentDifference']-shape['current']['maximumAdjacentDifference'])<1e-12
+    print('C15 + D-L5 selftest PASS 7/7: neutral, exposure cancellation, corner attenuation, invalid black reference, smooth/no-black pass, hard-black rejection, radial exposure cancellation')
 
 def finish():
     m=gate.read(OUT/'manifest.json');p=m['plates'][0];collection=gate.read(OUT/'collection.json')
@@ -141,6 +185,10 @@ def finish():
             value['rawContentRatio']=value.pop('ratio')
             value.update(vignette_ratio(gate.image(paths['vignetteOn'+str(i)]),gate.image(paths['vignetteOff'+str(i)])))
     dump(paths['C15'],{'frames':c15,'paired':paired,'volume_constant':len({(v['vignetteIntensity'],v['vignetteSmoothness']) for v in c15})==1,'interpretation':'D-L1 effect attenuation from same-frame ON/OFF pairs; rawContentRatio is historical content only.' if paired else 'Historical raw picture-content ratio; not a D-L1 effect-strength judgment.'})
+    if 'vignette-baseline' in paths:
+        old=gate.image(paths['vignette-baseline']);old_off=gate.image(paths['vignette-baseline-off'])
+        dump(paths['D-L5'],{'baselineSha256':gate.sha(paths['vignette-baseline']),'baselineOffSha256':gate.sha(paths['vignette-baseline-off']),
+            'frames':[compare_vignette_shape(gate.image(paths['vignetteOn'+str(i)]),gate.image(paths['vignetteOff'+str(i)]),old,old_off) for i in range(8)]})
     moves=[shots[f'Main1-move-{i}.png'] for i in range(8)]
     motion={'measure_from_images':True,'hero_box':p['regions']['hero'],'background_box':p['regions']['ground'][0],'hero':[],'background':[]}
     for i,(a,key) in enumerate(zip(frames,p['motion'])):
@@ -208,6 +256,8 @@ def measure(args):
         if args.vignette_pair:
             report['C15_raw_content_ratio']=report['C15']
             report['C15']=vignette_ratio(a,b)
+            if args.vignette_baseline:
+                report['D-L5']=compare_vignette_shape(a,b,gate.image(args.vignette_baseline),gate.image(args.vignette_baseline_off))
         if 'blurStrength' in regions:
             strengths={}
             for name,box in regions['blurStrength'].items():
@@ -257,10 +307,11 @@ def measure(args):
     OUT.mkdir(parents=True,exist_ok=True);Image.fromarray(field.astype(np.uint8)).save(OUT/'grass.png');dump(OUT/'measure.json',report);print(json.dumps(report,ensure_ascii=False,indent=2))
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish','measure','selftest']);parser.add_argument('--out');parser.add_argument('--captures');parser.add_argument('--image');parser.add_argument('--pair');parser.add_argument('--regions');parser.add_argument('--motion');parser.add_argument('--vignette-pair',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish','measure','selftest']);parser.add_argument('--out');parser.add_argument('--captures');parser.add_argument('--image');parser.add_argument('--pair');parser.add_argument('--regions');parser.add_argument('--motion');parser.add_argument('--vignette-pair',action='store_true');parser.add_argument('--vignette-baseline');parser.add_argument('--vignette-baseline-off');args=parser.parse_args()
+    if bool(args.vignette_baseline)!=bool(args.vignette_baseline_off):parser.error('Both vignette baseline ON and OFF are required')
     if args.phase=='measure' and args.vignette_pair and not args.pair:parser.error('--vignette-pair requires --pair')
     if args.out: OUT=Path(args.out).resolve()
     if args.captures: CAP=Path(args.captures).resolve()
     if args.phase == 'measure': measure(args)
-    elif args.phase == 'plan':plan(vignette_pairs=args.vignette_pair)
+    elif args.phase == 'plan':plan(vignette_pairs=args.vignette_pair,vignette_baseline=args.vignette_baseline,vignette_baseline_off=args.vignette_baseline_off)
     else: {'selftest':selftest,'finish':finish}[args.phase]()

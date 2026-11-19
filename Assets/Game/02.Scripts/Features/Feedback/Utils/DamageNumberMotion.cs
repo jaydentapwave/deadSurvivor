@@ -45,6 +45,47 @@ public static class DamageNumberMotion
         return fadeSeconds > 0f ? Mathf.Clamp01(1f - (age - fadeStart) / fadeSeconds) : 0f;
     }
 
+    // 같은 대상의 새 숫자는 아래, 오래된 숫자는 글자 높이 + 2픽셀 간격으로 위에 쌓는다.
+    // 대상이 움직여도 번호로 묶고, 다른 대상과 이전 호출의 슬롯 상태는 섞지 않는다.
+    public static Vector2 GetStackOffsetPx(IReadOnlyList<DamageNumberEntry> entryList, int index, float fontSizePx)
+    {
+        var monsterId = entryList[index].MonsterId;
+        if (monsterId < 0)
+        {
+            return Vector2.zero;
+        }
+
+        var rank = 0;
+        for (var i = index + 1; i < entryList.Count; i++)
+        {
+            if (entryList[i].MonsterId == monsterId)
+            {
+                rank++;
+            }
+        }
+
+        var horizontal = rank == 0 ? 0 : rank % 2 == 1 ? 3 : -3;
+        return new Vector2(horizontal, rank * (Mathf.Ceil(fontSizePx) + 2));
+    }
+
+    // 이동 중인 대상도 한 열을 공유해야 이전 발 위치 차이로 줄 간격이 사라지지 않는다.
+    public static Vector3 GetStackOrigin(IReadOnlyList<DamageNumberEntry> entryList, int index)
+    {
+        var entry = entryList[index];
+        if (entry.MonsterId >= 0)
+        {
+            for (var i = entryList.Count - 1; i > index; i--)
+            {
+                if (entryList[i].MonsterId == entry.MonsterId)
+                {
+                    return entryList[i].StartPosition;
+                }
+            }
+        }
+
+        return entry.StartPosition;
+    }
+
     // 새 숫자 하나를 내기 전 거둘 가장 오래된 숫자 수
     public static int GetEvictCount(int activeCount, int maxActive) => activeCount >= maxActive ? activeCount - maxActive + 1 : 0;
 }

@@ -1,5 +1,7 @@
 # 빛 단계 실행 기록
 
+현재 판정은 맨 끝 **attempt 3 — D-L5~D-L7**을 따른다. 앞의 구현 완료/PASS는 이전 소스의 이력이다. 디렉터가 그 판의 G20·K21을 FAIL로 판독해 이번 범위를 다시 열었다.
+
 기준 커밋: 12e0567. 게임 높낮이 fee4ae3, 문서 1a6e4b9. L1 작업, 설계 사전 리뷰 없음. 단계별 구현·해당 검사·커밋 → L6 전체 검사 1회 → Claude 마감 리뷰. 직접 리뷰 호출 없음.
 
 기준 문서와 다른 점: r8.1 K21 비탈 명암 L1b 및 풀밭 생성기 수정 허용을 적용. r7 메시 실제 그림자 정책이 구 판 그림자 설명보다 우선. Bloom은 구 설계 1.8/.4 대신 3.12의 2/.1. G19 성능은 7단계, G20·K21 눈가림은 디렉터 몫. 노치·발 반폭 문구·물 위 바닥 그림·원본 모델/질감 수정은 이 단계 판정 밖.
@@ -281,3 +283,59 @@ project-doctor configured/findings0, editor_ready PASS, 시작Play=false확인. 
 validator-client **VERDICT: PASS**(3889943, job20261119-173638-9bab5a, read-only52초). V-META필수수정없음, intensity복구→stack갱신/전역선택→요약기록순서와8쌍파일일치확인. 리뷰어의Unity/Play재실행은없고제공한컴파일/4단계/8쌍기록을확인했다는한계도유지한다. algorithm-tester **VERDICT: PASS**, spec-reviewer **VERDICT: PASS**는deac033의앞판정그대로이음. 세역할마감리뷰완료,추가재요청0.
 
 이수령후코드/게임값/증거그림변경없음,문서/핸드오프만마감한다. 추가컴파일/Play/전체시험/아트관문을돌렸다고하지않는다. G03/G20BLOCKED·전체아트/T4미완료, G19deferred, K21점수NOT_RUN과최신review_open은그대로다. 구현/코드리뷰완료와디렉터의최종시각채택을구별한다. 다음은디렉터가모서리급경계/미세Bloom·K21자료를판독하는일이며Codex가대신점수/승인을쓰지않는다.
+
+## attempt 3 — D-L5~D-L7 (2026-11-19)
+
+사용자가 요청한 회차 번호3을 그대로 쓴다. 이전 metadata 수정 핸드오프는 `output/hd2d-light/attempt3/previous-handoff.md`에 보존한다. 시작 HEAD015308f, 작업 중 튜토리얼 세션이65f2860을 커밋했으므로 이번 diff의 부모는65f2860이다. 그쪽 미커밋 파일·Font·DitherTent/Wood를 고치거나 stage하지 않았다. 시작 시 다른 세션의 Play=true였으므로 기다렸고, false 확인 후에만 구현·명령을 실행했다. project-doctor configured/findings0. 사용 스킬/규칙은 기존 Unity CLI·ds-workflow·studio-kit 수동 단계 절차 그대로다.
+
+입력 판독: 이전 Main2-20261119T080016Z G20 FAIL(가독성2, 검은 타원·숫자 겹침·베기가 몸을 가림), K21 r002 FAIL(Claude T2=2>평지1, Codex T2=1=평지1). 이 판은 `output/hd2d-관문/main2-Main2-20261119T080016Z/`로 옮겨 보존했다. 새 판독 결과로 바꿔 쓰지 않는다.
+
+### 변경과 회차별 결과
+
+| 항목 | 구현·방법 | 확인 결과 |
+|---|---|---|
+| D-L5 첫 방식 | Vignette .8/.6/rounded On/중성 곱셈 floor .425. 어두워진 C3를 노출+1EV로 보정 | C15 .760~.761/검정0%였지만 G08·G09·G11 FAIL(인물 .246158, 배경 .162798). 폐기. 노출 전 후보 C3 ΔE24.405 FAIL도 보존 |
+| D-L5 두 번째 방식 | **.52/.04/rounded Off/중성 floor .425**, 노출0으로 복구. 중앙 밝기 변화는 작게 유지하고 모서리가 순검정이 되는 부분 제거 | 최종 C15 .757792~.759539, 모서리 최소18.9158·검정0%, 방사 최대차≤.173687 < 이전 .652067. G08·G09·G11 PASS |
+| D-L6 숫자 | MonsterId로 묶고 최신 시작 위치를 공유. 오래된 숫자는 `ceil(fontSize)+2px` 간격 위에, 좌우 ±3px. 나이별 오름을 더하므로 오래된 줄 간격이 줄지 않음 | 수·수명·글꼴·한 프레임 합치기·상한·phase 정리 불변. 서로 다른/미할당 대상·이동·제거·재등록을 지정 시험으로 확인 |
+| D-L6 베기 | sword/axe body의 Upright local Z만+.6m. 화면 위치·root·판정·진형·alpha 불변. Initialize/다른 효과 Update에서0으로 복구 | 직접 연 FX1/FX2와 연속 시트에서 몸이 베기 앞에 보임. 실제5프레임 모두 관측 |
+| D-L7 두 번째 비탈 | 높이 켠 ground의 법선 XZ×4. `contour=i.href+(sunDot−sin32°)×.12m`, 문턱 .03/.16/.30m, 배율 .94/1.02/1.13/1.25. worn/soil 무늬 혼합 .18/.45 | 넓은 높이 띠가 이어지고 갈색 얼룩 대비가 약해진 것을 관측. 점수/채택은 디렉터. 높이·좌표·이동·평지 OFF 불변 |
+| D-L7 턱 회귀 | 처음 `i.w.y`로 장식 턱 +.36m까지 밝힌 탓에 C10 .959660 FAIL | 걷는 땅 기준 `i.href`로 고쳐 **테/윗면1.275404·옆면/윗면.466289 PASS**. 고친 최종 소스로 main2/K21을 다시 수집 |
+
+첫 실패 판/로그는 attempt3/failed-*·run1-*, C10 회귀 판은 c10-failed-*·run2-*에 보존한다. 문턱·킷·상자·필수 검사를 바꾸지 않았다. D-L5는 두 번째 방식에서 정량 조건을 만족해 더 튜닝하지 않았다.
+
+### 실행한 검사와 최종 수치
+
+| 검사 | 이번 실행 | 근거 |
+|---|---|---|
+| 컴파일 | 오류0 | attempt3/compile-d6.json, compile-final.json |
+| 피해 숫자 EditMode | **8/8 PASS** | damage-tests.json |
+| 전투 효과 EditMode | **38/38 PASS** | effect-tests.json |
+| 측정 도구 selftest | **7/7 PASS** | measurement-selftest.log: 기존 C15 4개 + smooth/no-black 통과·hard/black 거부·방사 노출 상쇄 |
+| D-L6 범위 효과 흐름 | **8/8 PASS,96초** | fx-diagnostic-play/report.json. 원본 FX1/FX2·검/도끼 연속·전투 동시 표시 기대식 그대로. 검·도끼 21장씩/5프레임 모두 |
+| 최종 판 수집 흐름 | **10/10 PASS,63.3초** | final-play/report.json. seed8, wave6/frame60, 각 C15쌍 같은 Unity frame/timeScale0 |
+| K21 높이 판 | **7/7 PASS**(촬영 동작) | k21-source-final-play/report.json. 판독 점수 PASS 뜻 아님 |
+| K21 평지 판 | **4/4 PASS**(촬영 동작), seed8 복구 해시 일치 | flat-play/report.json·height-restore.json |
+| main2 자동 관문 | **12 PASS, G03/G20 BLOCKED, G19 N/A**, 전체FAIL | run Main2-20261119T091737Z, source1447·files1510, capture-record 전후 지문 일치 |
+
+G09 tree soft .050569/stone .107034·조명 진단3단, G11 hero .002962/background .087343(각≤.10), G12/G13/G18 PASS. C3 **ΔE8.568072 / S.347222**, C8 **−.243137**, C9 **V.254902**, C10 **1.275404/.466289**, C16은 판정 제외 규칙 유지(이번 표본 PASS). `final-measure/measure.json`과 paint.py `final-paint.json`은 같은 풀 표본 S.35/V.57이다. C15는 `main2/C15.json`의 유효 쌍만 근거다. final-measure의 원 화면 밝기 비는 내용 비교이며 C15 세기가 아니다.
+
+C9는 앞 회차부터 쓰던 `L6-colour-regions.json`의 강 상자 [900,190,1000,215]. finish의 오래된 고정 water telemetry [700,150,850,250]는 다리를 포함하므로 C9 근거로 쓰지 않는다. 관문 판의 역할/상자는 바꾸지 않았다.
+
+이번에는 D-L5~7의 바뀐 범위만 검사하라는 최신 지시에 따라 전체게임/전체EditMode는 다시 돌리지 않았다. 이전 전체622/8 및 Ambient10개 PASS를 이번 실행으로 적지 않는다. Bloom·흐림 알고리즘·입자·해/그림자는 이번 소스 수정 없음. 새 노출은 최종0으로 복구했다. 성능/로그 열람0, 리뷰 직접 호출0, 유료/외부 전송/push/PR/merge0.
+
+### 직접 연 화면과 한계
+
+- 최종 `battle-main.png`1920×1080: 숫자가 줄 간격을 두고 올라가고 베기 앞에 대원 몸이 보인다. 검게 잘린 모서리 대신 색 있는 배경이 남았다. **옅은 호형 전이는 여전히 보여** 정량 통과를 모양 채택으로 승격하지 않는다.
+- UI4화면비 `final-play/10-ASPECTS-{1920x1080,2340x1080,2520x1080,2048x1536}.png`: 모두 직접 열었다. 중앙 인물·숫자·HP/UI는 보이고 모서리 검은 잘림은 없다. 흐림 띠의 UV 설정은 그대로다. 노치 실기기는 미확인.
+- 최종 `k21-final2/{T2,T7,Main1-hill,flat-B0}.png` 네 장1920×1080을 직접 열었다. T2/T7에 넓은 단계 띠, B0에는 같은 띠가 없음을 관측했다. **K21 점수는 NOT_RUN**, 디렉터가 같은 눈가림으로 판독한다. seed8 복구 SHA ea871183c69ed43942710999d19526dcbe8efbe9fab8ede33ca30569fc273656.
+- `fx-diagnostic-play/04-FX1`, `05-FX2`, slash-sequence-sheet.png 직접 열람. 실제 시간 연속 프레임으로 베기5자세와 몸 앞뒤를 보았다. 시트는 sheet.py로 UNVERIFIED 표시해 G20 채택과 구별했다.
+- 5단계 battle-main.png도 열었다. 현재는 더 따뜻한 그림자, 줄 간격을 둔 숫자와 뒤로 간 베기를 볼 수 있다. 두 그림의 3D 소품/높낮이/UI/카메라 구성이 달라 전체 차이를 이번 빛 수정만의 결과로 주장하지 않는다.
+
+### 놓친 것과 워크플로우 반영
+
+1. 넓은 부드러운 Vignette의 국소 그라데이션이 도트·이동 검사에 닿았다. C15 단독 통과로 마감하지 않고 같은 최종ON G08/G09/G11을 묶어 확인했다. 비싼 전체 게임 반복 대신 같은 고정 판만 재수집했다.
+2. 장식 턱 높이와 걷는 땅 기준 높이를 혼동해 C10을 깼다. 명암-only 변경도 공유 재질을 쓰는 턱 비율을 확인하는 후보를 이번 수치표에 반영했다. 불필요한 새 시험군은 추가하지 않았다.
+3. 첫 FX 장비 지급의 인덱스 오류는 원인 미확정이다. 로비4화면비 캡처를 제외한 같은 기대식 범위 흐름에서 재현되지 않았다. 튜토리얼 소스 수정으로 해결했다고 하지 않는다.
+4. 옛 임시 flat-control에 --help를 붙였는데 인자를 처리하지 않아 촬영이 실행됐다. 현재 B0를 final2로 옮기고 이전 PNG는 고정 director evidence에서 원 해시로 복구했다. 옛 sidecar의 두 볼륨 값은 보존된 판 settings에서 복구한 것이며 바이트 동일로 주장하지 않는다. `B0-path-recovery/recovery.json` 참조. 새 runner는 인자 거부·try/finally·높이 복구 검사를 넣고 최종 네 장을 다시 촬영했다. 이전 attempt2의 일부 임시 실행 로그는 이 실수 때 덮였으며, 현재/과거 판정을 섞어 쓰지 않는다.
+
+후보는 `docs/game/hd2d-작업-개선-기록.md`에 반영. 시간·활동별 CLI 비용은 attempt3/time-and-tokens.json. Codex 토큰 API는 없어 NOT_AVAILABLE, 하위/리뷰 에이전트0. 새 코드 리뷰3종은 **대기**, 기존 VERDICT: PASS를 이번 D-L5~7에 이어 쓰지 않는다. G03/G20·전체아트/T4는 미완료, 기존 자연장면 흐림 추정 FAIL/교정 PASS 분리·D-L4 수용·Font/지시문 재현 한계는 review_open에 보존한다.
