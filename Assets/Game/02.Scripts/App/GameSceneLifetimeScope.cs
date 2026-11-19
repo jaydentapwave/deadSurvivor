@@ -124,6 +124,7 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterEntryPoint<ResultPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<WorldPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<FieldOcclusionPresenter>(Lifetime.Scoped).AsSelf();
+        builder.RegisterEntryPoint<AmbientEffectsPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<BattleItemListPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<RevivePresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<CombatWorldPresenter>(Lifetime.Scoped).AsSelf();

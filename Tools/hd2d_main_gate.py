@@ -46,7 +46,8 @@ def plan():
     for folder in ['Assets/Game/02.Scripts/Effect/HD2DView','Assets/Game/02.Scripts/Features/Field','Assets/Game/03.Resources/Materials/HD2D','Assets/Game/03.Resources/Shaders/HD2D','Assets/Game/03.Resources/Textures/HD2D','Assets/Game/03.Resources/Models/HD2D','Assets/Game/03.Resources/Art/AIGenerated/Decor','Assets/Game/03.Resources/Art/AIGenerated/Characters','Assets/Game/03.Resources/Art/AIGenerated/Monsters']:
         sources.update(str(p) for p in (ROOT/folder).rglob('*') if p.is_file())
     sources.update(dependencies)
-    sources.update(['Tools/hd2d_main_gate.py','Tools/hd2d_field_textures.py','Tools/test_hd2d_field_textures.py','Assets/Game/03.Resources/Resources/Data/Field/field_layout.json','Assets/Game/03.Resources/Resources/Data/Field/ground_path.json','Assets/Game/02.Scripts/Editor/HD2DMainPlateCapture.cs'])
+    sources.update(str(p) for p in (ROOT/'Assets/Game/02.Scripts/Effect/Ambient').rglob('*') if p.is_file())
+    sources.update(['Assets/Game/03.Resources/Resources/Prefab/HD2DAmbientDust.prefab','Assets/Game/02.Scripts/App/HD2DLightCapture.cs','Tools/hd2d_main_gate.py','Tools/hd2d_field_textures.py','Tools/test_hd2d_field_textures.py','Assets/Game/03.Resources/Resources/Data/Field/field_layout.json','Assets/Game/03.Resources/Resources/Data/Field/ground_path.json','Assets/Game/02.Scripts/Editor/HD2DMainPlateCapture.cs'])
     # B9 updates completion counts; bind immutable copies of the capture-time criteria.
     for original,name in [('docs/features/hd2d-background/prep.md','prep-before.md'),('docs/art/아트-기준서.md','art-spec-before.md')]:
         snapshot=OUT/name;snapshot.write_bytes((ROOT/original).read_bytes());sources.add(str(snapshot))
@@ -167,6 +168,10 @@ def measure(args):
     if args.pair:
         b=gate.image(args.pair);diff=np.abs(a-b)
         report['pair']={'image':args.pair,'sha256':gate.sha(args.pair),'groundMeanDifference':float(gate.crop(diff,regions['ground'][0]).mean()),'maximumDifference':int(diff.max())}
+    if args.motion:
+        for index,path in enumerate(sorted(Path(args.motion).glob('motion-[0-7].png'))):
+            shot=Image.open(path).convert('RGB');flag=shot.crop((130,850,250,1000));water=shot.crop((800,55,1000,100))
+            detail=Image.new('RGB',(320,150),(32,32,32));detail.paste(flag,(0,0));detail.paste(water,(120,0));OUT.mkdir(parents=True,exist_ok=True);detail.resize((1280,600),Image.Resampling.NEAREST).save(OUT/f'motion-detail-{index}.png')
     directory=Path(args.image).parent
     if (directory/'shadow.json').exists():report['G18']=gate.read(directory/'shadow.json')
     if (directory/'sun-off.png').exists():
@@ -201,7 +206,7 @@ def measure(args):
     OUT.mkdir(parents=True,exist_ok=True);Image.fromarray(field.astype(np.uint8)).save(OUT/'grass.png');dump(OUT/'measure.json',report);print(json.dumps(report,ensure_ascii=False,indent=2))
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish','measure']);parser.add_argument('--out');parser.add_argument('--captures');parser.add_argument('--image');parser.add_argument('--pair');parser.add_argument('--regions');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish','measure']);parser.add_argument('--out');parser.add_argument('--captures');parser.add_argument('--image');parser.add_argument('--pair');parser.add_argument('--regions');parser.add_argument('--motion');args=parser.parse_args()
     if args.out: OUT=Path(args.out).resolve()
     if args.captures: CAP=Path(args.captures).resolve()
     if args.phase == 'measure': measure(args)

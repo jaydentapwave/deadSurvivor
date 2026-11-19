@@ -81,3 +81,13 @@ C3·C8·C9·C10이 이미 범위 안이어서 해/환경광/색조정0을 추가
 컴파일 failed=false, 생성기 기존시험2/2 PASS1.955초. 본 게임 시작 지정흐름3/3 PASS. L4/main.png 직접 열어 넓은 풀 얼룩 대비가 줄고 풀잎 결이 유지됨을 봄; 아직 G20 반복무늬 재판독 NOT_RUN(디렉터). 실제 측정: C3 #999765 ΔE6.811/S.342466 PASS; C8 −.274510 PASS; C9 V.243137 PASS; C10 테1.200726/옆.438986 PASS(테 배율1.2 유지); C16 풀S.3425<인물S.5724 PASS, 판정제외. paint.py 실제 풀 crop 측정 L4-paint.json.
 
 작은 지적 처리: 대원 그림자 길이1.1555/갈색/덜 진함 L1, 가장자리 L3 FAIL 유지(C15 L4재측정.809385), 잎은 재질 tint. 강 경계 갈색 한 줄은 현재 K19 실루엣 테로 남아 있어 미해결, 배낭-길 명도는 배낭만 바꾸려면 채택 그림의 부위 색 판단이 필요해 미해결로 유지(이번 단계에서 새 원본 아트 수정 안 함). 이 둘을 고쳤다고 주장하지 않음.
+
+### L5
+
+Effect/Ambient의 scoped entry point→ResourceService 프리팹 로드→PoolManager.Get<ParticleSystem>, 전투에서만 재생/그 외 Clear·중단, Dispose 반환·전역 포즈 복원. 먼지는 layer0 반투명, 후처리 뒤 layer26/Overlay UI 위에 그리지 않음. Renderer 그림자Off, 점광0. native 최대36/rate1.4/수명18. 물 무늬는 1/2048 UV(월드1/48m) 정수칸0/1/2/1, 깃발은 오른쪽 꼭짓점만 최대±3 native칸, 왼쪽 고정. 4Hz 계단3포즈, 실제 geometry/물 경계 변경 없음.
+
+컴파일 completed/failed=false. 새 EditMode9/9 PASS7.14초(0/.249999/.25/.5/.75/1/큰시간, 잘못된시간, 실제ParticleSystem.Emit100→cap36 및rate 검증). 흐름4/4 PASS32초. 연속8장 상태는 L5/states.csv: 정확15 Unity프레임·게임.25초 간격, 활성3/3/3/4/4/4/5/5, rate전부1.4, limit전부36, 포즈0/1/2/1/0/1/2/1.
+
+직접 연 것 L5/motion-sheet.png(8장, 베기/회복/피해 숫자가 실제 움직임), L5/detail-sheet.png(원본에서 물·깃발 영역 잘라 Point4배): 물 밝은 점 무늬·깃발 천이3포즈로 움직이고 왼쪽 깃대 붙음/격자 계단 유지. 별도모델·스프라이트 프레임을 재생성하지 않음. sheet.py의 UNVERIFIED 표시는 G20 전 관측자료임을 명시하며 PASS로 꾸미지 않음. 원본캡처1920×1080.
+
+문제/후보: run.next_action이 L1에서 뒤늦게 갱신됐음을 발견해 L5 현재상태로 바로잡음(중간 단계 메모 갱신 누락); 다음 상태 변경 전에 갱신하도록 이번 마감에서 반영.

@@ -30,66 +30,12 @@
       "capture": true
     },
     {
-      "id": "UNIT",
-      "name": "같은 정지 프레임 진단 쌍",
-      "do": "HD2DMainPlateCapture.CaptureLightUnit(\"output/hd2d-light/L0-diagnostics\", \"baseline\");",
+      "id": "MOTION",
+      "name": "시간 흐름 0.25초 간격8장",
+      "do": "System.IO.Directory.CreateDirectory(\"output/hd2d-light/L5\"); System.IO.File.WriteAllText(\"output/hd2d-light/L5/states.csv\",\"sample,unityFrame,time,count,rate,limit,pose\\n\"); HD2DLightCapture.CaptureMotion(i=>{HD2DMainPlateCapture.CaptureStill(\"output/hd2d-light/L5/motion-\"+i+\".png\");var c=UnityEngine.Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container;var a=(AmbientEffectsPresenter)c.Resolve(typeof(AmbientEffectsPresenter));System.IO.File.AppendAllText(\"output/hd2d-light/L5/states.csv\",i+\",\"+UnityEngine.Time.frameCount+\",\"+UnityEngine.Time.time+\",\"+a.DustCount+\",\"+a.DustRate+\",\"+a.DustLimit+\",\"+a.MotionFrame+\"\\n\");});",
+      "wait": "HD2DLightCapture.IsMotionCaptured",
+      "timeout": 30,
       "expect": "UnityEngine.Time.timeScale == 0f"
-    },
-    {
-      "id": "MOTION0",
-      "name": "움직임 0.25초 간격 0",
-      "do": "UnityEngine.Time.timeScale=1f;",
-      "sleep": 0.25,
-      "capture": true
-    },
-    {
-      "id": "MOTION1",
-      "name": "움직임 0.25초 간격 1",
-      "do": "UnityEngine.Time.timeScale=1f;",
-      "sleep": 0.25,
-      "capture": true
-    },
-    {
-      "id": "MOTION2",
-      "name": "움직임 0.25초 간격 2",
-      "do": "UnityEngine.Time.timeScale=1f;",
-      "sleep": 0.25,
-      "capture": true
-    },
-    {
-      "id": "MOTION3",
-      "name": "움직임 0.25초 간격 3",
-      "do": "UnityEngine.Time.timeScale=1f;",
-      "sleep": 0.25,
-      "capture": true
-    },
-    {
-      "id": "MOTION4",
-      "name": "움직임 0.25초 간격 4",
-      "do": "UnityEngine.Time.timeScale=1f;",
-      "sleep": 0.25,
-      "capture": true
-    },
-    {
-      "id": "MOTION5",
-      "name": "움직임 0.25초 간격 5",
-      "do": "UnityEngine.Time.timeScale=1f;",
-      "sleep": 0.25,
-      "capture": true
-    },
-    {
-      "id": "MOTION6",
-      "name": "움직임 0.25초 간격 6",
-      "do": "UnityEngine.Time.timeScale=1f;",
-      "sleep": 0.25,
-      "capture": true
-    },
-    {
-      "id": "MOTION7",
-      "name": "움직임 0.25초 간격 7",
-      "do": "UnityEngine.Time.timeScale=1f;",
-      "sleep": 0.25,
-      "capture": true
     }
   ]
 }

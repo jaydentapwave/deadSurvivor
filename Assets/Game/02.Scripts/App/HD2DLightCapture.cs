@@ -8,6 +8,7 @@ public sealed class HD2DLightCapture : MonoBehaviour
 {
     public static bool IsFrozen { get; private set; }
     public static int WaveFrame { get; private set; }
+    public static bool IsMotionCaptured { get; private set; }
     private int _targetWave;
     private int _targetFrame;
     private float _oldCaptureDelta;
@@ -67,6 +68,32 @@ public sealed class HD2DLightCapture : MonoBehaviour
     {
         Time.captureDeltaTime = _oldCaptureDelta;
         IsFrozen = false;
+    }
+
+    public static void CaptureMotion(Action<int> capture)
+    {
+        if (!Application.isPlaying || !IsFrozen)
+        {
+            throw new InvalidOperationException("Freeze the owned light fixture first.");
+        }
+        IsMotionCaptured = false;
+        FindAnyObjectByType<HD2DLightCapture>().StartCoroutine(SampleMotion(capture));
+    }
+
+    private static System.Collections.IEnumerator SampleMotion(Action<int> capture)
+    {
+        Time.captureDeltaTime = 1f / 60f;
+        Time.timeScale = 1;
+        for (var sample = 0; sample < 8; sample++)
+        {
+            for (var frame = 0; frame < 15; frame++)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+            capture(sample);
+        }
+        Time.timeScale = 0;
+        IsMotionCaptured = true;
     }
 }
 

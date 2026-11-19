@@ -21,6 +21,7 @@ Shader "HD2D/HD2D_FieldSurface"
         _AlphaClip("UV alpha cutout",Float)=0
         _Diagnostic("Lighting factor only",Float)=0
         _TerrainLightSlope("View-only slope light exaggeration",Float)=4
+        _FlagWind("Discrete cloth wind",Float)=0
     }
     SubShader
     {
@@ -42,7 +43,7 @@ Shader "HD2D/HD2D_FieldSurface"
         float4 _FieldRect; float _FlatDepth; float _Dither;
         float _Category;
         float _Diagnostic; float _AlphaClip; int _OcclusionRectCount;
-        float _TerrainLightSlope;
+        float _TerrainLightSlope; float _FlagWind;
         float4 _AlbedoTint;
         float4 _OcclusionRects[64];
         CBUFFER_END
@@ -53,8 +54,14 @@ Shader "HD2D/HD2D_FieldSurface"
         struct A { float3 p:POSITION; float3 n:NORMAL; float2 uv:TEXCOORD0; };
         struct V { float4 p:SV_POSITION; float3 w:TEXCOORD0; float3 n:TEXCOORD1; float2 uv:TEXCOORD2; float2 floorDepth:TEXCOORD3; float4 screen:TEXCOORD4; };
         #endif
+        float _HD2DAmbientFrame;
         V Vert(A i)
         {
+            if (_FlagWind>.5)
+            {
+                float wind=_HD2DAmbientFrame<.5 ? 0 : _HD2DAmbientFrame<1.5 ? 1 : -1;
+                i.p.x+=wind*floor(i.uv.x*3.999)/48;
+            }
         #if defined(_TERRAIN_HEIGHT)
             V o; o.w=TransformObjectToWorld(i.p); o.n=TransformObjectToWorldNormal(i.n); o.p=TransformWorldToHClip(o.w); o.uv=i.uv; o.screen=ComputeScreenPos(o.p); o.href=i.terrain.x; float4 flat=TransformWorldToHClip(float3(o.w.x,o.href,o.w.z)); o.floorDepth=flat.zw; return o;
         #else
@@ -143,7 +150,7 @@ Shader "HD2D/HD2D_FieldSurface"
             }
             else if (_Category>1.5 && _Category<2.5)
             {
-                c=LinearToSRGB(SAMPLE_TEXTURE2D(_Water,sampler_Water,floorUV).rgb);
+                c=LinearToSRGB(SAMPLE_TEXTURE2D(_Water,sampler_Water,floorUV+float2(_HD2DAmbientFrame/2048,0)).rgb);
             }
             else if (_Category>2.5 && _Category<3.5)
             {
