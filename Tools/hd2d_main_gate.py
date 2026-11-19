@@ -25,7 +25,7 @@ def dump(path,value):
 
 def plan():
     OUT.mkdir(parents=True,exist_ok=True)
-    m={'schema':'25d-gate-manifest/1','run_id':'Main1-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ'),'required_plates':['Main1'],'required_settings':{'quality':'Mobile','renderScale':1.0,'srpBatcher':True},'files':{},'sources':[],'capture_record':'capture-record','plates':[]}
+    m={'schema':'25d-gate-manifest/1','run_id':OUT.name.title()+'-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ'),'required_plates':['Main1'],'required_settings':{'quality':'Mobile','renderScale':1.0,'srpBatcher':True},'files':{},'sources':[],'capture_record':'capture-record','plates':[]}
     def add(key,path,size=None):
         m['files'][key]={'path':str(path)}
         if size:m['files'][key]['size']=size
@@ -151,6 +151,58 @@ def finish():
     dump(OUT/'manifest.json',m)
     print(json.dumps(metrics,indent=2))
 
+def measure(args):
+    """Phase-local observations, separate from the immutable final gate declaration."""
+    a=gate.image(Path(args.image))
+    regions=json.loads(Path(args.regions).read_text())
+    lum=lambda v:v[:,:,0]*.2126+v[:,:,1]*.7152+v[:,:,2]*.0722
+    field=gate.crop(a,regions['ground'][0]); grass=color(field)
+    rgb=np.array([int(grass['representative'][i:i+2],16) for i in (1,3,5)])
+    delta=float(np.linalg.norm(gate.lab(rgb)-gate.lab(np.array([169,164,105]))))
+    l=lum(a);corner=float(np.mean([l[20:100,20:100].mean(),l[20:100,-100:-20].mean(),l[-100:-20,20:100].mean(),l[-100:-20,-100:-20].mean()]))
+    center=float(l[440:640,800:1120].mean())
+    tree=color(gate.crop(a,regions['props'][0]['box']))
+    report={'image':str(args.image),'sha256':gate.sha(args.image),'C3':dict(grass,deltaE=delta,range='deltaE<=12, S .30~.42'), 'C8':{'tree':tree,'differenceV':tree['V']-grass['V'],'range':'-.30~-.20'},'C15':{'corner':corner,'center':center,'ratio':corner/center,'range':'.6~.8'},'G09_observation':[dict(name=p['name'],soft=gate.soft(gate.crop(a,p['box']),10)) for p in regions['props']]}
+    if 'water' in regions:report['C9']=dict(color(gate.crop(a,regions['water'])),range='V<=.36')
+    if args.pair:
+        b=gate.image(args.pair);diff=np.abs(a-b)
+        report['pair']={'image':args.pair,'sha256':gate.sha(args.pair),'groundMeanDifference':float(gate.crop(diff,regions['ground'][0]).mean()),'maximumDifference':int(diff.max())}
+    directory=Path(args.image).parent
+    if (directory/'shadow.json').exists():report['G18']=gate.read(directory/'shadow.json')
+    if (directory/'sun-off.png').exists():
+        unshadowed=gate.image(directory/'sun-off.png')
+        samples=[]
+        for box in regions.get('shadow',[]):
+            on=gate.crop(a,box); off=gate.crop(unshadowed,box)
+            mask=lum(off)-lum(on)>8
+            pixels=on[mask]
+            if len(pixels):samples.extend(pixels.tolist())
+        if samples:
+            hsv=np.array([colorsys.rgb_to_hsv(*(np.array(v)/255)) for v in samples])
+            report['shadowColor']={'pixels':len(samples),'medianHue':float(np.median(hsv[:,0])*360),'medianV':float(np.median(hsv[:,2])),'range':'H15~50,V>.10 [method, estimated]'}
+    lighting=directory/'Main1-lighting.png'
+    if lighting.exists():
+        diag=gate.image(lighting); values=np.unique(diag.reshape(-1,3),axis=0); gray=[int(v[0]) for v in values if v.max()-v.min()<2 and v[0]>140]
+        report['toonDiagnostic']={'levels':gray,'steps':len(gray),'range':'2~3'}
+    mask_path=directory/'Main1-bank-mask.png'
+    if mask_path.exists():
+        mask=gate.image(mask_path);bank=lum(gate.image(directory/'Main1-bank-color.png'))
+        red=(mask[:,:,0]>200)&(mask[:,:,1]<40); green=(mask[:,:,1]>200)&(mask[:,:,0]<40);blue=(mask[:,:,2]>200)&(mask[:,:,0]<40)
+        top=float(np.median(bank[red]));report['C10']={'rimTop':float(np.median(bank[green]))/top,'sideTop':float(np.median(bank[blue]))/top,'range':'rim1.1~1.3,side.25~.5'}
+    if (directory/'blur-off.png').exists():
+        sharp=gate.image(directory/'blur-off.png'); difference=np.abs(a-sharp)[:,700:1220]; change=np.where(difference>2,difference,0).max(2).mean(1)
+        # Scan outward from the centre, not across unrelated scene texture frequencies.
+        active=change>.02; middle=len(active)//2
+        above=np.flatnonzero(active[:middle]);below=np.flatnonzero(active[middle:])+middle
+        report['blur']={'sharpUVMin':float(1-(below[0]+.5)/len(active)) if len(below) else None,'sharpUVMax':float(1-(above[-1]+.5)/len(active)) if len(above) else None,'range':'v .16/.76 +/-.02','rowDifference':change.tolist(),'highFrequencyByRow':np.abs(np.diff(lum(a),axis=1)).mean(1).tolist()}
+    if 'hero' in regions:
+
+        hero=color(gate.crop(a,regions['hero']));report['C16']={'grassS':grass['S'],'heroS':hero['S'],'status':'WARN' if grass['S']>=hero['S'] else 'PASS','judgment':'excluded; use C3'}
+    OUT.mkdir(parents=True,exist_ok=True);dump(OUT/'measure.json',report);print(json.dumps(report,ensure_ascii=False,indent=2))
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish']);args=parser.parse_args()
-    {'plan':plan,'finish':finish}[args.phase]()
+    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish','measure']);parser.add_argument('--out');parser.add_argument('--captures');parser.add_argument('--image');parser.add_argument('--pair');parser.add_argument('--regions');args=parser.parse_args()
+    if args.out: OUT=Path(args.out).resolve()
+    if args.captures: CAP=Path(args.captures).resolve()
+    if args.phase == 'measure': measure(args)
+    else: {'plan':plan,'finish':finish}[args.phase]()

@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "scene": "Assets/Game/01.Scene/Main.unity",
+  "size": [
+    1920,
+    1080
+  ],
+  "time_scale": 1,
+  "steps": [
+    {
+      "id": "LOBBY",
+      "name": "로비",
+      "wait": "PlayableProbe.Screen == \"Lobby\""
+    },
+    {
+      "id": "START",
+      "name": "seed8 시작 같은 프레임",
+      "do": "UnityEngine.Random.InitState(8); PlayableProbe.UseRunSettings(8,.05f); HD2DLightCapture.Arm(1,1); PlayableProbe.PressDepart();",
+      "wait": "HD2DLightCapture.IsFrozen",
+      "expect": "PlayableProbe.Wave == 1 && HD2DLightCapture.WaveFrame == 1",
+      "capture": true
+    },
+    {
+      "id": "BATTLE",
+      "name": "웨이브6 60번째 프레임",
+      "do": "HD2DLightCapture.Arm(6,60); PlayableProbe.StartBot(PlayableProbe.BotMode.AutoNext | PlayableProbe.BotMode.Equip); UnityEngine.Time.timeScale=10f;",
+      "wait": "HD2DLightCapture.IsFrozen",
+      "timeout": 240,
+      "expect": "PlayableProbe.Wave == 6 && HD2DLightCapture.WaveFrame >= 60 && PlayableProbe.DamageNumberCount > 0 && PlayableProbe.MonsterHpBarCount > 0",
+      "capture": true
+    },
+    {
+      "id": "UNIT",
+      "name": "같은 정지 프레임 진단 쌍",
+      "do": "HD2DMainPlateCapture.CaptureLightUnit(\"output/hd2d-light/L0-diagnostics\", \"baseline\");",
+      "expect": "UnityEngine.Time.timeScale == 0f"
+    },
+    {
+      "id": "MOTION0",
+      "name": "움직임 0.25초 간격 0",
+      "do": "UnityEngine.Time.timeScale=1f;",
+      "sleep": 0.25,
+      "capture": true
+    },
+    {
+      "id": "MOTION1",
+      "name": "움직임 0.25초 간격 1",
+      "do": "UnityEngine.Time.timeScale=1f;",
+      "sleep": 0.25,
+      "capture": true
+    },
+    {
+      "id": "MOTION2",
+      "name": "움직임 0.25초 간격 2",
+      "do": "UnityEngine.Time.timeScale=1f;",
+      "sleep": 0.25,
+      "capture": true
+    },
+    {
+      "id": "MOTION3",
+      "name": "움직임 0.25초 간격 3",
+      "do": "UnityEngine.Time.timeScale=1f;",
+      "sleep": 0.25,
+      "capture": true
+    },
+    {
+      "id": "MOTION4",
+      "name": "움직임 0.25초 간격 4",
+      "do": "UnityEngine.Time.timeScale=1f;",
+      "sleep": 0.25,
+      "capture": true
+    },
+    {
+      "id": "MOTION5",
+      "name": "움직임 0.25초 간격 5",
+      "do": "UnityEngine.Time.timeScale=1f;",
+      "sleep": 0.25,
+      "capture": true
+    },
+    {
+      "id": "MOTION6",
+      "name": "움직임 0.25초 간격 6",
+      "do": "UnityEngine.Time.timeScale=1f;",
+      "sleep": 0.25,
+      "capture": true
+    },
+    {
+      "id": "MOTION7",
+      "name": "움직임 0.25초 간격 7",
+      "do": "UnityEngine.Time.timeScale=1f;",
+      "sleep": 0.25,
+      "capture": true
+    }
+  ]
+}

@@ -14,8 +14,29 @@ using Object = UnityEngine.Object;
 [InitializeOnLoad]
 public static class HD2DMainPlateCapture
 {
-    public const string Output = "output/hd2d-background/plates";
-    public const string GateOutput = "output/hd2d-관문/main1";
+    public static string Output { get; private set; } = "output/hd2d-background/plates";
+    public static string GateOutput { get; private set; } = "output/hd2d-관문/main1";
+
+    public static void Configure(string output, string gateOutput)
+    {
+        if (_camera != null && _shot > 0 && _shot < 15)
+        {
+            throw new InvalidOperationException("Do not change a running collection.");
+        }
+        Output = output;
+        GateOutput = gateOutput;
+    }
+
+    public static void CaptureStill(string path, int width = 1920, int height = 1080)
+    {
+        if (!Application.isPlaying)
+        {
+            throw new InvalidOperationException("Owned Main Play required.");
+        }
+        _camera = Camera.main;
+        Directory.CreateDirectory(Path.GetDirectoryName(path));
+        CaptureCamera(path, width, height);
+    }
     private static int _shot;
     private static int _lastFrame;
     private static double _next;
@@ -355,6 +376,13 @@ public static class HD2DMainPlateCapture
 
     private static void WriteCollection()
     {
+        var length = MeasureShadowLength();
+        var collection = new Collection { context = JsonUtility.FromJson<Context>(File.ReadAllText(GateOutput + "/capture-context.json")),shots = ShotList,ledgeHeight = Object.FindFirstObjectByType<FieldView>().Landscape.Find("bank").GetComponent<MeshFilter>().sharedMesh.bounds.size.y,shadowLength = length,pondCrop = new[] { _pondCropX, _pondCropY, _pondCropX + 600, _pondCropY + 240 } };
+        File.WriteAllText(GateOutput + "/collection.json",JsonUtility.ToJson(collection,true));
+    }
+
+    public static float MeasureShadowLength()
+    {
         var hero = Hero();
         var direction = RenderSettings.sun.transform.forward;
         var origin = hero.transform.position;
@@ -386,8 +414,71 @@ public static class HD2DMainPlateCapture
             }
         }
         Object.DestroyImmediate(pixels);
-        var collection = new Collection { context = JsonUtility.FromJson<Context>(File.ReadAllText(GateOutput + "/capture-context.json")),shots = ShotList,ledgeHeight = Object.FindFirstObjectByType<FieldView>().Landscape.Find("bank").GetComponent<MeshFilter>().sharedMesh.bounds.size.y,shadowLength = length,pondCrop = new[] { _pondCropX, _pondCropY, _pondCropX + 600, _pondCropY + 240 } };
-        File.WriteAllText(GateOutput + "/collection.json",JsonUtility.ToJson(collection,true));
+        return length;
+    }
+
+    public static void CaptureLightUnit(string directory, string mode)
+    {
+        if (!Application.isPlaying || Time.timeScale != 0)
+        {
+            throw new InvalidOperationException("Freeze the owned frame before paired light captures.");
+        }
+        _camera = Camera.main;
+        var oldOutput = Output;
+        Output = directory;
+        Directory.CreateDirectory(directory);
+        try
+        {
+            Capture("main.png", 1920, 1080);
+            if (mode == "baseline" || mode == "sun")
+            {
+                var sun = RenderSettings.sun;
+                var wasEnabled = sun.enabled;
+                try
+                {
+                    sun.enabled = false;
+                    Capture("sun-off.png", 1920, 1080);
+                }
+                finally { sun.enabled = wasEnabled; }
+                File.WriteAllText(directory + "/shadow.json", "{\"space\":\"world\",\"hero_height\":1,\"length\":" + MeasureShadowLength().ToString(System.Globalization.CultureInfo.InvariantCulture) + "}");
+            }
+            if (mode == "baseline" || mode == "toon")
+            {
+                CaptureLighting();
+                CropMain("main.png", "closeup.png", CropX, CropY, CropWidth, CropHeight, CropScale);
+            }
+            if (mode == "baseline" || mode == "bloom")
+            {
+                var profile = Object.FindObjectsByType<Volume>(FindObjectsSortMode.None).First(v => v.sharedProfile != null && v.sharedProfile.Has<Bloom>()).profile;
+                profile.TryGet<Bloom>(out var bloom);
+                var wasActive = bloom.active;
+                try
+                {
+                    bloom.active = false;
+                    Capture("bloom-off.png", 1920, 1080);
+                }
+                finally { bloom.active = wasActive; }
+                File.WriteAllText(directory + "/settings.json", JsonUtility.ToJson(ActualSettings(), true));
+            }
+            if (mode == "baseline" || mode == "bloom")
+            {
+                var feature = AssetDatabase.LoadAllAssetsAtPath("Assets/Settings/Mobile_Renderer.asset")
+                    .OfType<ScriptableRendererFeature>().Single(f => f.name == "HD2D focus band");
+                var wasActive = feature.isActive;
+                try
+                {
+                    feature.SetActive(false);
+                    Capture("blur-off.png", 1920, 1080);
+                }
+                finally { feature.SetActive(wasActive); }
+            }
+            if (mode == "baseline" || mode == "bank")
+            {
+                CaptureBankDiagnostic();
+            }
+            File.WriteAllText(directory + "/frame.json", "{\"wave\":" + PlayableProbe.Wave + ",\"waveFrame\":" + HD2DLightCapture.WaveFrame + ",\"numbers\":" + PlayableProbe.DamageNumberCount + ",\"hpBars\":" + PlayableProbe.MonsterHpBarCount + "}");
+        }
+        finally { Output = oldOutput; }
     }
 
     private static SpriteRenderer Hero() => Object.FindObjectsByType<MemberView>(FindObjectsSortMode.None)
