@@ -1,68 +1,33 @@
-# Claude 마감 리뷰 요청 — 빛 L0~L6 (첫 회차)
+# attempt 2 마감 리뷰 요청 — D-L1~D-L4
 
-구현자는 Codex. 사용자 지시로 이 세션은 리뷰 에이전트를 호출하지 않았다. Claude 리뷰 세션에서 **validator-client·spec-reviewer·algorithm-tester**를 실행한다. design-reviewer 사전 관문은 없다. 기준 커밋 **12e0567**, 대상은 이 문서와 L6 직렬화 기록을 포함한 마지막 `chore(light): record final checks and pending review` 커밋(같은 브랜치 `claude/pack-expedition-2d`). `git diff 12e0567..<해당 커밋>`을 사용하고 다른 세션의 미커밋 변경은 제외한다. 첫 리뷰이므로 carried_from/반려한 이전 지적/기수집 리뷰 지적 없음.
+Claude 리뷰 세션에서 **algorithm-tester·spec-reviewer·validator-client**를 실행한다. 구현자는Codex이며직접리뷰호출0. 이전판정algorithm-tester/spec-reviewer `VERDICT: FAIL`, validator-client `VERDICT: NOT ASSESSED`(출력강제종료로미수령). **PASS인리뷰0**, 세역할만다시받는다. 기준범위12e0567→이번마감커밋, 수정확인diff **a0a8a21→이번마감커밋**(d48e66b의깃발수정도아직독립PASS를못받음). 정확한대상해시는최종응답/핸드오프state.commit. 반려한틀린지적없음.
 
-최종 핸드오프 `.director/outbox/20261118-hd2d-light-1.md`는 **리뷰 VERDICT 수령 뒤** 쓴다. 이 파일은 리뷰 입력 브리핑이다. 실제 판정의 `VERDICT:`를 원문 그대로 관문 evidence에 옮기고, 미수령은 blocked, NOT ASSESSED는 not-run으로 기록한다. PASS로 꾸미지 않는다.
+입력: `.director/runs/20261118-hd2d-light/steps/1-Deadsurvivor.md`의끝**D-L1~D-L4**가우선. `docs/art/아트-기준서.md` K21/K24/K25/K26·2.1⑤·3.9·3.12, `docs/features/hd2d-light/verification.md`맨끝attempt2. 이전실패/오판/로그도그문서에남겼다. 현재숫자PASS를전체아트/T4완료로읽지않는다.
 
-## 입력과 소유 범위
+## 역할과 수용 기준
 
-- 지시문: `.director/runs/20261118-hd2d-light/steps/1-Deadsurvivor.md` 전체, 특히 L0~L6·추가 L1b/A~C·측정·반복상한.
-- 기준: `docs/art/아트-기준서.md` r8.1 K10/K18/K21/K23~26, 2.1⑤·3.3 27행·3.9 C3/C8/C9/C10/C15/C16·3.12·5절7/8번.
-- 전체 근거: `docs/features/hd2d-light/{design-brief,verification}.md`. 이전 `docs/features/hd2d-screen/design-brief.md`, `docs/features/hd2d-background/prep.md`, `.director/outbox/20261118-hd2d-background-1.md`, `.director/outbox/20261118-hd2d-terrain-1.md`, `.director/evidence/20261118-hd2d-3d/3/phase6-followups.md`.
-- 사용자 최신 추가가 우선: r7 실제 메시 그림자(풀/꽃Off), r8.1 높이·좌표를 바꾸지 않는 비탈 명암, grass 코드 생성기의 무늬 수정 허용. 구 3.12의 판 그림자/작은 돌Off 문구로 회귀시키지 않는다.
-- 이 단계에서 안 보는 것: **7단계 성능·G19**, UI 설계/새 그림·원본 모델/질감 재생성, 노치 실기기·발 반폭 문구·물 위 바닥 그림 인상(지형 후속). 성능 로그는 열지 않는다. G20/K21 독립 눈가림은 디렉터 몫, 이 리뷰의 자가 판독으로 대체하지 않는다.
+- **algorithm-tester**: ALG1/L5 깃발normal/Fade `_FlagWind=1`(d48e66b), `Assets/Game/Tests/EditMode/AmbientMotionMathTests.cs`10개, 실제`review1/flag-sheet.png`/states.csv3자세. 새**D-L1/C15** `Tools/hd2d_main_gate.py`의이중비/노출상쇄/0기준거부/8쌍프레임assert/추가파일사전선언, selftest4/4. 기존물·비탈계산은첫리뷰의케이스PASS와소스동일, 소품`_Diagnostic`3단은비탈계산전return임을구별. game현재`Effect/Ambient/{AmbientMotionMath,AmbientEffectsPresenter}.cs`유지.
+- **spec-reviewer**: SPEC1~4·D-L1~4·L3/L5/L6, K21/K25/K26, C3/C8/C9/C10/C15/C16/WARN, G03/G09/G11/G12/G13/G18, 넘김7/8. `verification.md`최신표/`아트-기준서.md`와실제증거대조. C15범위그대로이며**잼칸만디렉터가정정**. 재고40/3, L3수용과재고분리. B0동일렌더소스·seed8높이복구, D-L4수용을지적재개로바꾸지않음.
+- **validator-client**: 첫NOTASSESSED이므로실제구현도확인. `Effect/Ambient/`·`App/GameSceneLifetimeScope.cs`·`App/HD2DLightCapture.cs`(Editor전용)·Assets/Game/03.Resources/Resources/Prefab/HD2DAmbientDust.prefab·Materials/HD2D/HD2D_AmbientDust.mat·HD2D_AmbientDust.shader·pool/phase/Dispose. 이번변경`Editor/HD2DMainPlateCapture.cs`의SingleCameraRequest **local→global VolumeStack선택/finally복구**와Vignette동일프레임OFF/설정기록, `Settings/HD2D_BattleVolume.asset` .5/.03. HP/WorldIndicators/UI효과밖. `HD2D_FieldSurface.shader`등기존런타임계산은이번에수정0. 전체622/8앞실행·이번지정10개·이번렌더흐름증거구별.
 
-## 역할별 파일·수용 기준
+## 최신 실행 증거
 
-**validator-client** — L0/L1/L1b/L2/L3/L4/L5/L6, art-core2/6/8, D-T9.
+`output/hd2d-관문/main2/` 새run **Main2-20261119T080016Z**, plan hash **f1a080001d1012ed13c987cfe78f52247a020e2e2de8fa586e82e1197bb617f1**, source1424 before/after일치. 판id Main1. manifest/gate-report/gate-summary/C15.json의실제파일경로를사용. **12PASS/G03BLOCKED/G19N/A/G20BLOCKED**, 전체FAIL/T4미완료. G09·G11최종ON만근거, OFF진단으로대체안함.
 
-- `Assets/Game/02.Scripts/Effect/Ambient/{AmbientEffectsPresenter,AmbientMotionMath}.cs`, `App/GameSceneLifetimeScope.cs`, `App/HD2DLightCapture.cs`(`#if UNITY_EDITOR`), `Editor/HD2DMainPlateCapture.cs`.
-- `Assets/Game/Tests/EditMode/AmbientMotionMathTests.cs`, `Assets/Game/03.Resources/Prefab/HD2DAmbientDust.prefab`, `Materials/HD2D/HD2D_AmbientDust.mat`, `Shaders/HD2D/HD2D_AmbientDust.shader`.
-- `Shaders/HD2D/HD2D_{FieldSurface,BandBlur,GroundShadow,ContactShadow,HardShadowCard}.shader`, `Settings/HD2D_BattleVolume.asset`, `Materials/HD2D/Scenery/` tint/flag·`Textures/HD2D/FieldGrassOnly.png`(실제 경로는 git diff 확인; native 풀 생성물).
-- `Tools/hd2d_main_gate.py`, `Tools/playable/hd2d-light-flows.json`. 기존 `Tools/playable.py`는 바꾸지 않음.
-- 확인 내용: ResourceService/PoolManager/DI/상태전환/Dispose·씬 파괴 순서·입자cap36/rate1.4·반투명/WorldIndicators/UI층·순간 점광 없음·height/게임좌표/OFF경로유지·최종ON 원본gate와 소스지문 일치.
+- D-L1 후보1 .5/.04→C15.681207PASS/G11.126302FAIL, 후보2 **.5/.03→C15.726230/G11.094162둘다PASS**. 최종8자리 C15 .726230~.730674, 각쌍Unityframe같고timeScale0. 문턱.6~.8/.10유지.
+- D-L2 `attempt2/bloom-final/` 실제fireball_right_1 흰심프레임/원본FireCore2.4. 같은프레임ONOFF의풀평균차0/효과상자1픽셀최대1LSB>0. **매우약한차이며육안번짐구분어려움**, G20판독대기. 현재차0조건이아니라HDR심을더올리지않음. 앞동일해시쌍은stack선택결함으로무효, 임시6/32원복상태유지.
+- `attempt2/final-tests.json`10/10 PASS7.42초(nativeParticleSystem cap36/rate1.4/수명18·실제두깃발재질). `measure-selftest.log`4/4PASS. runtime게임코드/장면/RP/Renderer수정0라전체게임/전체Editor재반복0.
+- `attempt2/blur-final/`: 동일Point질감ONOFF강도아래.127441≥위.125689, 실제poolHP v.08에서ONOFF영역차0·직접열람. 자연장면행경계 **.129167/.781944 FAIL보존**. 추가고대비Point진단`attempt2/band-calibration/`(임시quad,자산저장0)에서**같은기존측정기/노이즈기준/행문턱**으로 .149537/.774537 PASS. 값/기대식수정0, 자연대비에따른위치추정문제와분리해검토.
+- D-L3 `output/hd2d-light/k21-final/{flat-B0,T2,T7,Main1-hill}.png`. 높이원본복구SHA256 ea871183c69ed43942710999d19526dcbe8efbe9fab8ede33ca30569fc273656. source-final.json에Assets렌더입력변경두개가B0전에완료된시각/해시기록, 이후측정도구만추가수정(렌더에관여안함). B0/T2등직접열람. 독립K21점수NOT_RUN.
+- 최종UI4화면비 `attempt2/paired-captures-play/09-ASPECTS-*.png`, `battle-main.png`1920×1080직접열람. **모서리완전검정영역/급한경계가보임**. 숫자통과로채택판독을대신하지않는다.
 
-**spec-reviewer** — L0~L6/L1b, K21/K24/K25/K26, C3/C8/C9/C10/C15/C16, G03/G09/G11/G12/G13/G18, 넘김7/8.
+## 기준과 다른 점·이미 결정된 것·이전 열린 지적
 
-- 위 기준/verification 및 `docs/game/hd2d-완성-실행계획.md`6절, `docs/game/hd2d-작업-개선-기록.md`.
-- 실제 수치/실패/미확인을 완료로 올리지 않았는지, 범위 밖 변경·문턱 완화·선언 뒤 판 교체 없는지 확인. G09/G11 숫자 PASS를 T4/전체 아트 완료로 오해하지 않는다.
+1. **D-L1**은화면내용이섞인원비대신효과ON/OFF이중비로재는디렉터결정이다. 범위/관문문턱은그대로. Vignette두후보만튜닝. CaptureStack선택결함은Editor촬영기에서고쳤고게임URP나킷을고치지않음.
+2. **D-L2**실제효과심이보이는유효쌍에서>0이므로Core2.4유지. 더뚜렷한번짐이필요한지는G20디렉터판독. 추정검사PASS를시각채택으로승격하지않음.
+3. **D-L3**동일렌더소스B0자료추가/높이복구완료. 같은기획의눈가림질문·점수판정은디렉터몫. **D-L4로정함**: 강경계는공유테라물/둑값만으로격리조정불가하여유지, 배낭/길명도수용(디렉터가사용자확인목록에올림). 새원본그림/모델을요구하는지적으로다시열지않는다.
+4. 최종본판COLLECT는한번완료. 이어진C15 ScriptEval구문(Resolve<T>using없음)실패는명시적타입해석으로고쳐**누락쌍만별도Play복구**했다. 같은seed/정지waveFrame60이지만G11본판PNG와C15-on0은동일해시가아니다. 각ON/OFF쌍내부동일Unityframeassert, 사전선언/1424소스불변 유지. 실패를삭제/새성공으로덮지않음.
+5. 첫리뷰의열린지적원문은핸드오프review_open에보존·최신처리는본문구별. G03/G20 BLOCKED와전체FAIL유지. 다른세션DamageNumber SDF.asset 미커밋차이보존, 실제소스지문포함이지만커밋단독완전재현으로주장안함. 지시문미추적한계는이번directive.json해시부터확인가능.
+6. **이단계판정밖**: G19/성능(7단계,로그열지않음), 원본아트/모델재생성, UI디자인새작업, 노치실기기/발반폭문구/물위바닥그림인상. G20/K21은디렉터가Tools/hd2d_judge.py와같은눈가림질문으로실행, 리뷰에이전트가대체안함. 유료생성·점광·push/PR/merge0.
 
-**algorithm-tester** — L1b/L5의 반복·분기 순수계산, K21/K24 및 먼지36/1.4.
-
-- `AmbientMotionMath.cs`·`AmbientMotionMathTests.cs`: 4Hz 0/1/2/1, 경계/장시간/잘못된 입력, 실제 ParticleSystem cap/rate 시험 범위.
-- `HD2D_FieldSurface.shader`: 물 UV native 1/48m 계단·깃발0/±native칸·높이 전용 normalXZ4배 3단문턱.
-- `Tools/hd2d_field_textures.py`, 기존 `Tools/test_hd2d_field_textures.py`: 큰 얼룩만 제거, 풀잎 native4색/마스크·재현성. `L4-native-blades.json` 이전/현재 차는 픽셀별 RGB동일±7 이하(명암만), 기존시험2/2 PASS.
-
-## 최종 증거 / 실제 실패
-
-- `.director/evidence/20261118-hd2d-light/1/` source-recheck.json(1424 mismatch0), viewed-captures.json, time-and-tokens.json.
-- 전체 EditMode `output/hd2d-light/L6-editmode.json` **622/622 PASS37.88초**, 전체판정 `L6-full-play/report.json` **8/8 PASS154.8초** 각1회. 이후 코드 변경 없이 volume.26→.18만 바뀌어 전체 반복 안 함. L5 지정 새시험9/9 PASS. 최종엔 isPlaying=false.
-- 최종 **Main2-20261119T064236Z**, `output/hd2d-관문/main2/{manifest,gate-report,gate-summary,source-before,capture-record}.json/md`, 판 id는 **Main1**. 실제 파일은 manifest.files 경로 그대로. 선언 hash `59c776c00ef31c55682f53033693e1648677827f7d219d97c2006cada53ba2dc`.
-- 효과 ON G09 tree soft.052963/stone.093168·3단 PASS, G11 hero.002962/bg.061024 PASS. 12PASS/G03BLOCKED(review 미수령)/G19N/A/G20BLOCKED. 전체 **FAIL** 유지. 첫 실패판은 `output/hd2d-light/main2-attempt1/` 보존, 선언 뒤 상자를 수정하지 않음.
-- **C15 FAIL**: .23→.26 조정도 .8378→.8151,2회 상한. 필수 G11 별도 재확인 .18에서 최종 본판1.1659, 이동1.1657~1.1819, 시작 진단.87725. 볼륨은8장.18/.2 일정; 내용 비의 변화를 코드 출렁임이라 하지 않음. 목표.6~.8 유지.
-- **Bloom FAIL[추정]**: 실제 explosion_3 동일멈춤 frame60, 최종 `L6-effects/{main,bloom-off}.png` 동일해시/최대차0. core6/32/캐시 갱신 시도도0. 원인미확인, 임시재질 변경 철회. 디렉터가 실제 화면 결함을 판독하기 전 추정 검사만으로 새 그림 수정 반복 안 함.
-- 흐림 경계 최종 v.148611/.778241 PASS±.02(`L6-effects-measure/measure.json`), 앞 .26의 위경계FAIL을 갱신. 아래≥위 대응강도 실측은 미완료. HP막대 아래 띠 직접 판독 미확인; 숫자6개는 선명. 렌더러 layer26 이벤트후/UI Overlay 구조는 확인됨.
-- C3 ΔE7.4517/S.3421, C8−.2706,C9 .2549,C10 1.2007/.4390 PASS.C16은 WARN만.
-- 최종 K21 `output/hd2d-light/k21-final/{T2,T7,Main1-hill}.png`, L5연속8장 `L5/{motion-sheet,detail-sheet}.png`, 실제4화면비 `L6-recheck-play/09-ASPECTS-*.png` 직접 열람. G20/K21은 디렉터 판독 요청. 최종 B0 대조판은 이 실행에서 안 만들었으며 과거 B0는 소스가 다름.
-- 최종 전투 `output/hd2d-light/battle-main.png`1920×1080, HUD포함은4화면비자료. 5단계 battle-main은 다른3D/지형 소스라 빛만 비교한 동일조건 자료로 인용하지 않음.
-- 강 경계 갈색 한 줄/배낭과 길 명도 지적 미해결, 새 원본 아트 수정 안 함. 둘째 천막 그늘 면·돌담 사선 무늬 인상은 독립 판독/원본 담당 전달 그대로.
-
-## 기준 문서와 다른 점 / 이미 결정된 것
-
-1. 최신 사용자 추가 L1b/grass코드 생성기 허용·r7 메시 그림자 정책이 구 지시보다 우선. 해·높이·배치·좌표·평지 OFF경로는 유지.
-2. Bloom 원본2/.1, 구 screen 설계1.8/.4로 되돌리지 않음. 값이 안맞으면 기준을 낮추지 않음.
-3. 고정 wave6/frame60 fixture는 낮은 적 배수·표적 보강을 사용하며 전체 승패 시험과 분리. Main2는 같은 정상카메라위치에서 물리적 가림 없는 슬라임/버섯을 분리한 시각 판. 실제 플레이 성공은 별도 full-play로 입증.
-4. 첫 Main2 G11/G12 실패 보존 뒤 새 선언. G12의 피격흰색/가림을 상자 변경으로 회피하지 않음. 최종ON 판만 최종 G09/G11 근거.
-5. C15와Bloom은 되풀이 상한/추정수치 정책으로 열린 채 리뷰 요청. 흐림 세부 미확인도 숨기지 않음. 이것을 수용/유예 승인으로 해석하지 않음.
-6.38개재질 새 셰이더 기본값 자동 직렬화는 `L6-serialized-defaults.json`로 authored 변경0 증명; 소스지문 포함/커밋. 다른세션 dirty파일은 제외. 유료생성·성능·push·리뷰호출0.
-
-리뷰 뒤 FAIL만 수정 확인 요청한다. 여기서 스스로 적은 관측은 독립 VERDICT가 아니다.
-
-
-## 첫 회차 수정 뒤 — 디렉터 판단에서 정지
-
-이 문서의 앞부분은 a0a8a21 첫 리뷰 입력이다. 받은 판정 algorithm-tester/spec-reviewer **VERDICT: FAIL**, validator-client **VERDICT: NOT ASSESSED**. 수정점·실행증거는 verification.md의 '첫 리뷰 수정 확인'과 `output/hd2d-light/review1/`에 있다. 깃발2재질 활성화·회귀시험10/10·실제3자세연속8장·matchingtexture흐림강도·아래v.08실제HP막대선명도·재고요약40/3을 수정했다. G09 진단3단은비탈계산 전return이므로 비탈3단증거와 구별한다. 틀린 지적으로 반려한 항목 없음.
-
-현재 **partial**, 새 리뷰 요청 아님: 필수 C15는 디렉터가 측정방법/실화면결함을나눠방향을정해야 한다는 지적 그대로 정지. 전체아트/T4FAIL, G03/G20BLOCKED유지. C15/Bloom자동튜닝/유료/원본아트수정 없음. G20/K21·B0대조조건·강경계/배낭판단은 열린 지적으로 핸드오프 review_open에 보존.
-
-다음 재개에서 다시 받을 리뷰는 **algorithm-tester, spec-reviewer, validator-client**(PASS한리뷰0). 기준 a0a8a21 → 이번 수정 커밋, 수용ALG1·SPEC1~4 및L3/L5/L6. 앞회차PASS로이어쓸리뷰없음. runtime C#은변경하지않았고, Editor촬영·Test·두재질·기존측정도구·지정문서만 바뀜. 최신판은 `output/hd2d-관문/main2-review1/`(run Main2-Review1-20261119T072855Z), **12PASS/G03BLOCKED/G19N/A/G20BLOCKED**. 앞main2는a0a8a21증거로보존. 다른세션Font차이는원복하지않음: 실제수집소스지문에는포함되며 커밋만으로완전재현가능하다고하지않는다.
+직접본목록/시간/소스지문/실패구분은attempt2/{viewed-captures,source-final,time-and-tokens}.json과verification.md. 판정은각역할의실제VERDICT로반환한다. 현재세션이자가PASS를적지않았다.

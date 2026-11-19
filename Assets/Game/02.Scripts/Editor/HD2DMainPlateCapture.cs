@@ -430,6 +430,20 @@ public static class HD2DMainPlateCapture
         try
         {
             Capture("main.png", 1920, 1080);
+            if (mode == "vignette")
+            {
+                var volume = Object.FindObjectsByType<Volume>(FindObjectsSortMode.None)
+                    .Single(v => v.sharedProfile != null && v.sharedProfile.Has<Vignette>());
+                volume.profile.TryGet<Vignette>(out var vignette);
+                var intensity = vignette.intensity.value;
+                try
+                {
+                    vignette.intensity.value = 0;
+                    Capture("vignette-off.png", 1920, 1080);
+                }
+                finally { vignette.intensity.value = intensity; }
+                File.WriteAllText(directory + "/settings.json", JsonUtility.ToJson(ActualSettings(), true));
+            }
             if (mode == "baseline" || mode == "sun")
             {
                 var sun = RenderSettings.sun;
@@ -478,7 +492,7 @@ public static class HD2DMainPlateCapture
             }
             File.WriteAllText(directory + "/frame.json", "{\"wave\":" + PlayableProbe.Wave + ",\"waveFrame\":" + HD2DLightCapture.WaveFrame + ",\"numbers\":" + PlayableProbe.DamageNumberCount + ",\"hpBars\":" + PlayableProbe.MonsterHpBarCount + "}");
         }
-        finally { Output = oldOutput; }
+        finally { _camera.UpdateVolumeStack(); Output = oldOutput; }
     }
 
     // Transient view-only patches: identical point stripes in the two blur bands,
@@ -555,6 +569,7 @@ public static class HD2DMainPlateCapture
     {
         var oldTarget = _camera.targetTexture;
         var active = RenderTexture.active;
+        var oldStack = VolumeManager.instance.stack;
         // Keep HDR precision until standard linear-to-sRGB PNG encoding; do not filter or redraw pixels.
         var target = RenderTexture.GetTemporary(width,height,24,RenderTextureFormat.ARGBHalf,RenderTextureReadWrite.sRGB);
         target.antiAliasing=1;
@@ -566,10 +581,15 @@ public static class HD2DMainPlateCapture
             foreach (var canvas in canvases) canvas.enabled=false;
             _camera.targetTexture=target;
             _camera.GetComponent<HD2DBackgroundRig>().RenderBackgroundForCapture();
-            // Main uses ViaScripting volume updates. Refresh the cached camera stack
-            // for same-frame ON/OFF pairs; a render request alone retains old values.
+            // SingleCameraRequest does not run RenderCameraStack's volume selection.
+            // UpdateVolumeStack fills the camera-local stack but does not select it
+            // globally. Select that stack explicitly after the background request.
             _camera.UpdateVolumeStack();
+            var data = _camera.GetUniversalAdditionalCameraData();
+            if (data.volumeStack != null) VolumeManager.instance.stack = data.volumeStack;
+            else VolumeManager.instance.Update(data.volumeTrigger != null ? data.volumeTrigger : _camera.transform, data.volumeLayerMask);
             RenderPipeline.SubmitRenderRequest(_camera,new UniversalRenderPipeline.SingleCameraRequest { destination=target });
+            File.WriteAllText(path + ".settings.json", JsonUtility.ToJson(ActualSettings(), true));
             RenderTexture.active=target;
             texture.ReadPixels(new Rect(0,0,width,height),0,0);texture.Apply();
             var png=new Texture2D(width,height,TextureFormat.RGBA32,false);
@@ -578,6 +598,7 @@ public static class HD2DMainPlateCapture
         }
         finally
         {
+            VolumeManager.instance.stack = oldStack;
             _camera.targetTexture=oldTarget;
             RenderTexture.active=active;
             for (var i=0;i<canvases.Length;i++) canvases[i].enabled=enabled[i];

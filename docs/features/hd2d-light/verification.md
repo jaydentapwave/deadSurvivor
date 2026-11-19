@@ -197,3 +197,65 @@ project-doctor configured/findings0, editor_ready PASS. script eval로 시작Pla
 ### 중단 사유
 
 **사람이 정해야 하는 경우**: spec-reviewer 필수 C15 지적은 'Don't keep auto-tuning; the director should separate the measurement method from a real screen defect, decide the direction, then re-check against the same criterion.'다. 기준값.6~.8 변경/실패수용 없이 디렉터 판단이 먼저다. 다른필수수정은 한꺼번에 적용·관련검사·커밋 후 **partial**로 넘긴다. 이 열린 판단만을 이유로 재리뷰를 요청하지 않음. 디렉터가 방향을 정한 뒤 변경에 닿는 확인과 아직PASS아닌 algorithm-tester/spec-reviewer/validator-client만 재실행해야 한다. 기존FAIL두개/not-run하나를 유지한다.
+
+
+## attempt 2 — 디렉터 D-L1~D-L4 적용, 마감 리뷰 요청
+
+입력: 지시문 끝 D-L1~D-L4(2026-11-19 16:4x), `attempt2/directive.json`에 이번에 읽은 파일 해시. 기준 커밋d48e66b, 수정 확인의 기준은a0a8a21(첫 리뷰 뒤 d48e66b 수정도 아직 독립PASS 미수령). 디렉터 결정이 앞 partial의 중단 사유를 해소했으므로 재개했다. 사람에게 질문/추가 승인 요청0, 하위/리뷰 직접호출0.
+
+### D-L1 — 같은 프레임 Vignette 효과 세기
+
+C15를 `(모서리 ON/OFF) ÷ (가운데 ON/OFF)`로 잰다. 범위.6~.8·출발.7 그대로, 기준서3.9 잼 칸·3.12를 함께 갱신. 원 밝기비1.165는 화면 내용이 섞인 값이므로 과거 수치로 보존하며 효과 세기 PASS/FAIL로 더 쓰지 않는다. 측정은 기존 Tools/hd2d_main_gate.py의 `--vignette-pair`, 계획의같은옵션은8쌍/동일프레임메타데이터를 사전선언한다. 새 측정 스크립트 없음.
+
+첫.18쌍은 동일해시였으며 **무효 진단**이다. 촬영기의 `Camera.UpdateVolumeStack()`는카메라별 stack을채우지만 전역stack을선택하지 않는다. URP의SingleCameraRequest는보통CameraStack렌더의전역선택을거치지 않아 같은프레임OFF값이렌더에안들었다. CaptureCamera에서배경요청뒤 `VolumeManager.instance.stack=data.volumeStack`을명시하고 finally전역stack/target/Canvas를복구한다. 각PNG옆*.settings.json에사용값기록. 이 수정뒤 .18은 ON=.18/OFF=0, 실제효과비.949028로 FAIL. 앞 Bloom동일쌍/오프라인가설도같은촬영결함영향을받아무효화하고유효한새쌍을다시찍었다. 게임/URP패키지코드를수정한것이아니다.
+
+| 회차 | Vignette 세기/부드러움 | D-L1 C15 | G11 배경 | 판정 |
+|---|---|---|---|---|
+| 출발값 유효화 | .18/.2 | .949028 | 앞 유효한.18판.061024(이번튜닝판아님) | C15 FAIL |
+| 후보1 | .5/.04 | .681207 | .126302 | G11 FAIL |
+| 후보2/최종 | .5/.03 | .726230 | .094162 | 두 조건 PASS |
+
+둥글게Off·중심(.5,.5)·검정은유지. 조명/색조정/그림자/흐림값은추가로바꾸지않음. 값튜닝은딱2후보, 기준완화/세번째값튜닝없음. 후보1/2의원본쌍·선언·finish를attempt2에보존.
+
+최종8자리비는 main2/C15.json: .726230/.726848/.727541/.728218/.729099/.729738/.730234/.730674 **전부PASS**. 볼륨 .5/.03 일정. C15 ON/OFF는각자리에서Unityframe동일/timeScale0을assert하고Frame메타데이터도사전선언/해시고정. 측정기자체시험4/4 PASS(중립1·일괄노출상쇄1·모서리.7·검정기준오류).
+
+직접본한계: 최종모서리끝에완전검정영역/급한경계가보인다. 수치PASS를그림채택PASS로승격하지않음. **G20 판독에이문제를명시**한다. 관련그림4화면비를직접열었다.
+
+### D-L2 — 실제 화염구 심 프레임
+
+실제 SpriteAtlas/ProjectileViewFactory/풀의 `fireball_right_1`을기존Fire재질로보이는자리에놓아정지wave6/frame60촬영. 원본그림에서흰심분류(hi≥.96,S<.12,alpha≥.5)19픽셀, 실제효과상자[1131,464,1173,500]. final-bloom-measure에서풀상자평균차0≤1LSB, **효과상자1픽셀·최대1LSB·평균.00022046LSB>0**. 문장수치로옮긴추정검사PASS다. 원본Burst/Shader/Material연결과actualcore2.4는bloom-final/core.json. Bloom문턱2/세기.1/퍼짐.25/Dual/Quarter·FireCore2.4모두유지(차0일때만올리는조건이성립하지않음). paid/질감/점광0.
+
+bloom-final/main.png·bloom-off.png를직접열어흰심이보임확인. **육안으로번짐차를확실히구별하기어렵다**. 숫자1LSB PASS를강한Bloom효과가보인다고과장하지않는다. G20에서시각적충분성을읽는다. 앞core6/32가설/동일해시FAIL은역사적실패기록으로유지하되현재의유효쌍을대체하지못한다.
+
+### D-L3 — 최종 렌더 소스의 평지 대조
+
+flat-flow는B0기존자리(0,0),seed8,첫전투직전0속도,대원자리±.55/±.35를사용. 높이JSON만heightsMm전부0으로잠깐바꿔동기가져오기→Play→`k21-final/flat-B0.png`1920×1080. finally에서seed8원본바이트를복구/동기가져오기. hash양쪽 **ea871183c69ed43942710999d19526dcbe8efbe9fab8ede33ca30569fc273656** 일치, grid.IsFlat=true/partyHeight0실측. 커밋에평지자료차이0.
+
+복구뒤같은최종볼륨에서T2/T7/Main1-hill을다시촬영(7/7 PASS29.3초),세장과B0직접열어봄. source-final.json에이전review1대비Assets렌더입력변경은촬영기(07:42:48)와볼륨(07:48:55)두개뿐이며둘다B0복구07:52:56전에바뀜. 이후는렌더링하지않는측정기만수정. 높이외실제게임코드·그림·모델·재질은같다. 전단계세그림은attempt2/k21-before보존. **두판독자T2≥2/평지보다높음은여전히NOT_RUN**, 디렉터가같은눈가림질문으로한다.
+
+### D-L4 — 정해진 범위
+
+공유BackgroundOutline은깊이불연속을고정갈색(52,20,14)·문턱.055·1저해상도텍셀로덮는다. 물/둑재질에는그테만약하게하는값이없다. 고정테아래물알베도를바꿔도선색은안바뀌며공유테색/문턱변경은나무/바위/천막/벽의K19도바꾼다. '안되면그대로둔다'에따라공유테/모델/질감을건드리지않고**강선유지(D-L4로정함)**. C9 .254902·C10 1.200726/.438986 PASS. **배낭/길명도는D-L4로수용**, 디렉터가완성계획7절에올린기존미커밋행을보존한다. 두항목을같은필수지적으로다시열지않도록리뷰브리핑에명시.
+
+### 최종 main2·누락 복구·단계별 비용
+
+새run **Main2-20261119T080016Z**, 선언hash **f1a080001d1012ed13c987cfe78f52247a020e2e2de8fa586e82e1197bb617f1**, source1424개. 원본main2는attempt2/main2-before, attempt1핸드오프도별도보존. 원본킷gate/config수정0/G19deferred그대로.
+
+- 첫준비흐름에서Vector3의Newtonsoft순환참조를사전발견→소유Play를중단했고COLLECT가의도적으로guardFAIL(7/12)한로그를보존. 선언/새판완료로보고하지않음. ps/pgrep조회는환경권한이막아사용하지않았고다른프로세스/에디터를조작하지않음.
+- x/y/z숫자로고친흐름은COLLECT까지**8/12 PASS**, main판/카메라이동8장/진단/closeup까지완료. 다음C15ScriptEval에서VContainer확장Resolve<T>임포트가없어컴파일실패. 게임컴파일결함이아닌지시문fixture컴파일결함이다.
+- Resolve(typeof)명시해석으로고쳐**누락된C15쌍·Bloom·HP/강도·UI4화면비만복구**(paired-captures-play9/9 PASS61.1초). 본판수집/전체게임재실행0. sourcebefore/after1424동일. 이복구는별도Play이며모두동일seed/정지waveFrame60이지만G11본판과C15-on0의PNG해시는서로다르다. **각ON/OFF쌍안에서만같은Unity프레임**임을assert했다. 한장면비교기준을몰래바꾸거나G11자료를OFF로대체하지않음.
+
+최종원본gate **12PASS/G03BLOCKED(review.json없음)/G19N/A/G20BLOCKED**, 전체FAIL/T4미완료유지. G09·G11·G12·G13·G18PASS. C3 ΔE7.4517/S.342105·C8−.270588·C9 .254902·C10 1.200726/.438986PASS. 마지막화면비4종/HP ONOFF/동일질감ONOFF/battle-main을직접열었다. Vignette정규화UV·HUD자리유지, 가장자리급경계는4종모두보임. 새battle-main1920×1080을최종판으로갱신, 이전것은attempt2/battle-before-attempt2.png.
+
+흐림은값/셰이더변경0. 자연장면의행별추정경계가최종색조건에서 **.129167/.781944 FAIL**로나왔음을보존한다. 낮은질감대비때문에2LSB초과차가경계가까이서나타나지않는측정문제로분리. 같은실제카메라/FullScreenPass에고대비4출력px Point줄무늬를임시로화면전체에놓고ON/OFF추가측정(3/3 PASS23.4초), **같은측정기/같은차2LSB/같은.02행곡선기준/같은범위**에서경계v **.149537/.774537 PASS**. 새게임자산·후처리값·기대식수정0. 두calibrationPNG직접열어선명띠와밖의줄무늬변화를확인. 자연장면FAIL을삭제하지않고교정표본PASS와분리하여리뷰한다.
+
+최종matchingtexture강도감소율 **아래.127441≥위.125689**, 실제poolHP v.08의88×34픽셀ON/OFF차0/선명(두장직접봄). EditorAmbient시험**10/10 PASS7.42초**, 측정기selftest**4/4PASS**. 새runtimeC#·Main·RP/Renderer변경0, 전체EditMode/전체판정재반복0. 마지막컴파일completed/errors0, 소유Play종료·console errors0. 성능/G19/유료/외부전송/push/PR/merge/직접리뷰호출0.
+
+### 누락 원인·워크플로우 반영
+
+1. UpdateVolumeStack이전역선택까지한다고가정해서동일프레임쌍을무효로만들었다. 로컬URP원본을읽어SingleCameraRequest와local/globalstack을구별, 촬영기finally복구+PNG별실제값에반영. '쌍효과0이면재질탓'가설은철회. **교훈반영됨**.
+2. C15원밝기비는효과값이아니었음→D-L1이중비/노출상쇄시험/8쌍사전선언을기존도구에반영. 관문수치/킷은유지. **반영됨**.
+3. 외부ScriptEval은소스의using/UnityVector3JSON처리를그대로쓰지못함→좌표스칼라·명시적DI해석을흐름에반영. 서로다른fixture오류와완료된본판을분리하여누락부분만복구. **반영됨**. 추가사전검사후보는임시flow의컴파일/직렬화확인, 대신뺄것은그오류때문에전체본판/전체플레이를다시찍기.
+4. 자연질감으로작은흐림강도의경계위치를추정하면대비에따라경계가이동함→고대비진단도함께보고,자연FAIL유지. **이작업진단흐름에반영**,측정문턱삭제/완화없음.
+
+시간·토큰은attempt2/time-and-tokens.json. 신뢰가능한시작07:38:52UTC, 앞문서읽기일부미계측. 가장비효율적인부분은같은프레임촬영결함진단과fixture구문오류복구였다. 전체게임검사반복으로메우지않음. Codex토큰API없음/외부리뷰토큰미제공, 직접하위/리뷰호출0. **현재needs-review**, 마감3종(algorithm-tester/spec-reviewer/validator-client)외부판정을기다린다. 첫FAIL2·NOTASSESSED1을자가PASS로바꾸지않음.

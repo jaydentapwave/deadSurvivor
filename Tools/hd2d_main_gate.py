@@ -23,7 +23,7 @@ gate.dependencies()
 def dump(path,value):
     path.write_text(json.dumps(value,ensure_ascii=False,indent=2)+'\n')
 
-def plan():
+def plan(vignette_pairs=False):
     OUT.mkdir(parents=True,exist_ok=True)
     m={'schema':'25d-gate-manifest/1','run_id':OUT.name.title()+'-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ'),'required_plates':['Main1'],'required_settings':{'quality':'Mobile','renderScale':1.0,'srpBatcher':True},'files':{},'sources':[],'capture_record':'capture-record','plates':[]}
     def add(key,path,size=None):
@@ -33,6 +33,11 @@ def plan():
     add('main',CAP/'Main1-main.png',[1920,1080])
     add('pond-view',CAP/'Main1-pond-view.png',[1920,1080])
     for i in range(8):add('move'+str(i),CAP/f'Main1-move-{i}.png',[1920,1080])
+    if vignette_pairs:
+        for i in range(8):
+            add('vignetteOn'+str(i),CAP/'C15-motion'/str(i)/'main.png',[1920,1080])
+            add('vignetteOff'+str(i),CAP/'C15-motion'/str(i)/'vignette-off.png',[1920,1080])
+            add('vignetteFrame'+str(i),CAP/'C15-motion'/str(i)/'frame-pair.json')
     for key,name,size in [('wide','Main1-2520x1080.png',[2520,1080]),('tall','Main1-2048x1536.png',[2048,1536]),('mask','Main1-hero-mask.png',[1920,1080]),('close','closeup-Main1.png',[4896,2832]),('repeat','Main1-repeat.png',[1920,1080]),('grass-cut','Main1-ground-crop.png',[1920,1080]),('lighting-image','Main1-lighting.png',[1920,1080]),('close-mask','Main1-close-hero-mask.png',[4896,2832]),('corner','Main1-pond-corner.png',[2400,960])]:add(key,CAP/name,size)
     for key,name in [('settings','settings.json'),('after-state','runtime-state-after-capture.json'),('camera','camera.json'),('collection','collection.json'),('context','capture-context.json'),('motion','motion.json'),('texels','texels.json'),('lighting','lighting.json'),('shadow','shadow.json'),('capture-record','capture-record.json'),('review','review.json')]:add(key,OUT/name)
     add('metrics',CAP/'plates-main1.json')
@@ -88,6 +93,28 @@ def color(a):
     hsv=np.array([colorsys.rgb_to_hsv(*(c/255)) for c in pixels])
     return {'representative':'#'+''.join(f'{round(v):02x}' for v in rep),'S':float(np.median(hsv[:,1])),'V':float(np.median(hsv[:,2]))}
 
+def vignette_ratio(on,off):
+    """D-L1 effect attenuation, cancelling picture content and global exposure."""
+    def sample(a):
+        l=a[:,:,0]*.2126+a[:,:,1]*.7152+a[:,:,2]*.0722
+        return float(np.mean([l[20:100,20:100].mean(),l[20:100,-100:-20].mean(),l[-100:-20,20:100].mean(),l[-100:-20,-100:-20].mean()])),float(l[440:640,800:1120].mean())
+    corner,center=sample(on);off_corner,off_center=sample(off)
+    if min(off_corner,off_center,center)<=0:raise ValueError('C15 needs nonzero reference and centre brightness')
+    corner_ratio=corner/off_corner;center_ratio=center/off_center
+    return {'method':'D-L1: (corners ON/OFF) / (centre ON/OFF), same frozen frame','cornerOn':corner,'cornerOff':off_corner,'centerOn':center,'centerOff':off_center,'cornerRatio':corner_ratio,'centerRatio':center_ratio,'ratio':corner_ratio/center_ratio,'range':'.6~.8'}
+
+def selftest():
+    off=np.full((1080,1920,3),100.0)
+    assert abs(vignette_ratio(off,off)['ratio']-1)<1e-12
+    assert abs(vignette_ratio(off*.7,off)['ratio']-1)<1e-12
+    on=off.copy()
+    for rows,cols in [(slice(20,100),slice(20,100)),(slice(20,100),slice(-100,-20)),(slice(-100,-20),slice(20,100)),(slice(-100,-20),slice(-100,-20))]:on[rows,cols]*=.7
+    assert abs(vignette_ratio(on,off)['ratio']-.7)<1e-12
+    try:vignette_ratio(on,off*0)
+    except ValueError:pass
+    else:raise AssertionError('zero reference accepted')
+    print('C15 selftest PASS 4/4: neutral, exposure cancellation, corner attenuation, invalid black reference')
+
 def finish():
     m=gate.read(OUT/'manifest.json');p=m['plates'][0];collection=gate.read(OUT/'collection.json')
     assert collection['context']['planHash']==gate.plan_hash(m)
@@ -106,7 +133,14 @@ def finish():
     for key in p['motion']:
         a=lum(gate.image(paths[key]));center=float(a[440:640,800:1120].mean());corner=float(np.mean([a[20:100,20:100].mean(),a[20:100,-100:-20].mean(),a[-100:-20,20:100].mean(),a[-100:-20,-100:-20].mean()]));shot=shots[paths[key].name]
         c15.append({'image':key,'corner':corner,'center':center,'ratio':corner/center,'vignetteIntensity':shot['settings']['vignetteIntensity'],'vignetteSmoothness':shot['settings']['vignetteSmoothness']})
-    dump(paths['C15'],{'frames':c15,'volume_constant':len({(v['vignetteIntensity'],v['vignetteSmoothness']) for v in c15})==1,'interpretation':'If volume values are constant, brightness ratio variation comes from changing picture content; light/effect tuning deferred to phase6.'})
+    paired='vignetteOn0' in paths
+    if paired:
+        for i,value in enumerate(c15):
+            frame=gate.read(paths['vignetteFrame'+str(i)])
+            assert frame['onFrame']==frame['offFrame'] and frame['timeScale']==0,'C15 pair was not a single frozen frame'
+            value['rawContentRatio']=value.pop('ratio')
+            value.update(vignette_ratio(gate.image(paths['vignetteOn'+str(i)]),gate.image(paths['vignetteOff'+str(i)])))
+    dump(paths['C15'],{'frames':c15,'paired':paired,'volume_constant':len({(v['vignetteIntensity'],v['vignetteSmoothness']) for v in c15})==1,'interpretation':'D-L1 effect attenuation from same-frame ON/OFF pairs; rawContentRatio is historical content only.' if paired else 'Historical raw picture-content ratio; not a D-L1 effect-strength judgment.'})
     moves=[shots[f'Main1-move-{i}.png'] for i in range(8)]
     motion={'measure_from_images':True,'hero_box':p['regions']['hero'],'background_box':p['regions']['ground'][0],'hero':[],'background':[]}
     for i,(a,key) in enumerate(zip(frames,p['motion'])):
@@ -168,6 +202,12 @@ def measure(args):
     if args.pair:
         b=gate.image(args.pair);diff=np.abs(a-b)
         report['pair']={'image':args.pair,'sha256':gate.sha(args.pair),'groundMeanDifference':float(gate.crop(diff,regions['ground'][0]).mean()),'maximumDifference':int(diff.max())}
+        if 'effect' in regions:
+            effect_diff=gate.crop(diff,regions['effect'])
+            report['pair'].update(effectBox=regions['effect'],effectMeanDifference=float(effect_diff.mean()),effectMaximumDifference=int(effect_diff.max()),effectChangedPixels=int(np.any(effect_diff>0,axis=2).sum()))
+        if args.vignette_pair:
+            report['C15_raw_content_ratio']=report['C15']
+            report['C15']=vignette_ratio(a,b)
         if 'blurStrength' in regions:
             strengths={}
             for name,box in regions['blurStrength'].items():
@@ -217,8 +257,10 @@ def measure(args):
     OUT.mkdir(parents=True,exist_ok=True);Image.fromarray(field.astype(np.uint8)).save(OUT/'grass.png');dump(OUT/'measure.json',report);print(json.dumps(report,ensure_ascii=False,indent=2))
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish','measure']);parser.add_argument('--out');parser.add_argument('--captures');parser.add_argument('--image');parser.add_argument('--pair');parser.add_argument('--regions');parser.add_argument('--motion');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish','measure','selftest']);parser.add_argument('--out');parser.add_argument('--captures');parser.add_argument('--image');parser.add_argument('--pair');parser.add_argument('--regions');parser.add_argument('--motion');parser.add_argument('--vignette-pair',action='store_true');args=parser.parse_args()
+    if args.phase=='measure' and args.vignette_pair and not args.pair:parser.error('--vignette-pair requires --pair')
     if args.out: OUT=Path(args.out).resolve()
     if args.captures: CAP=Path(args.captures).resolve()
     if args.phase == 'measure': measure(args)
-    else: {'plan':plan,'finish':finish}[args.phase]()
+    elif args.phase == 'plan':plan(vignette_pairs=args.vignette_pair)
+    else: {'selftest':selftest,'finish':finish}[args.phase]()
