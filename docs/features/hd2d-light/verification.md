@@ -312,10 +312,10 @@ validator-client **VERDICT: PASS**(3889943, job20261119-173638-9bab5a, read-only
 | 전투 효과 EditMode | **38/38 PASS** | effect-tests.json |
 | 측정 도구 selftest | **7/7 PASS** | measurement-selftest.log: 기존 C15 4개 + smooth/no-black 통과·hard/black 거부·방사 노출 상쇄 |
 | D-L6 범위 효과 흐름 | **8/8 PASS,96초** | fx-diagnostic-play/report.json. 원본 FX1/FX2·검/도끼 연속·전투 동시 표시 기대식 그대로. 검·도끼 21장씩/5프레임 모두 |
-| 최종 판 수집 흐름 | **10/10 PASS,63.3초** | final-play/report.json. seed8, wave6/frame60, 각 C15쌍 같은 Unity frame/timeScale0 |
-| K21 높이 판 | **7/7 PASS**(촬영 동작) | k21-source-final-play/report.json. 판독 점수 PASS 뜻 아님 |
+| 최종 판 수집 흐름 | **10/10 PASS,77.1초** | final-play/report.json. seed8, wave6/frame60, 각 C15쌍 같은 Unity frame/timeScale0 |
+| K21 높이 판 | **7/7 PASS**(촬영 동작) | k21-guard-final-play/report.json. 판독 점수 PASS 뜻 아님 |
 | K21 평지 판 | **4/4 PASS**(촬영 동작), seed8 복구 해시 일치 | flat-play/report.json·height-restore.json |
-| main2 자동 관문 | **12 PASS, G03/G20 BLOCKED, G19 N/A**, 전체FAIL | run Main2-20261119T091737Z, source1447·files1510, capture-record 전후 지문 일치 |
+| main2 자동 관문 | **12 PASS, G03/G20 BLOCKED, G19 N/A**, 전체FAIL | run Main2-20261119T093359Z, source1447·files1510, capture-record 전후 지문 일치 |
 
 G09 tree soft .050569/stone .107034·조명 진단3단, G11 hero .002962/background .087343(각≤.10), G12/G13/G18 PASS. C3 **ΔE8.568072 / S.347222**, C8 **−.243137**, C9 **V.254902**, C10 **1.275404/.466289**, C16은 판정 제외 규칙 유지(이번 표본 PASS). `final-measure/measure.json`과 paint.py `final-paint.json`은 같은 풀 표본 S.35/V.57이다. C15는 `main2/C15.json`의 유효 쌍만 근거다. final-measure의 원 화면 밝기 비는 내용 비교이며 C15 세기가 아니다.
 
@@ -339,3 +339,5 @@ C9는 앞 회차부터 쓰던 `L6-colour-regions.json`의 강 상자 [900,190,10
 4. 옛 임시 flat-control에 --help를 붙였는데 인자를 처리하지 않아 촬영이 실행됐다. 현재 B0를 final2로 옮기고 이전 PNG는 고정 director evidence에서 원 해시로 복구했다. 옛 sidecar의 두 볼륨 값은 보존된 판 settings에서 복구한 것이며 바이트 동일로 주장하지 않는다. `B0-path-recovery/recovery.json` 참조. 새 runner는 인자 거부·try/finally·높이 복구 검사를 넣고 최종 네 장을 다시 촬영했다. 이전 attempt2의 일부 임시 실행 로그는 이 실수 때 덮였으며, 현재/과거 판정을 섞어 쓰지 않는다.
 
 후보는 `docs/game/hd2d-작업-개선-기록.md`에 반영. 시간·활동별 CLI 비용은 attempt3/time-and-tokens.json. Codex 토큰 API는 없어 NOT_AVAILABLE, 하위/리뷰 에이전트0. 새 코드 리뷰3종은 **대기**, 기존 VERDICT: PASS를 이번 D-L5~7에 이어 쓰지 않는다. G03/G20·전체아트/T4는 미완료, 기존 자연장면 흐림 추정 FAIL/교정 PASS 분리·D-L4 수용·Font/지시문 재현 한계는 review_open에 보존한다.
+
+마지막 범위 확인: 무늬 혼합 감소를 `_TERRAIN_HEIGHT` ON에만 제한해 OFF의 .45/1 식을 보존했다. 다른 세션 Play 중인 한 번은 수집기가 시작 전 중단했고 에디터를 끄지 않았다. false 확인 후 새 run을 수집했다. ON 본판과 직전 통과 본판의 PNG 바이트가 같다. 최종 수집10/10 77.1초, K21 높이7/7 33.1초·평지도 재촬영/seed8 복구. D-L7의 3~4단이 원 L1b 2~3단보다 우선하며, G09의 소품 진단과는 다르다.

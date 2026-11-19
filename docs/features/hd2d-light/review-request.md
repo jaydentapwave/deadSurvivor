@@ -16,7 +16,7 @@
 
 - compile-d6.json, compile-final.json: 컴파일 오류0. DamageNumberMotionTests **8/8**, CombatEffectTests **38/38**. measurement-selftest.log **7/7**(기존 C15 4개 + 부드러운/no-black 통과·검정 급경계 거부·방사 노출 상쇄).
 - fx-diagnostic-play/report.json **8/8**(96초). 원본 art-insert-flows의 FX1/FX2·FXSEQ 검/도끼·전투 동시 표시 기대식 그대로다. 두 베기 21장씩 모든5프레임 관측. unrelated 로비4화면비 캡처를 제외한 범위 흐름이며 원본 전체 경로 PASS가 아니다. 첫 fx-play는 장비 지급 단계 인덱스 오류로 FAIL, 소스 수정 없는 범위 재실행에서는 재현 안 됨. 원인 미확정으로 보존.
-- 최종 final-play/report.json **10/10**, main2 새run **Main2-20261119T091737Z**, source **1447** 수집 전후 일치. manifest 파일 **1510**. `output/hd2d-관문/main2/{manifest,gate-report,C15,D-L5,C10}.json`이 최종 근거다.
+- 최종 final-play/report.json **10/10**, main2 새run **Main2-20261119T093359Z**, source **1447** 수집 전후 일치. manifest 파일 **1510**. `output/hd2d-관문/main2/{manifest,gate-report,C15,D-L5,C10}.json`이 최종 근거다.
 - 자동 **12 PASS / G03 BLOCKED / G19 N/A / G20 BLOCKED**, 전체 FAIL·T4 미완료 유지. G09 tree .050569/stone .107034·진단3단, G11 hero .002962/background .087343. G12/G13/G18 PASS.
 - C15 **.757792~.759539**, 모서리 최저 밝기 **18.9158>0**, 검정 **0%**, 방사 최대 인접 차 **≤.173687 < 이전 .652067**. 8쌍마다 같은 Unity frame/timeScale0, 실제 floor·rounded·노출도 frame-pair.json에 기록. C15는 이 파일의 쌍만 사용하며 final-measure의 원 화면 밝기 비와 혼동하지 않는다.
 - C3 **ΔE8.5681 / S.34722**, C8 **−.24314**, C9 **.25490**, C10 **1.27540/.46629**. C9는 기존 `L6-colour-regions.json`의 실제 강 [900,190,1000,215] 상자다. finish의 오래된 고정 water telemetry [700,150,850,250]는 다리라 C9 근거로 쓰지 않는다. C16은 제외/WARN 규칙 유지.
@@ -32,3 +32,5 @@ D-L5 넓은 .8/.6/rounded On +노출1 방식은 C3/C15 통과에도 G08/G09/G11 
 이전 spec-reviewer/validator-client/algorithm-tester의 열린 지적 원문은 핸드오프 review_open에 유지한다. G20/K21의 이전 판독은 **FAIL**, 새 최종 판은 **NOT_RUN**이며 전체 아트/T4를 완료로 바꾸지 않는다. 자연장면 흐림 추정 FAIL과 교정 PASS의 분리도 삭제하지 않는다. 이 열린 사항만으로 이번 범위 밖 재구현/리뷰를 늘리지 않는다.
 
 구현자는 직접 리뷰를 호출하지 않았다. 앞 회차 세 리뷰의 PASS는 역사적 판정으로만 보존하며 이번에 닿은 D-L5~7을 대신 통과시키지 않는다.
+
+D-L7의 3~4단 결정이 원 L1b 2~3단보다 우선한다. 소품 G09 진단 2~3단과 구별한다. 마지막 OFF 보호에서 worn/soil 감소를 높이 ON에만 제한했다. ON 본판 PNG는 직전 통과 판과 바이트 동일, 평지 B0는 새 소스로 재촬영했다.
