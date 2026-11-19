@@ -112,7 +112,7 @@ Shader "HD2D/HD2D_FieldSurface"
             Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));
             float3 cellNormal=normalize(i.n);
             float d=saturate(dot(cellNormal,sun.direction));
-            float band=d<.25 ? .60 : d<.68 ? .82 : 1;
+            float band=d<.25 ? .58 : d<.68 ? .80 : 1;
             float finger=fmod(abs(cells.x+floor(cells.x/5)*3),9)<3 ? .055 : .018;
         #if defined(_TERRAIN_HEIGHT)
             if (_Diagnostic>1.5) { output.color=_Category<.5 && i.w.y-i.href>.3 ? half4(1,0,0,1) : _Category>2.5 && _Category<3.5 ? (i.n.y>.7 ? half4(1,0,0,1) : i.w.y-i.href<=.36-finger && i.w.y-i.href>.36-finger-1.0/48 ? half4(0,1,0,1) : i.w.y-i.href>.36-finger ? half4(0,0,0,1) : half4(0,0,1,1)) : half4(0,0,0,1); return output; }

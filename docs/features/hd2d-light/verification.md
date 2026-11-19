@@ -57,3 +57,7 @@ L0: 촬영 fixture 보완 후 4/12단계(UNIT까지) PASS, 28.5초, wave6/frame6
 ### L1b
 
 높이 격자 mesh에서 재계산된 normal의XZ만4배, dot.47/.59에서 .90/1/1.07의3단. 셰이더 `_TERRAIN_HEIGHT` 안 ground에만 적용. 정점·높이 데이터·이동·판정·OFF 경로 그대로. 컴파일 오류0, 지형 지정흐름7/7 PASS(26.8초). 직접 연 것 k21/T2.png·T7.png·Main1-hill.png: 넓고 경계가 있는 밝고 어두운 띠, 세부 풀 결 유지. T2 시각 fixture는 정상 이동 한계 밖, 새 정상 도달 주장 없음. C3는 k21/measure/measure.json; G20/K21의 독립 눈가림은 NOT_RUN(디렉터 몫), 이것을 PASS로 바꾸지 않음. 높이·field_layout 파일 해시 변경 없음.
+
+### L2
+
+FieldSurface 램프 .60/.82/1→.58/.80/1(문턱.25/.68), SpriteLit는 이미 일치. 기존 턱 옆면 그림자 중복 제외·몬스터 수신Off 유지. 컴파일 failed=false, ShaderHasError=false/messages0. 시작흐름3/3 PASS23.6초, 진단148/204/255의3단 PASS. L2/main.png·정확한 [420,96,1644,804] Point4배 closeup.png 직접 열어 바위·식물 도트 계단/단색면, 중앙 부드러운 그라데이션 없음 확인. 최종ON G09/G11은 L3/L6에서 같은 원본 관문으로 다시 판단(아직 전체아트FAIL 유지).
