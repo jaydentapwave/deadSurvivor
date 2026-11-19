@@ -341,3 +341,5 @@ C9는 앞 회차부터 쓰던 `L6-colour-regions.json`의 강 상자 [900,190,10
 후보는 `docs/game/hd2d-작업-개선-기록.md`에 반영. 시간·활동별 CLI 비용은 attempt3/time-and-tokens.json. Codex 토큰 API는 없어 NOT_AVAILABLE, 하위/리뷰 에이전트0. 새 코드 리뷰3종은 **대기**, 기존 VERDICT: PASS를 이번 D-L5~7에 이어 쓰지 않는다. G03/G20·전체아트/T4는 미완료, 기존 자연장면 흐림 추정 FAIL/교정 PASS 분리·D-L4 수용·Font/지시문 재현 한계는 review_open에 보존한다.
 
 마지막 범위 확인: 무늬 혼합 감소를 `_TERRAIN_HEIGHT` ON에만 제한해 OFF의 .45/1 식을 보존했다. 다른 세션 Play 중인 한 번은 수집기가 시작 전 중단했고 에디터를 끄지 않았다. false 확인 후 새 run을 수집했다. ON 본판과 직전 통과 본판의 PNG 바이트가 같다. 최종 수집10/10 77.1초, K21 높이7/7 33.1초·평지도 재촬영/seed8 복구. D-L7의 3~4단이 원 L1b 2~3단보다 우선하며, G09의 소품 진단과는 다르다.
+
+수집 후 외부 변경: 튜토리얼 세션이 App/GameSceneLifetimeScope.cs에 Dialogue Presenter 등록 한 줄을 추가했다. 현재 소스 해시1개 불일치이며 **현재1447개 전부 일치로 주장하지 않는다**. 수집 당시 전후 지문/자동12PASS는 그대로이며, 현재 전체소스 재검은 미완료다. 원본 수집 해시와 정확히 같은 Scope snapshot을 현재 코드에서 새 등록 한 줄만 제외해 output에 재구성했다(source-drift.json의 방법/해시). Assets 파일을 되돌리거나 manifest/source-before를 고치지 않았다. 이 통합 사항은 핸드오프의 별도 blocked 관문과 열린 질문에 남긴다.

@@ -34,3 +34,5 @@ D-L5 넓은 .8/.6/rounded On +노출1 방식은 C3/C15 통과에도 G08/G09/G11 
 구현자는 직접 리뷰를 호출하지 않았다. 앞 회차 세 리뷰의 PASS는 역사적 판정으로만 보존하며 이번에 닿은 D-L5~7을 대신 통과시키지 않는다.
 
 D-L7의 3~4단 결정이 원 L1b 2~3단보다 우선한다. 소품 G09 진단 2~3단과 구별한다. 마지막 OFF 보호에서 worn/soil 감소를 높이 ON에만 제한했다. ON 본판 PNG는 직전 통과 판과 바이트 동일, 평지 B0는 새 소스로 재촬영했다.
+
+마감 후 **다른 세션의 소스 변경 1건**: App/GameSceneLifetimeScope.cs에 FirstExpeditionDialoguePresenter 등록이 추가돼 현재 해시가 수집 때와 다르다. `attempt3/source-drift.json`에 기록했다. 그 한 줄만 제외한 읽기 전용 snapshot `GameSceneLifetimeScope.capture.cs`가 **원래 수집 SHA256과 정확히 일치**함을 확인했다(실제 Assets 파일은 수정0). 수집 전후1447개 일치·당시12PASS 기록과 **현재 전체 소스 재현 미확인**을 구별한다. 선언/manifest를 새 파일로 재결속하지 않았다. 이 후속 튜토리얼 통합은 이번 D-L6 리뷰 범위 밖이며, 현재 G03/전체아트/T4 완료로 보고하지 않는다.
