@@ -3,6 +3,26 @@ using UnityEngine;
 
 public class TiltedViewMathTests
 {
+    [TestCase(10.5f, 9.592308f)]
+    [TestCase(10.74f, 9.832308f)]
+    [TestCase(12f, 9.842308f)]
+    public void DT11CaptureKeepsBoundaryInset(float oldDistance, float expected)
+    {
+        var target = TiltedViewMath.RemapBoundaryPoint(new Vector2(0, oldDistance), 10.75f, 9.842308f);
+        Assert.That(target.y, Is.EqualTo(expected).Within(.00001f));
+        Assert.That(target.x, Is.Zero);
+    }
+
+    [Test]
+    public void DT11DiagonalCaptureKeepsDirectionAndSameL1Inset()
+    {
+        var oldPoint = new Vector2(-5.1f, 5.65f);
+        var target = TiltedViewMath.RemapBoundaryPoint(oldPoint, 10.75f, 9.842308f);
+        Assert.That(Mathf.Abs(target.x) + Mathf.Abs(target.y), Is.EqualTo(9.842308f).Within(.00001f));
+        Assert.That(target.x / target.y, Is.EqualTo(oldPoint.x / oldPoint.y).Within(.00001f));
+        Assert.That(TiltedViewMath.RemapBoundaryPoint(Vector2.zero, 10.75f, 9.842308f), Is.EqualTo(Vector2.zero));
+    }
+
     [TestCase(16f/9f, 10f)]
     [TestCase(21f/9f, 13.125f)]
     [TestCase(4f/3f, 7.5f)]

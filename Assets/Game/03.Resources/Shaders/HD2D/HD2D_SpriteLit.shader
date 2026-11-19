@@ -57,7 +57,7 @@ Shader "HD2D/HD2D_SpriteLit"
             float3 p = float3(v.positionOS.xy * lerp(float2(1,1), unity_SpriteProps.xy, _SpriteRenderer), v.positionOS.z);
             o.positionWS = TransformObjectToWorld(p);
             o.positionCS = TransformWorldToHClip(o.positionWS);
-            if (_HD2DActorDepthBias > 0 && _BackgroundCard < .5)
+            if (_HD2DActorDepthBias > 0)
             {
                 o.positionCS.z += UNITY_MATRIX_P._m22 * _HD2DActorDepthBias;
             }

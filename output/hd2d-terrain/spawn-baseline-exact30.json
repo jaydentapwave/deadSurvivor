@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "method": "frozen start; seed 8; four exact 7.5 game-second intervals; captureDeltaTime=1/30; same N9 flow",
+  "seed": 8,
+  "seconds": 30,
+  "cornerSeconds": 7.5,
+  "SpawnFootVisibleCount": 0,
+  "SpawnBodyVisibleCount": 26,
+  "samples": [
+    {
+      "SpawnFootVisibleCount": 0,
+      "SpawnBodyVisibleCount": 26,
+      "maxMonsterHeadHeight": 1.104167,
+      "TerrainFootError": 0,
+      "PartyGroundHeight": 0,
+      "report": "output/hd2d-terrain/a4-flat-exact30-first/report.json",
+      "utc": "2026-11-19T04:11:18.367037+00:00"
+    },
+    {
+      "SpawnFootVisibleCount": 0,
+      "SpawnBodyVisibleCount": 26,
+      "maxMonsterHeadHeight": 1.104167,
+      "TerrainFootError": 0,
+      "PartyGroundHeight": 0,
+      "report": "output/hd2d-terrain/a4-flat-exact30-second/report.json",
+      "utc": "2026-11-19T04:11:44.645578+00:00"
+    }
+  ],
+  "routeSha256": "79f8debe581e4a7eed7e4647e48ff23fce3e5cf5ac7e9006c4b17eaf5b35733d",
+  "oldBaseline": {
+    "path": "output/hd2d-terrain/spawn-baseline.json",
+    "method": "CLI wall-time observation",
+    "SpawnBodyVisibleCount": 18
+  }
+}

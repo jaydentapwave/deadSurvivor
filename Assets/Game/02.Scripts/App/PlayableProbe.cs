@@ -681,6 +681,66 @@ public static class PlayableProbe
         }
     }
 
+    public static bool IsTerrainSpawnQuarterCaptured => UnityEngine.Object.FindAnyObjectByType<PlayableTerrainSpawnSampler>()?.IsCaptured == true;
+    public static void CaptureTerrainSpawnQuarter(int corner)
+    {
+        var sampler = UnityEngine.Object.FindAnyObjectByType<PlayableTerrainSpawnSampler>();
+        if (sampler == null) { sampler = new GameObject("Exact terrain spawn observation").AddComponent<PlayableTerrainSpawnSampler>(); }
+        sampler.Arm(corner);
+    }
+
+    public static bool IsTerrainWalkCaptured => UnityEngine.Object.FindAnyObjectByType<PlayableTerrainWalkSampler>()?.IsCaptured == true;
+    public static void CaptureTerrainWalk(string directory)
+    {
+        var sampler = new GameObject("Terrain eight-frame walk evidence").AddComponent<PlayableTerrainWalkSampler>();
+        sampler.Arm(directory);
+    }
+
+    public static float PartyCenterLimitWorld
+    {
+        get
+        {
+            var rules = Resolve<RunRulesData>();
+            var extent = Resolve<MonsterModel>().ViewHalfExtent * rules.UnitScale;
+            return rules.FieldCells * .5f - extent.x - extent.y;
+        }
+    }
+
+    public static float TerrainCaptureThreshold(float oldThreshold) => PartyCenterLimitWorld - (10.75f - oldThreshold);
+    public static Vector2 TerrainCaptureTarget(float x, float z) =>
+        TiltedViewMath.RemapBoundaryPoint(new Vector2(x, z), 10.75f, PartyCenterLimitWorld);
+
+    public static float PartyGroundHeight
+    {
+        get
+        {
+            var position = Resolve<PartyModel>().Center * Resolve<RunRulesData>().UnitScale;
+            return TerrainHeightMath.Sample(Resolve<TerrainHeightGrid>(), position.x, position.y);
+        }
+    }
+
+    public static float TerrainFootError
+    {
+        get
+        {
+            var grid = Resolve<TerrainHeightGrid>();
+            var error = 0f;
+            foreach (var view in Resolve<IReadOnlyList<MemberView>>())
+            {
+                if (view.gameObject.activeInHierarchy) { Check(view.transform.position); }
+            }
+            foreach (var view in Resolve<MonsterViewRegistry>().Views)
+            {
+                if (view.gameObject.activeInHierarchy) { Check(view.transform.position); }
+            }
+            return error;
+            void Check(Vector3 foot)
+            {
+                error = Mathf.Max(error, Mathf.Abs(foot.y - TerrainHeightMath.Sample(grid, foot.x, foot.z)));
+            }
+        }
+    }
+
     public static int SpawnFootVisibleCount => Resolve<WorldPresenter>().SpawnFootVisibleCount;
     public static int SpawnBodyVisibleCount => Resolve<WorldPresenter>().SpawnBodyVisibleCount;
 
@@ -710,8 +770,10 @@ public static class PlayableProbe
             height = Mathf.Max(height, Resolve<MonsterViewFactory>().GetHeadHeight(data));
         }
         System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
+        System.IO.File.WriteAllText(System.IO.Path.ChangeExtension(path, "csv"), Resolve<WorldPresenter>().PlacementObservations);
         System.IO.File.WriteAllText(path, string.Format(System.Globalization.CultureInfo.InvariantCulture,
-            "{{\"SpawnFootVisibleCount\":{0},\"SpawnBodyVisibleCount\":{1},\"maxMonsterHeadHeight\":{2}}}", SpawnFootVisibleCount, SpawnBodyVisibleCount, height));
+            "{{\"SpawnFootVisibleCount\":{0},\"SpawnBodyVisibleCount\":{1},\"maxMonsterHeadHeight\":{2},\"TerrainFootError\":{3},\"PartyGroundHeight\":{4}}}",
+            SpawnFootVisibleCount, SpawnBodyVisibleCount, height, TerrainFootError, PartyGroundHeight));
     }
 
     public static string EffectFrameSequence(string key) => Resolve<CombatWorldPresenter>().GetFrameSequence(key);
@@ -1552,3 +1614,68 @@ public class PlayableBattleFxSampler : MonoBehaviour
     }
 }
 #endif
+
+// Eight consecutive simulation-frame captures; uses the normal movement input/service.
+public class PlayableTerrainWalkSampler : MonoBehaviour
+{
+    public bool IsCaptured { get; private set; }
+    private float _oldCaptureDelta;
+    public void Arm(string directory)
+    {
+        _oldCaptureDelta = Time.captureDeltaTime;
+        Time.captureDeltaTime = 1f / 30f;
+        Time.timeScale = 1f;
+        PlayableProbe.SetMove(0, -1);
+        StartCoroutine(Capture(directory));
+    }
+    private System.Collections.IEnumerator Capture(string directory)
+    {
+        System.IO.Directory.CreateDirectory(directory);
+        var log = new System.Text.StringBuilder("frame,partyX,partyZ,height,footError,cameraError\n");
+        for (var i = 0; i < 8; i++)
+        {
+            yield return new WaitForEndOfFrame();
+            var texture = ScreenCapture.CaptureScreenshotAsTexture();
+            System.IO.File.WriteAllBytes(System.IO.Path.Combine(directory, $"walk-{i + 1:00}.png"), texture.EncodeToPNG());
+            Destroy(texture);
+            var p = PlayableProbe.Resolve<PartyModel>().Center * PlayableProbe.Resolve<RunRulesData>().UnitScale;
+            log.AppendLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},{1},{2},{3},{4},{5}", i + 1, p.x, p.y,
+                PlayableProbe.PartyGroundHeight, PlayableProbe.TerrainFootError, PlayableProbe.CameraError));
+        }
+        System.IO.File.WriteAllText(System.IO.Path.Combine(directory, "walk.csv"), log.ToString());
+        PlayableProbe.SetMove(0, 0);
+        Time.captureDeltaTime = _oldCaptureDelta;
+        Time.timeScale = 0f;
+        IsCaptured = true;
+    }
+    private void OnDestroy() { Time.captureDeltaTime = _oldCaptureDelta; }
+}
+
+// CLI latency must not turn four 7.5-second intervals into a longer observation.
+[DefaultExecutionOrder(20000)]
+public class PlayableTerrainSpawnSampler : MonoBehaviour
+{
+    public bool IsCaptured { get; private set; }
+    private float _elapsed;
+    private float _oldCaptureDelta;
+    public void Arm(int corner)
+    {
+        PlayableProbe.PlaceTerrainPartyAtBoundary(corner);
+        _elapsed = 0;
+        if (corner == 0) { PlayableProbe.Resolve<WorldPresenter>().BeginPlacementObservation(); }
+        IsCaptured = false;
+        _oldCaptureDelta = Time.captureDeltaTime;
+        Time.captureDeltaTime = 1f / 30f;
+        Time.timeScale = 1;
+    }
+    private void LateUpdate()
+    {
+        if (IsCaptured || Time.timeScale == 0) { return; }
+        _elapsed += Time.deltaTime;
+        if (_elapsed < 7.5f - .0001f) { return; }
+        Time.timeScale = 0;
+        Time.captureDeltaTime = _oldCaptureDelta;
+        IsCaptured = true;
+    }
+    private void OnDestroy() { Time.captureDeltaTime = _oldCaptureDelta; }
+}

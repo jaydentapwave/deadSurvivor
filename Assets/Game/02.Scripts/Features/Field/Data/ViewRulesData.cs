@@ -11,6 +11,8 @@ public class ViewRulesData
     [SerializeField] private float targetFraction;
     [SerializeField] private int minScale;
     [SerializeField] private float facingHoldDegrees;
+    [SerializeField] private float terrainDepthPad;
+    public float TerrainDepthPad => terrainDepthPad;
     public float TiltDegrees => tiltDegrees;
     public float SinTilt => Mathf.Sin(tiltDegrees * Mathf.Deg2Rad);
     public float Distance => distance;

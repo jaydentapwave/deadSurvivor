@@ -3,6 +3,18 @@ using UnityEngine;
 // Coordinates are metres; gameplay floor units are converted by the caller.
 public static class TiltedViewMath
 {
+    // Keep the same inset from a changed visible-area boundary (D-T11 capture geometry).
+    public static Vector2 RemapBoundaryPoint(Vector2 oldPoint, float oldLimit, float currentLimit)
+    {
+        var distance = Mathf.Abs(oldPoint.x) + Mathf.Abs(oldPoint.y);
+        if (distance == 0f)
+        {
+            return Vector2.zero;
+        }
+        var oldInset = oldLimit - Mathf.Min(distance, oldLimit);
+        return oldPoint * (Mathf.Max(0f, currentLimit - oldInset) / distance);
+    }
+
     public static Vector2 WorldToScreenPlane(Vector3 delta, float sinTilt) =>
         new(delta.x, delta.y * Mathf.Sqrt(1f - sinTilt * sinTilt) + delta.z * sinTilt);
     public static Vector3 SnapScreenPlane(Vector3 world, float sinTilt, float pixelsPerUnit)

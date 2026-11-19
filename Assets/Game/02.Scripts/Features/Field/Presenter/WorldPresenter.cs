@@ -39,6 +39,9 @@ public class WorldPresenter : IInitializable, ILateTickable
     private readonly Vector2[] _lastMemberFloors;
     private readonly Dictionary<int, Vector2> _lastMonsterFloors = new();
     private readonly Dictionary<int, int> _placementVersionDict = new();
+    private readonly List<string> _placementObservationRows = new();
+    private bool _isRecordingPlacements;
+    public string PlacementObservations => string.Join("\n", _placementObservationRows);
     public int SpawnFootVisibleCount { get; private set; }
     public int SpawnBodyVisibleCount { get; private set; }
     private readonly IReadOnlyList<MemberView> _memberViewList;
@@ -142,6 +145,8 @@ public class WorldPresenter : IInitializable, ILateTickable
         _lastRunCount = _runModel.RunCount.CurrentValue;
         if (isRunStarted)
         {
+            _isRecordingPlacements = false;
+            _placementObservationRows.Clear();
             SpawnFootVisibleCount = 0;
             SpawnBodyVisibleCount = 0;
             _placementVersionDict.Clear();
@@ -267,7 +272,8 @@ public class WorldPresenter : IInitializable, ILateTickable
     private void UpdateViewExtent()
     {
         var halfHeight = _camera.orthographicSize;
-        var floorHalfExtent = TiltedViewMath.Footprint(halfHeight, _camera.aspect, _viewRules.SinTilt) / _runRules.UnitScale;
+        var floorHalfExtent = (TiltedViewMath.Footprint(halfHeight, _camera.aspect, _viewRules.SinTilt)
+            + Vector2.up * _viewRules.TerrainDepthPad) / _runRules.UnitScale;
         if (floorHalfExtent == _viewHalfExtent)
         {
             return;
@@ -278,6 +284,15 @@ public class WorldPresenter : IInitializable, ILateTickable
         _partyMoveService.SetViewHalfExtent(floorHalfExtent);
     }
 
+    public void BeginPlacementObservation()
+    {
+        _isRecordingPlacements = true;
+        _placementObservationRows.Clear();
+        _placementObservationRows.Add("time,id,version,type,footX,footY,bodyXMin,bodyYMin,bodyXMax,bodyYMax,footVisible,bodyVisible");
+        SpawnFootVisibleCount = 0;
+        SpawnBodyVisibleCount = 0;
+    }
+
     private void ObservePlacement(Monster monster, MonsterView view)
     {
         if (_placementVersionDict.TryGetValue(monster.Id, out var version) && version == monster.PlacementVersion)
@@ -286,15 +301,24 @@ public class WorldPresenter : IInitializable, ILateTickable
         }
         _placementVersionDict[monster.Id] = monster.PlacementVersion;
         var foot = _camera.WorldToViewportPoint(view.transform.position);
-        if (foot.z > 0 && foot.x >= 0 && foot.x <= 1 && foot.y >= 0 && foot.y <= 1)
+        var isFootVisible = foot.z > 0 && foot.x >= 0 && foot.x <= 1 && foot.y >= 0 && foot.y <= 1;
+        if (isFootVisible)
         {
             SpawnFootVisibleCount++;
         }
         var body = view.BodyRenderer;
-        if (body.enabled && body.gameObject.activeInHierarchy && _camera.WorldToViewportPoint(body.bounds.center).z > 0
-            && OcclusionMath.ProjectBounds(_camera, body.bounds).Overlaps(new Rect(0, 0, 1, 1)))
+        var bounds = OcclusionMath.ProjectBounds(_camera, body.bounds);
+        var isBodyVisible = body.enabled && body.gameObject.activeInHierarchy && _camera.WorldToViewportPoint(body.bounds.center).z > 0
+            && bounds.Overlaps(new Rect(0, 0, 1, 1));
+        if (isBodyVisible)
         {
             SpawnBodyVisibleCount++;
+        }
+        if (_isRecordingPlacements)
+        {
+            _placementObservationRows.Add(string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", Time.time, monster.Id, monster.PlacementVersion,
+                monster.Data.Id, foot.x, foot.y, bounds.xMin, bounds.yMin, bounds.xMax, bounds.yMax, isFootVisible, isBodyVisible));
         }
     }
 
