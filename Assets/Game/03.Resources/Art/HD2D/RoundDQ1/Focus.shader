@@ -14,18 +14,20 @@ Shader "Hidden/DeadSurvivor/DQ/Focus"
    half4 Frag(Varyings i):SV_Target
    {
     float2 uv=i.texcoord;
-    float radius=lerp(0,3.8,smoothstep(.76,1,uv.y))+1.1*(1-smoothstep(0,.15,uv.y));
-    float2 d=_BlitTexture_TexelSize.xy*radius;
-    half4 c=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_LinearClamp,uv)*.2;
-    c+=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_LinearClamp,uv+float2(d.x,0))*.12;
-    c+=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_LinearClamp,uv-float2(d.x,0))*.12;
-    c+=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_LinearClamp,uv+float2(0,d.y))*.12;
-    c+=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_LinearClamp,uv-float2(0,d.y))*.12;
-    c+=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_LinearClamp,uv+d)*.08;
-    c+=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_LinearClamp,uv-d)*.08;
-    c+=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_LinearClamp,uv+float2(d.x,-d.y))*.08;
-    c+=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_LinearClamp,uv+float2(-d.x,d.y))*.08;
-    return c;
+    // Optical blur: a Gaussian footprint instead of sparse duplicate edges.
+    float sigma=1.85*smoothstep(.80,1,uv.y)+.45*(1-smoothstep(0,.13,uv.y));
+    if (sigma < .02) return SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_LinearClamp,uv);
+    half4 color=0;float weight=0;
+    [unroll] for(int y=-3;y<=3;y++)
+    {
+     [unroll] for(int x=-3;x<=3;x++)
+     {
+      float w=exp(-(x*x+y*y)/4.5);
+      color+=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_LinearClamp,uv+float2(x,y)*_BlitTexture_TexelSize.xy*sigma)*w;
+      weight+=w;
+     }
+    }
+    return color/weight;
    }
    ENDHLSL
   }

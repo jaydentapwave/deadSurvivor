@@ -4,7 +4,7 @@ Shader "DeadSurvivor/DQ/Projected shade"
  SubShader
  {
   Tags { "RenderPipeline"="UniversalPipeline" "Queue"="Geometry+20" "RenderType"="Transparent" }
-  ZWrite Off Cull Off Blend DstColor Zero
+  ZWrite Off Cull Off Blend SrcAlpha OneMinusSrcAlpha
   Pass
   {
    HLSLPROGRAM
@@ -15,7 +15,7 @@ Shader "DeadSurvivor/DQ/Projected shade"
    struct A {float4 positionOS:POSITION;float2 uv:TEXCOORD0;};
    struct V {float4 positionCS:SV_POSITION;float2 uv:TEXCOORD0;};
    V Vert(A a) {V o;o.positionCS=TransformObjectToHClip(a.positionOS.xyz);o.uv=a.uv;return o;}
-   half4 Frag(V i):SV_Target {float a=SAMPLE_TEXTURE2D(_BaseMap,sampler_BaseMap,i.uv).a;return half4(lerp(1,.065,a),lerp(1,.065,a),lerp(1,.065,a),1);}
+   half4 Frag(V i):SV_Target {float a=SAMPLE_TEXTURE2D(_BaseMap,sampler_BaseMap,i.uv).a;return half4(.002,.018,.006,a*.94);}
    ENDHLSL
   }
  }

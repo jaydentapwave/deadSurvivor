@@ -29,6 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Grass: 0
     - _Mask: 0
     m_Colors:
     - _BaseColor: {r: 0.035, g: 0.55, b: 0.32, a: 1}

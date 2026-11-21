@@ -14,7 +14,7 @@ public static class DQLookdevBuilder
 {
     public const string Art = "Assets/Game/03.Resources/Art/HD2D/RoundDQ1";
     public const string Scene = "Assets/Game/01.Scene/Lookdev_DQ.unity";
-    public const string Output = "output/hd2d-dq/r1";
+    public const string Output = "output/hd2d-dq/r2";
     private const string Sprites = "Assets/Game/03.Resources/Art/AIGenerated";
 
     private static T Save<T>(T asset, string name) where T : Object
@@ -23,7 +23,28 @@ public static class DQLookdevBuilder
         var previous = AssetDatabase.LoadAssetAtPath<T>(path);
         if (previous != null)
         {
-            EditorUtility.CopySerialized(asset, previous);
+            if (asset is Mesh source && previous is Mesh target)
+            {
+                // CopySerialized does not invalidate live GPU mesh buffers reliably.
+                // Explicit setters update both the native render mesh and serialized source.
+                target.Clear();
+                target.indexFormat = source.indexFormat;
+                target.vertices = source.vertices;
+                target.normals = source.normals;
+                target.colors = source.colors;
+                target.uv = source.uv;
+                target.subMeshCount = source.subMeshCount;
+                for (var i = 0; i < source.subMeshCount; i++)
+                {
+                    target.SetTriangles(source.GetTriangles(i), i);
+                }
+                target.RecalculateBounds();
+                target.UploadMeshData(false);
+            }
+            else
+            {
+                EditorUtility.CopySerialized(asset, previous);
+            }
             Object.DestroyImmediate(asset);
             EditorUtility.SetDirty(previous);
             return previous;
@@ -61,11 +82,16 @@ public static class DQLookdevBuilder
     public static float Height(float x, float z)
     {
         var radius = Mathf.Sqrt(x * x + z * z);
-        var edge = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(11, 24, radius));
-        var h = .23f * Mathf.Sin(x * .46f) * Mathf.Cos(z * .38f);
-        h += edge * (1.35f + 1.05f * Mathf.Sin(x * .17f + z * .13f) * Mathf.Cos(z * .17f));
-        // The pond is a shallow basin; no ledges.
-        h -= .38f * Mathf.Exp(-((x + 8) * (x + 8) / 7 + (z - 1) * (z - 1) / 25));
+        var edge = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(11.5f, 19, radius));
+        var h = .16f * Mathf.Sin(x * .32f + z * .19f) + .08f * Mathf.Cos(z * .43f - x * .13f);
+        h += edge * (1.8f + .9f * Mathf.Sin(x * .22f + z * .18f) * Mathf.Cos(z * .19f));
+        var far = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(16, 25, z));
+        h += far * (2.7f * Mathf.Exp(-((x + 8) * (x + 8) / 100 + (z - 29) * (z - 29) / 100))
+            + 3.8f * Mathf.Exp(-((x - 15) * (x - 15) / 150 + (z - 43) * (z - 43) / 180))
+            + 4.2f * Mathf.Exp(-((x + 20) * (x + 20) / 300 + (z - 65) * (z - 65) / 230)));
+        var pondRadius = Mathf.Sqrt((x + 8) * (x + 8) / 6.25f + (z - 1) * (z - 1) / 20.25f);
+        var basin = 1 - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.58f, 1.2f, pondRadius));
+        h = Mathf.Lerp(h, -.52f, basin);
         return h;
     }
 
@@ -106,27 +132,45 @@ public static class DQLookdevBuilder
         var uv = new List<Vector2>();
         var triangles = new List<int>();
         UnityEngine.Random.InitState(780 + variant);
-        for (var j = 0; j < 160; j++)
+        var lobeList = new[]
+        {
+            new Vector3(-.32f, .68f, -.10f), new Vector3(.31f, .66f, -.07f),
+            new Vector3(0, .96f, .04f), new Vector3(-.18f, .79f, .30f),
+            new Vector3(.25f, .83f, .24f), new Vector3(-.02f, .61f, -.32f)
+        };
+        for (var j = 0; j < 264; j++)
         {
             var normal = UnityEngine.Random.onUnitSphere;
-            var center = Vector3.Scale(normal, new Vector3(.48f + variant * .035f, .37f, .43f)) + Vector3.up * .85f;
-            center += UnityEngine.Random.insideUnitSphere * .09f;
+            var lobe = lobeList[j % lobeList.Length];
+            if (variant == 1)
+            {
+                lobe = Vector3.Scale(lobe, new Vector3(1.28f, .78f, .95f));
+            }
+            if (variant == 2)
+            {
+                lobe = Vector3.Scale(lobe, new Vector3(.85f, 1.10f, 1.16f));
+            }
+            var center = lobe + Vector3.Scale(normal, new Vector3(.27f, .23f, .25f));
             var right = Vector3.Cross(normal, Vector3.up).normalized;
             if (right.sqrMagnitude < .1f)
             {
                 right = Vector3.right;
             }
             var up = Vector3.Cross(right, normal);
-            var size = UnityEngine.Random.Range(.19f, .32f);
+            var size = UnityEngine.Random.Range(.09f, .17f);
             var first = vertices.Count;
             vertices.Add(center - right * size - up * size);
             vertices.Add(center + right * size - up * size);
             vertices.Add(center + right * size + up * size);
             vertices.Add(center - right * size + up * size);
-            var tint = Color.white * UnityEngine.Random.Range(.8f, 1.15f);
+            // Lobe surface normals produce continuous form lighting across leaf cards.
+            var tint = Color.white * UnityEngine.Random.Range(.94f, 1.06f);
+            var crownCenter = variant == 1 ? .60f : variant == 2 ? .80f : .72f;
+            var crownNormal = new Vector3(center.x / .6f, (center.y - crownCenter) / .45f, center.z / .6f).normalized;
+            var lightingNormal = (crownNormal * .8f + normal * .2f).normalized;
             for (var k = 0; k < 4; k++)
             {
-                normals.Add(normal); colors.Add(tint);
+                normals.Add(lightingNormal); colors.Add(tint);
             }
             uv.Add(Vector2.zero); uv.Add(Vector2.right); uv.Add(Vector2.one); uv.Add(Vector2.up);
             triangles.AddRange(new[] { first, first + 1, first + 2, first, first + 2, first + 3 });
@@ -176,83 +220,102 @@ public static class DQLookdevBuilder
         var groundMaterial = Material("Meadow", "DeadSurvivor/DQ/Meadow", new Color(.13f, .71f, .29f), grassTexture);
         var leafMaterial = Material("Leaves", "DeadSurvivor/DQ/Leaves", new Color(.035f, .55f, .32f), leafTexture);
         var grassMaterial = Material("Grass", "DeadSurvivor/DQ/Leaves", new Color(.18f, .55f, .13f), grassCardTexture);
+        grassMaterial.SetFloat("_Grass", 1);
         var bark = Material("Bark", "Universal Render Pipeline/Lit", new Color(.16f, .12f, .067f));
-        var rock = Material("Rock", "Universal Render Pipeline/Lit", new Color(.31f, .39f, .33f));
+        var rock = Material("Rock", "DeadSurvivor/DQ/Faceted rock", new Color(.31f, .39f, .33f));
         var card = Card();
         var shadeMaterial = Material("CanopyShade", "DeadSurvivor/DQ/Projected shade", Color.white, Texture("CanopyShadow"));
         MeshObject("DQ meadow 60m + distant apron", Ground(), groundMaterial, Vector3.zero);
         var canopyList = Enumerable.Range(0, 3).Select(Canopy).ToArray();
         var forest = new GameObject("Clustered forest; center radius12 clear").transform;
         UnityEngine.Random.InitState(21121);
-        // Place contiguous crescents along the clear area's boundary, then distant groves.
-        for (var j = 0; j < 460; j++)
+        var groveCenterList = new[]
         {
-            float x, z;
-            if (j < 150)
-            {
-                var a = Mathf.Lerp(-100, 100, (j % 50) / 49f) * Mathf.Deg2Rad;
-                var radius = 13.1f + (j / 50) * .75f + UnityEngine.Random.Range(-.2f, .2f);
-                x = Mathf.Sin(a) * radius;
-                z = Mathf.Cos(a) * radius;
-            }
-            else
-            {
-                x = UnityEngine.Random.Range(-35f, 35f);
-                z = UnityEngine.Random.Range(22f, 66f);
-            }
-            if (Mathf.Abs(x - (3.4f + 1.7f * Mathf.Sin(z * .13f))) < 1.4f)
+            new Vector2(-12.8f, -2), new Vector2(-12.2f, 7), new Vector2(-10.2f, 13.5f),
+            new Vector2(12.9f, -1), new Vector2(12.2f, 8.5f), new Vector2(10.5f, 15.5f),
+            new Vector2(-3.7f, 20), new Vector2(-15, 26), new Vector2(16, 28),
+            new Vector2(-24, 42), new Vector2(2, 43), new Vector2(25, 51),
+            new Vector2(-6.5f, 15.5f), new Vector2(-1.5f, 19.5f), new Vector2(8, 16)
+        };
+        for (var j = 0; j < 545; j++)
+        {
+            var grove = j < 525 ? groveCenterList[j / 35] : new[] { new Vector2(-10.4f, 7.5f), new Vector2(10.5f, 7.4f), new Vector2(-7.3f, 10.5f), new Vector2(7.5f, 11) }[(j - 525) / 5];
+            var offset = UnityEngine.Random.insideUnitCircle;
+            offset = Vector2.Scale(offset, j < 525 ? new Vector2(3.3f, 2.6f) : new Vector2(.8f, .7f));
+            var x = grove.x + offset.x;
+            var z = grove.y + offset.y;
+            if (x * x + z * z < 12.1f * 12.1f || Mathf.Abs(x - (3.4f + 1.7f * Mathf.Sin(z * .13f))) < 1.25f)
             {
                 continue;
             }
             var mesh = canopyList[j % 3];
-            var size = UnityEngine.Random.Range(.9f, 1.6f) / mesh.bounds.max.y;
+            var size = UnityEngine.Random.Range(1.05f, 1.6f) / mesh.bounds.max.y;
             var root = new GameObject("Tree " + j + " variant " + j % 3).transform;
             root.SetParent(forest); root.position = new Vector3(x, Height(x, z), z);
             MeshObject("Leaves", mesh, leafMaterial, root.position, root).transform.localScale = Vector3.one * size;
-            Primitive("Trunk", PrimitiveType.Cylinder, bark, root.position + Vector3.up * .28f * size, new Vector3(.11f, .28f, .11f) * size, root);
-            if (j < 150)
+            Primitive("Short trunk", PrimitiveType.Cylinder, bark, root.position + Vector3.up * .10f * size, new Vector3(.10f, .10f, .10f) * size, root);
+            if (j < 545)
             {
-                var shadowMesh = Shade(x + .6f * size, z - .7f * size, .83f * size);
+                var shadowMesh = Shade(x + .45f * size, z + .55f * size, .80f * size);
                 MeshObject("Sun projected canopy shade", Save(shadowMesh, "Shade" + j + ".asset"), shadeMaterial, Vector3.zero, root);
             }
         }
-        var edgeRoot = new GameObject("Edge grasses and flowers").transform;
-        var flowerColors = new[] { new Color(.7f, .68f, .25f), new Color(.63f, .32f, .64f), new Color(.82f, .85f, .76f) };
+        var edgeRoot = new GameObject("Meadow vegetation clusters").transform;
+        var flowerColors = new[] { new Color(.96f, .81f, .31f), new Color(.91f, .52f, .65f), new Color(.94f, .97f, .89f) };
         var flowerMaterialList = flowerColors.Select((c, i) => Material("Flower" + i, "Universal Render Pipeline/Unlit", c)).ToArray();
-        for (var j = 0; j < 500; j++)
+        for (var j = 0; j < 2200; j++)
         {
-            var x = UnityEngine.Random.Range(-18f, 18f); var z = UnityEngine.Random.Range(-9f, 30f);
-            if (x * x + z * z < 110 || Mathf.Abs(x) < 7)
+            var x = UnityEngine.Random.Range(-17f, 17f);
+            var z = UnityEngine.Random.Range(-10f, 28f);
+            var radius = Mathf.Sqrt(x * x + z * z);
+            var pondRadius = Mathf.Sqrt((x + 8) * (x + 8) / 6.25f + (z - 1) * (z - 1) / 20.25f);
+            var roadEdge = Mathf.Abs(x - (3.4f + 1.7f * Mathf.Sin(z * .13f)));
+            var isBorder = (radius > 10.5f && radius < 17) || (pondRadius > 1.08f && pondRadius < 1.48f) || (roadEdge > .9f && roadEdge < 1.6f);
+            if (pondRadius < 1.06f || roadEdge < .85f || (!isBorder && j % 32 != 0))
             {
                 continue;
             }
-            var pos = new Vector3(x, Height(x, z), z);
-            var go = MeshObject("Grass tuft", card, grassMaterial, pos, edgeRoot);
-            go.transform.localScale = Vector3.one * UnityEngine.Random.Range(.18f, .38f);
-            go.transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 180), 0);
-            if (j % 5 == 0)
+            var size = isBorder ? UnityEngine.Random.Range(.14f, .29f) : UnityEngine.Random.Range(.025f, .065f);
+            var pos = new Vector3(x, Height(x, z) + .01f, z);
+            for (var k = 0; k < 2; k++)
             {
-                Primitive("Flower", PrimitiveType.Sphere, flowerMaterialList[j % 3], pos + Vector3.up * .18f, new Vector3(.065f, .035f, .065f), edgeRoot);
+                var go = MeshObject("Grass tuft", card, grassMaterial, pos, edgeRoot);
+                go.transform.localScale = new Vector3(size * 1.6f, size, size);
+                go.transform.rotation = Quaternion.Euler(0, 30 + 75 * k + j * 17, 0);
+            }
+            if (isBorder && j % 4 == 0)
+            {
+                for (var k = 0; k < 3; k++)
+                {
+                    var flower = pos + new Vector3((k - 1) * .075f, size * .8f + (k % 2) * .035f, .04f * k);
+                    Primitive("Flower cluster", PrimitiveType.Sphere, flowerMaterialList[(j / 4) % 3], flower, new Vector3(.055f, .028f, .055f), edgeRoot);
+                }
             }
         }
+        var rockCenterList = new[] { new Vector2(-6.6f, 7.5f), new Vector2(7.2f, -1.7f), new Vector2(-9, 14) };
         for (var j = 0; j < 8; j++)
         {
-            var x = j < 4 ? -6.5f + j * .32f : 7 + (j - 4) * .42f;
-            var z = j < 4 ? 8f + j * .36f : -2.4f + (j - 4) * .3f;
-            var go = Primitive("Angular grey green rock", PrimitiveType.Sphere, rock, new Vector3(x, Height(x, z) + .12f, z), new Vector3(.7f, .6f, .6f));
-            var original = go.GetComponent<MeshFilter>().sharedMesh;
-            var mesh = Object.Instantiate(original);
-            // Quantized radial displacement makes irregular stone facets without a pixel texture.
-            var vertices = mesh.vertices;
-            for (var k = 0; k < vertices.Length; k++)
-            {
-                var v = vertices[k]; vertices[k] = new Vector3(Mathf.Round(v.x * 6) / 6, Mathf.Round(v.y * 6) / 6, Mathf.Round(v.z * 6) / 6);
-            }
-            mesh.vertices = vertices; mesh.RecalculateNormals(); mesh.RecalculateBounds();
-            go.GetComponent<MeshFilter>().sharedMesh = Save(mesh, "Rock" + j + ".asset");
+            var center = rockCenterList[Mathf.Min(j / 3, 2)];
+            var x = center.x + new[] { 0f, .72f, -.52f }[j % 3];
+            var z = center.y + new[] { 0f, .48f, .66f }[j % 3];
+            var go = MeshObject("Faceted stone cluster", Stone(j), rock, new Vector3(x, Height(x, z) - .06f, z));
+            go.transform.localScale = new Vector3(.85f, .9f, .78f) * (j % 3 == 0 ? 1 : .55f);
+            var shadowMesh = Shade(x + .15f, z + .1f, .65f);
+            MeshObject("Stone ground shade", Save(shadowMesh, "StoneShade" + j + ".asset"), shadeMaterial, Vector3.zero);
         }
         BuildWater();
         BuildActors();
+        var moteMaterial = Material("Sun motes", "Universal Render Pipeline/Unlit", new Color(2.4f, 2.05f, 1.1f));
+        for (var j = 0; j < 24; j++)
+        {
+            var x = UnityEngine.Random.Range(-13f, 13f);
+            var z = UnityEngine.Random.Range(-8f, 22f);
+            if (x * x + z * z < 4)
+            {
+                continue;
+            }
+            Primitive("Warm drifting light", PrimitiveType.Sphere, moteMaterial, new Vector3(x, Height(x, z) + UnityEngine.Random.Range(.25f, .85f), z), Vector3.one * UnityEngine.Random.Range(.018f, .035f));
+        }
         var camera = new GameObject("DQ Camera", typeof(Camera), typeof(UniversalAdditionalCameraData)).GetComponent<Camera>();
         camera.SetVolumeFrameworkUpdateMode(VolumeFrameworkUpdateMode.EveryFrame);
         camera.tag = "MainCamera"; camera.nearClipPlane = .1f; camera.farClipPlane = 180; camera.allowHDR = true;
@@ -270,7 +333,7 @@ public static class DQLookdevBuilder
         AssetDatabase.AddObjectToAsset(focus, rendererPath); savedRenderer.rendererFeatures.Add(focus); EditorUtility.SetDirty(savedRenderer);
         var scope = camera.gameObject.AddComponent<DQCameraScope>(); scope.RendererData = savedRenderer; scope.RefreshRenderer();
         var sun = new GameObject("Sun from upper left", typeof(Light)).GetComponent<Light>();
-        sun.type = LightType.Directional; sun.transform.rotation = Quaternion.Euler(48, -35, 0); sun.intensity = 1.05f; sun.shadows = LightShadows.Soft; sun.shadowStrength = 1;
+        sun.type = LightType.Directional; sun.transform.rotation = Quaternion.Euler(48, 35, 0); sun.intensity = 1.05f; sun.color = new Color(1f, .96f, .86f); sun.shadows = LightShadows.Soft; sun.shadowStrength = 1;
         RenderSettings.sun = sun; RenderSettings.ambientMode = AmbientMode.Flat; RenderSettings.ambientLight = new Color(.035f, .09f, .065f); RenderSettings.ambientIntensity = 1;
         RenderSettings.fog = false; RenderSettings.skybox = null;
         var profile = ScriptableObject.CreateInstance<VolumeProfile>();
@@ -293,22 +356,40 @@ public static class DQLookdevBuilder
 
     private static void BuildWater()
     {
-        var water = Material("Water", "Universal Render Pipeline/Lit", new Color(.09f, .39f, .44f, .78f));
-        water.SetFloat("_Surface", 1); water.SetFloat("_SrcBlend", (float)BlendMode.SrcAlpha); water.SetFloat("_DstBlend", (float)BlendMode.OneMinusSrcAlpha); water.SetFloat("_ZWrite", 0); water.SetFloat("_Smoothness", .9f); water.EnableKeyword("_SURFACE_TYPE_TRANSPARENT"); water.renderQueue = 3000;
-        var plane = Primitive("Shallow turquoise pond", PrimitiveType.Cylinder, water, new Vector3(-8, -.13f, 1), new Vector3(4.5f, .005f, 9));
-        plane.GetComponent<Renderer>().shadowCastingMode = ShadowCastingMode.Off;
-        var foam = Material("Foam", "Universal Render Pipeline/Unlit", new Color(.7f, .88f, .85f));
-        for (var j = 0; j < 100; j++)
+        var water = Save(new Material(Shader.Find("DeadSurvivor/DQ/Shallow water")), "Water.mat");
+        var mesh = new Mesh
         {
-            var a = j * Mathf.PI * 2 / 100;
-            Primitive("Broken foam shoreline", PrimitiveType.Sphere, foam, new Vector3(-8 + 2.15f * Mathf.Cos(a), -.11f, 1 + 4.35f * Mathf.Sin(a)), new Vector3(.11f, .015f, .07f));
-        }
-        var glint = Material("Water sparkles", "Universal Render Pipeline/Unlit", new Color(3, 3, 3));
-        for (var j = 0; j < 18; j++)
+            vertices = new[] { new Vector3(-10.8f, -.13f, -4), new Vector3(-5.2f, -.13f, -4), new Vector3(-5.2f, -.13f, 6), new Vector3(-10.8f, -.13f, 6) },
+            triangles = new[] { 0, 2, 1, 0, 3, 2 }
+        };
+        mesh.RecalculateNormals(); mesh.RecalculateBounds();
+        MeshObject("Translucent pond and continuous foam", Save(mesh, "Pond.asset"), water, Vector3.zero).GetComponent<Renderer>().shadowCastingMode = ShadowCastingMode.Off;
+    }
+
+    private static Mesh Stone(int variant)
+    {
+        var phi = (1 + Mathf.Sqrt(5)) / 2;
+        var points = new[]
         {
-            var pos = new Vector3(-8 + UnityEngine.Random.Range(-1.4f, 1.4f), -.1f, UnityEngine.Random.Range(-2.3f, 4.3f));
-            Primitive("Sparkle", PrimitiveType.Sphere, glint, pos, new Vector3(.11f, .01f, .045f));
+            new Vector3(-1, phi, 0), new Vector3(1, phi, 0), new Vector3(-1, -phi, 0), new Vector3(1, -phi, 0),
+            new Vector3(0, -1, phi), new Vector3(0, 1, phi), new Vector3(0, -1, -phi), new Vector3(0, 1, -phi),
+            new Vector3(phi, 0, -1), new Vector3(phi, 0, 1), new Vector3(-phi, 0, -1), new Vector3(-phi, 0, 1)
+        };
+        var indices = new[] {0,11,5, 0,5,1, 0,1,7, 0,7,10, 0,10,11, 1,5,9, 5,11,4, 11,10,2, 10,7,6, 7,1,8, 3,9,4, 3,4,2, 3,2,6, 3,6,8, 3,8,9, 4,9,5, 2,4,11, 6,2,10, 8,6,7, 9,8,1};
+        var vertices = new Vector3[indices.Length];
+        var triangles = new int[indices.Length];
+        for (var j = 0; j < points.Length; j++)
+        {
+            points[j] = Vector3.Scale(points[j].normalized, new Vector3(.62f, .61f, .55f)) * (1 + .15f * Mathf.Sin(j * 12.3f + variant * 3.7f));
+            points[j].y += .56f;
         }
+        for (var j = 0; j < indices.Length; j++)
+        {
+            vertices[j] = points[indices[j]]; triangles[j] = j;
+        }
+        var mesh = new Mesh { vertices = vertices, triangles = triangles };
+        mesh.RecalculateNormals(); mesh.RecalculateBounds();
+        return Save(mesh, "Rock" + variant + ".asset");
     }
 
     private static void BuildActors()
@@ -351,11 +432,20 @@ public static class DQLookdevBuilder
                 }
                 z += .42f * Mathf.Sin(j * 2.1f);
                 x += .25f * Mathf.Cos(j * 4.7f);
+                var radius = Mathf.Sqrt(x * x + z * z);
+                if (radius > 11.3f)
+                {
+                    x *= 11.3f / radius;
+                    z *= 11.3f / radius;
+                }
             }
             go.transform.position = new Vector3(x, Height(x, z) + .025f, z);
             var sr = go.GetComponent<SpriteRenderer>(); sr.sprite = sprite; sr.sharedMaterial = material; sr.shadowCastingMode = ShadowCastingMode.Off;
-            var shadow = new GameObject("Blob shadow", typeof(SpriteRenderer)); shadow.transform.position = new Vector3(x, Height(x, z) + .012f, z); shadow.transform.rotation = Quaternion.Euler(90, 0, 0); shadow.transform.localScale = new Vector3(.52f, .4f, 1); shadow.transform.SetParent(go.transform, true);
-            shadow.GetComponent<SpriteRenderer>().sprite = blobSprite; shadow.GetComponent<SpriteRenderer>().sharedMaterial = blobMaterial;
+            var footShade = Material("FootShade", "DeadSurvivor/DQ/Projected shade", Color.white, Texture("FootShadow"));
+            var width = id == "rock" || id == "boar" ? .78f : isHero ? .55f : .46f;
+            var shadowMesh = Shade(x, z, width * .78f);
+            MeshObject("Foot contact shade", Save(shadowMesh, "FootShade" + j + ".asset"), footShade, Vector3.zero);
+
         }
     }
 
@@ -363,7 +453,7 @@ public static class DQLookdevBuilder
     {
         var camera = Camera.main; camera.fieldOfView = 20; camera.orthographic = false; camera.aspect = 1920f / 1080;
         camera.transform.rotation = Quaternion.Euler(angle, 0, 0);
-        var focus = new Vector3(0, .6f, 0);
+        var focus = new Vector3(0, .95f, 0);
         var hero = GameObject.Find("Hero_bruno_0").GetComponent<SpriteRenderer>();
         var source = new Texture2D(2, 2); source.LoadImage(File.ReadAllBytes(AssetDatabase.GetAssetPath(hero.sprite)));
         var pixelList = source.GetPixels32(); var min = source.height; var max = 0;

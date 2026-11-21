@@ -32,7 +32,7 @@ public static class DQLookdevCapture
         public string source = "URP SingleCameraRequest; full-resolution native render including camera-only optical focus and volume bloom";
         public float terrainTexelsPerMeter = 128;
         public string textureFilter = "Trilinear; mipmaps";
-        public float farBlurRadius = 3.8f, nearBlurRadius = 1.1f, farBlurStart = .76f;
+        public float farBlurRadius = 5.55f, nearBlurRadius = 1.35f, farBlurStart = .80f;
         public float bloomThreshold = 1.4f, bloomIntensity = .1f;
         public bool vignette = false;
         public List<Plate> plates = new List<Plate>();
@@ -84,13 +84,14 @@ public static class DQLookdevCapture
         return new Actor { name = sr.name, rectangle = new[] { points.Min(p => p.x) * 1920, (1 - points.Max(p => p.y)) * 1080, points.Max(p => p.x) * 1920, (1 - points.Min(p => p.y)) * 1080 }, foot = new[] { foot.x * 1920, (1 - foot.y) * 1080 }, world = new[] { position.x, position.y, position.z }, depth = foot.z };
     }
 
-    public static void All()
+    public static void All(string folder = "")
     {
         if (Application.isPlaying || UnityEngine.SceneManagement.SceneManager.GetActiveScene().path != DQLookdevBuilder.Scene)
         {
             throw new InvalidOperationException("DQ capture requires the DQ scene in Edit mode.");
         }
-        Directory.CreateDirectory(DQLookdevBuilder.Output);
+        var output = DQLookdevBuilder.Output + folder;
+        Directory.CreateDirectory(output);
         var settings = new Settings { utc = DateTime.UtcNow.ToString("O") };
         foreach (var angle in new[] { 18f, 28f })
         {
@@ -98,19 +99,36 @@ public static class DQLookdevCapture
             DQLookdevBuilder.Configure(angle);
             var camera = Camera.main;
             var actorList = GameObject.Find("Actors").GetComponentsInChildren<SpriteRenderer>().Where(sr => sr.name != "Blob shadow").ToArray();
-            settings.plates.Add(new Plate { id = id, angle = angle, fov = camera.fieldOfView, distance = Vector3.Distance(camera.transform.position, new Vector3(0, .6f, 0)), position = new[] { camera.transform.position.x, camera.transform.position.y, camera.transform.position.z }, actors = actorList.Select(Describe).ToList() });
-            Capture(DQLookdevBuilder.Output + "/" + id + "-main-1920x1080.png", 1920, 1080);
-            Diagnostics(id);
+            settings.plates.Add(new Plate { id = id, angle = angle, fov = camera.fieldOfView, distance = Vector3.Distance(camera.transform.position, new Vector3(0, .95f, 0)), position = new[] { camera.transform.position.x, camera.transform.position.y, camera.transform.position.z }, actors = actorList.Select(Describe).ToList() });
+            Capture(output + "/" + id + "-main-1920x1080.png", 1920, 1080);
+            var shadeList = Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None).Where(r => r.name == "Sun projected canopy shade").ToArray();
+            var shadeStates = shadeList.Select(r => r.enabled).ToArray();
+            try
+            {
+                foreach (var shade in shadeList)
+                {
+                    shade.enabled = false;
+                }
+                Capture(output + "/" + id + "-no-canopy-shade-control.png", 1920, 1080);
+            }
+            finally
+            {
+                for (var j = 0; j < shadeList.Length; j++)
+                {
+                    shadeList[j].enabled = shadeStates[j];
+                }
+            }
+            Diagnostics(id, output);
             if (id == "B")
             {
-                Capture(DQLookdevBuilder.Output + "/B-2340x1080.png", 2340, 1080);
-                Capture(DQLookdevBuilder.Output + "/B-2048x1536.png", 2048, 1536);
+                Capture(output + "/B-2340x1080.png", 2340, 1080);
+                Capture(output + "/B-2048x1536.png", 2048, 1536);
             }
         }
-        File.WriteAllText(DQLookdevBuilder.Output + "/settings.json", JsonUtility.ToJson(settings, true));
+        File.WriteAllText(output + "/settings.json", JsonUtility.ToJson(settings, true));
         EditorSceneManager.SaveScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene(), DQLookdevBuilder.Scene);
     }
-    private static void Diagnostics(string id)
+    private static void Diagnostics(string id, string output)
     {
         var camera = Camera.main;
         var all = Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None);
@@ -137,12 +155,12 @@ public static class DQLookdevCapture
             {
                 r.enabled = actorList.Contains(r); r.sharedMaterial = mask;
             }
-            Capture(DQLookdevBuilder.Output + "/" + id + "-actors-mask.png", 1920, 1080);
+            Capture(output + "/" + id + "-actors-mask.png", 1920, 1080);
             foreach (var r in all)
             {
                 r.enabled = r.name == "Leaves"; r.sharedMaterial = solid;
             }
-            Capture(DQLookdevBuilder.Output + "/" + id + "-forest-mask.png", 1920, 1080);
+            Capture(output + "/" + id + "-forest-mask.png", 1920, 1080);
             foreach (var r in all)
             {
                 r.enabled = false;
@@ -162,8 +180,8 @@ public static class DQLookdevCapture
                 sr.sprite = actorList[0].sprite; sr.sharedMaterial = mask;
                 var described = Describe(sr); markerDataList.Add(described);
             }
-            Capture(DQLookdevBuilder.Output + "/" + id + "-perspective-markers.png", 1920, 1080);
-            File.WriteAllText(DQLookdevBuilder.Output + "/" + id + "-markers.json", JsonUtility.ToJson(new MarkerCollection { markers = markerDataList }, true));
+            Capture(output + "/" + id + "-perspective-markers.png", 1920, 1080);
+            File.WriteAllText(output + "/" + id + "-markers.json", JsonUtility.ToJson(new MarkerCollection { markers = markerDataList }, true));
         }
         finally
         {
