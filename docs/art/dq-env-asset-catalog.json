@@ -71,6 +71,23 @@
     "verdict": "PROVISIONAL",
     "reason": "생성사 3/4 미리보기에서 잎 뭉치·붙은 줄기 또는 둥근 바위 실루엣은 보존됨. 18도·뒷면 미확인, 최종 채택 아님.",
     "game18": "blocked"
+   },
+   "environment_trial": {
+    "plate": "E1",
+    "used": true,
+    "instances": 312,
+    "prefab": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Prefabs/dq_tree_round_a.prefab",
+    "measured_dimensions_m": [
+     0.9900159001350403,
+     1.4,
+     1.2844559669494628
+    ],
+    "texture_size": 1024,
+    "normals": "position-welded, area-weighted smooth; no flat face normals",
+    "game18": "observed",
+    "result": "usable_in_trial",
+    "reason": "E1 게임 크기에서 확인. 최종 사용자 채택은 아님.",
+    "evidence": "output/hd2d-dq/env-r1/asset-dq_tree_round_a.png"
    }
   },
   {
@@ -164,6 +181,23 @@
     "raw_sha256": "cf394e72b667272398506aee542e94b5a3bd47aa4816ad34e1ffee27be3b45af",
     "postprocess": "blocked",
     "unity": "not-run"
+   },
+   "environment_trial": {
+    "plate": "E1",
+    "used": true,
+    "instances": 156,
+    "prefab": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Prefabs/dq_tree_round_c.prefab",
+    "measured_dimensions_m": [
+     1.1512306213378907,
+     1.6,
+     1.2593958854675293
+    ],
+    "texture_size": 1024,
+    "normals": "position-welded, area-weighted smooth; no flat face normals",
+    "game18": "observed",
+    "result": "usable_in_trial",
+    "reason": "E1 게임 크기에서 확인. 최종 사용자 채택은 아님.",
+    "evidence": "output/hd2d-dq/env-r1/asset-dq_tree_round_c.png"
    }
   },
   {
@@ -211,6 +245,23 @@
     "verdict": "PROVISIONAL",
     "reason": "생성사 3/4 미리보기에서 잎 뭉치·붙은 줄기 또는 둥근 바위 실루엣은 보존됨. 18도·뒷면 미확인, 최종 채택 아님.",
     "game18": "blocked"
+   },
+   "environment_trial": {
+    "plate": "E1",
+    "used": true,
+    "instances": 2,
+    "prefab": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Prefabs/dq_rock_big_a.prefab",
+    "measured_dimensions_m": [
+     0.9,
+     0.6,
+     1.098617013141573
+    ],
+    "texture_size": 512,
+    "normals": "position-welded, area-weighted smooth; no flat face normals",
+    "game18": "observed",
+    "result": "usable_in_trial",
+    "reason": "E1 게임 크기에서 확인. 최종 사용자 채택은 아님.",
+    "evidence": "output/hd2d-dq/env-r1/asset-dq_rock_big_a.png"
    }
   },
   {
@@ -354,6 +405,23 @@
     "verdict": "PROVISIONAL",
     "reason": "생성사 3/4 미리보기에서 잎 뭉치·붙은 줄기 또는 둥근 바위 실루엣은 보존됨. 18도·뒷면 미확인, 최종 채택 아님.",
     "game18": "blocked"
+   },
+   "environment_trial": {
+    "plate": "E1",
+    "used": true,
+    "instances": 45,
+    "prefab": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Prefabs/dq_bush_b.prefab",
+    "measured_dimensions_m": [
+     0.9,
+     0.35,
+     1.8316320096538732
+    ],
+    "texture_size": 512,
+    "normals": "position-welded, area-weighted smooth; no flat face normals",
+    "game18": "observed",
+    "result": "usable_in_trial",
+    "reason": "E1 게임 크기에서 확인. 최종 사용자 채택은 아님.",
+    "evidence": "output/hd2d-dq/env-r1/asset-dq_bush_b.png"
    }
   },
   {
@@ -400,6 +468,23 @@
     "raw_sha256": "84d13be3c31c623257de09fd04477c23d058ce8f0a4ce678f469c18a909b035f",
     "postprocess": "blocked",
     "unity": "not-run"
+   },
+   "environment_trial": {
+    "plate": "E1",
+    "used": true,
+    "instances": 27,
+    "prefab": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Prefabs/dq_tree_light.prefab",
+    "measured_dimensions_m": [
+     1.0900842407484863,
+     1.3,
+     1.308233805430941
+    ],
+    "texture_size": 1024,
+    "normals": "position-welded, area-weighted smooth; no flat face normals",
+    "game18": "observed",
+    "result": "usable_in_trial",
+    "reason": "E1 게임 크기에서 확인. 최종 사용자 채택은 아님.",
+    "evidence": "output/hd2d-dq/env-r1/asset-dq_tree_light.png"
    }
   },
   {
@@ -541,6 +626,23 @@
     "source": "output/3d-art/dq-env/preview/dq_tree_round_b_r2-provider34.webp",
     "game18": "blocked",
     "regeneration_limit_reached": true
+   },
+   "environment_trial": {
+    "plate": "E1",
+    "used": false,
+    "instances": 0,
+    "prefab": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Prefabs/dq_tree_round_b_r2.prefab",
+    "measured_dimensions_m": [
+     1.1267301683875484,
+     1.2,
+     1.5357350847605404
+    ],
+    "texture_size": 1024,
+    "normals": "position-welded, area-weighted smooth; no flat face normals",
+    "game18": "observed",
+    "result": "excluded",
+    "reason": "수관 중앙 구멍이 18도에서 보임. 회전·겹침을 시험했으나 단독 가장자리 사용 제외. dq_tree_round_a/c로 대체. 재생성 필요(사용자 판단).",
+    "evidence": "output/hd2d-dq/env-r1/asset-dq_tree_round_b_r2.png"
    }
   },
   {
@@ -591,6 +693,23 @@
     "source": "output/3d-art/dq-env/preview/dq_bush_a_r2-provider34.webp",
     "game18": "blocked",
     "regeneration_limit_reached": true
+   },
+   "environment_trial": {
+    "plate": "E1",
+    "used": false,
+    "instances": 0,
+    "prefab": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Prefabs/dq_bush_a_r2.prefab",
+    "measured_dimensions_m": [
+     0.6,
+     0.4,
+     0.6914978771449231
+    ],
+    "texture_size": 512,
+    "normals": "position-welded, area-weighted smooth; no flat face normals",
+    "game18": "observed",
+    "result": "excluded",
+    "reason": "18도에서 낮게 눌린 뭉개진 덩어리로 보임. 색·법선 보정 후에도 잎 뭉치 구분 부족. dq_bush_b로 대체. 재생성 필요(사용자 판단).",
+    "evidence": "output/hd2d-dq/env-r1/asset-dq_bush_a_r2.png"
    }
   },
   {
@@ -641,6 +760,23 @@
     "source": "output/3d-art/dq-env/preview/dq_rock_big_b_r2-provider34.webp",
     "game18": "blocked",
     "regeneration_limit_reached": true
+   },
+   "environment_trial": {
+    "plate": "E1",
+    "used": true,
+    "instances": 2,
+    "prefab": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Prefabs/dq_rock_big_b_r2.prefab",
+    "measured_dimensions_m": [
+     1.0,
+     0.4,
+     1.0001064056118738
+    ],
+    "texture_size": 512,
+    "normals": "position-welded, area-weighted smooth; no flat face normals",
+    "game18": "observed",
+    "result": "usable_in_trial",
+    "reason": "E1 게임 크기에서 확인. 최종 사용자 채택은 아님.",
+    "evidence": "output/hd2d-dq/env-r1/asset-dq_rock_big_b_r2.png"
    }
   },
   {
@@ -689,6 +825,23 @@
     "source": "output/3d-art/dq-env/preview/dq_rock_small_a_r2-provider34.webp",
     "game18": "blocked",
     "regeneration_limit_reached": true
+   },
+   "environment_trial": {
+    "plate": "E1",
+    "used": true,
+    "instances": 2,
+    "prefab": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Prefabs/dq_rock_small_a_r2.prefab",
+    "measured_dimensions_m": [
+     0.4,
+     0.3156569066609711,
+     0.41715290158965856
+    ],
+    "texture_size": 512,
+    "normals": "position-welded, area-weighted smooth; no flat face normals",
+    "game18": "observed",
+    "result": "usable_in_trial",
+    "reason": "E1 게임 크기에서 확인. 최종 사용자 채택은 아님.",
+    "evidence": "output/hd2d-dq/env-r1/asset-dq_rock_small_a_r2.png"
    }
   },
   {
@@ -737,6 +890,23 @@
     "source": "output/3d-art/dq-env/preview/dq_rock_small_b_r2-provider34.webp",
     "game18": "blocked",
     "regeneration_limit_reached": true
+   },
+   "environment_trial": {
+    "plate": "E1",
+    "used": true,
+    "instances": 2,
+    "prefab": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Prefabs/dq_rock_small_b_r2.prefab",
+    "measured_dimensions_m": [
+     0.3,
+     0.24887631957680523,
+     0.36124378053748557
+    ],
+    "texture_size": 512,
+    "normals": "position-welded, area-weighted smooth; no flat face normals",
+    "game18": "observed",
+    "result": "usable_in_trial",
+    "reason": "E1 게임 크기에서 확인. 최종 사용자 채택은 아님.",
+    "evidence": "output/hd2d-dq/env-r1/asset-dq_rock_small_b_r2.png"
    }
   }
  ],
@@ -755,5 +925,16 @@
   "final_adopted": 0,
   "postprocess": "blocked",
   "game18": "blocked"
+ },
+ "environment_trial_summary": {
+  "plate": "E1",
+  "status": "trial_only",
+  "used_types": 8,
+  "excluded_types": 2,
+  "paid_credits_this_step": 0,
+  "remaining_generation_cap": 400,
+  "K41": "solid textured meshes; alpha leaf cards NOT implemented",
+  "captures": "output/hd2d-dq/env-r1",
+  "performance": "same Editor Play 1600x900; H1 2498 draws / 653796 triangles / 53 set-pass; E1 2255 / 1403521 / 50; single samples, no optimization verdict"
  }
 }
