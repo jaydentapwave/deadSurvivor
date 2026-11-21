@@ -5,8 +5,8 @@ Shader "DeadSurvivor/DQ2/Character Lit"
         [PerRendererData] _MainTex("Sprite", 2D) = "white" {}
         _Color("Tint", Color) = (1,1,1,1)
         _CanopyMap("Existing scene canopy transmission", 2D) = "white" {}
-        _Exposure("Exposure", Float) = 1.25
-        _EdgeWidth("Cell boundary blend width", Range(0.01,1)) = 0.42
+        _Exposure("Light scale (no brightening above source)", Float) = 1
+        _EdgeWidth("Cell boundary blend width", Range(0.01,1)) = 0.10
     }
     SubShader
     {
@@ -64,9 +64,17 @@ Shader "DeadSurvivor/DQ2/Character Lit"
                 Light sun=GetMainLight(TransformWorldToShadowCoord(i.world));
                 float canopy=SAMPLE_TEXTURE2D(_CanopyMap,sampler_CanopyMap,(i.foot.xz-float2(-70,-35))/140).r;
                 float3 ambient=SampleSH(float3(0,1,0));
-                // Warm main light preserves skin; green ambient contributes only fill in the shade.
-                float3 illumination=ambient+sun.color*.78*sun.shadowAttenuation*canopy;
-                c.rgb*=illumination*_Exposure;
+                // Keep sunlight at the authored color/value range: never lift RGB toward a pale pastel.
+                // Scene intensity still controls attenuation, and scene chroma tints rather than adds white.
+                float3 luma=float3(.2126,.7152,.0722);
+                float visibility=sun.shadowAttenuation*canopy;
+                float mainEnergy=dot(sun.color,luma);
+                float ambientEnergy=dot(ambient,luma);
+                float energy=min(1,(max(.055,ambientEnergy)+mainEnergy*.95*visibility)*_Exposure);
+                float3 sunTint=sun.color/max(max(sun.color.r,sun.color.g),max(sun.color.b,.0001));
+                float3 ambientTint=ambient/max(max(ambient.r,ambient.g),max(ambient.b,.0001));
+                float3 tint=lerp(lerp(1,ambientTint,.12),lerp(1,sunTint,.45),visibility);
+                c.rgb*=tint*energy;
                 c.rgb=lerp(c.rgb,float3(.188,.463,.67),smoothstep(14,34,i.world.z)*.74);
                 return c*i.color;
             }

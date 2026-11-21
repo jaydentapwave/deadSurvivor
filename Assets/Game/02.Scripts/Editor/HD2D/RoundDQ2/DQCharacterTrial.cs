@@ -72,8 +72,8 @@ public static class DQCharacterTrial
             AssetDatabase.CreateAsset(material, Art + "/CharactersLit.mat");
         }
         material.SetTexture("_CanopyMap", AssetDatabase.LoadAssetAtPath<Texture2D>(Art + "/CanopyTransmission.png"));
-        material.SetFloat("_Exposure", 1.48f);
-        material.SetFloat("_EdgeWidth", .42f);
+        material.SetFloat("_Exposure", 1f);
+        material.SetFloat("_EdgeWidth", .10f);
         EditorUtility.SetDirty(material);
         AssetDatabase.SaveAssets();
     }
