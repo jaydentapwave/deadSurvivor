@@ -1,0 +1,62 @@
+{
+  "schema": "2d-identity/1",
+  "id": "lena_dq",
+  "ref": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/lena_dq_front.png",
+  "ref_sha256": "3457846e67fb108a4d0be85a3a375427888d0b6ef3adb96efa172f7b6452cb9f",
+  "approved": "2026-11-22 — 사용자 판정 대기",
+  "width_part": "head",
+  "outline_exclude": [],
+  "parts": {
+    "head": {
+      "hex": "#416627",
+      "lab_tol": 6,
+      "box_rel": [
+        0,
+        0,
+        1,
+        0.23
+      ]
+    },
+    "skin": {
+      "hex": "#facc9d",
+      "lab_tol": 6,
+      "box_rel": [
+        0.35,
+        0.23,
+        0.85,
+        0.47
+      ]
+    },
+    "cloth": {
+      "hex": "#416627",
+      "lab_tol": 6,
+      "box_rel": [
+        0,
+        0.4,
+        0.4,
+        0.85
+      ]
+    },
+    "equipment": {
+      "hex": "#b1bdd9",
+      "lab_tol": 6,
+      "box_rel": [
+        0.52,
+        0.55,
+        0.76,
+        0.73
+      ]
+    },
+    "boots": {
+      "hex": "#8c3c22",
+      "lab_tol": 6,
+      "box_rel": [
+        0.2,
+        0.87,
+        0.95,
+        1
+      ]
+    }
+  },
+  "note": "대원 새 정면 3/4. 72x72, 키56, PPU48, 발(36,64). 자기 기준 compare PASS는 부위 등록 확인이며 사용자 채택/그림체 판정이 아님."
+}

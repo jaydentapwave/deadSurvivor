@@ -1,0 +1,62 @@
+{
+  "schema": "2d-identity/1",
+  "id": "bolt_dq",
+  "ref": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bolt_dq_front.png",
+  "ref_sha256": "28755384ec7e8e86a657277c380f33bd0077029fb2b45fa83273616898dc9bf8",
+  "approved": "2026-11-22 — 사용자 판정 대기",
+  "width_part": "head",
+  "outline_exclude": [],
+  "parts": {
+    "head": {
+      "hex": "#fdfaee",
+      "lab_tol": 6,
+      "box_rel": [
+        0,
+        0,
+        1,
+        0.23
+      ]
+    },
+    "skin": {
+      "hex": "#facca6",
+      "lab_tol": 6,
+      "box_rel": [
+        0.35,
+        0.23,
+        0.85,
+        0.47
+      ]
+    },
+    "cloth": {
+      "hex": "#fdfaee",
+      "lab_tol": 6,
+      "box_rel": [
+        0.2,
+        0.48,
+        0.8,
+        0.78
+      ]
+    },
+    "equipment": {
+      "hex": "#86371d",
+      "lab_tol": 6,
+      "box_rel": [
+        0,
+        0.1,
+        0.25,
+        0.7
+      ]
+    },
+    "boots": {
+      "hex": "#86371d",
+      "lab_tol": 6,
+      "box_rel": [
+        0.2,
+        0.87,
+        0.95,
+        1
+      ]
+    }
+  },
+  "note": "대원 새 정면 3/4. 72x72, 키56, PPU48, 발(36,64). 자기 기준 compare PASS는 부위 등록 확인이며 사용자 채택/그림체 판정이 아님."
+}

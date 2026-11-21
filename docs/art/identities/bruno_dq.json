@@ -1,0 +1,62 @@
+{
+  "schema": "2d-identity/1",
+  "id": "bruno_dq",
+  "ref": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bruno_dq_front.png",
+  "ref_sha256": "2e00e881a41a8d3427847f1847db11c4f4032c596da835fe9a8f1ee8e0bcb11d",
+  "approved": "2026-11-22 — \"8번으로하자\"",
+  "width_part": "head",
+  "outline_exclude": [],
+  "parts": {
+    "head": {
+      "hex": "#ca1223",
+      "lab_tol": 6,
+      "box_rel": [
+        0,
+        0,
+        1,
+        0.23
+      ]
+    },
+    "skin": {
+      "hex": "#f9d2a9",
+      "lab_tol": 6,
+      "box_rel": [
+        0.35,
+        0.23,
+        0.85,
+        0.47
+      ]
+    },
+    "cloth": {
+      "hex": "#ca1223",
+      "lab_tol": 6,
+      "box_rel": [
+        0.2,
+        0.48,
+        0.65,
+        0.78
+      ]
+    },
+    "equipment": {
+      "hex": "#ca1223",
+      "lab_tol": 6,
+      "box_rel": [
+        0.77,
+        0.32,
+        1,
+        0.75
+      ]
+    },
+    "boots": {
+      "hex": "#923c24",
+      "lab_tol": 6,
+      "box_rel": [
+        0.2,
+        0.87,
+        0.95,
+        1
+      ]
+    }
+  },
+  "note": "대원 새 정면 3/4. 72x72, 키56, PPU48, 발(36,64). 자기 기준 compare PASS는 부위 등록 확인이며 사용자 채택/그림체 판정이 아님."
+}

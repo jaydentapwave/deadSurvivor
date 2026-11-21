@@ -1,0 +1,62 @@
+{
+  "schema": "2d-identity/1",
+  "id": "mira_dq",
+  "ref": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/mira_dq_front.png",
+  "ref_sha256": "c8a1c6fcc54a4996df163b7a80a90704b0442b899bb98edabf7be3e8cdcc766c",
+  "approved": "2026-11-22 — 사용자 판정 대기",
+  "width_part": "head",
+  "outline_exclude": [],
+  "parts": {
+    "head": {
+      "hex": "#263293",
+      "lab_tol": 6,
+      "box_rel": [
+        0,
+        0,
+        1,
+        0.23
+      ]
+    },
+    "skin": {
+      "hex": "#fdd3a6",
+      "lab_tol": 6,
+      "box_rel": [
+        0.35,
+        0.23,
+        0.85,
+        0.47
+      ]
+    },
+    "cloth": {
+      "hex": "#263293",
+      "lab_tol": 6,
+      "box_rel": [
+        0.2,
+        0.48,
+        0.8,
+        0.78
+      ]
+    },
+    "equipment": {
+      "hex": "#653534",
+      "lab_tol": 6,
+      "box_rel": [
+        0.77,
+        0.32,
+        1,
+        0.75
+      ]
+    },
+    "boots": {
+      "hex": "#653534",
+      "lab_tol": 6,
+      "box_rel": [
+        0.2,
+        0.87,
+        0.95,
+        1
+      ]
+    }
+  },
+  "note": "대원 새 정면 3/4. 72x72, 키56, PPU48, 발(36,64). 자기 기준 compare PASS는 부위 등록 확인이며 사용자 채택/그림체 판정이 아님."
+}

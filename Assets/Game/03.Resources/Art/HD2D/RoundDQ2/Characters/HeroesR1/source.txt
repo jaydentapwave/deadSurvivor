@@ -1,0 +1,93 @@
+{
+  "tool": "Codex built-in image_gen__imagegen",
+  "external_paid_credits": 0,
+  "generated_count": 16,
+  "reference_policy": "우리 견본8번 + 해당 인물 옛 정면만. 드퀘 원본 입력 없음.",
+  "characters": {
+    "bruno": {
+      "final": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bruno_dq_front.png",
+      "sha256": "2e00e881a41a8d3427847f1847db11c4f4032c596da835fe9a8f1ee8e0bcb11d",
+      "approved": "2026-11-22 사용자 \"8번으로하자\"",
+      "identity": "docs/art/identities/bruno_dq.json",
+      "self_compare": "PASS (부위 등록 확인, 그림체·자연스러움 채택 아님)",
+      "inputs": [
+        {
+          "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bruno_dq_c08.png",
+          "sha256": "2e00e881a41a8d3427847f1847db11c4f4032c596da835fe9a8f1ee8e0bcb11d"
+        }
+      ],
+      "selected": "기존08 그대로",
+      "rounds": 0,
+      "postprocess": "없음. 알파0/255, 직접 4배 확인. 바이트 동일."
+    },
+    "lena": {
+      "final": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/lena_dq_front.png",
+      "sha256": "3457846e67fb108a4d0be85a3a375427888d0b6ef3adb96efa172f7b6452cb9f",
+      "approved": "사용자 판정 대기",
+      "identity": "docs/art/identities/lena_dq.json",
+      "self_compare": "PASS (부위 등록 확인, 그림체·자연스러움 채택 아님)",
+      "inputs": [
+        {
+          "path": "docs/art/style/hero-08-generated.png",
+          "sha256": "eff061d9c342b61ac24f4aabbd865eab8641cb80d74645da16969f7aa3f377e3"
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/lena/front/lena_front.png",
+          "sha256": "d5b59624d31febe35a2736b7901ce6b26276ca3f67768a52adfbc82d0c79e0ab"
+        }
+      ],
+      "selected": "08",
+      "rounds": 2,
+      "prompt": "Generate ONE production-quality ORIGINAL chibi pixel-art RPG elf archer sprite, Lena. Image 1 is the STYLE reference (rendering, shading steps, outline method, proportions, face drawing, pixel block size): match it exactly. Image 2 is OUR existing sprite of this character, used only for identity: pointed ears, green hood and cloak, green eyes, light golden-brown hair, brown leather armor, a bow projecting beside body, quiver behind shoulder. Facing front with slight three-quarter turn toward viewer right/down. Standing, about 2.5 heads tall. Same sprite set as image 1 — the two must look drawn by the same artist.\n\nCRITICAL readable distinct MATERIALS: deep GREEN hood and cloak (30%); rich BROWN leather armor and boots (25%); warm PEACH face and hands (12%); bright GOLDEN-BROWN hair (12%); cool SILVER BLUE steel arrowheads and a very broad substantial silver belt buckle (10%); dark wooden bow (8%). Keep at least FIVE clearly different color families, each >=3% area, large continuous shapes. Do NOT wash colors toward pink or gray.\n\nDraw face clearly: TWO separately visible dark eyes, each at least 2x2 logical pixels plus a white catchlight, two eyebrows and a short visible mouth. No bangs hiding the eyes. Give the face enough space. Both eyes equally legible at 56px sprite height.\n\nFive deliberate clustered shades PER material from very dark colored outline/shadow to brilliant highlights. Upper-left light. Deep dark red-brown hair outline, dark navy-gray steel outline, dark russet skin boundary, dark chocolate leather outline. Outlines on SILHOUETTE AND MATERIAL BOUNDARIES: strong and clearly drawn, NOT omitted! Dark contours should cover 50-70% of the outside boundary; lit upper-left boundary one step lighter. No universal brown internal line, instead material-specific dark contours. Strong wide VALUE RANGE: near-white steel glints and skin catchlights, deep shadows L*<20. Crisp organized 2-5-pixel clusters. NO dithering, noisy tiny scattered decorations, rivets, extra pouches or strap spaghetti. Only 1-2 big gold accents, tiny backpack as ONE compact shape. Preserve clean detailed face and material boundaries, not flat minimal shapes.\n\nExactly 72x72 LOGICAL pixel canvas, each logical pixel drawn as a 16x16 uniform square block on 1152x1152 output. Character exactly 56 logical pixels high from y8 to y63, foot center x36,y64. Weapons fit canvas. Explicit hard-edged pixels; no anti-aliasing, NO median filter, blur, gradient smoothing or subpixel facial features. Use approximately 32-36 purposeful colors shared across the six materials. Transparent background, no floor shadow, no labels, no lettering, no panels. Avoid copyrighted characters, emblems, horned helmets, Toriyama faces or franchise costume designs. Composition B: gentle confident stance, generous unobstructed face, slightly squarer layered shapes and strong upper-left highlights.\nCritical for small sprite reduction: the three arrowheads must be LARGE, broad, cool silver-blue steel triangles, and the belt buckle a broad thick SILVER rectangle, not gold. Together these exposed steel surfaces must cover at least 6% of opaque character area. Keep leather brown and hood green. Clear dark pine-green silhouette line on hood and cloak, separate from brighter continuous green fills. Do not add any extra equipment.",
+      "postprocess": "알파>=128, 원본의64px 미만 고립 조각만 제거; pixelize.py 최빈 색 칸으로 키56; 무디더32색 양자화(원본의 강철/청록/불꽃 색4개를32색 내 예약); 72x72 발(36,64). 흐림/중간값/안쪽 세부 제거 없음. 허용된 눈·눈썹·입만 기존 팔레트로 보강, 궁수 눈색 #5f9b37 추가.",
+      "generated": "output/hd2d-dq/heroes-r1/lena/candidates/08-generated.png",
+      "generated_sha256": "afa5d0c7d56e9f4f781882f183f386bc508492a4a6493ab41386d34687d790a3"
+    },
+    "mira": {
+      "final": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/mira_dq_front.png",
+      "sha256": "c8a1c6fcc54a4996df163b7a80a90704b0442b899bb98edabf7be3e8cdcc766c",
+      "approved": "사용자 판정 대기",
+      "identity": "docs/art/identities/mira_dq.json",
+      "self_compare": "PASS (부위 등록 확인, 그림체·자연스러움 채택 아님)",
+      "inputs": [
+        {
+          "path": "docs/art/style/hero-08-generated.png",
+          "sha256": "eff061d9c342b61ac24f4aabbd865eab8641cb80d74645da16969f7aa3f377e3"
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/mira/front/mira_front.png",
+          "sha256": "c492c97619ea6092bfa00e6e9a5834cf08bb602c48c6c2349b167a415c0ce1ae"
+        }
+      ],
+      "selected": "04",
+      "rounds": 1,
+      "prompt": "Generate ONE production-quality ORIGINAL chibi pixel-art RPG mage sprite, Mira. Image 1 is the STYLE reference (rendering, shading steps, outline method, proportions, face drawing, pixel block size): match it exactly. Image 2 is OUR existing sprite of this character, used only for identity: blue broad-brimmed pointed hat and blue robe, long silver-gray hair, blue eyes, wooden staff with turquoise orb. Facing front with slight three-quarter turn toward viewer right/down. Standing, about 2.5 heads tall. Same sprite set as image 1 — the two must look drawn by the same artist.\n\nCRITICAL readable distinct MATERIALS: royal BLUE hat and robe (35%); SILVER GRAY long hair (20%); warm PEACH face and hands (12%); YELLOW GOLD broad trim and one star ornament (8%); rich BROWN wooden staff and boots (12%); luminous TURQUOISE staff orb (5%). Keep at least FIVE clearly different color families, each >=3% area, large continuous shapes. Do NOT wash colors toward pink or gray.\n\nDraw face clearly: TWO separately visible dark eyes, each at least 2x2 logical pixels plus a white catchlight, two eyebrows and a short visible mouth. No bangs hiding the eyes. Give the face enough space. Both eyes equally legible at 56px sprite height.\n\nFive deliberate clustered shades PER material from very dark colored outline/shadow to brilliant highlights. Upper-left light. Deep dark red-brown hair outline, dark navy-gray steel outline, dark russet skin boundary, dark chocolate leather outline. Outlines on SILHOUETTE AND MATERIAL BOUNDARIES: strong and clearly drawn, NOT omitted! Dark contours should cover 50-70% of the outside boundary; lit upper-left boundary one step lighter. No universal brown internal line, instead material-specific dark contours. Strong wide VALUE RANGE: near-white steel glints and skin catchlights, deep shadows L*<20. Crisp organized 2-5-pixel clusters. NO dithering, noisy tiny scattered decorations, rivets, extra pouches or strap spaghetti. Only 1-2 big gold accents, tiny backpack as ONE compact shape. Preserve clean detailed face and material boundaries, not flat minimal shapes.\n\nExactly 72x72 LOGICAL pixel canvas, each logical pixel drawn as a 16x16 uniform square block on 1152x1152 output. Character exactly 56 logical pixels high from y8 to y63, foot center x36,y64. Weapons fit canvas. Explicit hard-edged pixels; no anti-aliasing, NO median filter, blur, gradient smoothing or subpixel facial features. Use approximately 32-36 purposeful colors shared across the six materials. Transparent background, no floor shadow, no labels, no lettering, no panels. Avoid copyrighted characters, emblems, horned helmets, Toriyama faces or franchise costume designs. Composition B: gentle confident stance, generous unobstructed face, slightly squarer layered shapes and strong upper-left highlights.",
+      "postprocess": "알파>=128, 원본의64px 미만 고립 조각만 제거; pixelize.py 최빈 색 칸으로 키56; 무디더32색 양자화(원본의 강철/청록/불꽃 색4개를32색 내 예약); 72x72 발(36,64). 흐림/중간값/안쪽 세부 제거 없음. 허용된 눈·눈썹·입만 기존 팔레트로 보강, 궁수 눈색 #5f9b37 추가.",
+      "generated": "output/hd2d-dq/heroes-r1/mira/candidates/04-generated.png",
+      "generated_sha256": "8ff3dbad7c04d9247a981566d92ca348366a04a539f682562f66c178e19f5aa5"
+    },
+    "bolt": {
+      "final": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bolt_dq_front.png",
+      "sha256": "28755384ec7e8e86a657277c380f33bd0077029fb2b45fa83273616898dc9bf8",
+      "approved": "사용자 판정 대기",
+      "identity": "docs/art/identities/bolt_dq.json",
+      "self_compare": "PASS (부위 등록 확인, 그림체·자연스러움 채택 아님)",
+      "inputs": [
+        {
+          "path": "docs/art/style/hero-08-generated.png",
+          "sha256": "eff061d9c342b61ac24f4aabbd865eab8641cb80d74645da16969f7aa3f377e3"
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/front/bolt_front.png",
+          "sha256": "1bf294037b5cd5661b8f05c3d8d68c5325d7f049ae610ae82546bc20151d3e37"
+        }
+      ],
+      "selected": "01",
+      "rounds": 1,
+      "prompt": "Generate ONE production-quality ORIGINAL chibi pixel-art RPG priest sprite, Bolt. Image 1 is the STYLE reference (rendering, shading steps, outline method, proportions, face drawing, pixel block size): match it exactly. Image 2 is OUR existing sprite of this character, used only for identity: white hood and cream robe, blond hair, simple gold non-cross ornament, wooden lantern staff with orange flame. Facing front with slight three-quarter turn toward viewer right/down. Standing, about 2.5 heads tall. Same sprite set as image 1 — the two must look drawn by the same artist.\n\nCRITICAL readable distinct MATERIALS: warm WHITE and CREAM hood and robe (35%); YELLOW GOLD broad trim and one simple non-cross ornament (12%); warm PEACH face and hands (12%); golden BLOND hair (12%); rich BROWN leather boots and wooden lantern staff (18%); vivid ORANGE flame (5%). Keep at least FIVE clearly different color families, each >=3% area, large continuous shapes. Do NOT wash colors toward pink or gray.\n\nDraw face clearly: TWO separately visible dark eyes, each at least 2x2 logical pixels plus a white catchlight, two eyebrows and a short visible mouth. No bangs hiding the eyes. Give the face enough space. Both eyes equally legible at 56px sprite height.\n\nFive deliberate clustered shades PER material from very dark colored outline/shadow to brilliant highlights. Upper-left light. Deep dark red-brown hair outline, dark navy-gray steel outline, dark russet skin boundary, dark chocolate leather outline. Outlines on SILHOUETTE AND MATERIAL BOUNDARIES: strong and clearly drawn, NOT omitted! Dark contours should cover 50-70% of the outside boundary; lit upper-left boundary one step lighter. No universal brown internal line, instead material-specific dark contours. Strong wide VALUE RANGE: near-white steel glints and skin catchlights, deep shadows L*<20. Crisp organized 2-5-pixel clusters. NO dithering, noisy tiny scattered decorations, rivets, extra pouches or strap spaghetti. Only 1-2 big gold accents, tiny backpack as ONE compact shape. Preserve clean detailed face and material boundaries, not flat minimal shapes.\n\nExactly 72x72 LOGICAL pixel canvas, each logical pixel drawn as a 16x16 uniform square block on 1152x1152 output. Character exactly 56 logical pixels high from y8 to y63, foot center x36,y64. Weapons fit canvas. Explicit hard-edged pixels; no anti-aliasing, NO median filter, blur, gradient smoothing or subpixel facial features. Use approximately 32-36 purposeful colors shared across the six materials. Transparent background, no floor shadow, no labels, no lettering, no panels. Avoid copyrighted characters, emblems, horned helmets, Toriyama faces or franchise costume designs. Composition A: calm ready stance, clearly visible eyes and compact equipment, broad clean material shapes.",
+      "postprocess": "알파>=128, 원본의64px 미만 고립 조각만 제거; pixelize.py 최빈 색 칸으로 키56; 무디더32색 양자화(원본의 강철/청록/불꽃 색4개를32색 내 예약); 72x72 발(36,64). 흐림/중간값/안쪽 세부 제거 없음. 허용된 눈·눈썹·입만 기존 팔레트로 보강, 궁수 눈색 #5f9b37 추가.",
+      "generated": "output/hd2d-dq/heroes-r1/bolt/candidates/01-generated.png",
+      "generated_sha256": "77d42e45430f4f5560b4b73d506dc7758fb00c28e01a054389dd8058af580c12"
+    }
+  }
+}
