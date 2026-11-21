@@ -1,0 +1,759 @@
+{
+ "schema": "3dkit-asset-catalog/2",
+ "doc": "docs/art/requests/dq-env-20261122.md",
+ "budgets": {
+  "dq-env-20261122": {
+   "cap": 1000,
+   "approval": "나무·바위 먼저, 1,000크레딧까지 (추천)",
+   "approved_on": "2026-11-22",
+   "assets": [
+    "dq_tree_round_a",
+    "dq_tree_round_b",
+    "dq_tree_round_c",
+    "dq_rock_big_a",
+    "dq_rock_big_b",
+    "dq_bush_a",
+    "dq_bush_b",
+    "dq_tree_light",
+    "dq_rock_small_a",
+    "dq_rock_small_b",
+    "dq_tree_round_b_r2",
+    "dq_bush_a_r2",
+    "dq_rock_big_b_r2",
+    "dq_rock_small_a_r2",
+    "dq_rock_small_b_r2"
+   ],
+   "lock": "output/3d-art/dq-env/.budget.lock"
+  }
+ },
+ "assets": [
+  {
+   "id": "dq_tree_round_a",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_tree_round_a",
+   "target_dimensions_m": {
+    "height": 1.4
+   },
+   "texture_max": 1024,
+   "tris_max": 3000,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction.",
+   "tripo": {
+    "asset": "dq_tree_round_a",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_tree_round_a/tripo",
+    "seed": 112200,
+    "face_limit": 3000,
+    "concept": "output/3d-art/dq-env-concepts/dq_tree_round_a.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "height": 1.4,
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_tree_round_a/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "1c91c5ca-d2d9-48c8-bbfe-55d0294af522",
+    "credits_task": 40,
+    "raw_sha256": "b64faa0b16ff1416ce3e7a22d7886893d1abf6d968d2cb5b4957c5950341f05d",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "PROVISIONAL",
+    "reason": "생성사 3/4 미리보기에서 잎 뭉치·붙은 줄기 또는 둥근 바위 실루엣은 보존됨. 18도·뒷면 미확인, 최종 채택 아님.",
+    "game18": "blocked"
+   }
+  },
+  {
+   "id": "dq_tree_round_b",
+   "kind": "prop_large",
+   "status": "retired",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_tree_round_b",
+   "target_dimensions_m": {
+    "height": 1.2
+   },
+   "texture_max": 1024,
+   "tris_max": 3000,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction. Initial visual failure; retained only for comparison.",
+   "tripo": {
+    "asset": "dq_tree_round_b",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_tree_round_b/tripo",
+    "seed": 112201,
+    "face_limit": 3000,
+    "concept": "output/3d-art/dq-env-concepts/dq_tree_round_b.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "height": 1.2,
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_tree_round_b/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "4488b39a-8629-4127-83fc-2ad172fa7bd4",
+    "credits_task": 40,
+    "raw_sha256": "ce63c230e8e914a84629d0c4b5e50970499a087f00b6001209aa5b2b1a9ca36b",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "FAIL",
+    "reason": "수관 중앙 틈이 크게 뚫려 보임",
+    "source": "output/3d-art/dq-env/dq_tree_round_b/tripo/raw/rendered_image.webp",
+    "game18": "not-run"
+   }
+  },
+  {
+   "id": "dq_tree_round_c",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_tree_round_c",
+   "target_dimensions_m": {
+    "height": 1.6
+   },
+   "texture_max": 1024,
+   "tris_max": 3000,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction.",
+   "tripo": {
+    "asset": "dq_tree_round_c",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_tree_round_c/tripo",
+    "seed": 112202,
+    "face_limit": 3000,
+    "concept": "output/3d-art/dq-env-concepts/dq_tree_round_c.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "height": 1.6,
+   "visual_inspection": {
+    "verdict": "PROVISIONAL",
+    "reason": "생성사 3/4 미리보기에서 잎 뭉치·붙은 줄기 또는 둥근 바위 실루엣은 보존됨. 18도·뒷면 미확인, 최종 채택 아님.",
+    "game18": "blocked"
+   },
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_tree_round_c/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "5159f69c-b32e-47a3-b9d5-3b972379d27a",
+    "credits_task": 40,
+    "raw_sha256": "cf394e72b667272398506aee542e94b5a3bd47aa4816ad34e1ffee27be3b45af",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   }
+  },
+  {
+   "id": "dq_rock_big_a",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_big_a",
+   "target_dimensions_m": {
+    "height": 0.6,
+    "width": 0.9
+   },
+   "texture_max": 512,
+   "tris_max": 1500,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction.",
+   "tripo": {
+    "asset": "dq_rock_big_a",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_rock_big_a/tripo",
+    "seed": 112203,
+    "face_limit": 1500,
+    "concept": "output/3d-art/dq-env-concepts/dq_rock_big_a.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "height": 0.6,
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_big_a/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "80527939-f110-4e01-bd31-47c6c3fa9f89",
+    "credits_task": 40,
+    "raw_sha256": "6228aaa7f1bd24e8a590df73d0ab94502a0da5de76abd27320a47bc3f75e4b4f",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "PROVISIONAL",
+    "reason": "생성사 3/4 미리보기에서 잎 뭉치·붙은 줄기 또는 둥근 바위 실루엣은 보존됨. 18도·뒷면 미확인, 최종 채택 아님.",
+    "game18": "blocked"
+   }
+  },
+  {
+   "id": "dq_rock_big_b",
+   "kind": "prop_large",
+   "status": "retired",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_big_b",
+   "target_dimensions_m": {
+    "height": 0.4,
+    "width": 1
+   },
+   "texture_max": 512,
+   "tris_max": 1500,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction. Initial visual failure; retained only for comparison.",
+   "tripo": {
+    "asset": "dq_rock_big_b",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_rock_big_b/tripo",
+    "seed": 112204,
+    "face_limit": 1500,
+    "concept": "output/3d-art/dq-env-concepts/dq_rock_big_b.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "height": 0.4,
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_big_b/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "022606ec-226b-4af3-a9bf-bf6e679ee02d",
+    "credits_task": 40,
+    "raw_sha256": "0ec87719f3cc5a987cd0019ebb7538e5c908512a264b7778d1b6345575dbe0e7",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "FAIL",
+    "reason": "윗면·앞면의 각진 저폴리 면이 두드러짐",
+    "source": "output/3d-art/dq-env/dq_rock_big_b/tripo/raw/rendered_image.webp",
+    "game18": "not-run"
+   }
+  },
+  {
+   "id": "dq_bush_a",
+   "kind": "prop_small",
+   "status": "retired",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_bush_a",
+   "target_dimensions_m": {
+    "height": 0.4,
+    "width": 0.6
+   },
+   "texture_max": 512,
+   "tris_max": 1200,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction. Initial visual failure; retained only for comparison.",
+   "tripo": {
+    "asset": "dq_bush_a",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_bush_a/tripo",
+    "seed": 112205,
+    "face_limit": 1200,
+    "concept": "output/3d-art/dq-env-concepts/dq_bush_a.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "height": 0.4,
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_bush_a/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "2c046b47-5d2d-4ea7-a3a3-27a5646bb550",
+    "credits_task": 40,
+    "raw_sha256": "d7448c24c912eab74dff4d7aebaac878172747986b10faaf9bbebe9e43719da1",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "FAIL",
+    "reason": "잎 표면이 녹은 공과 넓은 면처럼 뭉개짐",
+    "source": "output/3d-art/dq-env/dq_bush_a/tripo/raw/rendered_image.webp",
+    "game18": "not-run"
+   }
+  },
+  {
+   "id": "dq_bush_b",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_bush_b",
+   "target_dimensions_m": {
+    "height": 0.35,
+    "width": 0.9
+   },
+   "texture_max": 512,
+   "tris_max": 1200,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction.",
+   "tripo": {
+    "asset": "dq_bush_b",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_bush_b/tripo",
+    "seed": 112206,
+    "face_limit": 1200,
+    "concept": "output/3d-art/dq-env-concepts/dq_bush_b.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "height": 0.35,
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_bush_b/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "16feffc8-77cd-42d2-aa58-6389f24e784f",
+    "credits_task": 40,
+    "raw_sha256": "8c149e696f55b827fa8e581073e1184fa632789100f470e55dd25b84c8c32c3e",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "PROVISIONAL",
+    "reason": "생성사 3/4 미리보기에서 잎 뭉치·붙은 줄기 또는 둥근 바위 실루엣은 보존됨. 18도·뒷면 미확인, 최종 채택 아님.",
+    "game18": "blocked"
+   }
+  },
+  {
+   "id": "dq_tree_light",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_tree_light",
+   "target_dimensions_m": {
+    "height": 1.3
+   },
+   "texture_max": 1024,
+   "tris_max": 3000,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction.",
+   "tripo": {
+    "asset": "dq_tree_light",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_tree_light/tripo",
+    "seed": 112207,
+    "face_limit": 3000,
+    "concept": "output/3d-art/dq-env-concepts/dq_tree_light.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "height": 1.3,
+   "visual_inspection": {
+    "verdict": "PROVISIONAL",
+    "reason": "생성사 3/4 미리보기에서 잎 뭉치·붙은 줄기 또는 둥근 바위 실루엣은 보존됨. 18도·뒷면 미확인, 최종 채택 아님.",
+    "game18": "blocked"
+   },
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_tree_light/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "6bd6dc56-26d7-46d3-ae44-2c815e9b3e82",
+    "credits_task": 40,
+    "raw_sha256": "84d13be3c31c623257de09fd04477c23d058ce8f0a4ce678f469c18a909b035f",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   }
+  },
+  {
+   "id": "dq_rock_small_a",
+   "kind": "prop_small",
+   "status": "retired",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_small_a",
+   "target_dimensions_m": {
+    "width": 0.4
+   },
+   "texture_max": 512,
+   "tris_max": 600,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction. Initial visual failure; retained only for comparison.",
+   "tripo": {
+    "asset": "dq_rock_small_a",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_rock_small_a/tripo",
+    "seed": 112208,
+    "face_limit": 600,
+    "concept": "output/3d-art/dq-env-concepts/dq_rock_small_a.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_small_a/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "a4ee37cc-4232-4223-8fce-ca924154caa1",
+    "credits_task": 40,
+    "raw_sha256": "9784b4cc01be5398cdabaf99b8312cbd1c592450310f16999d5f9d122470ed01",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "FAIL",
+    "reason": "넓은 평면 경계가 컨셉보다 두드러짐",
+    "source": "output/3d-art/dq-env/dq_rock_small_a/tripo/raw/rendered_image.webp",
+    "game18": "not-run"
+   }
+  },
+  {
+   "id": "dq_rock_small_b",
+   "kind": "prop_small",
+   "status": "retired",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_small_b",
+   "target_dimensions_m": {
+    "width": 0.3
+   },
+   "texture_max": 512,
+   "tris_max": 600,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction. Initial visual failure; retained only for comparison.",
+   "tripo": {
+    "asset": "dq_rock_small_b",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_rock_small_b/tripo",
+    "seed": 112209,
+    "face_limit": 600,
+    "concept": "output/3d-art/dq-env-concepts/dq_rock_small_b.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_small_b/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "1e7c9ab5-0ebd-4210-8645-6d4d71d68fef",
+    "credits_task": 40,
+    "raw_sha256": "fa9819560ae69b2ba692d3acb2d3e2f533e9278bed9b59518bd552048e70e912",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "FAIL",
+    "reason": "큰 다각형 면으로 각이 깨져 보임",
+    "source": "output/3d-art/dq-env/dq_rock_small_b/tripo/raw/rendered_image.webp",
+    "game18": "not-run"
+   }
+  },
+  {
+   "id": "dq_tree_round_b_r2",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_tree_round_b_r2",
+   "target_dimensions_m": {
+    "height": 1.2
+   },
+   "texture_max": 1024,
+   "tris_max": 3000,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction. Regeneration 1/1: 수관 중앙 틈이 크게 뚫려 보임",
+   "tripo": {
+    "asset": "dq_tree_round_b_r2",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_tree_round_b_r2/tripo",
+    "seed": 112301,
+    "face_limit": 3000,
+    "concept": "output/3d-art/dq-env-concepts/dq_tree_round_b.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "height": 1.2,
+   "regeneration_of": "dq_tree_round_b",
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_tree_round_b_r2/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "995c5cce-f555-4531-8799-c620462fe3c5",
+    "credits_task": 40,
+    "raw_sha256": "29b8b8ef5e45d89cf096916c8daf1953d23a65e16e761c1699635026a7a949fb",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "FAIL",
+    "reason": "중앙 수관 사이로 배경이 보이는 틈이 남음. 최초보다 작지만 닫히지 않음.",
+    "source": "output/3d-art/dq-env/preview/dq_tree_round_b_r2-provider34.webp",
+    "game18": "blocked",
+    "regeneration_limit_reached": true
+   }
+  },
+  {
+   "id": "dq_bush_a_r2",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_bush_a_r2",
+   "target_dimensions_m": {
+    "height": 0.4,
+    "width": 0.6
+   },
+   "texture_max": 512,
+   "tris_max": 1200,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction. Regeneration 1/1: 잎 표면이 녹은 공과 넓은 면처럼 뭉개짐",
+   "tripo": {
+    "asset": "dq_bush_a_r2",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_bush_a_r2/tripo",
+    "seed": 112305,
+    "face_limit": 1200,
+    "concept": "output/3d-art/dq-env-concepts/dq_bush_a.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "height": 0.4,
+   "regeneration_of": "dq_bush_a",
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_bush_a_r2/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "e5764e66-9f37-4c57-8a18-565164da7963",
+    "credits_task": 40,
+    "raw_sha256": "7fab8e59ab18320527293e859464d80b67d208b60f1cd4ad4600e2a1b210ba79",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "FAIL",
+    "reason": "잎 뭉치가 녹은 공처럼 뭉개지고 날카로운 삼각형 돌출이 생김.",
+    "source": "output/3d-art/dq-env/preview/dq_bush_a_r2-provider34.webp",
+    "game18": "blocked",
+    "regeneration_limit_reached": true
+   }
+  },
+  {
+   "id": "dq_rock_big_b_r2",
+   "kind": "prop_large",
+   "status": "trial",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_big_b_r2",
+   "target_dimensions_m": {
+    "height": 0.4,
+    "width": 1
+   },
+   "texture_max": 512,
+   "tris_max": 1500,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction. Regeneration 1/1: 윗면·앞면의 각진 저폴리 면이 두드러짐",
+   "tripo": {
+    "asset": "dq_rock_big_b_r2",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_rock_big_b_r2/tripo",
+    "seed": 112304,
+    "face_limit": 1500,
+    "concept": "output/3d-art/dq-env-concepts/dq_rock_big_b.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "height": 0.4,
+   "regeneration_of": "dq_rock_big_b",
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_big_b_r2/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "e145a00a-6d4c-4010-a823-5985193a7027",
+    "credits_task": 40,
+    "raw_sha256": "03060b437a91fe251365a51b8d9f55a8be3ea475d8e40180dce35e51832ccd5b",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "FAIL",
+    "reason": "두 층의 형태는 맞지만 앞·윗면의 다각형 경계가 남음.",
+    "source": "output/3d-art/dq-env/preview/dq_rock_big_b_r2-provider34.webp",
+    "game18": "blocked",
+    "regeneration_limit_reached": true
+   }
+  },
+  {
+   "id": "dq_rock_small_a_r2",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_small_a_r2",
+   "target_dimensions_m": {
+    "width": 0.4
+   },
+   "texture_max": 512,
+   "tris_max": 600,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction. Regeneration 1/1: 넓은 평면 경계가 컨셉보다 두드러짐",
+   "tripo": {
+    "asset": "dq_rock_small_a_r2",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_rock_small_a_r2/tripo",
+    "seed": 112308,
+    "face_limit": 600,
+    "concept": "output/3d-art/dq-env-concepts/dq_rock_small_a.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "regeneration_of": "dq_rock_small_a",
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_small_a_r2/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "75dc0361-9a1b-4e94-b2e6-cf5e6ee53562",
+    "credits_task": 40,
+    "raw_sha256": "e023d242949d4c343d95576ecf5731b81e63cb5257fc3d716b594d0511404c8d",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "FAIL",
+    "reason": "세 돌 구성은 맞지만 큰 돌의 넓은 평면 경계가 남음.",
+    "source": "output/3d-art/dq-env/preview/dq_rock_small_a_r2-provider34.webp",
+    "game18": "blocked",
+    "regeneration_limit_reached": true
+   }
+  },
+  {
+   "id": "dq_rock_small_b_r2",
+   "kind": "prop_small",
+   "status": "trial",
+   "method": "build",
+   "folder": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_small_b_r2",
+   "target_dimensions_m": {
+    "width": 0.3
+   },
+   "texture_max": 512,
+   "tris_max": 600,
+   "note": "TRIPO-STATIC-PROP/r001; K34-K36, K40-K41. Static decoration; no rig. Generation trial, not adopted. Unity validation deferred by instruction. Regeneration 1/1: 큰 다각형 면으로 각이 깨져 보임",
+   "tripo": {
+    "asset": "dq_rock_small_b_r2",
+    "budget": "dq-env-20261122",
+    "work_dir": "output/3d-art/dq-env/dq_rock_small_b_r2/tripo",
+    "seed": 112309,
+    "face_limit": 600,
+    "concept": "output/3d-art/dq-env-concepts/dq_rock_small_b.png",
+    "model": "tripo-v3.1",
+    "params": [
+     "smart_low_poly=false",
+     "face_limit={face_limit}",
+     "texture=true",
+     "pbr=true",
+     "texture_quality=detailed",
+     "quad=false"
+    ]
+   },
+   "regeneration_of": "dq_rock_small_b",
+   "source": {
+    "model": "Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Models/dq_rock_small_b_r2/model_raw.glb"
+   },
+   "generation_result": {
+    "task_id": "21d57fd4-1727-48c5-b658-a58412a9dc11",
+    "credits_task": 40,
+    "raw_sha256": "52eed46f158ce0a8eaab0640b9eb9aba36081ef70397b18013649d5bc342905d",
+    "postprocess": "blocked",
+    "unity": "not-run"
+   },
+   "visual_inspection": {
+    "verdict": "FAIL",
+    "reason": "큰 다각형 면과 날카로운 실루엣 각이 남음.",
+    "source": "output/3d-art/dq-env/preview/dq_rock_small_b_r2-provider34.webp",
+    "game18": "blocked",
+    "regeneration_limit_reached": true
+   }
+  }
+ ],
+ "delivery_summary": {
+  "status": "partial",
+  "credits_consumed": 600,
+  "remaining_cap": 400,
+  "regenerations": 5,
+  "visual_fail_families": [
+   "dq_tree_round_b",
+   "dq_bush_a",
+   "dq_rock_big_b",
+   "dq_rock_small_a",
+   "dq_rock_small_b"
+  ],
+  "final_adopted": 0,
+  "postprocess": "blocked",
+  "game18": "blocked"
+ }
+}
