@@ -1,57 +1,83 @@
-# DQ 적용 8단계 — 구현 초안과 검증 차단 기록
+# DQ 적용 8단계 — r2 구현·검증 기록
 
-상태: **PARTIAL**. 게임에 새 화면이 적용돼 한 판이 된다고 아직 주장하지 않는다. 기준은 `characters-brief.md` C8-01~08. 실행 위치는 `night-chars`이며 다른 작업 트리/원본 게임 소스는 읽거나 쓰지 않았다.
+상태: 마감 독립 리뷰 대기. 자체 확인을 독립 리뷰 PASS로 쓰지 않는다. 이 문서는 리뷰 입력이며 최종 핸드오프는 판정 수신 뒤 `.director/outbox/20261123-night-1to6-8-r2.md`에 쓴다. 이전 PARTIAL 기록은 `.director/outbox/20261123-night-1to6-8.md`에 남아 있다.
 
-## 구현한 범위
+## 정정과 실행 대상
 
-- `Tools/dq_character_pack.py`: confirm 최종 표를 읽어 9종의 실사용 1,406장만 9장 PNG 시트로 묶음. lena 공격 두 방향의 명시 대체와 rock/contact_right 원본 예외를 반영. 폐기·미리보기·효과 PNG는 몸 시트에 넣지 않음.
-- `Data/DQ/dq_character_clips.json`: 방향 표, 장별 시간, loop, eventFrame, 출처·약함, MonsterPhase 매핑. `DQClipData`, `DQClipMath`, `DQMotionLibrary`가 소비함. 기존 CharacterData.Motion·마스터데이터·세이브·판정 경로 기대식은 수정0.
-- 메뉴 `DeadSurvivor/DQ/Apply characters` / `MainSceneDQCharactersMigration.Apply`: PPU48·Point·무압축·발 피벗으로 multiple sprite 임포트와 9개 atlas 생성. 기존 세운 판 재질 유지. Main/프리팹/배경/조명/shader 저장 변경0. 메뉴 실패 주입 진입점은 있으나 복구 시험 미실행.
-- 대원: 기존 방향·이동 거리 시계 확장, idle/walk/attack/fall/lying, 피격 정지 장+기존 flash/1px 밀림. SpriteAtlasService가 기존 대원/몬스터 정지 그림 키를 DQ로 해소하므로 로비/진형/BattleHud 초상도 연결 예정(실제 UI 미확인).
-- 실제 타격: 기존 공격 시점 그대로 값 기록→WorldPresenter LateTick 우선 적용→대상 카메라 endCameraRendering 후 소비. 여러 무기·걸음은 batch 최신 실제 타격 장으로 합성. 게임 시계와 피해 순서는 유지함(런타임 동등성 시험 미실행).
-- 몬스터: 기존 phase 전달과 최종 몸 sprite 선택 분리, 이동·고유 phase·실제 contact/shoot 통지·사망 표시. 활성 등록 해제와 풀 반환을 나눔. 사망 표시 목록/게임 카메라 렌더 확인/재시작 정리 경계는 아직 실검증하지 않음.
-- `DQCharacterMotionTests`: 데이터/시간 경계/공격 eventFrame/타격 보존/실제 CombatService 큰 걸음 시험 초안. 컴파일 시점에는 오류0이었지만 테스트 결과는 없음.
+04:00 디렉터가 확인한 사실에 따라 이전의 “Unity 약관 미동의가 night-chars 명령을 막음”은 철회한다. 약관 창은 프로젝트 없는6000.6.7f1, 이 프로젝트6000.4.3f1의 차단은 Main 저장 확인이었다. 약관에 동의하지 않았다. 재개는 `python3 -B tools/editor_ready.py "$PWD"`만 사용했다. 다른 에디터/작업 트리 조작0. 메뉴가 Main 저장을 마치며 unrelated dirty scene은 거부한다. Play/시험 전 dirty=false를 확인했다.
 
-## 실제 실행 결과
+실행 트리 `night-chars`, 브랜치 `claude/pack-expedition-2d-dq-chars`. 설계 기준 커밋 `1c780d0`, 설계 수정 `df10136`, 구현 초안 `d80bf94`. 최신 명령·캡처는 `output/hd2d-dq/apply/8/r2/`(이하 r2). 소스 지문/커밋은 r2 증거 manifest와 Git 기록 참조.
 
-근거 폴더: `output/hd2d-dq/apply/8/`. 복사 동결 증거는 인계의 artifacts를 참조한다.
+## 구현
 
-| 관문 | 결과 | 실제 근거·한계 |
+- `Tools/dq_character_pack.py`: 최종 confirm 표에 선택된 9종1,406장의 원본 RGBA만9종 시트에 보존한다. 시트/클립 JSON/manifest를 재생성한다. 12개 예고 라인 r2 실사용 tile과 assembly.json만 따로 반입하며 화면 연결은9단계다. 미리보기·GIF·폐기 클립 반입0.
+- `MainSceneDQCharactersMigration.Apply`, 메뉴 `DeadSurvivor/DQ/Apply characters`: PPU48·Point·무압축·발 피벗 multiple sprite,9종별 atlas. 첫 실행의 NPOT 축소 높이를 참조하던 절단 좌표 문제를 원본 텍스처 높이로 수정했다. 반복 실행과 예외 복구를 바이트 단위로 비교했다.
+- 기존 `SpriteAtlasService`, `MemberView`, `MonsterView`, `WorldPresenter`를 확장한다. 정지/초상 키도 새 DQ 몸으로 해소한다. legacy clip API는 과거 자료의 호환 경로로 남으며 본 게임 DQ 몸에서는 사용하지 않는다.
+- `DQClipData`, `DQMotionLibrary`: 프레임 키·장별 시간·반복·타격 장·방향/명시 대체·MonsterPhase 대응은 데이터 소유. `CharacterData.Motion`·게임 공격 주기·HitSeconds·세이브·피해 규칙과 판정 경로 기대식은 변경0.
+- 실제 타격 값 기록→LateTick 우선 적용→대상 게임 카메라 렌더 후 소비. 종료 동시 통과/같은 걸음 재시작/여러 걸음은 최신 실제 타격 장을 한 번 보존한다. 비활성·쓰러짐·재시작/부활은 기록을 정리한다.
+- 대원 walk24/idle12/attack7/fall+lying. 피격은 해당 장 고정+기존 흰 flash/1px 몸 오프셋. Result에서 마지막 대원이 쓰러진 뒤 fall을 마치게 하는 표시 시계만 추가했다. Initialize 재사용 시 피격 장/시계도 초기화한다.
+- 몬스터 phase 진입 시계와 최종 몸 선택은 view 한 곳, 기존 예고 상태 전달은 유지. 실제 접촉/발사 통지를 받아 contact/shoot 타격 장으로 시작한다. 죽은 모델은 원래 시점에 제거하고 표시만 registry에서 분리, 마지막 장 렌더 뒤 풀 반환한다. 재사용 등장 효과도 초기화한다.
+- 실제 view 캡처 observer는 기존 PlayableProbe의 partial로 분리했다. production sprite·frame·발·재질·fallback과 실제 EndOfFrame PNG를 읽는다. 게임 상태를 바꿔 장면을 연출하지 않는다. 캡처 진행 길이를 unscaledTime 종료에서 고정 렌더 tick 수로 수정했다. 그림/클립 코드는 동일하며 natural/loss 기록은 수정 전 길이 계산, quiet 기록은 수정 뒤다(`r2/character-observer-before-length-fix.cs`).
+
+## 명령 관문
+
+| 관문 | 결과 | 근거 |
 |---|---|---|
-| project-doctor design.write / unity-client.implement | PASS | configured/findings0; 설정 확인만 |
-| 실사용 시트 재생성 멱등·원본 픽셀/해시 일치 | PASS | `pack-check.json`: 재실행 출력 동일, 1,406장 전체 crop==원본 RGBA, JSON 참조/시간 일관성. Unity 시험 아님 |
-| 중간 컴파일 4회 | PASS(중간 소스만) | compile-data/heroes/monsters/tests.json errors0. 이후 피격 장 고정·발 이동 시계·사망 렌더 확인·부활 시계 정리를 수정했으므로 **현재 소스 컴파일 관문은 BLOCKED** |
-| 이행 메뉴 첫 실행 | PASS(1회 실행만) | migrate-first.json success=true/applied. 실제 atlas 페이지·임포트·두 번 반복/예외 복구 판정은 미완료 |
-| 최종 컴파일0·관련 EditMode | BLOCKED | test-motion.json INTERRUPTED. UI의 Unity 약관 미동의 및 명령 대기. 시험 개수/통과 수 추정하지 않음 |
-| 짧은 Play·연속 캡처 | BLOCKED | play-start.json EDITOR_TIMEOUT, command did not run. script eval도 대기 timeout. 본 게임 캡처0·직접 연 본 게임 장0 |
-| 기본 tools/playable.py 판정 경로1회 | NOT_RUN | Play 진입 차단 뒤 같은 실패를 반복하지 않음. 기대식 수정0 |
-| design-reviewer | PASS | `VERDICT: PASS`, job 20261123-034539-34753d. 구현 전 설계만 |
-| spec-reviewer / validator-client / algorithm-tester | BLOCKED | 명령 관문 미완료로 마감 리뷰 요청 전. 자체 점검을 독립 리뷰로 쓰지 않음 |
-| 성능·그림 품질·9단계 FX/UI | 범위 밖 | 측정/재생성0. 기존 원근 Main 관문 BLOCKED·terrain N9 FAIL도 유지 |
+| project-doctor | PASS | 앞 실행 configured/findings0; 설정 확인만 |
+| 최종 소스 컴파일 | PASS | r2/compile-final.json errors0/warnings0 |
+| DQ 데이터/방향/시간/타격 경계/실제 서비스 | PASS | r2/dq-final-status.json 22/22; 새 3개 실제 Unity 통합 시험 포함 |
+| 1,406장 실제 임포트·PPU/피벗/종당1texture | PASS | DQCharacterIntegrationTests, r2/coverage-check.json 원본 전수 RGBA 일치 |
+| 메뉴2회 동일·주입 실패 복구 | PASS | r2/migration-final-check.json repeatedDrift=[], failureRollbackDrift=[], dirty=false |
+| 전체 EditMode 확장 확인 | FAIL | r2/editmode-final-status.json 685개/680PASS/5FAIL. 아래 기존·범위 밖 항목을 그대로 보존 |
+| 기본 tools/playable.py 1회 | PASS | r2/playable-final.log, r2/playable-main/report.json 8/8단계139.8초, 기대식 변경0 |
+| 실제 캐릭터/몬스터 연속 관찰 | PASS(구현자 관찰) | r2/coverage-check.json 3,546행/인접 다른 장1,287쌍, 예전 몸0, PPU48전수, 상태 fallback0 |
+| 실제 공격과 렌더 타격 장 | PASS(관찰 표본) | r2/hit-render-check.json 256/256 같은 Unity frame, bounded512행의 첫 표본. 전체 타격의 전수 로그라고 주장하지 않음 |
+| 로비·HUD 정지 초상 구그림 검사 | PASS(관찰) | r2/no-old-ui-sprites.json old actor sprite 목록[], 새 dq_* 키. 그림이 없는 비활성 자리까지 포함한 Image 검사 |
+| 16:9·19.5:9·4:3 | 캡처·직접 관찰 | r2/aspects/{1920x1080,2340x1080,1440x1080}.png 실제 GameView 해상도 변경 뒤 캡처 |
+| design-reviewer | PASS carried_from | 사용자 전달 job20261123-034539-34753d, evidence `VERDICT: PASS`. 설계 수정 확인만 |
+| spec-reviewer·validator-client·algorithm-tester | NOT_RUN | Codex가 부르지 않고 이번 마감 요청에서 Claude 리뷰로 넘김 |
 
-## 명시된 기준과 차이·못 한 것
+전체 EditMode의 열린 실패는 숨기거나 기대식을 수정하지 않았다. 아래 파일은 기준 `1c780d0`와 동일함을 `r2/preexisting-test-evidence.json`으로 확인했다. 이전 버전 전체 시험을 실행했다는 뜻은 아니다.
 
-- **bruno fall_right**: confirm 최종 표와 4-bruno 인계 모두12장(마지막1000ms), 공통 지시는10장+lying. 최신 채택 표 우선 지시에 따라12장을 보존했다. `pack-report.json`에 expected10/actual12를 적었고 C8-03을 PASS로 쓰지 않는다. 디렉터 확인 필요.
-- source r2의 slime/contact4·fall, mushroom/shoot_right/upright·fall, rock/contact4·fall 시간은 원본과 다르다. `pack-report.json` differences에 양쪽 배열 보존, r2 PNG 수와 r2 두 JSON 형식·durations를 대조해 사용. rock/contact_right는 허용 원본 시간.
-- 약함 클립 전수 표는 `DQAppliedCharacters/source-manifest.json` 및 데이터의 quality/sourceClip로 전달한다. 그림 자체는 손질하지 않았다.
-- 메뉴2회 동일/실패복구, 종당 texture1장·sharedMaterial, fallback0 실제 진입점, 대원/몬스터 전 동작 연속, 발/크기/그림자, 예전 몸/초상 잔재0, 3화면비, 기본 한 판, 마감 리뷰는 모두 남음.
-- r2 예고 라인 파일 반입은 아직 못 함. 9단계 화면 적용은 이번 범위 밖. 원본 허용 경로 `motions-monsters-r2/boar-telegraph-line/tiles/{start,body,tip}_00~03.png`, `warning_up/frame_00~03.png`, durations/assembly/integration JSON에서 실제 쓰는 것만 다음 반입 때 이행 메뉴로 임포트한다. 비교/GIF/디코딩 산출물은 반입하지 않는다.
-- `.ai/rules/25d-*.md`4개와 fix-and-recheck.md 부재는 이전 설계 기록대로 유지. 이 세션에서 임의 설치/전역 설정 변경하지 않음.
+| 실패 | 원인/범위 |
+|---|---|
+| FieldLayoutTests.BakeCopiesSelectedSeedBytesAndRepeatsExactly | output/map-pcg/seed-8/export/field_layout.json 없음. 배경 자료/6단계 몫, 이 단계 판정 밖 |
+| FieldModelImportTests.ImportRepeatsWithoutChangingGuidsOrSourceNormalsAndWiresAllSixteenPrefabs | output/assets/hd2d-3d/tree_v1/model.fbx 없음. 배경 소품/6단계 몫, 이 단계 판정 밖 |
+| MonsterBehaviorTests.B5OutwardDashClipsFinalPositionWithoutChangingHitsForFourLegallyPlacedMembers | 기존 시험 슬롯 상한102, 기존 배치153. 관련 시험·run_rules 변경0. 배치/5단계에서 이어진 항목, 이 단계 판정 밖 |
+| MonsterViewStateTests.PrefabBodyIsChildWithPivotSortPoint | 기존 시험30°, 기존 prefab18° 차이12°. 18° 채택과 기존 시험 불일치. 시험/prefab 수정0,5단계 몫, 이 단계 판정 밖 |
+| TerrainDataContractTests.TV1ActualHeightArrayFitsConfiguredDepthPad | expected>=1.42467654 / actual0.907692015. 기존 terrain N9와 함께6단계 몫, 이 단계 판정 밖 |
 
-## 다음 세션 진입점
+## 본 화면과 한계
 
-1. 디렉터가 Unity 약관 창을 확인한다. 에이전트는 법적 약관을 대신 수락하지 않았다. 두 에디터 중 반드시 night-chars 대상으로 확인한다.
-2. 이전 test run 클라이언트는 중단했으나 서버 쪽 시험 종료 여부는 확인하지 못했다. 우선 자기 에디터의 `test status`·Play 여부·모달을 확인하고 미완료 시험을 정리한다. 형제 에디터 조작 금지.
-3. `unity recompile --project-path "$PWD" --format json`, 메뉴 Apply2회/실패주입, 새 DQCharacterMotionTests. 실패 원인을 고친 뒤 같은 관문 재실행. 실제 공격/방향/풀 경계와 DR-02-T(새 view 첫 렌더·pause 시계)를 이어 검증한다.
-4. 아직 DQ 전용 probe/capture 진입점을 추가하지 않았다. 기존 PlayableProbe 확장으로 실제 fallback과 frame/event 기록을 노출하고, 기존 캡처 도구의 범위 내에서 연속 캡처를 수집한다(새 범용 하네스 금지).
-5. 캐릭터 짧은 Play/3화면비와 관련 EditMode 묶음 후 기본 판정 경로1회. 커밋하고 spec-reviewer·validator-client·algorithm-tester를 한꺼번에 요청한다. design PASS 방향은 유지하며 재설계가 아니면 다시 부르지 않는다.
-6. 6·7브랜치 통합 후9단계에서 메뉴 재실행. 기존 Main 원근 관문 연결은9단계가 맡는다.
+연속 기록은 `sequence-natural`(정규 전투, 승리 wave10), `sequence-line-loss`(기존 횡대형 입력과 자연 피해로 전원 쓰러짐, 패배 wave4), `sequence-feet-up`, `sequence-idle-up` 등이다. 조용한 관찰은 기존 RunSettings enemyScale0 입력만 사용했다. 이름에 down이 들어도 실제 메타데이터가 idle/다른 방향이면 walk 증거로 세지 않았다.
 
-## 놓친 것·시간·토큰
+`inspection-sheets/index.json`의90장은 정확한4배 nearest 자르기이며 재축소 없이 sheet.py로 배치했다. 4명×walk/idle/attack 각2방향과 fall,5종 이동·고유행동·fall의 인접 frame이 다름을 메타데이터와 화면에서 확인했다. body 크기·반전·발 기준은 프레임 전환으로 튀지 않았다. 후열 대원 발은 기존 균형 진형에서 앞열에 가려져 횡대형 `hero-foot-line.png`로 보완했다. 걷기는 기존 실제 이동 거리 시계에 연결돼 정지 시 걷기 장이 멈춘다. 자연 전투의 spawn 초기/나무 뒤 캡처를 몸 노출 증거로 쓰지 않고 `monster-visible-pairs.png`의 후속 노출 장으로 보완했다.
 
-- DR-01: 현재 공격 시계만 보면 타격 뒤 같은 걸음의 새 공격을 놓치는 문제. 값 스냅샷/렌더 소비 계약으로 설계에 반영하고 표시 코드·시험 초안도 작성했다. 실검증은 차단 상태.
-- 이번 놓친 것: 테스트가 응답하기 전 Play 명령을 추가 제출했다. Play는 대기 timeout으로 실행되지 않았고, 결과 확인 전에 다음 에디터 변이를 제출하지 않도록 이 검증 기록의 다음 명령 순서에 반영했다. 공용 워크플로우 수정은 범위 밖으로 미반영.
-- 환경: unity status ready와 heartbeat가 정상이어도 법적 약관/명령 대기로 Play·시험 성공이 보장되지 않았다. 약관 승인 UI는 관찰만 했고 클라이언트 대기를 Ctrl-C로 중단했다. 이를 게임 시험 FAIL이나 PASS로 바꾸지 않는다.
-- 시간: 구현 시작 콘솔 확인 UTC18:47:00, 패킹·데이터18:47~18:50경, 표시 코드/컴파일18:50~18:53경, 시험/모달 원인 확인18:53~18:55경, 최종 정리·정적 패킹 확인18:55~18:56:02 이후 기록. 앞 설계 시작 시각 미수집으로 전체 시간을 추정 합산하지 않는다. 최종 인계 created가 이번 종료 시각이다. 시간 상한에 도달해서 멈춘 것이 아니라 법적 동의/에디터 실행 차단이다.
-- `Tools/Harness/session_time.py --markdown`은 기본 jsonl 부재로 실패(앞 기록). 현재 Codex/Claude/하위 에이전트 토큰 실제량 미제공. 하위 에이전트 호출0, 유료 생성/패키지 설치0. 단위별 초 단위 시간/토큰을 임의 수치로 채우지 않았다.
-- 추가 검사는 변동 시간·공격/풀 경계로 제한했다. 기존 고정fps 시각 시험 중복 실행을 생략 후보로 남겼으며, 검사 자체 삭제/문턱 완화0.
+직접 연 전체 화면·21개 기본 시트·보완 시트와 각 입력의 경로/SHA256/관찰은 `r2/opened-images-r2.json`에 적는다. 모든 원본 캡처 수천 장을 직접 열었다고 주장하지 않는다. 채택 시안 `dirs-scene/D1-battle-crop-x4.png`도 열어 몸의 모양·규모를 비교했다. 배경/빛은 현재 옛 화면 그대로이며6·7단계 몫이다. 시트의 빨간 UNVERIFIED는 런타임 캡처에 아트 생성 compare 기록이 없다는 sheet.py 표시다. 원본 그림 품질의 채택을 새로 판정하거나 그 표시를 지우지 않았다.
+
+4:3 준비 UI 일부가 대원 가장자리와 겹친다. UI 배치/크기·예고 라인 새 그림의 화면 연결은9단계 몫, 이 단계 판정 밖. 긴 그림자/기존 색과 나무 가림/먼 배경도6·7단계 몫이다. 성능 계측0, 유료 생성0, 패키지 설치0.
+
+## 기준 문서와 다른 점·이미 결정된 것
+
+- 걷기24/대기12/공격7, 조각 회전 방식: 사용자 확정. 기준서6~8장 Aether와 다름.
+- Bruno fall_right12장+lying: 최신 confirm표와 디렉터04:00 확정. 다른 대원10장+lying. 이전 “디렉터 확인 필요”는 해소됐다.
+- Lena attack_upright는 fix2/right, attack_front는 fix1/down, up는 fix1/up. rock contact_right는 구멍 있는 r2 대신 confirm 지정 원본. boar fall_right는 모든 방향에 오른쪽 원본+반전. 정확한 클립/선택/명시 대체/약함은 source-manifest와 클립JSON에 보존한다. 명시 대체는 예상 밖 runtime fallback과 구별하며 fallback0을 속이기 위한 누락 무시가 아니다.
+- r2 slime/mushroom/rock JSON 장별 시간과 원본 차이는 pack-report.json differences에 보존했다. 판독표 선택을 변경하지 않았다.
+- 피격 그림 새로 생성0. 기존 UI 유지. 배경 소품/나무 수·빛·성능의 디렉터 결정은 해당 단계에서 이어 받는다.
+
+## 놓친 점과 워크플로우 갱신 후보
+
+- 첫 임포트의 축소 texture 높이 가정이 slice를 바꿨다. 원본 importer 크기로 고쳤고, 전수 실제 피벗/texture 검사가 결함을 잡았다. 반복 메뉴 검사만 했으면 두 번째 실행 이후만 안정돼 첫 실행 결함을 놓칠 수 있었다. 후보: 첫 임포트 직후 원본 크기·피벗 확인을 유지.
+- 에디터 이름만 보고 약관 창의 프로세스를 잘못 연결했다. 디렉터 정정 수용. 후보: editor_ready 대상 path/version과 active scene dirty를 명령 직전 확인, 이행 메뉴 자체 저장.
+- 한 걸음에서 공격 종료/새 시작이 실제 타격 장을 가리는 계약 누락은 설계 DR-01에서 발견됐다. 렌더까지 snapshot 유지와 경계 시험으로 수정, 설계 수정 확인 `VERDICT: PASS`.
+- spawn/가림 첫 두 장만 고르면 애니메이션 확인이 불가능했다. 후보: frame index 차이와 함께 실제 몸 노출을 직접 확인하고 뒤 장/다른 방향으로 보완. 동일 품질 그림 재생성은 하지 않음.
+- 전체 EditMode 확장은 배경 산출물 의존 실패를5건 드러냈다. 이후 중복 전체 실행은 하지 않고 수정한 경계/DQ 시험을 실행했다. 검사 삭제/기준 완화0. 워크플로우 문서의 최종 반영은 독립 리뷰 판정 후 핸드오프 시 표시한다.
+
+시간 기록: 재개 기준04:00 KST. `Tools/Harness/session_time.py --markdown`은 현재 worktree에 Claude jsonl이 없어 ValueError로 집계 불가였다. Codex/Claude 토큰 수는 노출되지 않아 NOT_AVAILABLE로 기록하며0으로 쓰지 않는다. 하위 에이전트 호출0. 활동별 실제 시각은 r2 명령 결과/파일 시각과 최종 evidence manifest에 보존한다.
+
+
+## 커밋 경계와 에디터 자동 직렬화
+
+캐릭터는 기존 바인딩을 확장해 연결하므로 Main/프리팹의 authored 값 변경이 필요 없다. `SaveOpenScenes()`로 현재 Main을 저장하는 과정에서 Unity가 기존 Sun에 URP 기본 보조 컴포넌트를 직렬화하고 일부 구형 RectTransform을 정규화했다. 에디터에서 font dirty flag와 배경 두 dither 재질 기본값 추가도 관찰됐다. 이 변화는 캐릭터 구현 커밋에 포함하지 않는다. `r2/editor-serialization-excluded.diff`로 남기며 조명·배경·shader를 코드로 수정하거나 다른 세션 작업으로 복사하지 않았다. 원래 있던 RoundDQ2/3 미추적 meta도 stage하지 않는다. 현재 디스크에 남은 이러한 diff를 “깨끗한 작업 트리”로 보고하지 않는다. 9단계 합칠 때 캐릭터 메뉴만 재실행하면 된다.
+
+최종 명령 뒤 `console-final.json` 오류0/경고0, `editor-final.json` playing=false/dirty=false/6000.4.3f1. `pack-deterministic-final.json` 재생성 바이트 차이0. 직접 본34개 전체 화면·시트와 시트를 통해 본142개 고유4배 자르기는 `opened-images-r2.json`에 절대 경로/SHA256/관찰로 기록했다. 일부 첫 장의 가림을 후속 장으로 보완한 사실도 함께 적었다. 증거 사본은 `.director/evidence/20261123-night-1to6/8/2/`에 동결한다.

@@ -90,7 +90,7 @@ def build(source):
         if hero:
             lying=sprite(source/selections['fall_right'][0]/'lying.png')
         if hero and len(next(c for c in clips if c['id']=='fall_right')['frameKeys'])!=10:
-            evidence['exceptions'].append({'actor':actor,'clip':'fall_right','expected':10,'actual':len(next(c for c in clips if c['id']=='fall_right')['frameKeys']),'reason':'confirm 최종 선택의 12장 보존, 숫자 기준과 불일치. 임의 절삭하지 않음'})
+            evidence['exceptions'].append({'actor':actor,'clip':'fall_right','expected':10,'actual':len(next(c for c in clips if c['id']=='fall_right')['frameKeys']),'classification':'approved-deviation','accepted_by':'director feedback 1: preserve final adopted 12 frames','reason':'confirm 최종 선택의 12장 보존, 숫자 기준과 불일치. 임의 절삭하지 않음'})
         # Four-pixel gutter around every cell; source canvas and feet unchanged.
         stride=canvas+8; cols=16; height=math.ceil(len(rows)/cols)*stride
         sheet=Image.new('RGBA',(cols*stride,height))
@@ -102,6 +102,14 @@ def build(source):
     DATA.mkdir(parents=True,exist_ok=True)
     (DATA/'dq_character_clips.json').write_text(json.dumps({'actors':actors},ensure_ascii=False,indent=2)+'\n')
     (ART/'source.txt').write_text('Adopted DQ gameplay sprites only. Repack: existing studio-kit Python Tools/dq_character_pack.py --source <allowed output/hd2d-dq>.\nSelection and source hashes: source-manifest.json. No new generation.\n')
+    # Production warning tiles are staged for step 9; preview composites are excluded.
+    telegraph = source/'motions-monsters-r2/boar-telegraph-line'
+    staged = ART/'BoarTelegraphR2'
+    staged.mkdir(parents=True,exist_ok=True)
+    evidence['step9Telegraph'] = []
+    for src in [*sorted((telegraph/'tiles').glob('*.png')), telegraph/'assembly.json']:
+        (staged/src.name).write_bytes(src.read_bytes())
+        evidence['step9Telegraph'].append({'source':str(src.relative_to(source)),'target':str((staged/src.name).relative_to(ROOT)),'sha256':sha(src)})
     (ART/'source-manifest.json').write_text(json.dumps(evidence,ensure_ascii=False,indent=2)+'\n')
     out=ROOT/'output/hd2d-dq/apply/8';out.mkdir(parents=True,exist_ok=True)
     (out/'pack-report.json').write_text(json.dumps({'actors':len(actors),'sprites':len(evidence['frames']),'differences':evidence['differences'],'exceptions':evidence['exceptions']},ensure_ascii=False,indent=2))

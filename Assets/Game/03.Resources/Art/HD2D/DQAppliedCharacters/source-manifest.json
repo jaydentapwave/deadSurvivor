@@ -8963,7 +8963,76 @@
       "clip": "fall_right",
       "expected": 10,
       "actual": 12,
+      "classification": "approved-deviation",
+      "accepted_by": "director feedback 1: preserve final adopted 12 frames",
       "reason": "confirm 최종 선택의 12장 보존, 숫자 기준과 불일치. 임의 절삭하지 않음"
+    }
+  ],
+  "step9Telegraph": [
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/tiles/body_00.png",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/body_00.png",
+      "sha256": "091765fd2d93469184b69bd42f05f1b1542fa47a54df15e0fa4c1458c6f85444"
+    },
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/tiles/body_01.png",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/body_01.png",
+      "sha256": "59851c7dc50161c8d395dbd16a475885a5acba2ee9aa247da92bfbe9840a746a"
+    },
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/tiles/body_02.png",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/body_02.png",
+      "sha256": "59851c7dc50161c8d395dbd16a475885a5acba2ee9aa247da92bfbe9840a746a"
+    },
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/tiles/body_03.png",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/body_03.png",
+      "sha256": "737c3a2b01833934148454a4c48cf40d8f5bf4ba600fec5d8b7c8fea18a046c3"
+    },
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/tiles/start_00.png",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/start_00.png",
+      "sha256": "433b783f072e92e7410c2d1d58409c937653a6ebc60f201ec0fdcb8cb1fbdcc0"
+    },
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/tiles/start_01.png",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/start_01.png",
+      "sha256": "433b783f072e92e7410c2d1d58409c937653a6ebc60f201ec0fdcb8cb1fbdcc0"
+    },
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/tiles/start_02.png",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/start_02.png",
+      "sha256": "433b783f072e92e7410c2d1d58409c937653a6ebc60f201ec0fdcb8cb1fbdcc0"
+    },
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/tiles/start_03.png",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/start_03.png",
+      "sha256": "2d2e919a6ba299ac62c9cab3b191ab7da78bfaac25abed22959e6fb14cd74b85"
+    },
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/tiles/tip_00.png",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/tip_00.png",
+      "sha256": "977548cb61af23a8490a826b52c2ace4b718692400b33c71fbc486f4db5e1470"
+    },
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/tiles/tip_01.png",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/tip_01.png",
+      "sha256": "464827d97859f1c6b30eab86608a39fc8d7ff3f841ab093c886fd24c865e3d9f"
+    },
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/tiles/tip_02.png",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/tip_02.png",
+      "sha256": "464827d97859f1c6b30eab86608a39fc8d7ff3f841ab093c886fd24c865e3d9f"
+    },
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/tiles/tip_03.png",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/tip_03.png",
+      "sha256": "b3d632aa155cad5fc10b8de5d159fdaf1f4afe7fd52fb36fb23aa828978d6de3"
+    },
+    {
+      "source": "motions-monsters-r2/boar-telegraph-line/assembly.json",
+      "target": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/assembly.json",
+      "sha256": "5ab7d6ce4799e42d6636a96ba4f1cc7e6a8aa36421ce0fb36d0bbf99a10cac83"
     }
   ]
 }

@@ -28,6 +28,7 @@ public class MonsterView : MonoBehaviour
     public string DQAction { get; private set; }
     public float DQPhaseClock => _dqPhaseClock;
     public bool HasDQ => _dq != null;
+    public string DQActorId => _dq?.Data.actorId;
     public bool DQFallFinished => _dqDead && _dqFinalShownFrame >= 0 && Time.frameCount > _dqFinalShownFrame;
 
     public void InitializeDQ(DQActorClips actor)
@@ -267,6 +268,8 @@ public class MonsterView : MonoBehaviour
         float blastRadius, float unitScale)
     {
         _dq = null;
+        BeginAppearance(false);
+        AdvanceAppearance(0);
         _bodySprite = bodySprite;
         _warningSprite = warningSprite;
         IsWarning = false;

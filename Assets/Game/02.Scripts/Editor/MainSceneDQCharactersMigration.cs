@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.U2D;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.U2D;
 
@@ -25,6 +26,14 @@ public static class MainSceneDQCharactersMigration
         {
             throw new InvalidOperationException("DQ characters migration requires ready Edit mode.");
         }
+        for (var i = 0; i < EditorSceneManager.sceneCount; i++)
+        {
+            var open = EditorSceneManager.GetSceneAt(i);
+            if (open.isDirty && open.path != MainSceneDQScreenMigration.ScenePath)
+            {
+                throw new InvalidOperationException("Refusing to save an unrelated dirty scene: " + open.path);
+            }
+        }
         var catalog = JsonUtility.FromJson<DQClipCatalog>(File.ReadAllText(DataPath));
         foreach (var actor in catalog.actors)
         {
@@ -39,7 +48,11 @@ public static class MainSceneDQCharactersMigration
         }
         Directory.CreateDirectory(AtlasFolder);
         AssetDatabase.Refresh();
-        var targets = catalog.actors.SelectMany(a => new[] { a.sheet + ".meta", AtlasPath(a), AtlasPath(a) + ".meta" }).ToArray();
+        var targets = catalog.actors.SelectMany(a => new[] { a.sheet + ".meta", AtlasPath(a), AtlasPath(a) + ".meta" })
+            .Concat(new[] { MainSceneDQScreenMigration.ScenePath, MainSceneDQScreenMigration.ScenePath + ".meta" }).ToArray();
+        var telegraphFolder = "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2";
+        var telegraph = Directory.Exists(telegraphFolder) ? Directory.GetFiles(telegraphFolder, "*.png") : Array.Empty<string>();
+        targets = targets.Concat(telegraph.Select(p => p + ".meta")).ToArray();
         var before = targets.ToDictionary(p => p, p => File.Exists(p) ? File.ReadAllBytes(p) : null);
         try
         {
@@ -52,7 +65,24 @@ public static class MainSceneDQCharactersMigration
                     throw new InvalidOperationException("Injected DQ characters migration failure");
                 }
             }
+            foreach (var path in telegraph)
+            {
+                var importer = (TextureImporter)AssetImporter.GetAtPath(path);
+                importer.textureType = TextureImporterType.Sprite;
+                importer.spriteImportMode = SpriteImportMode.Single;
+                importer.spritePixelsPerUnit = 48;
+                importer.filterMode = FilterMode.Point;
+                importer.mipmapEnabled = false;
+                importer.textureCompression = TextureImporterCompression.Uncompressed;
+                importer.npotScale = TextureImporterNPOTScale.None;
+                importer.wrapMode = TextureWrapMode.Clamp;
+                importer.SaveAndReimport();
+            }
             SpriteAtlasUtility.PackAllAtlases(EditorUserBuildSettings.activeBuildTarget);
+            if (!EditorSceneManager.SaveOpenScenes())
+            {
+                throw new InvalidOperationException("DQ characters migration could not save its open Main scene.");
+            }
         }
         catch
         {
@@ -91,7 +121,7 @@ public static class MainSceneDQCharactersMigration
         importer.ReadTextureSettings(settings);
         settings.spriteMeshType = SpriteMeshType.FullRect;
         importer.SetTextureSettings(settings);
-        var texture = AssetDatabase.LoadAssetAtPath<Texture2D>(actor.sheet);
+        importer.GetSourceTextureWidthAndHeight(out var sourceWidth, out var sourceHeight);
         var rows = new List<SpriteMetaData>();
         foreach (var sprite in actor.sprites)
         {
@@ -99,7 +129,7 @@ public static class MainSceneDQCharactersMigration
             {
                 name = sprite.key,
                 rect = new Rect(sprite.index % actor.columns * actor.stride + 4,
-                    texture.height - (sprite.index / actor.columns * actor.stride + 4) - sprite.size, sprite.size, sprite.size),
+                    sourceHeight - (sprite.index / actor.columns * actor.stride + 4) - sprite.size, sprite.size, sprite.size),
                 alignment = (int)SpriteAlignment.Custom,
                 pivot = new Vector2(sprite.pivotX / (float)sprite.size, 1f - sprite.pivotY / (float)sprite.size)
             });

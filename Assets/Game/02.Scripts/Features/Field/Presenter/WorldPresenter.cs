@@ -24,6 +24,22 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
     private readonly Dictionary<int, Vector2> _monsterHitDict = new();
     private readonly List<MonsterView> _dqDeathList = new();
     public int DQDeathCount => _dqDeathList.Count;
+    public IReadOnlyList<MonsterView> DQDeathViews => _dqDeathList;
+    private readonly List<string> _dqHitRows = new();
+    public string DQHitObservations => string.Join("\n", _dqHitRows);
+    public int DQHitsPending
+    {
+        get
+        {
+            var count = 0;
+            foreach (var buffer in _dqHits)
+            {
+                count += buffer.Count;
+            }
+            return count;
+        }
+    }
+
 
     private void OnMonsterAttack(in GameEvent.MonsterAttackEvent e)
     {
@@ -53,6 +69,10 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
             if (e.MemberIndex >= 0 && e.MemberIndex < _dqHits.Length)
             {
                 _dqHits[e.MemberIndex].Add(e.Hit);
+                if (_dqHitRows.Count < 512)
+                {
+                    _dqHitRows.Add($"receive,{Time.frameCount},{e.MemberIndex},{e.Hit.AttackId},{e.Hit.Step},{e.Hit.Facing.Label}");
+                }
             }
         }
         catch (Exception error)
@@ -87,6 +107,10 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
         {
             if (_appliedHitIds[i] > 0 && _memberViewList[i].gameObject.activeInHierarchy)
             {
+                if (_dqHitRows.Count < 512)
+                {
+                    _dqHitRows.Add($"render,{Time.frameCount},{i},{_appliedHitIds[i]},{_memberViewList[i].DQFrame},{_memberViewList[i].Facing.Label}");
+                }
                 _dqHits[i].Acknowledge(_appliedHitIds[i]);
                 _appliedHitIds[i] = 0;
                 DQHitsRendered++;
@@ -525,7 +549,9 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
             _lastMemberFloors[i] = member.Position;
             view.SetVisible(true);
             _downedSeconds[i] = member.IsAlive ? 0f : _downedSeconds[i] + Time.deltaTime;
-            view.AdvanceDQClock(isRunning ? deltaSeconds : 0f);
+            var canFinishFall = !member.IsAlive && !_runModel.IsPaused.CurrentValue
+                && _runModel.Phase.CurrentValue == RunPhase.Result;
+            view.AdvanceDQClock(isRunning ? deltaSeconds : canFinishFall ? Time.deltaTime : 0f);
             view.UpdateView(position, member.Hp / member.MaxHp, member.IsAlive, _downedSeconds[i]);
             view.SetGround(_terrain, TerrainHeightMath.Normal(_terrain, position.x, position.z), _fieldView.TerrainShadowMaterial);
             if (isRunStarted || didCharacterChange || _waitingSlot == i)

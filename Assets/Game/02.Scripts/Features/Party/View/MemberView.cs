@@ -46,6 +46,7 @@ public class MemberView : MonoBehaviour
     private float _dqFallClock;
     private bool _dqWasMoving;
     public bool HasDQ => _dq != null;
+    public string DQActorId => _dq?.Data.actorId;
     public int DQFrame { get; private set; }
     public string DQAction { get; private set; }
     public long DQHitAttackId { get; private set; }
@@ -143,6 +144,12 @@ public class MemberView : MonoBehaviour
     {
         _motionSprite = null;
         _dq = null;
+        _dqHitSprite = null;
+        _dqIdleClock = _dqFallClock = 0;
+        _dqWasMoving = false;
+        DQAction = null;
+        DQFrame = 0;
+        DQHitAttackId = 0;
         _motionData = null;
         FacingFallbackCount = 0;
         _directionSprites = new[] { null, frontSprite, null, backSprite, null };
