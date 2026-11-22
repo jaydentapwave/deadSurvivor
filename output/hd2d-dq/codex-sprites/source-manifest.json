@@ -1,5 +1,5 @@
 {
-  "utc": "2026-11-22T04:31:55.819802+00:00",
+  "utc": "2026-11-22T04:39:36.658075+00:00",
   "base_commit": "8c31aa459a123a13fa1a0a4310d13f597afcfcce",
   "files": {
     "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bruno_dq_right.png": "68318e37a2dfb9fd122297b21fe507fef688a56613fb4a7d5682c2697d540aa4",
@@ -10,9 +10,9 @@
     ".ai/2d-art/tools/kit2d.py": "f9220c788502df1fb3f8c8aaaed12fb187ff7b9e7e96a91d121b62db2ad1b6f3",
     "output/hd2d-dq/codex-sprites/art_tool.py": "1ea8a3b0203eb7960b0fdc0938554d5e5ef2f2ebc6a545fba5385265988c9379",
     "output/hd2d-dq/codex-sprites/compare_old.py": "c282b59621d9b3702540d546454fd7b456ba969c54768f949996636338271bbe",
-    "output/hd2d-dq/codex-sprites/preview_build.py": "4aea0fab6a6849e70a95ceea5970728aba9fc5a400bcd45c020ed18965dde0b2",
+    "output/hd2d-dq/codex-sprites/preview_build.py": "0c319dcc48fe32020402b7c745d7612efd18fe07ce9aac601c0a0d18249af804",
     "output/hd2d-dq/codex-sprites/produce.py": "8edc170f83bda1374065eed0e27482b7cfe8046959e23f8de4585e0faedb6bba",
-    "output/hd2d-dq/codex-sprites/preview.html": "f089eaa0a7869569a2708f5f3d21f77b82dfc700a916585978c4c49d99519d8a",
+    "output/hd2d-dq/codex-sprites/preview.html": "f06cfbcb31eb5bd3f892910bc8114e2641206129d3344003b7845ba55c7f83da",
     "output/hd2d-dq/codex-sprites/frame-measurements.json": "b0d6acf3df0d1aa59f85f4cf85468ec7d951d7b9e21d362c6b2e567c7ae52847",
     "output/hd2d-dq/codex-sprites/A/walk_down/frame_00.png": "8f2ab99b7b771993bd8eab4b708e38c2fb38b6678c9102366f8ff123d65d3fe3",
     "output/hd2d-dq/codex-sprites/A/walk_down/frame_01.png": "20077d5cfb2aa38ebdf4c825ac935ee97d601e59dce4f2003f55b3b0806f7a4c",
@@ -83,7 +83,12 @@
     "output/hd2d-dq/codex-sprites/review-r2/link-check.json": "819efe486bff9faf43f264f9121b4eab6929c4da7837dd5e4f4921f92f9186ef",
     "output/hd2d-dq/codex-sprites/review-r2/carried-pass.json": "45126fb09294e60c39840bf0826b1990b481ce18692aef840bc84517ba4bfbaf",
     "output/hd2d-dq/codex-sprites/review-r2/numeric-observations.json": "f0315eef5965cecb5b9bb13f4bc6e3e3ab6f8d53d6ba4b6dade49f1a0ad645ac",
-    "output/hd2d-dq/codex-sprites/review-r2/judge-map.json": "bbc396c179819d2b133e1592ea617dd316a2f15db4edcc444d0699df5261bebd"
+    "output/hd2d-dq/codex-sprites/review-r2/judge-map.json": "bbc396c179819d2b133e1592ea617dd316a2f15db4edcc444d0699df5261bebd",
+    ".director/outbox/20261122-dq-codex-sprites-1.md": "e21239d816e458bd9928dffa267fe6cd3f171263da24e48b1650648f7b103883",
+    "output/hd2d-dq/codex-sprites/review-final/accepted-artifact-fingerprints.json": "810873c015cdca78613b4dde9a59ce5651ae6bec456bed3c95d96e7968a8246e",
+    "output/hd2d-dq/codex-sprites/review-final/time-and-usage.json": "e4082d4983b6d5e4c90e90029049ea7684aeeedf2447d4b8178f0be2cc7b5c5a",
+    "output/hd2d-dq/codex-sprites/review-final/review-status.json": "4715b5e4f4f2bb6aa20cfb0ed5edd50552a6fc04bb8a4ad0c9241a7a36bf6f9b",
+    "output/hd2d-dq/codex-sprites/review-final/documentation-check.json": "ed01e2eded269eb9edc270c0b5faf82d150b2a24b119dac1c2111e93f27dbd50"
   },
   "claims": [
     {
@@ -95,6 +100,6 @@
       "text": "B is preferable for a small pose/retouch trial; 40-clip estimates are planning assumptions"
     }
   ],
-  "revision": "review-r2 C2",
-  "review_base_commit": "37429ee0212dba8029702a6be160185dc2361e9c"
+  "revision": "final-report",
+  "review_base_commit": "cb3fdcfce81cb5f0158ae0608f03a902c5524e18"
 }

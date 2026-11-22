@@ -1,0 +1,35 @@
+{
+  "utc": "2026-11-22T04:39:36.658075+00:00",
+  "request_start_utc": "2026-11-22T03:54:51.832Z",
+  "wall_minutes_including_review_waits": 44.75,
+  "budget_minutes": 90,
+  "recorded_segments_minutes": {
+    "initial": 15.91,
+    "repair_r1_archive_to_snapshot": 5.41,
+    "repair_r2_archive_to_snapshot": 4.54
+  },
+  "segment_limits": "repair segments exclude initial reading; intervals are not exact total active time; initial parallel method intervals overlap",
+  "generations": {
+    "A": 4,
+    "B": 13,
+    "C": 0,
+    "total": 17
+  },
+  "Aether": 0,
+  "Tripo": 0,
+  "Unity_commands": 0,
+  "local_subagents": 0,
+  "native_session_token_snapshot": {
+    "input_tokens": 17469881,
+    "cached_input_tokens": 17250688,
+    "cache_write_input_tokens": 0,
+    "output_tokens": 110286,
+    "reasoning_output_tokens": 47191,
+    "total_tokens": 17580167
+  },
+  "native_snapshot_utc": "2026-11-22T04:36:41.272Z",
+  "token_scope": "cumulative known Codex session snapshot only; stage/user-request allocation NOT_ASSESSED; final reply tokens not included",
+  "Claude_review_tokens": "NOT_ASSESSED: verdict text supplied without usage",
+  "legacy_timer": "Tools/Harness/session_time.py --markdown was actually run with task-local ROOT in initial work. Codex rows were0 (NOT_ASSESSED), not actual zero usage. No repeated incompatible runs.",
+  "closing_activity": "record passed scopes, preserve final art bytes, update preview/handoff, check links and commit documentation"
+}

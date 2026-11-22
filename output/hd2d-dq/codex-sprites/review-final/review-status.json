@@ -1,0 +1,112 @@
+{
+  "reviewer": "general-purpose, Claude Opus 5.5 medium, locked blind answers and second-stage comparison",
+  "evidence": [
+    "VERDICT: PASS",
+    "VERDICT: PASS"
+  ],
+  "carried_from": {
+    "A/walk_down": {
+      "evidence": "set02 = A/walk_down: PASS.",
+      "carried_from": "first blind read"
+    },
+    "B/walk_right": {
+      "evidence": "set04 = B/walk_right: PASS.",
+      "carried_from": "first blind read"
+    },
+    "B/attack_right": {
+      "evidence": "set06 = B/attack_right: PASS.",
+      "carried_from": "first blind read"
+    },
+    "A/walk_right/retry": {
+      "evidence": "group01 A/walk_right/retry (set01): PASS",
+      "carried_from": "review-r1 second-stage comparison",
+      "note": "Frames 01 and 03 are nearly identical (note only)."
+    },
+    "A/attack_right": {
+      "evidence": "group02 A/attack_right (set03): PASS",
+      "carried_from": "review-r1 second-stage comparison",
+      "note": "Small dark blob near the hand in 02 (follow-up list)."
+    },
+    "B/walk_down": {
+      "evidence": "group03 B/walk_down (set05): PASS (low confidence)",
+      "carried_from": "review-r1 second-stage comparison",
+      "note": "Cloak fragments between the legs make them hard to read; frame 02 is close to unreadable (follow-up list)."
+    },
+    "C/walk_down": {
+      "evidence": "group05 C/walk_down (set08): PASS",
+      "carried_from": "review-r1 second-stage comparison",
+      "note": "The lifted foot looks slightly detached (follow-up list)."
+    },
+    "C/walk_right": {
+      "evidence": "VERDICT: PASS",
+      "detail": "VERDICT: C4 PASS — 00은 가까운(밝은) 다리가 앞이고 02는 그 다리가 뒤로 가서 번갈아 걷는다. 뒤 장화는 정강이와 이어진 조각이고 쐐기는 없다.",
+      "carried_from": "final C4 blind re-read, Claude Opus 5.5 medium",
+      "confidence": "medium",
+      "limitations": [
+        "reference.png was not opened separately; head/face/shield compared between frames only; no Pillow"
+      ],
+      "follow_up": "상체가 완전히 고정이라 걷기가 조금 뻣뻣해 보임. 필수 수정 아님."
+    },
+    "C/attack_right": {
+      "evidence": "VERDICT: PASS",
+      "detail": "VERDICT: C5 PASS — 칼이 위(준비) → 앞 → 아래 → 복귀로 이어지고, 칼을 든 팔이 네 장 모두 몸에 붙어 보인다. 자루 아래 막대가 없고 준비 자세는 칼끝이 머리 위까지 올라간다.",
+      "carried_from": "final C5 blind re-read, Claude Opus 5.5 medium",
+      "limitations": [
+        "head compared between frames; reference picture comparison not performed; holes not remeasured"
+      ],
+      "follow_up": "00 팔이 조금 가늘고 01·02의 팔·몸통 금속 면이 합쳐져 상체가 넓어 보임. 후속 의견."
+    }
+  },
+  "recheck": {},
+  "review_open": [
+    {
+      "kind": "방법 제약·구현 측 방식 선택",
+      "from_review": "general-purpose review-r1 second-stage comparison",
+      "group": "group04",
+      "content": "moving the legs ±4/5 cells changes stride length but never which leg is in front. That needs a change in draw order or a drawing of the opposite leg.",
+      "decision": "implementer chose C2 explicit draw order and opposite-leg surface; keep this original open finding as reported, not a separate re-review blocker"
+    },
+    {
+      "kind": "방법 제약·구현 측 방식 선택",
+      "from_review": "general-purpose review-r1 second-stage comparison",
+      "group": "group06",
+      "content": "restoring the shield covers the arm, and restoring the arm covers the shield. That trade-off may need a newly drawn arm piece.",
+      "decision": "implementer chose a local newly drawn forearm routed outside the exact source shield; keep original open finding as reported, not a separate re-review blocker"
+    }
+  ],
+  "review_not_run": {
+    "C3": "NOT ASSESSED. The reviewer did not measure size or feet; it had no Pillow, and the decoded frames are preview-page format.",
+    "C6": "NOT ASSESSED; the preview page was outside this read's scope."
+  },
+  "already_decided": [
+    "Seven PASS clips stay unchanged including their follow-up notes and low-confidence qualification",
+    "No review finding disputed; source method changes are implementer choice within authorized output-only scope",
+    "C2 is no longer claimed to be pure translation: opposite-leg shading and local arm drawing use reference palette",
+    "No new generation; Aether/Tripo/Unity remain unused; numeric holes FAIL stays visible"
+  ],
+  "finished": true,
+  "previous_gate_evidence": "VERDICT: FAIL",
+  "latest_review_scopes": {
+    "C4": "C/walk_right",
+    "C5": "C/attack_right"
+  },
+  "latest_review_open": [],
+  "review_open_history": [
+    {
+      "kind": "방법 제약·구현 측 방식 선택",
+      "from_review": "general-purpose review-r1 second-stage comparison",
+      "group": "group04",
+      "content": "moving the legs ±4/5 cells changes stride length but never which leg is in front. That needs a change in draw order or a drawing of the opposite leg.",
+      "decision": "implementer chose C2 explicit draw order and opposite-leg surface; keep this original open finding as reported, not a separate re-review blocker"
+    },
+    {
+      "kind": "방법 제약·구현 측 방식 선택",
+      "from_review": "general-purpose review-r1 second-stage comparison",
+      "group": "group06",
+      "content": "restoring the shield covers the arm, and restoring the arm covers the shield. That trade-off may need a newly drawn arm piece.",
+      "decision": "implementer chose a local newly drawn forearm routed outside the exact source shield; keep original open finding as reported, not a separate re-review blocker"
+    }
+  ],
+  "gate_scope": "All nine final clip motion reads PASS, with carried evidence. This does not turn C3/C6, source-reference comparison, formal identity gates or user adoption into PASS.",
+  "utc": "2026-11-22T04:36:41.189926+00:00"
+}

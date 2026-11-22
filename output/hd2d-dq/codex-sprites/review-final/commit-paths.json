@@ -1,0 +1,11 @@
+[
+  "output/hd2d-dq/codex-sprites/preview.html",
+  "output/hd2d-dq/codex-sprites/preview_build.py",
+  "output/hd2d-dq/codex-sprites/producer-observations.json",
+  "output/hd2d-dq/codex-sprites/source-manifest.json",
+  "output/hd2d-dq/codex-sprites/review-final/accepted-artifact-fingerprints.json",
+  "output/hd2d-dq/codex-sprites/review-final/time-and-usage.json",
+  "output/hd2d-dq/codex-sprites/review-final/review-status.json",
+  "output/hd2d-dq/codex-sprites/review-final/documentation-check.json",
+  ".director/outbox/20261122-dq-codex-sprites-1.md"
+]

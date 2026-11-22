@@ -1,5 +1,5 @@
 {
-  "status": "latest independent VERDICT: FAIL; 7 clip PASS carried, 2 repairs awaiting recheck",
+  "status": "final motion reads: nine clip PASS with scope limitations; user adoption not run",
   "verdicts": {
     "A/walk_right/retry": [
       "PASS",
@@ -26,16 +26,16 @@
       "Claude 독립 판독 PASS. 그림·재생 파일을 바꾸지 않고 판정을 이어 갑니다. 작은 흠은 리뷰 기록에 남겼습니다."
     ],
     "C/walk_right": [
-      "NEEDS_REVIEW",
-      "이전 FAIL을 원본 픽셀 조각으로 수정했습니다. 수정 후 독립 재판독 대기입니다. C4: 3·4장의 실제 겹침 순서를 뒤집고, 고정돼 남던 원본 정강이를 복원 대상에서 뺐습니다. 가까운 다리의 밝은 면과 먼 다리의 어두운 면을 구분한 C2입니다."
+      "PASS",
+      "Claude C4 동작 판독 PASS(중간 확신). 밝은 가까운 다리가 앞→뒤로 가며 교대하고 장화는 정강이에 연결됩니다. 상체가 고정돼 조금 뻣뻣하다는 후속 의견을 유지합니다. 기준 그림 별도 대조는 하지 않은 판독입니다."
     ],
     "C/walk_down": [
       "PASS",
       "Claude 독립 판독 PASS. 올린 발이 조금 떨어져 보인다는 후속 의견을 유지하며 이번에는 수정하지 않았습니다."
     ],
     "C/attack_right": [
-      "NEEDS_REVIEW",
-      "이전 FAIL을 원본 픽셀 조각으로 수정했습니다. 수정 후 독립 재판독 대기입니다. C5: 원본 방패 밖으로 새 팔을 배치했습니다. 팔 외곽5칸·금속 면3칸, 준비 칼끝y7, 회복은 원본 그대로인 C2입니다."
+      "PASS",
+      "Claude C5 동작 판독 PASS. 준비→휘두름→끝→복귀로 읽히며 팔이 몸에 붙어 보입니다. 1장째 팔이 조금 가늘고 2·3장째 상체가 넓어 보이는 점은 후속 의견입니다. 기준 그림 별도 대조는 하지 않은 판독입니다."
     ]
   },
   "legs": {
