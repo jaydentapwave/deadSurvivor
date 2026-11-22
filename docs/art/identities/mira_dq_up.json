@@ -1,0 +1,43 @@
+{
+  "schema": "2d-identity/1",
+  "id": "mira_dq_up",
+  "ref": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/mira_dq_up.png",
+  "ref_sha256": "7fea1d27a52360437513d7e8d9ba8768d7326863130fc07f450c3a207603e94e",
+  "approved": "2026-11-22 — 사용자 판정 대기",
+  "width_part": "head",
+  "outline_exclude": [],
+  "parts": {
+    "head": {
+      "hex": "#202265",
+      "lab_tol": 6,
+      "box_rel": [
+        0.15,
+        0,
+        0.85,
+        0.25
+      ],
+      "fixed": true
+    },
+    "cloth": {
+      "hex": "#2c3279",
+      "lab_tol": 6,
+      "box_rel": [
+        0.2,
+        0.42,
+        0.8,
+        0.74
+      ]
+    },
+    "boots": {
+      "hex": "#542c2d",
+      "lab_tol": 6,
+      "box_rel": [
+        0.2,
+        0.88,
+        0.85,
+        1
+      ]
+    }
+  },
+  "note": "방향별 정지 후보. 자기 기준 identity/compare는 마스크 등록 검증이며 사용자 채택·자연스러움·방향 판독 PASS가 아니다. 뒤 방향에는 얼굴 부위를 등록하지 않는다."
+}

@@ -1,0 +1,43 @@
+{
+  "schema": "2d-identity/1",
+  "id": "lena_dq_down",
+  "ref": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/lena_dq_down.png",
+  "ref_sha256": "b8edc11a03d232f35e4ce9f39099d2daf71b1a104734a173b1e273e4069398dc",
+  "approved": "2026-11-22 — 사용자 판정 대기",
+  "width_part": "head",
+  "outline_exclude": [],
+  "parts": {
+    "head": {
+      "hex": "#405927",
+      "lab_tol": 6,
+      "box_rel": [
+        0.15,
+        0,
+        0.85,
+        0.25
+      ],
+      "fixed": true
+    },
+    "cloth": {
+      "hex": "#405927",
+      "lab_tol": 6,
+      "box_rel": [
+        0.2,
+        0.42,
+        0.8,
+        0.74
+      ]
+    },
+    "boots": {
+      "hex": "#833421",
+      "lab_tol": 6,
+      "box_rel": [
+        0.2,
+        0.88,
+        0.85,
+        1
+      ]
+    }
+  },
+  "note": "방향별 정지 후보. 자기 기준 identity/compare는 마스크 등록 검증이며 사용자 채택·자연스러움·방향 판독 PASS가 아니다. 뒤 방향에는 얼굴 부위를 등록하지 않는다."
+}

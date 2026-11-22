@@ -1,0 +1,506 @@
+대원 방향 정지 그림 / 2026-11-22
+내장 Codex image_gen만 사용. 유료 외부 생성 0. 신규 16장, 최초 후보64+마법사 뒤 대각 수정4=68장. 사용자 판정 대기. front=downright 별칭 및 기존 정면 바이트 보존.
+출처·입력 역할·프롬프트·원본 SHA·후처리: output/hd2d-dq/dirs-heroes/source.json
+얼굴 칸 손질: output/hd2d-dq/dirs-heroes/face-retouch.json
+규격: 72×72, 키56, PPU48, Point, 무압축. meta는 각 채택 정면 설정을 guid만 교체.
+이 단계에서 Unity 에디터 명령·컴파일·Play·씬·C#·본 게임 적용을 하지 않음.
+{
+  "selected": {
+    "bruno": {
+      "down": 1,
+      "right": 4,
+      "upright": 3,
+      "up": 2
+    },
+    "lena": {
+      "down": 2,
+      "right": 4,
+      "upright": 2,
+      "up": 2
+    },
+    "mira": {
+      "down": 1,
+      "right": 4,
+      "upright": 4,
+      "up": 1
+    },
+    "bolt": {
+      "down": 1,
+      "right": 4,
+      "upright": 3,
+      "up": 4
+    }
+  },
+  "front_sha256": {
+    "bruno": "2e00e881a41a8d3427847f1847db11c4f4032c596da835fe9a8f1ee8e0bcb11d",
+    "lena": "13fb0d601aedf181d0300a595ce947c37d2027396e3630c74181961e4450bb89",
+    "mira": "19ad8219ef3a23b230bcb333c2f5e80acbb9e8588e96eca4e24a8589833a558b",
+    "bolt": "76c68d05ce8773d3a2002477d56f6fee7d203d56d93510290de09a2802f96c6d"
+  },
+  "outputs": {
+    "bruno_down": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bruno_dq_down.png",
+      "candidate": 1,
+      "rounds": 1,
+      "sha256": "b578043740983eb8f84915bc93295204da900580fbff2f67ccf4d404463acfcf",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        22,
+        8,
+        53,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        26,
+        45
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 29,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "bruno_right": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bruno_dq_right.png",
+      "candidate": 4,
+      "rounds": 1,
+      "sha256": "68318e37a2dfb9fd122297b21fe507fef688a56613fb4a7d5682c2697d540aa4",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        22,
+        8,
+        53,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        31,
+        40
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 30,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "bruno_upright": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bruno_dq_upright.png",
+      "candidate": 3,
+      "rounds": 1,
+      "sha256": "a72194b30dd5f431391e8328adc022dd90d34929be3aaed95538da508bca933d",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        18,
+        8,
+        59,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        27,
+        46
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 29,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "bruno_up": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bruno_dq_up.png",
+      "candidate": 2,
+      "rounds": 1,
+      "sha256": "5b1d62743d439b9d53086c714dd26a70a980028bfea012ec9d3bb9942feb2573",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        19,
+        8,
+        54,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        26,
+        46
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 31,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "lena_down": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/lena_dq_down.png",
+      "candidate": 2,
+      "rounds": 1,
+      "sha256": "b8edc11a03d232f35e4ce9f39099d2daf71b1a104734a173b1e273e4069398dc",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        18,
+        8,
+        52,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        28,
+        43
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 33,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "lena_right": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/lena_dq_right.png",
+      "candidate": 4,
+      "rounds": 1,
+      "sha256": "48e767567ff56af2e7759d70890c53d59a0a57e4d064ca43797b7cc861754f99",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        22,
+        8,
+        54,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        29,
+        43
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 31,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "lena_upright": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/lena_dq_upright.png",
+      "candidate": 2,
+      "rounds": 1,
+      "sha256": "6c7b8c0582aacc06a15225f45fe9dd3075e4ec9dde998a41028866ea4958e05c",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        20,
+        8,
+        56,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        26,
+        45
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 28,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "lena_up": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/lena_dq_up.png",
+      "candidate": 2,
+      "rounds": 1,
+      "sha256": "db612ec33ec22fb3e3a8d70a92e4542adc6bc5d958f8e580fde5451d385219ce",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        21,
+        8,
+        56,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        27,
+        45
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 27,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "mira_down": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/mira_dq_down.png",
+      "candidate": 1,
+      "rounds": 1,
+      "sha256": "127a5ef2583ba9de743d7c80a226349307e9f0a7a2b766cd5beedf4387301120",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        16,
+        8,
+        57,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        28,
+        43
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 31,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "mira_right": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/mira_dq_right.png",
+      "candidate": 4,
+      "rounds": 1,
+      "sha256": "c4fcf3b03651ffe5b9cc7a145b09ff5f091d5fbd5ef9b6fd622e5a0bd216264b",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        16,
+        8,
+        56,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        27,
+        45
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 29,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "mira_upright": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/mira_dq_upright.png",
+      "candidate": 4,
+      "rounds": 2,
+      "sha256": "32c90c56bb74c35307b5c47e9f084d80077ad5eaa1062449a81b412dc3486220",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        16,
+        8,
+        56,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        28,
+        43
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 29,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "mira_up": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/mira_dq_up.png",
+      "candidate": 1,
+      "rounds": 1,
+      "sha256": "7fea1d27a52360437513d7e8d9ba8768d7326863130fc07f450c3a207603e94e",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        18,
+        8,
+        56,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        25,
+        47
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 26,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "bolt_down": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bolt_dq_down.png",
+      "candidate": 1,
+      "rounds": 1,
+      "sha256": "a267be6fee043eaccef5690a5bef665a8a47a4310e299f7e1e6545ce41588dec",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        20,
+        8,
+        52,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        26,
+        46
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 29,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "bolt_right": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bolt_dq_right.png",
+      "candidate": 4,
+      "rounds": 1,
+      "sha256": "4199d08cf589dc1819883dae98b0da1bde9d4681fb986aa084c1f9db593fc3f9",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        18,
+        8,
+        54,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        26,
+        45
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 27,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "bolt_upright": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bolt_dq_upright.png",
+      "candidate": 3,
+      "rounds": 1,
+      "sha256": "bbfad06d3e9f99766119408ffcb546ced1ed39395ddf1f783d8bca5f997c3400",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        22,
+        8,
+        57,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        27,
+        44
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 26,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    },
+    "bolt_up": {
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bolt_dq_up.png",
+      "candidate": 4,
+      "rounds": 1,
+      "sha256": "21619aee1d2a73e8c71ec864146fbfbca41bd80db8a2891ca01add377d53df71",
+      "canvas": [
+        72,
+        72
+      ],
+      "bbox": [
+        22,
+        8,
+        56,
+        64
+      ],
+      "height": 56,
+      "feet_range": [
+        28,
+        45
+      ],
+      "foot_center": [
+        36,
+        64
+      ],
+      "partial_alpha": 0,
+      "colors": 25,
+      "colors_outside_front_palette": [],
+      "meta_matches_front_except_guid": true
+    }
+  }
+}
