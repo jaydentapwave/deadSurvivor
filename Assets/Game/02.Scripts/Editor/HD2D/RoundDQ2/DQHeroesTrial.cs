@@ -7,7 +7,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 // H1 is an additional still-image plate. Existing P2/P3 entry points remain unchanged.
-public static class DQHeroesTrial
+public static partial class DQHeroesTrial
 {
     public const string Output = "output/hd2d-dq/heroes-r1";
     private const string Art = DQCharacterTrial.Art;
@@ -121,6 +121,7 @@ public static class DQHeroesTrial
     // M1 owns only its new root and task-local assets; H1/P2/P3 keep their existing actors.
     public static void HideMonsters()
     {
+        HideDirections();
         var root = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects()
             .SingleOrDefault(go => go.name == "M1 Party Monsters");
         if (root == null)
