@@ -31,3 +31,7 @@ MemberView는 기존 `ApplySprite`와 같은 호출에서 body의 DQAction/DQFra
 - MonsterBehavior B5의 balanced 슬롯 상한102는 현재 data의±45/±108(합153)과 맞지 않았다. 게임 data/행동은 그대로 두고 fixture의 현재 슬롯 수치153을 고정한다. 외곽 경로·피해 동등성 기대와 .001 허용치는 유지한다.
 - FieldModelBuild의 카드 footprint 시험은 Main에서 새 DQ catalog를 읽어 원래 카드 크기와 비교했다. 새 DQ 크기를 카드에 줄이는 대신, 이 **legacy 카드 footprint 계약 시험**만 기존 로컬 legacy catalog로 격리한다. 전체 모델/개수/footprint 기대식·.001 문턱은 유지하고 끝에 Main을 다시 연다. DQ 크기의 수용 여부는 DQ 배경 기준/별도 검증이지 이 옛 카드 크기 시험으로 PASS라 하지 않는다.
 - 원본 input 두 건은 허용 폴더에 없어 BLOCKED로 분류하고 기대로 지우지 않는다. 전체 결과는 마지막에 한 번 새로 실행하여 기록한다.
+
+래스터 비교 기준은 `Tools/dq_telegraph_reference.py` **DQ-r2-raster-v1** 하나다. 반입된 r2 원본12타일과 assembly에서 직접 조립하고 floor capsule에 역매핑한다. 기준 SHA와 입력별 RGBA SHA는 `Assets/Game/Tests/EditMode/DQTelegraphReference.json`에 고정한다. 32방향+경계3방향×2치수×4단계 **280입력**, 허용차0이며 C#14시험 PASS에 포함된다. 기준 도구/원본 SHA가 달라지면 먼저 실패한다. 도구를 바꾸어 지금 결과에 자동 맞추지 않았다.
+
+효과15키의 정적 프레임 조합(55표본)은 Main의 실제 Burst/Projectile/EnemyShot view 경로에서 캡처한다. 이것은 모든 효과의 실제 엔진 프레임 연속/발동 타이밍 성공과 다르며 그 미확인 항목을 남긴다. 최초 JSON 직렬화 실패, 다음 ROI 화면비 불일치를 고쳐 실제16:9 캡처와 같은 camera.aspect에서 상자를 선언하도록 했다.

@@ -15,7 +15,7 @@ from PIL import Image
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'output/hd2d-관문/main1'
 CAP=ROOT/'output/hd2d-background/plates'
-KIT=Path('/Users/hyeongwoo/Desktop/Workspace/studio-kit-25d/plugins/studio-kit/skills/25d-art-setup/payload/root/.ai/25d-art/tools')
+KIT=Path('/Users/hyeongwoo/Desktop/Workspace/studio-kit/plugins/studio-kit/skills/25d-art-setup/payload/root/.ai/25d-art/tools')
 sys.path.insert(0,str(KIT))
 import gate
 gate.dependencies()
@@ -356,12 +356,15 @@ def measure(args):
     OUT.mkdir(parents=True,exist_ok=True);Image.fromarray(field.astype(np.uint8)).save(OUT/'grass.png');dump(OUT/'measure.json',report);print(json.dumps(report,ensure_ascii=False,indent=2))
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish','measure','selftest','feedback']);parser.add_argument('--out');parser.add_argument('--captures');parser.add_argument('--image');parser.add_argument('--pair');parser.add_argument('--regions');parser.add_argument('--feedback-state');parser.add_argument('--feedback-baseline');parser.add_argument('--motion');parser.add_argument('--vignette-pair',action='store_true');parser.add_argument('--vignette-baseline');parser.add_argument('--vignette-baseline-off');args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['plan','finish','measure','selftest','feedback','dq']);parser.add_argument('--out');parser.add_argument('--captures');parser.add_argument('--image');parser.add_argument('--pair');parser.add_argument('--regions');parser.add_argument('--feedback-state');parser.add_argument('--feedback-baseline');parser.add_argument('--motion');parser.add_argument('--vignette-pair',action='store_true');parser.add_argument('--vignette-baseline');parser.add_argument('--vignette-baseline-off');args=parser.parse_args()
     if bool(args.vignette_baseline)!=bool(args.vignette_baseline_off):parser.error('Both vignette baseline ON and OFF are required')
     if args.phase=='measure' and args.vignette_pair and not args.pair:parser.error('--vignette-pair requires --pair')
     if args.out: OUT=Path(args.out).resolve()
     if args.captures: CAP=Path(args.captures).resolve()
-    if args.phase == 'feedback':feedback(args)
+    if args.phase == 'dq':
+        import dq_main_gate
+        sys.exit(dq_main_gate.run(ROOT, OUT, KIT))
+    elif args.phase == 'feedback':feedback(args)
     elif args.phase == 'measure': measure(args)
     elif args.phase == 'plan':plan(vignette_pairs=args.vignette_pair,vignette_baseline=args.vignette_baseline,vignette_baseline_off=args.vignette_baseline_off,feedback_state=args.feedback_state,feedback_image=args.image,feedback_baseline=args.feedback_baseline,feedback_baseline_image=args.pair)
     else: {'selftest':selftest,'finish':finish}[args.phase]()

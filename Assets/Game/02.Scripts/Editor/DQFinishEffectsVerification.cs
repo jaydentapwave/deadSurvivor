@@ -26,6 +26,8 @@ public static class DQFinishEffectsVerification
         var rules = (RunRulesData)container.Resolve(typeof(RunRulesData));
         var previousOutput = DQBackgroundVerification.Output;
         var previousTime = Time.timeScale;
+        var camera = Camera.main;
+        var previousAspect = camera.aspect;
         var root = new GameObject("DQ finish effects fixture");
         var rows = new List<object>();
         var party = new Vector2(PlayableProbe.PartyX, PlayableProbe.PartyY) * rules.UnitScale;
@@ -33,12 +35,20 @@ public static class DQFinishEffectsVerification
         try
         {
             Time.timeScale = 0;
+            // ROI projection must use the same aspect as the following native captures.
+            camera.aspect = 1920f / 1080;
             DQBackgroundVerification.Output = directory + "/frames";
             for (var i = 0; i < effects.Clips.Count; i++)
             {
                 var clip = effects.Clips[i];
-                var floor = party + new Vector2((i % 5 - 2) * 2.2f, (i / 5 + 1) * 3f);
+                var floor = party + new Vector2((i % 5 - 2) * 2.2f, -(i / 5 + 1) * 3f);
                 var position = new Vector3(floor.x, TerrainHeightMath.Sample(terrain, floor.x, floor.y), floor.y);
+                // Match CombatWorldPresenter's standing anchors, not a centre pivot at floor height.
+                if (clip.Key == "heal_single")
+                    position += TiltedViewMath.UprightOffset(56f / Const.PixelsPerUnit, viewRules.TiltDegrees);
+                else if (clip.Key == "slash_sword" || clip.Key == "slash_axe" || clip.Key == "explosion"
+                    || clip.Key == "hit_star" || clip.Key == "lightning")
+                    position += TiltedViewMath.UprightOffset(24f / Const.PixelsPerUnit, viewRules.TiltDegrees);
                 var sprite = atlas.Get(clip.FrameKey(0));
                 var projectile = clip.Key == "arrow" || clip.Key == "crossbow_bolt" || clip.Key == "fireball";
                 if (clip.Key == "spore")
@@ -96,7 +106,6 @@ public static class DQFinishEffectsVerification
                     if (item.enemy != null) item.enemy.UpdateView(item.position, (frame + .1f) / clip.Fps);
                     var renderer = item.burst != null ? item.burst.ActiveRenderer : item.projectile != null ? item.projectile.ActiveRenderer : item.enemy.ActiveRenderer;
                     var bounds = renderer.bounds;
-                    var camera = Camera.main;
                     var corners = (from x in new[] { bounds.min.x, bounds.max.x }
                         from y in new[] { bounds.min.y, bounds.max.y }
                         from z in new[] { bounds.min.z, bounds.max.z }
@@ -128,6 +137,7 @@ public static class DQFinishEffectsVerification
             Object.Destroy(root);
             cache.ReleaseDQDash(-99999); cache.ReleaseChain(99999);
             Time.timeScale = previousTime;
+            camera.aspect = previousAspect;
             DQBackgroundVerification.Output = previousOutput;
         }
     }
