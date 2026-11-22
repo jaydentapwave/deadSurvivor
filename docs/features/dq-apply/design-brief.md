@@ -2,7 +2,7 @@
 
 - 작성: 2026-11-23 Codex. 작업 트리 `night-apply`, 브랜치 `claude/pack-expedition-2d-dq-apply`.
 - 기준 커밋: `41c14ec8a110d1d62d70248c2a266a62b7d520b3`.
-- 규모 L2. **구현 전 design-reviewer 대기**. 이 문서는 설계안이며 실행·컴파일·Play 통과 기록이 아니다.
+- 규모 L2. **design-reviewer 1차 FAIL — DR-02 결정 대기, 통합 구현 중지**. 이 문서는 설계안이며 실행·컴파일·Play 통과 기록이 아니다.
 - 사용자 지시의 실행 환경 3번에 따라 Codex는 리뷰 에이전트를 부르지 않는다. Claude 세션에서 검토하고 필수 지적을 해소한 뒤 구현한다. 이번에 런타임·장면·재질 변경은 없다.
 - 입력: [시각 요소 전체 목록](시각-요소-목록.md), [기준서 r2](../../art/아트-기준서.md), 시안 `Assets/Game/01.Scene/Lookdev_DQ.unity`, 사용자 20261123-night-1to6 5단계 지시문.
 
@@ -115,9 +115,9 @@ Main에서 원근 18°·세로 FOV20°로 한 판이 돌고, 게임 바닥 좌�
 1. 시안 카메라·게임 데이터·각도 난수/가중치를 그대로 두는 것을 우선한다.
 2. 후보 각도의 화면 밖 구간이 게임 들판과 교차하면 그 구간에서 기존 margin으로 배치한다. 다이아몬드 clamp 후 몸이 들어오지 않는지 실제 투영으로 확인한다.
 3. 교차하지 않는 각도는 위쪽 화면 내 출현이 불가피하다는 **설계 충돌**로 기록한다. 임의로 방향 가중치를 바꾸거나 적을 외곽 장식 영역에 놓아 성공시키지 않는다.
-4. `design-reviewer`는 이 충돌이 구현 차단인지, 지시의 “위쪽 몬스터가 읽히는가”·기존 게임 경계 아래에서 허용 가능한 제한인지 먼저 판정해야 한다. 허용 판정/디렉터 결정이 없으면 A-05를 PASS로 만들 수 없어 카메라·스폰 통합 구현을 시작하지 않는다.
+4. 독립 리뷰는 `VERDICT: FAIL`로 통합 구현을 불허했다. 위쪽 적의 자연스러운 축소 채택은 화면 안 출현 허용이 아니다. A-05는 **BLOCKED**이며, 권한 있는 결정 전까지 카메라·스폰 통합 구현을 시작하지 않는다. 검토자가 기준 변경을 승인한 것으로 대신할 수 없다.
 
-디렉터 확인 필요: 데이터·게임 규칙 변경 금지 아래에서 위쪽 화면 내 스폰을 허용할지. 이는 사용자에게 이번 실행에서 질문하지 않고 리뷰 요청에 올린다. 기준을 낮추거나 route 기대식을 바꾸지 않는다.
+디렉터 확인 필요: 정확한 시안 카메라·현재 게임 경계·모든 방향 화면 밖 스폰 중 무엇을 변경할지 권한 있는 결정을 받아야 한다. 이 실행은 사람에게 질문하지 않는다. `.ai/rules/fix-and-recheck.md`의 킷 원본 “멈추는 경우”2(기준 충돌)·5(사람 결정)에 해당하므로 `partial`로 중지한다. 같은 미결정으로 리뷰 회차를 반복하지 않는다. 기준·route 기대식을 바꾸지 않는다.
 
 ## 5. 모든 소비처 이행 대조표
 
@@ -156,6 +156,21 @@ Main에서 원근 18°·세로 FOV20°로 한 판이 돌고, 게임 바닥 좌�
 
 시안 전용 `Editor/HD2D/Round*`와 `Effect/HD2D/Round*`의 과거 정사영 실험은 Main 활성 경로가 아니다. 삭제하지 않으며 Main 소비처 검색에서 따로 분류한다. 게임 활성 경로에서 orthoSize·sin30/.5 투영 상수 잔재0을 확인한다. 정사영과 원근 두 벌 설정을 남기지 않는다.
 
+### 5.1 Probe의 경계 조회·배치·복원 계약 — DR-04
+
+다음은 **구현 계획**이다. 아래 계약을 구현·시험하기 전 종전 Probe가 원근에 대응한다고 보고하지 않는다.
+
+| 현재 소비처 | 새 경계 계약 | 유지해야 할 공개 의미·시험 |
+|---|---|---|
+| PlayableProbe.PartyCenterLimitWorld (702행) | `MonsterModel.ViewHalfExtent`에서 재계산하지 않고 PartyMoveService가 실제 사용하는 중심 이동 한계를 조회해 UnitScale로 월드 환산 | 실제 중심 허용 마름모 반대각선. viewport 반크기나 안전값 추정으로 바꾸지 않음 |
+| TerrainCaptureThreshold / TerrainCaptureTarget (712~714행) | 위 동일한 실제 한계에서 과거10.75m 경계의 안쪽 거리(inset)를 보존 | 기존 공개 인자·단위·route의 threshold 기대식 보존. 지형 지점을 더는 가리키지 못하면 별도 충돌 FAIL로 보고 |
+| PlaceTerrainPartyAtBoundary (751행) | 서비스 실제한계를 읽어 기존 순서(-,-),(+,-),(+,+),(-,+)와 .75/.25 비율로 배치; 모든 대원 offset은 delta만큼 보존 | 실제 경계 위에서 관측. 화면 범위를 경계로 오인 금지; 유효한0~3, 위치 불변식 시험 |
+| PlayableTerrainWalkSampler.Arm (1655행) | 기존 `SetViewHalfExtent(Vector2.zero)` 대신 이동 제한만 임시 해제하는 scoped override를 보관. 몬스터 화면 범위는 바꾸지 않음 | 언덕을 정상 이동 서비스로 넘는 fixture의 의미 유지. 임시 제한·시계·입력은 원복 |
+| PlayableTerrainWalkSampler.Restore/OnDestroy (1701행) | override를 정확히 한 번 해제. 화면비/해상도 변경 후에는 현재 camera frame에서 계산한 base limit으로 복귀; 옛 Vector2 반크기를 덮지 않음 | 정상완료·예외·중단·씬 종료에서 현재 실제한계 일치. fixture 중 WorldPresenter가 base bounds를 갱신해도 override를 잃지 않음 |
+| CaptureTerrainSpawnQuarter / PlayableTerrainSpawnSampler | 새 실제경계 배치 후 갱신된 camera frame에서 관측 시작 | 모서리4곳×7.5초=정확30초, 생성·재활용 placement version 모두 관측; max shake 시 몸도 확인 |
+
+공개 scalar `PartyCenterLimitWorld`를 보존하려면 실제 중심 이동 영역도 현재와 같은 **원점 중심 마름모**로 유지한다. PartyMoveService가 게임 경계/진형 여유와 렌더 전용 바닥 커버리지 안에 드는 마름모의 한계를 소유한다. 원근 viewport는 비대칭 FloorViewBounds로 별도 보관한다. Probe는 그 마름모 한계를 조회한다. 실제 영역을 비대칭 polygon으로 바꾸고 임의 scalar를 돌려주는 것은 의미 위반이므로 하지 않는다. 이 원점 중심 마름모가 필요한 이동·랜드마크 경로를 담지 못하면 A-06/해당 flow를 FAIL로 남기며 route 기대식을 고치지 않는다. DR-02의 적 생성 충돌은 이 계약으로 해결되지 않는다.
+
 ## 6. 렌더·가림·월드 표시
 
 ### 6.1 고해상 배경으로 가는 연결
@@ -191,7 +206,7 @@ Main 전용 renderer asset을 이행 메뉴가 갱신한다. 기존 효과·월�
 
 | ID | 완료 조건 | 검증 방법·반례 |
 |---|---|---|
-| A-00 | 목록73행에 네 질문·단계·완성/금지 정의, 누락0 | 코드 검색/자산 목록과 대조. 임시 링/선/적탄 포함, 다른 계열 실패 상상 보완 |
+| A-00 | 목록75행에 네 질문·단계·완성/금지 정의, 누락0 | 코드 검색/자산 목록과 대조. 임시 링/선/적탄 포함, 다른 계열 실패 상상 보완 |
 | A-01 | 실제 Main 원근18°·FOV20°·시안 거리/focus/clip | 저장 후 재열기 실제 camera 값,3화면비. ortho 설정 선택지0 |
 | A-02 | 기준 깊이 도트 약2px@1080,56칸 표지 약112px/10.4% | alpha silhouette bbox·측정 frame, 현재48칸은96px 목표로 별도 기록. 새 그림 완료는8단계 |
 | A-03 | floor↔screen 왕복/높이/텍셀 오차 | EditMode. 원점/±10m/경계, flat 및 실제 격자,3화면비. 평행ray·뒤·near/far·홀수폭pivot·반전. 예상 바닥 오차≤1e−3m/화면 오차≤0.5px(제안 시험 정밀도, 아트 문턱 대체 아님) |
@@ -201,7 +216,7 @@ Main 전용 renderer asset을 이행 메뉴가 갱신한다. 기존 효과·월�
 | A-07 | 가림은 대원 창만·정상 복구 | 소품 뒤→앞→옆·near 교차·풀 반환, 몬스터 비침0, 재질 hash/화면 확인 |
 | A-08 | 월드HP/숫자 머리 겹침0,후처리 뒤/예고판정일치 | 앞/가운데/뒤/비탈/흐림 띠 안 같은 frame쌍, 표시는 기존 그림, 실제 피해/범위 숫자와 대조 |
 | A-09 | 이행 메뉴 두 번 동일·컴파일0·관련시험>0 | 실제 응답·저장자산 hash/GUID·중복0·콘솔(기존FMOD도 구분), 양수 테스트 결과 |
-| A-10 | 기대식 그대로 한 판과 재시작, 캡처 직접 열기 | `python3 -B tools/playable.py`, 결과 단계수/시각/fingerprint; 시작·이동·가장자리×3화면비+연속8프레임 |
+| A-10 | 기대식 그대로 한 판과 재시작, 캡처 직접 열기 | 기본 route G1~G8와 별도 hd2d-terrain-flows T4/T8/N9_RESULT, 아래 명시 명령; 시작·이동·가장자리×3화면비+연속8프레임 |
 | A-11 | 기준·구조·계산 마감 독립 리뷰 | 구현·검사·커밋 뒤 Claude의 spec-reviewer/validator-client/algorithm-tester, VERDICT 원문 |
 
 명령 계획: `python3 .ai/studio-kit/project-doctor.py --root . --host codex --require unity-client.implement` → unity-cli로 **이 작업 트리 에디터** 확인 → 컴파일 → EditMode 관련필터(양수건수) → playable1회 → 캡처. 이번 설계 전환에서는 `--require design.write` exit0을 확인했다. 편집기 조작은 이번에는 실행하지 않았다.
@@ -252,3 +267,44 @@ Main 전용 renderer asset을 이행 메뉴가 갱신한다. 기존 효과·월�
 - 놓친 것: 요청한25d규칙이 레포에 설치되어 있다고 처음 가정했다. 직접 존재 검사로 부재를 확인하고 킷 원본을 읽었다. 원인=doctor 구성 상태와 실제 파일 혼동 가능. 워크플로우 갱신 후보=다음 단위 시작 때 필수 파일 존재를 먼저 확인. 이 브리핑9절에 반영, 공용 규칙 추가0.
 - 비용 개선: 첫 읽기에 큰 문서를 묶어 출력해 잘린 구간과 중복 출력이 생겼다. 이후 필요한 함수·절로 좁혔다. 반복 전체검사 추가0, 이번 설계에서Unity 검사를 돌리지 않으므로 뺄 중복Play0. 기존 검사 삭제0.
 - 시간·토큰은 `output/hd2d-dq/apply/5/session-time.md`에 집계한다. Claude·하위에이전트 호출0. 설계리뷰 반환 후 구현시간과 합쳐180분 상한을 다시 확인한다.
+
+## 12. 리뷰 수정·판정 기록(2차 작업, 구현 전)
+
+- 받은 판정: **`VERDICT: FAIL`**, design-reviewer, job `20261123-013222-4e519e`, Codex gpt-6.1-sol medium read-only112초. 사용자 전달 판정이며 직접 다시 실행한 리뷰가 아니다.
+- DR-02: 열린 지적이자 구현 차단. 북쪽 끝(0,0,32)의 screen y=0.90684, top floor z=46.5579m(독립 리뷰). 4.3절에 명확히 차단으로 반영, 통합 구현·A-05 BLOCKED 유지. 기준 충돌/사람 결정으로 중지한다.
+- DR-03: 목록74·75행과 생성 호출→사용 상태→행 대응표 보완. “dash_line15클립 부재”만 사실 정정: 기존 `2e9b07c` 목록46행·데이터 clips에 이미 존재. 핵심 사용 계약 누락은 수용했다.
+- DR-04: 5.1절에 Probe6개 소비처의 정확한 조회·배치·복원 계약, 아래 route 명령·단계·기대식 보존을 추가했다.
+- DR-03/DR-04 문서 보완은 제작자 확인이며 독립 수정 확인 PASS가 아니다. DR-02 차단을 풀 결정 전에는 같은 열린 지적 때문에 리뷰를 다시 요청하지 않는다. 결정 후 design-reviewer에게 DR-03/DR-04 보완과 결정된 DR-02 방안을 함께 수정 확인받는다.
+- 관문 호환성 열린 지적: 원근 지원 여부 미확인. 지원하지 않으면 검사 부적합 BLOCKED. 관문·문턱 변경0.
+
+### 실행해야 할 정확한 판정 경로
+
+아래 두 실행은 **통합 구현 승인·완료 후 각각 한 번**이다. 기본 한 판과 지형/경계 전용은 서로 다른 증거라 중복검사로 합치거나 한쪽으로 대체하지 않는다.
+
+```sh
+python3 -B tools/playable.py --route tools/playable/route.json --out output/hd2d-dq/apply/5/playable-main
+python3 -B tools/playable.py --route tools/playable/hd2d-terrain-flows.json --out output/hd2d-dq/apply/5/playable-terrain
+```
+
+- 기본 경로8단계 G1~G8: 시작→이동/전투→패배/승리→로비→다시 출발의 기존 기대식. 정확한 단계별 기대식은 route.json 원문을 보존한다.
+- 지형 경로34단계: T1~T7의발/카메라/가림/효과, T4_MOVE·T4_AFTER 경계 이동, T8_READY_SET·T8_READY·T8 정상 이동 언덕 연속, T10·WATER, N9_LOBBY→N9_START→N9_CORNER_0~3→N9_RESULT 생성·재활용. `--until N9_RESULT`는 앞34단계를 전부 실행하므로 빠른 N9 전용 실행으로 부르지 않는다.
+- N9_RESULT는 `TerrainFootError <= .001f && SpawnFootVisibleCount == 0 && SpawnBodyVisibleCount <= baseline["SpawnBodyVisibleCount"]`를 그대로 사용한다. baseline은 기존 `output/hd2d-terrain/spawn-baseline-exact30.json`이다. 없으면 BLOCKED이며 현재 결과로 baseline을 만들거나 문턱을 바꾸지 않는다. 이 실행의 작업 트리에서 baseline 존재 여부는 정적 검사 기록에 남긴다.
+- `--out`은 실행기의 report/capture 저장 위치만 바꾼다. route 내부의 `output/hd2d-terrain/` 보고·fixture 경로는 그대로 생성되므로 함께 증거 목록에 넣는다. route파일 수정0.
+- N9의 종전 몸 허용치가0보다 크더라도 A-05의 “화면 밖 몸”을 대체하지 않는다. 원근 A-05는 별도로0을 관측해야 하며 기존 route PASS만으로 충돌 해소라 하지 않는다.
+- 이번 문서 수정에서는 두 경로의 `--check`만 실행한다. 형식 통과는 실제8/34단계 실행 통과가 아니다.
+
+### 독립 리뷰의 사전 실패 상상 보완
+
+| ID | 추가 반례 | 반영한 설계·확인 |
+|---|---|---|
+| F-01 | 카메라가 흔들리는 순간 적이 나타나 | 최대 shake 포함 spawn/recycle 경계·몸 투영, A-05(5단계) |
+| F-02 | 맞은 순간 HP와 몸이 따로 움직여 | snap·피격 body offset·head anchor 같은 frame쌍 A-08, 피격 그림은8단계 |
+| F-03 | 쓰러졌다 살아나니 가림 창이 남아 | 사망·부활·웨이브 전환·풀 반환 때 대상 목록/재질 복구 A-07 |
+| F-04 | 이행에 실패했는데 반만 새 화면이 됐어 | Apply 시작 전에 대상 scene/asset bytes·GUID·renderer참조와 열린scene dirty 상태를 기록. 먼저 임시 산출물을 생성·검사하고 성공 시 저장. 중간 예외 시 저장한 대상만 사전 bytes로 복구·재임포트, 열린 scene은 저장 전 상태로 복구하고 변경대상을 보고. 재실행으로 같은 정상결과를 얻는지 시험. 다른 세션 파일·미저장scene을 덮거나 자동저장하지 않음 |
+| F-05 | 번개가 움직이는 대상에 닿지 않아 | 서로 다른 깊이의 양끝 현재 투영으로 dx/dy 재계산, 이동·해상도변경 후 캐시키/양끝 유지. 끝난 발동 캐시 해제. 5단계 끝점·9단계 그림 품질 |
+
+F-01~F-05는 확인된 런타임 결함이 아니다. 추가 검사 후보는 기존 A-05/07/08/09 및 효과 끝점 시험의 반례로 합쳐 독립 전체Play를5번 늘리지 않는다. 뺄 검사 후보는 같은 fixture에서 동일 상태·같은 frame을 다시 찍는 별도 캡처이며, 필수 관문은 삭제하지 않는다.
+
+놓친 것과 워크플로우 반영: DR-03 원인=클립 키 존재를 실제 사용 계약으로 간주; 목록1절·생성 대응표에 반영. DR-04 원인=기본 route를 전용 경계 검증으로 오해하고 Probe의 fixture 원복을 빠뜨림; 이 절과5.1절에 실제 명령·소비처·복원 반례를 반영. 공용 워크플로우 파일은 지정 쓰기 범위 밖이므로 변경하지 않고 이 작업의 절차 원본인 본 문서에 반영했다.
+
+- 이번 수정에서 추가로 놓친 것: 조용한 셸 명령의 출력을 근거로 baseline 부재라고 중간 안내했다. 명시적인 Python exists 조회 결과 파일이 존재해 즉시 정정했다. 원인=출력 없음과 실패 혼동. 이 절의 검증 절차에 반영: 파일 존재는 boolean·sha256을 증거에 명시하고, 존재와 현재 실행 통과를 구분한다. baseline 변경0.
