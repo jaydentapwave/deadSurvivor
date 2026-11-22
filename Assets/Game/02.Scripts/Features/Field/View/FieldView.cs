@@ -99,6 +99,20 @@ public class FieldView : MonoBehaviour
 
     public void BuildLandscape(FieldLayoutData layout, TerrainHeightGrid terrain)
     {
+        try
+        {
+            BuildLandscapeCore(layout, terrain);
+        }
+        catch
+        {
+            RestoreTerrainMaterials();
+            ReleaseLandscape();
+            throw;
+        }
+    }
+
+    private void BuildLandscapeCore(FieldLayoutData layout, TerrainHeightGrid terrain)
+    {
         _terrain = terrain;
         foreach (var material in new[] { groundMaterial, bankMaterial, waterMaterial, cardMaterial, woodMaterial,
                      bridgeMaterial, tentMaterial, ditherSpriteMaterial, ditherWoodMaterial, ditherTentMaterial, flagMaterial, ditherFlagMaterial })
@@ -113,7 +127,10 @@ public class FieldView : MonoBehaviour
                 {
                     _terrainQueueStateDict.Add(material, material.rawRenderQueue);
                 }
-                material.renderQueue = 1990;
+                if (material.shader.name != "DeadSurvivor/DQ/Main water")
+                {
+                    material.renderQueue = 1990;
+                }
             }
         }
         _modelSeed = layout.seed;
@@ -236,11 +253,23 @@ public class FieldView : MonoBehaviour
         var footprint = FieldModelMath.ProjectedSize(vertices, yaw, _tiltDegrees);
         var heightScale = sprite.bounds.size.y / footprint.y;
         var widthScale = sprite.bounds.size.x / (footprint.x * heightScale);
+        var isDQModel = entry.Material.shader.name == "DeadSurvivor/DQ/Main surface";
+        if (isDQModel && (placement.sprite.StartsWith("tree_") || placement.sprite.StartsWith("bush_")
+            || placement.sprite.StartsWith("boulder_") || placement.sprite.StartsWith("rock_")))
+        {
+            var targetHeight = placement.sprite.StartsWith("tree_") ? (56f / 48f) * (1.1f + seed % 501 / 1000f) :
+                placement.sprite.StartsWith("bush_") ? .55f : placement.sprite.StartsWith("boulder_") ? .8f : .38f;
+            heightScale = targetHeight / entry.Bounds.size.y;
+            widthScale = 1f;
+        }
         var variation = placement.sprite.StartsWith("rock_") ? FieldModelMath.StoneScale(seed) : 1f;
+        var placementScale = isDQModel && placement.sprite.StartsWith("tree_") ? 1f : placement.scale;
+        var supportRadius = isDQModel ? Mathf.Max(entry.Bounds.size.x, entry.Bounds.size.z) * heightScale * variation * placementScale * .5f :
+            sprite.bounds.size.x * placement.scale * variation * .5f;
         var root = new GameObject("3D:" + placement.group + ":" + entry.Id);
         root.transform.SetParent(_landscape, false);
-        root.transform.localPosition = new Vector3(placement.x, placement.height + TerrainHeightMath.MinUnder(_terrain, placement.x, placement.y, sprite.bounds.size.x * placement.scale * variation * .5f), placement.y);
-        root.transform.localScale = new Vector3(widthScale, 1, 1) * (variation * placement.scale);
+        root.transform.localPosition = new Vector3(placement.x, placement.height + TerrainHeightMath.MinUnder(_terrain, placement.x, placement.y, supportRadius), placement.y);
+        root.transform.localScale = new Vector3(widthScale, 1, 1) * (variation * placementScale);
         var model = Instantiate(entry.Prefab, root.transform);
         foreach (var renderer in model.GetComponentsInChildren<Renderer>())
         {
@@ -251,6 +280,7 @@ public class FieldView : MonoBehaviour
         }
         model.transform.localRotation = Quaternion.Euler(0, yaw, 0);
         model.transform.localScale = Vector3.one * heightScale;
+        ConfigureModelReference(model.GetComponentsInChildren<Renderer>(), root.transform.position.y);
         if (placement.sprite.StartsWith("tree_") || placement.sprite.StartsWith("bush_") || placement.sprite.StartsWith("boulder_"))
         {
             RegisterOccluder(root.transform, model.GetComponentsInChildren<Renderer>());
@@ -279,6 +309,7 @@ public class FieldView : MonoBehaviour
                 model.transform.localPosition = new Vector3(centers[i].x, first.height + TerrainHeightMath.MinUnder(_terrain, centers[i].x, centers[i].y, .5f), centers[i].y);
                 model.transform.localRotation = Quaternion.Euler(0, yaw, 0);
                 var renderers = model.GetComponentsInChildren<Renderer>();
+                ConfigureModelReference(renderers, model.transform.position.y);
                 foreach (var renderer in renderers)
                 {
                     foreach (var material in renderer.sharedMaterials)
@@ -413,6 +444,7 @@ public class FieldView : MonoBehaviour
                     renderer.shadowCastingMode = ShadowCastingMode.Off;
                 }
             }
+            ConfigureModelReference(root.GetComponentsInChildren<Renderer>(), root.transform.position.y);
             if (!_partDict.TryGetValue(placement.prop,out var partList))
             {
                 partList = new List<Renderer>();
@@ -461,9 +493,23 @@ public class FieldView : MonoBehaviour
         return renderer;
     }
 
+    private void ConfigureModelReference(Renderer[] renderers, float height)
+    {
+        var properties = new MaterialPropertyBlock();
+        foreach (var renderer in renderers)
+        {
+            renderer.GetPropertyBlock(properties);
+            properties.SetFloat("_DQBaseHeight", height);
+            properties.SetFloat("_DQModel", 1);
+            renderer.SetPropertyBlock(properties);
+        }
+    }
+
     private void ConfigureTerrainMaterial(Material material)
     {
-        if (material == null || material.shader.name != "HD2D/HD2D_FieldSurface")
+        if (material == null || (material.shader.name != "HD2D/HD2D_FieldSurface"
+            && material.shader.name != "DeadSurvivor/DQ/Main surface"
+            && material.shader.name != "DeadSurvivor/DQ/Main water"))
         {
             return;
         }
@@ -481,19 +527,8 @@ public class FieldView : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void RestoreTerrainMaterials()
     {
-        if (_terrainShadowMaterial != null)
-        {
-            if (Application.isPlaying)
-            {
-                Destroy(_terrainShadowMaterial);
-            }
-            else
-            {
-                DestroyImmediate(_terrainShadowMaterial);
-            }
-        }
         foreach (var pair in _terrainQueueStateDict)
         {
             if (pair.Key != null)
@@ -516,6 +551,41 @@ public class FieldView : MonoBehaviour
                 pair.Key.DisableKeyword("_TERRAIN_HEIGHT");
             }
         }
+        _terrainQueueStateDict.Clear();
+        _terrainKeywordStateDict.Clear();
+    }
+
+    private void OnDestroy()
+    {
+        if (_terrainShadowMaterial != null)
+        {
+            if (Application.isPlaying)
+            {
+                Destroy(_terrainShadowMaterial);
+            }
+            else
+            {
+                DestroyImmediate(_terrainShadowMaterial);
+            }
+        }
+        RestoreTerrainMaterials();
+        ReleaseLandscape();
+    }
+
+    private void ReleaseLandscape()
+    {
+        if (_landscape != null)
+        {
+            if (Application.isPlaying)
+            {
+                Destroy(_landscape.gameObject);
+            }
+            else
+            {
+                DestroyImmediate(_landscape.gameObject);
+            }
+            _landscape = null;
+        }
         foreach (var mesh in _ownedMeshList)
         {
             if (Application.isPlaying)
@@ -527,6 +597,10 @@ public class FieldView : MonoBehaviour
                 DestroyImmediate(mesh);
             }
         }
+        _ownedMeshList.Clear();
+        _partDict.Clear();
+        _occluderList.Clear();
+        _modelPointDict.Clear();
     }
 
     public Tilemap Tilemap => tilemap;

@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42273cc2fcddf43098865cf03cd8282c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Game::FieldModelCatalog
+  Entries:
+  - Id: tree_v1
+    Prefab: {fileID: 2911452358075220440, guid: eb04aca6a0272407588f7f8838af444f, type: 3}
+    Material: {fileID: 2100000, guid: 9b74fb511d9264de1b4fb8254b394a07, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: f41a26f98b40e485f9fc2d416be93ea5, type: 2}
+    Bounds:
+      m_Center: {x: 0.000690639, y: 0.7, z: 0.001101613}
+      m_Extent: {x: 0.5187981, y: 0.7, z: 0.6559534}
+    Triangles: 3046
+  - Id: tree_v2
+    Prefab: {fileID: 8821244207884616161, guid: 83a3f0e786e3b4ed2819e6464edda0b0, type: 3}
+    Material: {fileID: 2100000, guid: 7ba31c0dff65846dd92a1500cd46471f, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: b3e0c69b76fee478ab8733b16c154543, type: 2}
+    Bounds:
+      m_Center: {x: 0.0008009076, y: 0.8000001, z: 0.0010941625}
+      m_Extent: {x: 0.602722, y: 0.8000001, z: 0.6476145}
+    Triangles: 2979
+  - Id: tree_v3
+    Prefab: {fileID: 763384486432914261, guid: 9181cf46467a64b77a3ecb0e2da0354c, type: 3}
+    Material: {fileID: 2100000, guid: eda2db3f7888048ae9d254b94b66395d, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: 26dba530cfbda4e1eb714135f93a2c27, type: 2}
+    Bounds:
+      m_Center: {x: 0.0007419586, y: 0.65, z: 0.0011142492}
+      m_Extent: {x: 0.5664253, y: 0.65, z: 0.6656264}
+    Triangles: 2992
+  - Id: bush_v1
+    Prefab: {fileID: 6752766103303038266, guid: 72f030609c16c44158acb80bec7e6de6, type: 3}
+    Material: {fileID: 2100000, guid: 882e684635a0c4290ae3976e6e5a8da8, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: 6024e695238094a55824837b89eb9349, type: 2}
+    Bounds:
+      m_Center: {x: 0.0005569756, y: 0.17499998, z: 0}
+      m_Extent: {x: 0.45324373, y: 0.17499998, z: 0.915816}
+    Triangles: 1278
+  - Id: bush_v2
+    Prefab: {fileID: 932508150153604531, guid: 9ec98406f63854cd697e8d138afd56aa, type: 3}
+    Material: {fileID: 2100000, guid: 9e7137fa1fed04aa7bc8c56a49120212, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: 9970807cfed7645298165202e1be006d, type: 2}
+    Bounds:
+      m_Center: {x: 0.0005569756, y: 0.17499998, z: 0}
+      m_Extent: {x: 0.45324373, y: 0.17499998, z: 0.915816}
+    Triangles: 1278
+  - Id: boulder_v1
+    Prefab: {fileID: 1421527817461354149, guid: 860f1052f141140c5aaed12621967753, type: 3}
+    Material: {fileID: 2100000, guid: 5087f4366ea214e5fad907fdda78e9d0, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: 7bd358cd43afe48a6a1d02eb9f43b659, type: 2}
+    Bounds:
+      m_Center: {x: 0, y: 0.3, z: 0}
+      m_Extent: {x: 0.45, y: 0.3, z: 0.5493085}
+    Triangles: 1393
+  - Id: boulder_v2
+    Prefab: {fileID: 7229329819730623759, guid: be7b1e90186664c27921e33151cb1325, type: 3}
+    Material: {fileID: 2100000, guid: 5babc889d011a4511aad526ae0241eef, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: 38df28ea6618a4f078aaf0c804ba19c0, type: 2}
+    Bounds:
+      m_Center: {x: -0.000000059604645, y: 0.2, z: 0.000000059604645}
+      m_Extent: {x: 0.49999994, y: 0.2, z: 0.5000533}
+    Triangles: 1438
+  - Id: stone_v1
+    Prefab: {fileID: 5677722240741846663, guid: d46c0c2b4069b4ea3b6b811663315ebd, type: 3}
+    Material: {fileID: 2100000, guid: 250069345592c45c1869b2940921a319, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: f873fac5aaa4c4a9684c0790e089a88c, type: 2}
+    Bounds:
+      m_Center: {x: -0.000000014901161, y: 0.15782845, z: 0}
+      m_Extent: {x: 0.19999999, y: 0.15782845, z: 0.20857646}
+    Triangles: 576
+  - Id: stone_v2
+    Prefab: {fileID: 3059625035740120137, guid: 99229f081ba104fe18edb4412d7a86de, type: 3}
+    Material: {fileID: 2100000, guid: 8157f31caf4904c619a1de4758a2ce27, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: 843592d2671f743a7ac7badaef3b6992, type: 2}
+    Bounds:
+      m_Center: {x: 0, y: 0.12443816, z: 0}
+      m_Extent: {x: 0.15, y: 0.12443816, z: 0.18062189}
+    Triangles: 551
+  - Id: wall_a
+    Prefab: {fileID: 3296871980271607554, guid: d27312869c24848cdb5287d17cbfae31, type: 3}
+    Material: {fileID: 2100000, guid: 663a2c9f78ab042b2acc038c5216c8e1, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: f90d2dcfc27334d81a455ffe224aa677, type: 2}
+    Bounds:
+      m_Center: {x: 0, y: 0.2565, z: 0}
+      m_Extent: {x: 0.5, y: 0.2565, z: 0.15}
+    Triangles: 94
+  - Id: wall_b
+    Prefab: {fileID: 3409183832523012923, guid: 6241b4dcda3c14f969833e67073f2e3f, type: 3}
+    Material: {fileID: 2100000, guid: d9b9e6ee8371340c38fc48d4cbb0dfcf, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: 06e56645dac8046bb8911a91437b7775, type: 2}
+    Bounds:
+      m_Center: {x: 0, y: 0.2605, z: 0}
+      m_Extent: {x: 0.5, y: 0.2605, z: 0.15}
+    Triangles: 114
+  - Id: grass_v1
+    Prefab: {fileID: 1811100635803111920, guid: 0f8fa63fb9fea43f9905d14017977ff6, type: 3}
+    Material: {fileID: 2100000, guid: ee6cd13a33c034e48a2d17226303f383, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: 7facbe877dabd4db7b454b724713343d, type: 2}
+    Bounds:
+      m_Center: {x: 0, y: 0.09532833, z: 0}
+      m_Extent: {x: 0.11398621, y: 0.09532833, z: 0.11271389}
+    Triangles: 20
+  - Id: grass_v2
+    Prefab: {fileID: 6546240033592048605, guid: f5597b0c75a394c3b8d118dd55891121, type: 3}
+    Material: {fileID: 2100000, guid: dea87b6f16dd149c99f0b684d0b9b36a, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: 64bc6c55354664a1b9b392f708facc88, type: 2}
+    Bounds:
+      m_Center: {x: 0, y: 0.12882651, z: 0}
+      m_Extent: {x: 0.13554883, y: 0.12882651, z: 0.13849442}
+    Triangles: 26
+  - Id: flower_white
+    Prefab: {fileID: 6625190348880874346, guid: cb656618241434f259b1a9aa5b45711e, type: 3}
+    Material: {fileID: 2100000, guid: 01b42ad8ea9bc4a51a67558689dd59a5, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: b3e22fe4b261c4039b1b8fb4a061b83b, type: 2}
+    Bounds:
+      m_Center: {x: 0, y: 0.1385, z: 0}
+      m_Extent: {x: 0.1875, y: 0.1385, z: 0.17804538}
+    Triangles: 38
+  - Id: flower_yellow
+    Prefab: {fileID: 2365565534741818880, guid: 60af4b7d9e8bb461fac2d6f51cc0552e, type: 3}
+    Material: {fileID: 2100000, guid: 0b39d3afd335c44d286bfe91bad7b523, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: f059c0dd4a9cf4783a077bc0e152018e, type: 2}
+    Bounds:
+      m_Center: {x: 0, y: 0.1385, z: 0}
+      m_Extent: {x: 0.1875, y: 0.1385, z: 0.17523026}
+    Triangles: 38
+  - Id: flower_purple
+    Prefab: {fileID: 7483332923754448153, guid: e9dd29b25b12540df9155f92bc2685e8, type: 3}
+    Material: {fileID: 2100000, guid: 9bf97b21dd34c4139b53636aa5dc8d2a, type: 2}
+    FadedMaterial: {fileID: 2100000, guid: 90ad3f8598f1543ef87f8d118b7deee1, type: 2}
+    Bounds:
+      m_Center: {x: 0, y: 0.1385, z: 0}
+      m_Extent: {x: 0.1875, y: 0.1385, z: 0.17907149}
+    Triangles: 38
