@@ -34,7 +34,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _Diagnostic: 0
+    - _DstBlend: 0
     - _Opacity: 0.65
+    - _SrcBlend: 2
     m_Colors:
     - _FieldRect: {r: -36, g: -36, b: 72, a: 72}
     - _ShadowTint: {r: 0.18, g: 0.25, b: 0.19, a: 1}

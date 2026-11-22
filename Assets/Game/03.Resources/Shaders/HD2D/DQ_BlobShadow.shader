@@ -8,13 +8,15 @@ Shader "DeadSurvivor/DQ/Soft foot shadow"
         _ShadowTint("Full coverage tint",Color)=(.32,.40,.34,1)
         _Diagnostic("Receiver diagnosis only",Float)=0
         _Opacity("Coverage",Range(0,1))=.6
+        [HideInInspector] _SrcBlend("Source blend",Float)=2
+        [HideInInspector] _DstBlend("Destination blend",Float)=0
     }
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" "Queue"="Transparent-10" }
         Pass
         {
-            Cull Off ZWrite Off ZTest LEqual Blend DstColor Zero
+            Cull Off ZWrite Off ZTest LEqual Blend [_SrcBlend] [_DstBlend]
             HLSLPROGRAM
             #pragma vertex Vert
             #pragma fragment Frag
@@ -32,7 +34,7 @@ Shader "DeadSurvivor/DQ/Soft foot shadow"
             {
                 V o; o.world=TransformObjectToWorld(a.p);o.p=TransformWorldToHClip(o.world);o.uv=a.uv;o.support=a.color.r;return o;
             }
-            half4 Frag(V i):SV_Target
+            float4 Frag(V i):SV_Target
             {
                 float2 screenUV=GetNormalizedScreenSpaceUV(i.p);
                 float raw=SampleSceneDepth(screenUV);
@@ -40,10 +42,16 @@ Shader "DeadSurvivor/DQ/Soft foot shadow"
                 raw=lerp(UNITY_NEAR_CLIP_VALUE,1,raw);
                 #endif
                 float3 receiver=ComputeWorldSpacePosition(screenUV,raw,UNITY_MATRIX_I_VP);
-                if (_Diagnostic<.5 || _Diagnostic>2.5) clip(.04-distance(receiver,i.world));
                 float bank=SAMPLE_TEXTURE2D(_BankMask,sampler_PointClamp,(i.world.xz-_FieldRect.xy)/_FieldRect.zw).r;
-                if (_Diagnostic<1.5 || _Diagnostic>2.5) clip(i.support>.5 ? bank-.5 : .5-bank);
                 float coverage=SAMPLE_TEXTURE2D(_MainTex,sampler_LinearClamp,i.uv).a*_Opacity;
+                // Temporary verification material only: actual Main pre-transparent depth sample.
+                if (_Diagnostic>3.5 && _Diagnostic<4.5)
+                {
+                    clip(coverage-.01);
+                    return float4(distance(receiver,i.world),_CameraDepthTexture_TexelSize.z,32+abs(bank-i.support),1);
+                }
+                if (_Diagnostic<.5 || _Diagnostic>2.5) clip(.04-distance(receiver,i.world));
+                if (_Diagnostic<1.5 || _Diagnostic>2.5) clip(i.support>.5 ? bank-.5 : .5-bank);
                 return half4(lerp(1,_ShadowTint.rgb,saturate(coverage)),1);
             }
             ENDHLSL

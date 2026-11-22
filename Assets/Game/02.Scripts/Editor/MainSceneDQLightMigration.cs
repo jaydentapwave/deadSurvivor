@@ -31,6 +31,22 @@ public static class MainSceneDQLightMigration
     public static void Apply() => ApplyCore(false);
     public static void ApplyForFailureTest() => ApplyCore(true);
 
+    [MenuItem("DeadSurvivor/DQ/Restore adopted coverage")]
+    public static void RestoreAdoptedCoverage()
+    {
+        if (Application.isPlaying || EditorSceneManager.GetActiveScene().isDirty)
+            throw new InvalidOperationException("Restore coverage requires saved Edit mode.");
+        // One-time integration repair. The screen menu now preserves existing adopted geometry.
+        var start = new System.Diagnostics.ProcessStartInfo("git", "show 98b6e2f186bdd17bcbaf02f4400070a119dd3a16:" + MainSceneDQScreenMigration.ApronPath)
+        { WorkingDirectory = Directory.GetCurrentDirectory(), RedirectStandardOutput = true, RedirectStandardError = true, UseShellExecute = false };
+        using var process = System.Diagnostics.Process.Start(start);
+        using var bytes = new MemoryStream();
+        process.StandardOutput.BaseStream.CopyTo(bytes); process.WaitForExit();
+        if (process.ExitCode != 0) throw new InvalidOperationException(process.StandardError.ReadToEnd());
+        File.WriteAllBytes(MainSceneDQScreenMigration.ApronPath, bytes.ToArray());
+        AssetDatabase.ImportAsset(MainSceneDQScreenMigration.ApronPath, ImportAssetOptions.ForceUpdate);
+    }
+
     private static void ApplyCore(bool injectFailure)
     {
         if (Application.isPlaying || EditorApplication.isCompiling || EditorSceneManager.GetActiveScene().isDirty)
@@ -45,8 +61,17 @@ public static class MainSceneDQLightMigration
             var blob = MaterialAt(BlobPath, "DeadSurvivor/DQ/Soft foot shadow");
             blob.SetTexture("_MainTex", AssetDatabase.LoadAssetAtPath<Texture2D>(TexturePath));
             var legacy = AssetDatabase.LoadAssetAtPath<Material>(Root + "/HD2D_FootShadow.mat");
-            blob.SetTexture("_BankMask", legacy.GetTexture("_BankMask"));
-            blob.SetVector("_FieldRect", new Vector4(-36, -36, 72, 72));
+            var mask = legacy.GetTexture("_BankMask");
+            var bounds = Newtonsoft.Json.Linq.JObject.Parse(File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_mask_bounds.json"));
+            var rect = new Vector4((float)bounds["xMin"], (float)bounds["zMin"], (float)bounds["widthMetres"], (float)bounds["depthMetres"]);
+            var layout = new ResourceService().LoadJson<FieldLayoutData>("Data/Field/field_layout");
+            if (mask == null || mask.name != (string)bounds["texture"] || mask.width != (int)bounds["width"]
+                || mask.height != (int)bounds["height"] || rect.z <= 0 || rect.w <= 0
+                || rect.x != -layout.groundHalfDiagonal || rect.y != -layout.groundHalfDiagonal
+                || rect.z != 2 * layout.groundHalfDiagonal || rect.w != 2 * layout.groundHalfDiagonal)
+                throw new InvalidOperationException("Bank mask metadata, raster dimensions and field bounds disagree.");
+            blob.SetTexture("_BankMask", mask);
+            blob.SetVector("_FieldRect", rect);
             blob.SetColor("_ShadowTint", new Color(.18f, .25f, .19f));
             blob.SetFloat("_Opacity", .65f);
             blob.renderQueue = 2990;
@@ -236,9 +261,12 @@ public static class MainSceneDQLightMigration
             }
             // Unity writes an empty name with a trailing space for the newly added component.
             var sceneText = File.ReadAllText(MainSceneDQScreenMigration.ScenePath);
+            // Unload the saved scene before canonicalizing disk bytes, avoiding a delayed reload dialog.
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             sceneText = sceneText.Replace("  m_Name: \n  m_EditorClassIdentifier: HD2D.View::DQSceneLighting",
                 "  m_Name:\n  m_EditorClassIdentifier: HD2D.View::DQSceneLighting");
             File.WriteAllText(MainSceneDQScreenMigration.ScenePath, sceneText);
+            AssetDatabase.ImportAsset(MainSceneDQScreenMigration.ScenePath, ImportAssetOptions.ForceUpdate);
             // Keep newly supplied text assets canonical; do not rewrite unrelated Unity YAML.
             foreach (var generated in Targets.Where(p => p.StartsWith(Root + "/DQ_", StringComparison.Ordinal)
                 || p == TexturePath || p == VolumePath))

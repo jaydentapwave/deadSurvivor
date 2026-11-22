@@ -9,6 +9,40 @@ using UnityEngine.Rendering.Universal;
 public class DQLightingTests
 {
     [Test]
+    public void BlobTriangleInteriorsFollowValleyCrease()
+    {
+        var root=new GameObject("crease");var body=new GameObject("body").AddComponent<SpriteRenderer>();body.transform.SetParent(root.transform,false);
+        var material=AssetDatabase.LoadAssetAtPath<Material>("Assets/Game/03.Resources/Materials/HD2D/DQ_BlobShadow.mat");
+        var grid=TerrainHeightGrid.FromMillimetres(1,-1,-1,3,3,new[]{200,0,200,200,0,200,200,0,200});
+        var blob=root.AddComponent<DQBlobShadow>();
+        try {
+            foreach(var x in new[]{-.23f,0,.17f}) {
+                root.transform.position=new Vector3(x,TerrainHeightMath.Sample(grid,x,0),0);blob.Initialize(body,material,.9f);blob.SetGround(grid,material);
+                var mesh=blob.OwnedMesh;var vertices=mesh.vertices;var indices=mesh.triangles;var transform=blob.GetComponentInChildren<MeshFilter>().transform;
+                for(var i=0;i<indices.Length;i+=3) for(var a=1;a<8;a++) for(var b=1;b<8-a;b++) {
+                    var u=a/8f;var v=b/8f;var p=transform.TransformPoint(vertices[indices[i]]*u+vertices[indices[i+1]]*v+vertices[indices[i+2]]*(1-u-v));
+                    Assert.AreEqual(TerrainHeightMath.Sample(grid,p.x,p.z)+.002f,p.y,1e-5,"triangle interior bridges terrain crease");
+                }
+            }
+        } finally {Object.DestroyImmediate(root);}
+    }
+
+    [Test]
+    public void MainGlobalsRestoreAtCameraEndBeforeOtherCamera()
+    {
+        var root=new GameObject("camera",typeof(Camera));var other=new GameObject("other",typeof(Camera));
+        var beforeFocus=Shader.GetGlobalVector("_DQLightFocus");var beforeAir=Shader.GetGlobalVector("_DQAirColor");
+        var focus=new Vector4(2,3,4,5);var air=new Vector4(.1f,.2f,.3f,1);var context=default(ScriptableRenderContext);
+        var component=root.AddComponent<DQSceneLighting>();
+        void Invoke(string method,Camera camera)=>typeof(DQSceneLighting).GetMethod(method,BindingFlags.Instance|BindingFlags.NonPublic).Invoke(component,new object[]{context,camera});
+        try {Shader.SetGlobalVector("_DQLightFocus",focus);Shader.SetGlobalVector("_DQAirColor",air);
+            Invoke("OnCameraRendering",root.GetComponent<Camera>());Assert.AreNotEqual(focus,Shader.GetGlobalVector("_DQLightFocus"));
+            Invoke("OnCameraRendered",root.GetComponent<Camera>());Invoke("OnCameraRendering",other.GetComponent<Camera>());
+            Assert.AreEqual(focus,Shader.GetGlobalVector("_DQLightFocus"));Assert.AreEqual(air,Shader.GetGlobalVector("_DQAirColor"));
+        } finally {Object.DestroyImmediate(root);Object.DestroyImmediate(other);Shader.SetGlobalVector("_DQLightFocus",beforeFocus);Shader.SetGlobalVector("_DQAirColor",beforeAir);}
+    }
+
+    [Test]
     public void AtlasRectTracksFrameTextureAndPreservesAppearance()
     {
         var root = new GameObject("rect fixture");

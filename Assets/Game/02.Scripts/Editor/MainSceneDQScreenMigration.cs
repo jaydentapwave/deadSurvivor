@@ -194,6 +194,9 @@ public static class MainSceneDQScreenMigration
 
     private static void BuildApron()
     {
+        // Adopted stage-6 geometry is authoritative. Height data changed after its original bake;
+        // re-running a screen migration must not silently re-bake background geometry.
+        if (AssetDatabase.LoadAssetAtPath<Mesh>(ApronPath) != null) return;
         var field = Object.FindFirstObjectByType<FieldView>();
         var serialized = new SerializedObject(field);
         var material = (Material)serialized.FindProperty("groundMaterial").objectReferenceValue;

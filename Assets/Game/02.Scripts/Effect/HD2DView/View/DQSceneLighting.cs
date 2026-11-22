@@ -8,12 +8,14 @@ public sealed class DQSceneLighting : MonoBehaviour
     private Vector4 _previousFocus;
     private Vector4 _previousFog;
     private Camera _camera;
+    private bool _applied;
     private void OnEnable()
     {
         _camera = GetComponent<Camera>();
         _previousFocus = Shader.GetGlobalVector("_DQLightFocus");
         _previousFog = Shader.GetGlobalVector("_DQAirColor");
         RenderPipelineManager.beginCameraRendering += OnCameraRendering;
+        RenderPipelineManager.endCameraRendering += OnCameraRendered;
     }
 
     private void OnCameraRendering(ScriptableRenderContext context, Camera camera)
@@ -22,6 +24,9 @@ public sealed class DQSceneLighting : MonoBehaviour
         {
             return;
         }
+        _previousFocus = Shader.GetGlobalVector("_DQLightFocus");
+        _previousFog = Shader.GetGlobalVector("_DQAirColor");
+        _applied = true;
         var rig = GetComponent<TiltedCameraRig>();
         var distance = rig != null && rig.Distance > 0 ? rig.Distance : TiltedCameraRig.DQDistance;
         Shader.SetGlobalVector("_DQLightFocus", new Vector4(distance, 8, 48, 1));
@@ -32,7 +37,20 @@ public sealed class DQSceneLighting : MonoBehaviour
     private void OnDisable()
     {
         RenderPipelineManager.beginCameraRendering -= OnCameraRendering;
+        RenderPipelineManager.endCameraRendering -= OnCameraRendered;
+        Restore();
+    }
+
+    private void OnCameraRendered(ScriptableRenderContext context, Camera camera)
+    {
+        if (camera == _camera) Restore();
+    }
+
+    private void Restore()
+    {
+        if (!_applied) return;
         Shader.SetGlobalVector("_DQLightFocus", _previousFocus);
         Shader.SetGlobalVector("_DQAirColor", _previousFog);
+        _applied = false;
     }
 }

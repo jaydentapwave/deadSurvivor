@@ -55,8 +55,9 @@ public static class DQBackgroundVerification
             }
             var grassCorners = new[] { new Vector2(-1, -1.5f), new Vector2(1, -1.5f), new Vector2(-1, 1.5f), new Vector2(1, 1.5f) }
                 .Select(p => p + grassCenter).Select(p => camera.WorldToViewportPoint(new Vector3(p.x, TerrainHeightMath.Sample(terrain, p.x, p.y), p.y))).ToArray();
-            var grassRegion = new[] { grassCorners.Min(p => p.x) * width, (1 - grassCorners.Max(p => p.y)) * height,
-                grassCorners.Max(p => p.x) * width, (1 - grassCorners.Min(p => p.y)) * height };
+            var grassRegion = InscribedGrassRegion(camera, terrain,
+                new Rect(grassCenter.x - 1, grassCenter.y - 1.5f, 2, 3), width, height, grassCorners);
+            isGrassSampleClear &= grassRegion[2] > grassRegion[0] && grassRegion[3] > grassRegion[1];
             // Measurement anchors are declared before rendering, never hand-picked from the image.
             File.WriteAllText(path + "-before.json", Newtonsoft.Json.JsonConvert.SerializeObject(new
             {
@@ -82,6 +83,41 @@ public static class DQBackgroundVerification
             RenderTexture.ReleaseTemporary(target);
             Object.DestroyImmediate(image);
         }
+    }
+
+    // Every pixel center in the final rectangle is inverse-projected to the verified world grass.
+    // An outer screen AABB alone is not safe for a perspective trapezoid.
+    public static float[] InscribedGrassRegion(Camera camera, TerrainHeightGrid terrain, Rect world,
+        int width, int height, Vector3[] corners)
+    {
+        var x0 = Mathf.CeilToInt(corners.Min(p => p.x) * width);
+        var x1 = Mathf.FloorToInt(corners.Max(p => p.x) * width);
+        var y0 = Mathf.CeilToInt((1 - corners.Max(p => p.y)) * height);
+        var y1 = Mathf.FloorToInt((1 - corners.Min(p => p.y)) * height);
+        while (x1 - x0 > 8 && y1 - y0 > 8)
+        {
+            var valid = true;
+            for (var y = y0; y < y1 && valid; y++)
+            for (var x = x0; x < x1 && valid; x++)
+            {
+                var ray = camera.ViewportPointToRay(new Vector3((x + .5f) / width, 1 - (y + .5f) / height, 0));
+                var t = -ray.origin.y / ray.direction.y;
+                var hit = Vector3.zero;
+                for (var step = 0; step < 24; step++)
+                {
+                    hit = ray.GetPoint(t);
+                    var error = hit.y - TerrainHeightMath.Sample(terrain, hit.x, hit.z);
+                    if (Mathf.Abs(error) < .00001f) break;
+                    var normal = TerrainHeightMath.Normal(terrain, hit.x, hit.z);
+                    t -= error / (Vector3.Dot(normal, ray.direction) / normal.y);
+                }
+                valid = t > 0 && Mathf.Abs(hit.y - TerrainHeightMath.Sample(terrain, hit.x, hit.z)) < .0001f
+                    && world.Contains(new Vector2(hit.x, hit.z));
+            }
+            if (valid) return new float[] { x0, y0, x1, y1 };
+            x0++; x1--; y0++; y1--;
+        }
+        return new float[4];
     }
 
     private static bool IsFootprintRoot(Transform t) => t.name.StartsWith("3D:") || t.name.StartsWith("Far forest") || t.name == "bridge" || t.name == "tent" || t.name == "fence" || t.name == "sign" || t.name == "flag";
@@ -217,7 +253,7 @@ public static class DQBackgroundVerification
     {
         Capture(label, 1920, 1080);
         Capture(label, 2340, 1080);
-        Capture(label, 2048, 1536);
+        Capture(label, 1440, 1080);
     }
 
     public static void CaptureControls()
@@ -352,7 +388,8 @@ public static class DQBackgroundVerification
             for (var i = 0; i < all.Length; i++)
             {
                 var renderer = all[i];
-                if (renderer.GetComponentInParent<ParticleSystem>() != null || renderer.name == "DQ soft foot shadow")
+                if (renderer.GetComponentInParent<ParticleSystem>() != null || renderer.name == "DQ soft foot shadow"
+                    || renderer is SpriteRenderer spriteRenderer && !bodies.Contains(spriteRenderer))
                 {
                     renderer.enabled = false;
                 }
@@ -459,6 +496,7 @@ public static class DQBackgroundVerification
                 {
                     PlayableProbe.SetMove(0, 0);
                     CaptureAspectSet(names[stage]);
+                    DQLightingVerification.Receiver(names[stage]);
                     rows.Add(new { name = names[stage], frame, position = new[] { position.x, position.y }, target = new[] { target.x, target.y }, distance = delta.magnitude });
                     stage++;
                     if (stage == points.Length)
