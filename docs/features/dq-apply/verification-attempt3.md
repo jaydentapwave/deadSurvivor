@@ -17,7 +17,7 @@
 | spec2/client1/algorithm A05 | 같은선택방향의실제원근발/보수적몸상자+기존margin+최대shake를검사해첫들판경계까지밀기. Spawn/Recycle같은ResolvePlacement. 난수·주기·수·타입·HP데이터불변 | 3화면비×4중심경계×8방향×4shake순수계산,실제서비스60표본. 기존raw카운터·방향·기대식그대로,경계제약bool추가기록 |
 | spec3 | SnapCard 지형로컬접면재교차4회+실제height재샘플. 이동한계2/48m초과면원발위치유지. Member/Monster 실제flipX pivot전달 | 실제MonsterView소비처반전pivot,평지/비탈grounded·bounded. near/behind/far는그림보정없이복귀 |
 | spec4 | Editor update에서새Time.frameCount마다1장,8장수집 | r3-motion.json의실제frame/time,기존CLI왕복8표본과구분 |
-| spec5/6 | 일반/near가림,사망/부활/풀반환/disable복구,피격몸·HP·숫자같은frame묶음 | r3-lifecycle-frames.json, r3-motion.json. 마지막near코드는그대로포함한최종runtime원문지문/Play |
+| spec5/6 | 일반가림·사망/부활/풀반환/disable복구와피격몸·HP·숫자같은frame묶음. 기존Unlit near큐브는가림미등록이라near클리핑시각화에한정 | r3-lifecycle-frames.json, r3-motion.json. 등록된near가림경로는아래추가수정확인증거로분리 |
 | client2 | SpriteLit 원clip XY/W유지하고biasedZ/biasedW의NDC깊이만옮김 | Main 실제GPU검사 bias0/.2209 x800px가까운표지bbox와픽셀수동일 |
 | client3 | Projectile/EnemyShot Upright를18도카메라Up방향.5m로복원,root/그림자바닥유지 | 이행으로만프리팹수정,실제플레이투사체/프리팹위치확인 |
 | client4 | 전역SaveAssets제거,대상만SaveAssetIfDirty. Scene저장의참조dirty자산자동저장을막고메모리내용/dirtyflag보존 | prefabs·saved 두지점에실제변경+예외주입,11파일및meta bytes/GUID·renderer참조·열린scene복구. 다른wood재질dirty sentinel내용/flag/파일hash유지,그후2회이행동일 |
@@ -37,7 +37,7 @@
 - 최종runtime전체 `r3-playable-main-final/report.json`:8/8 PASS,141.2초. `r3-playable-terrain-final/report.json`:33/34,N9_RESULT FAIL. 기대식·baseline변경0(`r3-expectations-unchanged.json`). 런타임C#/shader의수집전후지문 drift0는`runtime-r3-final-source-{before,after}.json`.
 - 전용N9발 북동서남35/0/1/0,몸35/4/3/0. 화면안42건모두boundaryConstrained=true,최소발y=.6262779(먼쪽). 경계제약없는화면안0. `r3-final-boundary-exception-report.json`에원시행을보존했고기존FAIL을PASS로고치지않음.
 - native GameView1920×1080,2340×1080,2048×1536을실제로설정한최대shake4방향×중심/경계5의실제서비스60표본,6000관측. 경계제약없는가시출현0,경계제약인데가까운쪽(y≤.5)0,먼경계가시1270. `r3-placement-matrix*.json`, `r3-placement-*.csv`, `r3-recycle-*.csv`. 이fixture는일시정지중실제서비스를직접진행한배치시험이며자연게임1판은위기본경로가별도증명한다.
-- 움직임8장은frame6587~6594 인접프레임. 첫행IsFlashOn1,숫자1,몸/HP좌표동시기록(`r3-motion.json`). 가림도3558~3565 인접실제프레임:alive→down→revived→monster-pool-return→disabled→reacquired→near-crossing→near-restored(`r3-lifecycle-frames.json`). disabled에서창0/정상재질ID복원,재취득시대원창복원. 앞의일시정지동일framefixture와구분한다.
+- 움직임8장은frame6587~6594 인접프레임. 첫행IsFlashOn1,숫자1,몸/HP좌표동시기록(`r3-motion.json`). 일반가림도3558~3565 인접실제프레임:alive→down→revived→monster-pool-return→disabled→reacquired→near-crossing→near-restored(`r3-lifecycle-frames.json`). disabled에서창0/정상재질ID복원,재취득시대원창복원. 마지막두near상태는미등록Unlit큐브의near클리핑만보이며가림경로증거로는부족했다(spec수정확인지적수용). 앞의일시정지동일framefixture와구분한다.
 - 세화면비의경계는각각정상입력으로실제한계까지도달후캡처:9.842309m,7.65480947m,13.31453m. `r3-capture-session.json`각이벤트에위치/한계기록. 캡처전native화면비와World의투영snapshot을갱신했다.
 - Main실제GPU표지56칸111px(약112px/10.4%목표). bias0와.2209에서 x1666~1776,y454~564,픽셀수12321동일(`r3-gpu-probe.json`),clipXY/W가보존됨. 실제대원새56칸아트는8단계몫이며바꿨다고주장하지않는다.
 - 새소스의출현연출도`r3-appearance-observed.json`실측110update,elapsed0→.300487548,shader0→1. 실시간첫행~끝행약.2797초. 게임판정변화0.
@@ -47,3 +47,18 @@
 - 캡처보조스크립트설정리팩터링과기존프로세스로드가겹쳐1회fixture설정파일부재로실패했다. 최종경로PASS는그대로보존하고캡처만새프로세스로재개,최종capture/extra완료. 이전실패로그도보존했다. 런타임게임실패와구분한다.
 
 이결과는구현자명령/판독이며독립수정확인PASS가아니다. FAIL3종1회수정확인후같은지적이남으면inbox지시대로더반복하지않고질문/핸드오프로넘긴다.
+
+
+## spec 수정 확인의 남은 near 증거 보완
+
+사용자 전달 spec-reviewer job20261123-031617-b733db `VERDICT: FAIL`은 near 교차 큐브가가림registry에없다는지적이다. 수용하며 위기존주장의범위를정정했다. validator-client job20261123-031612-c06b61 및algorithm-tester job20261123-031610-70c30f의`VERDICT: PASS`는그대로유지하며재호출하지않는다. 최신사용자반환의“FAIL 필수수정후다시확인”지시에따라near증거만보완했다.
+
+- 새검증도구 `Assets/Game/02.Scripts/Editor/DQNearOcclusionVerification.cs`는MainPlay에서`FieldView.RegisterOccluder`를실제로호출한다. 원래wood/ditherWood재질과실제`FieldOcclusionPresenter.LateTick`을쓰며런타임게임코드·계산식·DI·기준문서는변경0. cleanup만동적해제API가없는기존registry에서자기항목을제거하고임시mesh/오브젝트를파기한다. 씬/프리팹/재질저장0.
+- near교차는실제mesh vertex깊이 **0.08000073~0.360001445m**,Mainnear **.1m**로확인했다. `HD2D/HD2D_FieldSurface`의실제`HD2D_DitherWood`가선택됐으며단순Unlit clipping시각화와구분한다.
+- `r3-registered-near.json`: 실제frame **1323~1330**. 등록된near물체에서창수 **0→4→4→0→4→0→4→0**. covered상태모두등록=true/near교차=true/IsFaded=true/정상재질과다름. 화면밖이동·대원비활성화·등록해제상태에서창0·정상재질ID복원. 등록수는시작/정리후 **132→132**로복구. 각행stateOk=true.
+- `frames/r3-registered-near-window-1920x1080.png`와`opaque-no-actors`,복구프레임을실제로열어봤다. near판의나머지면은불투명이고대원영역에만dither창이열린다. 창과정상재질복구는수치/화면을함께본다. 임시near판은의도된검증fixture이며실제배경아트완료주장이아니다.
+- 새Editor도구컴파일은`r3-near-recompile-status.json` errors0,관련`FieldOcclusionPresenterTests` **4/4 PASS**(`r3-near-editmode-final.json`). 게임런타임은f310d1d와동일하므로기본8/8·전용33/34·119/119·다른두리뷰PASS를이번에재실행했다고쓰지않는다.
+- 미해결열린항목은그대로:Main정사영관문OPEN-01 BLOCKED/9단계인계,원본레퍼런스직접대조NOT_RUN,N9_RESULT FAIL(허용된먼경계사례). 이를PASS로바꾸지않는다. 원본190개동결증거는보존하고새near증거는별도하위폴더에둔다.
+- 놓친원인: near에걸친물체가화면에보인것을등록된가림경로를거친것과혼동했다. 이작업검증절차에 **registry포함·원재질/가림재질identity·창수·정리후registry복구·실제화면을같은행에서기록**하도록반영했다. 공용규칙수정0.
+
+추가검증 종료: 2026-11-22T18:32:02.555334+00:00. 최종 Editor ready/Play stopped/runInBackground=false. 새 캡처 직접 판독 경로와 SHA는 `r3-near-opened-images.json`, 변경 범위는 `r3-near-scope.json`에 기록했다. 정확한 세션 토큰은 도구 미제공으로 미집계이며 하위 에이전트 호출0.
