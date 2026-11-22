@@ -62,6 +62,7 @@ Shader "DeadSurvivor/DQ/Main surface"
         struct V { float4 p:SV_POSITION; float3 w:TEXCOORD0; float3 n:TEXCOORD1; float2 uv:TEXCOORD2; float2 floorDepth:TEXCOORD3; float4 screen:TEXCOORD4; };
         #endif
         float _HD2DAmbientFrame;
+        float4 _DQLightFocus, _DQAirColor;
         V Vert(A i)
         {
             if (_FlagWind>.5)
@@ -151,13 +152,16 @@ Shader "DeadSurvivor/DQ/Main surface"
             }
             Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));
             float3 normal=normalize(float3(i.n.x*(_Category<.5 ? _TerrainLightSlope : 1),i.n.y,i.n.z*(_Category<.5 ? _TerrainLightSlope : 1)));
-            float face=lerp(.55,1,smoothstep(.0,.9,dot(normal,sun.direction)));
-            float shade=lerp(.25,1,sun.shadowAttenuation);
-            c*=min(face,shade)*sun.color;
+            float face=lerp(.35,1,smoothstep(.0,.9,dot(normal,sun.direction)));
+            float shade=lerp(.045,1,sun.shadowAttenuation);
+            // A small chromatic sky term reaches both sunlit and shaded scenery.
+            c*=min(face,shade)*sun.color + SampleSH(normal)*.2;
             if (_Diagnostic>.5) c=min(face,shade).xxx;
             // Measurement-only color override; preserve original vertex/reference depth,
             // water opening and actor-window clip paths in the exact same GPU pass.
             if (_Diagnostic>1.5) c=_Diagnostic<2.5 ? half3(1,0,0) : _Diagnostic<3.5 ? half3(0,1,0) : half3(0,0,0);
+            float eye=-TransformWorldToView(i.w).z;
+            if (_Diagnostic<.5) c=lerp(c,_DQAirColor.rgb,smoothstep(_DQLightFocus.x+8,_DQLightFocus.x+48,eye)*.82*_DQLightFocus.w);
             output.color=half4(c,1);
             return output;
         }
@@ -178,6 +182,7 @@ Shader "DeadSurvivor/DQ/Main surface"
             #pragma multi_compile_local _ _TERRAIN_HEIGHT
             #pragma vertex Vert
             #pragma fragment Frag
+            #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
             ENDHLSL
         }

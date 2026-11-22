@@ -90,7 +90,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 12fd82baa83c346b8a8d4d4dd984214b, type: 2}
+  - {fileID: 2100000, guid: 511ea93f42c8b43a085f74fda52c21f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -271,6 +271,7 @@ MonoBehaviour:
   movePeriodSeconds: 0.4
   staggerSeconds: 0.37
   shakePeriodSeconds: 0.1
+  dqBlobShadowMaterial: {fileID: 2100000, guid: 672becf7918294b01832da17845010c3, type: 2}
 --- !u!1 &4870587429935465178
 GameObject:
   m_ObjectHideFlags: 0

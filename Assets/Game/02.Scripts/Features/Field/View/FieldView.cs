@@ -29,11 +29,16 @@ public class FieldView : MonoBehaviour
     [SerializeField] private FieldModelCatalog modelCatalog;
     [SerializeField] private bool useModelScenery;
     public bool UsesModelScenery => useModelScenery;
+    [SerializeField] private Material dqBlobShadowMaterial;
     private Material _terrainShadowMaterial;
     public Material TerrainShadowMaterial
     {
         get
         {
+            if (dqBlobShadowMaterial != null)
+            {
+                return dqBlobShadowMaterial;
+            }
             if (_terrain.IsFlat)
             {
                 return footShadowMaterial;

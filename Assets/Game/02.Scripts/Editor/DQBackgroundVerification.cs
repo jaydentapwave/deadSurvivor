@@ -13,7 +13,7 @@ using Object = UnityEngine.Object;
 // Captures the actual Main camera; UI-inclusive captures remain in the unchanged playable runner.
 public static class DQBackgroundVerification
 {
-    public const string Output = "output/hd2d-dq/apply/6/frames";
+    public static string Output = "output/hd2d-dq/apply/6/frames";
     public static void Capture(string label, int width, int height)
     {
         if (!Application.isPlaying || UnityEngine.SceneManagement.SceneManager.GetActiveScene().path != MainSceneDQScreenMigration.ScenePath)
@@ -293,6 +293,129 @@ public static class DQBackgroundVerification
         }
     }
 
+    // Same frozen Main frame, native renderer/depth; no gameplay or persistent asset mutation.
+    public static void CaptureLightingPlates(bool includeMonsters = false)
+    {
+        if (!Application.isPlaying || Time.timeScale != 0)
+        {
+            throw new InvalidOperationException("Lighting plates require frozen Main Play.");
+        }
+        var camera = Camera.main;
+        var data = camera.GetUniversalAdditionalCameraData();
+        var features = data.scriptableRenderer is UniversalRenderer
+            ? AssetDatabase.LoadAssetAtPath<UniversalRendererData>(MainSceneDQScreenMigration.RendererPath).rendererFeatures : throw new InvalidOperationException("Expected DQ renderer.");
+        var featureStates = features.Select(f => f.isActive).ToArray();
+        var all = Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None);
+        var states = all.Select(r => r.enabled).ToArray();
+        var materials = all.Select(r => r.sharedMaterials).ToArray();
+        var background = camera.backgroundColor;
+        var post = data.renderPostProcessing;
+        var copies = new List<Material>();
+        var bodies = Object.FindObjectsByType<MemberView>(FindObjectsSortMode.None).Where(v => v.gameObject.activeInHierarchy).Select(v => v.BodyRenderer).ToArray();
+        if (includeMonsters)
+        {
+            bodies = bodies.Concat(Object.FindObjectsByType<MonsterView>(FindObjectsSortMode.None)
+                .Where(v => v.gameObject.activeInHierarchy && v.name.StartsWith("DQ light fixture:", StringComparison.Ordinal))
+                .Select(v => (SpriteRenderer)new SerializedObject(v).FindProperty("bodyRenderer").objectReferenceValue)).ToArray();
+        }
+        try
+        {
+            Capture("light-main", 1920, 1080);
+            var blur = features.OfType<FullScreenPassRendererFeature>().Single();
+            blur.SetActive(false);
+            Capture("light-no-blur", 1920, 1080);
+            blur.SetActive(featureStates[features.IndexOf(blur)]);
+            foreach (var renderer in bodies)
+            {
+                renderer.enabled = false;
+            }
+            Capture("light-actor-free", 1920, 1080);
+            for (var i = 0; i < all.Length; i++)
+            {
+                all[i].enabled = states[i];
+            }
+            // Preserve actor depth/pose but isolate each member from party overlap for body metrics.
+            for (var member = 0; member < bodies.Length; member++)
+            {
+                for (var other = 0; other < bodies.Length; other++)
+                {
+                    bodies[other].enabled = other == member;
+                }
+                Capture("isolated-member-" + member + "-lit", 1920, 1080);
+            }
+            camera.backgroundColor = Color.black;
+            data.renderPostProcessing = false;
+            foreach (var feature in features)
+            {
+                feature.SetActive(false);
+            }
+            for (var i = 0; i < all.Length; i++)
+            {
+                var renderer = all[i];
+                if (renderer.GetComponentInParent<ParticleSystem>() != null || renderer.name == "DQ soft foot shadow")
+                {
+                    renderer.enabled = false;
+                }
+                renderer.sharedMaterials = materials[i].Select(original =>
+                {
+                    var copy = new Material(original);
+                    copies.Add(copy);
+                    if (copy.HasProperty("_Diagnostic"))
+                    {
+                        copy.SetFloat("_Diagnostic", 4);
+                    }
+                    if (copy.HasProperty("_DiagnosticMask"))
+                    {
+                        copy.SetFloat("_DiagnosticMask", 1);
+                    }
+                    if (copy.HasProperty("_BaseColor"))
+                    {
+                        copy.SetColor("_BaseColor", Color.black);
+                    }
+                    return copy;
+                }).ToArray();
+            }
+            var white = new Material(Shader.Find("HD2D/HD2D_SpriteFlash"));
+            copies.Add(white);
+            for (var i = 0; i < bodies.Length; i++)
+            {
+                for (var other = 0; other < bodies.Length; other++)
+                {
+                    bodies[other].enabled = other == i;
+                }
+                var previous = bodies[i].sharedMaterial;
+                bodies[i].sharedMaterial = white;
+                Capture("member-" + i + "-mask", 1920, 1080);
+                bodies[i].sharedMaterial = previous;
+            }
+            File.WriteAllText(Path.Combine(Path.GetDirectoryName(Output), "lighting-plate-state.json"), JsonConvert.SerializeObject(new
+            {
+                utc = DateTime.UtcNow.ToString("O"), frame = Time.frameCount,
+                members = bodies.Select((b, i) => new { index = i, sprite = b.sprite.name, rect = b.sprite.textureRect.ToString(), uv = DQSpriteLighting.InnerRect(b.sprite).ToString(), material = materials[Array.IndexOf(all,b)][0].name }).ToArray(),
+                depthRequired = data.requiresDepthTexture,
+                features = features.Select(f => new { name = f.name, type = f.GetType().Name, active = featureStates[features.IndexOf(f)] }).ToArray()
+            }, Formatting.Indented));
+        }
+        finally
+        {
+            for (var i = 0; i < all.Length; i++)
+            {
+                all[i].enabled = states[i];
+                all[i].sharedMaterials = materials[i];
+            }
+            for (var i = 0; i < features.Count; i++)
+            {
+                features[i].SetActive(featureStates[i]);
+            }
+            camera.backgroundColor = background;
+            data.renderPostProcessing = post;
+            foreach (var copy in copies)
+            {
+                Object.DestroyImmediate(copy);
+            }
+        }
+    }
+
     public static void RunTour(int firstStage = 0)
     {
         if (!Application.isPlaying || PlayableProbe.Screen != "Battle")
@@ -340,7 +463,7 @@ public static class DQBackgroundVerification
                     stage++;
                     if (stage == points.Length)
                     {
-                        File.WriteAllText("output/hd2d-dq/apply/6/tour.json", Newtonsoft.Json.JsonConvert.SerializeObject(new { utc = DateTime.UtcNow.ToString("O"), success = true, rows }, Newtonsoft.Json.Formatting.Indented));
+                        File.WriteAllText(Path.Combine(Path.GetDirectoryName(Output), "tour.json"), Newtonsoft.Json.JsonConvert.SerializeObject(new { utc = DateTime.UtcNow.ToString("O"), success = true, rows }, Newtonsoft.Json.Formatting.Indented));
                         EditorApplication.update -= callback;
                         Application.runInBackground = originalBackground;
                         return;
@@ -381,14 +504,37 @@ public static class DQBackgroundVerification
         var sprite = body.sprite;
         var name = sprite.name.Replace("(Clone)", "");
         var files = Directory.GetFiles("Assets/Game/03.Resources/Art", name + ".png", SearchOption.AllDirectories);
-        if (files.Length != 1)
+        if (files.Length != 1 && !name.StartsWith("dq_", StringComparison.Ordinal))
         {
-            throw new InvalidOperationException("[DQBackgroundVerification] Expected unique source PNG for " + name);
+            throw new InvalidOperationException("[DQBackgroundVerification] Expected source PNG or declared DQ atlas for " + name);
         }
         var texture = new Texture2D(2, 2);
         try
         {
-            texture.LoadImage(File.ReadAllBytes(files[0]));
+            if (files.Length == 1)
+            {
+                texture.LoadImage(File.ReadAllBytes(files[0]));
+            }
+            else
+            {
+                var rect = sprite.textureRect;
+                var target = RenderTexture.GetTemporary((int)rect.width, (int)rect.height, 0);
+                var previous = RenderTexture.active;
+                try
+                {
+                    Graphics.Blit(sprite.texture, target, rect.size / new Vector2(sprite.texture.width, sprite.texture.height),
+                        rect.position / new Vector2(sprite.texture.width, sprite.texture.height));
+                    RenderTexture.active = target;
+                    texture.Reinitialize(target.width, target.height);
+                    texture.ReadPixels(new Rect(0, 0, target.width, target.height), 0, 0);
+                    texture.Apply();
+                }
+                finally
+                {
+                    RenderTexture.active = previous;
+                    RenderTexture.ReleaseTemporary(target);
+                }
+            }
             var min = new Vector2(texture.width, texture.height);
             var max = Vector2.zero;
             var pixels = texture.GetPixels32();
@@ -404,10 +550,10 @@ public static class DQBackgroundVerification
                 }
             }
             var corners = new[] { min, max, new Vector2(min.x, max.y), new Vector2(max.x, min.y) }
-                .Select(p => (p - sprite.pivot) / sprite.pixelsPerUnit)
+                .Select(p => (p + sprite.textureRectOffset - sprite.pivot) / sprite.pixelsPerUnit)
                 .Select(p => new Vector3(body.flipX ? -p.x : p.x, p.y, 0))
                 .Select(p => camera.WorldToViewportPoint(body.transform.TransformPoint(p))).ToArray();
-            return new { sprite = name, source = files[0], sourceHeight = max.y - min.y,
+            return new { sprite = name, source = files.Length == 1 ? files[0] : "DQ atlas:" + sprite.texture.name, sourceHeight = max.y - min.y,
                 screenHeight = (corners.Max(p => p.y) - corners.Min(p => p.y)) * height,
                 texelPixels = (corners.Max(p => p.y) - corners.Min(p => p.y)) * height / (max.y - min.y),
                 xMin = corners.Min(p => p.x) * width, xMax = corners.Max(p => p.x) * width,

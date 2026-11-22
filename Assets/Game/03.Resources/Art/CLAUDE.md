@@ -35,3 +35,5 @@
 | `Art/HD2D/UI/**` | 필터·PPU·border | Bilinear, PPU 100, border = slices.json | 기준서 3.13 E, 숫자로 그린 고해상 UI |
 
 | `Art/HD2D/Effects/**` | 피벗·Full Rect | 가운데, Full Rect, EffectsSprite.preset | FX 설계 F0; 프레임 고정 중심. 런타임 래스터의 시작점 피벗은 코드가 정함 |
+
+| `Art/HD2D/DQAppliedCharacters/FootSoft.png` | 종류·필터·색 공간·경계 | Texture2D Default, Bilinear, linear, Clamp, 밉맵·압축 없음 | DQ K43 연속 alpha 발밑 얼룩. `MainSceneDQLightMigration`이 생성·임포트하며 동작 스프라이트가 아님 |

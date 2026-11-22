@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.43, g: 0.32, b: 0.27, a: 1}
+  m_AmbientSkyColor: {r: 0.035, g: 0.09, b: 0.065, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -15752,7 +15752,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  - {fileID: 2100000, guid: 511ea93f42c8b43a085f74fda52c21f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18135,7 +18135,7 @@ MonoBehaviour:
   priority: 0
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: b197f5f797431466cafd6dfd3ee4eb03, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 825e059e028844465abce9a88a0a15cf, type: 2}
 --- !u!4 &402331158
 Transform:
   m_ObjectHideFlags: 0
@@ -19790,6 +19790,8 @@ MonoBehaviour:
   hitFlashSeconds: 0.1
   minMovePixels: 0.25
   facingAxisRatio: 0.25
+  dqBlobShadowMaterial: {fileID: 2100000, guid: 672becf7918294b01832da17845010c3, type: 2}
+  dqLightProfiles: {fileID: 11400000, guid: a82f0cfaecb99448099a3b1d99d91c77, type: 2}
 --- !u!210 &427318047
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -21490,6 +21492,8 @@ MonoBehaviour:
   hitFlashSeconds: 0.1
   minMovePixels: 0.25
   facingAxisRatio: 0.25
+  dqBlobShadowMaterial: {fileID: 2100000, guid: 672becf7918294b01832da17845010c3, type: 2}
+  dqLightProfiles: {fileID: 11400000, guid: a82f0cfaecb99448099a3b1d99d91c77, type: 2}
 --- !u!4 &478387603
 Transform:
   m_ObjectHideFlags: 0
@@ -23397,7 +23401,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  - {fileID: 2100000, guid: 511ea93f42c8b43a085f74fda52c21f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -31254,7 +31258,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  - {fileID: 2100000, guid: 511ea93f42c8b43a085f74fda52c21f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -37137,19 +37141,19 @@ Light:
   m_Enabled: 1
   serializedVersion: 13
   m_Type: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 0.96, b: 0.86, a: 1}
+  m_Intensity: 1.05
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
   m_Shadows:
-    m_Type: 1
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.02
+    m_Bias: 0.03
+    m_NormalBias: 0.1
     m_NearPlane: 0.2
     m_CullingMatrixOverride:
       e00: 1
@@ -37200,7 +37204,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 848323673}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.105481856, y: 0.88809, z: -0.25465575, w: 0.36785895}
+  m_LocalRotation: {x: 0.38791165, y: 0.27470842, z: -0.12230807, w: 0.8712638}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -46681,7 +46685,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d45096863ead04228b5984d22fc23197, type: 2}
+  - {fileID: 2100000, guid: 511ea93f42c8b43a085f74fda52c21f9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -62220,6 +62224,7 @@ GameObject:
   - component: {fileID: 1442982265}
   - component: {fileID: 1442982264}
   - component: {fileID: 1442982268}
+  - component: {fileID: 1442982269}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -62240,7 +62245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
   m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
+  m_RequiresDepthTextureOption: 1
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
@@ -62357,6 +62362,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3681e7bcb5341ec8db42fdc254b7a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HD2D.View::TiltedCameraRig
+--- !u!114 &1442982269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442982262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49f8acfeaf4d9474394a90e23e4ba099, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: HD2D.View::DQSceneLighting
 --- !u!1 &1444913481
 GameObject:
   m_ObjectHideFlags: 0
@@ -62665,6 +62682,7 @@ MonoBehaviour:
   ditherFlagMaterial: {fileID: 2100000, guid: 2c0d91f1496a045a29a93350217e7258, type: 2}
   modelCatalog: {fileID: 11400000, guid: cd9d7fb1ee7e34560ad24bbe0e3c4f1f, type: 2}
   useModelScenery: 1
+  dqBlobShadowMaterial: {fileID: 2100000, guid: 672becf7918294b01832da17845010c3, type: 2}
 --- !u!483693784 &1450006850
 TilemapRenderer:
   serializedVersion: 2
@@ -81897,6 +81915,8 @@ MonoBehaviour:
   hitFlashSeconds: 0.1
   minMovePixels: 0.25
   facingAxisRatio: 0.25
+  dqBlobShadowMaterial: {fileID: 2100000, guid: 672becf7918294b01832da17845010c3, type: 2}
+  dqLightProfiles: {fileID: 11400000, guid: a82f0cfaecb99448099a3b1d99d91c77, type: 2}
 --- !u!210 &1878510421
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -89545,6 +89565,8 @@ MonoBehaviour:
   hitFlashSeconds: 0.1
   minMovePixels: 0.25
   facingAxisRatio: 0.25
+  dqBlobShadowMaterial: {fileID: 2100000, guid: 672becf7918294b01832da17845010c3, type: 2}
+  dqLightProfiles: {fileID: 11400000, guid: a82f0cfaecb99448099a3b1d99d91c77, type: 2}
 --- !u!210 &2066052765
 SortingGroup:
   m_ObjectHideFlags: 0

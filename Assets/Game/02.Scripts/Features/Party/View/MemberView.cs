@@ -54,6 +54,10 @@ public class MemberView : MonoBehaviour
     public void InitializeDQ(DQActorClips actor)
     {
         _dq = actor;
+        if (dqLightProfiles != null)
+        {
+            bodyRenderer.sharedMaterial = dqLightProfiles.Find(actor.Data.actorId);
+        }
         _dqHitSprite = null;
         _dqIdleClock = 0;
         _dqFallClock = 0;
@@ -126,6 +130,10 @@ public class MemberView : MonoBehaviour
         get; private set;
     }
     private MemberMotionData _motionData;
+    [SerializeField] private Material dqBlobShadowMaterial;
+    [SerializeField] private DQCharacterLightProfiles dqLightProfiles;
+    private DQBlobShadow _dqBlobShadow;
+    private MaterialPropertyBlock _dqLightingProperties;
     private UprightContactShadow _contactShadow;
 
     public int BodyDiameterPixels => bodyDiameterPixels;
@@ -256,14 +264,26 @@ public class MemberView : MonoBehaviour
 
     public void SetGround(TerrainHeightGrid terrain, Vector3 normal, Material terrainShadow)
     {
+        if (_dqBlobShadow != null)
+        {
+            _dqBlobShadow.SetGround(terrain, terrainShadow);
+            return;
+        }
         if (!terrain.IsFlat)
         {
             _contactShadow.SetGround(normal, terrainShadow);
         }
     }
 
-    public void InitializeShadow()
+    public void InitializeShadow(float widthPixels = 28)
     {
+        if (dqBlobShadowMaterial != null)
+        {
+            _dqBlobShadow = GetComponent<DQBlobShadow>() ?? gameObject.AddComponent<DQBlobShadow>();
+            _dqBlobShadow.Initialize(bodyRenderer, dqBlobShadowMaterial, widthPixels / bodyRenderer.sprite.pixelsPerUnit);
+            shadowCaster.SetCastingShadow(false);
+            return;
+        }
         if (_contactShadow == null)
         {
             _contactShadow = gameObject.AddComponent<UprightContactShadow>();
@@ -322,7 +342,7 @@ public class MemberView : MonoBehaviour
     private void ApplySprite()
     {
         var sprite = !IsDowned && _dqHitSprite != null ? _dqHitSprite : _dq != null && _motionSprite != null ? _motionSprite : IsDowned ? _downedSprite : _motionSprite != null ? _motionSprite : _directionSprites[(int)SpriteFacing.ResolveAvailable(Facing.Direction, _spriteMask)];
-        bodyRenderer.sprite = sprite;
+        DQSpriteLighting.Apply(bodyRenderer, sprite, ref _dqLightingProperties);
         bodyRenderer.flipX = Facing.IsFlipped;
         flashRenderer.sprite = sprite;
         flashRenderer.flipX = Facing.IsFlipped;

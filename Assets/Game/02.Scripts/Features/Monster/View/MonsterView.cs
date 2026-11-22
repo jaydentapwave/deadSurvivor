@@ -142,7 +142,7 @@ public class MonsterView : MonoBehaviour
                 ? isMoving ? _dq.PhaseAction(_dqPhase) : "static" : _dq.PhaseAction(_dqPhase);
         if (DQAction == "static")
         {
-            bodyRenderer.sprite = _dq.Static(Facing.Direction);
+            DQSpriteLighting.Apply(bodyRenderer, _dq.Static(Facing.Direction), ref _dqLightingProperties);
             DQFrame = 0;
         }
         else
@@ -150,7 +150,7 @@ public class MonsterView : MonoBehaviour
             var clip = _dq.Clip(DQAction, Facing.Direction);
             var clock = shot != null && !_dqDead ? _dqShotClock
                 : !_dqDead && (DQAction == "move" || DQAction == "walk") ? _dqMoveClock : _dqPhaseClock;
-            bodyRenderer.sprite = _dq.At(DQAction, Facing, clock, out var frame);
+            DQSpriteLighting.Apply(bodyRenderer, _dq.At(DQAction, Facing, clock, out var frame), ref _dqLightingProperties);
             DQFrame = frame;
         }
         bodyRenderer.flipX = Facing.IsFlipped;
@@ -206,9 +206,12 @@ public class MonsterView : MonoBehaviour
     private float _unitScale;
     private Sprite _bodySprite;
     private Sprite _warningSprite;
+    [SerializeField] private Material dqBlobShadowMaterial;
+    private DQBlobShadow _dqBlobShadow;
+    private MaterialPropertyBlock _dqLightingProperties;
     private FootShadowView _shadow;
     private Sprite _shadowSprite;
-    public float ShadowWidthPixels => _shadow == null ? 0f : _shadow.WidthPixels;
+    public float ShadowWidthPixels => _dqBlobShadow != null ? _dqBlobShadow.Width * 48 : _shadow == null ? 0f : _shadow.WidthPixels;
     private Sprite[] _directionSprites;
     private Sprite[] _warningSprites;
     private int _spriteMask;
@@ -285,7 +288,7 @@ public class MonsterView : MonoBehaviour
         _warningSprites = new[] { null, warningSprite, null, null, null };
         _spriteMask = 1 << (int)FacingDirection.DownRight;
         _warningMask = warningSprite == null ? 0 : _spriteMask;
-        bodyRenderer.sprite = bodySprite;
+        DQSpriteLighting.Apply(bodyRenderer, bodySprite, ref _dqLightingProperties);
         HasArt = hasArt;
         ApplyMotion(false, Vector2Int.zero);
         dashLineRenderer.sprite = lineSprite;
@@ -315,6 +318,12 @@ public class MonsterView : MonoBehaviour
 
     public void InitializeShadow(Sprite sprite, float bodyWidthPixels)
     {
+        if (dqBlobShadowMaterial != null)
+        {
+            _dqBlobShadow = GetComponent<DQBlobShadow>() ?? gameObject.AddComponent<DQBlobShadow>();
+            _dqBlobShadow.Initialize(bodyRenderer, dqBlobShadowMaterial, bodyWidthPixels / bodyRenderer.sprite.pixelsPerUnit);
+            return;
+        }
         if (_shadow == null)
         {
             var child = new GameObject("Shadow");
@@ -333,6 +342,11 @@ public class MonsterView : MonoBehaviour
     public void SetTerrain(TerrainHeightGrid terrain, Vector3 normal, Material groundShadow)
     {
         _terrain = terrain;
+        if (_dqBlobShadow != null)
+        {
+            _dqBlobShadow.SetGround(terrain, groundShadow);
+            return;
+        }
         if (!terrain.IsFlat)
         {
             _shadow.SetGround(normal, groundShadow);
@@ -403,7 +417,7 @@ public class MonsterView : MonoBehaviour
         }
         var mask = IsWarning ? _warningMask : _spriteMask;
         var sprites = IsWarning ? _warningSprites : _directionSprites;
-        bodyRenderer.sprite = sprites[(int)SpriteFacing.ResolveAvailable(Facing.Direction, mask)];
+        DQSpriteLighting.Apply(bodyRenderer, sprites[(int)SpriteFacing.ResolveAvailable(Facing.Direction, mask)], ref _dqLightingProperties);
         UpdateShadowWidth();
     }
 

@@ -458,7 +458,7 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
         {
             view.InitializeDirections(_spriteAtlasService.GetDirections(key));
         }
-        view.InitializeShadow();
+        view.InitializeShadow(_spriteAtlasService.GetVisibleWidth(view.BodyRenderer.sprite));
         var motion = data.Motion;
         var dq = _spriteAtlasService.DQ.Get(data.Id);
         if (hasArt && dq != null)

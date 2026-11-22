@@ -5,6 +5,9 @@ Shader "HD2D/HD2D_SpriteLit"
     Properties
     {
         [PerRendererData] _MainTex ("Sprite", 2D) = "white" {}
+        _DQLighting ("DQ scene lighting", Float) = 0
+        _DQExposure ("DQ source exposure", Float) = .95
+        [PerRendererData] _DQSpriteUVRect ("DQ atlas inner bounds", Vector) = (0,0,1,1)
         _ReceiveShadows ("Receive shadows", Float) = 1
         [PerRendererData] _Appearance ("Spawn appearance", Range(0,1)) = 1
         _SpriteRenderer ("SpriteRenderer data", Float) = 1
@@ -23,6 +26,7 @@ Shader "HD2D/HD2D_SpriteLit"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
+        float4 _MainTex_TexelSize;
         CBUFFER_START(UnityPerMaterial)
         half4 _BaseColor;
         float _Emission;
@@ -33,9 +37,13 @@ Shader "HD2D/HD2D_SpriteLit"
         float _HueShift;
         float _SpriteRenderer;
         float _ReceiveShadows;
+        float _DQLighting;
+        float _DQExposure;
         CBUFFER_END
         float _HD2DActorDepthBias;
         float _Appearance;
+        float4 _DQSpriteUVRect;
+        float4 _DQLightFocus, _DQAirColor;
         struct Attributes
         {
             float3 positionOS : POSITION;
@@ -71,10 +79,32 @@ Shader "HD2D/HD2D_SpriteLit"
             o.color = v.color * lerp(half4(1,1,1,1), unity_SpriteColor, _SpriteRenderer) * _BaseColor;
             return o;
         }
+        float4 DQCell(float2 uv)
+        {
+            float4 c = SAMPLE_TEXTURE2D_LOD(_MainTex, sampler_MainTex, clamp(uv, _DQSpriteUVRect.xy, _DQSpriteUVRect.zw), 0);
+            c.rgb *= c.a;
+            return c;
+        }
         half4 SpriteSample(Varyings i)
         {
             half4 c = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv + float2(0.00001, 0.00001)) * i.color;
-            clip(c.a - 0.5);
+            if (_DQLighting > .5)
+            {
+                float2 texel = 1.0 / float2(_MainTex_TexelSize.z, _MainTex_TexelSize.w);
+                float2 pixel = i.uv / texel - .5;
+                float2 baseUV = (floor(pixel) + .5) * texel;
+                float4 a = DQCell(baseUV), b = DQCell(baseUV + float2(texel.x,0));
+                float4 d = DQCell(baseUV + float2(0,texel.y)), e = DQCell(baseUV + texel);
+                float2 w = smoothstep(.45,.55,frac(pixel));
+                if (min(min(a.a,b.a),min(d.a,e.a)) < max(max(a.a,b.a),max(d.a,e.a)))
+                {
+                    w = smoothstep(.14,.86,frac(pixel));
+                }
+                c = lerp(lerp(a,b,w.x),lerp(d,e,w.x),w.y);
+                c.rgb /= max(c.a,.0001);
+                c *= i.color;
+            }
+            clip(c.a - (_DQLighting > .5 ? .01 : .5));
             if (_Dither > .001)
             {
                 float2 uv=i.screen.xy/i.screen.w;
@@ -99,6 +129,17 @@ Shader "HD2D/HD2D_SpriteLit"
             float3 ramp = abs(frac(frac(hsv.x+_HueShift)+float3(0,2.0/3.0,1.0/3.0))*6-3);
             c.rgb = hsv.z*lerp(float3(1,1,1),saturate(ramp-1),hsv.y);
             Light sun = GetMainLight(TransformWorldToShadowCoord(i.positionWS));
+            if (_DQLighting > .5)
+            {
+                float3 ambient = SampleSH(float3(0,1,0));
+                float visibility = lerp(1,sun.shadowAttenuation,_ReceiveShadows);
+                float energy = min(1, max(.04,dot(ambient,float3(.2126,.7152,.0722))) + dot(sun.color,float3(.2126,.7152,.0722))*.95*visibility)*_DQExposure;
+                float3 tint = lerp(ambient / max(max(ambient.r,ambient.g),max(ambient.b,.0001)), sun.color/max(max(sun.color.r,sun.color.g),max(sun.color.b,.0001)), visibility);
+                c.rgb = saturate(c.rgb * energy * lerp(1,tint,.3));
+                float eye = -TransformWorldToView(i.positionWS).z;
+                c.rgb = lerp(c.rgb,_DQAirColor.rgb,smoothstep(_DQLightFocus.x+8,_DQLightFocus.x+48,eye)*.65*_DQLightFocus.w);
+                return half4(lerp(half3(.55,.68,.64),c.rgb,_Appearance),c.a);
+            }
             half diffuse = saturate(dot(normalize(float3(0,0.85,-0.53)),sun.direction));
             half3 ambient = half3(0.43,0.32,0.27);
             diffuse = lerp(diffuse < .25 ? .58 : (diffuse < .68 ? .80 : 1.0), diffuse, _BackgroundCard);
@@ -123,9 +164,11 @@ Shader "HD2D/HD2D_SpriteLit"
         {
             Name "ForwardLit"
             Tags { "LightMode"="UniversalForward" }
+            Blend SrcAlpha OneMinusSrcAlpha
             HLSLPROGRAM
             #pragma vertex SpriteVertex
             #pragma fragment LitFragment
+            #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             ENDHLSL
         }
