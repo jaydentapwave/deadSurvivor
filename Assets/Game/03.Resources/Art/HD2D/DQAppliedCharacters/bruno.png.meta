@@ -1,0 +1,5515 @@
+fileFormatVersion: 2
+guid: 39d43e5cc9d624f709495e9de58dfe2a
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 48
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: dq_bruno_0000
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6070e907922c83160800000000000000
+      internalID: 7005562703613658886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0001
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 034880f241f3fd7b0800000000000000
+      internalID: -5197366089041279952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0002
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aef7448dfbff4b500800000000000000
+      internalID: 411234665429762026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0003
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2445249cff8725390800000000000000
+      internalID: -7831063762055310270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0004
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5a75a8da53d0b320800000000000000
+      internalID: 2571787774363794011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0005
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed803b3cb2381fd20800000000000000
+      internalID: 3310571425084147934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0006
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02938b0344b8606f0800000000000000
+      internalID: -718733965527598816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0007
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b3b82a6bcb43f5b0800000000000000
+      internalID: -5335837796472409164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0008
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2954d6affe8bfb110800000000000000
+      internalID: 1278944160034669970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0009
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 647555ff82f240bd0800000000000000
+      internalID: -2664953226367510714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0010
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a67f0ad01030ab40800000000000000
+      internalID: 5449408398054356642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0011
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99811864dd42d5ac0800000000000000
+      internalID: -3864892372424779623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0012
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd4ea5fd023aed400800000000000000
+      internalID: 350897182563034331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0013
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ee1e319553d116f0800000000000000
+      internalID: -715558501312749849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0014
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0633c47a89e909880800000000000000
+      internalID: -8606204509426011296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0015
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f512c6a18b071760800000000000000
+      internalID: 7428418761847346679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0016
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3ae46a23e32912e0800000000000000
+      internalID: -2154651488144266689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0017
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6fa2d86e5774d100800000000000000
+      internalID: 131861536469856111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0018
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c30b24405f86b0200800000000000000
+      internalID: 147326814367428668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0019
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fe2a7af6aef96df0800000000000000
+      internalID: -186337916438827273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0020
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e81d67f045bc2750800000000000000
+      internalID: 6281594870908655846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0021
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 950d9e53963786e10800000000000000
+      internalID: 2191128114429022297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0022
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cc6295ecd22475f0800000000000000
+      internalID: -759944104979043132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0023
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 540b393253cb24770800000000000000
+      internalID: 8593637975392497733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0024
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20a0230a8b1462fd0800000000000000
+      internalID: -2367132292919195134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0025
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab43667c17dca8180800000000000000
+      internalID: -9112245007470414662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0026
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7e3949f1505a5030800000000000000
+      internalID: 3484185574729399934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0027
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c40809547bf592c0800000000000000
+      internalID: -4425354581693168444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0028
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a0729cdd0345a9b0800000000000000
+      internalID: -5069572078721404764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0029
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd426294e31ba2970800000000000000
+      internalID: 8730985708684453087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0030
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05097893ae8d7d860800000000000000
+      internalID: 7554745400436428880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0031
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ac7f5191eb15b3d0800000000000000
+      internalID: -3191614105301582681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0032
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ec150e6dccb0be60800000000000000
+      internalID: 7976082530573294821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0033
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 675ca284927628ff0800000000000000
+      internalID: -35352420063459978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0034
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc85d1dc13cfbfbd0800000000000000
+      internalID: -2595203469424109363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0035
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aef496efa3e9a0160800000000000000
+      internalID: 6992575347659722730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0036
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f75e1090eff1e670800000000000000
+      internalID: 8566409306191058934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0037
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3aef940efc9541730800000000000000
+      internalID: 3968895920976297635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0038
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5beaf33790163410800000000000000
+      internalID: 1456369771099122524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0039
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86eb8a8503f7ad5b0800000000000000
+      internalID: -5342818162299060632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0040
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d7c27ed774115df0800000000000000
+      internalID: -193350803934492714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0041
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3517a4c5f92343ce0800000000000000
+      internalID: -1426459521940033197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0042
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9f96089cc2cefb80800000000000000
+      internalID: -8359029674373374052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0043
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9fb8ca521ca9f000800000000000000
+      internalID: 70276464033447836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0044
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45fe2b2d27b648b50800000000000000
+      internalID: 6594513895282634580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0045
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a7a47c7ff5989340800000000000000
+      internalID: 4870807921538410406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0046
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 581ff454ae60b6b10800000000000000
+      internalID: 1975680464787075461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0047
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1c9ce6b1c06e9330800000000000000
+      internalID: 3719516727368522778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0048
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f00ee2346a6f45b30800000000000000
+      internalID: 4275313140233592847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0049
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a075373f78b39c910800000000000000
+      internalID: 1858081776358086410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0050
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c05582d9db989cc0800000000000000
+      internalID: -3704039333670072120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0051
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12b3de14fd321ad30800000000000000
+      internalID: 4440870149354765089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0052
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2a46a42d1f8c0e60800000000000000
+      internalID: 7929870399224302123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0053
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a961d4e30bd4643d0800000000000000
+      internalID: -3222803063982188902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0054
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d51a190f57bfdb30800000000000000
+      internalID: 4314368586846705109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0055
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30d14f99ba6d0cfc0800000000000000
+      internalID: -3476542879819358973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0056
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 618cec709cb8e8770800000000000000
+      internalID: 8614976832742017046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0057
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51e1013447bb91220800000000000000
+      internalID: 2457201179723046421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0058
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d58e68a194f3a380800000000000000
+      internalID: -8961049927103904302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0059
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cce12a73f8582ba20800000000000000
+      internalID: 3076668345607659212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0060
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81df5c83c6457b9d0800000000000000
+      internalID: -2758643422955438824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0061
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9101d84724d6649f0800000000000000
+      internalID: -484579777705078759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0062
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1660537858ae63d0800000000000000
+      internalID: -3211444386423347686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0063
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28f051e63f8a0f4e0800000000000000
+      internalID: -1949872875174031486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0064
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d3815c638b716bf0800000000000000
+      internalID: -332849093060492332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0065
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2423fa0aee1d4c330800000000000000
+      internalID: 3730337214197871170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0066
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 783a14e486ebba010800000000000000
+      internalID: 1201263080823169927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0067
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb70c8a27da460830800000000000000
+      internalID: 4036996403976472511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0068
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f81f0fdaf84395d30800000000000000
+      internalID: 4420622300944069007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0069
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9fbe122cbf0c7e80800000000000000
+      internalID: -8179645522510954594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0070
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a533ec0a105dd990800000000000000
+      internalID: -7359638143237933655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0071
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3c182b5c09191670800000000000000
+      internalID: 8509860511752920122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0072
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a97a71453d7d4650800000000000000
+      internalID: 6218764328153807265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0073
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ce47653cf3332e70800000000000000
+      internalID: 9089165631284530884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0074
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 769ce8b8cbbe545a0800000000000000
+      internalID: -6537560089030637209
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0075
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: deaa62316deb88300800000000000000
+      internalID: 254663205600013037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0076
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1db536d22a79eb50800000000000000
+      internalID: 6622959017066347802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0077
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3898f773c8b9b2130800000000000000
+      internalID: 3543096558385858947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0078
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e6a0efbadacffc10800000000000000
+      internalID: 2089611792994051810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0079
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bb4b888aa13b69e0800000000000000
+      internalID: -1627152231859270729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0080
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac1ce3ac3479ce3d0800000000000000
+      internalID: -3175997319791328822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0081
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36ea4b31a8c68d7a0800000000000000
+      internalID: -6352207934114189725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0082
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bba3ac4aff4461650800000000000000
+      internalID: 6203221401521502907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0083
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b719b10f8834a8d0800000000000000
+      internalID: -2836079678476183624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0084
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d955bd15e64ec530800000000000000
+      internalID: 3877114279072455127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0085
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acaea18089b66d2a0800000000000000
+      internalID: -6713059893833962806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0086
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 584dcbd04787bec20800000000000000
+      internalID: 3236813197037851781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0087
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d8139ad8e38763d0800000000000000
+      internalID: -3213454772982834983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0088
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01268786d10418250800000000000000
+      internalID: 5945103478156714512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0089
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d3777080aac029c0800000000000000
+      internalID: -3953937682132405292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0090
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ab2d99041494c240800000000000000
+      internalID: 4811133115720084387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0091
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25c0341573b200af0800000000000000
+      internalID: -432298047641023406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0092
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f48eedd90a62990f0800000000000000
+      internalID: -1109813361884862385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0093
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a059e5b47692e98e0800000000000000
+      internalID: -1684863686967126774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0094
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f35fdf717f2ecac0800000000000000
+      internalID: -3833074068322561040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0095
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dc238738b4047f20800000000000000
+      internalID: 3419363206332886225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0096
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47b403a185e4b23f0800000000000000
+      internalID: -924559158191043724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0097
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a937acd913ad12b0800000000000000
+      internalID: -5612150229162313310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0098
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25f0dcc0eff742820800000000000000
+      internalID: 2892577589791887186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0099
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 252912fb7ecc93830800000000000000
+      internalID: 4051494635512631890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0100
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b29361a26d3ed3c90800000000000000
+      internalID: -7188338921244837589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0101
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bfb1435624db85b0800000000000000
+      internalID: -5364961270011150414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0102
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b5a6701535731ed0800000000000000
+      internalID: -2444481301962119757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0103
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c67fb4a5ca570a3d0800000000000000
+      internalID: -3197426352323299476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0104
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0432cd2dc6a314710800000000000000
+      internalID: 1675684775427056448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0105
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0c11fb53e61babf0800000000000000
+      internalID: -312130583416202226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0106
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eddd34076d2494e50800000000000000
+      internalID: 6794035001639034334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0107
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 821280543b0ec6a30800000000000000
+      internalID: 4209986812246499624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0108
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 655e17ac1e0112d30800000000000000
+      internalID: 4404820472495203670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0109
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f7c6091b63d96050800000000000000
+      internalID: 5794394852523689973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0110
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a40c1d28e89c65dc0800000000000000
+      internalID: -3650508834019884982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0111
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7069e8239c03fd6b0800000000000000
+      internalID: -5269439398305425913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0112
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0bb0e3c188979ac0800000000000000
+      internalID: -3848439673460311286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0113
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d37f27291dcd7110800000000000000
+      internalID: 1260388978648904659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0114
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d83ef2ea950e7ef0800000000000000
+      internalID: -108643178218899243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0115
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfed6997c560fd3f0800000000000000
+      internalID: -873972808439898373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0116
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fb32dadd3b4e8b40800000000000000
+      internalID: 5444371728573807601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0117
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05b8d060a4a50ada0800000000000000
+      internalID: -5935645034898683056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0118
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e188ecf63cd7f3e30800000000000000
+      internalID: 4485442032232204318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0119
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a77f5b8e6be0fcf0800000000000000
+      internalID: -220417521723934809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0120
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: acd1d750c532823e0800000000000000
+      internalID: -2078372349895434806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0121
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e467443d960c83ee0800000000000000
+      internalID: -1281062533238327730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0122
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f315e127e51017b10800000000000000
+      internalID: 1977363216545501503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0123
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 408819846fbd13330800000000000000
+      internalID: 3688971420619081732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0124
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7119651c4f3e9b120800000000000000
+      internalID: 2430224114298294551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0125
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c53165153948a18f0800000000000000
+      internalID: -568996634649291940
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0126
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7af3482aaf85aed20800000000000000
+      internalID: 3308554709748694951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0127
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d17065d2bdb79ae0800000000000000
+      internalID: -1542555771569409575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0128
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ba2fe93ca68b52f0800000000000000
+      internalID: -983044019385849162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0129
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b0500320f61101d0800000000000000
+      internalID: -3386400224170717002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0130
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96473fad59d4f7870800000000000000
+      internalID: 8682743912612459625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0131
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f337de85b9ac706f0800000000000000
+      internalID: -718382846981606593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0132
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4df924c4b75bab690800000000000000
+      internalID: -7585551081187139628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0133
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b08ebd3238e60ec30800000000000000
+      internalID: 4386627546580248587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0134
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 785d5994ea61a58b0800000000000000
+      internalID: -5162789085012175481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0135
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f9bcb280444a84b0800000000000000
+      internalID: -5437458556234450440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0136
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08786036b7111e920800000000000000
+      internalID: 3017712446954964864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0137
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e06380d99d51ac920800000000000000
+      internalID: 3011243325237245454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0138
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22ec8cbf8c549f630800000000000000
+      internalID: 3961274076769078818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0139
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce67ed5852d568440800000000000000
+      internalID: 4937736457199449836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0140
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7501b37a9d57ce170800000000000000
+      internalID: 8209065798463590487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0141
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68880297ccd906560800000000000000
+      internalID: 7305012097126008966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0142
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 162cc095c2617c770800000000000000
+      internalID: 8630891590607225441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0143
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c928d7f8e3017fda0800000000000000
+      internalID: -5911238125019102564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0144
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47822325dd28bc410800000000000000
+      internalID: 1498435188109224052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0145
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0022579ff240212e0800000000000000
+      internalID: -2156656667461869056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0146
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 510484dbe28827790800000000000000
+      internalID: -7533809492311916523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0147
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93a7412056201c8f0800000000000000
+      internalID: -522133448948417991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0148
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8414483e5c443e10800000000000000
+      internalID: 2176448487481414796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0149
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff7d51f6e14db1b50800000000000000
+      internalID: 6565074109000439807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0150
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bf819e235ff215d0800000000000000
+      internalID: -3093129261321449548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0151
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e55f8eb6f80dbdf0800000000000000
+      internalID: -162964155663428121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0152
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed8d478c4b5042d60800000000000000
+      internalID: 7864417123311081694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0153
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d64e3edcc6492140800000000000000
+      internalID: 4695361932226348756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0154
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f86fadaea0c9a0960800000000000000
+      internalID: 7569033694453364367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0155
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d0331714e5eca620800000000000000
+      internalID: 2786855037237932244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0156
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26cdd9683762e22d0800000000000000
+      internalID: -3301659199194407838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0157
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6aa5c69faf5a02840800000000000000
+      internalID: 5197336467330587302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0158
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a774556a7042ece00800000000000000
+      internalID: 1066829777007363962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0159
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80e28c880a7a76490800000000000000
+      internalID: -7753043925563593208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0160
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 077f5fa9e0a7be5d0800000000000000
+      internalID: -3032195720955955344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0161
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d01737aa324074240800000000000000
+      internalID: 4775790481079759117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0162
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efc05067b48fd1fd0800000000000000
+      internalID: -2369464825940734722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0163
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f11f51761d25f7dd0800000000000000
+      internalID: -2486177409954090721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0164
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8be13b31fbecd41f0800000000000000
+      internalID: -1058963017297617224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0165
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2493b1459dc4c8e0800000000000000
+      internalID: -1673987120538872790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0166
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1c0da3be22476e60800000000000000
+      internalID: 7955400035123661852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0167
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2402cb2d2455d5840800000000000000
+      internalID: 5214417689056649282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0168
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5225ef11f237062f0800000000000000
+      internalID: -981658072764231131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0169
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3f66165a2f19f260800000000000000
+      internalID: 7131765751611289406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0170
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bffb51432a504f680800000000000000
+      internalID: -8722340384093126661
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0171
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3823ecafc71b5dc00800000000000000
+      internalID: 924840448836383363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0172
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffefd770e87b03470800000000000000
+      internalID: 8372393527920688895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0173
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c773448b267a11f90800000000000000
+      internalID: -6984617504634816644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0174
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03e46aa0bb89b5ad0800000000000000
+      internalID: -2712406421455614416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0175
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d4e54d51e0c4a140800000000000000
+      internalID: 4730117582810899664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0176
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1fe6ec01368e5c40800000000000000
+      internalID: 5502983339921305372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0177
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecf8e358df664d060800000000000000
+      internalID: 6977314961751969742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0178
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47fdce8785a0d5cf0800000000000000
+      internalID: -262041828215431308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0179
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c280b766d77fb0600800000000000000
+      internalID: 435713906933696556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0180
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d766ec1e880c3a560800000000000000
+      internalID: 7323909113171043965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0181
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4da29bb8cfd0cef40800000000000000
+      internalID: 5758993401827109588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0182
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a62b84d39a40c530800000000000000
+      internalID: 3873177678325163684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0183
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eab0b02f8994a80d0800000000000000
+      internalID: -3419840045789803602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0184
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7335362b371f4d710800000000000000
+      internalID: 1717262837151388471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0185
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e93279cbadb41950800000000000000
+      internalID: 6418963914426563043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0186
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc572ecb65506e2f0800000000000000
+      internalID: -944061201793255985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0187
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 166723fb635e633f0800000000000000
+      internalID: -921297050451937695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0188
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a2b5ea0628f30660800000000000000
+      internalID: 7350991859074052775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0189
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42343c9b06f050b90800000000000000
+      internalID: -7276392714839309532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0190
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffea065fab230caf0800000000000000
+      internalID: -378246590137061633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0191
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e7084af5b9e8b490800000000000000
+      internalID: -7730171792584079390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0192
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdd2a6e0fd4a98300800000000000000
+      internalID: 254916131849645532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0193
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ef246b2f93078530800000000000000
+      internalID: 3857055588028788707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0194
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: facf33e46d8e56430800000000000000
+      internalID: 3775679869752704175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0195
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fe1d488730b75500800000000000000
+      internalID: 384970045719912181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0196
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e10b3274f800c0c0800000000000000
+      internalID: -4557632976917429789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0197
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1aa4982c1110463a0800000000000000
+      internalID: -6673207572066383199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0198
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8f2490ab9ea0ee70800000000000000
+      internalID: 9142499226999336847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0199
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e9dc073a61683c90800000000000000
+      internalID: -7189889696278980125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0200
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 435d67a798181f5c0800000000000000
+      internalID: -4183420151385369292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0201
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d32e0e1ad28cc4630800000000000000
+      internalID: 3912722274593071677
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0202
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9146b6a34da02b70800000000000000
+      internalID: 8872281771991253403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0203
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bfaaf51a3783df80800000000000000
+      internalID: -8082968222653304903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0204
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 440be156d1d299560800000000000000
+      internalID: 7320932273541263428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0205
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2bf491f0d48650d0800000000000000
+      internalID: -3434411632882287830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0206
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2e843ec1dd25ed10800000000000000
+      internalID: 2154178375897615914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0207
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b67245a3632661f0800000000000000
+      internalID: -1052114552063101255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0208
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad471756011f5f9a0800000000000000
+      internalID: -6199784259281914662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0209
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bf7fe738e3d3b080800000000000000
+      internalID: -9172755021699252300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0210
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6893c743b87469740800000000000000
+      internalID: 5158389086406064518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0211
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 490563bcdc1a353f0800000000000000
+      internalID: -913208394176376684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0212
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd54131c6b52b9cb0800000000000000
+      internalID: -4856246306333440545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0213
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 316e1e6af1527dc20800000000000000
+      internalID: 3231092075535656467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0214
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 718fdc4a1547de4d0800000000000000
+      internalID: -3103696674182268905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0215
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e08b6efdac65929b0800000000000000
+      internalID: -5104453273307924466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0216
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5bcfd7e11c73ed70800000000000000
+      internalID: 9071230490800802651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0217
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa9a83f74e3249060800000000000000
+      internalID: 6959226788488194479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0218
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c088ba8ebad6b0b30800000000000000
+      internalID: 4254614858091956236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0219
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a70bd42a1102a0790800000000000000
+      internalID: -7563197364105793414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0220
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56c1e3d1e9735dbd0800000000000000
+      internalID: -2606115657128993691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0221
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b1cd794cb9aeff70800000000000000
+      internalID: 9222995713053278641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0222
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 025875491c1d32f30800000000000000
+      internalID: 4549710677921989920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0223
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bde84e02d0347d70800000000000000
+      internalID: 9039904030780353976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0224
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8485a4d7a57a1000800000000000000
+      internalID: 7447713082082442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0225
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f69d1af90720aad0800000000000000
+      internalID: -2693109653363124491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0226
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05972f6a71d0d6770800000000000000
+      internalID: 8605548858211203408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0227
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d486b517e5f337e00800000000000000
+      internalID: 1041245613714008141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0228
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec812d6e489969a80800000000000000
+      internalID: -8460406053881636658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0229
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7d1b80146655b8c0800000000000000
+      internalID: -3984183307565064833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0230
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b64603e2210488ed0800000000000000
+      internalID: -2411607153628388245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0231
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13faf66dbeae352c0800000000000000
+      internalID: -4443950108648689871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bruno_0232
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8f250e9a99969670800000000000000
+      internalID: 8545186232337248140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      dq_bruno_0000: 7005562703613658886
+      dq_bruno_0001: -5197366089041279952
+      dq_bruno_0002: 411234665429762026
+      dq_bruno_0003: -7831063762055310270
+      dq_bruno_0004: 2571787774363794011
+      dq_bruno_0005: 3310571425084147934
+      dq_bruno_0006: -718733965527598816
+      dq_bruno_0007: -5335837796472409164
+      dq_bruno_0008: 1278944160034669970
+      dq_bruno_0009: -2664953226367510714
+      dq_bruno_0010: 5449408398054356642
+      dq_bruno_0011: -3864892372424779623
+      dq_bruno_0012: 350897182563034331
+      dq_bruno_0013: -715558501312749849
+      dq_bruno_0014: -8606204509426011296
+      dq_bruno_0015: 7428418761847346679
+      dq_bruno_0016: -2154651488144266689
+      dq_bruno_0017: 131861536469856111
+      dq_bruno_0018: 147326814367428668
+      dq_bruno_0019: -186337916438827273
+      dq_bruno_0020: 6281594870908655846
+      dq_bruno_0021: 2191128114429022297
+      dq_bruno_0022: -759944104979043132
+      dq_bruno_0023: 8593637975392497733
+      dq_bruno_0024: -2367132292919195134
+      dq_bruno_0025: -9112245007470414662
+      dq_bruno_0026: 3484185574729399934
+      dq_bruno_0027: -4425354581693168444
+      dq_bruno_0028: -5069572078721404764
+      dq_bruno_0029: 8730985708684453087
+      dq_bruno_0030: 7554745400436428880
+      dq_bruno_0031: -3191614105301582681
+      dq_bruno_0032: 7976082530573294821
+      dq_bruno_0033: -35352420063459978
+      dq_bruno_0034: -2595203469424109363
+      dq_bruno_0035: 6992575347659722730
+      dq_bruno_0036: 8566409306191058934
+      dq_bruno_0037: 3968895920976297635
+      dq_bruno_0038: 1456369771099122524
+      dq_bruno_0039: -5342818162299060632
+      dq_bruno_0040: -193350803934492714
+      dq_bruno_0041: -1426459521940033197
+      dq_bruno_0042: -8359029674373374052
+      dq_bruno_0043: 70276464033447836
+      dq_bruno_0044: 6594513895282634580
+      dq_bruno_0045: 4870807921538410406
+      dq_bruno_0046: 1975680464787075461
+      dq_bruno_0047: 3719516727368522778
+      dq_bruno_0048: 4275313140233592847
+      dq_bruno_0049: 1858081776358086410
+      dq_bruno_0050: -3704039333670072120
+      dq_bruno_0051: 4440870149354765089
+      dq_bruno_0052: 7929870399224302123
+      dq_bruno_0053: -3222803063982188902
+      dq_bruno_0054: 4314368586846705109
+      dq_bruno_0055: -3476542879819358973
+      dq_bruno_0056: 8614976832742017046
+      dq_bruno_0057: 2457201179723046421
+      dq_bruno_0058: -8961049927103904302
+      dq_bruno_0059: 3076668345607659212
+      dq_bruno_0060: -2758643422955438824
+      dq_bruno_0061: -484579777705078759
+      dq_bruno_0062: -3211444386423347686
+      dq_bruno_0063: -1949872875174031486
+      dq_bruno_0064: -332849093060492332
+      dq_bruno_0065: 3730337214197871170
+      dq_bruno_0066: 1201263080823169927
+      dq_bruno_0067: 4036996403976472511
+      dq_bruno_0068: 4420622300944069007
+      dq_bruno_0069: -8179645522510954594
+      dq_bruno_0070: -7359638143237933655
+      dq_bruno_0071: 8509860511752920122
+      dq_bruno_0072: 6218764328153807265
+      dq_bruno_0073: 9089165631284530884
+      dq_bruno_0074: -6537560089030637209
+      dq_bruno_0075: 254663205600013037
+      dq_bruno_0076: 6622959017066347802
+      dq_bruno_0077: 3543096558385858947
+      dq_bruno_0078: 2089611792994051810
+      dq_bruno_0079: -1627152231859270729
+      dq_bruno_0080: -3175997319791328822
+      dq_bruno_0081: -6352207934114189725
+      dq_bruno_0082: 6203221401521502907
+      dq_bruno_0083: -2836079678476183624
+      dq_bruno_0084: 3877114279072455127
+      dq_bruno_0085: -6713059893833962806
+      dq_bruno_0086: 3236813197037851781
+      dq_bruno_0087: -3213454772982834983
+      dq_bruno_0088: 5945103478156714512
+      dq_bruno_0089: -3953937682132405292
+      dq_bruno_0090: 4811133115720084387
+      dq_bruno_0091: -432298047641023406
+      dq_bruno_0092: -1109813361884862385
+      dq_bruno_0093: -1684863686967126774
+      dq_bruno_0094: -3833074068322561040
+      dq_bruno_0095: 3419363206332886225
+      dq_bruno_0096: -924559158191043724
+      dq_bruno_0097: -5612150229162313310
+      dq_bruno_0098: 2892577589791887186
+      dq_bruno_0099: 4051494635512631890
+      dq_bruno_0100: -7188338921244837589
+      dq_bruno_0101: -5364961270011150414
+      dq_bruno_0102: -2444481301962119757
+      dq_bruno_0103: -3197426352323299476
+      dq_bruno_0104: 1675684775427056448
+      dq_bruno_0105: -312130583416202226
+      dq_bruno_0106: 6794035001639034334
+      dq_bruno_0107: 4209986812246499624
+      dq_bruno_0108: 4404820472495203670
+      dq_bruno_0109: 5794394852523689973
+      dq_bruno_0110: -3650508834019884982
+      dq_bruno_0111: -5269439398305425913
+      dq_bruno_0112: -3848439673460311286
+      dq_bruno_0113: 1260388978648904659
+      dq_bruno_0114: -108643178218899243
+      dq_bruno_0115: -873972808439898373
+      dq_bruno_0116: 5444371728573807601
+      dq_bruno_0117: -5935645034898683056
+      dq_bruno_0118: 4485442032232204318
+      dq_bruno_0119: -220417521723934809
+      dq_bruno_0120: -2078372349895434806
+      dq_bruno_0121: -1281062533238327730
+      dq_bruno_0122: 1977363216545501503
+      dq_bruno_0123: 3688971420619081732
+      dq_bruno_0124: 2430224114298294551
+      dq_bruno_0125: -568996634649291940
+      dq_bruno_0126: 3308554709748694951
+      dq_bruno_0127: -1542555771569409575
+      dq_bruno_0128: -983044019385849162
+      dq_bruno_0129: -3386400224170717002
+      dq_bruno_0130: 8682743912612459625
+      dq_bruno_0131: -718382846981606593
+      dq_bruno_0132: -7585551081187139628
+      dq_bruno_0133: 4386627546580248587
+      dq_bruno_0134: -5162789085012175481
+      dq_bruno_0135: -5437458556234450440
+      dq_bruno_0136: 3017712446954964864
+      dq_bruno_0137: 3011243325237245454
+      dq_bruno_0138: 3961274076769078818
+      dq_bruno_0139: 4937736457199449836
+      dq_bruno_0140: 8209065798463590487
+      dq_bruno_0141: 7305012097126008966
+      dq_bruno_0142: 8630891590607225441
+      dq_bruno_0143: -5911238125019102564
+      dq_bruno_0144: 1498435188109224052
+      dq_bruno_0145: -2156656667461869056
+      dq_bruno_0146: -7533809492311916523
+      dq_bruno_0147: -522133448948417991
+      dq_bruno_0148: 2176448487481414796
+      dq_bruno_0149: 6565074109000439807
+      dq_bruno_0150: -3093129261321449548
+      dq_bruno_0151: -162964155663428121
+      dq_bruno_0152: 7864417123311081694
+      dq_bruno_0153: 4695361932226348756
+      dq_bruno_0154: 7569033694453364367
+      dq_bruno_0155: 2786855037237932244
+      dq_bruno_0156: -3301659199194407838
+      dq_bruno_0157: 5197336467330587302
+      dq_bruno_0158: 1066829777007363962
+      dq_bruno_0159: -7753043925563593208
+      dq_bruno_0160: -3032195720955955344
+      dq_bruno_0161: 4775790481079759117
+      dq_bruno_0162: -2369464825940734722
+      dq_bruno_0163: -2486177409954090721
+      dq_bruno_0164: -1058963017297617224
+      dq_bruno_0165: -1673987120538872790
+      dq_bruno_0166: 7955400035123661852
+      dq_bruno_0167: 5214417689056649282
+      dq_bruno_0168: -981658072764231131
+      dq_bruno_0169: 7131765751611289406
+      dq_bruno_0170: -8722340384093126661
+      dq_bruno_0171: 924840448836383363
+      dq_bruno_0172: 8372393527920688895
+      dq_bruno_0173: -6984617504634816644
+      dq_bruno_0174: -2712406421455614416
+      dq_bruno_0175: 4730117582810899664
+      dq_bruno_0176: 5502983339921305372
+      dq_bruno_0177: 6977314961751969742
+      dq_bruno_0178: -262041828215431308
+      dq_bruno_0179: 435713906933696556
+      dq_bruno_0180: 7323909113171043965
+      dq_bruno_0181: 5758993401827109588
+      dq_bruno_0182: 3873177678325163684
+      dq_bruno_0183: -3419840045789803602
+      dq_bruno_0184: 1717262837151388471
+      dq_bruno_0185: 6418963914426563043
+      dq_bruno_0186: -944061201793255985
+      dq_bruno_0187: -921297050451937695
+      dq_bruno_0188: 7350991859074052775
+      dq_bruno_0189: -7276392714839309532
+      dq_bruno_0190: -378246590137061633
+      dq_bruno_0191: -7730171792584079390
+      dq_bruno_0192: 254916131849645532
+      dq_bruno_0193: 3857055588028788707
+      dq_bruno_0194: 3775679869752704175
+      dq_bruno_0195: 384970045719912181
+      dq_bruno_0196: -4557632976917429789
+      dq_bruno_0197: -6673207572066383199
+      dq_bruno_0198: 9142499226999336847
+      dq_bruno_0199: -7189889696278980125
+      dq_bruno_0200: -4183420151385369292
+      dq_bruno_0201: 3912722274593071677
+      dq_bruno_0202: 8872281771991253403
+      dq_bruno_0203: -8082968222653304903
+      dq_bruno_0204: 7320932273541263428
+      dq_bruno_0205: -3434411632882287830
+      dq_bruno_0206: 2154178375897615914
+      dq_bruno_0207: -1052114552063101255
+      dq_bruno_0208: -6199784259281914662
+      dq_bruno_0209: -9172755021699252300
+      dq_bruno_0210: 5158389086406064518
+      dq_bruno_0211: -913208394176376684
+      dq_bruno_0212: -4856246306333440545
+      dq_bruno_0213: 3231092075535656467
+      dq_bruno_0214: -3103696674182268905
+      dq_bruno_0215: -5104453273307924466
+      dq_bruno_0216: 9071230490800802651
+      dq_bruno_0217: 6959226788488194479
+      dq_bruno_0218: 4254614858091956236
+      dq_bruno_0219: -7563197364105793414
+      dq_bruno_0220: -2606115657128993691
+      dq_bruno_0221: 9222995713053278641
+      dq_bruno_0222: 4549710677921989920
+      dq_bruno_0223: 9039904030780353976
+      dq_bruno_0224: 7447713082082442
+      dq_bruno_0225: -2693109653363124491
+      dq_bruno_0226: 8605548858211203408
+      dq_bruno_0227: 1041245613714008141
+      dq_bruno_0228: -8460406053881636658
+      dq_bruno_0229: -3984183307565064833
+      dq_bruno_0230: -2411607153628388245
+      dq_bruno_0231: -4443950108648689871
+      dq_bruno_0232: 8545186232337248140
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -10,7 +10,7 @@ using Object = UnityEngine.Object;
 // 플레이 가능 판정용 진입점(기획서 H절, .ai/rules/playable-check.md). 판정 경로(tools/playable/*.json)의 식이 부른다.
 // 장면 LifetimeScope 컨테이너에서 모델·Presenter를 꺼내 읽고, 버튼은 Presenter의 버튼 처리 메서드(onClick과 같은 길)를 부른다.
 // 승패·단계를 써 넣지 않는다. 게임 코드는 이 클래스를 모른다.
-public static class PlayableProbe
+public static partial class PlayableProbe
 {
     private const string CloneSuffix = "(Clone)";
     private static int _lastPlacedMember = -1;

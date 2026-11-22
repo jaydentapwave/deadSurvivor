@@ -4,14 +4,16 @@ using UnityEngine;
 // range 안이고 대기가 끝났으면 표적 쪽 투사체 하나, 대기 = projectile.interval. 접촉 공격 없음.
 public class ProjectileBehavior : IMonsterBehavior
 {
+    private readonly EventBus _eventBus;
     private readonly MonsterModel _monsterModel;
 
     // 판이 바뀌어도 이어서 늘린다(적 번호와 같은 이유: 그림 등록부에 지난 판 그림이 남아 있을 수 있다)
     private int _nextShotId;
 
-    public ProjectileBehavior(MonsterModel monsterModel)
+    public ProjectileBehavior(MonsterModel monsterModel, EventBus eventBus = null)
     {
         _monsterModel = monsterModel;
+        _eventBus = eventBus;
     }
 
     public bool CanHandle(MonsterBehavior behavior) => behavior == MonsterBehavior.Projectile;
@@ -39,6 +41,7 @@ public class ProjectileBehavior : IMonsterBehavior
             _monsterModel.AddEnemyShot(new EnemyShot(_nextShotId, monster.Position, direction, projectile.ShotSpeed, monster.Damage,
                 projectile.Range * projectile.ShotTravelScale, projectile.ShotHitRadius, projectile.ShotColor, projectile.ShotSprite));
             monster.AttackClock = projectile.Interval;
+            _eventBus?.Publish(new GameEvent.MonsterAttackEvent { MonsterId = monster.Id, Direction = direction });
         }
     }
 }

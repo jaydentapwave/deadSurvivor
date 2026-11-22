@@ -14,6 +14,150 @@ public class MonsterView : MonoBehaviour
         upright.position = frame.SnapCard(transform.position, pivot, bodyRenderer.sprite.pixelsPerUnit, terrain);
     }
 
+    private DQActorClips _dq;
+    private MonsterPhase _dqPhase = MonsterPhase.Approach;
+    private float _dqPhaseClock;
+    private float _dqMoveClock;
+    private string _dqShotAction;
+    private float _dqShotClock;
+    private bool _dqJustHit;
+    private bool _dqDead;
+    private int _dqLastFrame = -1;
+    private int _dqFinalShownFrame = -1;
+    public int DQFrame { get; private set; }
+    public string DQAction { get; private set; }
+    public float DQPhaseClock => _dqPhaseClock;
+    public bool HasDQ => _dq != null;
+    public string DQActorId => _dq?.Data.actorId;
+    public bool DQFallFinished => _dqDead && _dqFinalShownFrame >= 0 && Time.frameCount > _dqFinalShownFrame;
+
+    public void InitializeDQ(DQActorClips actor)
+    {
+        _dq = actor;
+        _dqPhase = MonsterPhase.Approach;
+        _dqPhaseClock = 0;
+        _dqMoveClock = 0;
+        _dqShotAction = null;
+        _dqShotClock = 0;
+        _dqJustHit = false;
+        _dqDead = false;
+        _dqLastFrame = -1;
+        _dqFinalShownFrame = -1;
+        var sprites = new Sprite[5];
+        for (var i = 0; i < 5; i++)
+        {
+            sprites[i] = actor.Static((FacingDirection)i);
+        }
+        InitializeDirections(sprites, sprites);
+        FacingFallbackCount = 0;
+    }
+
+    public void BeginDQAttack(SpriteFacing facing)
+    {
+        if (_dq == null || _dqDead)
+        {
+            return;
+        }
+        Facing = facing;
+        _dqShotAction = _dq.Data.actorId == "mushroom" ? "shoot" : "contact";
+        var clip = _dq.Clip(_dqShotAction, facing.Direction);
+        if (clip == null)
+        {
+            _dqShotAction = null;
+            return;
+        }
+        _dqShotClock = 0;
+        for (var i = 0; i < clip.eventFrame; i++)
+        {
+            _dqShotClock += clip.durationsMs[i] / 1000f;
+        }
+        _dqJustHit = true;
+    }
+
+    public void BeginDQFall()
+    {
+        _dqDead = true;
+        _dqPhaseClock = 0;
+        _dqMoveClock = 0;
+        _dqShotAction = null;
+        dashLineRenderer.enabled = false;
+        blastAreaRenderer.enabled = false;
+        if (_dashDecal != null)
+        {
+            _dashDecal.SetVisible(false);
+        }
+        if (_blastDecal != null)
+        {
+            _blastDecal.SetVisible(false);
+        }
+    }
+
+    public void AcknowledgeDQRender()
+    {
+        if (_dqDead && _dqPhaseClock >= _dq.Clip("fall", Facing.Direction).Seconds && _dqFinalShownFrame < 0)
+        {
+            _dqFinalShownFrame = Time.frameCount;
+        }
+    }
+
+    public void ApplyDQAnimation(float delta, bool isMoving, float moveSeconds = 0, float phaseSeconds = -1)
+    {
+        if (_dq == null)
+        {
+            return;
+        }
+        if (phaseSeconds >= 0 && !_dqDead)
+        {
+            _dqPhaseClock = phaseSeconds;
+        }
+        if (_dqLastFrame != Time.frameCount)
+        {
+            _dqLastFrame = Time.frameCount;
+            if (phaseSeconds < 0 || _dqDead)
+            {
+                _dqPhaseClock += delta;
+            }
+            if (isMoving)
+            {
+                _dqMoveClock += moveSeconds;
+            }
+            else
+            {
+                _dqMoveClock = 0;
+            }
+            if (!_dqJustHit)
+            {
+                _dqShotClock += delta;
+            }
+        }
+        _dqJustHit = false;
+        var shot = _dqShotAction == null ? null : _dq.Clip(_dqShotAction, Facing.Direction);
+        if (shot != null && _dqShotClock >= shot.Seconds)
+        {
+            _dqShotAction = null;
+            shot = null;
+        }
+        DQAction = _dqDead ? "fall" : shot != null ? _dqShotAction
+            : _dqPhase == MonsterPhase.Approach || _dqPhase == MonsterPhase.Swarm
+                ? isMoving ? _dq.PhaseAction(_dqPhase) : "static" : _dq.PhaseAction(_dqPhase);
+        if (DQAction == "static")
+        {
+            bodyRenderer.sprite = _dq.Static(Facing.Direction);
+            DQFrame = 0;
+        }
+        else
+        {
+            var clip = _dq.Clip(DQAction, Facing.Direction);
+            var clock = shot != null && !_dqDead ? _dqShotClock
+                : !_dqDead && (DQAction == "move" || DQAction == "walk") ? _dqMoveClock : _dqPhaseClock;
+            bodyRenderer.sprite = _dq.At(DQAction, Facing, clock, out var frame);
+            DQFrame = frame;
+        }
+        bodyRenderer.flipX = Facing.IsFlipped;
+        bodyRenderer.transform.localPosition = Vector3.zero;
+        UpdateShadowWidth();
+    }
+
     private float _appearanceElapsed = SpawnAppearanceMath.Seconds;
     private bool _appearanceJustStarted;
     private MaterialPropertyBlock _appearanceBlock;
@@ -130,6 +274,9 @@ public class MonsterView : MonoBehaviour
     public void Initialize(Sprite bodySprite, Sprite warningSprite, bool hasArt, Sprite lineSprite, Sprite areaSprite, float dashLength,
         float blastRadius, float unitScale)
     {
+        _dq = null;
+        BeginAppearance(false);
+        AdvanceAppearance(0);
         _bodySprite = bodySprite;
         _warningSprite = warningSprite;
         IsWarning = false;
@@ -250,6 +397,10 @@ public class MonsterView : MonoBehaviour
 
     private void ApplySprite()
     {
+        if (_dq != null)
+        {
+            return;
+        }
         var mask = IsWarning ? _warningMask : _spriteMask;
         var sprites = IsWarning ? _warningSprites : _directionSprites;
         bodyRenderer.sprite = sprites[(int)SpriteFacing.ResolveAvailable(Facing.Direction, mask)];
@@ -278,6 +429,15 @@ public class MonsterView : MonoBehaviour
     // dashDirection: 바닥 평면 단위 벡터(Windup일 때만 쓴다)
     public void UpdateState(MonsterPhase phase, Vector2 dashDirection)
     {
+        if (_dqDead)
+        {
+            return;
+        }
+        if (_dq != null && phase != _dqPhase)
+        {
+            _dqPhase = phase;
+            _dqPhaseClock = 0;
+        }
         var isWarning = _warningSprite != null && (phase == MonsterPhase.Windup || phase == MonsterPhase.Fuse);
         if (isWarning != IsWarning)
         {
@@ -297,7 +457,7 @@ public class MonsterView : MonoBehaviour
         }
         dashLineRenderer.enabled = isWindup;
         blastAreaRenderer.enabled = phase == MonsterPhase.Fuse;
-        var elapsed = Time.time - _warningStarted;
+        var elapsed = _dq != null ? _dqPhaseClock : Time.time - _warningStarted;
         if (phase == MonsterPhase.Fuse && _blastRadius > 0)
         {
             blastAreaRenderer.sprite = _effectSpriteCache.Ring("blast", _blastRadius * _unitScale, EffectFrameMath.FrameAt(elapsed, 2, 8, true));
