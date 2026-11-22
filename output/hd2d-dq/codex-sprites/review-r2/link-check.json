@@ -1,0 +1,7 @@
+{
+  "utc": "2026-11-22T04:31:55.819802+00:00",
+  "status": "PASS",
+  "links": 100,
+  "missing": [],
+  "reviewer_C6": "not-run: outside reader scope; this file existence check is producer evidence"
+}

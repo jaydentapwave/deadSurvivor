@@ -1,5 +1,5 @@
 {
-  "utc": "2026-11-22T04:20:51.840512+00:00",
+  "utc": "2026-11-22T04:31:55.819802+00:00",
   "base_commit": "8c31aa459a123a13fa1a0a4310d13f597afcfcce",
   "files": {
     "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bruno_dq_right.png": "68318e37a2dfb9fd122297b21fe507fef688a56613fb4a7d5682c2697d540aa4",
@@ -10,10 +10,10 @@
     ".ai/2d-art/tools/kit2d.py": "f9220c788502df1fb3f8c8aaaed12fb187ff7b9e7e96a91d121b62db2ad1b6f3",
     "output/hd2d-dq/codex-sprites/art_tool.py": "1ea8a3b0203eb7960b0fdc0938554d5e5ef2f2ebc6a545fba5385265988c9379",
     "output/hd2d-dq/codex-sprites/compare_old.py": "c282b59621d9b3702540d546454fd7b456ba969c54768f949996636338271bbe",
-    "output/hd2d-dq/codex-sprites/preview_build.py": "23607cc5015588a977a524ccd304620320ebf6c8f8bfd56791bd2ab3139aa37a",
+    "output/hd2d-dq/codex-sprites/preview_build.py": "4aea0fab6a6849e70a95ceea5970728aba9fc5a400bcd45c020ed18965dde0b2",
     "output/hd2d-dq/codex-sprites/produce.py": "8edc170f83bda1374065eed0e27482b7cfe8046959e23f8de4585e0faedb6bba",
-    "output/hd2d-dq/codex-sprites/preview.html": "ec71a5b5621b643b5a3bdec1a85ff1d69c9ae321e2bc4064649e6577aea58e54",
-    "output/hd2d-dq/codex-sprites/frame-measurements.json": "7edc7f81a33732d9b67ce626c4079f48fb9efed6908f9231b5b376f71aab48ab",
+    "output/hd2d-dq/codex-sprites/preview.html": "f089eaa0a7869569a2708f5f3d21f77b82dfc700a916585978c4c49d99519d8a",
+    "output/hd2d-dq/codex-sprites/frame-measurements.json": "b0d6acf3df0d1aa59f85f4cf85468ec7d951d7b9e21d362c6b2e567c7ae52847",
     "output/hd2d-dq/codex-sprites/A/walk_down/frame_00.png": "8f2ab99b7b771993bd8eab4b708e38c2fb38b6678c9102366f8ff123d65d3fe3",
     "output/hd2d-dq/codex-sprites/A/walk_down/frame_01.png": "20077d5cfb2aa38ebdf4c825ac935ee97d601e59dce4f2003f55b3b0806f7a4c",
     "output/hd2d-dq/codex-sprites/A/walk_down/frame_03.png": "52b1b045675835c898b74c9f667eb8a61827cd07cdd8c6f13091aac41a2b6469",
@@ -34,14 +34,14 @@
     "output/hd2d-dq/codex-sprites/C/walk_down/frame_01.png": "0005c4c2a3ec289f351343a4de7638e83871226fbd68c95943af479dece7a9d8",
     "output/hd2d-dq/codex-sprites/C/walk_down/frame_03.png": "391d3f6c087c03dfac18d9c02a9bfe04250d02b5094583d4f42c3d64f935163c",
     "output/hd2d-dq/codex-sprites/C/walk_down/frame_02.png": "7fd6041ee6096c547eff8bbaf64fdaeebfd3b1db2367d0fe8c84d40b8ad2d33e",
-    "output/hd2d-dq/codex-sprites/C/attack_right/frame_00.png": "ab0fa9124f019e283a2698f96d696d2cc1d8cb7bb4dce6411facc60c06951b63",
-    "output/hd2d-dq/codex-sprites/C/attack_right/frame_01.png": "cd3b0bcadb3c0aa1fa1bda4ad1237b2b31836c249ce1c6fd7c28ab2511d1adac",
-    "output/hd2d-dq/codex-sprites/C/attack_right/frame_03.png": "511ab18c8e8f5539195c85b677cb425f046e60d7e0ac1c421d69b49713955635",
-    "output/hd2d-dq/codex-sprites/C/attack_right/frame_02.png": "b5dbe51afea704e5801a2b8524dcd228c5e4f29b7ea1e4d41275dda641812e82",
-    "output/hd2d-dq/codex-sprites/C/walk_right/frame_00.png": "619cba1d2441835dfe40af857f9501ee252ff2be2e4ac382fd5d1b0d75ea8da8",
-    "output/hd2d-dq/codex-sprites/C/walk_right/frame_01.png": "c4b3897e20cf1e39cf07a1135ab1f1f54671d0854e3d876f1f02f45c14345ff5",
-    "output/hd2d-dq/codex-sprites/C/walk_right/frame_03.png": "05e22c1855c4119a9c8f0df9dc31c2fce8686b261ebf6978d77e51c777cfd48e",
-    "output/hd2d-dq/codex-sprites/C/walk_right/frame_02.png": "1bab44866eb61d93a178c4d265a2b182de13988b1ad40e9c1976802a293be62b",
+    "output/hd2d-dq/codex-sprites/C/attack_right/frame_00.png": "1e351bdf2c0874530163ac7a015c2536e60012f79e392afc3b0646aa3d007058",
+    "output/hd2d-dq/codex-sprites/C/attack_right/frame_01.png": "356d3956e605f406480ea8d0ea869365a95c25c7657c8f01b5ff9e8613b2730d",
+    "output/hd2d-dq/codex-sprites/C/attack_right/frame_03.png": "68318e37a2dfb9fd122297b21fe507fef688a56613fb4a7d5682c2697d540aa4",
+    "output/hd2d-dq/codex-sprites/C/attack_right/frame_02.png": "82403d88faa796a6d3870732a0eb90a839973cd118b15a9e0e0ec5dfe8baaf00",
+    "output/hd2d-dq/codex-sprites/C/walk_right/frame_00.png": "dbb857376c1dac11e5944cd084796e6723662b51b57c5433c95ba834b4689fad",
+    "output/hd2d-dq/codex-sprites/C/walk_right/frame_01.png": "8ee7f54c50f35ac77884db67c7af3c98eb21ae8c343eb79828d3d0e5233a44b5",
+    "output/hd2d-dq/codex-sprites/C/walk_right/frame_03.png": "add882bda5fa042fa01630db069c18f3348ce26092db7a8569a77b1fbb57c1f1",
+    "output/hd2d-dq/codex-sprites/C/walk_right/frame_02.png": "26e0a0a1eb2cdf55932f9590aeeb61224f06a8ec972ddad7b732e68d2282068f",
     "output/hd2d-dq/codex-sprites/B/walk_down/frame_00.png": "940f83d5fdd4bbb56fd995f6fa7ca200f688e945bf8dab3e78dfbe98f843435b",
     "output/hd2d-dq/codex-sprites/B/walk_down/frame_01.png": "d5248ad0321d47ddd6f1053841cc49052e1245be722a7f8d69d17af4cc37f7d9",
     "output/hd2d-dq/codex-sprites/B/walk_down/frame_03.png": "1bc4f07ac36e8d3238d0024fc953785420090d42bf7073589f65bed5f787f3f2",
@@ -71,7 +71,19 @@
     "output/hd2d-dq/codex-sprites/review-r1/link-check.json": "6cbaf6217d934e143bb1a4b6d5ad25420124c592b7d6ade1ceb36c43937875c8",
     "output/hd2d-dq/codex-sprites/review-r1/carried-pass.json": "7a7e3a56238c5a68a8a96240fbdd29113c1820811685b07af00717dd78999073",
     "output/hd2d-dq/codex-sprites/review-r1/numeric-observations.json": "c801eb04fa6ed09ba2993ac8b4eca270406515d709f90e3faa32f991d35e3575",
-    "output/hd2d-dq/codex-sprites/review-r1/judge-map.json": "305d48e97cd5cf89a26029479802dad3da2c720121f05edb54e7b5d960b71e43"
+    "output/hd2d-dq/codex-sprites/review-r1/judge-map.json": "305d48e97cd5cf89a26029479802dad3da2c720121f05edb54e7b5d960b71e43",
+    "output/hd2d-dq/codex-sprites/review-r2/repair.py": "d4b31b456a259a4fb226a0c1b6ad5bb7fcfda44dbe4f3e9dceb0653aba0f0d66",
+    "output/hd2d-dq/codex-sprites/review-r2/leg-order.json": "bf2de357d92cb770227268e6734ca860e853726ca1d4531ff2b0d8d6e299202c",
+    "output/hd2d-dq/codex-sprites/review-r2/arm-geometry.json": "9a75ba05f0cd4407e1da50c471999e1d2c58946a03d0bf68edb1641cb2ff2b4a",
+    "output/hd2d-dq/codex-sprites/review-r2/recheck-brief.md": "0b774744ad2c54f2dffa7d434d5a8222645e87b27c09bdece2beb8dea62702eb",
+    "output/hd2d-dq/codex-sprites/review-r2/time-and-usage.json": "baaf6d576c91aed90f3d1ab2bddedaee79ff6c248b73233c7b6efb7d2924fcf9",
+    "output/hd2d-dq/codex-sprites/review-r2/start.json": "6c44fe4f558d7f5c004012e216ad025743f7feefb693610821b5c7aed4412dbd",
+    "output/hd2d-dq/codex-sprites/review-r2/opened-files.json": "c70c576892c806f51e448f481cfdcf5e109b6e9076a2112c297f545a879583ae",
+    "output/hd2d-dq/codex-sprites/review-r2/review-status.json": "72577e01dbaee0b88093b4a7f3b96e24a0e1c238616c6eafe8a54d5abce43609",
+    "output/hd2d-dq/codex-sprites/review-r2/link-check.json": "819efe486bff9faf43f264f9121b4eab6929c4da7837dd5e4f4921f92f9186ef",
+    "output/hd2d-dq/codex-sprites/review-r2/carried-pass.json": "45126fb09294e60c39840bf0826b1990b481ce18692aef840bc84517ba4bfbaf",
+    "output/hd2d-dq/codex-sprites/review-r2/numeric-observations.json": "f0315eef5965cecb5b9bb13f4bc6e3e3ab6f8d53d6ba4b6dade49f1a0ad645ac",
+    "output/hd2d-dq/codex-sprites/review-r2/judge-map.json": "bbc396c179819d2b133e1592ea617dd316a2f15db4edcc444d0699df5261bebd"
   },
   "claims": [
     {
@@ -83,5 +95,6 @@
       "text": "B is preferable for a small pose/retouch trial; 40-clip estimates are planning assumptions"
     }
   ],
-  "revision": "review-r1"
+  "revision": "review-r2 C2",
+  "review_base_commit": "37429ee0212dba8029702a6be160185dc2361e9c"
 }

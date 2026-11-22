@@ -1,5 +1,5 @@
 {
-  "utc": "2026-11-22T04:19:22.695870+00:00",
+  "utc": "2026-11-22T04:30:25.229400+00:00",
   "method": "pixel observations, no acceptance thresholds changed; torso is an opaque comparison window, shield is RED FACE ONLY, sword is BRIGHT BLADE ONLY. Not semantic full-object masks. Need independent visual reading.",
   "frames": {
     "A/walk_right/retry": [
@@ -1193,7 +1193,7 @@
     "C/walk_right": [
       {
         "frame": 1,
-        "sha256": "619cba1d2441835dfe40af857f9501ee252ff2be2e4ac382fd5d1b0d75ea8da8",
+        "sha256": "dbb857376c1dac11e5944cd084796e6723662b51b57c5433c95ba834b4689fad",
         "canvas": [
           72,
           72
@@ -1242,7 +1242,7 @@
       },
       {
         "frame": 2,
-        "sha256": "c4b3897e20cf1e39cf07a1135ab1f1f54671d0854e3d876f1f02f45c14345ff5",
+        "sha256": "8ee7f54c50f35ac77884db67c7af3c98eb21ae8c343eb79828d3d0e5233a44b5",
         "canvas": [
           72,
           72
@@ -1291,7 +1291,7 @@
       },
       {
         "frame": 3,
-        "sha256": "1bab44866eb61d93a178c4d265a2b182de13988b1ad40e9c1976802a293be62b",
+        "sha256": "26e0a0a1eb2cdf55932f9590aeeb61224f06a8ec972ddad7b732e68d2282068f",
         "canvas": [
           72,
           72
@@ -1340,7 +1340,7 @@
       },
       {
         "frame": 4,
-        "sha256": "05e22c1855c4119a9c8f0df9dc31c2fce8686b261ebf6978d77e51c777cfd48e",
+        "sha256": "add882bda5fa042fa01630db069c18f3348ce26092db7a8569a77b1fbb57c1f1",
         "canvas": [
           72,
           72
@@ -1589,18 +1589,18 @@
     "C/attack_right": [
       {
         "frame": 1,
-        "sha256": "ab0fa9124f019e283a2698f96d696d2cc1d8cb7bb4dce6411facc60c06951b63",
+        "sha256": "1e351bdf2c0874530163ac7a015c2536e60012f79e392afc3b0646aa3d007058",
         "canvas": [
           72,
           72
         ],
         "bbox": [
           22,
-          8,
-          55,
+          7,
+          56,
           64
         ],
-        "height": 56,
+        "height": 57,
         "baseline": 64,
         "bottom_band_center_x": 35.5,
         "partial_alpha": 0,
@@ -1620,16 +1620,16 @@
           11,
           15
         ],
-        "torso_window_changed_pixels": 30,
+        "torso_window_changed_pixels": 18,
         "shield_red_face_bbox_size": [
-          14,
-          15
+          10,
+          14
         ],
         "sword_sampling_box": [
-          50,
-          31,
-          55,
-          48
+          51,
+          7,
+          56,
+          24
         ],
         "sword_bright_blade_bbox_size": [
           3,
@@ -1638,7 +1638,7 @@
       },
       {
         "frame": 2,
-        "sha256": "cd3b0bcadb3c0aa1fa1bda4ad1237b2b31836c249ce1c6fd7c28ab2511d1adac",
+        "sha256": "356d3956e605f406480ea8d0ea869365a95c25c7657c8f01b5ff9e8613b2730d",
         "canvas": [
           72,
           72
@@ -1646,7 +1646,7 @@
         "bbox": [
           22,
           8,
-          67,
+          68,
           64
         ],
         "height": 56,
@@ -1669,25 +1669,25 @@
           11,
           15
         ],
-        "torso_window_changed_pixels": 30,
+        "torso_window_changed_pixels": 28,
         "shield_red_face_bbox_size": [
           14,
           14
         ],
         "sword_sampling_box": [
-          50,
-          42,
-          67,
-          47
+          51,
+          37,
+          68,
+          42
         ],
         "sword_bright_blade_bbox_size": [
-          13,
-          3
+          16,
+          4
         ]
       },
       {
         "frame": 3,
-        "sha256": "b5dbe51afea704e5801a2b8524dcd228c5e4f29b7ea1e4d41275dda641812e82",
+        "sha256": "82403d88faa796a6d3870732a0eb90a839973cd118b15a9e0e0ec5dfe8baaf00",
         "canvas": [
           72,
           72
@@ -1700,7 +1700,7 @@
         ],
         "height": 56,
         "baseline": 64,
-        "bottom_band_center_x": 42.0,
+        "bottom_band_center_x": 42.5,
         "partial_alpha": 0,
         "outside_palette": 0,
         "head_size": [
@@ -1718,25 +1718,25 @@
           11,
           15
         ],
-        "torso_window_changed_pixels": 30,
+        "torso_window_changed_pixels": 28,
         "shield_red_face_bbox_size": [
           14,
           19
         ],
         "sword_sampling_box": [
           50,
-          46,
+          47,
           55,
-          63
+          64
         ],
         "sword_bright_blade_bbox_size": [
-          3,
-          13
+          4,
+          14
         ]
       },
       {
         "frame": 4,
-        "sha256": "511ab18c8e8f5539195c85b677cb425f046e60d7e0ac1c421d69b49713955635",
+        "sha256": "68318e37a2dfb9fd122297b21fe507fef688a56613fb4a7d5682c2697d540aa4",
         "canvas": [
           72,
           72
@@ -1767,7 +1767,7 @@
           11,
           15
         ],
-        "torso_window_changed_pixels": 30,
+        "torso_window_changed_pixels": 0,
         "shield_red_face_bbox_size": [
           10,
           19
@@ -1785,5 +1785,5 @@
       }
     ]
   },
-  "review_revision": "repair-r1"
+  "review_revision": "repair-r2"
 }

@@ -1,0 +1,24 @@
+{
+  "utc": "2026-11-22T04:31:55.819802+00:00",
+  "archive_start_utc": "2026-11-22T04:27:23.274169+00:00",
+  "elapsed_minutes_since_archive": 4.54,
+  "new_generation_calls": 0,
+  "total_generation_calls": 17,
+  "Aether": 0,
+  "Tripo": 0,
+  "Unity": 0,
+  "local_subagents": 0,
+  "Codex_tokens": "NOT_ASSESSED: current continuation native usage not exposed; earlier session token snapshot not reused as current usage",
+  "Claude_review_tokens": "NOT_ASSESSED: returned verdict contains no token usage",
+  "session_time": "previous actual execution cannot parse Codex requests; no redundant rerun",
+  "activities": [
+    "read returned two FAIL findings and carry seven PASS",
+    "archive two old clips and change method to C2",
+    "reverse actual leg ordering and source-shin mask",
+    "draw armored forearm outside shield; raise tip and restore recovery",
+    "decode final2GIFs and open8frames",
+    "numeric observations, passed hashes and relative links",
+    "scoped local commit; no push"
+  ],
+  "elapsed_scope": "archive start to evidence snapshot; initial reading before archive excluded"
+}

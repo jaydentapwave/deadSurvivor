@@ -16,10 +16,15 @@ verdicts={
  'C/attack_right':('FAIL','같은 칼을 유지. 90도씩 움직이는 칼과 각진 팔 때문에 자연스러운 휘두르기에는 못 미침.'),
 }
 review_path=P/'review-r1/review-status.json'
+if (P/'review-r2/review-status.json').exists():review_path=P/'review-r2/review-status.json'
 if review_path.exists():
  review=json.loads(review_path.read_text())
  for clip in review['carried_from']:
   verdicts[clip]=('PASS','Claude 독립 판독 PASS. 그림·재생 파일을 바꾸지 않고 판정을 이어 갑니다. 작은 흠은 리뷰 기록에 남겼습니다.')
+ if 'review-r2' in str(review_path):
+  verdicts['B/walk_down']=('PASS','Claude 독립 판독 PASS(낮은 확신). 다리 사이 망토 조각 때문에 읽기 어렵고 3장째는 거의 읽히지 않는다는 후속 의견을 유지합니다. 이번에는 수정하지 않았습니다.')
+  verdicts['A/attack_right']=('PASS','Claude 독립 판독 PASS. 3장째 손 근처의 작은 검은 덩어리는 후속 목록에 남겼으며 이번에는 수정하지 않았습니다.')
+  verdicts['C/walk_down']=('PASS','Claude 독립 판독 PASS. 올린 발이 조금 떨어져 보인다는 후속 의견을 유지하며 이번에는 수정하지 않았습니다.')
  for clip,reason in review['recheck'].items():
   verdicts[clip]=('NEEDS_REVIEW','이전 FAIL을 원본 픽셀 조각으로 수정했습니다. 수정 후 독립 재판독 대기입니다. '+reason)
 legs={
@@ -30,7 +35,7 @@ legs={
  'C/walk_right':['가까운 다리','가까운 다리 접지·통과','먼 다리','먼 다리 접지·통과'],
  'C/walk_down':['화면 왼발','왼발 접지·통과','화면 오른발','오른발 접지·통과']
 }
-(P/'producer-observations.json').write_text(json.dumps({'status':'initial independent VERDICT: FAIL; 3 clip PASS carried, 6 repairs awaiting recheck' if review_path.exists() else 'producer-only; independent reading NOT_RUN','verdicts':verdicts,'legs':legs,'attack_order':['wind-up: upward','strike: right','follow-through: downward','recovery: waist'],'recommendation':'소량 자세 시안과 손질 출발점은 B. 40클립 양산 승인은 보류. Aether 품질은 이번에 측정하지 않아 우열을 단정하지 않음.'},ensure_ascii=False,indent=2))
+(P/'producer-observations.json').write_text(json.dumps({'status':f'latest independent VERDICT: FAIL; {len(review["carried_from"])} clip PASS carried, {len(review["recheck"])} repairs awaiting recheck' if review_path.exists() else 'producer-only; independent reading NOT_RUN','verdicts':verdicts,'legs':legs,'attack_order':['wind-up: upward','strike: right','follow-through: downward','recovery: waist'],'recommendation':'소량 자세 시안과 손질 출발점은 B. 40클립 양산 승인은 보류. Aether 품질은 이번에 측정하지 않아 우열을 단정하지 않음.'},ensure_ascii=False,indent=2))
 e=html.escape
 def image(path,alt,klass=''):
  return f'<a href="{e(path)}"><img class="{klass}" src="{e(path)}" alt="{e(alt)}" loading="lazy"></a>'
@@ -71,5 +76,13 @@ if review_path.exists():
  page=page.replace('B 오른쪽의 4장째는 앞뒤 구분이 명확하지 않아 통과로 적지 않았습니다.','B 오른쪽의 4장째는 Claude가 뒤꿈치가 붙어 있는 통과 자세로 읽어 PASS했습니다.')
  page=page.replace('독립 리뷰 대기. 사용자 채택','여섯 수정본 재판독 대기. PASS 세 묶음은 변경 없이 유지. 사용자 채택')
  page=page.replace('<h2>방법별 비용과 남은 문제</h2>','<h2>방법별 비용과 남은 문제 · 아래 비용 표는 최초 시험 기록</h2><p><a href="review-r1/review-status.json">리뷰 원문 판정과 수정 항목</a> · <a href="review-r1/recheck-brief.md">수정 확인 브리핑</a></p><p>최초 생성 17회에서 추가 생성은 없습니다. A 정면·B 오른쪽·B 공격은 독립 판독 PASS, 나머지는 픽셀 손질 뒤 재판독 대기입니다. 최초 실패본은 review-r1/before/에 보존했습니다.</p>')
+if 'review-r2' in str(review_path):
+ page=page.replace('Claude 1차 독립 판독: <b>A 정면 걷기·B 오른쪽 걷기·B 공격은 PASS입니다.</b>','Claude 수정 확인: <b>아홉 묶음 중 일곱 묶음은 PASS입니다.</b>')
+ page=page.replace('나머지 여섯 묶음은 수정 후 재판독 대기입니다.','C 오른쪽 걷기·공격은 방식을 바꾼 C2 수정본으로 재판독 대기입니다.')
+ page=page.replace('여섯 수정본 재판독 대기. PASS 세 묶음은 변경 없이 유지.','C2 두 수정본 재판독 대기. PASS 일곱 묶음은 변경 없이 유지.')
+ page=page.replace('최초 생성 17회에서 추가 생성은 없습니다.','최초 생성 17회에서 추가 생성은 없습니다. C2는 단순 조각 이동에 더해 앞뒤 겹침·반대 다리 명암·국소 팔 그리기를 사용합니다. 초기 C 방식의 성공으로 바꿔 적지 않습니다. <a href="review-r2/recheck-brief.md">C2 수정 확인 브리핑</a>.')
+ page=page.replace('<h3>방법 C</h3>','<h3>방법 C2 · 손질 방식 변경</h3>')
+ page=page.replace('키 56, 바닥선 64','키 56~57(허용 55~57), 바닥선 64')
+ page=page.replace('C 공격 3장째는 내려간 칼이 발 범위와 섞여 38.5로 잡힙니다.',f'C2 공격 3장째는 내려간 칼이 발 범위와 섞여 {measure["C/attack_right"][2]["bottom_band_center_x"]}로 잡힙니다.')
 (P/'preview.html').write_text(page,encoding='utf-8')
 print('preview.html written')

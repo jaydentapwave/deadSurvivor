@@ -1,0 +1,89 @@
+[
+  {
+    "frame": 0,
+    "sword_box": [
+      51,
+      7,
+      56,
+      24
+    ],
+    "forearm_points": [
+      [
+        35,
+        34
+      ],
+      [
+        47,
+        35
+      ],
+      [
+        53,
+        24
+      ]
+    ],
+    "hand": [
+      53,
+      24
+    ],
+    "silhouette_width": 5,
+    "metal_face_width": 3
+  },
+  {
+    "frame": 1,
+    "sword_box": [
+      51,
+      37,
+      68,
+      42
+    ],
+    "forearm_points": [
+      [
+        35,
+        40
+      ],
+      [
+        39,
+        49
+      ],
+      [
+        53,
+        39
+      ]
+    ],
+    "hand": [
+      53,
+      39
+    ],
+    "silhouette_width": 5,
+    "metal_face_width": 3
+  },
+  {
+    "frame": 2,
+    "sword_box": [
+      50,
+      47,
+      55,
+      64
+    ],
+    "forearm_points": [
+      [
+        35,
+        40
+      ],
+      [
+        39,
+        50
+      ],
+      [
+        52,
+        49
+      ]
+    ],
+    "hand": [
+      52,
+      49
+    ],
+    "silhouette_width": 5,
+    "metal_face_width": 3
+  }
+]

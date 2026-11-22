@@ -1,0 +1,20 @@
+{
+  "utc": "2026-11-22T04:30:25.229400+00:00",
+  "frames": 36,
+  "heights": [
+    56,
+    57
+  ],
+  "height_accepted_interval": [
+    55,
+    57
+  ],
+  "baseline": [
+    64
+  ],
+  "partial_alpha": 0,
+  "outside_palette": 0,
+  "changed_head_pixels": 0,
+  "passed_clips_unchanged": 7,
+  "visual_review": "pending C4/C5 for two clips; reviewer C3 and C6 previously NOT ASSESSED, not relabelled PASS"
+}

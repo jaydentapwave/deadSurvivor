@@ -1,0 +1,42 @@
+[
+  {
+    "path": "C/walk_right/decoded/00.png",
+    "sha256": "44859e1c648d22bcd4fabad61b987c00d5aeb7808cad1ccf7cfde55221f85a34",
+    "observed": "producer directly opened final GIF decoded frames in order; not independent review"
+  },
+  {
+    "path": "C/walk_right/decoded/01.png",
+    "sha256": "ff8841c0cf5502d91eb0489edac4177c6de34cf7b50396341d41cacaea037f0d",
+    "observed": "producer directly opened final GIF decoded frames in order; not independent review"
+  },
+  {
+    "path": "C/walk_right/decoded/02.png",
+    "sha256": "b9b083c1420ff929cd3b1541bccb26d91e824a65bea1b523c6c1417f98de7438",
+    "observed": "producer directly opened final GIF decoded frames in order; not independent review"
+  },
+  {
+    "path": "C/walk_right/decoded/03.png",
+    "sha256": "497d3f5fb0292b63a3280315e2caf990d52a5bd4b4aa13bb81457da6579f974e",
+    "observed": "producer directly opened final GIF decoded frames in order; not independent review"
+  },
+  {
+    "path": "C/attack_right/decoded/00.png",
+    "sha256": "6a76d5021a9e0e7ae9fbcd555451432ef3165051c63890d29b15ff0ec2801f4b",
+    "observed": "producer directly opened final GIF decoded frames in order; not independent review"
+  },
+  {
+    "path": "C/attack_right/decoded/01.png",
+    "sha256": "e9ebb30bfb1e802a3962b77f2286f515b1590dc2e77890bb504fcac53bd39087",
+    "observed": "producer directly opened final GIF decoded frames in order; not independent review"
+  },
+  {
+    "path": "C/attack_right/decoded/02.png",
+    "sha256": "4d2be82782eaa848ad4cf90d2cb9c083e45ee9212286811a42698f5918e6f208",
+    "observed": "producer directly opened final GIF decoded frames in order; not independent review"
+  },
+  {
+    "path": "C/attack_right/decoded/03.png",
+    "sha256": "31a4b9ef7099e7a8a18bd5cae73cb1d90990d53e45834fa615c7ab7309e4cbb9",
+    "observed": "producer directly opened final GIF decoded frames in order; not independent review"
+  }
+]

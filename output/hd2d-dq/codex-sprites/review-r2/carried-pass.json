@@ -1,0 +1,125 @@
+{
+  "A/walk_right/retry": {
+    "unchanged": true,
+    "sha256": {
+      "frame_00.png": "dd8d58f5bddcf6a5dc9eb71b147baaf0d6a8f5ed78813312b5c2d391a068ed2b",
+      "frame_01.png": "8001a85e493cbe7cb451de71a40c0ca3460273194f56561d365d94beeb7bc5a8",
+      "frame_03.png": "d507ecb4d7bbd8dbc2e9c019108ada5de0a6ee355bfe3bc42e544d3155f8c8b1",
+      "frame_02.png": "d7b320fcfc3b3645839b2d4ced075be9c9f9d3f71b8aca69e65f30630b9956df",
+      "decode.json": "00fd9308cc2f628d6223d7ab9a48a2a4b4943818055bd0f55dbb0a8a48525b0a",
+      "row_4x.png": "75d1ad69551107c6531af11c81a6c3e553303e9ba48d646baba6084aa783364c",
+      "anim_4x.log": "6c8fbf26812e84f2fa91c5274e47338c08d0461d2c47109698072e968170fd68",
+      "anim_8x.log": "00050fc0b0d8bb765f587583c139fe41a92610a357fdd71c4bf88f044d41fcde",
+      "anim_4x.gif": "6735552b88a222a6e36e587d4c4ddda85738f0d4d28937ee87d4265fba8c93ab",
+      "anim_8x.gif": "9ef7aca279e80b82cfffa967653d26c3854278216093ebf0701c2d9b608cfb9b"
+    },
+    "evidence": "group01 A/walk_right/retry (set01): PASS",
+    "carried_from": "review-r1 second-stage comparison",
+    "note": "Frames 01 and 03 are nearly identical (note only)."
+  },
+  "A/walk_down": {
+    "unchanged": true,
+    "sha256": {
+      "frame_00.png": "8f2ab99b7b771993bd8eab4b708e38c2fb38b6678c9102366f8ff123d65d3fe3",
+      "frame_01.png": "20077d5cfb2aa38ebdf4c825ac935ee97d601e59dce4f2003f55b3b0806f7a4c",
+      "frame_03.png": "52b1b045675835c898b74c9f667eb8a61827cd07cdd8c6f13091aac41a2b6469",
+      "frame_02.png": "8b50f8d6be548c320c6694c072d9f2b3f22f030d72733e9e57a39a62c22ed9e8",
+      "decode.json": "00fd9308cc2f628d6223d7ab9a48a2a4b4943818055bd0f55dbb0a8a48525b0a",
+      "row_4x.png": "2d0a44883b8697b04cc0435fe4425a1cadb335a6fd0f6f20c104d0c874c0e8d4",
+      "anim_4x.log": "1d88e5b2e3c12029e146d3c860f81acddffb75534c64aac2a67fc4bc61530d2c",
+      "anim_8x.log": "a3901244ef4843fcb1b68eccfa8f340db19e2b283f292f5d268a097da5d1334c",
+      "anim_4x.gif": "dd18e4229d1e01740c497106359bce5c60fe8a77e47ad3bc06407b5046bd9ac7",
+      "anim_8x.gif": "eeaacd95cff09f43220e39f40b49c63400792c87f44bcff3263aff3b5660ec76"
+    },
+    "evidence": "set02 = A/walk_down: PASS.",
+    "carried_from": "first blind read"
+  },
+  "A/attack_right": {
+    "unchanged": true,
+    "sha256": {
+      "frame_00.png": "15d8237c61a0a2676c747acc42f54850e4da599bacccb285f0607496d294427f",
+      "frame_01.png": "a9c7e1311a2a4bb62ae1d692bdd210ebc17c8b55c9a1f0bd725e39f5cfdc821d",
+      "frame_03.png": "8c4a2fd4138454244bc9017d65e3aecbdcfbec2de51d34e95952874459a2fa58",
+      "frame_02.png": "847bfa74dd502631067445d08075ce31fe49b69ff43566bed4d886683bd95e9d",
+      "decode.json": "00fd9308cc2f628d6223d7ab9a48a2a4b4943818055bd0f55dbb0a8a48525b0a",
+      "row_4x.png": "9f7599493b752c26b533308086513daaec428a357e6bb3240c7cc659c1c9ae5c",
+      "anim_4x.log": "cbe12bf8d584f35770e51269ae96275de12fdeb7b8499f476208c007d98776b1",
+      "anim_8x.log": "5ca736b8c83d968a4b3f4fa4bd8940aff57f9e44c0d040707644144c895ccedb",
+      "anim_4x.gif": "0cd6b65c32667b34e1b60b1338f9dc1c0f31a5b85fd8b535de0af537d03fdd31",
+      "anim_8x.gif": "f4c8288b1a216f23e7d854d1e23f103333055546eef646eb043ba140cac9c1db"
+    },
+    "evidence": "group02 A/attack_right (set03): PASS",
+    "carried_from": "review-r1 second-stage comparison",
+    "note": "Small dark blob near the hand in 02 (follow-up list)."
+  },
+  "B/walk_right": {
+    "unchanged": true,
+    "sha256": {
+      "frame_00.png": "b17a6299fc97c29c03a0fe7d234e13fbc178447f9e36bf376b8b1fb4ecee09b4",
+      "frame_01.png": "31f91738cabe9837d8d14abf6cd86c47211a20446e8a09dfdf3c22d34fd719ad",
+      "frame_03.png": "c82c378b6319aa0725ace65522d6ffec9db6db854b588c6a14f3c8cb9168487c",
+      "frame_02.png": "e1a0cb52fc9cf6d0d26bf3a5b0b896641c0279fbc2565544673f7f7cb0e486e6",
+      "decode.json": "00fd9308cc2f628d6223d7ab9a48a2a4b4943818055bd0f55dbb0a8a48525b0a",
+      "row_4x.png": "d938ab80d70f7925cc74b9fcda14de4c5481708e3dd3f775ee26ffe61b8fcd91",
+      "anim_4x.log": "a6882c3bbf24b9bc4c345dce1c13c2f926ed1fd6f9025d22f836ef976fd7b51a",
+      "anim_8x.log": "adac14136f9111721330b25f30633c4b33df8a534360a09c7e2a0430bfc5722d",
+      "anim_4x.gif": "d57fb69f86c309e22a266b2198bd5db36234f2c4febe49387d40487b9c99e980",
+      "anim_8x.gif": "07cb3c661e067eaec8eef50e2f06eff0fb18834bb3f3d212d19896ddcd7613e9"
+    },
+    "evidence": "set04 = B/walk_right: PASS.",
+    "carried_from": "first blind read"
+  },
+  "B/walk_down": {
+    "unchanged": true,
+    "sha256": {
+      "frame_00.png": "940f83d5fdd4bbb56fd995f6fa7ca200f688e945bf8dab3e78dfbe98f843435b",
+      "frame_01.png": "d5248ad0321d47ddd6f1053841cc49052e1245be722a7f8d69d17af4cc37f7d9",
+      "frame_03.png": "1bc4f07ac36e8d3238d0024fc953785420090d42bf7073589f65bed5f787f3f2",
+      "frame_02.png": "79c91fd127b878df6107b1ef45b5945958168ffc3a00d0d8ef4d6b86aa2b10f0",
+      "decode.json": "00fd9308cc2f628d6223d7ab9a48a2a4b4943818055bd0f55dbb0a8a48525b0a",
+      "row_4x.png": "fd2aab0b4e0ab5500dc82e1013bb50a91cd0cca1edf892ef1e31af5172abb7b9",
+      "anim_4x.log": "b1d345cdcfaf911bd2e17b5d226eaf98eefd950c57f4c1b465178c482688d085",
+      "anim_8x.log": "d1b06fbd5913f2695d658b28555972df3d036792945e5010564b2a135530656c",
+      "anim_4x.gif": "b1f2edfc4063b8d4851ca91d1d5c4667596189d93f7527617528616d4d902216",
+      "anim_8x.gif": "e1637a270b7a3ddd21c17623895563ab106b5d55d5c81a7a3d1043c068ede3af"
+    },
+    "evidence": "group03 B/walk_down (set05): PASS (low confidence)",
+    "carried_from": "review-r1 second-stage comparison",
+    "note": "Cloak fragments between the legs make them hard to read; frame 02 is close to unreadable (follow-up list)."
+  },
+  "B/attack_right": {
+    "unchanged": true,
+    "sha256": {
+      "frame_00.png": "e34c6c0e7885a6cb2caed4340e5a4d8d88f0ae069862563f57fb2e98f214fafc",
+      "frame_01.png": "e3dd2662a3ba356b022904a46e93093a574ba5b04be5b727c165f73f0f7aecef",
+      "frame_03.png": "57e56881e66e22d4d6964d3839fc89f8f1534e63550431ecb1f0b2b0fe9cd962",
+      "frame_02.png": "6fe09e7b1d6864bd568e200e259c806f18da70d098654bdadef830552ef6ed64",
+      "decode.json": "00fd9308cc2f628d6223d7ab9a48a2a4b4943818055bd0f55dbb0a8a48525b0a",
+      "row_4x.png": "22f2600d5589bd4b5dba04e1a60bf0ec830bed3dcb04b60194f2cc7eddbcf669",
+      "anim_4x.log": "f389500b8e34ec5aea76eee9b703d97e1726c2d3bd3f32516251841d395b101f",
+      "anim_8x.log": "d04e4e888328529d06ccc0a014ff96209faa93b7ac6c420db9ca765a829fef4c",
+      "anim_4x.gif": "3dac58e3d1060128bfdcd47d6c1d90749ddcced4dc57a3fe4e9be987aac17895",
+      "anim_8x.gif": "cd0a139646b0a9b4ed3d4924f6f06bdee3834f7bedfb56ed0b30151f6c679461"
+    },
+    "evidence": "set06 = B/attack_right: PASS.",
+    "carried_from": "first blind read"
+  },
+  "C/walk_down": {
+    "unchanged": true,
+    "sha256": {
+      "frame_00.png": "ff2007e69f00908db4726743fa0790565c2543cf69ac06901cb2a95c6659c735",
+      "frame_01.png": "0005c4c2a3ec289f351343a4de7638e83871226fbd68c95943af479dece7a9d8",
+      "frame_03.png": "391d3f6c087c03dfac18d9c02a9bfe04250d02b5094583d4f42c3d64f935163c",
+      "frame_02.png": "7fd6041ee6096c547eff8bbaf64fdaeebfd3b1db2367d0fe8c84d40b8ad2d33e",
+      "decode.json": "00fd9308cc2f628d6223d7ab9a48a2a4b4943818055bd0f55dbb0a8a48525b0a",
+      "row_4x.png": "ed13b14c81b0910b608091a4c093ffcbea6b79240b847d24822980ac00410aff",
+      "anim_4x.log": "5e55f67d8995dad149dea5087b7eafda22c82127e80ae0d9c419365625ac2ffc",
+      "anim_8x.log": "de5d90905d654f63b0e0becccd741bf5e4e96934c83d7bf578a52d395c262479",
+      "anim_4x.gif": "232cd1e88ede946429c395bff9bbb918454ffb8f3f3de737385ae86748f866fc",
+      "anim_8x.gif": "cef8749bab279036ba5283260e625c83d8086f6a5c05c278312facf26d2cf423"
+    },
+    "evidence": "group05 C/walk_down (set08): PASS",
+    "carried_from": "review-r1 second-stage comparison",
+    "note": "The lifted foot looks slightly detached (follow-up list)."
+  }
+}
