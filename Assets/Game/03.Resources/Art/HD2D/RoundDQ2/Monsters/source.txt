@@ -7354,3 +7354,182 @@
     }
   }
 }
+
+2차 손질 — 2026-11-22, 새 생성 없음. 디렉터 지적: 윗선·앞머리 연결, 턱 아래 띠, 몬스터 윗선. 한 번 수정 후 확인.
+{
+  "slime": {
+    "candidate": 1,
+    "before_sha256": "7b6ec560f3bdf45bf6d0bb64be8521715f735e78f956b01e685632f07533dac2",
+    "after_sha256": "d41f197b8d557796f46874cec9298ee189bd49e8412d7a64082f300124420e4f",
+    "changed_cells": [
+      [
+        27,
+        52
+      ],
+      [
+        30,
+        52
+      ],
+      [
+        33,
+        52
+      ],
+      [
+        36,
+        52
+      ]
+    ],
+    "outside_face_changes": 0,
+    "alpha_changes": 0,
+    "lash_width": 2,
+    "eyes_2x2": "unchanged",
+    "edit_boxes": [
+      [
+        27,
+        52,
+        31,
+        53
+      ],
+      [
+        33,
+        52,
+        37,
+        53
+      ]
+    ]
+  },
+  "mushroom": {
+    "candidate": 1,
+    "before_sha256": "dae583667477965e4245516bde364b666be3cb910eb1b3c1784e918ec1ac05d5",
+    "after_sha256": "dae583667477965e4245516bde364b666be3cb910eb1b3c1784e918ec1ac05d5",
+    "changed_cells": [],
+    "outside_face_changes": 0,
+    "alpha_changes": 0,
+    "lash_width": 0,
+    "eyes_2x2": "원래 얼굴 없는 버섯 유지",
+    "edit_boxes": []
+  },
+  "rock": {
+    "candidate": 1,
+    "before_sha256": "880d4b25d2c0bf8b31b31352623f62c3ec9c0c5248dc6830afec4e8e7ac6e916",
+    "after_sha256": "0a8df67d0a7c3aa99c1f7540e0309d9221548730caa77993630d624d973ac1bb",
+    "changed_cells": [
+      [
+        27,
+        43
+      ],
+      [
+        30,
+        43
+      ],
+      [
+        33,
+        43
+      ],
+      [
+        36,
+        43
+      ]
+    ],
+    "outside_face_changes": 0,
+    "alpha_changes": 0,
+    "lash_width": 2,
+    "eyes_2x2": "unchanged",
+    "edit_boxes": [
+      [
+        27,
+        43,
+        31,
+        44
+      ],
+      [
+        33,
+        43,
+        37,
+        44
+      ]
+    ]
+  },
+  "boar": {
+    "candidate": 4,
+    "before_sha256": "9745fa6e63afd0fcaecccd629f412d5d8c137ae46942931bcbf312ce51cb3a63",
+    "after_sha256": "728b059287105158b4978e7bffef44fa01c9aca77cbc08a40d8a6bd67212dd49",
+    "changed_cells": [
+      [
+        25,
+        47
+      ],
+      [
+        28,
+        47
+      ],
+      [
+        35,
+        47
+      ],
+      [
+        38,
+        47
+      ]
+    ],
+    "outside_face_changes": 0,
+    "alpha_changes": 0,
+    "lash_width": 2,
+    "eyes_2x2": "unchanged",
+    "edit_boxes": [
+      [
+        25,
+        47,
+        29,
+        48
+      ],
+      [
+        35,
+        47,
+        39,
+        48
+      ]
+    ]
+  },
+  "puffer": {
+    "candidate": 1,
+    "before_sha256": "ecbe09428992de38fa3da27999dd7c587eaf21129b0bdbd847fc321e7a23ea4a",
+    "after_sha256": "f0263ff397faef06edde9afa24d624ef377b8398478c457410898800f5d2755e",
+    "changed_cells": [
+      [
+        27,
+        51
+      ],
+      [
+        30,
+        51
+      ],
+      [
+        33,
+        51
+      ],
+      [
+        36,
+        51
+      ]
+    ],
+    "outside_face_changes": 0,
+    "alpha_changes": 0,
+    "lash_width": 2,
+    "eyes_2x2": "unchanged",
+    "edit_boxes": [
+      [
+        27,
+        51,
+        31,
+        52
+      ],
+      [
+        33,
+        51,
+        37,
+        52
+      ]
+    ]
+  }
+}

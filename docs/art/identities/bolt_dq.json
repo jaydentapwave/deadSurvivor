@@ -2,7 +2,7 @@
   "schema": "2d-identity/1",
   "id": "bolt_dq",
   "ref": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bolt_dq_front.png",
-  "ref_sha256": "ffaba000938ca9ebec0de1f1cd46ccd34682b8c93ccfd7267ea8330eb54d098e",
+  "ref_sha256": "76c68d05ce8773d3a2002477d56f6fee7d203d56d93510290de09a2802f96c6d",
   "approved": "2026-11-22 — 사용자 판정 대기",
   "width_part": "head",
   "outline_exclude": [],
@@ -58,5 +58,5 @@
       ]
     }
   },
-  "note": "heroes-r2 전사 얼굴 2x2 핵심 무늬, 눈썹/입/코/유색 홍채 없음. 정면 시안·사용자 판정 대기. 자기 기준 compare는 부위 등록 확인이며 그림체 채택 판정이 아님."
+  "note": "2차 손질: 윗선3칸·앞머리 연결, 턱8/6칸 테이퍼·하단 재질색 복원. 독립 수정 확인과 사용자 채택은 미판정."
 }
