@@ -239,6 +239,18 @@ public static class MainSceneDQLightMigration
             sceneText = sceneText.Replace("  m_Name: \n  m_EditorClassIdentifier: HD2D.View::DQSceneLighting",
                 "  m_Name:\n  m_EditorClassIdentifier: HD2D.View::DQSceneLighting");
             File.WriteAllText(MainSceneDQScreenMigration.ScenePath, sceneText);
+            // Keep newly supplied text assets canonical; do not rewrite unrelated Unity YAML.
+            foreach (var generated in Targets.Where(p => p.StartsWith(Root + "/DQ_", StringComparison.Ordinal)
+                || p == TexturePath || p == VolumePath))
+            {
+                foreach (var textPath in new[] { generated, generated + ".meta" })
+                {
+                    if (!textPath.EndsWith(".png", StringComparison.Ordinal) && File.Exists(textPath))
+                    {
+                        File.WriteAllLines(textPath, File.ReadAllLines(textPath).Select(line => line.TrimEnd()));
+                    }
+                }
+            }
             EditorSceneManager.OpenScene(MainSceneDQScreenMigration.ScenePath);
             var savedProfiles = AssetDatabase.LoadAssetAtPath<DQCharacterLightProfiles>(ProfilesPath);
             var savedBlob = AssetDatabase.LoadAssetAtPath<Material>(BlobPath);
