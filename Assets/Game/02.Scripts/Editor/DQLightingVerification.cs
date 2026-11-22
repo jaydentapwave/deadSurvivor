@@ -151,9 +151,12 @@ public static class DQLightingVerification
                 position = new[] { target.transform.position.x, target.transform.position.y, target.transform.position.z },
                 candidates, received, wrongSupport, wrongDepth, maxReceivedWorldError = maxError,
                 rejectedSupportCandidates = rejectedSupport, toleranceMetres = .04f,
+                minCandidateWorldError = diagnostic.Where(c => c.b > 31.9f && c.b < 33.1f && c.g > 16).Select(c => c.r).DefaultIfEmpty(-1).Min(),
+                maxCandidateWorldError = diagnostic.Where(c => c.b > 31.9f && c.b < 33.1f && c.g > 16).Select(c => c.r).DefaultIfEmpty(-1).Max(),
                 result = received == 0 ? "NOT_RUN" : wrongSupport == 0 && wrongDepth == 0 ? "PASS" : "FAIL",
                 mesh = target.OwnedMesh.GetInstanceID(), material = material.GetInstanceID(), texture = material.mainTexture.GetInstanceID(),
                 method = "Actual production material output minus same-frame disabled receiver; only changed diagnostic-tagged pixels count as received. No CPU-only prediction of clipping.",
+                measurementScope = "Diagnostic-tagged fragments only: coverage (sampled alpha * opacity) > .01, ZTest LEqual, surviving later transparent passes. Intrusion0 is limited to that candidate domain; not a claim about all nonzero-alpha pixels.",
                 renderSize = new[] { width, height }, diagnosticDepthWidths = diagnostic.Where(c => c.b > 31.9f && c.b < 33.1f && c.g > 16).Select(c => c.g).Distinct().ToArray()
             };
             File.WriteAllText(Path.Combine(Output, label + ".json"), JsonConvert.SerializeObject(result, Formatting.Indented));
@@ -178,7 +181,7 @@ public static class DQLightingVerification
         }
     }
 
-    public static void StartTransitionMatrix()
+    public static void StartTransitionMatrix(bool raisedBankOnly = false)
     {
         if (!Application.isPlaying || PlayableProbe.Screen != "Battle" || Time.timeScale != 0)
         {
@@ -206,6 +209,17 @@ public static class DQLightingVerification
         var regions = new[] { "flat", "slope", "water", "bank" };
         var from = new[] { new Vector2(0, 0), new Vector2(11, -8), new Vector2(7.5f, 5), new Vector2(7.3f, 8) };
         var to = new[] { new Vector2(1, 0), new Vector2(13, -8), new Vector2(8.5f, 5), new Vector2(8.3f, 8) };
+        var bankRenderer = Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None).Single(r => r.name == "bank");
+        var bankMesh = bankRenderer.GetComponent<MeshFilter>().sharedMesh;
+        var bankVertices = bankMesh.vertices.Select(bankRenderer.transform.TransformPoint).ToArray();
+        var bankTriangles = bankMesh.triangles;
+        if (raisedBankOnly)
+        {
+            regions = new[] { "raised-bank" };
+            from = new[] { new Vector2(18, 15) };
+            to = new[] { new Vector2(19, 15) };
+        }
+        var expectedRows = species.Length * regions.Length * 5;
         var rows = new List<object>();
         var actor = 0;
         var region = 0;
@@ -214,7 +228,7 @@ public static class DQLightingVerification
         MonsterView monster = null;
         var monsterId = -9500;
         var deadline = EditorApplication.timeSinceStartup + 300;
-        Output = "output/hd2d-dq/apply/7/recheck2/final";
+        Output = raisedBankOnly ? "output/hd2d-dq/apply/7/recheck3/raised-bank" : "output/hd2d-dq/apply/7/recheck2/final";
         var output = Output;
         DQBackgroundVerification.Output = output + "/frames";
         Directory.CreateDirectory(output);
@@ -248,9 +262,11 @@ public static class DQLightingVerification
             DQBackgroundVerification.Output = originalCaptureOutput;
             File.WriteAllText(output + "/matrix.json", JsonConvert.SerializeObject(new
             {
-                utc = DateTime.UtcNow.ToString("O"), completed = error == null && rows.Count == 120,
-                error, expectedRows = 120, rows,
-                note = "Real Main surfaces and production factory, frozen simulation; five distinct engine frames per species/region. Region-to-region repositioning is fixture setup, not gameplay navigation. Root uses production height grid (no invented bank walking). Inspect coverage before accepting any region."
+                utc = DateTime.UtcNow.ToString("O"), completed = error == null && rows.Count == expectedRows,
+                error, expectedRows, raisedBankOnly, rows,
+                bank = new { mesh = bankMesh.GetInstanceID(), material = AssetDatabase.GetAssetPath(bankRenderer.sharedMaterial),
+                    flatDepth = bankRenderer.sharedMaterial.GetFloat("_FlatDepth"), shader = bankRenderer.sharedMaterial.shader.name },
+                note = "Real Main surfaces and production factory, frozen simulation; five distinct engine frames per species/region. Raised-bank fixture samples actual existing bank mesh top triangles, without changing the bank material/depth contract or gameplay motion. Normal matrix uses production height grid."
             }, Formatting.Indented));
         }
         callback = () =>
@@ -286,6 +302,11 @@ public static class DQLightingVerification
                 var body = actor == 0 ? member.BodyRenderer : monster.BodyRenderer;
                 var point = Vector2.Lerp(from[region], to[region], step / 4f);
                 var position = new Vector3(point.x, TerrainHeightMath.Sample(terrain, point.x, point.y), point.y);
+                var triangle = -1;
+                if (raisedBankOnly)
+                {
+                    position.y = BankTopHeight(point, bankVertices, bankTriangles, out triangle);
+                }
                 root.position = position;
                 body.enabled = true;
                 camera.transform.position = position + offset;
@@ -293,12 +314,12 @@ public static class DQLightingVerification
                     camera.aspect, camera.pixelHeight, camera.nearClipPlane, camera.farClipPlane);
                 if (actor == 0)
                 {
-                    member.ApplyProjection(frame, terrain);
+                    member.ApplyProjection(frame, raisedBankOnly ? null : terrain);
                     member.SetGround(terrain, TerrainHeightMath.Normal(terrain, point.x, point.y), field.TerrainShadowMaterial);
                 }
                 else
                 {
-                    monster.ApplyProjection(frame, terrain);
+                    monster.ApplyProjection(frame, raisedBankOnly ? null : terrain);
                     monster.SetTerrain(terrain, TerrainHeightMath.Normal(terrain, point.x, point.y), field.TerrainShadowMaterial);
                 }
                 var label = species[actor] + "-" + regions[region] + "-" + step;
@@ -310,7 +331,8 @@ public static class DQLightingVerification
                 var receiver = ReceiverTransition(label, blob);
                 var normal = TerrainHeightMath.Normal(terrain, point.x, point.y);
                 rows.Add(new { species = species[actor], region = regions[region], step, frame = Time.frameCount,
-                    position = new[] { position.x, position.y, position.z }, normal = new[] { normal.x, normal.y, normal.z }, receiver });
+                    position = new[] { position.x, position.y, position.z }, normal = new[] { normal.x, normal.y, normal.z },
+                    bankTriangle = triangle, raisedSupport = position.y - TerrainHeightMath.Sample(terrain, point.x, point.y), receiver });
                 DQBackgroundVerification.Capture(label, 1920, 1080);
                 step++;
                 if (step == 5)
@@ -318,7 +340,7 @@ public static class DQLightingVerification
                     step = 0;
                     region++;
                 }
-                if (region == 4)
+                if (region == regions.Length)
                 {
                     if (monster != null)
                     {
@@ -339,6 +361,44 @@ public static class DQLightingVerification
             }
         };
         EditorApplication.update += callback;
+    }
+
+    // Fixture placement on the actual Main bank mesh, not the gameplay height grid.
+    private static float BankTopHeight(Vector2 point, Vector3[] vertices, int[] triangles, out int triangle)
+    {
+        var height = float.NegativeInfinity;
+        triangle = -1;
+        for (var i = 0; i < triangles.Length; i += 3)
+        {
+            var a = vertices[triangles[i]];
+            var b = vertices[triangles[i + 1]];
+            var c = vertices[triangles[i + 2]];
+            if (Vector3.Cross(b - a, c - a).y <= .000001f)
+            {
+                continue;
+            }
+            var ab = new Vector2(b.x - a.x, b.z - a.z);
+            var ac = new Vector2(c.x - a.x, c.z - a.z);
+            var ap = point - new Vector2(a.x, a.z);
+            var determinant = ab.x * ac.y - ab.y * ac.x;
+            var u = (ap.x * ac.y - ap.y * ac.x) / determinant;
+            var v = (ab.x * ap.y - ab.y * ap.x) / determinant;
+            if (u < -.00001f || v < -.00001f || u + v > 1.00001f)
+            {
+                continue;
+            }
+            var candidate = a.y + u * (b.y - a.y) + v * (c.y - a.y);
+            if (candidate > height)
+            {
+                height = candidate;
+                triangle = i / 3;
+            }
+        }
+        if (triangle < 0)
+        {
+            throw new InvalidOperationException("No real bank top triangle at fixture point " + point);
+        }
+        return height;
     }
 
     public static void BloomMaterials()
