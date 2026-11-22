@@ -1107,8 +1107,7 @@ public class PlayableBot : MonoBehaviour
     private const float MoveCircleRadius = 600f;
     // 가운데에서 이 거리 미만이면 오른쪽으로 간다
     private const float MoveCenterDeadZone = 1f;
-    // 바닥 방향 → 화면 방향(아이소 바닥은 세로가 절반으로 그려진다)
-    private const float FloorToScreenVertical = 0.5f;
+    // 바닥 원운동을 현재 원근 투영의 화면 입력으로 옮긴다.
 
     public PlayableProbe.BotMode Mode => _mode;
 
@@ -1166,7 +1165,7 @@ public class PlayableBot : MonoBehaviour
             floorDirection = (clockwise - outward * correction).normalized;
         }
 
-        var screenDirection = new Vector2(floorDirection.x, floorDirection.y * FloorToScreenVertical).normalized;
+        var screenDirection = PlayableProbe.Resolve<ViewRulesData>().Direction(center, floorDirection).normalized;
         PlayableProbe.SetMove(screenDirection.x, screenDirection.y);
     }
 

@@ -35,6 +35,9 @@ public static class DQMainScreenCapture
                 utc = DateTime.UtcNow.ToString("O"), frame = Time.frameCount,
                 camera = new[] { camera.transform.position.x, camera.transform.position.y, camera.transform.position.z }, pitch = camera.transform.eulerAngles.x, fov = camera.fieldOfView,
                 orthographic = camera.orthographic, width, height, actors,
+                near = camera.nearClipPlane, far = camera.farClipPlane,
+                pixelRect = new[] { camera.pixelRect.x, camera.pixelRect.y, camera.pixelRect.width, camera.pixelRect.height },
+                viewMatrix = MatrixValues(camera.worldToCameraMatrix), projectionMatrix = MatrixValues(camera.projectionMatrix),
                 quality = QualitySettings.names[QualitySettings.GetQualityLevel()], pipeline = UniversalRenderPipeline.asset.name,
                 renderScale = UniversalRenderPipeline.asset.renderScale
             }, new Newtonsoft.Json.JsonSerializerSettings { ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore }));
@@ -52,6 +55,8 @@ public static class DQMainScreenCapture
             Object.DestroyImmediate(image);
         }
     }
+
+    private static float[] MatrixValues(Matrix4x4 matrix) => Enumerable.Range(0, 16).Select(i => matrix[i]).ToArray();
 
     private static object Describe(SpriteRenderer body, Camera camera, int width, int height)
     {

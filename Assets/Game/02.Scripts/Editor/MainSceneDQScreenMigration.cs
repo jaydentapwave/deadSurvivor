@@ -66,13 +66,21 @@ public static class MainSceneDQScreenMigration
             }
             var scene = EditorSceneManager.OpenScene(ScenePath);
             var camera = Camera.main;
+            foreach (var component in camera.GetComponents<Component>())
+            {
+                if (component.GetType().Name == "PixelPerfectCamera")
+                {
+                    Object.DestroyImmediate(component);
+                }
+            }
             var oldBackground = camera.GetComponent<HD2DBackgroundRig>();
             if (oldBackground != null)
             {
                 Object.DestroyImmediate(oldBackground);
             }
             camera.cullingMask |= 1 << HD2DBackgroundRig.BackgroundLayer;
-            camera.cullingMask &= ~(1 << 26);
+            // Indicators must enter camera culling; renderer filters draw them only after focus.
+            camera.cullingMask |= 1 << 26;
             var rules = new ResourceService().LoadJson<ViewRulesData>("Data/View/view_rules");
             var rig = camera.GetComponent<TiltedCameraRig>();
             if (rig == null)

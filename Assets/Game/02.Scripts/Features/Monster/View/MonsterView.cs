@@ -16,6 +16,7 @@ public class MonsterView : MonoBehaviour
     private bool _appearanceJustStarted;
     private MaterialPropertyBlock _appearanceBlock;
     public float Appearance => SpawnAppearanceMath.Fraction(_appearanceElapsed);
+    public float AppearanceElapsed => _appearanceElapsed;
     public void BeginAppearance(bool isInside)
     {
         _appearanceElapsed = isInside ? 0 : SpawnAppearanceMath.Seconds;

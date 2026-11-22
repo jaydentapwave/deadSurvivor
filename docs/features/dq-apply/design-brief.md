@@ -257,7 +257,7 @@ Main 전용 renderer asset을 이행 메뉴가 갱신한다. 기존 효과·월�
 |킷의 정사영·도트배경 예시 |원근·매끈한3D | 이 프로젝트 기준서r2가 우선 |
 |몬스터 방향 원본 |4원화+앞대각정면 재사용,반전 포함 | D1 인계의 이미 알려진 차이. 고유8방향이라 재보고 금지 |
 
-이미 결정된 것은 리뷰에서 취향 대안으로 다시 열지 않는다. DR-02의 경계/스폰 충돌은 아직 결정된 것이 아니다. 다른 단계 항목은1절의 “N단계 몫, 이 단계 판정 밖”을 리뷰 입력에 그대로 넘긴다.
+이미 결정된 것은 리뷰에서 취향 대안으로 다시 열지 않는다. 이 문장의 DR-02 미결정 상태는 과거 이력이다. 현재 결정은13절과 inbox를 따른다. 다른 단계 항목은1절의 “N단계 몫, 이 단계 판정 밖”을 리뷰 입력에 그대로 넘긴다.
 
 ## 11. 이번 조사 근거·시간·놓친 것
 
@@ -272,7 +272,7 @@ Main 전용 renderer asset을 이행 메뉴가 갱신한다. 기존 효과·월�
 ## 12. 리뷰 수정·판정 기록(2차 작업, 구현 전)
 
 - 받은 판정: **`VERDICT: FAIL`**, design-reviewer, job `20261123-013222-4e519e`, Codex gpt-6.1-sol medium read-only112초. 사용자 전달 판정이며 직접 다시 실행한 리뷰가 아니다.
-- DR-02: 열린 지적이자 구현 차단. 북쪽 끝(0,0,32)의 screen y=0.90684, top floor z=46.5579m(독립 리뷰). 4.3절에 명확히 차단으로 반영, 통합 구현·A-05 BLOCKED 유지. 기준 충돌/사람 결정으로 중지한다.
+- DR-02: **과거 FAIL 이력(13절 결정으로 해소)**. 당시 열린 지적이자 구현 차단. 북쪽 끝(0,0,32)의 screen y=0.90684, top floor z=46.5579m(독립 리뷰). 4.3절에 명확히 차단으로 반영, 통합 구현·A-05 BLOCKED 유지. 기준 충돌/사람 결정으로 중지한다.
 - DR-03: 목록74·75행과 생성 호출→사용 상태→행 대응표 보완. “dash_line15클립 부재”만 사실 정정: 기존 `2e9b07c` 목록46행·데이터 clips에 이미 존재. 핵심 사용 계약 누락은 수용했다.
 - DR-04: 5.1절에 Probe6개 소비처의 정확한 조회·배치·복원 계약, 아래 route 명령·단계·기대식 보존을 추가했다.
 - DR-03/DR-04 문서 보완은 제작자 확인이며 독립 수정 확인 PASS가 아니다. DR-02 차단을 풀 결정 전에는 같은 열린 지적 때문에 리뷰를 다시 요청하지 않는다. 결정 후 design-reviewer에게 DR-03/DR-04 보완과 결정된 DR-02 방안을 함께 수정 확인받는다.
@@ -319,3 +319,21 @@ F-01~F-05는 확인된 런타임 결함이 아니다. 추가 검사 후보는 �
 - 관문 원근 호환성은 증거 없음 열린 지적이며 재리뷰 반복 사유가 아니다. 미지원이면 검사 부적합 BLOCKED 기록.
 - F-01~F-05는 기존 관문의 반례로 유지한다. 새 독립 전체Play를 추가하지 않는다.
 - 시간 상한은 이번 inbox 실행 시작부터180분,150분에마감전환. 최종 핸드오프는 `.director/outbox/20261123-night-1to6-5-r2.md`, attempt2다. 이전partial핸드오프를현재성공기록으로사용하지않는다.
+
+
+## 14. 구현 검증 현황 — attempt2 (최종 판정 아님)
+
+- 설계 수정 확인: 사용자 전달 design-reviewer job `20261123-014417-e35458`, `VERDICT: PASS`. 구현·Unity 검증 PASS를 뜻하지 않는다. FR-01의 과거 중지 문구는 위에 이력으로 표시했다.
+- 구현 진입점: `MainSceneDQScreenMigration.Apply` / 메뉴 `DeadSurvivor/DQ/Apply Main screen`. 새 렌더러는 `DQ_MainRenderer.asset`. 기존 TiltedView 이행 메뉴는 같은 진입점으로 연결한다. 옛 Background/Effects 이행 메뉴는 폐기 메시지로 중단한다.
+- `PerspectiveFrame`은 투영/역투영/입력 Jacobian/그림 스냅의 단일 계산 계약이다. `TiltedCameraRig.Frame`을 hit shake 적용 후 갱신하고 WorldPresenter 뒤 LateTick에서 가림을 갱신한다. 게임의 이동·스폰 논리 범위는 기존 ViewRules 반크기 계산으로 보존하고, 실제 화면 범위는 `FloorViewBounds`로 분리한다. Probe 경계는 실제 서비스 한계/scoped override를 사용한다.
+- 기본 경로 첫 유효 실행 `playable-main-r3`: 8/8 PASS. 그 이전 2회는 Unity Search 기본 인덱스 예외로 Play 진입 실패했다. 저장된 원시 실패를 보존했고, Unity 자체 기본 인덱스 생성 API로 로컬 캐시를 복구했다. 뒤따른 렌더링/봇 입력 보완의 최종 실행은 별도 증거를 남긴다.
+- 전용 경로 `playable-terrain`: 33/34 PASS, N9_RESULT FAIL. 기대식·baseline·경로 변경0. 원시 방향별 발 `[32,4,4,0]`, 몸 `[32,7,4,0]` (북/동/서/남). 전체 발40/몸43, 발-바닥 오차0. CSV와 JSON은 `output/hd2d-dq/apply/5/terrain-spawn-current*`에 동결했다.
+- **새 열린 결함 A-05**: 동·서 노출은 북쪽 예외로 덮을 수 없다. 현재 카메라·필드·스폰 규칙의 조합에서 발생한 실제 FAIL이며 완성 판정으로 승격하지 않는다. `A05-direction-failure.json`에 해당 행과 좌표가 있다. 방향 분류·카운터·알파를 바꿔 관측을 숨기지 않는다. 카메라/게임 규칙을 유지한 추가 해결의 승인 범위와 실제 기하를 마감 리뷰에 넘긴다.
+- 북쪽 표시 연출은0.30초 fog-color→원색, 알파/HP/충돌/위치 변화0. 가림 띠는 `north-spawn-mask-plan.json`의6단계 자리 요구이며 실제 숲/능선 성공과 다르다.
+- 관련 EditMode 89/89 PASS(중간 이력 포함 원시 JSON 저장). Unity 저장 파일의 YAML 공백은 자동 직렬화이며 코드 공백 검사와 분리해 기록한다. 이 문서는 독립 마감 리뷰 또는 최종 핸드오프를 대신하지 않는다.
+
+- 최종 기본 경로 `playable-main-final/report.json`: 8/8 PASS,145초. `editmode-final.json`: 89/89 PASS. `recompile-final-status.json`: completed/errors0. 두 번 이행의 최종 대상 hash 동일은 `migration-idempotence-indicator-final.json`에 있다.
+- 직접 판독한 캡처 경로/sha256/관찰은 `opened-main-images.json`; 시작·이동·실제 이동 한계9.842309m 도달 후 경계×3화면비, 이동8프레임. 실제 camera/alpha bbox는 각 `*-before.json`; 추가 `metadata-final-*`는 view/projection matrix·near/far·pixelRect도 포함한다. sourceHeight48에서94~96px,texel1.96~2.00px@1080이며 새56칸 그림 완료를 뜻하지 않는다.
+- `appearance-observed.json`은 게임 상태 변경 없는 실제 Editor update 관측131개, 경과0→0.3000366초와 shader `_Appearance`0→1이 일치한다. 첫 관측~완료 실시간차0.2805초. 북쪽 가림 숲/능선은 아직 없다(6단계).
+- 추가 미실행: near-plane 교차 가림 실제 프레임, 사망/부활 가림 복구 전용 프레임, 최대 흔들림 스폰, 피격 몸/HP 동시 프레임, 이행 중간 실패 주입. 단위 시험·기본 한 판으로 이 전용 반례까지 모두 PASS라 하지 않는다. 마감 리뷰에 이 한계를 넘긴다.
+- 네이티브 Play/TMP가 자동 직렬화한 비대상 font/material은 원래HEAD로 복원했고 변경에 포함하지 않는다. ProjectSettings 배경 실행 임시 override는 runner가 종료 시 복원했다. Editor auto tick은 시작 시 이미 enabled,이 실행에서 interval16ms로 갱신되었으며 이전 interval을 확보하지 못해 완전 복원이라 보고하지 않는다. Play stopped/backgroundfalse로 종료한다.

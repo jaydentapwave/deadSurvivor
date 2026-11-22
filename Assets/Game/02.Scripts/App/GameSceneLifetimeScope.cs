@@ -123,6 +123,8 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterEntryPoint<BattleHudPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<PrepPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<ResultPresenter>(Lifetime.Scoped).AsSelf();
+        // Finalize shake before WorldPresenter snapshots this frame's projection.
+        builder.RegisterEntryPoint<HitReactionPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<WorldPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<FirstExpeditionPresenter>(Lifetime.Scoped);
         builder.RegisterEntryPoint<FieldOcclusionPresenter>(Lifetime.Scoped).AsSelf();
@@ -138,7 +140,6 @@ public class GameSceneLifetimeScope : LifetimeScope
         // F6 피드백. Rig가 초점과 흔들림을 따로 받아 LateTick 순서에 의존하지 않는다.
         builder.RegisterEntryPoint<DamageNumberPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<HpLossPresenter>(Lifetime.Scoped).AsSelf();
-        builder.RegisterEntryPoint<HitReactionPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<MonsterHpBarPresenter>(Lifetime.Scoped).AsSelf();
     }
     // D-T8: logging belongs to the Game loading boundary, never HD2D.View.

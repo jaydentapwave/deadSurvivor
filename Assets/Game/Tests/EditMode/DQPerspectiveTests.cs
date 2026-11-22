@@ -167,4 +167,46 @@ public class DQPerspectiveTests
         Assert.That(mesh.uv2.Length, Is.EqualTo(vertices.Length));
     }
 
+    [TestCase(1920, 1080)]
+    [TestCase(2340, 1080)]
+    [TestCase(2048, 1536)]
+    public void LogicalGameEnvelopeIsPreservedAndDoesNotUseFarVisualFrustum(int width, int height)
+    {
+        var rules = new ResourceService().LoadJson<ViewRulesData>("Data/View/view_rules");
+        var game = rules.GameplayHalfExtent(width, height);
+        var scale = Mathf.Max(1, Mathf.RoundToInt(height * .1f / 48));
+        var halfHeight = height / (96f * scale);
+        Assert.That(game.x, Is.EqualTo(halfHeight * width / height).Within(.00001f));
+        Assert.That(game.y, Is.EqualTo(halfHeight * 2 + .907692f).Within(.00001f));
+        Assert.That(game.y, Is.LessThan(new FloorViewBounds(Frame(width, height), 0).Max.y));
+    }
+
+    [Test]
+    public void BotFloorHeadingAndJoystickUseTheSamePerspectiveInverse()
+    {
+        var rules = new ResourceService().LoadJson<ViewRulesData>("Data/View/view_rules");
+        rules.SetProjection(Frame(1920, 1080), .0113f, TerrainHeightGrid.Flat);
+        var center = new Vector2(100, -200);
+        foreach (var direction in new[] { Vector2.right, Vector2.up, Vector2.one.normalized, new Vector2(-1, .3f).normalized })
+        {
+            var screen = rules.Direction(center, direction).normalized;
+            var world = new Vector3(center.x, 0, center.y) * .0113f;
+            var restored = rules.Frame.InputDirection(world, screen);
+            Assert.That(Vector2.Dot(restored, direction), Is.GreaterThan(.99999f));
+        }
+    }
+
+    [Test]
+    public void IndicatorLayerEntersCameraCullingAndIsExcludedFromNormalRendererPasses()
+    {
+        var scene = System.IO.File.ReadAllText("Assets/Game/01.Scene/Main.unity");
+        var blocks = System.Text.RegularExpressions.Regex.Split(scene, "(?=^--- !u!)", System.Text.RegularExpressions.RegexOptions.Multiline);
+        var cameraBlock = System.Array.Find(blocks, b => b.StartsWith("--- !u!20 "));
+        var bits = System.Text.RegularExpressions.Regex.Match(cameraBlock, @"m_CullingMask:\s+serializedVersion: \d+\s+m_Bits: (\d+)").Groups[1].Value;
+        Assert.That(uint.Parse(bits) & (1u << 26), Is.Not.Zero, "Postprocess RenderObjects still requires the camera's culling results.");
+        var renderer = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Rendering.Universal.UniversalRendererData>("Assets/Game/03.Resources/Settings/DQ_MainRenderer.asset");
+        Assert.That(renderer.opaqueLayerMask.value & (1 << 26), Is.Zero);
+        Assert.That(renderer.transparentLayerMask.value & (1 << 26), Is.Zero);
+    }
+
 }

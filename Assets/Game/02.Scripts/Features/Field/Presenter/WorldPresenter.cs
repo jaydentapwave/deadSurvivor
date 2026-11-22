@@ -477,7 +477,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         if (hasStepped)
         {
             var minMove = view.MinMovePixels / Const.PixelsPerUnit;
-            facing = SpriteFacing.Next(view.Facing, _viewRules.Direction(_lastMemberFloors[index], delta), minMove, _viewRules.FacingHoldDegrees);
+            facing = SpriteFacing.Next(view.Facing, _viewRules.Direction(_lastMemberFloors[index] - delta, delta), minMove, _viewRules.FacingHoldDegrees);
             _isMemberMovings[index] = delta.sqrMagnitude >= Mathf.Pow(minMove / _runRules.UnitScale, 2);
             if (_isMemberMovings[index])
             {
@@ -543,7 +543,7 @@ public class WorldPresenter : IInitializable, ILateTickable
             }
             view.ApplyProjection(_viewRules.Frame);
             ObservePlacement(monster, view);
-            view.AdvanceAppearance(isRunning ? Time.deltaTime : 0f);
+            view.AdvanceAppearance(isRunning ? Time.unscaledDeltaTime : 0f);
         }
 
         _releaseIdList.Clear();
@@ -571,7 +571,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         if (hasStepped)
         {
             var minMove = view.MinMovePixels / Const.PixelsPerUnit;
-            facing = SpriteFacing.Next(view.Facing, _viewRules.Direction(monster.Position, delta), minMove, _viewRules.FacingHoldDegrees);
+            facing = SpriteFacing.Next(view.Facing, _viewRules.Direction(monster.Position - delta, delta), minMove, _viewRules.FacingHoldDegrees);
             if (delta.sqrMagnitude >= Mathf.Pow(minMove / _runRules.UnitScale, 2))
             {
                 _movingMonsterIdSet.Add(monster.Id);
