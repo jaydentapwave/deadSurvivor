@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 
 // F6 AC7 — 피해 숫자 합치기·반올림·움직임·상한 교체(기획서 B절). 값은 실제 feedback_rules.json
+[Category("DQScreen")]
 public class DamageNumberMotionTests
 {
     private static DamageNumberRulesData Rules => new FeedbackRulesRepository(new ResourceService()).Rules.DamageNumber;
@@ -181,7 +182,7 @@ public class DamageNumberMotionTests
                 presenter.LateTick();
                 var h = monsters.GetHeadHeight(monster)+rules.Rules.DamageNumber.OffsetPx/Const.PixelsPerUnit
                     +DamageNumberMotion.GetRisePx(.3f,rules.Rules.DamageNumber)/Const.PixelsPerUnit;
-                Assert.That(Vector3.Distance(anchor+TiltedViewMath.UprightOffset(h,30),entry.View.transform.position),Is.LessThan(1e-4));
+                Assert.That(Vector3.Distance(anchor+TiltedViewMath.UprightOffset(h,context.ViewRules.TiltDegrees),entry.View.transform.position),Is.LessThan(1e-4));
                 if(previous != null) Assert.AreSame(previous,entry.View);
                 previous=entry.View;
                 factory.Release(0);

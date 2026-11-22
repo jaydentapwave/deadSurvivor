@@ -21,7 +21,7 @@ public class BurstView : MonoBehaviour, IEffectFrameSource
     public int FrameNumber { get; private set; }
 
     public void UpdateView(Vector3 worldPosition, Sprite frame, string key, int frameNumber,
-        int materialIndex, bool isFlipped = false, bool isGround = false, float sinTilt = .5f)
+        int materialIndex, bool isFlipped = false, bool isGround = false, float sinTilt = .5f, PerspectiveFrame? frameProjection = null)
     {
         EffectKey = key;
         FrameNumber = frameNumber;
@@ -34,9 +34,14 @@ public class BurstView : MonoBehaviour, IEffectFrameSource
         var isSlash = key == "slash_sword" || key == "slash_axe";
         bodyRenderer.transform.localPosition = isSlash ? Vector3.forward * .6f : Vector3.zero;
         bodyRenderer.transform.localRotation = Quaternion.identity;
-        bodyRenderer.transform.localScale = new Vector3(1, isGround ? 1f / sinTilt : 1f, 1);
+        bodyRenderer.transform.localScale = new Vector3(1, isGround ? 2f : 1f, 1);
         upright.localRotation = isGround ? Quaternion.Euler(90, 0, 0) : _uprightRotation;
-        transform.localPosition = TiltedViewMath.SnapScreenPlane(worldPosition, sinTilt, Const.PixelsPerUnit);
+        transform.localPosition = worldPosition;
+        if (!isGround && frameProjection.HasValue)
+        {
+            bodyRenderer.transform.position = frameProjection.Value.SnapCard(bodyRenderer.transform.position,
+                frame.pivot, frame.pixelsPerUnit);
+        }
         var isConformed = isGround && !_terrain.IsFlat;
         bodyRenderer.enabled = !isConformed;
         if (_groundDecal != null)
@@ -51,7 +56,7 @@ public class BurstView : MonoBehaviour, IEffectFrameSource
                 child.transform.SetParent(transform, false);
                 _groundDecal = child.AddComponent<ConformedDecal>();
             }
-            _groundDecal.UpdateView(_terrain, worldPosition, frame, terrainEffectMaterials[materialIndex], new Vector2(1, 1f / sinTilt), isFlipped);
+            _groundDecal.UpdateView(_terrain, worldPosition, frame, terrainEffectMaterials[materialIndex], new Vector2(1, 2f), isFlipped);
         }
         else if (isGround)
         {
@@ -63,7 +68,7 @@ public class BurstView : MonoBehaviour, IEffectFrameSource
 
     public void Initialize(Sprite sprite)
     {
-        _uprightRotation = TiltedViewMath.UprightRotation(30f);
+        _uprightRotation = TiltedViewMath.UprightRotation(18f);
         bodyRenderer.transform.localPosition = Vector3.zero;
         bodyRenderer.sprite = sprite;
         bodyRenderer.color = Color.white;

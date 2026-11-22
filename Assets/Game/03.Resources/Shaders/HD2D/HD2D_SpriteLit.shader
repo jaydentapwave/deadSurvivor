@@ -6,6 +6,7 @@ Shader "HD2D/HD2D_SpriteLit"
     {
         [PerRendererData] _MainTex ("Sprite", 2D) = "white" {}
         _ReceiveShadows ("Receive shadows", Float) = 1
+        [PerRendererData] _Appearance ("Spawn appearance", Range(0,1)) = 1
         _SpriteRenderer ("SpriteRenderer data", Float) = 1
         _BaseColor ("Tint", Color) = (1,1,1,1)
         _Emission ("Emission", Range(0,4)) = 0
@@ -34,6 +35,7 @@ Shader "HD2D/HD2D_SpriteLit"
         float _ReceiveShadows;
         CBUFFER_END
         float _HD2DActorDepthBias;
+        float _Appearance;
         struct Attributes
         {
             float3 positionOS : POSITION;
@@ -59,7 +61,9 @@ Shader "HD2D/HD2D_SpriteLit"
             o.positionCS = TransformWorldToHClip(o.positionWS);
             if (_HD2DActorDepthBias > 0)
             {
-                o.positionCS.z += UNITY_MATRIX_P._m22 * _HD2DActorDepthBias;
+                float3 viewPosition = TransformWorldToView(o.positionWS);
+                viewPosition.z += _HD2DActorDepthBias;
+                o.positionCS = mul(UNITY_MATRIX_P, float4(viewPosition, 1));
             }
             o.screen = ComputeScreenPos(o.positionCS);
             o.uv = v.uv;
@@ -97,7 +101,8 @@ Shader "HD2D/HD2D_SpriteLit"
             half diffuse = saturate(dot(normalize(float3(0,0.85,-0.53)),sun.direction));
             half3 ambient = half3(0.43,0.32,0.27);
             diffuse = lerp(diffuse < .25 ? .58 : (diffuse < .68 ? .80 : 1.0), diffuse, _BackgroundCard);
-            return half4(c.rgb * (ambient + sun.color * diffuse * lerp(1,step(.5,sun.shadowAttenuation),_ReceiveShadows)) + c.rgb * _Emission,1);
+            half3 lit = c.rgb * (ambient + sun.color * diffuse * lerp(1,step(.5,sun.shadowAttenuation),_ReceiveShadows)) + c.rgb * _Emission;
+            return half4(lerp(half3(.55,.68,.64), lit, _Appearance), 1);
         }
         float3 _LightDirection;
         Varyings ShadowVertex(Attributes v)

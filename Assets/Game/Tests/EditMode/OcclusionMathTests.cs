@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
+[Category("DQScreen")]
 public class OcclusionMathTests
 {
     [TestCase(2, 3, true)]

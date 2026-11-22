@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 
 // F2 AC16·AC17·AC18 — 진형 따라가기, 쓰러진 대원, 웨이브·판 시작 배치, 프레임 나누기
+[Category("DQScreen")]
 public class PartyMoveServiceTests
 {
     private static readonly Vector2[] Directions =

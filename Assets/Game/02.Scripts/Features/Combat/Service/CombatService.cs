@@ -418,7 +418,7 @@ public class CombatService
             }
 
             // 목표 쪽으로 공격. 자기 치유는 마지막 공격 방향(초기 앞)을 유지한다.
-            var facing = SpriteFacing.Next(state.AttackMotion.Facing, TiltedViewMath.FloorToScreenPlane(direction, _viewRules.SinTilt), 0.001f, 0f);
+            var facing = SpriteFacing.Next(state.AttackMotion.Facing, (_viewRules.HasFrame ? _viewRules.Direction(member.Position, direction) : TiltedViewMath.FloorToScreenPlane(direction, _viewRules.SinTilt)), 0.001f, 0f);
             state.AttackMotion.Start(character.Motion, facing, shortestPeriod);
         }
 

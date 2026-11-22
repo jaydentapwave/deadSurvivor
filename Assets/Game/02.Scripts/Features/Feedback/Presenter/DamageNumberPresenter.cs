@@ -116,10 +116,10 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
         {
             var entry = entryList[i];
             var stack = DamageNumberMotion.GetStackOffsetPx(entryList, i, _rules.FontSizePx);
-            var rise = (DamageNumberMotion.GetRisePx(entry.Age, _rules) + stack.y) / Const.PixelsPerUnit;
-            var offset = Vector3.right * (stack.x / Const.PixelsPerUnit)
-                + TiltedViewMath.UprightOffset(rise, _viewRules.TiltDegrees);
-            entry.View.UpdateView(DamageNumberMotion.GetStackOrigin(entryList, i) + offset, DamageNumberMotion.GetAlpha(entry.Age, _rules));
+            var rise = DamageNumberMotion.GetRisePx(entry.Age, _rules) + stack.y;
+            var origin = DamageNumberMotion.GetStackOrigin(entryList, i);
+            var offset = _viewRules.IndicatorOffset(origin, new Vector2(stack.x, rise));
+            entry.View.UpdateView(origin + offset, DamageNumberMotion.GetAlpha(entry.Age, _rules));
         }
     }
 
@@ -127,7 +127,7 @@ public class DamageNumberPresenter : IInitializable, ILateTickable, IDisposable
     private Vector3 GetStartPosition(MonsterHitRecord hit)
     {
         var foot = IsoProjection.FloorToWorldSnapped(hit.Position, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
-        return foot + TiltedViewMath.UprightOffset(_monsterViewFactory.GetHeadHeight(hit.Data) + _rules.OffsetPx / Const.PixelsPerUnit, _viewRules.TiltDegrees);
+        return _viewRules.IndicatorPosition(foot, _monsterViewFactory.GetHeadHeight(hit.Data), _rules.OffsetPx);
     }
 
     private void ReleaseAll()

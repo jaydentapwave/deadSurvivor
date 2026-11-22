@@ -5,6 +5,12 @@ using UnityEngine;
 // 몸 그림은 자식(Body)이라 대기·피격 오프셋은 몸 자식만 옮기고 HP 막대는 따라가지 않는다. 번쩍임은 몸 자식의 자식(같은 스프라이트·flipX, 흰 재질).
 public class MemberView : MonoBehaviour
 {
+    public void ApplyProjection(PerspectiveFrame frame)
+    {
+        var upright = bodyRenderer.transform.parent;
+        upright.position = frame.SnapCard(transform.position, bodyRenderer.sprite.pivot, bodyRenderer.sprite.pixelsPerUnit);
+    }
+
     [SerializeField] private SpriteRenderer bodyRenderer;
     public SpriteRenderer BodyRenderer => bodyRenderer;
     [SerializeField] private Material shadowMaterial;

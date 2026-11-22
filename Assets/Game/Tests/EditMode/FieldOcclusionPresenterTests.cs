@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 
+[Category("DQScreen")]
 public class FieldOcclusionPresenterTests
 {
     [Test]

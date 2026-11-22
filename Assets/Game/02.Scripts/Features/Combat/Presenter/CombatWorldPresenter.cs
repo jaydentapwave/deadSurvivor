@@ -116,12 +116,12 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
             _aliveProjectileIdSet.Add(projectile.Id);
             var spriteName = _effectData.Get(projectile.ItemId).Projectile;
             var clip = _effectData.GetClip(spriteName);
-            var tangent = Screen(projectile.Direction);
+            var tangent = _viewRules.Direction(projectile.Position, projectile.Direction);
             if (!_terrain.IsFlat)
             {
                 var from = IsoProjection.FloorToWorld(projectile.Position, _runRules.UnitScale, _terrain);
                 var to = IsoProjection.FloorToWorld(projectile.Position + projectile.Direction.normalized * (.25f / _runRules.UnitScale), _runRules.UnitScale, _terrain);
-                tangent = TiltedViewMath.WorldToScreenPlane(to - from, _viewRules.SinTilt);
+                tangent = _viewRules.Frame.Direction(from, to - from);
             }
             var facing = EffectFrameMath.DirectionSprite(Mathf.Atan2(tangent.y, tangent.x) * Mathf.Rad2Deg);
             var index = EffectFrameMath.FrameAt(projectile.Traveled / projectile.Speed, clip.Frames, clip.Fps, clip.Loop);
@@ -134,7 +134,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
 
             view.SetTerrain(_terrain);
             view.SetFrame(sprite, spriteName, index + 1, clip.MaterialIndex == 1);
-            view.UpdateView(World(projectile.Position), tangent);
+            view.UpdateView(World(projectile.Position), tangent, _viewRules.Frame);
         }
 
         _releaseProjectileIdList.Clear();
@@ -164,8 +164,10 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
             var from = position + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
             var to = World(burst.EndPosition) + TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
             var delta = to - from;
-            var dx = Mathf.RoundToInt(delta.x * 48);
-            var dy = Mathf.RoundToInt(TiltedViewMath.WorldToScreenPlane(delta, _viewRules.SinTilt).y * 48);
+            var pixelDelta = _viewRules.Frame.Direction(from, delta);
+            var texelPixels = _viewRules.Frame.FocalPixels / (_viewRules.Frame.Project(from).z * 48);
+            var dx = Mathf.RoundToInt(pixelDelta.x / texelPixels);
+            var dy = Mathf.RoundToInt(pixelDelta.y / texelPixels);
             if (dx == 0 && dy == 0)
             {
                 return;
@@ -182,7 +184,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
         switch (burst.Kind)
         {
             case BurstEffectKind.Melee:
-                position += _viewRulesOffset(Screen(burst.Direction).normalized * (sprite.rect.width / Const.PixelsPerUnit * .5f));
+                position += _viewRulesOffset(_viewRules.Direction(burst.Position, burst.Direction).normalized * (sprite.rect.width / Const.PixelsPerUnit * .5f));
                 position += TiltedViewMath.UprightOffset(BodyHeight, _viewRules.TiltDegrees);
                 // 원본 베기 날이 왼쪽이다. 목표가 오른쪽이면 반전한다.
                 isFlipped = burst.Direction.x > 0f;
@@ -236,7 +238,7 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
             MarkShown(key);
         }
         view.SetTerrain(_terrain);
-        view.UpdateView(position, sprite, key, index + 1, clip.MaterialIndex, isFlipped, isGround, _viewRules.SinTilt);
+        view.UpdateView(position, sprite, key, index + 1, clip.MaterialIndex, isFlipped, isGround, _viewRules.SinTilt, _viewRules.Frame);
         if (!_frameSeenDict.TryGetValue(key, out var frames))
         {
             frames = new List<int>();
@@ -250,7 +252,6 @@ public class CombatWorldPresenter : IInitializable, ILateTickable, IDisposable
     }
 
     private Vector3 World(Vector2 floor) => IsoProjection.FloorToWorldSnapped(floor, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
-    private Vector2 Screen(Vector2 floor) => TiltedViewMath.FloorToScreenPlane(floor * _runRules.UnitScale, _viewRules.SinTilt);
     private Vector3 _viewRulesOffset(Vector2 screen) => TiltedViewMath.UprightRotation(_viewRules.TiltDegrees) * (Vector3)screen;
 
     private void MarkShown(string spriteName) => _shownCountDict[spriteName] = GetShownCount(spriteName) + 1;

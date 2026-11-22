@@ -197,7 +197,7 @@ public static class PlayableProbe
             var camera = Resolve<Camera>().transform;
             var rig = Resolve<TiltedCameraRig>();
             var restored = camera.position + camera.forward * rig.Distance - camera.right * rig.ShakeOffset.x - camera.up * rig.ShakeOffset.y;
-            var diff = restored - expected;
+            var diff = restored - Vector3.up * TiltedCameraRig.FocusHeight - expected;
             return new Vector2(Vector3.Dot(diff, camera.right), Vector3.Dot(diff, camera.up)).magnitude;
         }
     }
@@ -704,8 +704,7 @@ public static class PlayableProbe
         get
         {
             var rules = Resolve<RunRulesData>();
-            var extent = Resolve<MonsterModel>().ViewHalfExtent * rules.UnitScale;
-            return rules.FieldCells * .5f - extent.x - extent.y;
+            return Resolve<PartyMoveService>().CenterLimit * rules.UnitScale;
         }
     }
 
@@ -751,9 +750,7 @@ public static class PlayableProbe
     public static void PlaceTerrainPartyAtBoundary(int corner)
     {
         var party = Resolve<PartyModel>();
-        var extent = Resolve<MonsterModel>().ViewHalfExtent;
-        var rules = Resolve<RunRulesData>();
-        var limit = rules.FieldCells / (2f * rules.UnitScale) - extent.x - extent.y;
+        var limit = Resolve<PartyMoveService>().CenterLimit;
         var signs = new[] { new Vector2(-1, -1), new Vector2(1, -1), new Vector2(1, 1), new Vector2(-1, 1) };
         var next = Vector2.Scale(signs[corner], new Vector2(limit * .75f, limit * .25f));
         var delta = next - party.Center;
@@ -774,6 +771,10 @@ public static class PlayableProbe
         }
         System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
         System.IO.File.WriteAllText(System.IO.Path.ChangeExtension(path, "csv"), Resolve<WorldPresenter>().PlacementObservations);
+        var presenter = Resolve<WorldPresenter>();
+        System.IO.File.WriteAllText(System.IO.Path.ChangeExtension(path, ".directions.json"),
+            Newtonsoft.Json.JsonConvert.SerializeObject(new { order = new[] { "north", "east", "west", "south" },
+                feet = presenter.SpawnFeetByDirection, bodies = presenter.SpawnBodiesByDirection }));
         System.IO.File.WriteAllText(path, string.Format(System.Globalization.CultureInfo.InvariantCulture,
             "{{\"SpawnFootVisibleCount\":{0},\"SpawnBodyVisibleCount\":{1},\"maxMonsterHeadHeight\":{2},\"TerrainFootError\":{3},\"PartyGroundHeight\":{4}}}",
             SpawnFootVisibleCount, SpawnBodyVisibleCount, height, TerrainFootError, PartyGroundHeight));
@@ -921,7 +922,7 @@ public static class PlayableProbe
             var camera = Resolve<Camera>();
             var center = camera.WorldToViewportPoint(renderer.bounds.center);
             foot = camera.WorldToViewportPoint(foot);
-            var unitPixels = camera.pixelHeight / (camera.orthographicSize * 2f * Const.PixelsPerUnit);
+            var unitPixels = Vector3.Distance(camera.WorldToScreenPoint(renderer.bounds.center), camera.WorldToScreenPoint(renderer.bounds.center + camera.transform.right / Const.PixelsPerUnit));
             if (Mathf.Abs(center.x - foot.x) < 24f * unitPixels / camera.pixelWidth
                 && center.y > foot.y && center.y < foot.y + 52f * unitPixels / camera.pixelHeight)
             {
@@ -1643,16 +1644,16 @@ public class PlayableTerrainWalkSampler : MonoBehaviour
     public float MaximumCameraError { get; private set; }
     private float _oldCaptureDelta;
     private PartyMoveService _moveService;
-    private Vector2 _oldExtent;
+    private System.IDisposable _limitOverride;
     private bool _isArmed;
     public void Arm(string directory)
     {
         _oldCaptureDelta = Time.captureDeltaTime;
         _moveService = PlayableProbe.Resolve<PartyMoveService>();
-        _oldExtent = PlayableProbe.Resolve<MonsterModel>().ViewHalfExtent;
+
         // This is a hill-crossing fixture outside the normal camera-centre limit.
         // Widen only this fixture's movement limit, then restore it; no pad/data change.
-        _moveService.SetViewHalfExtent(Vector2.zero);
+        _limitOverride = _moveService.OverrideMovementLimit();
         _isArmed = true;
         Time.captureDeltaTime = 1f / 30f;
         Time.timeScale = 1f;
@@ -1698,7 +1699,7 @@ public class PlayableTerrainWalkSampler : MonoBehaviour
     {
         if (!_isArmed) { return; }
         Time.captureDeltaTime = _oldCaptureDelta;
-        _moveService.SetViewHalfExtent(_oldExtent);
+        _limitOverride.Dispose();
         _isArmed = false;
     }
     private void OnDestroy() => Restore();

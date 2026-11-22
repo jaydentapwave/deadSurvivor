@@ -14,8 +14,15 @@ public static class OcclusionMath
             var corner = bounds.center + Vector3.Scale(bounds.extents,
                 new Vector3((i & 1) == 0 ? -1 : 1, (i & 2) == 0 ? -1 : 1, (i & 4) == 0 ? -1 : 1));
             var p = camera.WorldToViewportPoint(corner);
-            min = Vector2.Min(min, p);
-            max = Vector2.Max(max, p);
+            if (p.z >= camera.nearClipPlane)
+            {
+                min = Vector2.Min(min, p);
+                max = Vector2.Max(max, p);
+            }
+        }
+        if (float.IsPositiveInfinity(min.x))
+        {
+            return new Rect(0, 0, 0, 0);
         }
         return Rect.MinMaxRect(min.x, min.y, max.x, max.y);
     }
