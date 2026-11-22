@@ -70,6 +70,23 @@ public class DQBackgroundTests
         }
     }
 
+    [Test]
+    public void RoundedDecorativeBankMeetsGroundWithoutAVerticalLip()
+    {
+        var rectangles = new[] {new Rect(-2,-2,4,4)};
+        var mesh = BankMeshMath.Build(rectangles,.25f,.4f,8);
+        try
+        {
+            BankMeshMath.RoundProfile(mesh,null,rectangles,.25f,8);
+            var vertices=mesh.vertices;
+            Assert.That(Array.Exists(vertices,v=>v.y>.3f),Is.True,"Retain the raised bank interior");
+            // Every original side quad must collapse at its upper/lower endpoints.
+            var side=mesh.GetTriangles(1);
+            foreach(var index in side) Assert.That(vertices[index].y,Is.EqualTo(0).Within(.0001f),"No exposed vertical wall");
+        }
+        finally {UnityEngine.Object.DestroyImmediate(mesh);}
+    }
+
     private static void Set(FieldView field, string name, object value)
     {
         typeof(FieldView).GetField(name, BindingFlags.Instance | BindingFlags.NonPublic).SetValue(field, value);

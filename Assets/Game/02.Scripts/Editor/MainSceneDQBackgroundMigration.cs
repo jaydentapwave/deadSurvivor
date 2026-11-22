@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -34,6 +35,7 @@ public static class MainSceneDQBackgroundMigration
             throw new InvalidOperationException("Save the open scene before migration.");
         }
         var previousPath = previous.path;
+        var directoriesBefore = Directory.Exists(Root) ? Directory.GetDirectories(Root, "*", SearchOption.AllDirectories).Append(Root).ToHashSet() : new HashSet<string>();
         var files = Directory.Exists(Root) ? Directory.GetFiles(Root, "*", SearchOption.AllDirectories).ToList() : new List<string>();
         files.AddRange(new[] { MainSceneDQScreenMigration.ScenePath, Data + "field_height.json", Data + "field_layout.json", Root + ".meta" });
         var before = files.Distinct().ToDictionary(p => p, p => File.Exists(p) ? File.ReadAllBytes(p) : null);
@@ -136,6 +138,19 @@ public static class MainSceneDQBackgroundMigration
                     File.Delete(pair.Key);
                 }
             }
+            // Remove only directories created by this invocation, deepest first, BEFORE Refresh.
+            // Otherwise AssetDatabase recreates a folder meta after a first-run failure.
+            if (Directory.Exists(Root))
+            {
+                foreach (var directory in Directory.GetDirectories(Root, "*", SearchOption.AllDirectories).Append(Root).OrderByDescending(p => p.Length))
+                {
+                    if (!directoriesBefore.Contains(directory) && !Directory.EnumerateFileSystemEntries(directory).Any())
+                    {
+                        Directory.Delete(directory);
+                        if (File.Exists(directory + ".meta") && !before.ContainsKey(directory + ".meta")) File.Delete(directory + ".meta");
+                    }
+                }
+            }
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
             foreach (var path in before.Keys.Where(File.Exists).Where(p => !p.EndsWith(".meta", StringComparison.Ordinal)))
             {
@@ -188,11 +203,20 @@ public static class MainSceneDQBackgroundMigration
         {
             throw new InvalidDataException("Shared DQ height exceeds unchanged terrain depth/slope contract.");
         }
-        File.WriteAllText(Data + "field_height.json", JsonUtility.ToJson(height, true) + "\n");
+        var heightDocument = JObject.Parse(File.ReadAllText(Root + "/Source-field_height.json"));
+        heightDocument["heightsMm"] = JArray.FromObject(height.heightsMm);
+        File.WriteAllText(Data + "field_height.json", heightDocument.ToString() + "\n");
         var layout = JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText(Root + "/Source-field_layout.json"));
-        layout.placements = layout.placements.Where(p => !(p.kind == "card" &&
-            (p.sprite.StartsWith("tree_", StringComparison.Ordinal) || p.sprite.StartsWith("bush_", StringComparison.Ordinal)) && p.Floor.magnitude < 12)).ToArray();
-        File.WriteAllText(Data + "field_layout.json", JsonUtility.ToJson(layout, true) + "\n");
+        // Patch only permitted view values on the original JSON tree. DTO round-trips drop
+        // generator and any future metadata which the runtime deliberately does not read.
+        var layoutDocument = JObject.Parse(File.ReadAllText(Root + "/Source-field_layout.json"));
+        var placements = (JArray)layoutDocument["placements"];
+        for (var i = layout.placements.Length - 1; i >= 0; i--)
+        {
+            var p = layout.placements[i];
+            if (p.kind == "card" && (p.sprite.StartsWith("tree_", StringComparison.Ordinal) || p.sprite.StartsWith("bush_", StringComparison.Ordinal)) && p.Floor.magnitude < 12) placements.RemoveAt(i);
+        }
+        File.WriteAllText(Data + "field_layout.json", layoutDocument.ToString() + "\n");
         AssetDatabase.ImportAsset(Data + "field_height.json", ImportAssetOptions.ForceSynchronousImport);
         AssetDatabase.ImportAsset(Data + "field_layout.json", ImportAssetOptions.ForceSynchronousImport);
     }
@@ -323,11 +347,12 @@ public static class MainSceneDQBackgroundMigration
 
     private static float PathDistance(Vector2 point, Vector2[] path)
     {
-        var distance = float.PositiveInfinity;
+        if (path == null || path.Length == 0) throw new ArgumentException("Path must contain a point.", nameof(path));
+        var distance = Vector2.Distance(point, path[0]);
         for (var i = 1; i < path.Length; i++)
         {
             var delta = path[i] - path[i - 1];
-            var t = Mathf.Clamp01(Vector2.Dot(point - path[i - 1], delta) / delta.sqrMagnitude);
+            var t = delta.sqrMagnitude > 0 ? Mathf.Clamp01(Vector2.Dot(point - path[i - 1], delta) / delta.sqrMagnitude) : 0;
             distance = Mathf.Min(distance, Vector2.Distance(point, path[i - 1] + delta * t));
         }
         return distance;
@@ -470,15 +495,12 @@ public static class MainSceneDQBackgroundMigration
 
     private static float NorthHeight(float t, float offset)
     {
-        var crest = 2.05f + .50f * Mathf.PerlinNoise(t * 11, 5);
-        // The specified 0.5..3m belt is 1.5m high. Trees above it top out at 3m.
-        // Broader hills continue behind the belt without entering the shared height field.
-        if (offset <= 3)
-        {
-            return offset < .5f ? Mathf.SmoothStep(0, 1.5f, offset / .5f) : 1.5f;
-        }
-        var u = (offset - 3) / 15;
-        return (1.5f + (crest - 1.5f) * Mathf.Sin(Mathf.PI * u)) * (1 - Mathf.SmoothStep(0, 1, u));
+        // A broad smooth rise with an irregular ridge, rather than a .5m ramp/flat
+        // shelf. Entirely outside the shared gameplay diamond; no height-pad changes.
+        var crestOffset = 3.5f + 2.5f * Mathf.PerlinNoise(t * 7, 13);
+        var crest = 1.6f + 1.25f * Mathf.PerlinNoise(t * 8, 5);
+        if (offset < crestOffset) return crest * Mathf.SmoothStep(0, 1, offset / crestOffset);
+        return crest * (1 - Mathf.SmoothStep(0, 1, (offset - crestOffset) / (20 - crestOffset)));
     }
 
     private static void BuildOuterBackground(Material ground, FieldModelCatalog catalog, TerrainHeightGrid grid)
@@ -503,7 +525,7 @@ public static class MainSceneDQBackgroundMigration
         var hills = new List<Vector3>();
         var indices = new List<int>();
         const int count = 128;
-        var offsets = new[] { 0f, .25f, .5f, 1f, 2f, 3f, 5f, 8f, 12f, 18f };
+        var offsets = Enumerable.Range(0, 81).Select(i => i * .25f).ToArray();
         for (var j = 0; j < offsets.Length; j++)
         {
             var offset = offsets[j];
@@ -533,15 +555,16 @@ public static class MainSceneDQBackgroundMigration
         hill.layer = HD2DBackgroundRig.BackgroundLayer;
         hill.GetComponent<MeshFilter>().sharedMesh = Save(hillMesh, "NorthHills.asset");
         var farGround = Surface("FarGround", ground, 0, "Soil");
+        farGround.SetFloat("_TerrainLightSlope", 1);
         farGround.SetTexture("_PathMask", Texture2D.blackTexture);
         farGround.SetTexture("_WaterMask", Texture2D.blackTexture);
         hill.GetComponent<MeshRenderer>().sharedMaterial = farGround;
         for (var i = 0; i < 72; i++)
         {
-            var t = (i + .5f) / 72;
+            var t = Mathf.Clamp01((i + .5f + .8f * Mathf.Sin(i * 2.39996f)) / 72);
             var rim = t < .5f ? Vector2.Lerp(new Vector2(-32, 0), new Vector2(0, 32), t * 2) : Vector2.Lerp(new Vector2(0, 32), new Vector2(32, 0), (t - .5f) * 2);
             var n = t < .5f ? new Vector2(-1, 1).normalized : new Vector2(1, 1).normalized;
-            var offset = 1.05f + .8f * Mathf.PerlinNoise(i * .71f, 8);
+            var offset = .6f + 5.5f * Mathf.PerlinNoise(i * .71f, 8);
             var p = rim * (1 + Mathf.Sqrt(2) * offset / 32);
             var entry = catalog.Find("tree_v" + (i % 3 + 1));
             var existing = root.transform.Find("Far forest " + i);
@@ -551,6 +574,24 @@ public static class MainSceneDQBackgroundMigration
             tree.transform.position = new Vector3(p.x, TerrainHeightMath.Sample(grid, p.x, p.y) + NorthHeight(t, offset), p.y);
             tree.transform.localScale = Vector3.one * ((1.05f + .45f * Mathf.PerlinNoise(i * .31f, 19)) / entry.Bounds.size.y);
             tree.transform.rotation = Quaternion.Euler(0, i * 137, 0);
+        }
+        // Root positions stay outside .5m; low foliage naturally overhangs the rim.
+        // This is draw-only understory, with no collider or gameplay/spawn modification.
+        for (var i = 0; i < 128; i++)
+        {
+            var t = Mathf.Clamp01((i + .5f + .2f * Mathf.Sin(i * 2.39996f)) / 128);
+            var rim = t < .5f ? Vector2.Lerp(new Vector2(-32, 0), new Vector2(0, 32), t * 2) : Vector2.Lerp(new Vector2(0, 32), new Vector2(32, 0), (t - .5f) * 2);
+            var offset = .52f + .22f * Mathf.PerlinNoise(i * .41f, 27) + (Mathf.PerlinNoise(i * .13f, 9) > .55f ? 1.8f : 0);
+            var p = rim * (1 + Mathf.Sqrt(2) * offset / 32);
+            var entry = catalog.Find("bush_v1");
+            var existing = root.transform.Find("Far forest understory " + i);
+            var bush = existing != null ? existing.gameObject : (GameObject)PrefabUtility.InstantiatePrefab(entry.Prefab);
+            bush.name = "Far forest understory " + i;
+            bush.SetActive(Mathf.PerlinNoise(i * .13f, 9) > .4f);
+            bush.transform.SetParent(root.transform, false);
+            bush.transform.position = new Vector3(p.x, TerrainHeightMath.Sample(grid,p.x,p.y) + NorthHeight(t,offset), p.y);
+            bush.transform.localScale = Vector3.one * ((.55f + .3f * Mathf.PerlinNoise(i * .31f,31)) / entry.Bounds.size.y);
+            bush.transform.rotation = Quaternion.Euler(0,i*137,0);
         }
     }
 }

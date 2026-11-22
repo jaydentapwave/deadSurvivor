@@ -3,6 +3,7 @@ Shader "DeadSurvivor/DQ/Main water"
     Properties
     {
         _WaterMask("Water opening",2D)="black"{}
+        _DiagnosticMask("Measurement mask only",Float)=0
         _FieldRect("Field rectangle",Vector)=(-36,-36,72,72)
     }
     SubShader
@@ -20,7 +21,7 @@ Shader "DeadSurvivor/DQ/Main water"
             TEXTURE2D(_WaterMask); SAMPLER(sampler_WaterMask);
             CBUFFER_START(UnityPerMaterial)
             float4 _FieldRect;
-            float4 _WaterMask_TexelSize;
+            float4 _WaterMask_TexelSize; float _DiagnosticMask;
             CBUFFER_END
             struct A { float3 p:POSITION; };
             struct V { float4 p:SV_POSITION; float3 w:TEXCOORD0; };
@@ -41,6 +42,7 @@ Shader "DeadSurvivor/DQ/Main water"
                 star*=pow(saturate(sin(_Time.y*2+cell.x)*.5+.5),3);
                 half3 water=half3(.065,.39,.44)+ripple*half3(.015,.045,.05);
                 water=lerp(water,half3(.72,.86,.80),foam);
+                if (_DiagnosticMask>.5) return half4(0,0,0,1);
                 return half4(water+star*1.6,smoothstep(.05,.4,opening)*.78);
             }
             ENDHLSL

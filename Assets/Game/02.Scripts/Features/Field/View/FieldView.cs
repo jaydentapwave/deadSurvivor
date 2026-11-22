@@ -145,6 +145,10 @@ public class FieldView : MonoBehaviour
             var mesh = bank.runs != null
                 ? BankMeshMath.Build(bank.runs, bank.cell, bank.height)
                 : BankMeshMath.Build(bank.rectangles, bank.cell, bank.height, bank.seed);
+            if (bankMaterial != null && bankMaterial.shader.name == "DeadSurvivor/DQ/Main surface")
+            {
+                BankMeshMath.RoundProfile(mesh, bank.runs, bank.rectangles, bank.cell, bank.seed);
+            }
             if (!_terrain.IsFlat)
             {
                 var vertices = mesh.vertices;
@@ -160,7 +164,11 @@ public class FieldView : MonoBehaviour
                 mesh.RecalculateNormals();
                 mesh.RecalculateBounds();
             }
-            AddPart("bank", mesh, new[] { groundMaterial, bankMaterial });
+            // Rounded DQ banks use the bank surface on both slots. Its physical normals
+            // avoid the shared floor's 8x height-light exaggeration turning a gentle
+            // decorative slope back into a visually vertical dark wall.
+            var bankTop = bankMaterial != null && bankMaterial.shader.name == "DeadSurvivor/DQ/Main surface" ? bankMaterial : groundMaterial;
+            AddPart("bank", mesh, new[] { bankTop, bankMaterial });
         }
         foreach (var water in layout.water)
         {

@@ -40,16 +40,13 @@ public static class DQBackgroundVerification
             var layout = (FieldLayoutData)container.Resolve(typeof(FieldLayoutData));
             var isGrassSampleClear = false;
             // Reject paths, water and placed objects from data BEFORE seeing any pixels.
-            for (var x = 2; x <= 7 && !isGrassSampleClear; x++)
+            for (var x = 2; x <= 12 && !isGrassSampleClear; x++)
             {
-                for (var z = -5; z <= 2 && !isGrassSampleClear; z++)
+                for (var z = -9; z <= 4 && !isGrassSampleClear; z++)
                 {
                     var candidate = partyFloor + new Vector2(x, z);
-                    var hasPlacement = layout.placements.Any(p => Mathf.Abs(p.x - candidate.x) < (p.kind == "prop" ? 3 : 1.3f)
-                        && Mathf.Abs(p.y - candidate.y) < (p.kind == "prop" ? 4 : 2.5f));
-                    var onPath = layout.path.points.Concat(layout.path.branch).Any(p => Mathf.Abs(p.x - candidate.x) < 1.7f && Mathf.Abs(p.y - candidate.y) < 2);
-                    var onWater = layout.water.SelectMany(w => w.points).Any(p => Mathf.Abs(p.x - candidate.x) < 2 && Mathf.Abs(p.y - candidate.y) < 2.5f);
-                    if (!hasPlacement && !onPath && !onWater)
+                    var roi = new Rect(candidate.x - 1, candidate.y - 1.5f, 2, 3);
+                    if (IsGrassRectangleClear(layout, roi) && IsScreenSampleClear(camera, terrain, roi))
                     {
                         grassCenter = candidate;
                         isGrassSampleClear = true;
@@ -87,6 +84,116 @@ public static class DQBackgroundVerification
         }
     }
 
+    private static bool IsFootprintRoot(Transform t) => t.name.StartsWith("3D:") || t.name.StartsWith("Far forest") || t.name == "bridge" || t.name == "tent" || t.name == "fence" || t.name == "sign" || t.name == "flag";
+
+    private static bool IsScreenSampleClear(Camera camera, TerrainHeightGrid terrain, Rect roi)
+    {
+        var corners = new[] {new Vector2(roi.xMin,roi.yMin),new Vector2(roi.xMin,roi.yMax),new Vector2(roi.xMax,roi.yMax),new Vector2(roi.xMax,roi.yMin)};
+        var screen = corners.Select(p=>camera.WorldToViewportPoint(new Vector3(p.x,TerrainHeightMath.Sample(terrain,p.x,p.y),p.y))).ToArray();
+        var sample = Rect.MinMaxRect(screen.Min(p=>p.x),screen.Min(p=>p.y),screen.Max(p=>p.x),screen.Max(p=>p.y));
+        if(sample.xMin<0||sample.xMax>1||sample.yMin<0||sample.yMax>1) return false;
+        foreach(var renderer in Object.FindObjectsByType<Renderer>())
+        {
+            if(!renderer.enabled)continue;
+            if(renderer.name.StartsWith("3D plant batch "))
+            {
+                if(BatchOverlaps(renderer,sample,camera))return false;
+                continue;
+            }
+            var significant = renderer is SpriteRenderer || renderer.GetComponentsInParent<Transform>().Any(t=>IsFootprintRoot(t));
+            if(!significant)continue;
+            var bounds=renderer.bounds;var points=new List<Vector3>();
+            for(var x=0;x<2;x++)for(var y=0;y<2;y++)for(var z=0;z<2;z++)points.Add(camera.WorldToViewportPoint(new Vector3(x==0?bounds.min.x:bounds.max.x,y==0?bounds.min.y:bounds.max.y,z==0?bounds.min.z:bounds.max.z)));
+            if(points.All(p=>p.z<0))continue;
+            if(Rect.MinMaxRect(points.Min(p=>p.x),points.Min(p=>p.y),points.Max(p=>p.x),points.Max(p=>p.y)).Overlaps(sample))return false;
+        }
+        return true;
+    }
+
+    private static bool BatchOverlaps(Renderer renderer, Rect rectangle, Camera camera)
+    {
+        var mesh=renderer.GetComponent<MeshFilter>().sharedMesh;
+        var points=mesh.vertices.Select(p=>renderer.transform.TransformPoint(p)).Select(p=>camera!=null?camera.WorldToViewportPoint(p):new Vector3(p.x,p.z,1)).ToArray();
+        var triangles=mesh.triangles;
+        for(var i=0;i<triangles.Length;i+=3)
+        {
+            var a=points[triangles[i]];var b=points[triangles[i+1]];var c=points[triangles[i+2]];
+            if(a.z<0&&b.z<0&&c.z<0)continue;
+            if(Rect.MinMaxRect(Mathf.Min(a.x,b.x,c.x),Mathf.Min(a.y,b.y,c.y),Mathf.Max(a.x,b.x,c.x),Mathf.Max(a.y,b.y,c.y)).Overlaps(rectangle))return true;
+        }
+        return false;
+    }
+
+    public static bool IsGrassRectangleClear(FieldLayoutData layout, Rect roi)
+    {
+        var corners = new[] { new Vector2(roi.xMin, roi.yMin), new Vector2(roi.xMin, roi.yMax), new Vector2(roi.xMax, roi.yMax), new Vector2(roi.xMax, roi.yMin) };
+        float SegmentDistance(Vector2 p, Vector2 a, Vector2 b)
+        {
+            var d = b - a; var t = d.sqrMagnitude > 0 ? Mathf.Clamp01(Vector2.Dot(p - a, d) / d.sqrMagnitude) : 0;
+            return Vector2.Distance(p, a + t * d);
+        }
+        bool SegmentHits(Vector2 a, Vector2 b, float radius)
+        {
+            if (roi.Contains(a) || roi.Contains(b)) return true;
+            var delta = b - a;
+            var enter = 0f; var exit = 1f;
+            bool Clip(float origin, float direction, float min, float max)
+            {
+                if (Mathf.Abs(direction) < 1e-7f) return origin >= min && origin <= max;
+                var t0 = (min - origin) / direction; var t1 = (max - origin) / direction;
+                enter = Mathf.Max(enter, Mathf.Min(t0, t1)); exit = Mathf.Min(exit, Mathf.Max(t0, t1)); return enter <= exit;
+            }
+            if (Clip(a.x, delta.x, roi.xMin, roi.xMax) && Clip(a.y, delta.y, roi.yMin, roi.yMax)) return true;
+            var closestA = new Vector2(Mathf.Clamp(a.x, roi.xMin, roi.xMax), Mathf.Clamp(a.y, roi.yMin, roi.yMax));
+            var closestB = new Vector2(Mathf.Clamp(b.x, roi.xMin, roi.xMax), Mathf.Clamp(b.y, roi.yMin, roi.yMax));
+            return Vector2.Distance(a, closestA) <= radius || Vector2.Distance(b, closestB) <= radius || corners.Any(p => SegmentDistance(p, a, b) <= radius);
+        }
+        bool PathHits(Vector2[] points, float radius, bool closed = false)
+        {
+            if (points == null || points.Length == 0) return false;
+            if (points.Length == 1) return SegmentHits(points[0], points[0], radius);
+            for (var i = 1; i < points.Length; i++) if (SegmentHits(points[i - 1], points[i], radius)) return true;
+            if (closed && SegmentHits(points[points.Length - 1], points[0], radius)) return true;
+            if (!closed) return false;
+            // A rectangle wholly inside a pond has no crossing edges: point-in-polygon.
+            foreach (var point in corners)
+            {
+                var inside = false;
+                for (int i = 0, j = points.Length - 1; i < points.Length; j = i++)
+                {
+                    var a = points[i]; var b = points[j];
+                    if ((a.y > point.y) != (b.y > point.y) && point.x < (b.x - a.x) * (point.y - a.y) / (b.y - a.y) + a.x) inside = !inside;
+                }
+                if (inside) return true;
+            }
+            return false;
+        }
+        var pathRadius = layout.path.halfWidth + Mathf.Abs(layout.path.widthVariation) + Mathf.Abs(layout.path.edgeVariation) + .25f;
+        if (PathHits(layout.path.points, pathRadius) || PathHits(layout.path.branch, pathRadius)) return false;
+        if (layout.water.Any(w => PathHits(w.points, w.name == "pond" ? .25f : w.width * .5f + .25f, w.name == "pond"))) return false;
+        bool PlacementHits(FieldLayoutPlacement p)
+        {
+            // Small flower/grass cards do not have a 3x5m model footprint.
+            var radius = p.kind == "prop" ? 3f : p.sprite.StartsWith("tree_") ? 1.5f : p.sprite.StartsWith("bush_") ? 1f : p.sprite.Contains("boulder") ? .8f : .25f;
+            return new Rect(p.x-radius,p.y-radius,radius*2,radius*2).Overlaps(roi);
+        }
+        if(layout.placements.Any(PlacementHits))return false;
+        // Include the actual model footprints, rather than relying only on placement centers.
+        foreach (var renderer in Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None))
+        {
+            if(!renderer.enabled)continue;
+            if(renderer.name.StartsWith("3D plant batch "))
+            {
+                if(BatchOverlaps(renderer,roi,null))return false;
+                continue;
+            }
+            if (!renderer.GetComponentsInParent<Transform>().Any(t => IsFootprintRoot(t))) continue;
+            var bounds = renderer.bounds;
+            if (new Rect(bounds.min.x, bounds.min.z, bounds.size.x, bounds.size.z).Overlaps(roi)) return false;
+        }
+        return true;
+    }
+
     public static void CaptureOverview()
     {
         var camera = Camera.main;
@@ -119,14 +226,14 @@ public static class DQBackgroundVerification
         var enabled = all.Select(r => r.enabled).ToArray();
         var materials = all.Select(r => r.sharedMaterials).ToArray();
         var shadows = all.Select(r => r.shadowCastingMode).ToArray();
+        var blocks = all.Select(r=>{var b=new MaterialPropertyBlock();r.GetPropertyBlock(b);return b;}).ToArray();
         var camera = Camera.main;
         var background = camera.backgroundColor;
         var cameraData = camera.GetUniversalAdditionalCameraData();
         var post = cameraData.renderPostProcessing;
         var features = AssetDatabase.LoadAssetAtPath<UniversalRendererData>(MainSceneDQScreenMigration.RendererPath).rendererFeatures;
         var featureStates = features.Select(f => f.isActive).ToArray();
-        var white = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
-        white.SetColor("_BaseColor", Color.white);
+        var maskCopies = new List<Material>();
         try
         {
             foreach (var renderer in all)
@@ -144,11 +251,26 @@ public static class DQBackgroundVerification
             {
                 var renderer = all[i];
                 var isForest = renderer.GetComponentsInParent<Transform>().Any(t => t.name.StartsWith("3D:tree") || t.name.StartsWith("3D:bush") || t.name.StartsWith("Far forest") || t.name.StartsWith("tree_v") || t.name.StartsWith("bush_v"));
-                renderer.enabled = enabled[i] && isForest;
-                if (isForest)
+                renderer.enabled = enabled[i];
+                var isGround = renderer.name == "ground" || renderer.name == "bank" || renderer.name == "DQ render-only outer floor" || renderer.name == "North spawn mask hills";
+                // All opaque objects retain depth writes; hidden trees cannot enter the mask.
+                renderer.sharedMaterials = renderer.sharedMaterials.Select(original =>
                 {
-                    renderer.sharedMaterials = renderer.sharedMaterials.Select(_ => white).ToArray();
-                }
+                    var copy=new Material(original);maskCopies.Add(copy);
+                    if(copy.shader.name=="DeadSurvivor/DQ/Main surface")
+                    {
+                        copy.SetFloat("_Diagnostic",isForest?2:isGround?3:4);
+                    }
+                    else if(copy.shader.name=="DeadSurvivor/DQ/Main water")copy.SetFloat("_DiagnosticMask",1);
+                    else if(copy.HasProperty("_BaseColor"))
+                    {
+                        copy.SetColor("_BaseColor",Color.black);
+                        if(copy.HasProperty("_EmissionColor"))copy.SetColor("_EmissionColor",Color.black);
+                    }
+                    else return original; // e.g. multiplicative foot shadows: retain native depth/blend.
+                    return copy;
+                }).ToArray();
+                var block=new MaterialPropertyBlock();renderer.GetPropertyBlock(block);block.SetFloat("_Appearance",1);renderer.SetPropertyBlock(block);
             }
             Capture("start-forest-mask", 1920, 1080);
         }
@@ -159,6 +281,7 @@ public static class DQBackgroundVerification
                 all[i].enabled = enabled[i];
                 all[i].sharedMaterials = materials[i];
                 all[i].shadowCastingMode = shadows[i];
+                all[i].SetPropertyBlock(blocks[i]);
             }
             camera.backgroundColor = background;
             cameraData.renderPostProcessing = post;
@@ -166,7 +289,7 @@ public static class DQBackgroundVerification
             {
                 features[i].SetActive(featureStates[i]);
             }
-            Object.DestroyImmediate(white);
+            foreach(var copy in maskCopies)Object.DestroyImmediate(copy);
         }
     }
 

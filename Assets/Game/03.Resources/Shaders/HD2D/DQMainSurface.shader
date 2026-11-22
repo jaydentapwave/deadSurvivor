@@ -154,6 +154,9 @@ Shader "DeadSurvivor/DQ/Main surface"
             float shade=lerp(.25,1,sun.shadowAttenuation);
             c*=min(face,shade)*sun.color;
             if (_Diagnostic>.5) c=min(face,shade).xxx;
+            // Measurement-only color override; preserve original vertex/reference depth,
+            // water opening and actor-window clip paths in the exact same GPU pass.
+            if (_Diagnostic>1.5) c=_Diagnostic<2.5 ? half3(1,0,0) : _Diagnostic<3.5 ? half3(0,1,0) : half3(0,0,0);
             output.color=half4(c,1);
             return output;
         }

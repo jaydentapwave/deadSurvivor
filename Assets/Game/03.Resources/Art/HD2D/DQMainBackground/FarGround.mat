@@ -75,7 +75,7 @@ Material:
     - _FlagWind: 0
     - _FlatDepth: 0
     - _LeafDetail: 0
-    - _TerrainLightSlope: 8
+    - _TerrainLightSlope: 1
     - _WorldTexture: 0
     m_Colors:
     - _AlbedoTint: {r: 1, g: 1, b: 1, a: 1}
