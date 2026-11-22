@@ -73,7 +73,7 @@ Material:
     - _Diagnostic: 0
     - _Dither: 0
     - _FlagWind: 0
-    - _FlatDepth: 0
+    - _FlatDepth: 1
     - _LeafDetail: 0
     - _TerrainLightSlope: 8
     - _WorldTexture: 0

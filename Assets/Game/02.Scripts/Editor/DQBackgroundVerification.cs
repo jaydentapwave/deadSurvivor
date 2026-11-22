@@ -123,6 +123,8 @@ public static class DQBackgroundVerification
         var background = camera.backgroundColor;
         var cameraData = camera.GetUniversalAdditionalCameraData();
         var post = cameraData.renderPostProcessing;
+        var features = AssetDatabase.LoadAssetAtPath<UniversalRendererData>(MainSceneDQScreenMigration.RendererPath).rendererFeatures;
+        var featureStates = features.Select(f => f.isActive).ToArray();
         var white = new Material(Shader.Find("Universal Render Pipeline/Unlit"));
         white.SetColor("_BaseColor", Color.white);
         try
@@ -134,6 +136,10 @@ public static class DQBackgroundVerification
             Capture("start-no-shadows", 1920, 1080);
             camera.backgroundColor = Color.black;
             cameraData.renderPostProcessing = false;
+            foreach (var feature in features)
+            {
+                feature.SetActive(false);
+            }
             for (var i = 0; i < all.Length; i++)
             {
                 var renderer = all[i];
@@ -156,6 +162,10 @@ public static class DQBackgroundVerification
             }
             camera.backgroundColor = background;
             cameraData.renderPostProcessing = post;
+            for (var i = 0; i < features.Count; i++)
+            {
+                features[i].SetActive(featureStates[i]);
+            }
             Object.DestroyImmediate(white);
         }
     }
