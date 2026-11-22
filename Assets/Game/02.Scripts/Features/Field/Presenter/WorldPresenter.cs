@@ -26,6 +26,9 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
     public int DQDeathCount => _dqDeathList.Count;
     public IReadOnlyList<MonsterView> DQDeathViews => _dqDeathList;
     private readonly List<string> _dqHitRows = new();
+    private readonly Queue<string> _dqHitAudit = new();
+    public string DQHitAudit => string.Join("\n", _dqHitAudit);
+    private bool _disposed;
     public string DQHitObservations => string.Join("\n", _dqHitRows);
     public int DQHitsPending
     {
@@ -87,7 +90,11 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
         {
             if (e.MemberIndex < 0 || e.MemberIndex == i)
             {
-                _dqHits[i].Clear();
+                _dqHits[i].Clear(e.Reason);
+                if (e.Reason == "run-start" || e.Reason == "revive")
+                {
+                    _memberViewList[i].ResetDQVisualState();
+                }
                 _appliedHitIds[i] = 0;
             }
         }
@@ -95,7 +102,7 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
 
     private void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
     {
-        if (camera != _camera || _hitFrame != Time.frameCount)
+        if (_disposed || camera != _camera || _hitFrame != Time.frameCount)
         {
             return;
         }
@@ -120,6 +127,16 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
 
     public void Dispose()
     {
+        if (_disposed)
+        {
+            return;
+        }
+        _disposed = true;
+        for (var i = 0; i < _dqHits.Length; i++)
+        {
+            _dqHits[i].Clear("dispose");
+            _appliedHitIds[i] = 0;
+        }
         _hitSubscription?.Dispose();
         _monsterHitSubscription?.Dispose();
         ReleaseDQDeaths();
@@ -201,6 +218,15 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
         for (var i = 0; i < _dqHits.Length; i++)
         {
             _dqHits[i] = new DQHitBuffer();
+            var memberIndex = i;
+            _dqHits[i].Recorded += entry =>
+            {
+                if (_dqHitAudit.Count == 512)
+                {
+                    _dqHitAudit.Dequeue();
+                }
+                _dqHitAudit.Enqueue($"{Time.frameCount},{memberIndex},{entry.Hit.AttackId},{entry.Hit.Step},{entry.Hit.Facing.Label},{entry.Batch},{entry.AppliedAttackId},{entry.Reason}");
+            };
         }
         _moveRules = moveRules;
         _partyModel = partyModel;
@@ -267,6 +293,10 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
 
     public void LateTick()
     {
+        if (_disposed)
+        {
+            return;
+        }
         _rig.UpdateScreen(_camera.pixelWidth, _camera.pixelHeight);
         UpdateViewExtent();
         var center = IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _terrain);
@@ -307,7 +337,7 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
             var member = _memberViewList[i];
             if (member.IsDowned || !member.gameObject.activeInHierarchy)
             {
-                _dqHits[i].Clear();
+                _dqHits[i].Clear(member.IsDowned ? "suppressed-by-death" : "inactive");
                 _appliedHitIds[i] = 0;
             }
             else if (_dqHits[i].Count > 0 && member.HasDQ)
@@ -551,7 +581,8 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
             _downedSeconds[i] = member.IsAlive ? 0f : _downedSeconds[i] + Time.deltaTime;
             var canFinishFall = !member.IsAlive && !_runModel.IsPaused.CurrentValue
                 && _runModel.Phase.CurrentValue == RunPhase.Result;
-            view.AdvanceDQClock(isRunning ? deltaSeconds : canFinishFall ? Time.deltaTime : 0f);
+            if (isRunStarted) view.ResetDQVisualState();
+            view.AdvanceDQClock(isRunStarted ? 0 : isRunning ? deltaSeconds : canFinishFall ? Time.deltaTime : 0f);
             view.UpdateView(position, member.Hp / member.MaxHp, member.IsAlive, _downedSeconds[i]);
             view.SetGround(_terrain, TerrainHeightMath.Normal(_terrain, position.x, position.z), _fieldView.TerrainShadowMaterial);
             if (isRunStarted || didCharacterChange || _waitingSlot == i)
@@ -701,8 +732,10 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
                     var hitFacing = SpriteFacing.Next(view.Facing, _viewRules.Direction(monster.Position, hitDirection), .001f, 0);
                     view.BeginDQAttack(hitFacing);
                 }
-                view.ApplyDQAnimation(isRunning ? Time.deltaTime : 0, _movingMonsterIdSet.Contains(monster.Id),
-                    isRunning && hasStepped && monster.Data.Speed > 0 ? delta.magnitude / monster.Data.Speed : 0);
+                view.ApplyDQAnimation(isRunning ? Time.deltaTime * _runRules.SpeedOptions[_runModel.SpeedIndex.CurrentValue] : 0,
+                    _movingMonsterIdSet.Contains(monster.Id),
+                    isRunning && hasStepped && monster.Data.Speed > 0 ? delta.magnitude / monster.Data.Speed : 0,
+                    DQPhaseElapsed(monster));
             }
             view.ApplyProjection(_viewRules.Frame, _terrain);
             ObservePlacement(monster, view);
@@ -752,10 +785,25 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
                     _dqDeathList.RemoveAt(i);
                     continue;
                 }
-                view.ApplyDQAnimation(isRunning ? Time.deltaTime : 0, false);
+                view.ApplyDQAnimation(isRunning ? Time.deltaTime * _runRules.SpeedOptions[_runModel.SpeedIndex.CurrentValue] : 0, false);
                 view.ApplyProjection(_viewRules.Frame, _terrain);
             }
         }
+    }
+
+    // PhaseClock is a simulation countdown. Read its elapsed value, including speed,
+    // pause and a phase first observed after several simulation steps; do not integrate render time.
+    private static float DQPhaseElapsed(Monster monster)
+    {
+        var duration = monster.Phase switch
+        {
+            MonsterPhase.Windup => monster.Data.Charge.WindupSeconds,
+            MonsterPhase.Dash => monster.Data.Charge.DashSeconds,
+            MonsterPhase.Recover => monster.Data.Charge.RecoverSeconds,
+            MonsterPhase.Fuse => monster.Data.Bomb.FuseSeconds,
+            _ => 0f
+        };
+        return Mathf.Max(0, duration - monster.PhaseClock);
     }
 
     // 8방향과 이동 중 hop/squash, 예고 중 좌우 1px 흔들림. hop 시작은 (번호 × stagger) mod 주기로 어긋낸다(결정적)

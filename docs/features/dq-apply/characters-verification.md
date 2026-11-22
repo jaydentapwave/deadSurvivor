@@ -1,4 +1,65 @@
-# DQ 적용 8단계 — r2 구현·검증 기록
+# DQ 적용 8단계 — r3 필수 지적 수정·확인 기록
+
+현재 상태: 구현자 검증 통과, **독립 수정 확인 대기**. 최종 핸드오프는 리뷰 판정 수신 후 `.director/outbox/20261123-night-1to6-8-r2.md`에 쓴다. 승인 기준은 `characters-brief.md`의 df10136 원본으로 고정했고, 구현 결과·승인된 Bruno12장 예외는 `characters-changes.md`로 분리했다. 아래 r2 기록은 a843198 당시의 이력이다.
+
+## 받은 리뷰와 수정 대응
+
+- spec-reviewer, job20261123-043521-cb3dc8: `VERDICT: FAIL`. C8-01/02/03/06/07 met, C8-04/05/08 partial. 승인 브리핑 변경, 소비/합성/정리 사유 기록과 실제 렌더·몬스터 presenter 수명 시험 누락을 필수 수정으로 수용했다.
+- validator-client, job20261123-043512-5a8ac8: `VERDICT: FAIL`. 실제 WorldPresenter→MemberView→카메라 경계 및 공격별 정리 사유 증거 누락을 수용했다. 이전 리뷰가 이미지를 열지 않아 발·크기·그림자 정렬은 독립 시각 PASS가 아니었다는 한계도 보존한다.
+- algorithm-tester, job20261123-043517-920fe5: `VERDICT: FAIL`. 기존40케이스36PASS/4FAIL 기록은 그대로 두고, 2배속 phase 시계·동일 캐릭터 새 판 idle·경계 직전 조기 전환을 수정했다. 그 리뷰의 실제 Unity/카메라/atlas 미실행 한계는 새 성공으로 바꿔 적지 않는다.
+- design-reviewer: 이전 job20261123-034539-34753d의 `VERDICT: PASS`를 이어 받음. 승인 기준 파일은 더 이상 실행 상태 문서로 사용하지 않는다. 이번 자체 검사를 독립 리뷰 PASS로 적지 않는다.
+
+| 필수 지적 | 수정 | 실행 근거 |
+|---|---|---|
+| 승인 기준 변경 | brief를 df10136 바이트로 복구·고정, 예외/결과 별도 변경 기록 | r3/approved-brief-check.json byteEqual=true, SHA256 dfdc5298db594629852f548e7923c8ae5a844d5ac3a5a44b5147997a9133a669 |
+| batch 합성/정리 내역 | DQHitBuffer가 공격 id·Step·방향·batch·적용 id·rendered/coalesced 또는 정리 사유를 각각 emit. WorldPresenter가 최근512행 ring에 보존, PlayableProbe.DQHitAudit로 노출 | r3/hit-audit.csv: 실제 id2/Step3/right가 id3/Step4/left에 합성됨; 둘 다 같은batch/적용id3로 기록 |
+| 사망/비활성/부활/웨이브/새 판/Dispose 구분 | suppressed-by-death, inactive, revive, wave-start, run-start, dispose를 삭제 전에 공격별 기록. 사유 없는 Clear 금지, Dispose 중복 호출과 이후 LateTick/렌더/이벤트 차단 | 실제 CombatService.ResetRun/PrepareWave/ReviveMember 및 WorldPresenter 경유 시험; r3/hit-audit.csv |
+| 실제 렌더 경계 | 실제 Main scope의 두 무기·큰 Step 피해/동일 Step 새 준비, 첫 Main 렌더의 타격 장, 다른 방향 다중 Step 합성, 중복 callback, 미렌더 보존 | r3/boundary-status-scene-render.json 1/1 PASS, render-boundaries.txt의9개 경계 그룹 |
+| SceneView/추가 카메라 | 실제 URP endCameraRendering을 관찰. Main 비활성 동안 SceneView4회/추가 카메라4회 렌더에도 pending3 보존. Main을 켠 첫 렌더에서 실제 hit id1/eventFrame2 표시·소비 | r3/render-boundaries.txt, hit-audit.csv. SceneView cameraType도 확인. 실제 렌더 소비는 버퍼 직접 호출로 대체하지 않음 |
+| 몬스터 presenter clear/재시작/중복 반환 | 실제 모델 사망→registry 분리→deathList, 산 view와 detached view의 clear, 두 번 LateTick, 두 view 동시 재사용의 객체 구별, 재시작과 Dispose | 동일 Main UnityTest: registry0/deathList0, 같은 pool 객체 중복 대여0, 중복 반환 예외0 |
+| 몬스터 배속 | Windup/Dash/Recover/Fuse는 모델 countdown의 경과 시간을 view로 전달. view가 phase 진입/최종 장을 소유하며, 렌더 delta 적분으로 phase를 추정하지 않음. 접촉/발사·사망 표시 delta도 배속 반영 | 실제 RunService.AdvanceFrame(1/60), 속도2: 23걸음 boar clock0.7666669/frame5; 35걸음 puffer clock1.166667/frame6; pause 뒤 불변 |
+| 새 판 idle | run-start/revive에 view 시각 상태 초기화, 새 판 첫 LateTick에서 이전 idle delta를 더하지 않음. wave-start는 타격 기록만 정리해 이미 쓰러진 몸의 fall을 다시 시작하지 않음 | 같은 Bruno idle0.55초/frame6 → 실제 RunService 새 판 → idle frame0 |
+| 경계 직전 조기 전환 | FrameAt의 +0.001ms 비교 제거, 경계 전/후 float 시험 추가 | t=.0999995→0, .1000005→1, .2999995→1, .3000005→2; r3/dq-tests-status.json |
+
+## r3 실행 관문과 확인 범위
+
+근거 루트 `output/hd2d-dq/apply/8/r3/`. 수정 기준 a843198. 최종 소스 지문과 명령 결과 사본은 `.director/evidence/20261123-night-1to6/8/3/`에 동결한다.
+
+| 관문 | 결과 | 범위 |
+|---|---|---|
+| project-doctor | PASS | configured/findings0, 설정 확인만 |
+| 최종 소스 재컴파일 | PASS | compile-final.json errors0/warnings0 |
+| DQ EditMode | PASS | dq-tests-status.json 27/27, 프레임 경계·공격별 audit 및 기존 DQ 데이터/방향/실제 임포트·풀 재사용 |
+| Main 경계 통합 | PASS | boundary-status-scene-render.json UnityTest1/1, 실제 SceneView·추가 카메라·Main 렌더와 실제 서비스/presenter를 통한9개 경계 그룹. 통제 fixture의 모델 쓰기는 시험에만 있음 |
+| 최종 에디터 | PASS | editor-final.json 6000.4.3f1/playing=false/dirty=false; console-final.json groundTruth 오류0·경고0 |
+| r2 시트/clip/atlas 및 캡처 | 이어 받음 | unchanged-visual-assets.json: a843198 이후 해당 자산 diff0. 몸 픽셀·피벗·임포트·카메라/UI 배치 변경0. 기존 직접 본 캡처 경로/SHA는 r2/opened-images-r2.json |
+| 기본 판정 경로/메뉴2회·복구 | r2 근거 유지 | a843198의8/8, 반복/복구 차이0. 이번 수정은 요청된 경계만 재실행했으며 전체 경로·전체 EditMode를 중복 실행하지 않음. 현재 소스로 전체 경로를 새로 돌렸다고 주장하지 않음 |
+| 마감 수정 확인3종 | NOT_RUN | spec-reviewer·validator-client·algorithm-tester에 재요청. 세 리뷰 모두 앞 판정 FAIL이므로 재검토 대상. design-reviewer만 PASS 이어 받음 |
+
+SceneView와 추가 카메라의 실제 렌더 보존을 확인했으며, Main의 같은 프레임 중복 콜백도 소비 수를 늘리지 않았다. 큰 Step에서 두 무기 PendingAction을 실제 가방 배치와 맞춰 만들었고 타격 기록은 한 공격 id 한 건, 다음 공격 id의 준비가 시작돼도 이전 실제 타격 장이 첫 Main 렌더에 남았다. CSV는 통합 시험 전체19행으로 ring 한도에 도달하지 않았다. 일반 게임에서 audit는 최근512행이므로 전체 판의 영구 전수 로그라고 주장하지 않는다.
+
+## r3 놓친 점·시험 수정 이력
+
+- 이번 필수 지적은 이전 자체 확인이 승인된 렌더/수명 반례까지 다루지 못한 데서 발생했다. 버퍼 단위 시험과 일반 전투 표본을 실제 camera boundary 시험으로 대신할 수 없었다. 승인 기준을 실행 기록으로 사용한 것도 원인이었다. 후보: 승인 파일 고정 해시와 실제 카메라/서비스 경계 fixture를 유지.
+- 통합 fixture 초기4회는 EnterPlayMode 도메인 재로드가 compiler display class의 캡처 지역 변수를 복원하지 못해 bootstrap 뒤 NullReference로 실패했다. 컨테이너 캐시/속성 우회로 해결되지 않아 방식을 바꿔 Play 전환 이후에 별도 코루틴에서 캡처 변수를 생성했다. 이는 게임 코드 결함이나 실제 렌더 PASS로 기록하지 않았다.
+- 다음 fixture 실행은 모든 경계 assert를 지났으나, 두 번째 무기를 Equip만 해 가방 slot이 없다는 로그로 전체 FAIL이었다. LogAssert로 허용하지 않고 실제 BagService.AddLoot/Drop으로 두 번째 무기 슬롯을 만들어 수정했다. 이후 통합 시험 PASS, SceneView 실렌더 보강 후 최종 PASS. 각 초기 실패의 status 파일도 r3에 보존한다.
+- 실제 게임의 공격 주기/피해/판정 기대식/phase countdown은 변경0. 뷰의 phase 시간 입력과 상태 정리만 수정했다. 자산/임포트/배경/빛/후처리/shader/UI 수정0. 이전부터 남은 에디터 자동 직렬화와 RoundDQ2/3 미추적 meta는 계속 stage 제외.
+- 시간·토큰: 04:35 리뷰 피드백 후 수정 활동은 r3 파일 시각·manifest에 기록. 정확한 Codex 토큰은 NOT_AVAILABLE, 하위 에이전트0. 앞 session_time 집계의 Claude jsonl 없음 한계 유지. 워크플로우 최종 반영은 독립 수정 확인 뒤 핸드오프 때 표시한다.
+
+## review_open — 그대로 보존
+
+| 종류 | 낸 리뷰 | 내용 |
+|---|---|---|
+| 범위 밖 | spec-reviewer·validator-client | 기존 전체 EditMode 실패5건, 원근 관문 BLOCKED·terrain N9 FAIL 보존. 이번 단계 수정 대상 아님 |
+| 확인 한계 | validator-client | 앞 리뷰는 이미지를 열지 않았고 발·크기·그림자 정렬을 독립 시각 PASS로 판정하지 않음. 수정 확인에서 r2 실제 확대 시트를 직접 열도록 요청 |
+| 확인 한계 | algorithm-tester | 앞 리뷰는 실제 Unity 시험·카메라 렌더·atlas packing 미실행. 이번 구현자 실행으로 그 리뷰 당시 한계를 소급 삭제하지 않음 |
+
+배경·빛은6·7단계 몫, 효과·투사체·예고 라인 그림의 화면 연결·UI 맞춤·원근 관문은9단계 몫, 이 단계 판정 밖. 원본 그림 품질·성능도 이번 판정 밖. 기존 열린 지적을 고치거나 판정 문턱을 낮추지 않았다.
+
+---
+
+# r2 구현·검증 이력 (a843198, 아래 상태는 당시 기록)
+
 
 상태: 마감 독립 리뷰 대기. 자체 확인을 독립 리뷰 PASS로 쓰지 않는다. 이 문서는 리뷰 입력이며 최종 핸드오프는 판정 수신 뒤 `.director/outbox/20261123-night-1to6-8-r2.md`에 쓴다. 이전 PARTIAL 기록은 `.director/outbox/20261123-night-1to6-8.md`에 남아 있다.
 

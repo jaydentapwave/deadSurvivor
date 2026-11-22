@@ -14,6 +14,7 @@ public static class GameEvent
     public struct MemberVisualResetEvent
     {
         public int MemberIndex;
+        public string Reason;
     }
 
     public struct RunEndedEvent

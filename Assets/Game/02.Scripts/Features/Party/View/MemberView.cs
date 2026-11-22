@@ -80,6 +80,17 @@ public class MemberView : MonoBehaviour
         FacingFallbackCount = 0;
     }
 
+    public void ResetDQVisualState()
+    {
+        _dqHitSprite = null;
+        _motionSprite = null;
+        _dqIdleClock = _dqFallClock = 0;
+        _dqWasMoving = false;
+        DQAction = null;
+        DQFrame = 0;
+        DQHitAttackId = 0;
+    }
+
     public void AdvanceDQClock(float delta)
     {
         _dqIdleClock += delta;

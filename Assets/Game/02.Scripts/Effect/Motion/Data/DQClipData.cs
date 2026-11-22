@@ -98,7 +98,7 @@ public static class DQClipMath
         for (var i = 0; i < clip.durationsMs.Length; i++)
         {
             end += clip.durationsMs[i];
-            if (ms + .001f < end)
+            if (ms < end)
             {
                 return i;
             }

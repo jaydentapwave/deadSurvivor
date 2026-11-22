@@ -14,6 +14,10 @@ public class DQCharacterMotionTests
     [TestCase(-1f, 0)]
     [TestCase(0f, 0)]
     [TestCase(.099f, 0)]
+    [TestCase(.0999995f, 0)]
+    [TestCase(.1000005f, 1)]
+    [TestCase(.2999995f, 1)]
+    [TestCase(.3000005f, 2)]
     [TestCase(.100f, 1)]
     [TestCase(.299f, 1)]
     [TestCase(.300f, 2)]
@@ -94,9 +98,33 @@ public class DQCharacterMotionTests
         Assert.AreEqual(1, hits.Rendered);
         Assert.AreEqual(3, hits.Coalesced);
         hits.Add(new DQHitRecord(5, 5, SpriteFacing.Front));
-        hits.Clear();
+        hits.Clear("test-reset");
         Assert.AreEqual(0, hits.Count);
         Assert.AreEqual(1, hits.Suppressed);
+    }
+
+    [Test]
+    public void EveryAttackHasItsRenderedBatchOrSuppressionCause()
+    {
+        var hits = new DQHitBuffer();
+        var audit = new System.Collections.Generic.List<DQHitDisposition>();
+        hits.Recorded += audit.Add;
+        hits.Add(new DQHitRecord(10, 1, new SpriteFacing(FacingDirection.Right, false)));
+        hits.Add(new DQHitRecord(11, 2, new SpriteFacing(FacingDirection.Up, true)));
+        hits.Acknowledge(11);
+        hits.Add(new DQHitRecord(12, 3, SpriteFacing.Front));
+        Assert.Throws<ArgumentException>(() => hits.Clear(null));
+        Assert.AreEqual(1, hits.Count, "invalid cause must not discard the pending id");
+        hits.Clear("suppressed-by-death");
+        hits.Add(new DQHitRecord(13, 4, SpriteFacing.Front));
+        hits.Clear("dispose");
+        Assert.AreEqual(new long[] { 10, 11, 12, 13 }, audit.Select(a => a.Hit.AttackId));
+        Assert.AreEqual(new[] { "coalesced", "rendered", "suppressed-by-death", "dispose" }, audit.Select(a => a.Reason));
+        Assert.AreEqual(new long[] { 11, 11, 0, 0 }, audit.Select(a => a.AppliedAttackId));
+        Assert.AreEqual(new[] { 1, 1, 0, 0 }, audit.Select(a => a.Batch));
+        Assert.AreEqual(FacingDirection.Up, audit[1].Hit.Facing.Direction);
+        Assert.IsTrue(audit[1].Hit.Facing.IsFlipped);
+        Assert.AreEqual(2, audit[1].Hit.Step);
     }
 
     [Test]

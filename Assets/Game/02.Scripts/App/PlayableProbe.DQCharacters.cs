@@ -14,6 +14,7 @@ public static partial class PlayableProbe
     public static int DQHitsRendered => Resolve<WorldPresenter>().DQHitsRendered;
     public static int DQHitsPending => Resolve<WorldPresenter>().DQHitsPending;
     public static int DQDeathsPending => Resolve<WorldPresenter>().DQDeathCount;
+    public static string DQHitAudit => Resolve<WorldPresenter>().DQHitAudit;
     public static string DQHitObservations => Resolve<WorldPresenter>().DQHitObservations;
     public static bool IsDQSequenceReady => Object.FindAnyObjectByType<PlayableDQCharacterSampler>()?.IsCaptured == true;
 

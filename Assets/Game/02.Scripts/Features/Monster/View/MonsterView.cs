@@ -100,16 +100,23 @@ public class MonsterView : MonoBehaviour
         }
     }
 
-    public void ApplyDQAnimation(float delta, bool isMoving, float moveSeconds = 0)
+    public void ApplyDQAnimation(float delta, bool isMoving, float moveSeconds = 0, float phaseSeconds = -1)
     {
         if (_dq == null)
         {
             return;
         }
+        if (phaseSeconds >= 0 && !_dqDead)
+        {
+            _dqPhaseClock = phaseSeconds;
+        }
         if (_dqLastFrame != Time.frameCount)
         {
             _dqLastFrame = Time.frameCount;
-            _dqPhaseClock += delta;
+            if (phaseSeconds < 0 || _dqDead)
+            {
+                _dqPhaseClock += delta;
+            }
             if (isMoving)
             {
                 _dqMoveClock += moveSeconds;

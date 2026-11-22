@@ -49,7 +49,7 @@ public class CombatService
     // 한 판 시작(B7): 칸을 장착 목록으로 새로(쿨 0), 발동 수·부활 기록 0, 최대 HP 계산 후 HP = 최대 HP
     public void ResetRun()
     {
-        _eventBus?.Publish(new GameEvent.MemberVisualResetEvent { MemberIndex = -1 });
+        _eventBus?.Publish(new GameEvent.MemberVisualResetEvent { MemberIndex = -1, Reason = "run-start" });
         var memberList = _partyModel.MemberList;
         var stateList = new List<MemberCombatState>(memberList.Count);
         for (var i = 0; i < memberList.Count; i++)
@@ -85,7 +85,7 @@ public class CombatService
     // 웨이브를 열 때(B7): 장착 목록이 바뀐 대원만 칸을 새로, 능력치 다시 계산, 산 대원 보호막 = 시작 보호막, 시계 0
     public void PrepareWave()
     {
-        _eventBus?.Publish(new GameEvent.MemberVisualResetEvent { MemberIndex = -1 });
+        _eventBus?.Publish(new GameEvent.MemberVisualResetEvent { MemberIndex = -1, Reason = "wave-start" });
         var memberList = _partyModel.MemberList;
         for (var i = 0; i < memberList.Count; i++)
         {
@@ -122,7 +122,7 @@ public class CombatService
     // 무료 부활의 상태 초기화(기획서 E절). 조건 확인은 ReviveService가 한다
     public void ReviveMember(int memberIndex)
     {
-        _eventBus?.Publish(new GameEvent.MemberVisualResetEvent { MemberIndex = memberIndex });
+        _eventBus?.Publish(new GameEvent.MemberVisualResetEvent { MemberIndex = memberIndex, Reason = "revive" });
         var member = _partyModel.MemberList[memberIndex];
         var state = _combatModel.MemberStateList[memberIndex];
         member.Hp = member.MaxHp;

@@ -1,6 +1,6 @@
 # DQ 적용 8단계 — 캐릭터·몬스터 구현 전 설계 브리핑
 
-- 상태: **L2 / 설계 수정 확인 PASS, 구현 초안 작성·Unity 검증 차단**.
+- 상태: **L2 / design-reviewer 수정 확인 대기(DR-01 수정 1회), 구현하지 않음**.
 - 기준 커밋: `1c780d043a2555b89b3b149f0477de488cb19637`, 브랜치 `claude/pack-expedition-2d-dq-chars`.
 - 실행 위치: 현재 `night-chars` 작업 트리. 원본 프로젝트는 허용된 `output/hd2d-dq`·앞 단계 outbox만 읽는다.
 - 적용 스킬: studio-kit `25d-art-apply`, 로컬 `ds-workflow`, Unity `using-unity`. 리뷰는 이번 사용자 실행 규칙에 따라 Claude가 담당하며 Codex는 호출하지 않는다.
@@ -119,7 +119,7 @@
 |---|---|---|
 | C8-01 | confirm 최종 표와 모든 실사용 클립/대체·약함·해시 대응, 안 쓰는 그림 반입0 | 데이터 전수 대조, 메뉴 두 번 해시 동일 |
 | C8-02 | PPU48·Point·무압축·발 피벗, 종당 단일 texture·sharedMaterial 유지 | 실제 임포트/pack/renderer 확인, 성능 계측 없음 |
-| C8-03 | 4명 walk24/idle12/attack7/fall10+lying(Bruno는 디렉터 04:00 확정대로12)+8논리방향, 예상 밖 fallback0 | 관련 EditMode + 실제 probe |
+| C8-03 | 4명 walk24/idle12/attack7/fall10+lying·8논리방향, 예상 밖 fallback0 | 관련 EditMode + 실제 probe |
 | C8-04 | 기존 공격 주기/HitSeconds/피해·발사 횟수 불변, 시각 타격 장 같은 frame | 타격 경계/종료 동시 통과/같은 걸음 재시작/여러 걸음-한 렌더/소비 확인/동시 무기 시험과 실제 발사 로그 |
 | C8-05 | 5종 방향/이동/고유행동/쓰러짐, 모델 제거 불변·pool 중복 반환0 | phase mapping·사망/clear/재시작/풀 재사용 시험 |
 | C8-06 | 연속 캡처에서 프레임 진행·발/크기/그림자 정렬, 예전 몸/초상0 | 4명×walk/idle/attack 각각2방향 이상+fall, 5종 이동/행동; 본 장 sha256·관찰 |
@@ -163,21 +163,3 @@ DR-01 재현 시험은 별도로 고정한다: (1) 한 delta가 HitSeconds·Dura
 - 이번 수정도 문서만 변경. 컴파일/EditMode/Play/캡처는 NOT_RUN(구현 전 관문), 문서 일관성과 diff 공백 검사만 수행한다. `.ai/rules/fix-and-recheck.md`도 현재 작업 트리에 없으므로 이번 사용자 재시도 지시와 AGENTS의 반복 상한을 직접 따른다.
 - 워크플로우 갱신 후보: 공격 그림 동기화 설계에는 현재 시계 외에 실제 사건의 값 스냅샷과 렌더 소비 시점을 적는다. 이 작업의 브리핑/검증 계획에 반영했고 공용 규칙 변경은 범위 밖으로 미반영. 추가 검사는 위6개 경계에 한정하며 기존 고정fps 시각 시험의 중복 실행은 생략 후보 유지.
 - 수정 활동: 관련 코드 정적 대조·브리핑 편집·문서 검사. 확인 UTC `2026-11-22T18:43:55Z`부터 수행, 종료 시각은 커밋 확인 명령 기록. 토큰 집계 도구의 jsonl 부재는 그대로이며 실제 토큰 미제공.
-
-### 설계 판정 수신과 구현 상태
-
-- design-reviewer 최신 evidence: `VERDICT: PASS` (수정 확인1회, job `20261123-034539-34753d`). DR-01·02·03 해소, 필수 수정 없음. 최초 FAIL 기록은 이력으로 보존한다.
-- 후속 제안 DR-02-T 수용: 다음 EditMode/Play 확인 목록에 Tick 이후 처음 생성된 view의 첫 렌더, pause 동안 phase 시계 정지를 포함한다. 아직 실행하지 않았다.
-- 9종 실사용 시트·데이터, 메뉴, 표시 연결, 타격 기록·사망 풀 분리, EditMode 시험 초안을 작성했다. 상태/한계/다음 명령은 `characters-verification.md`가 원본이다. 이 문서의 계획을 완료 주장으로 읽지 않는다.
-- Unity Editor Software Terms 동의 UI와 명령 대기로 실행 관문이 막혔다. 동의하지 않았고 패키지/전역 설정도 바꾸지 않았다. 사용자 부재에서 법적 동의를 대신할 수 없어 partial 인계한다. 구현 후 마감 리뷰 3종은 아직 요청하지 않았다.
-
-
-## 9. 디렉터 피드백1 반영과 마감 리뷰 범위 (r2)
-
-- 04:00 피드백: 차단 창은 night-chars의 Main 저장 확인이었다. 약관 창은 프로젝트 없는6000.6.7f1이었다. 앞 검증 문서의 약관 차단 추론은 철회한다. 실제6000.4.3f1 대상 `editor_ready.py`로 재개했다. 약관 수락0.
-- 메뉴가 unrelated dirty scene을 거부하고 자신이 다루는 Main의 `SaveOpenScenes()`를 완료한다. Play/시험 전 dirty=false를 읽었다.
-- 첫 임포트에서 NPOT 기본 축소 크기로 slice Y를 계산한 결함 수정: importer의 원본 크기 사용. 최종 반복/예외 복구는 `r2/migration-final-check.json`.
-- Bruno fall12는 확정된 차이다. C8-03의 원래10장 계약을 임의 완화한 것이 아니며 최종 채택표를 그대로 적용했다.
-- 추가 관찰용 probe는 실제 production view를 읽고 EndOfFrame에서 캡처한다. 게임 모델/피해/phase 쓰기 없음. 기존 Bot/RunSettings 입력으로 자연 승리·패배와 조용한 발 동작을 분리 관찰했다.
-- 최종 구현·명령 근거는 `characters-verification.md`와 `output/hd2d-dq/apply/8/r2/`에 기록한다. 마감 검토는 spec-reviewer, validator-client, algorithm-tester. design-reviewer의 `VERDICT: PASS`는 설계 수정 확인에서 이어 받으며 구현 PASS로 쓰지 않는다.
-- 배경·빛은6·7단계 몫, 이 단계 판정 밖. 효과·투사체·예고 라인 화면 배치·UI 맞춤·원근 관문 연결은9단계 몫, 이 단계 판정 밖. 성능과 동작 원본 자체 품질도 판정 밖.
