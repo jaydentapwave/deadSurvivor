@@ -1,0 +1,5469 @@
+fileFormatVersion: 2
+guid: 3b0d6ac6fc04d442e83e069593a7e856
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 48
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: dq_bolt_0000
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2f14b126eff10d40800000000000000
+      internalID: 5548997579770175274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0001
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53e1112fbdecfdc70800000000000000
+      internalID: 8998138024563908149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0002
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f188a0fcec2e03af0800000000000000
+      internalID: -418585387480741857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0003
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1251ed98fdd6ed540800000000000000
+      internalID: 5034582240304960801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0004
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f92a4b810cd3d0b0800000000000000
+      internalID: -5704974403758315016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0005
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8281c44feef813270800000000000000
+      internalID: 8228516250646222888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0006
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e260f48238b5000d0800000000000000
+      internalID: -3458663894945429970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0007
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 005555faccfc180e0800000000000000
+      internalID: -2269304259196136192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0008
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 545995e3469408b00800000000000000
+      internalID: 828743026327786821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0009
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 366129a5f958933b0800000000000000
+      internalID: -5532243747782125981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0010
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e999739bc0d059b60800000000000000
+      internalID: 7752116681886374302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0011
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d3f0d729a23786d0800000000000000
+      internalID: -2988364125638167591
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0012
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38a9f6b6209eb6ac0800000000000000
+      internalID: -3860736058938385789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0013
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21411f4c1a006d9b0800000000000000
+      internalID: -5055852836882934766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0014
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5432bb1e96f4dfc0800000000000000
+      internalID: -3470878253865880486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0015
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 948
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1e8ffca88a4936d0800000000000000
+      internalID: -3010292925042029026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0016
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5119b2c4f5fd50fc0800000000000000
+      internalID: -3529169132582104811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0017
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81152fbfcd39f9900800000000000000
+      internalID: 693435444967395608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0018
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f77295ea55f9cb50800000000000000
+      internalID: 6614087298517727218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0019
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46771b7b7cb9967c0800000000000000
+      internalID: -4077556705524615324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0020
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 457534b1c154e9d60800000000000000
+      internalID: 7898826783473227604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0021
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32f71ebc6a4f05710800000000000000
+      internalID: 1680111658231496483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0022
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74d36cb595153e940800000000000000
+      internalID: 5324188628715715911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0023
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96d5439db09b46490800000000000000
+      internalID: -7753869197885285015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0024
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af202d458925964e0800000000000000
+      internalID: -1987966946295807238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0025
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa3630b527dffd690800000000000000
+      internalID: -7575057380618837078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0026
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31edbc7f3e14969a0800000000000000
+      internalID: -6239383361374396909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0027
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f206441d87722acd0800000000000000
+      internalID: -2548431039277801425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0028
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 785ed3604eefefbd0800000000000000
+      internalID: -2594356080008108665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0029
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6a47917ba2570680800000000000000
+      internalID: -8788965251491607954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0030
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 851d941635b120e70800000000000000
+      internalID: 9079849843660804440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0031
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 868
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 878eea0417f6d8040800000000000000
+      internalID: 4651496522350782584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0032
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f9c4a328fbbd7650800000000000000
+      internalID: 6232344133774920184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0033
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd0d46b4105fec4f0800000000000000
+      internalID: -806437897344069412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0034
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26fd0b9b65baddcc0800000000000000
+      internalID: -3684600531148284062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0035
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b36c421bcbdf58190800000000000000
+      internalID: -7960677779439827397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0036
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6eeff9f9fc07a49f0800000000000000
+      internalID: -483449972950303002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0037
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5ce9dcff301fb8f0800000000000000
+      internalID: -522681164740563878
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0038
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8db5f65a6774d7430800000000000000
+      internalID: 3782257836968336344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0039
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f142e471e92968560800000000000000
+      internalID: 7315695852403434527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0040
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac2126ea78fe7b6f0800000000000000
+      internalID: -668802653615942966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0041
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f512d71492caec30800000000000000
+      internalID: 4389534728136562162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0042
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8d0e8518ba922340800000000000000
+      internalID: 4837599065175625099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0043
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c33b9cb4d86ed0810800000000000000
+      internalID: 1733294926143796028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0044
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb8dfdac815b38de0800000000000000
+      internalID: -1332021946684024642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0045
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: adea42cced0955560800000000000000
+      internalID: 7301901657433222874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0046
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 368d551f36e806730800000000000000
+      internalID: 3990345829752100963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0047
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 788
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7f6e6698c21644d0800000000000000
+      internalID: -3150810236572504197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0048
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14e8492eb7441d350800000000000000
+      internalID: 6039683874153598529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0049
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dc61c388eaaaaf00800000000000000
+      internalID: 1128902572229356761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0050
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca8a705e77dc77450800000000000000
+      internalID: 6086559336241801388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0051
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd12bcf83a3797550800000000000000
+      internalID: 6159081111735181787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0052
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b385e7b237ff5d40800000000000000
+      internalID: 5575446660913660853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0053
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7614bdad077e24330800000000000000
+      internalID: 3693769116291383655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0054
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61f607f1608952e70800000000000000
+      internalID: 9089838574981902102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0055
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05d8f777eb838f870800000000000000
+      internalID: 8716779469475384656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0056
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba9b16fe535ad1f60800000000000000
+      internalID: 8006737363602618795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0057
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c35a6c7b4d7b5730800000000000000
+      internalID: 3988919658130068416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0058
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fd23b1997cb7cc00800000000000000
+      internalID: 920911879142059513
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0059
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96515e71836f69e30800000000000000
+      internalID: 4510062797637621097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0060
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74e23fa2c1e280240800000000000000
+      internalID: 4758103704831471175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0061
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26b3c8aeb3d698b00800000000000000
+      internalID: 831315710332124002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0062
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54165e91045e0e100800000000000000
+      internalID: 135360052296245573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0063
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 708
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 492b14c0915563f40800000000000000
+      internalID: 5707843143806857876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0064
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f0a351ab825d9a70800000000000000
+      internalID: 8835308803631325424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0065
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d162d5cebe8dd72d0800000000000000
+      internalID: -3279226445861411299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0066
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06632a1082a0de310800000000000000
+      internalID: 1435815023143433824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0067
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c3571a6d6e044540800000000000000
+      internalID: 4991130150127489990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0068
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a59b1618847c42c00800000000000000
+      internalID: 875043341838956890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0069
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07206f7e7ad559320800000000000000
+      internalID: 2564058538589946480
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0070
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37a9f7f788d610160800000000000000
+      internalID: 6989988529677769331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0071
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1a58dc66b9396e30800000000000000
+      internalID: 4497189158579100191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0072
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 080148104a4b35f20800000000000000
+      internalID: 3410267959342665856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0073
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cde9b3bcf5ae60a0800000000000000
+      internalID: -6886384275437261374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0074
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7317ecc45b8cbc1e0800000000000000
+      internalID: -2176425313900269257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0075
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b17d154965f88d5a0800000000000000
+      internalID: -6496284860463589605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0076
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d3401e00725cbe40800000000000000
+      internalID: 5673500271805744084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0077
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b07985100526d7040800000000000000
+      internalID: 4646978486275708683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0078
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf5271cb728561870800000000000000
+      internalID: 8653200661721589244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0079
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 628
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f60aadbb85c6ce690800000000000000
+      internalID: -7571557745152057233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0080
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e829be9affde3c230800000000000000
+      internalID: 3658029004678206094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0081
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3755f53018360f390800000000000000
+      internalID: -7786614349965077133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0082
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11b0884b564af0840800000000000000
+      internalID: 5192549652108938001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0083
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 90c3245c0c5b50ed0800000000000000
+      internalID: -2448350982858195959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0084
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5baf11010802bd880800000000000000
+      internalID: -8585232530254202187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0085
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 803683bc2d659b090800000000000000
+      internalID: -8018282198203866360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0086
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d1c6e394d7e289f0800000000000000
+      internalID: -467556511092653607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0087
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a7694ce103dbc0f0800000000000000
+      internalID: -1095550079121922136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0088
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00f7b01905abee3d0800000000000000
+      internalID: -3175395832056021248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0089
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8c84771f69541290800000000000000
+      internalID: -7920607510968103794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0090
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79f87188d5ae47020800000000000000
+      internalID: 2338751793948233623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0091
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c2ac89331c462da0800000000000000
+      internalID: -5970000610579406138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0092
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8434c68bf52e1de0800000000000000
+      internalID: -1360608275191286643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0093
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bf39b2b23a3d9690800000000000000
+      internalID: -7593849407255527496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0094
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d55aea9bd76d9f0b0800000000000000
+      internalID: -5694284418358794915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0095
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 548
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8a5bfe7de733c560800000000000000
+      internalID: 7332766111466478220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0096
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4523c711e9efae2a0800000000000000
+      internalID: -6707268740163292588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0097
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3289d7abaf8519540800000000000000
+      internalID: 5012885694133934115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0098
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c625027df0dc7e610800000000000000
+      internalID: 1650513256371999340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0099
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60bf020ae5460bfc0800000000000000
+      internalID: -3481172154381174010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0100
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a036df98aaee90480800000000000000
+      internalID: -8932345969685732598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0101
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f5aa83baa3c70690800000000000000
+      internalID: -7635919505259321871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0102
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecc1682d791351d10800000000000000
+      internalID: 2095635729752661198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0103
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c76722a0ccf714090800000000000000
+      internalID: -8052014144441649540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0104
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfc9e732dac881970800000000000000
+      internalID: 8725878953283067132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0105
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 664e7a559391eed70800000000000000
+      internalID: 9074218033239024742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0106
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a97413494f17cd700800000000000000
+      internalID: 566452948414056346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0107
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 282fe2b1a81811920800000000000000
+      internalID: 2959288860320658050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0108
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d3a730124e3f22f0800000000000000
+      internalID: -995508539164744743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0109
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4fbc855a1253b220800000000000000
+      internalID: 2500432491178671948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0110
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e9c25415d3d6afc0800000000000000
+      internalID: -3483864349602035223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0111
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 468
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76519d86cb0a4bd40800000000000000
+      internalID: 5599276967801722215
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0112
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec1b50a1ca23c4ca0800000000000000
+      internalID: -6031390086203592242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0113
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ed4339a9394b2da0800000000000000
+      internalID: -5968596369148785182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0114
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 639a8f68415335080800000000000000
+      internalID: -9199951251507730122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0115
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0029013f493c4cc90800000000000000
+      internalID: -7150375263856979456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0116
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd7bb4228831a57a0800000000000000
+      internalID: -6387771646059759653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0117
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c96e63b6f50c0290800000000000000
+      internalID: -7922951087321093690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0118
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f268564b8a222370800000000000000
+      internalID: 8296240241238893296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0119
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6f31e8144c400140800000000000000
+      internalID: 4683827467824217963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0120
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74d7610490f7dc7f0800000000000000
+      internalID: -590676298409018041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0121
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd8f8d421d04d6fe0800000000000000
+      internalID: -1194227059172771621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0122
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f668e282271d7b7e0800000000000000
+      internalID: -1749699641979533713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0123
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c634b00fc41b36280800000000000000
+      internalID: -9051195882081664148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0124
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eddda128a361fea30800000000000000
+      internalID: 4246637414180380126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0125
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f71831cadbe649d0800000000000000
+      internalID: -2790283594332366861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0126
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 828d57a9ce061b240800000000000000
+      internalID: 4805728846700992552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0127
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 388
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 644dbf656d9f36c30800000000000000
+      internalID: 4351596363947693126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0128
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dd9ea1c54b91aae0800000000000000
+      internalID: -1539778873679503919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0129
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5150feafb8c170280800000000000000
+      internalID: -9077255136405945067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0130
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9010e22f1802f070800000000000000
+      internalID: 8138576406434025628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0131
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ff8170e3ba5c9cfb0800000000000000
+      internalID: -4626949802875741953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0132
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfc2f824679354590800000000000000
+      internalID: -7690677608579650309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0133
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68b343c1138210320800000000000000
+      internalID: 2522341457695882118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0134
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82aaa1798ea8ddd20800000000000000
+      internalID: 3304950433131964968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0135
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e8999e6586969230800000000000000
+      internalID: 3645266448233371880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0136
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 562fea8e8399260a0800000000000000
+      internalID: -6889776010222439835
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0137
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8022a87b1d150380800000000000000
+      internalID: -9005759876032225139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0138
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5717603f386bc9cc0800000000000000
+      internalID: -3702884115771133579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0139
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bfe40b23f3f80190800000000000000
+      internalID: -7995872912671969360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0140
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b80b112cf2f68390800000000000000
+      internalID: -7816292938553816906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0141
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62a2851a84585b970800000000000000
+      internalID: 8770062396364958246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0142
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10a9698c1e0178130800000000000000
+      internalID: 3568839791633406465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0143
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 308
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cfc4434d2aca10c50800000000000000
+      internalID: 6629769941810957564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0144
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 085a98117364951c0800000000000000
+      internalID: -4514499949130832512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0145
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be047d93b28dfd5d0800000000000000
+      internalID: -3035469943658823445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0146
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02e21ef704b18b8d0800000000000000
+      internalID: -2830482401965036000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0147
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ea0b2d1898e72b00800000000000000
+      internalID: 803866798530956001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0148
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c02a53089bdc3180800000000000000
+      internalID: -9134184498276458298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0149
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: daff93d2f0d03bd60800000000000000
+      internalID: 7904676129799798701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0150
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c91d322cd4bd439b0800000000000000
+      internalID: -5101211350887837284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0151
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15fddaf0a2d889c60800000000000000
+      internalID: 7825159564347432785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0152
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: deb4582c6f3508c60800000000000000
+      internalID: 7818341272405756909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0153
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01e6eedea51de0b00800000000000000
+      internalID: 796804372560244240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0154
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02864379c94e29410800000000000000
+      internalID: 1482498588561139744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0155
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4546911429fe64e70800000000000000
+      internalID: 9099223508585112660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0156
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fad2a9de24b95660800000000000000
+      internalID: 7375123978108721910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0157
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a8339987c0f0a780800000000000000
+      internalID: -8673668142518290264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0158
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 126d1a237398c5100800000000000000
+      internalID: 98104162060981793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0159
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 228
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d80071e0f55fc52d0800000000000000
+      internalID: -3288483839280217971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0160
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fdf70ebeb1cfb7f0800000000000000
+      internalID: -594543600813474315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0161
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32c95f5402068bae0800000000000000
+      internalID: -1533369981390709725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0162
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44f9ffbdd7e00e8f0800000000000000
+      internalID: -513394423795572924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0163
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f97e93f648ee36520800000000000000
+      internalID: 2694259254666848159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0164
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe7dfd73c7e8100e0800000000000000
+      internalID: -2305404870072477713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0165
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95d6e919f6f516050800000000000000
+      internalID: 5792015528564256089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0166
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9218621874ab6a600800000000000000
+      internalID: 479275226633765161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0167
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cd957981821c4270800000000000000
+      internalID: 8235978166120062408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0168
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eedd778ba0d0156a0800000000000000
+      internalID: -6462369650604253714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0169
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 875fc877a16539a60800000000000000
+      internalID: 7679576461271692664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0170
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b3c8193291495870800000000000000
+      internalID: 8672034653757555640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0171
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9f6de45284aaa880800000000000000
+      internalID: -8598879658832990308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0172
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab18869b11e3288d0800000000000000
+      internalID: -2845643768698732102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0173
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d4fb8cabdddbae50800000000000000
+      internalID: 6821789996145177814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0174
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 867865b51e7f134a0800000000000000
+      internalID: -6615233830358448280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0175
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 148
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16ea8a32174902460800000000000000
+      internalID: 7214929816698007137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0176
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fa6c27e47d3ff2d0800000000000000
+      internalID: -3242805634379519246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0177
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cffab86e6ff84ec0800000000000000
+      internalID: -3582332653904658490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0178
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b58007f8523b74a20800000000000000
+      internalID: 3046600646841075803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0179
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38b79e638eff3bc30800000000000000
+      internalID: 4374121035925650307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0180
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8674419ab5883470800000000000000
+      internalID: 8374590543443031691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0181
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 726b6ec8e2fcc0f90800000000000000
+      internalID: -6985981123119106521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0182
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9c54a91d8bcd65e0800000000000000
+      internalID: -1914650459681563493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0183
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: abd7c8d29f09e5800800000000000000
+      internalID: 603078799999663546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0184
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8d9d170ceefec480800000000000000
+      internalID: -8876877525815550581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0185
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc51a23e0814d5030800000000000000
+      internalID: 3485013708477437389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0186
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64a379f36e9b126d0800000000000000
+      internalID: -3016925876801029562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0187
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d10d37c459b30d970800000000000000
+      internalID: 8777581186163920925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0188
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4154501e7f21a190800000000000000
+      internalID: -7953023248473239218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0189
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 040a66b62ac840d20800000000000000
+      internalID: 3243872260828078144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0190
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ef439c916a7ee9e0800000000000000
+      internalID: -1590199058757890071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0191
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 68
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb515069215f79c40800000000000000
+      internalID: 5519149328540964286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0192
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 3561991199950162455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0193
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 7504953806610841282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0194
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 184355394273462820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0195
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 4243845935330023958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0196
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 3960619670843804245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0197
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -6974625315153425771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0198
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 9045406305686359667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0199
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -4008663979759542033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0200
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -8926779453558929880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0201
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -5948702563916068123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0202
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -2907825162270455994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0203
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 5698870460591128526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0204
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -6270381238581567711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0205
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 1283155571651275681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0206
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -4931010103336431427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0207
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: -12
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 1684451829957932884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0208
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 7131132734118755101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0209
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -5541710230104697357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0210
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -1419027155172138477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0211
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 785094501266174917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0212
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -4029708423189423397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0213
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 1642731645737147541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0214
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 6562679788988882492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0215
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 3220300628328852220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0216
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 7719128919538522460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0217
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -5958961602766592772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0218
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 6321573628007168746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0219
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -7562916645738551534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0220
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -6434328606374529045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0221
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -2406977634088268915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0222
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 560995106127199479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0223
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: -92
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -5713244424770673115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0224
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: -172
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -7345447494616331255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0225
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: -172
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 3781277217075524145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0226
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: -172
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 4148033858449820490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0227
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: -172
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 4178679840175246688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0228
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: -172
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -8278236786476701624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0229
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: -172
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: 6075951887291983045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_bolt_0230
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: -172
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 
+      internalID: -5480357925768431331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      dq_bolt_0000: 5548997579770175274
+      dq_bolt_0001: 8998138024563908149
+      dq_bolt_0002: -418585387480741857
+      dq_bolt_0003: 5034582240304960801
+      dq_bolt_0004: -5704974403758315016
+      dq_bolt_0005: 8228516250646222888
+      dq_bolt_0006: -3458663894945429970
+      dq_bolt_0007: -2269304259196136192
+      dq_bolt_0008: 828743026327786821
+      dq_bolt_0009: -5532243747782125981
+      dq_bolt_0010: 7752116681886374302
+      dq_bolt_0011: -2988364125638167591
+      dq_bolt_0012: -3860736058938385789
+      dq_bolt_0013: -5055852836882934766
+      dq_bolt_0014: -3470878253865880486
+      dq_bolt_0015: -3010292925042029026
+      dq_bolt_0016: -3529169132582104811
+      dq_bolt_0017: 693435444967395608
+      dq_bolt_0018: 6614087298517727218
+      dq_bolt_0019: -4077556705524615324
+      dq_bolt_0020: 7898826783473227604
+      dq_bolt_0021: 1680111658231496483
+      dq_bolt_0022: 5324188628715715911
+      dq_bolt_0023: -7753869197885285015
+      dq_bolt_0024: -1987966946295807238
+      dq_bolt_0025: -7575057380618837078
+      dq_bolt_0026: -6239383361374396909
+      dq_bolt_0027: -2548431039277801425
+      dq_bolt_0028: -2594356080008108665
+      dq_bolt_0029: -8788965251491607954
+      dq_bolt_0030: 9079849843660804440
+      dq_bolt_0031: 4651496522350782584
+      dq_bolt_0032: 6232344133774920184
+      dq_bolt_0033: -806437897344069412
+      dq_bolt_0034: -3684600531148284062
+      dq_bolt_0035: -7960677779439827397
+      dq_bolt_0036: -483449972950303002
+      dq_bolt_0037: -522681164740563878
+      dq_bolt_0038: 3782257836968336344
+      dq_bolt_0039: 7315695852403434527
+      dq_bolt_0040: -668802653615942966
+      dq_bolt_0041: 4389534728136562162
+      dq_bolt_0042: 4837599065175625099
+      dq_bolt_0043: 1733294926143796028
+      dq_bolt_0044: -1332021946684024642
+      dq_bolt_0045: 7301901657433222874
+      dq_bolt_0046: 3990345829752100963
+      dq_bolt_0047: -3150810236572504197
+      dq_bolt_0048: 6039683874153598529
+      dq_bolt_0049: 1128902572229356761
+      dq_bolt_0050: 6086559336241801388
+      dq_bolt_0051: 6159081111735181787
+      dq_bolt_0052: 5575446660913660853
+      dq_bolt_0053: 3693769116291383655
+      dq_bolt_0054: 9089838574981902102
+      dq_bolt_0055: 8716779469475384656
+      dq_bolt_0056: 8006737363602618795
+      dq_bolt_0057: 3988919658130068416
+      dq_bolt_0058: 920911879142059513
+      dq_bolt_0059: 4510062797637621097
+      dq_bolt_0060: 4758103704831471175
+      dq_bolt_0061: 831315710332124002
+      dq_bolt_0062: 135360052296245573
+      dq_bolt_0063: 5707843143806857876
+      dq_bolt_0064: 8835308803631325424
+      dq_bolt_0065: -3279226445861411299
+      dq_bolt_0066: 1435815023143433824
+      dq_bolt_0067: 4991130150127489990
+      dq_bolt_0068: 875043341838956890
+      dq_bolt_0069: 2564058538589946480
+      dq_bolt_0070: 6989988529677769331
+      dq_bolt_0071: 4497189158579100191
+      dq_bolt_0072: 3410267959342665856
+      dq_bolt_0073: -6886384275437261374
+      dq_bolt_0074: -2176425313900269257
+      dq_bolt_0075: -6496284860463589605
+      dq_bolt_0076: 5673500271805744084
+      dq_bolt_0077: 4646978486275708683
+      dq_bolt_0078: 8653200661721589244
+      dq_bolt_0079: -7571557745152057233
+      dq_bolt_0080: 3658029004678206094
+      dq_bolt_0081: -7786614349965077133
+      dq_bolt_0082: 5192549652108938001
+      dq_bolt_0083: -2448350982858195959
+      dq_bolt_0084: -8585232530254202187
+      dq_bolt_0085: -8018282198203866360
+      dq_bolt_0086: -467556511092653607
+      dq_bolt_0087: -1095550079121922136
+      dq_bolt_0088: -3175395832056021248
+      dq_bolt_0089: -7920607510968103794
+      dq_bolt_0090: 2338751793948233623
+      dq_bolt_0091: -5970000610579406138
+      dq_bolt_0092: -1360608275191286643
+      dq_bolt_0093: -7593849407255527496
+      dq_bolt_0094: -5694284418358794915
+      dq_bolt_0095: 7332766111466478220
+      dq_bolt_0096: -6707268740163292588
+      dq_bolt_0097: 5012885694133934115
+      dq_bolt_0098: 1650513256371999340
+      dq_bolt_0099: -3481172154381174010
+      dq_bolt_0100: -8932345969685732598
+      dq_bolt_0101: -7635919505259321871
+      dq_bolt_0102: 2095635729752661198
+      dq_bolt_0103: -8052014144441649540
+      dq_bolt_0104: 8725878953283067132
+      dq_bolt_0105: 9074218033239024742
+      dq_bolt_0106: 566452948414056346
+      dq_bolt_0107: 2959288860320658050
+      dq_bolt_0108: -995508539164744743
+      dq_bolt_0109: 2500432491178671948
+      dq_bolt_0110: -3483864349602035223
+      dq_bolt_0111: 5599276967801722215
+      dq_bolt_0112: -6031390086203592242
+      dq_bolt_0113: -5968596369148785182
+      dq_bolt_0114: -9199951251507730122
+      dq_bolt_0115: -7150375263856979456
+      dq_bolt_0116: -6387771646059759653
+      dq_bolt_0117: -7922951087321093690
+      dq_bolt_0118: 8296240241238893296
+      dq_bolt_0119: 4683827467824217963
+      dq_bolt_0120: -590676298409018041
+      dq_bolt_0121: -1194227059172771621
+      dq_bolt_0122: -1749699641979533713
+      dq_bolt_0123: -9051195882081664148
+      dq_bolt_0124: 4246637414180380126
+      dq_bolt_0125: -2790283594332366861
+      dq_bolt_0126: 4805728846700992552
+      dq_bolt_0127: 4351596363947693126
+      dq_bolt_0128: -1539778873679503919
+      dq_bolt_0129: -9077255136405945067
+      dq_bolt_0130: 8138576406434025628
+      dq_bolt_0131: -4626949802875741953
+      dq_bolt_0132: -7690677608579650309
+      dq_bolt_0133: 2522341457695882118
+      dq_bolt_0134: 3304950433131964968
+      dq_bolt_0135: 3645266448233371880
+      dq_bolt_0136: -6889776010222439835
+      dq_bolt_0137: -9005759876032225139
+      dq_bolt_0138: -3702884115771133579
+      dq_bolt_0139: -7995872912671969360
+      dq_bolt_0140: -7816292938553816906
+      dq_bolt_0141: 8770062396364958246
+      dq_bolt_0142: 3568839791633406465
+      dq_bolt_0143: 6629769941810957564
+      dq_bolt_0144: -4514499949130832512
+      dq_bolt_0145: -3035469943658823445
+      dq_bolt_0146: -2830482401965036000
+      dq_bolt_0147: 803866798530956001
+      dq_bolt_0148: -9134184498276458298
+      dq_bolt_0149: 7904676129799798701
+      dq_bolt_0150: -5101211350887837284
+      dq_bolt_0151: 7825159564347432785
+      dq_bolt_0152: 7818341272405756909
+      dq_bolt_0153: 796804372560244240
+      dq_bolt_0154: 1482498588561139744
+      dq_bolt_0155: 9099223508585112660
+      dq_bolt_0156: 7375123978108721910
+      dq_bolt_0157: -8673668142518290264
+      dq_bolt_0158: 98104162060981793
+      dq_bolt_0159: -3288483839280217971
+      dq_bolt_0160: -594543600813474315
+      dq_bolt_0161: -1533369981390709725
+      dq_bolt_0162: -513394423795572924
+      dq_bolt_0163: 2694259254666848159
+      dq_bolt_0164: -2305404870072477713
+      dq_bolt_0165: 5792015528564256089
+      dq_bolt_0166: 479275226633765161
+      dq_bolt_0167: 8235978166120062408
+      dq_bolt_0168: -6462369650604253714
+      dq_bolt_0169: 7679576461271692664
+      dq_bolt_0170: 8672034653757555640
+      dq_bolt_0171: -8598879658832990308
+      dq_bolt_0172: -2845643768698732102
+      dq_bolt_0173: 6821789996145177814
+      dq_bolt_0174: -6615233830358448280
+      dq_bolt_0175: 7214929816698007137
+      dq_bolt_0176: -3242805634379519246
+      dq_bolt_0177: -3582332653904658490
+      dq_bolt_0178: 3046600646841075803
+      dq_bolt_0179: 4374121035925650307
+      dq_bolt_0180: 8374590543443031691
+      dq_bolt_0181: -6985981123119106521
+      dq_bolt_0182: -1914650459681563493
+      dq_bolt_0183: 603078799999663546
+      dq_bolt_0184: -8876877525815550581
+      dq_bolt_0185: 3485013708477437389
+      dq_bolt_0186: -3016925876801029562
+      dq_bolt_0187: 8777581186163920925
+      dq_bolt_0188: -7953023248473239218
+      dq_bolt_0189: 3243872260828078144
+      dq_bolt_0190: -1590199058757890071
+      dq_bolt_0191: 5519149328540964286
+      dq_bolt_0192: 3561991199950162455
+      dq_bolt_0193: 7504953806610841282
+      dq_bolt_0194: 184355394273462820
+      dq_bolt_0195: 4243845935330023958
+      dq_bolt_0196: 3960619670843804245
+      dq_bolt_0197: -6974625315153425771
+      dq_bolt_0198: 9045406305686359667
+      dq_bolt_0199: -4008663979759542033
+      dq_bolt_0200: -8926779453558929880
+      dq_bolt_0201: -5948702563916068123
+      dq_bolt_0202: -2907825162270455994
+      dq_bolt_0203: 5698870460591128526
+      dq_bolt_0204: -6270381238581567711
+      dq_bolt_0205: 1283155571651275681
+      dq_bolt_0206: -4931010103336431427
+      dq_bolt_0207: 1684451829957932884
+      dq_bolt_0208: 7131132734118755101
+      dq_bolt_0209: -5541710230104697357
+      dq_bolt_0210: -1419027155172138477
+      dq_bolt_0211: 785094501266174917
+      dq_bolt_0212: -4029708423189423397
+      dq_bolt_0213: 1642731645737147541
+      dq_bolt_0214: 6562679788988882492
+      dq_bolt_0215: 3220300628328852220
+      dq_bolt_0216: 7719128919538522460
+      dq_bolt_0217: -5958961602766592772
+      dq_bolt_0218: 6321573628007168746
+      dq_bolt_0219: -7562916645738551534
+      dq_bolt_0220: -6434328606374529045
+      dq_bolt_0221: -2406977634088268915
+      dq_bolt_0222: 560995106127199479
+      dq_bolt_0223: -5713244424770673115
+      dq_bolt_0224: -7345447494616331255
+      dq_bolt_0225: 3781277217075524145
+      dq_bolt_0226: 4148033858449820490
+      dq_bolt_0227: 4178679840175246688
+      dq_bolt_0228: -8278236786476701624
+      dq_bolt_0229: 6075951887291983045
+      dq_bolt_0230: -5480357925768431331
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

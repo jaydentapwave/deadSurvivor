@@ -1,0 +1,2 @@
+Adopted DQ gameplay sprites only. Repack: existing studio-kit Python Tools/dq_character_pack.py --source <allowed output/hd2d-dq>.
+Selection and source hashes: source-manifest.json. No new generation.

@@ -4,14 +4,16 @@ using UnityEngine;
 // 중장갑은 수치만 다르다(MA7).
 public class ContactBehavior : IMonsterBehavior
 {
+    private readonly EventBus _eventBus;
     // 접촉 거리에 멈춘 적의 거리 비교 여유(바닥 단위). 실수 오차로 접촉 직전에 계속 멈추지 않게(F1 규칙)
     private const float ContactTolerance = 0.001f;
 
     private readonly PartyService _partyService;
 
-    public ContactBehavior(PartyService partyService)
+    public ContactBehavior(PartyService partyService, EventBus eventBus = null)
     {
         _partyService = partyService;
+        _eventBus = eventBus;
     }
 
     public bool CanHandle(MonsterBehavior behavior) => behavior == MonsterBehavior.Contact || behavior == MonsterBehavior.Armored;
@@ -30,6 +32,7 @@ public class ContactBehavior : IMonsterBehavior
         {
             _partyService.ApplyDamage(target, monster.Damage);
             monster.AttackClock = data.Contact.Interval;
+            _eventBus?.Publish(new GameEvent.MonsterAttackEvent { MonsterId = monster.Id, Direction = distance > 0 ? toTarget / distance : Vector2.right });
         }
     }
 }

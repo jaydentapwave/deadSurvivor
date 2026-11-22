@@ -14,6 +14,8 @@ public class CombatService
     private const float ClockTolerance = 1e-4f;
 
     private readonly CombatModel _combatModel;
+    private readonly EventBus _eventBus;
+    private long _visualStep;
     private readonly PartyModel _partyModel;
     private readonly ViewRulesData _viewRules;
     private readonly PartyService _partyService;
@@ -29,9 +31,10 @@ public class CombatService
 
     public CombatService(CombatModel combatModel, PartyModel partyModel, PartyService partyService, MonsterModel monsterModel,
         MonsterService monsterService, ItemRepository itemRepository, CharacterRepository characterRepository,
-        EquipmentStatService equipmentStatService, CombatRulesRepository combatRulesRepository, ViewRulesData viewRules)
+        EquipmentStatService equipmentStatService, CombatRulesRepository combatRulesRepository, ViewRulesData viewRules, EventBus eventBus = null)
     {
         _combatModel = combatModel;
+        _eventBus = eventBus;
         _partyModel = partyModel;
         _viewRules = viewRules;
         _partyService = partyService;
@@ -46,6 +49,7 @@ public class CombatService
     // 한 판 시작(B7): 칸을 장착 목록으로 새로(쿨 0), 발동 수·부활 기록 0, 최대 HP 계산 후 HP = 최대 HP
     public void ResetRun()
     {
+        _eventBus?.Publish(new GameEvent.MemberVisualResetEvent { MemberIndex = -1 });
         var memberList = _partyModel.MemberList;
         var stateList = new List<MemberCombatState>(memberList.Count);
         for (var i = 0; i < memberList.Count; i++)
@@ -81,6 +85,7 @@ public class CombatService
     // 웨이브를 열 때(B7): 장착 목록이 바뀐 대원만 칸을 새로, 능력치 다시 계산, 산 대원 보호막 = 시작 보호막, 시계 0
     public void PrepareWave()
     {
+        _eventBus?.Publish(new GameEvent.MemberVisualResetEvent { MemberIndex = -1 });
         var memberList = _partyModel.MemberList;
         for (var i = 0; i < memberList.Count; i++)
         {
@@ -117,6 +122,7 @@ public class CombatService
     // 무료 부활의 상태 초기화(기획서 E절). 조건 확인은 ReviveService가 한다
     public void ReviveMember(int memberIndex)
     {
+        _eventBus?.Publish(new GameEvent.MemberVisualResetEvent { MemberIndex = memberIndex });
         var member = _partyModel.MemberList[memberIndex];
         var state = _combatModel.MemberStateList[memberIndex];
         member.Hp = member.MaxHp;
@@ -133,6 +139,7 @@ public class CombatService
     // 한 걸음(RunService.Step ④): 나눔 제공자 → 대원 순서대로 지속 효과·발동 → 투사체 이동·명중 → 고리 시간
     public void Step(float deltaSeconds)
     {
+        _visualStep++;
         RefreshShareProviders();
         var memberList = _partyModel.MemberList;
         for (var i = 0; i < memberList.Count; i++)
@@ -148,12 +155,18 @@ public class CombatService
 
             if (state.AttackMotion.Advance(deltaSeconds))
             {
+                var hit = new DQHitRecord(state.AttackMotion.AttackId, _visualStep, state.AttackMotion.Facing);
+                var hadActions = state.PendingActionList.Count > 0;
                 foreach (var action in state.PendingActionList)
                 {
                     ResolveAction(member, action);
                 }
 
                 state.PendingActionList.Clear();
+                if (hadActions)
+                {
+                    _eventBus?.Publish(new GameEvent.MemberAttackHitEvent { MemberIndex = i, Hit = hit });
+                }
             }
 
             foreach (var slot in state.SlotList)

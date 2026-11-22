@@ -3,6 +3,7 @@ using UnityEngine;
 // CombatService 소유 시계. 준비 중 새 무기는 같은 타격에 합류하고, 회복 중 새 발동은 회복만 끊는다.
 public class MemberAttackMotion
 {
+    public long AttackId { get; private set; }
     public float Elapsed
     {
         get; private set;
@@ -25,6 +26,7 @@ public class MemberAttackMotion
 
     public void Start(MemberMotionData data, SpriteFacing facing, float shortestPeriod)
     {
+        AttackId++;
         Facing = facing;
         Elapsed = 0f;
         HasHit = false;
