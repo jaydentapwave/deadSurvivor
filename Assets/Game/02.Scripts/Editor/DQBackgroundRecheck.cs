@@ -90,6 +90,9 @@ public static class DQBackgroundRecheck
         }
         GameObject Make(string name,Mesh mesh,Material material)
         {
+            // Transparent Cull Off surfaces must not contain duplicate reverse faces:
+            // both windings would blend twice, unlike the production water meshes.
+            if(material.shader.name=="DeadSurvivor/DQ/Main water")mesh.triangles=mesh.triangles.Take(6).ToArray();
             var go=new GameObject(name,typeof(MeshFilter),typeof(MeshRenderer)){hideFlags=HideFlags.DontSave,layer=HD2DBackgroundRig.BackgroundLayer};created.Add(go);created.Add(mesh);
             go.GetComponent<MeshFilter>().sharedMesh=mesh;go.GetComponent<MeshRenderer>().sharedMaterial=material;return go;
         }
@@ -168,6 +171,23 @@ public static class DQBackgroundRecheck
             var tb=Render("bridge-horizontal-baseline");horizontalWater.SetActive(true);var tc=Render("bridge-horizontal-cross");
             var tba=tb.GetPixels();var tca=tc.GetPixels();var indices=Enumerable.Range(0,tba.Length).Where(i=>tba[i].maxColorComponent>.1f).ToArray();
             rows.Add(new{slot="bridge-horizontal-cross",bridgeTopHeight=1.2f,waterHeight=1f,bridgeReferenceHeight=.75f,meanRgbDelta=indices.Average(i=>(double)(Mathf.Abs(tba[i].r-tca[i].r)+Mathf.Abs(tba[i].g-tca[i].g)+Mathf.Abs(tba[i].b-tca[i].b)))});
+            // Regression for translucent shore masks: preserve alpha, change only RGB.
+            top.SetActive(false);horizontalWater.SetActive(false);
+            var greenMaterial=new Material(Shader.Find("Universal Render Pipeline/Unlit"));created.Add(greenMaterial);greenMaterial.SetColor("_BaseColor",Color.green);
+            Make("Alpha denominator ground control",Panel(center+forward,right*3,up*3,0),greenMaterial);
+            var greenBaseline=Render("shore-alpha-baseline");
+            var openingTexture=new Texture2D(1,1,TextureFormat.RGBAFloat,false,true);created.Add(openingTexture);
+            waterMaterial.SetTexture("_WaterMask",openingTexture);waterMaterial.SetFloat("_DiagnosticMask",1);water.transform.position=Vector3.zero;water.SetActive(true);
+            foreach(var opening in new[]{.04f,.1f,1f})
+            {
+                openingTexture.SetPixel(0,0,new Color(opening,0,0,1));openingTexture.Apply();
+                var image=Render("shore-alpha-"+opening.ToString("0.00",System.Globalization.CultureInfo.InvariantCulture));
+                var baselineGreen=Mathf.GammaToLinearSpace(greenBaseline.GetPixel(320,240).g);
+                var greenRatio=Mathf.GammaToLinearSpace(image.GetPixel(320,240).g)/baselineGreen;
+                var t=Mathf.Clamp01((opening-.05f)/.35f);var alpha=t*t*(3-2*t)*.78f;
+                var expectedGreen=opening<.05f?1:1-alpha;
+                rows.Add(new{slot="shore-alpha",opening,alpha,greenRatio,expectedGreen,pass=Mathf.Abs(greenRatio-expectedGreen)<.01f});
+            }
             File.WriteAllText(Out+"/gpu-depth.json",JsonConvert.SerializeObject(new{utc=DateTime.UtcNow.ToString("O"),method="Actual production shaders; controlled geometry at nonzero reference height .75; red comparison plane between ref and zero depth; actual sprite shader and production bridge/water material. Diagnostic fixture separate from normal route.",rows},Formatting.Indented));
         }
         finally

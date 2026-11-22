@@ -66,7 +66,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _Category: 0
+    - _Category: 3
     - _Cull: 0
     - _DQBaseHeight: 0
     - _DQModel: 0
@@ -76,7 +76,7 @@ Material:
     - _FlatDepth: 0
     - _LeafDetail: 0
     - _TerrainLightSlope: 1
-    - _WorldTexture: 0
+    - _WorldTexture: 1
     m_Colors:
     - _AlbedoTint: {r: 1, g: 1, b: 1, a: 1}
     - _FieldRect: {r: -36, g: -36, b: 72, a: 72}

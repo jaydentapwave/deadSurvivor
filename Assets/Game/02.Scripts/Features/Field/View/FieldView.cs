@@ -162,6 +162,10 @@ public class FieldView : MonoBehaviour
                 mesh.vertices = vertices;
                 mesh.uv2 = references;
                 mesh.RecalculateNormals();
+                if (bankMaterial != null && bankMaterial.shader.name == "DeadSurvivor/DQ/Main surface")
+                {
+                    BankMeshMath.WeldNormals(mesh);
+                }
                 mesh.RecalculateBounds();
             }
             // Rounded DQ banks use the bank surface on both slots. Its physical normals

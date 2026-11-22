@@ -42,8 +42,9 @@ Shader "DeadSurvivor/DQ/Main water"
                 star*=pow(saturate(sin(_Time.y*2+cell.x)*.5+.5),3);
                 half3 water=half3(.065,.39,.44)+ripple*half3(.015,.045,.05);
                 water=lerp(water,half3(.72,.86,.80),foam);
-                if (_DiagnosticMask>.5) return half4(0,0,0,1);
-                return half4(water+star*1.6,smoothstep(.05,.4,opening)*.78);
+                float alpha=smoothstep(.05,.4,opening)*.78;
+                if (_DiagnosticMask>.5) return half4(0,0,0,alpha);
+                return half4(water+star*1.6,alpha);
             }
             ENDHLSL
         }

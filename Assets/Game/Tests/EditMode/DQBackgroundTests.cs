@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -85,6 +86,34 @@ public class DQBackgroundTests
             foreach(var index in side) Assert.That(vertices[index].y,Is.EqualTo(0).Within(.0001f),"No exposed vertical wall");
         }
         finally {UnityEngine.Object.DestroyImmediate(mesh);}
+    }
+
+    [Test]
+    public void NonflatLandscapeKeepsCoincidentBankNormalsEqualAfterTerrainWarp()
+    {
+        var root=new GameObject("Nonflat bank integration");
+        var field=root.AddComponent<FieldView>();
+        var tiles=new GameObject("tiles",typeof(Tilemap),typeof(TilemapRenderer));tiles.transform.SetParent(root.transform);
+        var surface=new Material(Shader.Find("DeadSurvivor/DQ/Main surface"));
+        try
+        {
+            Set(field,"tilemap",tiles.GetComponent<Tilemap>());
+            foreach(var name in new[]{"groundMaterial","bankMaterial","cardMaterial","footShadowMaterial","woodMaterial","bridgeMaterial","tentMaterial","ditherSpriteMaterial","ditherWoodMaterial","ditherTentMaterial","flagMaterial","ditherFlagMaterial","waterMaterial"})Set(field,name,surface);
+            var heights=Enumerable.Range(0,49).Select(i=>i%7*100).ToArray();
+            var grid=TerrainHeightGrid.FromMillimetres(1,-3,-3,7,7,heights);
+            field.BuildLandscape(new FieldLayoutData{groundHalfDiagonal=2,banks=new[]{new FieldBankLayout{cell=.25f,height=.4f,seed=8,rectangles=new[]{new Rect(-2,-2,4,4)}}},water=Array.Empty<FieldWaterLayout>()},grid);
+            var mesh=root.GetComponentsInChildren<MeshFilter>().Single(f=>f.name=="bank").sharedMesh;
+            var vertices=mesh.vertices;var normals=mesh.normals;
+            var groups=vertices.Select((v,i)=>new{v,i}).GroupBy(p=>p.v).Where(g=>g.Count()>1).ToArray();
+            Assert.That(groups.Length,Is.GreaterThan(0));
+            foreach(var group in groups)
+            {
+                var reference=normals[group.First().i];
+                foreach(var item in group)Assert.That(Vector3.Distance(reference,normals[item.i]),Is.LessThan(.00001f),"Final warped bank seam at "+group.Key);
+            }
+            Assert.That(normals.Distinct().Count(),Is.GreaterThan(3),"Keep the curved profile and terrain gradient");
+        }
+        finally{UnityEngine.Object.DestroyImmediate(root);UnityEngine.Object.DestroyImmediate(surface);}
     }
 
     private static void Set(FieldView field, string name, object value)

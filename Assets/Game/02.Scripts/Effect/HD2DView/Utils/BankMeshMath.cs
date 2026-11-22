@@ -126,12 +126,19 @@ public static class BankMeshMath
         }
         mesh.vertices = vertices;
         mesh.RecalculateNormals();
+        WeldNormals(mesh);
+        mesh.RecalculateBounds();
+    }
+
+    // Call AFTER the last height deformation, not just after the decorative taper.
+    public static void WeldNormals(Mesh mesh)
+    {
+        var vertices=mesh.vertices;
         var normals=mesh.normals;
         var sums=new Dictionary<Vector3,Vector3>();
         for(var i=0;i<vertices.Length;i++) sums[vertices[i]]=sums.TryGetValue(vertices[i],out var sum)?sum+normals[i]:normals[i];
         for(var i=0;i<vertices.Length;i++) normals[i]=sums[vertices[i]].normalized;
         mesh.normals=normals;
-        mesh.RecalculateBounds();
     }
 
     private static Mesh Build(HashSet<Vector2Int> cellSet, float step, float height)

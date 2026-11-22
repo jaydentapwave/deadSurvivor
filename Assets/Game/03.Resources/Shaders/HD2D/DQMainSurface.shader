@@ -129,6 +129,7 @@ Shader "DeadSurvivor/DQ/Main surface"
             c=lerp(c,soil,smoothstep(.05,.95,path));
             if (_Category>2.5 && _Category<3.5)
             {
+                if (_WorldTexture>.5) soil=SAMPLE_TEXTURE2D(_Dirt,sampler_Dirt,float2(i.w.x+i.w.z,i.w.y)/3).rgb;
                 c=lerp(soil*.60,grass,smoothstep(.35,.80,i.n.y));
             }
             else if (_Category>3.5 && _Category<4.5)

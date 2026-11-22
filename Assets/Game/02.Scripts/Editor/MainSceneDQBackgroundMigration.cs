@@ -495,12 +495,14 @@ public static class MainSceneDQBackgroundMigration
 
     private static float NorthHeight(float t, float offset)
     {
-        // A broad smooth rise with an irregular ridge, rather than a .5m ramp/flat
-        // shelf. Entirely outside the shared gameplay diamond; no height-pad changes.
-        var crestOffset = 3.5f + 2.5f * Mathf.PerlinNoise(t * 7, 13);
-        var crest = 1.6f + 1.25f * Mathf.PerlinNoise(t * 8, 5);
-        if (offset < crestOffset) return crest * Mathf.SmoothStep(0, 1, offset / crestOffset);
-        return crest * (1 - Mathf.SmoothStep(0, 1, (offset - crestOffset) / (20 - crestOffset)));
+        // The approved .5..3m belt stays >=1.5m above the existing terrain.
+        // A varying rounded crown replaces the straight constant-height shelf;
+        // the narrow front connection and broad rear connection have zero end slope.
+        float Crown(float distance) => 1.5f + .35f * Mathf.Clamp01(Mathf.PerlinNoise(t * 9, 5 + .65f * Mathf.SmoothStep(0, 1, Mathf.Clamp01((distance - .5f) / 2.5f))));
+        if (offset < .5f) return Crown(.5f) * Mathf.SmoothStep(0, 1, Mathf.Clamp01(offset / .5f));
+        if (offset <= 3) return Crown(offset);
+        var u = Mathf.Clamp01((offset - 3) / 17);
+        return Crown(3) * (1 - Mathf.SmoothStep(0, 1, u));
     }
 
     private static void BuildOuterBackground(Material ground, FieldModelCatalog catalog, TerrainHeightGrid grid)
@@ -554,7 +556,8 @@ public static class MainSceneDQBackgroundMigration
         hill.transform.SetParent(root.transform, false);
         hill.layer = HD2DBackgroundRig.BackgroundLayer;
         hill.GetComponent<MeshFilter>().sharedMesh = Save(hillMesh, "NorthHills.asset");
-        var farGround = Surface("FarGround", ground, 0, "Soil");
+        var farGround = Surface("FarGround", ground, 3, "Soil");
+        farGround.SetFloat("_WorldTexture", 1);
         farGround.SetFloat("_TerrainLightSlope", 1);
         farGround.SetTexture("_PathMask", Texture2D.blackTexture);
         farGround.SetTexture("_WaterMask", Texture2D.blackTexture);
@@ -572,7 +575,9 @@ public static class MainSceneDQBackgroundMigration
             tree.name = "Far forest " + i;
             tree.transform.SetParent(root.transform, false);
             tree.transform.position = new Vector3(p.x, TerrainHeightMath.Sample(grid, p.x, p.y) + NorthHeight(t, offset), p.y);
-            tree.transform.localScale = Vector3.one * ((1.05f + .45f * Mathf.PerlinNoise(i * .31f, 19)) / entry.Bounds.size.y);
+            var treeHeight = 1.05f + .45f * Mathf.PerlinNoise(i * .31f, 19);
+            if (offset <= 3) treeHeight = Mathf.Min(treeHeight, 3 - NorthHeight(t, offset));
+            tree.transform.localScale = Vector3.one * (treeHeight / entry.Bounds.size.y);
             tree.transform.rotation = Quaternion.Euler(0, i * 137, 0);
         }
         // Root positions stay outside .5m; low foliage naturally overhangs the rim.
@@ -589,8 +594,10 @@ public static class MainSceneDQBackgroundMigration
             bush.name = "Far forest understory " + i;
             bush.SetActive(Mathf.PerlinNoise(i * .13f, 9) > .4f);
             bush.transform.SetParent(root.transform, false);
-            bush.transform.position = new Vector3(p.x, TerrainHeightMath.Sample(grid,p.x,p.y) + NorthHeight(t,offset), p.y);
-            bush.transform.localScale = Vector3.one * ((.55f + .3f * Mathf.PerlinNoise(i * .31f,31)) / entry.Bounds.size.y);
+            // Low front foliage overhangs the short transition, rather than being
+            // perched above the crest and exposing a continuous wall underneath.
+            bush.transform.position = new Vector3(p.x, TerrainHeightMath.Sample(grid,p.x,p.y) + .05f, p.y);
+            bush.transform.localScale = Vector3.one * ((1.6f + .25f * Mathf.PerlinNoise(i * .31f,31)) / entry.Bounds.size.y);
             bush.transform.rotation = Quaternion.Euler(0,i*137,0);
         }
     }
