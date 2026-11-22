@@ -1,0 +1,569 @@
+전사 얼굴 기준 r2. 사용자 판정 대기. 원본 heroes-r1/source.txt 보존.
+{
+  "utc": "2026-11-22T01:59:40.452215+00:00",
+  "tool": "Codex built-in image_gen.imagegen only",
+  "paid_external_credits": 0,
+  "reference": {
+    "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bruno_dq_front.png",
+    "sha256": "2e00e881a41a8d3427847f1847db11c4f4032c596da835fe9a8f1ee8e0bcb11d",
+    "input_upscale": "output/hd2d-dq/heroes-r2/style-reference.png"
+  },
+  "postprocess": "alpha >=128; isolated source components <64px removed; pixelize.py dominant-cell crop to fixed height; no-dither 32 hero /24 monster palette with 4 accent colors reserved; facial cells transferred; shared #fbfbfb/#180a12 reserved for face (final <=36 hero, <=32 monster); no median, blur, smoothing",
+  "heroes": {
+    "lena": {
+      "selected_candidate": 1,
+      "recommended_branch": 1,
+      "rounds": 1,
+      "approved": "사용자 판정 대기",
+      "final": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/lena_dq_front.png",
+      "previous_sha256": "3457846e67fb108a4d0be85a3a375427888d0b6ef3adb96efa172f7b6452cb9f",
+      "original_branch2": "output/hd2d-dq/heroes-r2/lena/branch2-original.png",
+      "original_branch2_sha256": "ebcb10d04fbdd63649e9f44f64ef5ea081021b58e4f4a8126514d9250e453c3f",
+      "branch2_outside_changed": 0,
+      "selected_changes": [
+        [
+          34,
+          24
+        ],
+        [
+          35,
+          24
+        ],
+        [
+          36,
+          24
+        ],
+        [
+          37,
+          24
+        ],
+        [
+          38,
+          24
+        ],
+        [
+          39,
+          24
+        ],
+        [
+          40,
+          24
+        ],
+        [
+          42,
+          24
+        ],
+        [
+          43,
+          24
+        ],
+        [
+          35,
+          25
+        ],
+        [
+          36,
+          25
+        ],
+        [
+          37,
+          25
+        ],
+        [
+          38,
+          25
+        ],
+        [
+          39,
+          25
+        ],
+        [
+          40,
+          25
+        ],
+        [
+          41,
+          25
+        ],
+        [
+          42,
+          25
+        ],
+        [
+          43,
+          25
+        ],
+        [
+          35,
+          26
+        ],
+        [
+          36,
+          26
+        ],
+        [
+          37,
+          26
+        ],
+        [
+          41,
+          26
+        ],
+        [
+          42,
+          26
+        ],
+        [
+          43,
+          26
+        ],
+        [
+          35,
+          27
+        ],
+        [
+          36,
+          27
+        ],
+        [
+          41,
+          27
+        ],
+        [
+          42,
+          27
+        ],
+        [
+          34,
+          29
+        ],
+        [
+          43,
+          29
+        ]
+      ],
+      "inputs": [
+        {
+          "path": "output/hd2d-dq/heroes-r2/style-reference.png",
+          "sha256": "54ed74ba7c04bc51882809d3ec5b037a8560fd8b177d44fdffa33db329e7b9d9"
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/lena/front/lena_front.png",
+          "sha256": "d5b59624d31febe35a2736b7901ce6b26276ca3f67768a52adfbc82d0c79e0ab"
+        }
+      ],
+      "prompts": [
+        "output/hd2d-dq/heroes-r2/lena/prompt-A.txt",
+        "output/hd2d-dq/heroes-r2/lena/prompt-B.txt"
+      ],
+      "candidates": [
+        {
+          "number": 1,
+          "prompt": "output/hd2d-dq/heroes-r2/lena/candidates/01-prompt.txt",
+          "generated_sha256": "c837455f40cea56b4650b29bb1d7262b0a0ba5b47e2dcab67eb71c0f06fb717f",
+          "candidate_sha256": "7b269a31cdfe2c8adb30d918acae575e173b8019b3b2530a6697b8abdf280979"
+        },
+        {
+          "number": 2,
+          "prompt": "output/hd2d-dq/heroes-r2/lena/candidates/02-prompt.txt",
+          "generated_sha256": "de4224db505e5b2f5ff07bd6e857d2b18453a5642ba78cf2fa2bd0cfc1892d01",
+          "candidate_sha256": "7cddc3f5ab462b59eba56ffb28e526e3c901dc70610cdaf3c475fb8aa8a6c7e4"
+        },
+        {
+          "number": 3,
+          "prompt": "output/hd2d-dq/heroes-r2/lena/candidates/03-prompt.txt",
+          "generated_sha256": "2012474b3fe86ff1fe9c691a0eaf31681f268b12e3436566888c1f4d5496e270",
+          "candidate_sha256": "f4cf5d2601d1e615690d5eca0d8f72df1cd4472e93679b32276208af8974dc27"
+        },
+        {
+          "number": 4,
+          "prompt": "output/hd2d-dq/heroes-r2/lena/candidates/04-prompt.txt",
+          "generated_sha256": "7a2592e980883fa01a2fa52118cebc3509f09a028125bd12f534c9f675a79803",
+          "candidate_sha256": "a29a827be2e283cacf69d8dcb01a10dc4a868045be79f3e9087edfe3b0f11876"
+        }
+      ]
+    },
+    "mira": {
+      "selected_candidate": 1,
+      "recommended_branch": 1,
+      "rounds": 1,
+      "approved": "사용자 판정 대기",
+      "final": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/mira_dq_front.png",
+      "previous_sha256": "c8a1c6fcc54a4996df163b7a80a90704b0442b899bb98edabf7be3e8cdcc766c",
+      "original_branch2": "output/hd2d-dq/heroes-r2/mira/branch2-original.png",
+      "original_branch2_sha256": "4394e3d9a8dd11e0071e3bd250ae78574f9cf0e78f233aad7241c0543cf2143d",
+      "branch2_outside_changed": 0,
+      "selected_changes": [
+        [
+          34,
+          26
+        ],
+        [
+          35,
+          26
+        ],
+        [
+          36,
+          26
+        ],
+        [
+          37,
+          26
+        ],
+        [
+          38,
+          26
+        ],
+        [
+          41,
+          26
+        ],
+        [
+          42,
+          26
+        ],
+        [
+          43,
+          26
+        ],
+        [
+          34,
+          27
+        ],
+        [
+          35,
+          27
+        ],
+        [
+          36,
+          27
+        ],
+        [
+          37,
+          27
+        ],
+        [
+          40,
+          27
+        ],
+        [
+          41,
+          27
+        ],
+        [
+          42,
+          27
+        ],
+        [
+          34,
+          28
+        ],
+        [
+          35,
+          28
+        ],
+        [
+          36,
+          28
+        ],
+        [
+          37,
+          28
+        ],
+        [
+          40,
+          28
+        ],
+        [
+          41,
+          28
+        ],
+        [
+          42,
+          28
+        ],
+        [
+          43,
+          28
+        ],
+        [
+          34,
+          29
+        ],
+        [
+          35,
+          29
+        ],
+        [
+          36,
+          29
+        ],
+        [
+          41,
+          29
+        ],
+        [
+          42,
+          29
+        ],
+        [
+          43,
+          29
+        ],
+        [
+          42,
+          30
+        ],
+        [
+          43,
+          30
+        ],
+        [
+          42,
+          31
+        ],
+        [
+          43,
+          31
+        ]
+      ],
+      "inputs": [
+        {
+          "path": "output/hd2d-dq/heroes-r2/style-reference.png",
+          "sha256": "54ed74ba7c04bc51882809d3ec5b037a8560fd8b177d44fdffa33db329e7b9d9"
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/mira/front/mira_front.png",
+          "sha256": "c492c97619ea6092bfa00e6e9a5834cf08bb602c48c6c2349b167a415c0ce1ae"
+        }
+      ],
+      "prompts": [
+        "output/hd2d-dq/heroes-r2/mira/prompt-A.txt",
+        "output/hd2d-dq/heroes-r2/mira/prompt-B.txt"
+      ],
+      "candidates": [
+        {
+          "number": 1,
+          "prompt": "output/hd2d-dq/heroes-r2/mira/candidates/01-prompt.txt",
+          "generated_sha256": "0abfb23656e2fcec1173f2de72792398c65bedb6aefaafe9661c42e71ce15967",
+          "candidate_sha256": "98dc9d8e805ba84cfc47ddf50eec9c69524edffc218d18a9bd660ab65eaddf48"
+        },
+        {
+          "number": 2,
+          "prompt": "output/hd2d-dq/heroes-r2/mira/candidates/02-prompt.txt",
+          "generated_sha256": "630f6e5924a413ed8c4f0d2b90fc7dedba4e19aec15f7a7fedf413fae9f4684a",
+          "candidate_sha256": "f6a0fb44dbd14ce435fa502c00289d15b9f2ce85e9b73d9672f21546c3e8b871"
+        },
+        {
+          "number": 3,
+          "prompt": "output/hd2d-dq/heroes-r2/mira/candidates/03-prompt.txt",
+          "generated_sha256": "810e44d8fda3e07bd019a8000c424f63e350338c910afc8dd86478712c00334b",
+          "candidate_sha256": "ef5bd4e44b1f0fbbad6b65160d84a4925b7a78359392543fa3febcec8e61500c"
+        },
+        {
+          "number": 4,
+          "prompt": "output/hd2d-dq/heroes-r2/mira/candidates/04-prompt.txt",
+          "generated_sha256": "2d38c7e39303fdb567392dbaac985226fbfb8699f7f43f217b86761066e4e346",
+          "candidate_sha256": "6917bc1527eadfd314ce5c9919447a2d47e50f1e5d051d12a110c69fa2b991a3"
+        }
+      ]
+    },
+    "bolt": {
+      "selected_candidate": 4,
+      "recommended_branch": 1,
+      "rounds": 1,
+      "approved": "사용자 판정 대기",
+      "final": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bolt_dq_front.png",
+      "previous_sha256": "28755384ec7e8e86a657277c380f33bd0077029fb2b45fa83273616898dc9bf8",
+      "original_branch2": "output/hd2d-dq/heroes-r2/bolt/branch2-original.png",
+      "original_branch2_sha256": "e8d6dc05d47d097606bed222241bbb2b6e28e4a660bd5610d5b3e6ae0a9c3df7",
+      "branch2_outside_changed": 0,
+      "selected_changes": [
+        [
+          35,
+          25
+        ],
+        [
+          36,
+          25
+        ],
+        [
+          37,
+          25
+        ],
+        [
+          38,
+          25
+        ],
+        [
+          39,
+          25
+        ],
+        [
+          42,
+          25
+        ],
+        [
+          43,
+          25
+        ],
+        [
+          44,
+          25
+        ],
+        [
+          35,
+          26
+        ],
+        [
+          36,
+          26
+        ],
+        [
+          37,
+          26
+        ],
+        [
+          38,
+          26
+        ],
+        [
+          41,
+          26
+        ],
+        [
+          42,
+          26
+        ],
+        [
+          43,
+          26
+        ],
+        [
+          44,
+          26
+        ],
+        [
+          35,
+          27
+        ],
+        [
+          36,
+          27
+        ],
+        [
+          37,
+          27
+        ],
+        [
+          38,
+          27
+        ],
+        [
+          42,
+          27
+        ],
+        [
+          43,
+          27
+        ],
+        [
+          44,
+          27
+        ],
+        [
+          35,
+          28
+        ],
+        [
+          36,
+          28
+        ],
+        [
+          37,
+          28
+        ],
+        [
+          42,
+          28
+        ],
+        [
+          43,
+          28
+        ],
+        [
+          44,
+          28
+        ],
+        [
+          35,
+          29
+        ],
+        [
+          44,
+          29
+        ],
+        [
+          35,
+          30
+        ],
+        [
+          36,
+          30
+        ],
+        [
+          37,
+          30
+        ],
+        [
+          43,
+          30
+        ],
+        [
+          44,
+          30
+        ]
+      ],
+      "inputs": [
+        {
+          "path": "output/hd2d-dq/heroes-r2/style-reference.png",
+          "sha256": "54ed74ba7c04bc51882809d3ec5b037a8560fd8b177d44fdffa33db329e7b9d9"
+        },
+        {
+          "path": "Assets/Game/03.Resources/Art/AIGenerated/Characters/bolt/front/bolt_front.png",
+          "sha256": "1bf294037b5cd5661b8f05c3d8d68c5325d7f049ae610ae82546bc20151d3e37"
+        }
+      ],
+      "prompts": [
+        "output/hd2d-dq/heroes-r2/bolt/prompt-A.txt",
+        "output/hd2d-dq/heroes-r2/bolt/prompt-B.txt"
+      ],
+      "candidates": [
+        {
+          "number": 1,
+          "prompt": "output/hd2d-dq/heroes-r2/bolt/candidates/01-prompt.txt",
+          "generated_sha256": "eab06bd008272d5ef323a61095cc69324fd5202247f4650fe0465871fce36a7e",
+          "candidate_sha256": "1ce28d5f5a63549f8334b476a86a98f4ceea748c2e7908ad3db13bc5713a5b55"
+        },
+        {
+          "number": 2,
+          "prompt": "output/hd2d-dq/heroes-r2/bolt/candidates/02-prompt.txt",
+          "generated_sha256": "d57a5fe1353e952331d64765af2001fbf61bdcafa7a7a1c2d9eecc24cc28b7df",
+          "candidate_sha256": "81748e430cd335f2f22256de5a3abc7de6b29503e57a95cdf427585771ed34c5"
+        },
+        {
+          "number": 3,
+          "prompt": "output/hd2d-dq/heroes-r2/bolt/candidates/03-prompt.txt",
+          "generated_sha256": "72f5e784b6ea2a077c2cbb5722aa984ef4a5418c11a9b19726260c8315de106a",
+          "candidate_sha256": "01e67c120a27f1d4a352371a04a92683ec6a49cc0a6f9300b7259444a4e98269"
+        },
+        {
+          "number": 4,
+          "prompt": "output/hd2d-dq/heroes-r2/bolt/candidates/04-prompt.txt",
+          "generated_sha256": "1687bc9da004e69a69345ec987b2b5cb7c87c0a267ed80531e52b5d76cc60679",
+          "candidate_sha256": "ffaba000938ca9ebec0de1f1cd46ccd34682b8c93ccfd7267ea8330eb54d098e"
+        }
+      ]
+    }
+  }
+}

@@ -107,6 +107,7 @@ public static class DQCandidateComparison
     public static void Select(string id)
     {
         RequireEditMode();
+        DQHeroesTrial.HideMonsters();
         AssertCamera();
         if (!new[] { "c04", "c08", "lineup" }.Contains(id))
         {

@@ -81,6 +81,7 @@ public static class DQCharacterTrial
     public static void Select(string id)
     {
         RequireEditMode();
+        DQHeroesTrial.HideMonsters();
         if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().path != DQLookdevBuilder.Scene)
         {
             throw new InvalidOperationException("Open the DQ trial scene first.");

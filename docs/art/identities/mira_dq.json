@@ -2,13 +2,13 @@
   "schema": "2d-identity/1",
   "id": "mira_dq",
   "ref": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/mira_dq_front.png",
-  "ref_sha256": "c8a1c6fcc54a4996df163b7a80a90704b0442b899bb98edabf7be3e8cdcc766c",
+  "ref_sha256": "98dc9d8e805ba84cfc47ddf50eec9c69524edffc218d18a9bd660ab65eaddf48",
   "approved": "2026-11-22 — 사용자 판정 대기",
   "width_part": "head",
   "outline_exclude": [],
   "parts": {
     "head": {
-      "hex": "#263293",
+      "hex": "#2c3279",
       "lab_tol": 6,
       "box_rel": [
         0,
@@ -18,7 +18,7 @@
       ]
     },
     "skin": {
-      "hex": "#fdd3a6",
+      "hex": "#fdd599",
       "lab_tol": 6,
       "box_rel": [
         0.35,
@@ -28,7 +28,7 @@
       ]
     },
     "cloth": {
-      "hex": "#263293",
+      "hex": "#2c3279",
       "lab_tol": 6,
       "box_rel": [
         0.2,
@@ -38,7 +38,7 @@
       ]
     },
     "equipment": {
-      "hex": "#653534",
+      "hex": "#b05f25",
       "lab_tol": 6,
       "box_rel": [
         0.77,
@@ -48,7 +48,7 @@
       ]
     },
     "boots": {
-      "hex": "#653534",
+      "hex": "#542c2d",
       "lab_tol": 6,
       "box_rel": [
         0.2,
@@ -58,5 +58,5 @@
       ]
     }
   },
-  "note": "대원 새 정면 3/4. 72x72, 키56, PPU48, 발(36,64). 자기 기준 compare PASS는 부위 등록 확인이며 사용자 채택/그림체 판정이 아님."
+  "note": "heroes-r2 전사 얼굴 2x2 핵심 무늬, 눈썹/입/코/유색 홍채 없음. 정면 시안·사용자 판정 대기. 자기 기준 compare는 부위 등록 확인이며 그림체 채택 판정이 아님."
 }

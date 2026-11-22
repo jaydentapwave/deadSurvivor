@@ -2,13 +2,13 @@
   "schema": "2d-identity/1",
   "id": "bolt_dq",
   "ref": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/bolt_dq_front.png",
-  "ref_sha256": "28755384ec7e8e86a657277c380f33bd0077029fb2b45fa83273616898dc9bf8",
+  "ref_sha256": "ffaba000938ca9ebec0de1f1cd46ccd34682b8c93ccfd7267ea8330eb54d098e",
   "approved": "2026-11-22 — 사용자 판정 대기",
   "width_part": "head",
   "outline_exclude": [],
   "parts": {
     "head": {
-      "hex": "#fdfaee",
+      "hex": "#fdf8ed",
       "lab_tol": 6,
       "box_rel": [
         0,
@@ -18,7 +18,7 @@
       ]
     },
     "skin": {
-      "hex": "#facca6",
+      "hex": "#f2c9a7",
       "lab_tol": 6,
       "box_rel": [
         0.35,
@@ -28,7 +28,7 @@
       ]
     },
     "cloth": {
-      "hex": "#fdfaee",
+      "hex": "#fdf8ed",
       "lab_tol": 6,
       "box_rel": [
         0.2,
@@ -38,7 +38,7 @@
       ]
     },
     "equipment": {
-      "hex": "#86371d",
+      "hex": "#88371f",
       "lab_tol": 6,
       "box_rel": [
         0,
@@ -48,7 +48,7 @@
       ]
     },
     "boots": {
-      "hex": "#86371d",
+      "hex": "#88371f",
       "lab_tol": 6,
       "box_rel": [
         0.2,
@@ -58,5 +58,5 @@
       ]
     }
   },
-  "note": "대원 새 정면 3/4. 72x72, 키56, PPU48, 발(36,64). 자기 기준 compare PASS는 부위 등록 확인이며 사용자 채택/그림체 판정이 아님."
+  "note": "heroes-r2 전사 얼굴 2x2 핵심 무늬, 눈썹/입/코/유색 홍채 없음. 정면 시안·사용자 판정 대기. 자기 기준 compare는 부위 등록 확인이며 그림체 채택 판정이 아님."
 }

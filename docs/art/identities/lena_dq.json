@@ -2,13 +2,13 @@
   "schema": "2d-identity/1",
   "id": "lena_dq",
   "ref": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Characters/lena_dq_front.png",
-  "ref_sha256": "3457846e67fb108a4d0be85a3a375427888d0b6ef3adb96efa172f7b6452cb9f",
+  "ref_sha256": "7b269a31cdfe2c8adb30d918acae575e173b8019b3b2530a6697b8abdf280979",
   "approved": "2026-11-22 — 사용자 판정 대기",
   "width_part": "head",
   "outline_exclude": [],
   "parts": {
     "head": {
-      "hex": "#416627",
+      "hex": "#405927",
       "lab_tol": 6,
       "box_rel": [
         0,
@@ -18,7 +18,7 @@
       ]
     },
     "skin": {
-      "hex": "#facc9d",
+      "hex": "#fcd3a3",
       "lab_tol": 6,
       "box_rel": [
         0.35,
@@ -28,7 +28,7 @@
       ]
     },
     "cloth": {
-      "hex": "#416627",
+      "hex": "#405927",
       "lab_tol": 6,
       "box_rel": [
         0,
@@ -38,7 +38,7 @@
       ]
     },
     "equipment": {
-      "hex": "#b1bdd9",
+      "hex": "#cdd4e5",
       "lab_tol": 6,
       "box_rel": [
         0.52,
@@ -48,7 +48,7 @@
       ]
     },
     "boots": {
-      "hex": "#8c3c22",
+      "hex": "#833421",
       "lab_tol": 6,
       "box_rel": [
         0.2,
@@ -58,5 +58,5 @@
       ]
     }
   },
-  "note": "대원 새 정면 3/4. 72x72, 키56, PPU48, 발(36,64). 자기 기준 compare PASS는 부위 등록 확인이며 사용자 채택/그림체 판정이 아님."
+  "note": "heroes-r2 전사 얼굴 2x2 핵심 무늬, 눈썹/입/코/유색 홍채 없음. 정면 시안·사용자 판정 대기. 자기 기준 compare는 부위 등록 확인이며 그림체 채택 판정이 아님."
 }
