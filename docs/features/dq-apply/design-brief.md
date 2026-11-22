@@ -337,3 +337,5 @@ F-01~F-05는 확인된 런타임 결함이 아니다. 추가 검사 후보는 �
 - `appearance-observed.json`은 게임 상태 변경 없는 실제 Editor update 관측131개, 경과0→0.3000366초와 shader `_Appearance`0→1이 일치한다. 첫 관측~완료 실시간차0.2805초. 북쪽 가림 숲/능선은 아직 없다(6단계).
 - 추가 미실행: near-plane 교차 가림 실제 프레임, 사망/부활 가림 복구 전용 프레임, 최대 흔들림 스폰, 피격 몸/HP 동시 프레임, 이행 중간 실패 주입. 단위 시험·기본 한 판으로 이 전용 반례까지 모두 PASS라 하지 않는다. 마감 리뷰에 이 한계를 넘긴다.
 - 네이티브 Play/TMP가 자동 직렬화한 비대상 font/material은 원래HEAD로 복원했고 변경에 포함하지 않는다. ProjectSettings 배경 실행 임시 override는 runner가 종료 시 복원했다. Editor auto tick은 시작 시 이미 enabled,이 실행에서 interval16ms로 갱신되었으며 이전 interval을 확보하지 못해 완전 복원이라 보고하지 않는다. Play stopped/backgroundfalse로 종료한다.
+
+- 마지막 가림 보완: near 평면을 통과하는 AABB는 남은8꼭짓점뿐 아니라12변의 near 교차점까지 투영한다. clip 앞 생존꼭짓점만 쓰던 경우보다 가림 범위를 작게 잡는 결함을 수정했다. 뒤쪽 전체 bounds는 빈 rect. 회귀시험 추가 후 `editmode-near-final.json`90/90 PASS, `recompile-near-status.json`errors0. 기본8단계/캡처는 이 마지막 근평면 교차 계산 보완 직전 수집이며, 게임 입력·규칙·일반 앞쪽 bounds 경로는 그 뒤 바뀌지 않았다. 과거89/89를현재90으로덮어쓰지않고둘다보존한다.
