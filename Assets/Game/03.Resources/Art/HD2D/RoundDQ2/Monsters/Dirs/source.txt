@@ -1,0 +1,1180 @@
+몬스터 새 방향15장·상태8장. 정면5장·기존 AIGenerated·identity 보존. 본 게임/Unity 장면 미적용.
+{
+  "utc": "2026-11-22T03:24:03.272087+00:00",
+  "tool": "Codex built-in image_gen.imagegen",
+  "model": "not exposed by built-in tool",
+  "generation_calls": 68,
+  "settings": "2 settings x2 per direction,15 directions",
+  "state_generation_calls": 0,
+  "state_method": "four deterministic base-pixel variations per state; explicit user permission for pixel edits",
+  "Tripo_calls": 0,
+  "Aether_calls": 0,
+  "original_DQ_reference_inputs": 0,
+  "front_approval": "사용자2026-11-22 정면 채택. 새 방향·상태는 제작자 추천, 독립 판독·사용자 채택 미판정.",
+  "input_sha256": {
+    "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/slime_dq_front.png": "d41f197b8d557796f46874cec9298ee189bd49e8412d7a64082f300124420e4f",
+    "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/slime_dq_front.png.meta": "36d174caa6478b77ea301b9b2b6b71d513b3a9eb6b9503db3e4967f81008e205",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/slime_down.png": "065e1ccaaea3217d470e2c6202a2a52528d2256486342bfc427bb853bc4b8ecb",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/slime_right.png": "4cfa31e462216800d836e21f14133c3d4b5f318de7dc3a6752724ef8572c6974",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/slime_upright.png": "d6cba9cb96b8c7630e60c8e5ad803e9f4f88d9894cef622c2a5f62fd02a5ccc9",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/slime_up.png": "d6cba9cb96b8c7630e60c8e5ad803e9f4f88d9894cef622c2a5f62fd02a5ccc9",
+    "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/mushroom_dq_front.png": "dae583667477965e4245516bde364b666be3cb910eb1b3c1784e918ec1ac05d5",
+    "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/mushroom_dq_front.png.meta": "3a5a2f5cce83f424c5868291dee9887090c73e6f79c8fb91ac96e84cccff12d9",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/mushroom_down.png": "3029902ae8ff130386a53bc2623f7d5b276777473938e9ad52881449ba2adeae",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/mushroom_right.png": "b1301dd98d1431023ad1de9e14c38ed8b99dfdfebe9abf93643468f7e3256231",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/mushroom_upright.png": "91b9c7ec7edcae899d38d5dd1f06c4e2c8503f8d4bd9202c3959332dc58e14de",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/mushroom_up.png": "91b9c7ec7edcae899d38d5dd1f06c4e2c8503f8d4bd9202c3959332dc58e14de",
+    "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/rock_dq_front.png": "0a8df67d0a7c3aa99c1f7540e0309d9221548730caa77993630d624d973ac1bb",
+    "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/rock_dq_front.png.meta": "4596b3b94a7d15cf80065111f1af368d9623a79f649c90f3fca6758e523ff74b",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/rock_down.png": "1c7ab0c43b0c8dacc71e8cd65c76dd4ad147ea0b5459b9ea92375f435843d4f4",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/rock_right.png": "7bf7f9a50bb1f1f5be3e06faceeb38e0989e88f0a0618e7a6c2105feb7cf4f0b",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/rock_upright.png": "cf1c031a8ba60f4730c75f18b0ec4cf8a4d07852a62e980142ca9e84b6bed689",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/rock_up.png": "cf1c031a8ba60f4730c75f18b0ec4cf8a4d07852a62e980142ca9e84b6bed689",
+    "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_dq_front.png": "728b059287105158b4978e7bffef44fa01c9aca77cbc08a40d8a6bd67212dd49",
+    "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_dq_front.png.meta": "0b8585bee5bab24132b17dbc898f8ee7271da9cd099d70ff0df78fe2a6b1fcf2",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/boar_down.png": "2cc63b66c2c38cb6c3d08584b5936319fa78f744bf0d22b0d709d2926b1ad35a",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/boar_right.png": "3ff888bd140c4e6c82af3816927d46f3cea87ad5b4a833cf472c284c60df10d0",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/boar_upright.png": "ceaef1c3a7dadae9f3807e134deafd5f84deefdcc163dd3a580f03a0f60703b3",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/boar_up.png": "76c80513d7ef1124bc6cc540760ed691ee77ed462c2c1d1fbeb1a1d638391391",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/boar_telegraph_down.png": "c243f6fae0debb28bb1245b1eb1d3480188bc12143ff4a94e4fec255967d918c",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/boar_telegraph_right.png": "0d143b752990de1f16c812fadaef60c9ad3f0f49cdbae938c2232dc4d47ef51d",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/boar_telegraph_upright.png": "8478a3b0f9b1ffdb197177f68a38af82945a7cdcf85cfd9f2d816642323fd243",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/boar_telegraph_up.png": "5d72c9313c9932c04264e89731ebb1a50a48a2426e531213d772ba5e584d32f3",
+    "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_dq_front.png": "f0263ff397faef06edde9afa24d624ef377b8398478c457410898800f5d2755e",
+    "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_dq_front.png.meta": "23d46409029da7842dbf64ad189d8c5f9546a6035c9806c1a790f30ccab3f705",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/puffer_down.png": "532a47f6a610f1f8690a9db875c8225f446d3fbe00ad95254dc69080b50a0dee",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/puffer_right.png": "79598d3a6ec4cfec8a2106f7f464129a9b3b69015d0b2d18bd6d3ae3b7a57fd7",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/puffer_upright.png": "d8799e1aa9ce9fd864423e12d151ee5bc6e2613e14797ba1a3da14579a740d78",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/puffer_up.png": "fc4102207f43d47172e5eb0d1a9a8608a289d5d082d4dda3f7d0eec6515ed59b",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/puffer_inflate_down.png": "63a45a70679e9b99711a42a4351b129cd69101cd7b4ec478c28ba89567f76433",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/puffer_inflate_right.png": "1342763b6b79031470ea84749369488056bfe6546bb93d0732f40e5314678bca",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/puffer_inflate_upright.png": "1f7ddf0f4c309de1e77efbbab2d6c0b019ab1275edf689c10648efd2f92ae401",
+    "Assets/Game/03.Resources/Art/AIGenerated/Monsters/HD2D8/puffer_inflate_up.png": "92922172a620223871247b24e6ec57023e0ec0d3d375b5e2aee583cb1666f576"
+  },
+  "prompts": "output/hd2d-dq/dirs-monsters/generation-plan.json",
+  "first_prompt_exception": "output/hd2d-dq/dirs-monsters/first-prompt.txt",
+  "reduction": "source alpha>=128; pixelize.py grid before reduction; grid PASS candidates only; no-dither exact adopted front palette; dominant-cell reduction; no blur or median; profile 2x2 eye cells copied from own adopted front",
+  "assets": {
+    "slime_right": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/slime_dq_right.png",
+      "sha256": "3380c7a2e091f30ba80d17432e8ac1455889ce5c6b248069d2a5f928f32068e2",
+      "candidate": 1,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 24,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 65.89385909438926,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/slime_dq_right.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/slime_dq_right.png",
+      "target_height": 24,
+      "bbox": [
+        18,
+        40,
+        46,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "purple": 0.95096,
+        "neutral": 0.04904
+      },
+      "front_color_family_fractions": {
+        "purple": 0.95635,
+        "neutral": 0.04365
+      },
+      "family_difference": {
+        "purple": -0.00539,
+        "neutral": 0.00539
+      },
+      "L_min": 4.109483244317705,
+      "L_max": 98.98901429177688,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "slime_upright": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/slime_dq_upright.png",
+      "sha256": "4fc232d2875a3699fe21082f434b4c05fbe4de5e85ae9e32dffda638baf0c2c6",
+      "candidate": 4,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 24,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 69.05295307766102,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/slime_dq_upright.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/slime_dq_upright.png",
+      "target_height": 24,
+      "bbox": [
+        18,
+        40,
+        47,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "purple": 0.94939,
+        "neutral": 0.05061
+      },
+      "front_color_family_fractions": {
+        "purple": 0.95635,
+        "neutral": 0.04365
+      },
+      "family_difference": {
+        "purple": -0.00696,
+        "neutral": 0.00696
+      },
+      "L_min": 6.270569378605945,
+      "L_max": 98.61813872854867,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "slime_up": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/slime_dq_up.png",
+      "sha256": "db474fb7190e295f2d3a2bf6c713e8a94b68a7066e395704396d74669c50cb05",
+      "candidate": 1,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 24,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 69.05295307766102,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/slime_dq_up.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/slime_dq_up.png",
+      "target_height": 24,
+      "bbox": [
+        18,
+        40,
+        48,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "purple": 0.95181,
+        "neutral": 0.04819
+      },
+      "front_color_family_fractions": {
+        "purple": 0.95635,
+        "neutral": 0.04365
+      },
+      "family_difference": {
+        "purple": -0.00454,
+        "neutral": 0.00454
+      },
+      "L_min": 6.270569378605945,
+      "L_max": 98.98901429177688,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "mushroom_right": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/mushroom_dq_right.png",
+      "sha256": "b599864dc9248ae60179c5b914406b9f1184acd292fda67f23396b140d4db38c",
+      "candidate": 1,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 34,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 52.518441133402554,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/mushroom_dq_right.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/mushroom_dq_right.png",
+      "target_height": 34,
+      "bbox": [
+        20,
+        30,
+        46,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "red": 0.70093,
+        "orange-brown": 0.23925,
+        "neutral": 0.05981
+      },
+      "front_color_family_fractions": {
+        "red": 0.69463,
+        "orange-brown": 0.26474,
+        "neutral": 0.04063
+      },
+      "family_difference": {
+        "neutral": 0.01918,
+        "red": 0.0063,
+        "orange-brown": -0.02549
+      },
+      "L_min": 11.20551701657612,
+      "L_max": 98.296681499149,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "mushroom_upright": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/mushroom_dq_upright.png",
+      "sha256": "4143b96ae583db48df27ab0e44a129777babf63b7c02b847a4bb879c17989a4a",
+      "candidate": 1,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 34,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 52.518441133402554,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/mushroom_dq_upright.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/mushroom_dq_upright.png",
+      "target_height": 34,
+      "bbox": [
+        18,
+        30,
+        48,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "red": 0.65994,
+        "orange-brown": 0.29348,
+        "neutral": 0.04658
+      },
+      "front_color_family_fractions": {
+        "red": 0.69463,
+        "orange-brown": 0.26474,
+        "neutral": 0.04063
+      },
+      "family_difference": {
+        "neutral": 0.00595,
+        "red": -0.03469,
+        "orange-brown": 0.02874
+      },
+      "L_min": 7.91227471974031,
+      "L_max": 98.296681499149,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "rock_right": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/rock_dq_right.png",
+      "sha256": "e6c4f0a04df12870f0eaa9d4197df661bb5a4ade4bd2d743c104dde66fe82b35",
+      "candidate": 1,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 51,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 51.50884729348395,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/rock_dq_right.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/rock_dq_right.png",
+      "target_height": 51,
+      "bbox": [
+        12,
+        13,
+        53,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "purple": 0.00071,
+        "red": 0.82145,
+        "neutral": 0.17784
+      },
+      "front_color_family_fractions": {
+        "purple": 0.0013,
+        "red": 0.82878,
+        "neutral": 0.16992
+      },
+      "family_difference": {
+        "neutral": 0.00792,
+        "red": -0.00733,
+        "purple": -0.00059
+      },
+      "L_min": 4.109483244317705,
+      "L_max": 98.96399275988765,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "rock_upright": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/rock_dq_upright.png",
+      "sha256": "018644bd5440fe26e76589b7339a3b5fc6c8baab16cff38e962a738cde4dded1",
+      "candidate": 4,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 51,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 51.50884729348395,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/rock_dq_upright.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/rock_dq_upright.png",
+      "target_height": 51,
+      "bbox": [
+        12,
+        13,
+        54,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "red": 0.81964,
+        "neutral": 0.18036
+      },
+      "front_color_family_fractions": {
+        "purple": 0.0013,
+        "red": 0.82878,
+        "neutral": 0.16992
+      },
+      "family_difference": {
+        "neutral": 0.01044,
+        "red": -0.00914,
+        "purple": -0.0013
+      },
+      "L_min": 9.64400815221763,
+      "L_max": 98.37081063216272,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "puffer_right": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_dq_right.png",
+      "sha256": "c55e6f21111e1284460b7f840646e87348dc2aa3ad368696c2bfef5428c0dd90",
+      "candidate": 1,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 25,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 56.99005343004146,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_dq_right.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_dq_right.png",
+      "target_height": 25,
+      "bbox": [
+        20,
+        39,
+        43,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "purple": 0.00251,
+        "red": 0.61809,
+        "orange-brown": 0.36181,
+        "neutral": 0.00503,
+        "yellow-cream": 0.01256
+      },
+      "front_color_family_fractions": {
+        "purple": 0.00467,
+        "red": 0.60981,
+        "orange-brown": 0.36682,
+        "neutral": 0.00935,
+        "yellow-cream": 0.00935
+      },
+      "family_difference": {
+        "red": 0.00828,
+        "yellow-cream": 0.00321,
+        "purple": -0.00216,
+        "neutral": -0.00432,
+        "orange-brown": -0.00501
+      },
+      "L_min": 4.109483244317705,
+      "L_max": 98.61813872854867,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "puffer_upright": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_dq_upright.png",
+      "sha256": "52e4525e36d02b4dff54dbffffe9fc422fcd37ce13380df3c031ac5e1929a98b",
+      "candidate": 2,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 25,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 56.99005343004146,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_dq_upright.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_dq_upright.png",
+      "target_height": 25,
+      "bbox": [
+        20,
+        39,
+        44,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "red": 0.76581,
+        "orange-brown": 0.23419
+      },
+      "front_color_family_fractions": {
+        "purple": 0.00467,
+        "red": 0.60981,
+        "orange-brown": 0.36682,
+        "neutral": 0.00935,
+        "yellow-cream": 0.00935
+      },
+      "family_difference": {
+        "neutral": -0.00935,
+        "red": 0.156,
+        "yellow-cream": -0.00935,
+        "purple": -0.00467,
+        "orange-brown": -0.13263
+      },
+      "L_min": 8.210729477735143,
+      "L_max": 93.28561873025754,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "rock_up": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/rock_dq_up.png",
+      "sha256": "7494935a71abcd47a7dd1bf215969782b46d1b6db40566621438fb5e87f0e092",
+      "candidate": 1,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 51,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 51.50884729348395,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/rock_dq_up.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/rock_dq_up.png",
+      "target_height": 51,
+      "bbox": [
+        12,
+        13,
+        54,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "red": 0.83817,
+        "neutral": 0.16183
+      },
+      "front_color_family_fractions": {
+        "purple": 0.0013,
+        "red": 0.82878,
+        "neutral": 0.16992
+      },
+      "family_difference": {
+        "neutral": -0.00809,
+        "red": 0.00939,
+        "purple": -0.0013
+      },
+      "L_min": 9.64400815221763,
+      "L_max": 98.96399275988765,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "boar_right": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_dq_right.png",
+      "sha256": "5d162432d4e3e493e8436f7bc8a9ca007a44c96459e5e69ea1731f53a1b53ed0",
+      "candidate": 1,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 34,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 53.82661153390919,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_dq_right.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_dq_right.png",
+      "target_height": 34,
+      "bbox": [
+        16,
+        30,
+        58,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "purple": 0.00104,
+        "red": 0.68951,
+        "orange-brown": 0.28764,
+        "neutral": 0.02181
+      },
+      "front_color_family_fractions": {
+        "purple": 0.00314,
+        "red": 0.71429,
+        "orange-brown": 0.24961,
+        "neutral": 0.03297
+      },
+      "family_difference": {
+        "red": -0.02478,
+        "purple": -0.0021,
+        "neutral": -0.01116,
+        "orange-brown": 0.03803
+      },
+      "L_min": 4.109483244317705,
+      "L_max": 98.61813872854867,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "boar_upright": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_dq_upright.png",
+      "sha256": "fb3ccd48281400344e448ffd28bca2e412e63cb12ddc9d204217ad8de6f2a9ec",
+      "candidate": 2,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 34,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 53.82661153390919,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_dq_upright.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_dq_upright.png",
+      "target_height": 34,
+      "bbox": [
+        18,
+        30,
+        51,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "red": 0.75,
+        "orange-brown": 0.23691,
+        "neutral": 0.01309
+      },
+      "front_color_family_fractions": {
+        "purple": 0.00314,
+        "red": 0.71429,
+        "orange-brown": 0.24961,
+        "neutral": 0.03297
+      },
+      "family_difference": {
+        "neutral": -0.01988,
+        "red": 0.03571,
+        "purple": -0.00314,
+        "orange-brown": -0.0127
+      },
+      "L_min": 10.993813136069754,
+      "L_max": 98.61813872854867,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "mushroom_up": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/mushroom_dq_up.png",
+      "sha256": "3f0c75fe6bde18f2ff978a0324d51aaeb50df4d2abe5246a53d7e936472cc603",
+      "candidate": 7,
+      "rounds": 2,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 34,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 52.518441133402554,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/mushroom_dq_up.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/mushroom_dq_up.png",
+      "target_height": 34,
+      "bbox": [
+        16,
+        30,
+        48,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "red": 0.7387,
+        "orange-brown": 0.21186,
+        "neutral": 0.04944
+      },
+      "front_color_family_fractions": {
+        "red": 0.69463,
+        "orange-brown": 0.26474,
+        "neutral": 0.04063
+      },
+      "family_difference": {
+        "neutral": 0.00881,
+        "red": 0.04407,
+        "orange-brown": -0.05288
+      },
+      "L_min": 9.844416941197565,
+      "L_max": 98.296681499149,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "puffer_up": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_dq_up.png",
+      "sha256": "70aaeb1f54550dc6be25c544dff05614f2cfca22dcc8fa72fa0090a266f2cc71",
+      "candidate": 5,
+      "rounds": 2,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 25,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 57.01629772355963,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_dq_up.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_dq_up.png",
+      "target_height": 25,
+      "bbox": [
+        20,
+        39,
+        46,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "red": 0.91667,
+        "orange-brown": 0.06019,
+        "yellow-cream": 0.02315
+      },
+      "front_color_family_fractions": {
+        "purple": 0.00467,
+        "red": 0.60981,
+        "orange-brown": 0.36682,
+        "neutral": 0.00935,
+        "yellow-cream": 0.00935
+      },
+      "family_difference": {
+        "red": 0.30686,
+        "yellow-cream": 0.0138,
+        "purple": -0.00467,
+        "neutral": -0.00935,
+        "orange-brown": -0.30663
+      },
+      "L_min": 6.494339564092442,
+      "L_max": 96.58942786683198,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "boar_up": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_dq_up.png",
+      "sha256": "930dc29913d212533ccc9e99635927be2f02ee63654654a6cf76e467541f536c",
+      "candidate": 2,
+      "rounds": 1,
+      "generated": true,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 34,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 53.82661153390919,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_dq_up.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "path": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_dq_up.png",
+      "target_height": 34,
+      "bbox": [
+        20,
+        30,
+        46,
+        64
+      ],
+      "foot_center": [
+        32,
+        64
+      ],
+      "new_colors": 0,
+      "color_family_fractions": {
+        "red": 0.77419,
+        "orange-brown": 0.22581
+      },
+      "front_color_family_fractions": {
+        "purple": 0.00314,
+        "red": 0.71429,
+        "orange-brown": 0.24961,
+        "neutral": 0.03297
+      },
+      "family_difference": {
+        "neutral": -0.03297,
+        "red": 0.0599,
+        "purple": -0.00314,
+        "orange-brown": -0.0238
+      },
+      "L_min": 7.0841699959019095,
+      "L_max": 91.45430052384842,
+      "spec": "PASS",
+      "status": "PASS"
+    },
+    "boar_telegraph_down": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_telegraph_dq_down.png",
+      "sha256": "a49fb54a2a22517031c964df626adaa06d967a83dce0168e1c45bbe1b4ab5cd4",
+      "candidate": 3,
+      "rounds": 2,
+      "generated": false,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 35,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 53.82661153390919,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_telegraph_dq_down.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "status": "PASS"
+    },
+    "boar_telegraph_right": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_telegraph_dq_right.png",
+      "sha256": "de20fdfb664c8a34789d5ef587a596bd1a7ad2cadee48e74bcef6860d766d810",
+      "candidate": 3,
+      "rounds": 2,
+      "generated": false,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 35,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 53.82661153390919,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_telegraph_dq_right.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "status": "PASS"
+    },
+    "boar_telegraph_upright": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_telegraph_dq_upright.png",
+      "sha256": "dc14f4cc6eab3ca7d2d4cee505d2b3a7d2254b21c11ed9ba1c0e77b907224151",
+      "candidate": 3,
+      "rounds": 2,
+      "generated": false,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 35,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 53.82661153390919,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_telegraph_dq_upright.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "status": "PASS"
+    },
+    "boar_telegraph_up": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_telegraph_dq_up.png",
+      "sha256": "56702d91083d55fa4b512222f7a1cc5dc1f850e3410b3f8df1453e36607421c1",
+      "candidate": 3,
+      "rounds": 2,
+      "generated": false,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 33,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 53.82661153390919,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/boar_telegraph_dq_up.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "status": "PASS"
+    },
+    "puffer_inflate_down": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_inflate_dq_down.png",
+      "sha256": "0d9df671d2b476e144700dc3372599103a4d45537f40e5c9d51e37d6e616f9ce",
+      "candidate": 3,
+      "rounds": 2,
+      "generated": false,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 32,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 56.99005343004146,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_inflate_dq_down.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "status": "PASS"
+    },
+    "puffer_inflate_right": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_inflate_dq_right.png",
+      "sha256": "bdf10b9830f395391bea1f3f449d582f3094d168f01ab8a9a6ab95ea08d6cc43",
+      "candidate": 3,
+      "rounds": 2,
+      "generated": false,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 32,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 56.99005343004146,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_inflate_dq_right.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "status": "PASS"
+    },
+    "puffer_inflate_upright": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_inflate_dq_upright.png",
+      "sha256": "c4bb478b4db78cd9a968b4727460c4dab2f3a226e65c466e7a81f0c2a08ce96f",
+      "candidate": 3,
+      "rounds": 2,
+      "generated": false,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 32,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 56.99005343004146,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_inflate_dq_upright.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "status": "PASS"
+    },
+    "puffer_inflate_up": {
+      "asset": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_inflate_dq_up.png",
+      "sha256": "a697665b2ec25f4039cf4bbda39627fb9db9302f7e6c66c09c377530d52fcc3d",
+      "candidate": 3,
+      "rounds": 2,
+      "generated": false,
+      "canvas": [
+        64,
+        64
+      ],
+      "height": 32,
+      "foot": [
+        32,
+        64
+      ],
+      "partial_alpha": 0,
+      "new_palette_colors": 0,
+      "grass_deltaE76_min": 57.01629772355963,
+      "meta": "Assets/Game/03.Resources/Art/HD2D/RoundDQ2/Monsters/puffer_inflate_dq_up.png.meta",
+      "pivot": [
+        0.5,
+        0
+      ],
+      "PPU": 48,
+      "filter": "Point",
+      "meta_same_settings_except_guid": true,
+      "status": "PASS"
+    }
+  },
+  "states": "output/hd2d-dq/dirs-monsters/state-source.json",
+  "eyes": "output/hd2d-dq/dirs-monsters/eye-transfer.json",
+  "judge": "output/hd2d-dq/dirs-monsters/judge, neutral name bundle; key outside at key.json",
+  "claim": "PASS is measured specification only; not independent direction/identity/style approval"
+}
