@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "status": "design-only; no runtime asset or occlusion claim",
+  "decision": ".director/inbox/feedback-20261123-night-1to6-5.md",
+  "owner_stage": 6,
+  "units": "world metres, XZ floor, Y height above existing terrain",
+  "game_field_half_diagonal_m": 32,
+  "north_rim_xz": [
+    [
+      -32,
+      0
+    ],
+    [
+      0,
+      32
+    ],
+    [
+      32,
+      0
+    ]
+  ],
+  "outside_width_m": [
+    0.5,
+    3
+  ],
+  "height_above_terrain_m": [
+    1.5,
+    3
+  ],
+  "boundary": "render only; no collider, spawn/HP/data change",
+  "criterion": "6단계에서 실제 placement/camera depth와3화면비를 보고 먼언덕/숲띠로 스폰 발 경계를 완화.5단계는 자리만 제공, 실제가림PASS아님",
+  "camera": {
+    "pitch_degrees": 18,
+    "vertical_fov_degrees": 20
+  },
+  "capture_anchors": [
+    "start",
+    "north boundary",
+    "north-east boundary",
+    "north-west boundary"
+  ],
+  "not_in_stage5": [
+    "new forest models",
+    "terrain colour/texture",
+    "lighting/fog tuning",
+    "claim of geometric foot occlusion"
+  ]
+}
