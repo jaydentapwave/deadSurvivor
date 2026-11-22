@@ -71,6 +71,12 @@ public class FieldModelBuildTests
     {
         EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
         var field = Object.FindFirstObjectByType<FieldView>();
+        // This is the legacy card-footprint contract. DQ's adopted native-scale
+        // bush intentionally does not fit the old sprite rectangle.
+        var serialized = new SerializedObject(field);
+        serialized.FindProperty("modelCatalog").objectReferenceValue = AssetDatabase.LoadAssetAtPath<FieldModelCatalog>(
+            "Assets/Game/03.Resources/Models/HD2D/Scenery/FieldModelCatalog.asset");
+        serialized.ApplyModifiedPropertiesWithoutUndo();
         var layout = JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_layout.json"));
         Assert.IsTrue(field.UsesModelScenery);
         field.Initialize(30);

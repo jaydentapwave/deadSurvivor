@@ -1,0 +1,2583 @@
+{
+  "version": "DQ-r2-raster-v1",
+  "sources": [
+    {
+      "path": "Tools/dq_telegraph_reference.py",
+      "sha256": "d02c0a1826eb02bcdd056e566379234b8d3cebad7d5102e3e9dfeb4d446c9b45"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/body_00.png",
+      "sha256": "091765fd2d93469184b69bd42f05f1b1542fa47a54df15e0fa4c1458c6f85444"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/body_01.png",
+      "sha256": "59851c7dc50161c8d395dbd16a475885a5acba2ee9aa247da92bfbe9840a746a"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/body_02.png",
+      "sha256": "59851c7dc50161c8d395dbd16a475885a5acba2ee9aa247da92bfbe9840a746a"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/body_03.png",
+      "sha256": "737c3a2b01833934148454a4c48cf40d8f5bf4ba600fec5d8b7c8fea18a046c3"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/start_00.png",
+      "sha256": "433b783f072e92e7410c2d1d58409c937653a6ebc60f201ec0fdcb8cb1fbdcc0"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/start_01.png",
+      "sha256": "433b783f072e92e7410c2d1d58409c937653a6ebc60f201ec0fdcb8cb1fbdcc0"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/start_02.png",
+      "sha256": "433b783f072e92e7410c2d1d58409c937653a6ebc60f201ec0fdcb8cb1fbdcc0"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/start_03.png",
+      "sha256": "2d2e919a6ba299ac62c9cab3b191ab7da78bfaac25abed22959e6fb14cd74b85"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/tip_00.png",
+      "sha256": "977548cb61af23a8490a826b52c2ace4b718692400b33c71fbc486f4db5e1470"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/tip_01.png",
+      "sha256": "464827d97859f1c6b30eab86608a39fc8d7ff3f841ab093c886fd24c865e3d9f"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/tip_02.png",
+      "sha256": "464827d97859f1c6b30eab86608a39fc8d7ff3f841ab093c886fd24c865e3d9f"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/tip_03.png",
+      "sha256": "b3d632aa155cad5fc10b8de5d159fdaf1f4afe7fd52fb36fb23aa828978d6de3"
+    },
+    {
+      "path": "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/BoarTelegraphR2/assembly.json",
+      "sha256": "5ab7d6ce4799e42d6636a96ba4f1cc7e6a8aa36421ce0fb36d0bbf99a10cac83"
+    }
+  ],
+  "samples": [
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 0.0,
+      "stage": 0,
+      "width": 211,
+      "height": 20,
+      "sha256": "5082e5613dd83fbbec0d3f23b75aced878c25695dca3ee6d7b66443499d53324"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 0.0,
+      "stage": 1,
+      "width": 211,
+      "height": 20,
+      "sha256": "4b0a406a82925ad2a7f2776595c9f1bc5623779d08c9eea77e7e875194720ea3"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 0.0,
+      "stage": 2,
+      "width": 211,
+      "height": 20,
+      "sha256": "89056bf3a0080d4ba154f456a82b38950f11f04f91ff5c0f534afd1ba1cb56b3"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 0.0,
+      "stage": 3,
+      "width": 211,
+      "height": 20,
+      "sha256": "b2973692e785ce01428535f562acefdf7748aab21bffbda38f61b2b057e2ed4c"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 11.25,
+      "stage": 0,
+      "width": 208,
+      "height": 38,
+      "sha256": "0d9d343b126f46f27220511d3a2e831a77f2cbdf945127865bd2db9449fde860"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 11.25,
+      "stage": 1,
+      "width": 208,
+      "height": 38,
+      "sha256": "f2b01618c49f2ff3a15e98cb5e82fe513a451cdee2295eeb104f752d04d8c1b1"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 11.25,
+      "stage": 2,
+      "width": 208,
+      "height": 38,
+      "sha256": "3f76d9b531b4ca023ca5679399bff5bb684595667ac369a856c9f82ab6a969e0"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 11.25,
+      "stage": 3,
+      "width": 208,
+      "height": 38,
+      "sha256": "3ce3ed25ac291ba27dcb2563fb061a1252ab5604e17c6b6f6fa8c9b9b53c4d15"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 22.5,
+      "stage": 0,
+      "width": 198,
+      "height": 54,
+      "sha256": "5f5d965ef4c566dfefeb8203d641288156e51e03c621b187927482d5bed7897b"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 22.5,
+      "stage": 1,
+      "width": 198,
+      "height": 54,
+      "sha256": "52f615d3312113a98a9d5683cfa1c1e69844125c916126b4a2aa90fb934270e8"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 22.5,
+      "stage": 2,
+      "width": 198,
+      "height": 54,
+      "sha256": "d4c39de8ea3c000b7bb0cc3efea98076e36e32ec5f7eb1fb5672446954cd5c02"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 22.5,
+      "stage": 3,
+      "width": 198,
+      "height": 54,
+      "sha256": "2fbf2d184da02d4d257ab30d4e49552fe895090408640107efb737ea1bf952c7"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 33.75,
+      "stage": 0,
+      "width": 182,
+      "height": 69,
+      "sha256": "23c3e512de3eb7506ee03f23aa700345a533ec362fe07c76edc5c26956d451e6"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 33.75,
+      "stage": 1,
+      "width": 182,
+      "height": 69,
+      "sha256": "a85d528069ce373570be8fabf125959ede3208801ab62a723dd21fd10923957d"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 33.75,
+      "stage": 2,
+      "width": 182,
+      "height": 69,
+      "sha256": "56ff4b4f9017e04fc11610b5ffb2358f5efe87ac4c1db6c162cd733fdba3bf9b"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 33.75,
+      "stage": 3,
+      "width": 182,
+      "height": 69,
+      "sha256": "317db699c739330df5d8e0ee55796c8955896325fceb6ca45ceccded788b5cad"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 45.0,
+      "stage": 0,
+      "width": 160,
+      "height": 82,
+      "sha256": "3af5d70c62273d58ed2fc7f637cbc1cb40cd2588e726303b87712b2c9233eacd"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 45.0,
+      "stage": 1,
+      "width": 160,
+      "height": 82,
+      "sha256": "8aab9388e909c669051c1ecc9b1f6fd23329a432e3e5633b23423b06f5281389"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 45.0,
+      "stage": 2,
+      "width": 160,
+      "height": 82,
+      "sha256": "d92640654503263b2b778d4c146575796664f3f3b490e48e6770d37fb094fda0"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 45.0,
+      "stage": 3,
+      "width": 160,
+      "height": 82,
+      "sha256": "93d7802f010ba50d3e92522e6cee137c30281c59a5845ff10ab1a4aa008396bd"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 56.25,
+      "stage": 0,
+      "width": 134,
+      "height": 93,
+      "sha256": "16e96b9bd7de618e978b894675f6b598fafde6d514b14116b1a6eac3e41d0567"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 56.25,
+      "stage": 1,
+      "width": 134,
+      "height": 93,
+      "sha256": "d43daa4d1410a417eb2eabaeb26a049b2a5b83c80cfc5660088b6adf599a4ce8"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 56.25,
+      "stage": 2,
+      "width": 134,
+      "height": 93,
+      "sha256": "3bb331ab82eef6c13c59f22938844c6cb83a5797b9c4de0fdedb3714461ba04b"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 56.25,
+      "stage": 3,
+      "width": 134,
+      "height": 93,
+      "sha256": "27493d107c509886db622516ef66d57392e403cff4d8e39f710b6714c0bc2227"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 67.5,
+      "stage": 0,
+      "width": 103,
+      "height": 101,
+      "sha256": "2cde8888f0d2912cab2c9d332c09402dce165eaaef513a34c0ca5a9065f303ab"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 67.5,
+      "stage": 1,
+      "width": 103,
+      "height": 101,
+      "sha256": "8e61f81000dd1df4fa926d4eaee6ab03e5764f9789aa7e34284f4e0645bebb87"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 67.5,
+      "stage": 2,
+      "width": 103,
+      "height": 101,
+      "sha256": "07a6583038703ab8d796379c972779c5cdb8700e5b6e1007308a256435f184bc"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 67.5,
+      "stage": 3,
+      "width": 103,
+      "height": 101,
+      "sha256": "11e89b7b82ffc094cbd62f2aad8e470fd4127f49b52bda4a0fca16eef222ff3f"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 78.75,
+      "stage": 0,
+      "width": 71,
+      "height": 106,
+      "sha256": "93e16eb329af55739da1ef286a01131902e643b27700da2c5123b018dbe21950"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 78.75,
+      "stage": 1,
+      "width": 71,
+      "height": 106,
+      "sha256": "5c10048665bdb582d3bb9a9c2f6086883ae160789be5fb3405c9747630a99b47"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 78.75,
+      "stage": 2,
+      "width": 71,
+      "height": 106,
+      "sha256": "09424c99c0e023df3ab77bfe372104eddd68981f6da83662ccdc86b9c778ff58"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 78.75,
+      "stage": 3,
+      "width": 71,
+      "height": 106,
+      "sha256": "66f17b38a8a6f977b8aaca729eb8413e1de1a721d2e6b537c2d91343b1f2d02e"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 90.0,
+      "stage": 0,
+      "width": 37,
+      "height": 108,
+      "sha256": "8bfa720960cb6e49ad727b126c82596199890e13388d1b405def17136ee47743"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 90.0,
+      "stage": 1,
+      "width": 37,
+      "height": 108,
+      "sha256": "809ba32de092afef973f17b5bab570baaf2f4666536a81210be136ac8e7a830e"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 90.0,
+      "stage": 2,
+      "width": 37,
+      "height": 108,
+      "sha256": "89e658f226cd7812a7e3bf5680926d4c8c31a976974957d46ce3aecd63a8fd9d"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 90.0,
+      "stage": 3,
+      "width": 37,
+      "height": 108,
+      "sha256": "2cfc311a07422dad167978e18890342df29e360a08a98dd077fc7b05fd7ad8be"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 101.25,
+      "stage": 0,
+      "width": 71,
+      "height": 106,
+      "sha256": "4acd45d69b1d0905ad07cc0e57275fc953518b860be24007ad52c947cdfbf60c"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 101.25,
+      "stage": 1,
+      "width": 71,
+      "height": 106,
+      "sha256": "bf5855953d030e8adcd02cb52acc93ddf35ad9ff5d4add4deafebbe5a903b929"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 101.25,
+      "stage": 2,
+      "width": 71,
+      "height": 106,
+      "sha256": "03746e9afae10a3fa4e6aa5ed415f40b8a91948e512236842cd955b58dc317a2"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 101.25,
+      "stage": 3,
+      "width": 71,
+      "height": 106,
+      "sha256": "47e13bd1967184c2bcb747962dadfc817490019e86b9182cc626c2f1f4374432"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 112.5,
+      "stage": 0,
+      "width": 103,
+      "height": 101,
+      "sha256": "1b3984ac0bd8a0c7382befcb491eb0c8f50ac909d9654467796881eb2f849e42"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 112.5,
+      "stage": 1,
+      "width": 103,
+      "height": 101,
+      "sha256": "ee9c40b5e6abdb4c14c23b667b68866f5d2c5a8bcedf965525c3245bd49d24d5"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 112.5,
+      "stage": 2,
+      "width": 103,
+      "height": 101,
+      "sha256": "a71610ee14bf5560e445b998ccd9332098c604b21faf7d32c44216d5fc9a8bb2"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 112.5,
+      "stage": 3,
+      "width": 103,
+      "height": 101,
+      "sha256": "8107241bff960158ac4a6e04b5a15726b61b940625ea7c5defea7ee3be752ec2"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 123.75,
+      "stage": 0,
+      "width": 134,
+      "height": 93,
+      "sha256": "c36b29ac25a102e74d25f4c9e5a95090ef4bcd0eab291dae1a6514faeed3433d"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 123.75,
+      "stage": 1,
+      "width": 134,
+      "height": 93,
+      "sha256": "da0143048e74064bcf5d373910cccc1c04c52e42cac172b0364a947fcded7136"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 123.75,
+      "stage": 2,
+      "width": 134,
+      "height": 93,
+      "sha256": "d8a787e941d3a9284a2212bc33ee16827e4664b8f6affb8df5831556bcebc6e1"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 123.75,
+      "stage": 3,
+      "width": 134,
+      "height": 93,
+      "sha256": "aed8c2c1c90206a7c3b97e6e79d6d982b54fefdc1afc9e7c2ae25f6d6beaa839"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 135.0,
+      "stage": 0,
+      "width": 160,
+      "height": 82,
+      "sha256": "e6a0bccb41972d99a80a1b9315e1d93104ec56d22ba2132f94cdd77c14fcde00"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 135.0,
+      "stage": 1,
+      "width": 160,
+      "height": 82,
+      "sha256": "55ed16c7f0627a80a8abc26bdd659336ee7035072f0efda995b0b5e3ddbb8940"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 135.0,
+      "stage": 2,
+      "width": 160,
+      "height": 82,
+      "sha256": "719cc3783701ba83baa71a092150a02ff7d4aeb02210f6802905dc60d93a3a42"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 135.0,
+      "stage": 3,
+      "width": 160,
+      "height": 82,
+      "sha256": "f9e7283e1b023a0f250abb43a88b5cdead6aac6bd26644c39d6269efcf3e5f62"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 146.25,
+      "stage": 0,
+      "width": 182,
+      "height": 69,
+      "sha256": "e414978e47fcdcedbc55ef25ad4c19e6f6bd6987f153867a94bc67561107ae69"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 146.25,
+      "stage": 1,
+      "width": 182,
+      "height": 69,
+      "sha256": "9528cd4839f5eaf252cb62827cefd2bbffb68290424c1bd89ed1f8caaab5f06c"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 146.25,
+      "stage": 2,
+      "width": 182,
+      "height": 69,
+      "sha256": "a50dd3899242615aecb4e951823be68157593135fa27cf28bc262dbbbb4b1248"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 146.25,
+      "stage": 3,
+      "width": 182,
+      "height": 69,
+      "sha256": "c7d03251f82bde5f5be233df2d7ed254b109a5a7b5414355e4148cbd3636cf90"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 157.5,
+      "stage": 0,
+      "width": 198,
+      "height": 54,
+      "sha256": "ab6b19b4f0193ff4ffdb720ba5972a2b8630e17be14876cfb1d95dc1f7f76096"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 157.5,
+      "stage": 1,
+      "width": 198,
+      "height": 54,
+      "sha256": "59d69eaf872f57967ecc5f43e957e53218eeceb6395cdf62d2da49fd65440502"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 157.5,
+      "stage": 2,
+      "width": 198,
+      "height": 54,
+      "sha256": "381676c29cdf5405ba725a45473d6e8d545a1f4ab72b13c01a933e256777f8ac"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 157.5,
+      "stage": 3,
+      "width": 198,
+      "height": 54,
+      "sha256": "d89aeed1e5265980acb12ecc84fccda498c2334659a82d3e9065b922572a6eea"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 168.75,
+      "stage": 0,
+      "width": 208,
+      "height": 38,
+      "sha256": "910f169d854ca41ab5bf834b294c396debffc875cc12d596c63663a13746728d"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 168.75,
+      "stage": 1,
+      "width": 208,
+      "height": 38,
+      "sha256": "3300904ffafb067af473281df1d0e4352c60234ba3f42d8e71321c137823c31a"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 168.75,
+      "stage": 2,
+      "width": 208,
+      "height": 38,
+      "sha256": "af2ed28ae56e311d5a7ab44ffc5b63a4bee7b48fd2bd806b8548b3a2f87851ab"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 168.75,
+      "stage": 3,
+      "width": 208,
+      "height": 38,
+      "sha256": "906e119b953b107dad3ebe4b9c508c02c36b5175bf0220029a5a0b3d0234fe85"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 180.0,
+      "stage": 0,
+      "width": 211,
+      "height": 21,
+      "sha256": "e09a08004b9b6c0c6198671228b0d9e326e2e67bca39170dca906862e74cfbf7"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 180.0,
+      "stage": 1,
+      "width": 211,
+      "height": 21,
+      "sha256": "e62d89044b79f36e5874fc1358492b51161b86ee0cdfef2f10672c2bc5d3ddbe"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 180.0,
+      "stage": 2,
+      "width": 211,
+      "height": 21,
+      "sha256": "2a3342acd71f6260ef68b966e4f0d71837aefd51b170de2f318861b533b17ff9"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 180.0,
+      "stage": 3,
+      "width": 211,
+      "height": 21,
+      "sha256": "67b7b05936b51de61ee6934b8ff89e4100e1d72c096ebf87a2befb9664ca4b04"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 191.25,
+      "stage": 0,
+      "width": 208,
+      "height": 38,
+      "sha256": "32c1d1756a240d417213bd1c6b082723152fec502ce1d01fac60f1a6eb4531bb"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 191.25,
+      "stage": 1,
+      "width": 208,
+      "height": 38,
+      "sha256": "5b690ffc3e2abacf1189f127088c7f286bf0ed25ec486285e484b72cb843e2b5"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 191.25,
+      "stage": 2,
+      "width": 208,
+      "height": 38,
+      "sha256": "b849bc0082c6534167f890bdf5960d619073458f676555730d018248d5852f18"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 191.25,
+      "stage": 3,
+      "width": 208,
+      "height": 38,
+      "sha256": "81f959f66055c4fcc1f249d41821107e35703c5d526da7f5c6778596af8c0aae"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 202.5,
+      "stage": 0,
+      "width": 198,
+      "height": 54,
+      "sha256": "d1308f47eec5cfad838ca877183ec1747f8373af5abdb6ffb01485d9d97837db"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 202.5,
+      "stage": 1,
+      "width": 198,
+      "height": 54,
+      "sha256": "f4eeb43fee060dd317e23b4247c5516c344b6cd48225dd1ff2afa3e4a30b51ee"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 202.5,
+      "stage": 2,
+      "width": 198,
+      "height": 54,
+      "sha256": "52edb6c3637173ecb5be01d1c9883a513c6441ff2ebd93d15d65bba3a8bd8228"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 202.5,
+      "stage": 3,
+      "width": 198,
+      "height": 54,
+      "sha256": "b87263a1f4815b48b3e34823cf05b4e6e629c49dc6d6a05adb67049be40d35a9"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 213.75,
+      "stage": 0,
+      "width": 182,
+      "height": 69,
+      "sha256": "ba819c68099fb51d2502cce94ed358bd6bb85bec7e41f0e2ad904fd92648f262"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 213.75,
+      "stage": 1,
+      "width": 182,
+      "height": 69,
+      "sha256": "f0d930e91333734fa5c1ec284a62a5e3a8d76cc3e28a40518e5ee88002635f8b"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 213.75,
+      "stage": 2,
+      "width": 182,
+      "height": 69,
+      "sha256": "77d4a65e4ad69bcd3c03827a643a4c95b9f3fe19a7a102288250a6f7eb001c1b"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 213.75,
+      "stage": 3,
+      "width": 182,
+      "height": 69,
+      "sha256": "b3db8b96e200c84e187519fb4eb6327a9104f26107c1c6fddeab5b22a48cfe91"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 225.0,
+      "stage": 0,
+      "width": 160,
+      "height": 82,
+      "sha256": "9ac280e501f9f57d07558c21c7ff3ab42bb82a2bd8060169fc506a31dd48ae83"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 225.0,
+      "stage": 1,
+      "width": 160,
+      "height": 82,
+      "sha256": "e4745efb53c32d8acc3d8e3cff67b3a2b3ba0193fddcc95ba301a532f86b396e"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 225.0,
+      "stage": 2,
+      "width": 160,
+      "height": 82,
+      "sha256": "2c78071680173385c0ea02dd1885db1171d88151117c8fe9d412f0107e9a9972"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 225.0,
+      "stage": 3,
+      "width": 160,
+      "height": 82,
+      "sha256": "4fd76e8670da8a529ded4fcf5c70bdc7aa325aae5f5063010593bd4d24b9bf17"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 236.25,
+      "stage": 0,
+      "width": 134,
+      "height": 93,
+      "sha256": "a8454eb8be9cbd90a83c6217a9159b3db0c76ea0b680ddf8d057a989ca3928ef"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 236.25,
+      "stage": 1,
+      "width": 134,
+      "height": 93,
+      "sha256": "1bd75830db3958c9cf15f01d5527cb838bf8e27837a9f69b5d8b3ae2d7d4d457"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 236.25,
+      "stage": 2,
+      "width": 134,
+      "height": 93,
+      "sha256": "00fbd4d623b89823e3d4e1ee7aa27b05870111442e4480223f05fe4bf607f667"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 236.25,
+      "stage": 3,
+      "width": 134,
+      "height": 93,
+      "sha256": "43b66527f433a5a5195517ee3c5b6f35e12204f948e86e64182215926c3a96b9"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 247.5,
+      "stage": 0,
+      "width": 103,
+      "height": 101,
+      "sha256": "3861903e4b15c5f3a9ebd5fc867b8649cf7e268797eaf1d86270a529664be641"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 247.5,
+      "stage": 1,
+      "width": 103,
+      "height": 101,
+      "sha256": "bd4ba3ee9327a1ef845c2f9ae0df6835e63e7ff37fa6892a55224af613d1db7d"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 247.5,
+      "stage": 2,
+      "width": 103,
+      "height": 101,
+      "sha256": "454edbd7474dedefddd0d6ca4d189450d300e5e326c2e597cc91d01d8046d2f6"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 247.5,
+      "stage": 3,
+      "width": 103,
+      "height": 101,
+      "sha256": "361cc2b11a1dc63d7b36dec017be99b1247ba6175c0f8bda42e8fc3aafc724e3"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 258.75,
+      "stage": 0,
+      "width": 71,
+      "height": 106,
+      "sha256": "d028403a5900268bee161e7d81c249965d006db80656084bc33597f774016c0d"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 258.75,
+      "stage": 1,
+      "width": 71,
+      "height": 106,
+      "sha256": "354798a1ff090d566079468a56ac2f7297928580a3b8297bbff98862544f3dea"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 258.75,
+      "stage": 2,
+      "width": 71,
+      "height": 106,
+      "sha256": "2df88af7faf0d8ec275d0bf1e4c718a0b7545fc9cafcf71ad95242329090a735"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 258.75,
+      "stage": 3,
+      "width": 71,
+      "height": 106,
+      "sha256": "396472e65dc5ebaad4b4871ccfdeb2e1148f74fbe95a4f7cf7fc4d7b09f156d4"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 270.0,
+      "stage": 0,
+      "width": 37,
+      "height": 108,
+      "sha256": "f39b81fbd235cc503515c10ce92976a9481f799bd3ad83d4203c95dead2111cb"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 270.0,
+      "stage": 1,
+      "width": 37,
+      "height": 108,
+      "sha256": "5fcc0a90acc379364266723ab1126182e5541d59029c81084d1dfb80a7d17f9f"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 270.0,
+      "stage": 2,
+      "width": 37,
+      "height": 108,
+      "sha256": "42caa94ba6b2210b5a0028ea5a6579e3ab6e30ab6e4e18a1655a27002ee3ecc8"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 270.0,
+      "stage": 3,
+      "width": 37,
+      "height": 108,
+      "sha256": "10eeb67d23b737e02452dcf72c6b6d0a6f999ce3b273408832ba4cf0e14726f3"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 281.25,
+      "stage": 0,
+      "width": 71,
+      "height": 106,
+      "sha256": "043a12308fff3f35199af043c0795700c66c8b3450f5e07fee3554fc55a8caca"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 281.25,
+      "stage": 1,
+      "width": 71,
+      "height": 106,
+      "sha256": "434b64c523bab6af8bae81196c129646cdcb1a54732ee5a1f1d218b7f1e266d8"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 281.25,
+      "stage": 2,
+      "width": 71,
+      "height": 106,
+      "sha256": "38c65ebaed9ba8355a0df47b713f9d9a4db002f1df9fd770d887ec3d7f0d5ff1"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 281.25,
+      "stage": 3,
+      "width": 71,
+      "height": 106,
+      "sha256": "486a8c1773cca87fc40cc0f0d5c8d9f47d3ec8cacc0e0dbd08913588a2e0d09a"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 292.5,
+      "stage": 0,
+      "width": 103,
+      "height": 101,
+      "sha256": "700ef067338a02f7e5205c194b5d1981200c03ddded05f263b32a5a8f73d7e40"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 292.5,
+      "stage": 1,
+      "width": 103,
+      "height": 101,
+      "sha256": "d719f592d4df0058e724116ea5e7924511c96cf434d47b7d896bd2904a1d9200"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 292.5,
+      "stage": 2,
+      "width": 103,
+      "height": 101,
+      "sha256": "1f76214b7e14709838513d494fd4d44732a3998232146867a35fe63524f4212f"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 292.5,
+      "stage": 3,
+      "width": 103,
+      "height": 101,
+      "sha256": "7e988e1e5cf2340cc536a368a4ff6d95de4eabf88ccb6a9e795f4652b83e9553"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 303.75,
+      "stage": 0,
+      "width": 134,
+      "height": 93,
+      "sha256": "29c77d2a4174d5494334b28049a132d37feb6acd74494123e1d5a61cc0656b90"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 303.75,
+      "stage": 1,
+      "width": 134,
+      "height": 93,
+      "sha256": "e2aa8b02cd7a00da580e84cbe00c6fbd46ed4a690c46bf000411a812a5c39cf1"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 303.75,
+      "stage": 2,
+      "width": 134,
+      "height": 93,
+      "sha256": "68a43333d6fc6105a789f8b6f5be30a1fa7069f907604dc9e07e38861c1f9c8d"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 303.75,
+      "stage": 3,
+      "width": 134,
+      "height": 93,
+      "sha256": "f442265ac6b38ac22b0b6dae12636811fef92d07ca9a2672af1b59e0512b6b27"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 315.0,
+      "stage": 0,
+      "width": 160,
+      "height": 82,
+      "sha256": "5f557083b5ef143d7dcb6df58012ff44ec3eef3cb413bdf73150e961f01fbfaf"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 315.0,
+      "stage": 1,
+      "width": 160,
+      "height": 82,
+      "sha256": "07917e0e3f2877849fd2ed5ac178d4bb3b75cf4e24106af5e327553a63d71eea"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 315.0,
+      "stage": 2,
+      "width": 160,
+      "height": 82,
+      "sha256": "1dde6fd1fd945229c63a81f278ceb1483a20c96c6a523b71971076f894d7008f"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 315.0,
+      "stage": 3,
+      "width": 160,
+      "height": 82,
+      "sha256": "9ccc11dff0d9658077032834b6144d2dffcc172990c79e87ecbe1ab51e3a21d2"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 326.25,
+      "stage": 0,
+      "width": 182,
+      "height": 69,
+      "sha256": "957b6a1e80cb2295dcf1f6cfe84071039d759c131034e8c45857157d5e8a4502"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 326.25,
+      "stage": 1,
+      "width": 182,
+      "height": 69,
+      "sha256": "21b3b078a56df89af304891d70dbc74a91eccce534dc4b4b5f030d3afd601f07"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 326.25,
+      "stage": 2,
+      "width": 182,
+      "height": 69,
+      "sha256": "3ea9d333c6d30cc8b576b70a589c5754453b35d4aba7526f3b090503be009f35"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 326.25,
+      "stage": 3,
+      "width": 182,
+      "height": 69,
+      "sha256": "000e9d12e2acaa9ea180175da420fa47c3705a7354c61e705ee958792784f821"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 337.5,
+      "stage": 0,
+      "width": 198,
+      "height": 54,
+      "sha256": "19331b47e8ae1c14c38fad889582ee04c775b55a4c6b2df5016d6cb2a768e7e7"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 337.5,
+      "stage": 1,
+      "width": 198,
+      "height": 54,
+      "sha256": "ff9b9122324e471cd310ab93960f0b3ecaa7685b306411d43704dd183591fa02"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 337.5,
+      "stage": 2,
+      "width": 198,
+      "height": 54,
+      "sha256": "8f4734ef9553221486c60c86d693c149048c341b34a0517ccaed854150e95173"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 337.5,
+      "stage": 3,
+      "width": 198,
+      "height": 54,
+      "sha256": "b941103f51bcdf3e991c505150ea673404699710c4567f109525e365d258fec5"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 348.75,
+      "stage": 0,
+      "width": 208,
+      "height": 38,
+      "sha256": "6dd9327fe352c8b7cd34e90abe45a6655ab366563ea6a1d58a88fa8d17ac0fe4"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 348.75,
+      "stage": 1,
+      "width": 208,
+      "height": 38,
+      "sha256": "799226cc398d4fbed5a7a917bcbbe3000eb53aff08a1e28f9e4c0062f9382f34"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 348.75,
+      "stage": 2,
+      "width": 208,
+      "height": 38,
+      "sha256": "c822c191484151b4253cc707a27bc422ab19556616c07d9c19b7620cfc75eec3"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 348.75,
+      "stage": 3,
+      "width": 208,
+      "height": 38,
+      "sha256": "81da2d856549517561d0aee6408bba06f289489ab2a8af8ba0c4e1f2d8d52608"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 5.625,
+      "stage": 0,
+      "width": 210,
+      "height": 29,
+      "sha256": "c344438815483c61d2afd781b9827808f5b932fb1c2768e294d3e8e9c81e6e24"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 5.625,
+      "stage": 1,
+      "width": 210,
+      "height": 29,
+      "sha256": "ba24a81398d7070ebfbb9ce3e2edc2bc4c0967915b85d762f8bb96a586273d8e"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 5.625,
+      "stage": 2,
+      "width": 210,
+      "height": 29,
+      "sha256": "b085800b6321bff7708fa68a0cdc0d5c8cacfe6fb9c73ee108e76429148518cd"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 5.625,
+      "stage": 3,
+      "width": 210,
+      "height": 29,
+      "sha256": "0e074c069259c56111f09028c2526d9a90f2390c0d231313c6675d66d5ed2ed9"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 39.7,
+      "stage": 0,
+      "width": 171,
+      "height": 76,
+      "sha256": "961bbca7b538b4a2c9fa70d1c5370e5841fcdd43d9bd438518eb336e4f741eaa"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 39.7,
+      "stage": 1,
+      "width": 171,
+      "height": 76,
+      "sha256": "fc7110cbe6164a6a4d0692bcdb25c5bc231d54198692940dae38e74e864eac9b"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 39.7,
+      "stage": 2,
+      "width": 171,
+      "height": 76,
+      "sha256": "95979413c53ec21de11e45d367ab3b24f7d4e13528041ae60438c320603bfad5"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 39.7,
+      "stage": 3,
+      "width": 171,
+      "height": 76,
+      "sha256": "322732f3e0593808361e69cc2c32c95065ce0ad815b2579d94d028823b1638f4"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 181.3,
+      "stage": 0,
+      "width": 211,
+      "height": 22,
+      "sha256": "fbe2f2f18f840e469f17ef544aaabaa842ce9823c5b9eeb8ad1ee84c78f4a320"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 181.3,
+      "stage": 1,
+      "width": 211,
+      "height": 22,
+      "sha256": "0520ddd4e946dd86e9ee2fa1010cb1163688e6e56b59da3703697e530db98c61"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 181.3,
+      "stage": 2,
+      "width": 211,
+      "height": 22,
+      "sha256": "708c947ce53dbb1f38a19eb3727f92d992f07249fea7dcacbdf687914b55c725"
+    },
+    {
+      "length": 3.6386,
+      "radius": 0.3164,
+      "angle": 181.3,
+      "stage": 3,
+      "width": 211,
+      "height": 22,
+      "sha256": "7f2118ead18ecafb2d29698dbc6d961ed55822e5bea9fa3bafde7c62648fae14"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 0.0,
+      "stage": 0,
+      "width": 152,
+      "height": 24,
+      "sha256": "6fc3945d7093736b2acbcd36440b218262dda8447f2ad3aceba5135caa114f14"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 0.0,
+      "stage": 1,
+      "width": 152,
+      "height": 24,
+      "sha256": "bb51a8d3d741063608e082fe64e4b1436ab19eb0dd33c65eab7b4f129269d467"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 0.0,
+      "stage": 2,
+      "width": 152,
+      "height": 24,
+      "sha256": "4f4b3d927cdad21b8563f0c6098d00a76f9eedfb62aa43999551cec0afd3b2e9"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 0.0,
+      "stage": 3,
+      "width": 152,
+      "height": 24,
+      "sha256": "e14476c6c88a2cbfeeb4672222f55b6da71b0f65ff0d584cb5000094ee8a4e08"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 11.25,
+      "stage": 0,
+      "width": 150,
+      "height": 35,
+      "sha256": "76008c01c240567e2e52c079dced4d2d1aa6d8ac9e8c00120d76129be79e7534"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 11.25,
+      "stage": 1,
+      "width": 150,
+      "height": 35,
+      "sha256": "d7ed12c8301f53c20a39c389818577fbd6a9b6bb75aa626544beef8be582fc0c"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 11.25,
+      "stage": 2,
+      "width": 150,
+      "height": 35,
+      "sha256": "3ce5621b10b98d194a67591ecff6c9634106ab862458714773d19cb9b17df430"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 11.25,
+      "stage": 3,
+      "width": 150,
+      "height": 35,
+      "sha256": "5e0e962402046a150fc3781d89c979dcfe6cad53181f3827b9fe1c955d0b90e3"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 22.5,
+      "stage": 0,
+      "width": 144,
+      "height": 45,
+      "sha256": "35ee7e599ab43b2e117e74f8dc360b78bf6fd0d2e26037e3640d166d2e42d80e"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 22.5,
+      "stage": 1,
+      "width": 144,
+      "height": 45,
+      "sha256": "3ee8147018519d034a0f34616ce3ac410741f3e463c9a5b0041d9032980ac1be"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 22.5,
+      "stage": 2,
+      "width": 144,
+      "height": 45,
+      "sha256": "b5f43f2fc40a4a7566613aeb727f6454f941415cb1008d75b394a8c72e1dea22"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 22.5,
+      "stage": 3,
+      "width": 144,
+      "height": 45,
+      "sha256": "15825acebe0a6721d5cb0ee0306a99729cff9110b0dad87b14d6689d1591451c"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 33.75,
+      "stage": 0,
+      "width": 134,
+      "height": 55,
+      "sha256": "d6b035d4be0e135170371e9d63569acd012788d2b973a5350702a0231853e2da"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 33.75,
+      "stage": 1,
+      "width": 134,
+      "height": 55,
+      "sha256": "da7024ac8d21a5b120e424aabb392fb0850310d05f85f2ddecb8bf9139fdac2d"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 33.75,
+      "stage": 2,
+      "width": 134,
+      "height": 55,
+      "sha256": "aeda230fea406283a4032c087f14ae28fc144ad5cc85b150df2d9382587ac25c"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 33.75,
+      "stage": 3,
+      "width": 134,
+      "height": 55,
+      "sha256": "5b2098aef3b9cfdbfc3381340d5699e64577be1f4ed785df9548c11d7c467bd8"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 45.0,
+      "stage": 0,
+      "width": 121,
+      "height": 63,
+      "sha256": "d6f433b2b319f7bab941a71cc148776d6790ba694e2764161daced6de0594c80"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 45.0,
+      "stage": 1,
+      "width": 121,
+      "height": 63,
+      "sha256": "2115a2a526aa3797efff8c73f373cebf60d050c8799245abf67cbe29ccf26bee"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 45.0,
+      "stage": 2,
+      "width": 121,
+      "height": 63,
+      "sha256": "7698b499edb3aa8f4cc9be99387ca08da58f391a4b5357a7aa0f863449743ee1"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 45.0,
+      "stage": 3,
+      "width": 121,
+      "height": 63,
+      "sha256": "3e9c70d0ef067cbd024431d5676b93a92150bdd0e0ba4fa436f5b849b912412b"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 56.25,
+      "stage": 0,
+      "width": 105,
+      "height": 69,
+      "sha256": "38dabbd9e89ca3550227003aaa8d252cc2c880546497c110cd5877d4ae9b0574"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 56.25,
+      "stage": 1,
+      "width": 105,
+      "height": 69,
+      "sha256": "1f8648cc4779544491cd501736dbf31e62e8868c889e7daaa207b341d98dace2"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 56.25,
+      "stage": 2,
+      "width": 105,
+      "height": 69,
+      "sha256": "eb482adc7946554a0179d9c69d250236040cede28448655aea3cfb8a8e3ae812"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 56.25,
+      "stage": 3,
+      "width": 105,
+      "height": 69,
+      "sha256": "6b3420c1592eb503fc34b36d0e18077b7d6f023ae594d4d787e3c130c5df2be0"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 67.5,
+      "stage": 0,
+      "width": 86,
+      "height": 74,
+      "sha256": "67f6a9870f5d0147abd1c193709d229226ba2b1beb4c0d78afd94e29f3e8dd57"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 67.5,
+      "stage": 1,
+      "width": 86,
+      "height": 74,
+      "sha256": "f14572997c281ea1354e2f65755c6bb10c396e75b2d28f126e1a91771ad85d03"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 67.5,
+      "stage": 2,
+      "width": 86,
+      "height": 74,
+      "sha256": "09debea1b2e18d9461720994cbcbb77cd9c32e3aeb1ce74e6a97e80242a7fce7"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 67.5,
+      "stage": 3,
+      "width": 86,
+      "height": 74,
+      "sha256": "7302f97ec2c0e95e302c1f3331de15973f33f17f3aae458d7b9994226685e9e8"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 78.75,
+      "stage": 0,
+      "width": 66,
+      "height": 77,
+      "sha256": "d26fe79fbe58bc418fed4eafd2f5825019e404ef766bbd06924da571385ff3fa"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 78.75,
+      "stage": 1,
+      "width": 66,
+      "height": 77,
+      "sha256": "6d28e722f293fe1b5bf7610a135fbee9bb2d11e93e86b4ffe52be370a54b03f0"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 78.75,
+      "stage": 2,
+      "width": 66,
+      "height": 77,
+      "sha256": "5abe70c1a24285f1fbff9c11975bdbca12f7970289bb51c9b29b1cee9d34f86e"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 78.75,
+      "stage": 3,
+      "width": 66,
+      "height": 77,
+      "sha256": "fe3f3e9116435c7cb1a334fdb0a16870c3e0f2724f897e8f4720c0ec634f4821"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 90.0,
+      "stage": 0,
+      "width": 45,
+      "height": 78,
+      "sha256": "b983ea1edf0b826ebb3ffd88648ab8d33fe822ed9d683c06f6fc88e6be17fd5b"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 90.0,
+      "stage": 1,
+      "width": 45,
+      "height": 78,
+      "sha256": "ae5f4ba78cbcb66f95f6ed500e249a3ada41eaf3e3467993010b3d7eaf307843"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 90.0,
+      "stage": 2,
+      "width": 45,
+      "height": 78,
+      "sha256": "4479f4889d9f53c48432ebea177e74b6c076a3fdeb643eb8683bfbcc7429075e"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 90.0,
+      "stage": 3,
+      "width": 45,
+      "height": 78,
+      "sha256": "81ff9649fd502a4ceb22f6d192dd75d75f0f28d00df4b4e2453c0d87e922299a"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 101.25,
+      "stage": 0,
+      "width": 66,
+      "height": 77,
+      "sha256": "e980a91a21648a291488f4069fdef4fa3ace289eeb1814a13edafe5a30184587"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 101.25,
+      "stage": 1,
+      "width": 66,
+      "height": 77,
+      "sha256": "3ed3d34dba1a04dadbdfc5de497582f3b2bcf13a9f440cf17d196fad1ae8f613"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 101.25,
+      "stage": 2,
+      "width": 66,
+      "height": 77,
+      "sha256": "d4047c9a2b5a7d9a2df8c48a4f89796caa206a5c3fc7951d7811e850f15dd4da"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 101.25,
+      "stage": 3,
+      "width": 66,
+      "height": 77,
+      "sha256": "3b087ef76ed1cf79432cfcb0d542b3f061352358287a7ead33db28c166f50bb7"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 112.5,
+      "stage": 0,
+      "width": 86,
+      "height": 74,
+      "sha256": "b626bfa08439f35f73eb7310a7072d780a6e76d76b6505a3bc3c909a34219e0c"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 112.5,
+      "stage": 1,
+      "width": 86,
+      "height": 74,
+      "sha256": "2c7b5d439f69d485cdf59f3daf2f76c105dbe8232f5249ec549ce1f6a62a8955"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 112.5,
+      "stage": 2,
+      "width": 86,
+      "height": 74,
+      "sha256": "1163b592b33944048e5a05a746ac7ab88266ff7f84148cf42a28bd032971307e"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 112.5,
+      "stage": 3,
+      "width": 86,
+      "height": 74,
+      "sha256": "674ce46d12cc269da135ee4d5d7e8c29f4d7c1dabbb622b8b38f840f6217d8e0"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 123.75,
+      "stage": 0,
+      "width": 105,
+      "height": 69,
+      "sha256": "ccb60961c915ed306248e79eb00669030f96ec1c6a9a19b716242e69de9350e1"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 123.75,
+      "stage": 1,
+      "width": 105,
+      "height": 69,
+      "sha256": "7be5a2971b556a33b58fb664db10ef3247cb8a898cdd20666022e8049cdd2c67"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 123.75,
+      "stage": 2,
+      "width": 105,
+      "height": 69,
+      "sha256": "e2693065341846be30fdc033f9e9fb92cce7d942675ad50a5f7a72f42a31ce35"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 123.75,
+      "stage": 3,
+      "width": 105,
+      "height": 69,
+      "sha256": "b6e7e77b0637d7273b31c7a6342647f5696a69760fa81cb98446465651b423eb"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 135.0,
+      "stage": 0,
+      "width": 121,
+      "height": 63,
+      "sha256": "d2a1739239905d1beaf4098e729f88aeb5ae5a7b97ee573a2104bae931337541"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 135.0,
+      "stage": 1,
+      "width": 121,
+      "height": 63,
+      "sha256": "06bd0330437a37399476c2bcc53caebdd8901b9b23d5c5df07d1fa057e676aa8"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 135.0,
+      "stage": 2,
+      "width": 121,
+      "height": 63,
+      "sha256": "343f61e2d5dd43f059d730d67ef9a22ea33c9abaaf52addb804782878a5a48f3"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 135.0,
+      "stage": 3,
+      "width": 121,
+      "height": 63,
+      "sha256": "9de4c126613e1d7a251f6160d71771e56631c134a8b120998af325cd17ee47ac"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 146.25,
+      "stage": 0,
+      "width": 134,
+      "height": 55,
+      "sha256": "34437041b6492ec285b11ebcd91f36798284d6c64d898b42d10f06ed15f0028b"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 146.25,
+      "stage": 1,
+      "width": 134,
+      "height": 55,
+      "sha256": "c9ad7f65c1a977aa077e3b46e463e3d2378a0ccfa364001ea5407ec1a6a49a9a"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 146.25,
+      "stage": 2,
+      "width": 134,
+      "height": 55,
+      "sha256": "c0c73b207a0b01eee2f449d0a5adc04e069ccd1be028155d9eeef7aa21bd7205"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 146.25,
+      "stage": 3,
+      "width": 134,
+      "height": 55,
+      "sha256": "5f4d9d0dfe857f66c265fea83db1256e553d97ea0710374855386a4fbbc6069b"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 157.5,
+      "stage": 0,
+      "width": 144,
+      "height": 45,
+      "sha256": "9f1d6c8ebbf88845a91cbbf84ecf901e7bbf5cfa247b67876bcdb3cf402c18ff"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 157.5,
+      "stage": 1,
+      "width": 144,
+      "height": 45,
+      "sha256": "7ad5ecb37bd1a3b0eea02ff227853d363efa8db01c21c97b149810d30e27da53"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 157.5,
+      "stage": 2,
+      "width": 144,
+      "height": 45,
+      "sha256": "3b87f94b7f191251c7ab1d3c547664b1b377b5ea45c76576224bea5b6372cfef"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 157.5,
+      "stage": 3,
+      "width": 144,
+      "height": 45,
+      "sha256": "f26cf0c4222bec827a786fe9fedb82457ea9405f8ffcf20f706f2159e95172b9"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 168.75,
+      "stage": 0,
+      "width": 150,
+      "height": 35,
+      "sha256": "c878e6664040fc370d36960e638e06edc5b24e19761b765c4513bca2f31526d5"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 168.75,
+      "stage": 1,
+      "width": 150,
+      "height": 35,
+      "sha256": "7fa6019855c7cf6ec304397922365339b77017fc6158e222873fa8e3a68868f7"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 168.75,
+      "stage": 2,
+      "width": 150,
+      "height": 35,
+      "sha256": "33f16014a09cbe9b9beefa97e6a52d3d91e05722665313a047ed08748679bcd0"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 168.75,
+      "stage": 3,
+      "width": 150,
+      "height": 35,
+      "sha256": "6a6b553fd411b1f0a29149b700cf17dbfa7135fd3b9b04220abd62b4554df96b"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 180.0,
+      "stage": 0,
+      "width": 152,
+      "height": 25,
+      "sha256": "d12c5c6e22a9427536252f3659144df04bff99665ed408016ae1b384dc9e3ba5"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 180.0,
+      "stage": 1,
+      "width": 152,
+      "height": 25,
+      "sha256": "fb73da337fb3ee45c769063aaa414807c80b4281aae894da9fbd1adfb324468c"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 180.0,
+      "stage": 2,
+      "width": 152,
+      "height": 25,
+      "sha256": "94eb2a0152aa63e8b0a904bc48ff06550133e5fe92b3deb30691a86b36253330"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 180.0,
+      "stage": 3,
+      "width": 152,
+      "height": 25,
+      "sha256": "30950d776c684a7214cd4838aec26ae3eaacda0a779e10824389ac603905f172"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 191.25,
+      "stage": 0,
+      "width": 150,
+      "height": 35,
+      "sha256": "b8edad0d8b3946392e32d6f50b072e66260dbe67d3bd1b95cea892ec2081f20f"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 191.25,
+      "stage": 1,
+      "width": 150,
+      "height": 35,
+      "sha256": "6a7b4702a7347d229c0bd52285e2883dc117d6387fc53700f609198963ca7cd5"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 191.25,
+      "stage": 2,
+      "width": 150,
+      "height": 35,
+      "sha256": "7682fe9a5be3a9d344ca6c5472e940653660998c9035ea3f435bb648db28ada0"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 191.25,
+      "stage": 3,
+      "width": 150,
+      "height": 35,
+      "sha256": "b04359502665b2ec256924249eeccff1df2eafe81af5518421f5c2d00ca0335c"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 202.5,
+      "stage": 0,
+      "width": 144,
+      "height": 45,
+      "sha256": "7b3344f4041cc58f1bcc8f01196c2e4f4a7fabd0f0a6cc200b4c54436fa4e9e8"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 202.5,
+      "stage": 1,
+      "width": 144,
+      "height": 45,
+      "sha256": "383d304e8c92aac9a623668ccba01bac29f6ee1f97b096512dbfc246cfff780e"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 202.5,
+      "stage": 2,
+      "width": 144,
+      "height": 45,
+      "sha256": "e4b5a2808c2a31548a458ae52781643e4d514110d28bc69ec49841f991c53041"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 202.5,
+      "stage": 3,
+      "width": 144,
+      "height": 45,
+      "sha256": "44d684ff494ce1c17d8e934006f385ea101501c4f562c3e0b3702805c05c7615"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 213.75,
+      "stage": 0,
+      "width": 134,
+      "height": 55,
+      "sha256": "9c202879daaca15e20dc35b87d73fac6cffef0ce03503d3bcf2210399227ef59"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 213.75,
+      "stage": 1,
+      "width": 134,
+      "height": 55,
+      "sha256": "a3b0ec530c7e8f35550c65aa359da9137c00c9fefd5a88e744644f4d2a86d8d3"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 213.75,
+      "stage": 2,
+      "width": 134,
+      "height": 55,
+      "sha256": "5ece6e39761c13b356a2feb5730487dcb36d17f43364f89f1f23418e382f9310"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 213.75,
+      "stage": 3,
+      "width": 134,
+      "height": 55,
+      "sha256": "e22924a4a826ee8f21004cb3c889d2b28b3cc924ab40d7513d6b10ccfa3ac7bf"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 225.0,
+      "stage": 0,
+      "width": 121,
+      "height": 63,
+      "sha256": "54dd46809ce072f846f39700d043945fd42c8e3ade997aebd8b7cc065a1330b4"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 225.0,
+      "stage": 1,
+      "width": 121,
+      "height": 63,
+      "sha256": "37eaf5ba9e7ee74a60fb06467eeb48a82f9482f40b48349bd330c658a42c1160"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 225.0,
+      "stage": 2,
+      "width": 121,
+      "height": 63,
+      "sha256": "6e5d19eb3e0eff3bb1b6bd501c123e4a47115111fe1cb0b82da65f2609d5c43e"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 225.0,
+      "stage": 3,
+      "width": 121,
+      "height": 63,
+      "sha256": "150bc84c4fd5bb555864719fb6504a08faeab2a99c4a1607e7b41471bda8d494"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 236.25,
+      "stage": 0,
+      "width": 105,
+      "height": 69,
+      "sha256": "a8fcd53faac083bac41bc583568aa4eec7f6ccdf04935d27e46022bd2e5b67d9"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 236.25,
+      "stage": 1,
+      "width": 105,
+      "height": 69,
+      "sha256": "3be0f1b6020e8cc5292fc783fd7166a35ee4eabc7223cf7be16bd1c45f41fd4e"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 236.25,
+      "stage": 2,
+      "width": 105,
+      "height": 69,
+      "sha256": "86ffd88632b399a614acfc3df2f62aae11be1f07c1df58437949ae7fa99f2e0d"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 236.25,
+      "stage": 3,
+      "width": 105,
+      "height": 69,
+      "sha256": "d87c6a3bfbe733027d6667fa1353b0e74e360cc621a193bf460eee24d56f1399"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 247.5,
+      "stage": 0,
+      "width": 86,
+      "height": 74,
+      "sha256": "f804014ac6e9044c9f366206b94e86d039237b0ab94619ad1ca760c1556a8329"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 247.5,
+      "stage": 1,
+      "width": 86,
+      "height": 74,
+      "sha256": "ffea6d93baaa1e38b1cf1a4585088c10355a13f5b96f98e04d12fd49f21a0059"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 247.5,
+      "stage": 2,
+      "width": 86,
+      "height": 74,
+      "sha256": "e718dffb94ebfa5e84b35c8ca5457ddae11c9d1674af38394137cbd9db31054e"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 247.5,
+      "stage": 3,
+      "width": 86,
+      "height": 74,
+      "sha256": "99940c381ed90b5193b1fc377b8e2da0cf3876290160db624d9462cf6009ae27"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 258.75,
+      "stage": 0,
+      "width": 66,
+      "height": 77,
+      "sha256": "67d7e1a8ce168a2ee520fd2e5a69e65b9ee92b87a49b57a8be513918f37e13ac"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 258.75,
+      "stage": 1,
+      "width": 66,
+      "height": 77,
+      "sha256": "a6f938b5460fed387a86065dcddc03b7dc657bb1b8bf51fb8dad5173b55b6862"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 258.75,
+      "stage": 2,
+      "width": 66,
+      "height": 77,
+      "sha256": "0bfd534832f23eda37ae602d35747970acccff8cb24f4547a422b7594f4abec5"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 258.75,
+      "stage": 3,
+      "width": 66,
+      "height": 77,
+      "sha256": "ddf9a3d570685edb5dd213dba9d39eca5c4f46b6430ca57d59602ba4d7a9bf2b"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 270.0,
+      "stage": 0,
+      "width": 45,
+      "height": 78,
+      "sha256": "46d85556716544f7f52630c15d61823d69a99a28c9ad5fc1c8bfef2c10d14a84"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 270.0,
+      "stage": 1,
+      "width": 45,
+      "height": 78,
+      "sha256": "091f802c5863029ec17ad723904a3b7ef2056f4cf038c2e96d1420ff417e9d1e"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 270.0,
+      "stage": 2,
+      "width": 45,
+      "height": 78,
+      "sha256": "66549e90730b0884987ae2de9bc11d9ad334fee5d44dad571e8c076e2e3d57de"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 270.0,
+      "stage": 3,
+      "width": 45,
+      "height": 78,
+      "sha256": "4a21804eb62fe5363b499440f1cc27596693525a8237956992a31fc20671c878"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 281.25,
+      "stage": 0,
+      "width": 66,
+      "height": 77,
+      "sha256": "5f6e63328037736b67639e738889a60a180b068f2f70088e535e4bc5ec696e16"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 281.25,
+      "stage": 1,
+      "width": 66,
+      "height": 77,
+      "sha256": "4c774c77f3af0ec31467630dd0ecaddd1594748984583eb86633e0ab12eeae8b"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 281.25,
+      "stage": 2,
+      "width": 66,
+      "height": 77,
+      "sha256": "879f519b234648cf97fc009eace1f7aeb12c7621f6ff1e20755725a4bc8e8369"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 281.25,
+      "stage": 3,
+      "width": 66,
+      "height": 77,
+      "sha256": "138d0c530ded89e931064b3488aac30bd646dfc50eb3e3eaab5508bf9119ce1e"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 292.5,
+      "stage": 0,
+      "width": 86,
+      "height": 74,
+      "sha256": "ccd4e583c76cc788cdf086119dc1395dc3e71573f9391a3495fbc9c01ac8a081"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 292.5,
+      "stage": 1,
+      "width": 86,
+      "height": 74,
+      "sha256": "75efca27b23b86584f937774d35fa89a097da58455e5afe8d824c0ecaebc2a33"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 292.5,
+      "stage": 2,
+      "width": 86,
+      "height": 74,
+      "sha256": "407a9072ff11456202f39bbae67dea6d929575256b811ac8a3f048a415015777"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 292.5,
+      "stage": 3,
+      "width": 86,
+      "height": 74,
+      "sha256": "583b58cde58df1dddf63637e6909aac4a18ccbfbbef44ad7adbeac9de556a2e3"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 303.75,
+      "stage": 0,
+      "width": 105,
+      "height": 69,
+      "sha256": "90dbcca79c50695f44a3917ff52f9645faaa5668ae37434374c9743f19eeec52"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 303.75,
+      "stage": 1,
+      "width": 105,
+      "height": 69,
+      "sha256": "993b70174349b6313b832277628129d90c460de5f79772496f3e6a8d3ad311e1"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 303.75,
+      "stage": 2,
+      "width": 105,
+      "height": 69,
+      "sha256": "4d0656e755ac40c3c946ab56e47846648312ae0e3d995d7fef2e7a2f1d1b02d7"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 303.75,
+      "stage": 3,
+      "width": 105,
+      "height": 69,
+      "sha256": "0fe5bcb68ccb5d60d678bc1054b4c0b7307de3d56710f462bd909910165cba88"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 315.0,
+      "stage": 0,
+      "width": 121,
+      "height": 63,
+      "sha256": "193a05770ed26e1d3dc798975afc0ecbe4a49343bf8ff334c3935be2d18587e9"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 315.0,
+      "stage": 1,
+      "width": 121,
+      "height": 63,
+      "sha256": "af40ba48af5d20504d06be10e3031a44636a333626760d301bc038fd5e74bea6"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 315.0,
+      "stage": 2,
+      "width": 121,
+      "height": 63,
+      "sha256": "13e0fe24544f6bb4eabbf7b60df9173c174ecce7bc03d3bf487f81c74a35339f"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 315.0,
+      "stage": 3,
+      "width": 121,
+      "height": 63,
+      "sha256": "4dfb9dac4e48225c4fe904bc052cf467bd44376a3cc408169ab4ec0d34f9f0cf"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 326.25,
+      "stage": 0,
+      "width": 134,
+      "height": 55,
+      "sha256": "1c5773590f037cf79ac388a1c3aa91874d08d27bbf9b0f4a8d1983ea67036099"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 326.25,
+      "stage": 1,
+      "width": 134,
+      "height": 55,
+      "sha256": "94d46f7ab11284e348b3fe778a02e33697e6a0467ee87454c3eed033962c6a4a"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 326.25,
+      "stage": 2,
+      "width": 134,
+      "height": 55,
+      "sha256": "b174b599591a786b92abc67e5c9b10b2ffa8c4a133e6e1d012337fa4db1fd107"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 326.25,
+      "stage": 3,
+      "width": 134,
+      "height": 55,
+      "sha256": "a6eca232cb84fdd7c7554b0aec122110a35e176a432c1b5d04ce2c02bd605651"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 337.5,
+      "stage": 0,
+      "width": 144,
+      "height": 45,
+      "sha256": "b130f235fe9df6017aae3b012a7cf239dd3c3c5be0302ef27f31cd1c8fb2953a"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 337.5,
+      "stage": 1,
+      "width": 144,
+      "height": 45,
+      "sha256": "92927394c4132b00f47048b996cb66d4aa2be6d848f09401002e05e05dd4476e"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 337.5,
+      "stage": 2,
+      "width": 144,
+      "height": 45,
+      "sha256": "7da5a9776b4a1ecb176a755e7ca33dcb923e1e4127a34f228e10df0e8033d380"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 337.5,
+      "stage": 3,
+      "width": 144,
+      "height": 45,
+      "sha256": "938ea7f7c98150d10cf09f99a8053c6d2d2a0d23a9584624475bc88017c1f368"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 348.75,
+      "stage": 0,
+      "width": 150,
+      "height": 35,
+      "sha256": "bc8c51b033911db649336758a1fe0622c1d08ad3942cae8aadfdf198ed2f1837"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 348.75,
+      "stage": 1,
+      "width": 150,
+      "height": 35,
+      "sha256": "8b2ce01fd88598dc39b2481ee3316874a1ee295446671f1044b48e121bd448dc"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 348.75,
+      "stage": 2,
+      "width": 150,
+      "height": 35,
+      "sha256": "182a990f9aee1830226479d559c89719ed75886f6ced53090e25d3ccb419202d"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 348.75,
+      "stage": 3,
+      "width": 150,
+      "height": 35,
+      "sha256": "988494ca32db53fcc35a23063077414b781278ea281f0692721809151e2c2a12"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 5.625,
+      "stage": 0,
+      "width": 152,
+      "height": 30,
+      "sha256": "5c9d47f412d986dd0943a3f7c8e9ed83d077b95a845259e701b270cb7e063c0c"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 5.625,
+      "stage": 1,
+      "width": 152,
+      "height": 30,
+      "sha256": "ac342ee6976b9fd32196652293328902eb0fd2ee586f280ecad2f353c1c12c17"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 5.625,
+      "stage": 2,
+      "width": 152,
+      "height": 30,
+      "sha256": "0488cf2e5748fb10adae33611ae74cf300726268427ba3a80c1f627068c59c50"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 5.625,
+      "stage": 3,
+      "width": 152,
+      "height": 30,
+      "sha256": "f0e25a6f840d9a9202c5732b554813b412656ac6784c79fd9bcfd7efb1f517af"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 39.7,
+      "stage": 0,
+      "width": 128,
+      "height": 59,
+      "sha256": "3d0b28f804d913c93efeb211214b7886cda1decd4c8b8df3003099d13201f08c"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 39.7,
+      "stage": 1,
+      "width": 128,
+      "height": 59,
+      "sha256": "924eba61c3cff6ed1adcc6ed1bba41540a7580864355368e814f7513358c7501"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 39.7,
+      "stage": 2,
+      "width": 128,
+      "height": 59,
+      "sha256": "c58ea369ca18ddb820d5e93f4ce75e74f70abd20bd79ac242bb318dce1c47269"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 39.7,
+      "stage": 3,
+      "width": 128,
+      "height": 59,
+      "sha256": "34d8e8d33fc0e8be23740cf24ae6fc977581428a924ee4e78480d17c2da3d3d6"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 181.3,
+      "stage": 0,
+      "width": 152,
+      "height": 26,
+      "sha256": "a484292474bc74972b735b72cb504f25994ea56645921ee2411a77b48d5ae7fd"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 181.3,
+      "stage": 1,
+      "width": 152,
+      "height": 26,
+      "sha256": "b7ee77edf8a6464059b372651ee6428ad98a66b4d6b252b04c89cf05f7b8c1c9"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 181.3,
+      "stage": 2,
+      "width": 152,
+      "height": 26,
+      "sha256": "80a1beb02125e0ac2679b9d9924b8273c0efe0d27764e3c16d77f8154fa2dbcf"
+    },
+    {
+      "length": 2.25,
+      "radius": 0.4,
+      "angle": 181.3,
+      "stage": 3,
+      "width": 152,
+      "height": 26,
+      "sha256": "54e6ed58b2a2259ecd9bb4a5889007559ecaa3975122c68cddf1d96d1628a6cd"
+    }
+  ]
+}

@@ -1,0 +1,433 @@
+{
+  "schema": 1,
+  "ppu": 48,
+  "size": 72,
+  "pivot": [
+    36,
+    8
+  ],
+  "frames": 7,
+  "entries": [
+    {
+      "actor": "bruno",
+      "direction": "down",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/bruno_attack_down.png",
+      "sha256": "2d247c83e375c2fbeb189560b0716faa91ca4f6b11c5698dc9fdd8e6dabf4269",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix1/bruno/effect_down/frame_02.png",
+          "sha256": "b770cbf2ccd7e31ce6bf7ba1c0ef7e88dfec5d9967288677872e04720d3f64d8"
+        },
+        {
+          "frame": 3,
+          "source": "motions-fix1/bruno/effect_down/frame_03.png",
+          "sha256": "ff9571f4a13dee70a0d104941b9d1a519b5115af3213fc9645ac36e3d7a2cc2f"
+        },
+        {
+          "frame": 4,
+          "source": "motions-fix1/bruno/effect_down/frame_04.png",
+          "sha256": "d849c35660eb920a87d1bebf183328161c11e1447bbac73e790118309a79285f"
+        }
+      ]
+    },
+    {
+      "actor": "bruno",
+      "direction": "front",
+      "eventFrame": 3,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/bruno_attack_front.png",
+      "sha256": "966e862e381cc061b1a36e0467fa4fd0df400dc3312ce06c4bad6e70aafb9be4",
+      "sources": [
+        {
+          "frame": 3,
+          "source": "motions-fix2/bruno/slash_front/frame_02.png",
+          "sha256": "987c6d5bae1b070aa1a940f0fcfd3956432db4b2fb831b1b30d77a2806f4a279"
+        },
+        {
+          "frame": 4,
+          "source": "motions-fix2/bruno/slash_front/frame_03.png",
+          "sha256": "86fa4077c6e8de178e64a66d4b2d328a75a82fb923a1e3993d8da86e465ba7d0"
+        },
+        {
+          "frame": 5,
+          "source": "motions-fix2/bruno/slash_front/frame_04.png",
+          "sha256": "eeb156e9ebdbea1a93f90132695fa899a73bafbb0b9bf84dece333a143f8d27a"
+        }
+      ]
+    },
+    {
+      "actor": "bruno",
+      "direction": "right",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/bruno_attack_right.png",
+      "sha256": "c683b8f8a01026f15c06a4441e3bb50d899fadc83e9ae0e301a64cb57c7147aa",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix2/bruno/slash_right/frame_02.png",
+          "sha256": "dca5a67abcfca9d29e3134a5390c02095378c3aa4d880d807f5898cc0def9d07"
+        },
+        {
+          "frame": 3,
+          "source": "motions-fix2/bruno/slash_right/frame_03.png",
+          "sha256": "11d9510757eebe8749719967df7433718b9b90dba967280be9701e87c35af21d"
+        }
+      ]
+    },
+    {
+      "actor": "bruno",
+      "direction": "up",
+      "eventFrame": 3,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/bruno_attack_up.png",
+      "sha256": "c599303cf71004fcd4bca3c279e0c9e1d7c863cc39651592ebb1bf7644ded641",
+      "sources": [
+        {
+          "frame": 3,
+          "source": "motions-fix2/bruno/slash_up/frame_02.png",
+          "sha256": "b0438125a4e4e07495709f6d503779cc7602c98aa4f1edc6613c83f6f28e9dd5"
+        },
+        {
+          "frame": 4,
+          "source": "motions-fix2/bruno/slash_up/frame_03.png",
+          "sha256": "daf2c9c16ec8c0c97dfafdf4565ea7dcb8d0b713d0eb6ce978aee6ebf8ae6b2a"
+        }
+      ]
+    },
+    {
+      "actor": "bruno",
+      "direction": "upright",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/bruno_attack_upright.png",
+      "sha256": "ef033598dea83945180824604736f1a0c33bff86fc187503e46af77c8d5b700a",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions/bruno/slash_upright/frame_02.png",
+          "sha256": "e55e7ec964bf24b7dc8ec263d553ece6edd69b375aa5006259061465f40e840a"
+        },
+        {
+          "frame": 3,
+          "source": "motions/bruno/slash_upright/frame_03.png",
+          "sha256": "1b219989d5d98af9322a691ae045c33e0dfe8840be7422abf9b1b1199d0b3bbd"
+        },
+        {
+          "frame": 4,
+          "source": "motions/bruno/slash_upright/frame_04.png",
+          "sha256": "74edce5fa18ff4df48d0ecd8f5585474105f2e9228f98a6f9b28c932dd2e0200"
+        }
+      ]
+    },
+    {
+      "actor": "lena",
+      "direction": "down",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/lena_attack_down.png",
+      "sha256": "0e87611d06178638ff253d24b7e0c255df6ac85a92266676fdd806dacf6193ad",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix1/lena/effect_down/frame_02.png",
+          "sha256": "aceb38934b910067adef606a63741db506bd2a41c7575e30d59f7a5456e34cd4"
+        }
+      ]
+    },
+    {
+      "actor": "lena",
+      "direction": "front",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/lena_attack_front.png",
+      "sha256": "0e87611d06178638ff253d24b7e0c255df6ac85a92266676fdd806dacf6193ad",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix1/lena/effect_down/frame_02.png",
+          "sha256": "aceb38934b910067adef606a63741db506bd2a41c7575e30d59f7a5456e34cd4"
+        }
+      ]
+    },
+    {
+      "actor": "lena",
+      "direction": "right",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/lena_attack_right.png",
+      "sha256": "93f3e44054b43dd8d3d27de6485744d5dc76196ac8a2141e0a0dbd0a638eb76c",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix2/lena/attack_right/arrow.png",
+          "sha256": "07b3973212f4fc2bf25b08c408e47ec3f6050df52688cbd58e3908fb2dc0664d"
+        }
+      ]
+    },
+    {
+      "actor": "lena",
+      "direction": "up",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/lena_attack_up.png",
+      "sha256": "e342ec6df62df1545ae2c3495b2c0b9d183ae03e15b9bc471b2d599549ad8324",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix1/lena/effect_up/frame_02.png",
+          "sha256": "1f301c54cca9945e6c45ddaf9315884ab5b4cbc5091a2e95608674379f6e478d"
+        }
+      ]
+    },
+    {
+      "actor": "lena",
+      "direction": "upright",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/lena_attack_upright.png",
+      "sha256": "93f3e44054b43dd8d3d27de6485744d5dc76196ac8a2141e0a0dbd0a638eb76c",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix2/lena/attack_right/arrow.png",
+          "sha256": "07b3973212f4fc2bf25b08c408e47ec3f6050df52688cbd58e3908fb2dc0664d"
+        }
+      ]
+    },
+    {
+      "actor": "mira",
+      "direction": "down",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/mira_attack_down.png",
+      "sha256": "1180af98d47aa1b256fb589bf4d9df91f092a1295e29322130e8aa63a281f75e",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix2/mira/attack_down/fx/glow_00.png",
+          "sha256": "30bb9afb9712d3b61b16a623b0d6cd58a23b9f7c83efaef00e3f1941e401927f"
+        },
+        {
+          "frame": 3,
+          "source": "motions-fix2/mira/attack_down/fx/glow_01.png",
+          "sha256": "206db564242465acc46102a746649dae9c33799dfdab0515f11e0ccc40007988"
+        },
+        {
+          "frame": 4,
+          "source": "motions-fix2/mira/attack_down/fx/glow_02.png",
+          "sha256": "16cb15e9081e0304874987ce86e108ddd71567020c048835cf06d0366eff278c"
+        }
+      ]
+    },
+    {
+      "actor": "mira",
+      "direction": "front",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/mira_attack_front.png",
+      "sha256": "8d4e8ee5c6da8d031fb0b54ac86826ed323c5a928dc4d303e73e975cbaa21aa7",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix2/mira/attack_front/fx/glow_00.png",
+          "sha256": "d01dbb781fbb00f724fe0f4949ca9304b74b2a6bf50f4bc1c17524dca358a64b"
+        },
+        {
+          "frame": 3,
+          "source": "motions-fix2/mira/attack_front/fx/glow_01.png",
+          "sha256": "82db356de2b0cbbb6abf10943bc1b97652d06bf6f8aaf01c514f8372b9b2dfd1"
+        },
+        {
+          "frame": 4,
+          "source": "motions-fix2/mira/attack_front/fx/glow_02.png",
+          "sha256": "d04c3290404d7a1b881f8b071d39f5a2a0e58dec9d444a722fb49a7f46326516"
+        }
+      ]
+    },
+    {
+      "actor": "mira",
+      "direction": "right",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/mira_attack_right.png",
+      "sha256": "7182abbc363833b638ce979054df3d82bc4e7609f5b997dac70bba8e08661eb7",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions/mira/attack_right/fx/orb_glow_00.png",
+          "sha256": "a110274e46c493b47f37a9fe18319cf9e1b47429275c8e2a0f558eec7313c071"
+        },
+        {
+          "frame": 3,
+          "source": "motions/mira/attack_right/fx/orb_glow_01.png",
+          "sha256": "2c3660beb69b1d38071c9150b54a731354c5621820370ae35ed1a9b10820525c"
+        },
+        {
+          "frame": 4,
+          "source": "motions/mira/attack_right/fx/orb_glow_02.png",
+          "sha256": "eb64237bea5a4ff32a361cb08e65888c1c111a329462415e06c8001dd857d008"
+        }
+      ]
+    },
+    {
+      "actor": "mira",
+      "direction": "up",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/mira_attack_up.png",
+      "sha256": "4d7fd3f199c94f2395691b50920ff091f27127f47985329e1e689a1868ae7027",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix2/mira/attack_up/fx/glow_00.png",
+          "sha256": "fa5d5c5bc120bf3616a5170190ff2291f05a897f88d42a52104caa18d259ff64"
+        },
+        {
+          "frame": 3,
+          "source": "motions-fix2/mira/attack_up/fx/glow_01.png",
+          "sha256": "16c2e4fedb631e30500a5eb5d7e13f8562f2c413a8375848f657d5bb25c94595"
+        },
+        {
+          "frame": 4,
+          "source": "motions-fix2/mira/attack_up/fx/glow_02.png",
+          "sha256": "65e9b7fa62ec6616e52a2e040a593961b1959d8f8446df4a103edd283a3c1562"
+        }
+      ]
+    },
+    {
+      "actor": "mira",
+      "direction": "upright",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/mira_attack_upright.png",
+      "sha256": "3999065dfca5ff45ddfb4b453e5928777b579d48f8a246671b84f7c776e7a1f1",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix2/mira/attack_upright/fx/glow_00.png",
+          "sha256": "afffc52d70632977613a29e8955dfc41d7a20c681a59a8321ac8609b425f8336"
+        },
+        {
+          "frame": 3,
+          "source": "motions-fix2/mira/attack_upright/fx/glow_01.png",
+          "sha256": "6ffa973ba5409ae62bb58af2740a22b36d9b6062e52b7c22bf72f4b8ce593ccd"
+        },
+        {
+          "frame": 4,
+          "source": "motions-fix2/mira/attack_upright/fx/glow_02.png",
+          "sha256": "023eeefa36d9c54eff769b41aae307a0267e740718953fcf38c8e083da31500c"
+        }
+      ]
+    },
+    {
+      "actor": "bolt",
+      "direction": "down",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/bolt_attack_down.png",
+      "sha256": "204cc3795b21f755fe80624732a9566cbf4c9978c3a5d0d38bc61436dd4945ba",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix2/bolt/attack_down/effects/ring_02.png",
+          "sha256": "372887d9f84cf7cc05f5f8901bdbe635feebeb8700b84798a81ef429c33f26df"
+        },
+        {
+          "frame": 3,
+          "source": "motions-fix2/bolt/attack_down/effects/ring_03.png",
+          "sha256": "79e13ccc2b9b89679ded8d13c9878c2e4c28064a48f4daa02b51644ce2edc52d"
+        },
+        {
+          "frame": 4,
+          "source": "motions-fix2/bolt/attack_down/effects/ring_04.png",
+          "sha256": "f43125561ebfcfee72dfbad5335de9ae5ca8ada69ce0fb30a4dbb6ee90af2b1c"
+        }
+      ]
+    },
+    {
+      "actor": "bolt",
+      "direction": "front",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/bolt_attack_front.png",
+      "sha256": "204cc3795b21f755fe80624732a9566cbf4c9978c3a5d0d38bc61436dd4945ba",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix2/bolt/attack_front/effects/ring_02.png",
+          "sha256": "372887d9f84cf7cc05f5f8901bdbe635feebeb8700b84798a81ef429c33f26df"
+        },
+        {
+          "frame": 3,
+          "source": "motions-fix2/bolt/attack_front/effects/ring_03.png",
+          "sha256": "79e13ccc2b9b89679ded8d13c9878c2e4c28064a48f4daa02b51644ce2edc52d"
+        },
+        {
+          "frame": 4,
+          "source": "motions-fix2/bolt/attack_front/effects/ring_04.png",
+          "sha256": "f43125561ebfcfee72dfbad5335de9ae5ca8ada69ce0fb30a4dbb6ee90af2b1c"
+        }
+      ]
+    },
+    {
+      "actor": "bolt",
+      "direction": "right",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/bolt_attack_right.png",
+      "sha256": "999e21eb278355a23f3c7eaaaf47fb374a7421a8b58ec9474167a5ea730b5ed2",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix2/bolt/attack_right/effects/ring_00.png",
+          "sha256": "daf0d431e7d0ad7125ea9e5744a3f7aad58f57a2abdd10e4d19d10b5ba3f07f4"
+        },
+        {
+          "frame": 3,
+          "source": "motions-fix2/bolt/attack_right/effects/ring_01.png",
+          "sha256": "5d56eaa529e586073a22f0da0c3ef3b338556ddaebe5e2f8b087ccc8f925a354"
+        },
+        {
+          "frame": 4,
+          "source": "motions-fix2/bolt/attack_right/effects/ring_02.png",
+          "sha256": "2368bbd6e455705435ed0be62a08de271db96126d6a8745d19e67f7abd608c7a"
+        }
+      ]
+    },
+    {
+      "actor": "bolt",
+      "direction": "up",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/bolt_attack_up.png",
+      "sha256": "204cc3795b21f755fe80624732a9566cbf4c9978c3a5d0d38bc61436dd4945ba",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions/bolt/attack_up/effects/ring_02.png",
+          "sha256": "372887d9f84cf7cc05f5f8901bdbe635feebeb8700b84798a81ef429c33f26df"
+        },
+        {
+          "frame": 3,
+          "source": "motions/bolt/attack_up/effects/ring_03.png",
+          "sha256": "79e13ccc2b9b89679ded8d13c9878c2e4c28064a48f4daa02b51644ce2edc52d"
+        },
+        {
+          "frame": 4,
+          "source": "motions/bolt/attack_up/effects/ring_04.png",
+          "sha256": "f43125561ebfcfee72dfbad5335de9ae5ca8ada69ce0fb30a4dbb6ee90af2b1c"
+        }
+      ]
+    },
+    {
+      "actor": "bolt",
+      "direction": "upright",
+      "eventFrame": 2,
+      "sheet": "Assets/Game/03.Resources/Art/HD2D/DQAppliedFx/bolt_attack_upright.png",
+      "sha256": "204cc3795b21f755fe80624732a9566cbf4c9978c3a5d0d38bc61436dd4945ba",
+      "sources": [
+        {
+          "frame": 2,
+          "source": "motions-fix2/bolt/attack_upright/effects/ring_02.png",
+          "sha256": "372887d9f84cf7cc05f5f8901bdbe635feebeb8700b84798a81ef429c33f26df"
+        },
+        {
+          "frame": 3,
+          "source": "motions-fix2/bolt/attack_upright/effects/ring_03.png",
+          "sha256": "79e13ccc2b9b89679ded8d13c9878c2e4c28064a48f4daa02b51644ce2edc52d"
+        },
+        {
+          "frame": 4,
+          "source": "motions-fix2/bolt/attack_upright/effects/ring_04.png",
+          "sha256": "f43125561ebfcfee72dfbad5335de9ae5ca8ada69ce0fb30a4dbb6ee90af2b1c"
+        }
+      ]
+    }
+  ],
+  "policy": "Separate attack cues at actual body event frame. Lena only1-frame launch cue; real projectile path stays CombatWorldPresenter-owned. Mira glow only, real magic projectile unchanged. Source art unchanged; no generated art."
+}

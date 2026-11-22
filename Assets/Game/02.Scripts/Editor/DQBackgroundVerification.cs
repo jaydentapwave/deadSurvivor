@@ -13,6 +13,154 @@ using Object = UnityEngine.Object;
 // Captures the actual Main camera; UI-inclusive captures remain in the unchanged playable runner.
 public static class DQBackgroundVerification
 {
+    // Presentation fixture: real five species and real ChargeBehavior, with fixture HP
+    // so attacks cannot remove the boar before its warning/dash can be observed.
+    public static void StartFinishCombat()
+    {
+        if (!Application.isPlaying || PlayableProbe.Screen != "Battle")
+        {
+            throw new InvalidOperationException("Finish combat capture requires Main Battle.");
+        }
+        var container = Object.FindAnyObjectByType<GameSceneLifetimeScope>().Container;
+        var model = (MonsterModel)container.Resolve(typeof(MonsterModel));
+        var registry = (MonsterViewRegistry)container.Resolve(typeof(MonsterViewRegistry));
+        var rules = (RunRulesData)container.Resolve(typeof(RunRulesData));
+        var party = new Vector2(PlayableProbe.PartyX, PlayableProbe.PartyY);
+        var species = new[] { "slime", "mushroom", "rock", "boar", "puffer" };
+        var offsets = new[] { new Vector2(-260, 100), new Vector2(260, 100), new Vector2(-260, -100), new Vector2(200, -100), new Vector2(260, -180) };
+        Monster boar = null;
+        for (var i = 0; i < species.Length; i++)
+        {
+            var data = JsonUtility.FromJson<MonsterData>(Resources.Load<TextAsset>("Data/Monster/" + species[i]).text);
+            data.OnAfterDeserialize();
+            var monster = new Monster(-1200 - i, data, party + offsets[i], 10000, data.Damage, 0);
+            model.Add(monster);
+            if (species[i] == "boar")
+            {
+                boar = monster;
+            }
+        }
+        const string directory = "output/hd2d-dq/apply/9/combat";
+        Directory.CreateDirectory(directory);
+        var previousOutput = Output;
+        var previousScale = Time.timeScale;
+        var previousBackground = Application.runInBackground;
+        Output = directory + "/frames";
+        Time.timeScale = .1f;
+        Application.runInBackground = true;
+        var rows = new List<object>();
+        var stages = new HashSet<int>();
+        var captured = 0;
+        var lastFrame = -1;
+        var lastStage = -1;
+        var lastCaptureTime = -1f;
+        var sawDash = false;
+        var dashStart = Vector2.zero;
+        var hasWindupOrigin = false;
+        var bloomCaptured = false;
+        var deadline = EditorApplication.timeSinceStartup + 60;
+        EditorApplication.CallbackFunction callback = null;
+        void Finish(string error)
+        {
+            EditorApplication.update -= callback;
+            Time.timeScale = previousScale;
+            Application.runInBackground = previousBackground;
+            Output = previousOutput;
+            File.WriteAllText(directory + "/trace.json", JsonConvert.SerializeObject(new
+            {
+                utc = DateTime.UtcNow.ToString("O"), error, sawDash, stages = stages.OrderBy(v => v).ToArray(), captured,
+                captureTimeScale = .1f, hasAllWarningStages = stages.SetEquals(new[] { 1, 2, 3, 4 }), bloomCaptured,
+                fixture = "Five species injected in Main model with HP10000 for visibility, original data damage/speed/charge behavior. Not spawn/progression or difficulty evidence.",
+                charge = new { boar.Data.Charge.WindupSeconds, boar.Data.Charge.DashSeconds, boar.Data.Charge.DashSpeed,
+                    boar.Data.Charge.DashHitRadius, unitScale = rules.UnitScale,
+                    expectedLengthMetres = boar.Data.Charge.DashSeconds * boar.Data.Charge.DashSpeed * rules.UnitScale,
+                    expectedWidthMetres = boar.Data.Charge.DashHitRadius * 2 * rules.UnitScale,
+                    actualDashDistanceGameUnits = sawDash ? Vector2.Distance(dashStart, boar.Position) : -1 }, rows
+            }, Formatting.Indented));
+        }
+        callback = () =>
+        {
+            try
+            {
+                EditorApplication.QueuePlayerLoopUpdate();
+                if (!Application.isPlaying || EditorApplication.timeSinceStartup > deadline)
+                {
+                    throw new InvalidOperationException("Finish combat capture interrupted or timed out.");
+                }
+                if (Time.frameCount == lastFrame || !registry.TryGet(boar.Id, out var view))
+                {
+                    return;
+                }
+                lastFrame = Time.frameCount;
+                if (!view.HasDQDash)
+                {
+                    throw new InvalidOperationException("DQ telegraph asset missing; fallback is not DQ success.");
+                }
+                var frame = view.DashFrameSource.FrameNumber;
+                var visible = view.IsDashLineVisible;
+                if (visible)
+                {
+                    stages.Add(frame);
+                }
+                if (boar.Phase == MonsterPhase.Windup && !hasWindupOrigin)
+                {
+                    dashStart = boar.Position;
+                    hasWindupOrigin = true;
+                }
+                if (boar.Phase == MonsterPhase.Dash && !sawDash)
+                {
+                    sawDash = true;
+                }
+                var members = Object.FindObjectsByType<MemberView>(FindObjectsSortMode.None).Where(m => m.gameObject.activeInHierarchy).ToArray();
+                rows.Add(new { engineFrame = Time.frameCount, time = Time.time, phase = boar.Phase.ToString(),
+                    remaining = boar.PhaseClock, viewElapsed = view.DQPhaseClock, warningVisible = visible, warningFrame = frame,
+                    position = new[] { boar.Position.x, boar.Position.y }, direction = new[] { boar.DashDirection.x, boar.DashDirection.y },
+                    bodyFrame = view.DQFrame, bodyAction = view.DQAction,
+                    attackCues = members.Select(m => new { actor = m.DQActorId, action = m.DQAction, bodyFrame = m.DQFrame,
+                        cueVisible = m.DQAttackFxRenderer != null && m.DQAttackFxRenderer.enabled,
+                        cueSprite = m.DQAttackFxRenderer != null && m.DQAttackFxRenderer.sprite != null ? m.DQAttackFxRenderer.sprite.name : null }).ToArray() });
+                if (!bloomCaptured && members.Any(m => (m.DQActorId == "mira" || m.DQActorId == "bolt")
+                    && m.DQAttackFxRenderer != null && m.DQAttackFxRenderer.enabled))
+                {
+                    var currentScale = Time.timeScale;
+                    var lightingOutput = DQLightingVerification.Output;
+                    try
+                    {
+                        Time.timeScale = 0;
+                        DQLightingVerification.Output = "output/hd2d-dq/apply/9/light-positive";
+                        Capture("positive-magic", 1920, 1080);
+                        DQLightingVerification.BloomMaterials();
+                        bloomCaptured = true;
+                    }
+                    finally
+                    {
+                        DQLightingVerification.Output = lightingOutput;
+                        Time.timeScale = currentScale;
+                    }
+                }
+                var shouldCapture = captured == 0 || visible && (frame != lastStage || Time.time - lastCaptureTime >= .10f)
+                    || (boar.Phase == MonsterPhase.Dash || boar.Phase == MonsterPhase.Recover) && Time.time - lastCaptureTime >= .10f;
+                if (shouldCapture)
+                {
+                    Capture("combat-" + captured.ToString("00") + "-" + boar.Phase + "-" + frame, 1920, 1080);
+                    lastCaptureTime = Time.time;
+                    lastStage = frame;
+                    captured++;
+                }
+                if (sawDash && boar.Phase == MonsterPhase.Recover && boar.PhaseClock <= .3f)
+                {
+                    CaptureAspectSet("five-species-after-dash");
+                    Finish(null);
+                }
+            }
+            catch (Exception exception)
+            {
+                Finish(exception.ToString());
+            }
+        };
+        EditorApplication.update += callback;
+    }
+
     public static string Output = "output/hd2d-dq/apply/6/frames";
     public static void Capture(string label, int width, int height)
     {

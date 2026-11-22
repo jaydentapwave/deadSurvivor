@@ -54,6 +54,10 @@ public class MonsterViewFactory
         var body = GetBodySprite(data);
         view.Initialize(body.sprite, body.warningSprite, body.hasArt, _dashLineSprite, _blastAreaSprite, dashLength, blastRadius, _runRules.UnitScale);
         view.InitializeEffects(_effectSpriteCache);
+        if (data.Behavior == MonsterBehavior.Charge)
+        {
+            view.InitializeDash(data.Charge.DashHitRadius, data.Charge.WindupSeconds);
+        }
         if (body.hasArt)
         {
             if (!_directionDict.TryGetValue(data.Id, out var directions))

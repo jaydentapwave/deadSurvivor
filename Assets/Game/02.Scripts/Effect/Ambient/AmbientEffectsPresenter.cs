@@ -45,6 +45,12 @@ public sealed class AmbientEffectsPresenter : IStartable, ITickable, IDisposable
 
     public void Tick()
     {
+        // A scene unload can destroy the pooled child before VContainer removes its tick.
+        // Unity's destroyed-object comparison must precede all component access.
+        if (_dust == null)
+        {
+            return;
+        }
         var isBattle = _run.Phase.CurrentValue == RunPhase.Battle;
         if (!isBattle)
         {

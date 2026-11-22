@@ -719,7 +719,7 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
             _lastMonsterFloors[monster.Id] = monster.Position;
             _lastMonsterDict[monster.Id] = monster;
             view.UpdateView(position);
-            view.UpdateState(monster.Phase, monster.DashDirection);
+            view.UpdateState(monster.Phase, monster.DashDirection, DQPhaseElapsed(monster));
             view.SetTerrain(_terrain, TerrainHeightMath.Normal(_terrain, position.x, position.z), _fieldView.TerrainShadowMaterial);
             if (isRunning)
             {

@@ -3,6 +3,18 @@ using UnityEngine;
 
 public class AmbientMotionMathTests
 {
+    [Test]
+    public void DestroyedSceneParticleCanReceiveTheFinalTickAndDispose()
+    {
+        var particle = new GameObject("unloaded ambient child").AddComponent<ParticleSystem>();
+        var presenter = new AmbientEffectsPresenter(null, null, null, null, null, null, null);
+        typeof(AmbientEffectsPresenter).GetField("_dust", System.Reflection.BindingFlags.Instance
+            | System.Reflection.BindingFlags.NonPublic).SetValue(presenter, particle);
+        Object.DestroyImmediate(particle.gameObject);
+        Assert.DoesNotThrow(presenter.Tick);
+        Assert.DoesNotThrow(presenter.Dispose);
+    }
+
     [TestCase(0, 0)]
     [TestCase(.249999, 0)]
     [TestCase(.25, 1)]

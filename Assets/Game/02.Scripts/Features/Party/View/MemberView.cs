@@ -5,6 +5,9 @@ using UnityEngine;
 // 몸 그림은 자식(Body)이라 대기·피격 오프셋은 몸 자식만 옮기고 HP 막대는 따라가지 않는다. 번쩍임은 몸 자식의 자식(같은 스프라이트·flipX, 흰 재질).
 public class MemberView : MonoBehaviour
 {
+    private DQAttackFxLibrary _dqFx;
+    private SpriteRenderer _dqFxRenderer;
+    public SpriteRenderer DQAttackFxRenderer => _dqFxRenderer;
     public void ApplyProjection(PerspectiveFrame frame, TerrainHeightGrid terrain = null)
     {
         var upright = bodyRenderer.transform.parent;
@@ -54,6 +57,22 @@ public class MemberView : MonoBehaviour
     public void InitializeDQ(DQActorClips actor)
     {
         _dq = actor;
+        _dqFx = Resources.Load<DQAttackFxLibrary>(DQAttackFxLibrary.ResourcePath);
+        if (_dqFx != null)
+        {
+            if (_dqFxRenderer == null)
+            {
+                var child = new GameObject("DQ attack cue", typeof(SpriteRenderer));
+                child.layer = bodyRenderer.gameObject.layer;
+                child.transform.SetParent(bodyRenderer.transform, false);
+                _dqFxRenderer = child.GetComponent<SpriteRenderer>();
+                _dqFxRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                _dqFxRenderer.receiveShadows = false;
+            }
+            _dqFxRenderer.sharedMaterial = actor.Data.actorId == "bruno" || actor.Data.actorId == "lena"
+                ? _dqFx.bladeMaterial : _dqFx.magicMaterial;
+            _dqFxRenderer.enabled = false;
+        }
         if (dqLightProfiles != null)
         {
             bodyRenderer.sharedMaterial = dqLightProfiles.Find(actor.Data.actorId);
@@ -93,6 +112,10 @@ public class MemberView : MonoBehaviour
         DQAction = null;
         DQFrame = 0;
         DQHitAttackId = 0;
+        if (_dqFxRenderer != null)
+        {
+            _dqFxRenderer.enabled = false;
+        }
     }
 
     public void AdvanceDQClock(float delta)
@@ -344,6 +367,16 @@ public class MemberView : MonoBehaviour
         var sprite = !IsDowned && _dqHitSprite != null ? _dqHitSprite : _dq != null && _motionSprite != null ? _motionSprite : IsDowned ? _downedSprite : _motionSprite != null ? _motionSprite : _directionSprites[(int)SpriteFacing.ResolveAvailable(Facing.Direction, _spriteMask)];
         DQSpriteLighting.Apply(bodyRenderer, sprite, ref _dqLightingProperties);
         bodyRenderer.flipX = Facing.IsFlipped;
+        if (_dqFxRenderer != null)
+        {
+            var cue = _dq != null && _dqFx != null && !IsDowned && (DQAction == "attack" || DQAction == "attack-hit")
+                ? _dqFx.GetFrame(_dq.Data.actorId, Facing.Direction, DQFrame) : null;
+            _dqFxRenderer.sprite = cue;
+            _dqFxRenderer.flipX = Facing.IsFlipped;
+            _dqFxRenderer.sortingLayerID = bodyRenderer.sortingLayerID;
+            _dqFxRenderer.sortingOrder = bodyRenderer.sortingOrder + 1;
+            _dqFxRenderer.enabled = cue != null;
+        }
         flashRenderer.sprite = sprite;
         flashRenderer.flipX = Facing.IsFlipped;
     }

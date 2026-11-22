@@ -6,6 +6,24 @@ using UnityEngine;
 // 예고 그림이 있는 몬스터는 Windup·Fuse 동안 몸을 예고 그림으로 바꾼다(아트 기준서 3.10 돌진·자폭 예고). 다른 상태에서는 평소 그림.
 public class MonsterView : MonoBehaviour
 {
+    private float _dqDashRadius;
+    private float _dqWindupSeconds;
+    public bool HasDQDash => _dqDashRadius > 0 && _effectSpriteCache.HasDQTelegraph;
+
+    public void InitializeDash(float hitRadius, float windupSeconds)
+    {
+        _dqDashRadius = hitRadius;
+        _dqWindupSeconds = windupSeconds;
+    }
+
+    private void OnDisable()
+    {
+        // A pooled prefab can be disabled before InitializeEffects has supplied its optional cache.
+        if (_effectSpriteCache != null)
+        {
+            _effectSpriteCache.ReleaseDQDash(GetInstanceID());
+        }
+    }
     public void ApplyProjection(PerspectiveFrame frame, TerrainHeightGrid terrain = null)
     {
         var upright = bodyRenderer.transform.parent;
@@ -89,6 +107,10 @@ public class MonsterView : MonoBehaviour
         if (_blastDecal != null)
         {
             _blastDecal.SetVisible(false);
+        }
+        if (_effectSpriteCache != null)
+        {
+            _effectSpriteCache.ReleaseDQDash(GetInstanceID());
         }
     }
 
@@ -294,6 +316,7 @@ public class MonsterView : MonoBehaviour
         dashLineRenderer.sprite = lineSprite;
         blastAreaRenderer.sprite = areaSprite;
         _dashLength = dashLength;
+        _dqDashRadius = 0;
         _unitScale = unitScale;
 
         _blastRadius = blastRadius;
@@ -441,8 +464,9 @@ public class MonsterView : MonoBehaviour
     }
 
     // dashDirection: 바닥 평면 단위 벡터(Windup일 때만 쓴다)
-    public void UpdateState(MonsterPhase phase, Vector2 dashDirection)
+    public void UpdateState(MonsterPhase phase, Vector2 dashDirection, float phaseSeconds = -1)
     {
+        var wasWindup = _lastPhase == MonsterPhase.Windup;
         if (_dqDead)
         {
             return;
@@ -451,6 +475,10 @@ public class MonsterView : MonoBehaviour
         {
             _dqPhase = phase;
             _dqPhaseClock = 0;
+        }
+        if (_dq != null && phaseSeconds >= 0)
+        {
+            _dqPhaseClock = phaseSeconds;
         }
         var isWarning = _warningSprite != null && (phase == MonsterPhase.Windup || phase == MonsterPhase.Fuse);
         if (isWarning != IsWarning)
@@ -479,12 +507,18 @@ public class MonsterView : MonoBehaviour
         if (isWindup && _dashLength > 0)
         {
             var angle = Mathf.Atan2(_dashDirection.y, _dashDirection.x) * Mathf.Rad2Deg;
-            dashLineRenderer.sprite = _effectSpriteCache.Dash(_dashLength * _unitScale, angle, EffectFrameMath.FrameAt(elapsed, 3, 12, true));
+            dashLineRenderer.sprite = HasDQDash
+                ? _effectSpriteCache.DQDash(_dashLength * _unitScale, _dqDashRadius * _unitScale, angle, DQTelegraphTiles.StageAt(elapsed, _dqWindupSeconds), GetInstanceID())
+                : _effectSpriteCache.Dash(_dashLength * _unitScale, angle, EffectFrameMath.FrameAt(elapsed, 3, 12, true));
         }
         if (!_terrain.IsFlat)
         {
             UpdateDecal(ref _dashDecal, dashLineRenderer, isWindup);
             UpdateDecal(ref _blastDecal, blastAreaRenderer, phase == MonsterPhase.Fuse);
+        }
+        if (wasWindup && !isWindup)
+        {
+            _effectSpriteCache.ReleaseDQDash(GetInstanceID());
         }
     }
 }
