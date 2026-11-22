@@ -1,0 +1,1789 @@
+{
+  "utc": "2026-11-22T04:19:22.695870+00:00",
+  "method": "pixel observations, no acceptance thresholds changed; torso is an opaque comparison window, shield is RED FACE ONLY, sword is BRIGHT BLADE ONLY. Not semantic full-object masks. Need independent visual reading.",
+  "frames": {
+    "A/walk_right/retry": [
+      {
+        "frame": 1,
+        "sha256": "dd8d58f5bddcf6a5dc9eb71b147baaf0d6a8f5ed78813312b5c2d391a068ed2b",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          20,
+          8,
+          52,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 132,
+        "shield_red_face_bbox_size": [
+          9,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          56,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      },
+      {
+        "frame": 2,
+        "sha256": "8001a85e493cbe7cb451de71a40c0ca3460273194f56561d365d94beeb7bc5a8",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          20,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 35.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 146,
+        "shield_red_face_bbox_size": [
+          8,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          56,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      },
+      {
+        "frame": 3,
+        "sha256": "d7b320fcfc3b3645839b2d4ced075be9c9f9d3f71b8aca69e65f30630b9956df",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          21,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 87,
+        "shield_red_face_bbox_size": [
+          10,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          56,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      },
+      {
+        "frame": 4,
+        "sha256": "d507ecb4d7bbd8dbc2e9c019108ada5de0a6ee355bfe3bc42e544d3155f8c8b1",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          20,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 35.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 148,
+        "shield_red_face_bbox_size": [
+          8,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          56,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      }
+    ],
+    "A/walk_down": [
+      {
+        "frame": 1,
+        "sha256": "8f2ab99b7b771993bd8eab4b708e38c2fb38b6678c9102366f8ff123d65d3fe3",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          25,
+          8,
+          57,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          24,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 147,
+        "shield_red_face_bbox_size": [
+          14,
+          19
+        ],
+        "sword_sampling_box": [
+          23,
+          46,
+          29,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          1,
+          9
+        ]
+      },
+      {
+        "frame": 2,
+        "sha256": "20077d5cfb2aa38ebdf4c825ac935ee97d601e59dce4f2003f55b3b0806f7a4c",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          54,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          24,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 125,
+        "shield_red_face_bbox_size": [
+          14,
+          19
+        ],
+        "sword_sampling_box": [
+          23,
+          46,
+          29,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          11
+        ]
+      },
+      {
+        "frame": 3,
+        "sha256": "8b50f8d6be548c320c6694c072d9f2b3f22f030d72733e9e57a39a62c22ed9e8",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          18,
+          8,
+          49,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          24,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 160,
+        "shield_red_face_bbox_size": [
+          8,
+          19
+        ],
+        "sword_sampling_box": [
+          23,
+          46,
+          29,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          6,
+          10
+        ]
+      },
+      {
+        "frame": 4,
+        "sha256": "52b1b045675835c898b74c9f667eb8a61827cd07cdd8c6f13091aac41a2b6469",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          54,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          24,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 131,
+        "shield_red_face_bbox_size": [
+          13,
+          19
+        ],
+        "sword_sampling_box": [
+          23,
+          46,
+          29,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          11
+        ]
+      }
+    ],
+    "A/attack_right": [
+      {
+        "frame": 1,
+        "sha256": "15d8237c61a0a2676c747acc42f54850e4da599bacccb285f0607496d294427f",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          21,
+          8,
+          56,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 116,
+        "shield_red_face_bbox_size": [
+          11,
+          15
+        ],
+        "sword_sampling_box": [
+          51,
+          16,
+          56,
+          33
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          13
+        ]
+      },
+      {
+        "frame": 2,
+        "sha256": "a9c7e1311a2a4bb62ae1d692bdd210ebc17c8b55c9a1f0bd725e39f5cfdc821d",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          21,
+          8,
+          60,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 111,
+        "shield_red_face_bbox_size": [
+          11,
+          19
+        ],
+        "sword_sampling_box": [
+          43,
+          30,
+          63,
+          36
+        ],
+        "sword_bright_blade_bbox_size": [
+          11,
+          3
+        ]
+      },
+      {
+        "frame": 3,
+        "sha256": "847bfa74dd502631067445d08075ce31fe49b69ff43566bed4d886683bd95e9d",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          21,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 120,
+        "shield_red_face_bbox_size": [
+          11,
+          19
+        ],
+        "sword_sampling_box": [
+          39,
+          42,
+          54,
+          53
+        ],
+        "sword_bright_blade_bbox_size": [
+          10,
+          7
+        ]
+      },
+      {
+        "frame": 4,
+        "sha256": "8c4a2fd4138454244bc9017d65e3aecbdcfbec2de51d34e95952874459a2fa58",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          21,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 115,
+        "shield_red_face_bbox_size": [
+          11,
+          19
+        ],
+        "sword_sampling_box": [
+          35,
+          47,
+          55,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          12,
+          2
+        ]
+      }
+    ],
+    "B/walk_right": [
+      {
+        "frame": 1,
+        "sha256": "b17a6299fc97c29c03a0fe7d234e13fbc178447f9e36bf376b8b1fb4ecee09b4",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 35.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          10,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          56,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      },
+      {
+        "frame": 2,
+        "sha256": "31f91738cabe9837d8d14abf6cd86c47211a20446e8a09dfdf3c22d34fd719ad",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          23,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          10,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          56,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      },
+      {
+        "frame": 3,
+        "sha256": "e1a0cb52fc9cf6d0d26bf3a5b0b896641c0279fbc2565544673f7f7cb0e486e6",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          21,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          10,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          56,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      },
+      {
+        "frame": 4,
+        "sha256": "c82c378b6319aa0725ace65522d6ffec9db6db854b588c6a14f3c8cb9168487c",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          23,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          10,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          56,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      }
+    ],
+    "B/walk_down": [
+      {
+        "frame": 1,
+        "sha256": "940f83d5fdd4bbb56fd995f6fa7ca200f688e945bf8dab3e78dfbe98f843435b",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          57,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 32.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          24,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          14,
+          19
+        ],
+        "sword_sampling_box": [
+          23,
+          46,
+          29,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          12
+        ]
+      },
+      {
+        "frame": 2,
+        "sha256": "d5248ad0321d47ddd6f1053841cc49052e1245be722a7f8d69d17af4cc37f7d9",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          54,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 33.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          24,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          12,
+          19
+        ],
+        "sword_sampling_box": [
+          23,
+          46,
+          29,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          12
+        ]
+      },
+      {
+        "frame": 3,
+        "sha256": "79c91fd127b878df6107b1ef45b5945958168ffc3a00d0d8ef4d6b86aa2b10f0",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 32.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          24,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          12,
+          19
+        ],
+        "sword_sampling_box": [
+          23,
+          46,
+          29,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          12
+        ]
+      },
+      {
+        "frame": 4,
+        "sha256": "1bc4f07ac36e8d3238d0024fc953785420090d42bf7073589f65bed5f787f3f2",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 33.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          24,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          12,
+          19
+        ],
+        "sword_sampling_box": [
+          23,
+          46,
+          29,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          12
+        ]
+      }
+    ],
+    "B/attack_right": [
+      {
+        "frame": 1,
+        "sha256": "e34c6c0e7885a6cb2caed4340e5a4d8d88f0ae069862563f57fb2e98f214fafc",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          23,
+          8,
+          56,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 15,
+        "shield_red_face_bbox_size": [
+          15,
+          18
+        ],
+        "sword_sampling_box": [
+          51,
+          10,
+          61,
+          35
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          11
+        ]
+      },
+      {
+        "frame": 2,
+        "sha256": "e3dd2662a3ba356b022904a46e93093a574ba5b04be5b727c165f73f0f7aecef",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          65,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 36.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 9,
+        "shield_red_face_bbox_size": [
+          15,
+          17
+        ],
+        "sword_sampling_box": [
+          44,
+          29,
+          67,
+          36
+        ],
+        "sword_bright_blade_bbox_size": [
+          20,
+          3
+        ]
+      },
+      {
+        "frame": 3,
+        "sha256": "6fe09e7b1d6864bd568e200e259c806f18da70d098654bdadef830552ef6ed64",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          51,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 35.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 1,
+        "shield_red_face_bbox_size": [
+          10,
+          19
+        ],
+        "sword_sampling_box": [
+          38,
+          46,
+          55,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          10,
+          12
+        ]
+      },
+      {
+        "frame": 4,
+        "sha256": "57e56881e66e22d4d6964d3839fc89f8f1534e63550431ecb1f0b2b0fe9cd962",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          52,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 35.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 6,
+        "shield_red_face_bbox_size": [
+          9,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          55,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      }
+    ],
+    "C/walk_right": [
+      {
+        "frame": 1,
+        "sha256": "619cba1d2441835dfe40af857f9501ee252ff2be2e4ac382fd5d1b0d75ea8da8",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 39.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          10,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          56,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      },
+      {
+        "frame": 2,
+        "sha256": "c4b3897e20cf1e39cf07a1135ab1f1f54671d0854e3d876f1f02f45c14345ff5",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 35.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          10,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          56,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      },
+      {
+        "frame": 3,
+        "sha256": "1bab44866eb61d93a178c4d265a2b182de13988b1ad40e9c1976802a293be62b",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 39.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          10,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          56,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      },
+      {
+        "frame": 4,
+        "sha256": "05e22c1855c4119a9c8f0df9dc31c2fce8686b261ebf6978d77e51c777cfd48e",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 35.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          10,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          56,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      }
+    ],
+    "C/walk_down": [
+      {
+        "frame": 1,
+        "sha256": "ff2007e69f00908db4726743fa0790565c2543cf69ac06901cb2a95c6659c735",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 30.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          24,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          12,
+          19
+        ],
+        "sword_sampling_box": [
+          23,
+          46,
+          29,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          12
+        ]
+      },
+      {
+        "frame": 2,
+        "sha256": "0005c4c2a3ec289f351343a4de7638e83871226fbd68c95943af479dece7a9d8",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 30.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          24,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          12,
+          19
+        ],
+        "sword_sampling_box": [
+          23,
+          46,
+          29,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          12
+        ]
+      },
+      {
+        "frame": 3,
+        "sha256": "7fd6041ee6096c547eff8bbaf64fdaeebfd3b1db2367d0fe8c84d40b8ad2d33e",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 35.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          24,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          12,
+          19
+        ],
+        "sword_sampling_box": [
+          23,
+          46,
+          29,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          12
+        ]
+      },
+      {
+        "frame": 4,
+        "sha256": "391d3f6c087c03dfac18d9c02a9bfe04250d02b5094583d4f42c3d64f935163c",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 35.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          24,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 0,
+        "shield_red_face_bbox_size": [
+          12,
+          19
+        ],
+        "sword_sampling_box": [
+          23,
+          46,
+          29,
+          62
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          12
+        ]
+      }
+    ],
+    "C/attack_right": [
+      {
+        "frame": 1,
+        "sha256": "ab0fa9124f019e283a2698f96d696d2cc1d8cb7bb4dce6411facc60c06951b63",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          55,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 35.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 30,
+        "shield_red_face_bbox_size": [
+          14,
+          15
+        ],
+        "sword_sampling_box": [
+          50,
+          31,
+          55,
+          48
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          13
+        ]
+      },
+      {
+        "frame": 2,
+        "sha256": "cd3b0bcadb3c0aa1fa1bda4ad1237b2b31836c249ce1c6fd7c28ab2511d1adac",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          67,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 35.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 30,
+        "shield_red_face_bbox_size": [
+          14,
+          14
+        ],
+        "sword_sampling_box": [
+          50,
+          42,
+          67,
+          47
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      },
+      {
+        "frame": 3,
+        "sha256": "b5dbe51afea704e5801a2b8524dcd228c5e4f29b7ea1e4d41275dda641812e82",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          55,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 42.0,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 30,
+        "shield_red_face_bbox_size": [
+          14,
+          19
+        ],
+        "sword_sampling_box": [
+          50,
+          46,
+          55,
+          63
+        ],
+        "sword_bright_blade_bbox_size": [
+          3,
+          13
+        ]
+      },
+      {
+        "frame": 4,
+        "sha256": "511ab18c8e8f5539195c85b677cb425f046e60d7e0ac1c421d69b49713955635",
+        "canvas": [
+          72,
+          72
+        ],
+        "bbox": [
+          22,
+          8,
+          53,
+          64
+        ],
+        "height": 56,
+        "baseline": 64,
+        "bottom_band_center_x": 35.5,
+        "partial_alpha": 0,
+        "outside_palette": 0,
+        "head_size": [
+          26,
+          23
+        ],
+        "head_changed_solid_pixels": 0,
+        "torso_window": [
+          30,
+          31,
+          41,
+          46
+        ],
+        "torso_window_bbox_size": [
+          11,
+          15
+        ],
+        "torso_window_changed_pixels": 30,
+        "shield_red_face_bbox_size": [
+          10,
+          19
+        ],
+        "sword_sampling_box": [
+          36,
+          47,
+          53,
+          52
+        ],
+        "sword_bright_blade_bbox_size": [
+          13,
+          3
+        ]
+      }
+    ]
+  },
+  "review_revision": "repair-r1"
+}

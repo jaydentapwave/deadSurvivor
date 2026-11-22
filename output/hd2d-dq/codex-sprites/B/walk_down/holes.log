@@ -1,0 +1,6 @@
+reference bruno_dq_down.png: pieces 1, holes 0, thin gaps 38
+PASS frame_00.png: pieces 1, holes 0, thin gaps 47  INFO +9 thin gap px (look at x=52, y=48)
+PASS frame_01.png: pieces 1, holes 0, thin gaps 30
+PASS frame_02.png: pieces 1, holes 0, thin gaps 42  INFO +4 thin gap px (look at x=31, y=57)
+PASS frame_03.png: pieces 1, holes 0, thin gaps 39  INFO +1 thin gap px (look at x=42, y=58)
+PASS 4 frames, 0 came apart or gained holes

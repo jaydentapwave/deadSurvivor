@@ -1,0 +1,6 @@
+{
+  "file": "anim_8x.gif",
+  "frames": 4,
+  "duration_ms": 100,
+  "decoder": "Pillow ImageSequence; installed sheet.py has no decode command"
+}

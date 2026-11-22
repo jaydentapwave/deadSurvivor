@@ -1,0 +1,15 @@
+{
+  "utc": "2026-11-22T04:19:22.695870+00:00",
+  "frames": 36,
+  "heights": [
+    56
+  ],
+  "baseline": [
+    64
+  ],
+  "partial_alpha": 0,
+  "outside_palette": 0,
+  "changed_head_pixels": 0,
+  "passed_bytes_unchanged": true,
+  "review": "not producer visual PASS; hole logs retained independently"
+}

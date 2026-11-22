@@ -1,0 +1,122 @@
+[
+  {
+    "path": "A/walk_right/retry/decoded/00.png",
+    "sha256": "4689e257aa3fc7d906d576ab82245b0079b7d3ce5b946202bd2abf46ef3b0fbc",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "A/walk_right/retry/decoded/01.png",
+    "sha256": "5e3eb0951fd5fc01eb12eacb7a35c01379390feabba693ba767af68fca3c90b6",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "A/walk_right/retry/decoded/02.png",
+    "sha256": "651537265ebd5f52b423a377413e28cc2036ef740f610792908003c35f508245",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "A/walk_right/retry/decoded/03.png",
+    "sha256": "2096c33fad70847862e9f4be430a3b327eb6714d5df2d19b5f7129b341736ec9",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "A/attack_right/decoded/00.png",
+    "sha256": "3b0a02c375a4c20b38c497f0ee56a81efaf764e47c44bc890f49643600693f67",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "A/attack_right/decoded/01.png",
+    "sha256": "90ffa0f10cc95d99911e9ae80104aa424b29544b8f79937c58e378a068368643",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "A/attack_right/decoded/02.png",
+    "sha256": "af2d3ed3233e35c3b7c5508ff5e2f7742a406207ce143be16f0fbfaee656090a",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "A/attack_right/decoded/03.png",
+    "sha256": "3ffd17a9f6c44a36ae3ffe16da7bb464c25b40b4bf1be675cd78805623547943",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "B/walk_down/decoded/00.png",
+    "sha256": "a56ac33d8d7073372c8d8ca1070d1361a876c934fbe81d0c27c45b776a2768b6",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "B/walk_down/decoded/01.png",
+    "sha256": "d6717be40efd71a3bdfeb2e7fffeb3021dcd887efb7400b9210d7c87bf59dc39",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "B/walk_down/decoded/02.png",
+    "sha256": "4372a45c09d2af2a1c2f0f042b2c84ec6e1e6b6162bfd3c91c7906ebb0ccc1fb",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "B/walk_down/decoded/03.png",
+    "sha256": "0a309032453f25585685aaf4d7f5279e9e70e6d279b101648b880f1b10ad0333",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "C/walk_right/decoded/00.png",
+    "sha256": "f553d148033c9a8a4b89a2235eb7af47d690e502d1eb952136084c31deba1ec9",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "C/walk_right/decoded/01.png",
+    "sha256": "7b4ae7ec68bad688cdc3c54290d8d0d571c3cb34ee5ab758b6e45170e14a385c",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "C/walk_right/decoded/02.png",
+    "sha256": "7ef9f65337f83b35d7cdf208eb976b282ac8f94eaa82482f875fbc42b2102b13",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "C/walk_right/decoded/03.png",
+    "sha256": "e180fa6c272caab8dfe9d7272cfeafa8a0b546d183e0c76a17ad888094042c26",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "C/walk_down/decoded/00.png",
+    "sha256": "5372efef1bc6c16403993d1455180b125edc42968aee70fcbfa5a66d6508712f",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "C/walk_down/decoded/01.png",
+    "sha256": "e88596921cb233faceca84d49b825dbd9401e1e85309aa8572f39a4c6cf301de",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "C/walk_down/decoded/02.png",
+    "sha256": "95a72c30c0c816392116fdaaddd509380eb0875fd7351a456f40ac61f7977d29",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "C/walk_down/decoded/03.png",
+    "sha256": "c85a6a7cbb357d6173765bd83e209ec1ce906062660543ff6b34222955411abc",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "C/attack_right/decoded/00.png",
+    "sha256": "2263a44f0ec3c4ea64526b4b8635661218b49b67c9468c1cd4cfb67f6dab1f9c",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "C/attack_right/decoded/01.png",
+    "sha256": "29817ffc11b7fea08a9ffd74c7b721d67144fc49814d5b5ba888d26c541c9a37",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "C/attack_right/decoded/02.png",
+    "sha256": "551c286381d440aad1f1604fc78e85daca4738dede98cf0ab16db9aa9ce8b97e",
+    "opened": "view_image in order after final GIF decode"
+  },
+  {
+    "path": "C/attack_right/decoded/03.png",
+    "sha256": "a2ad419a5fedccc4ef7d83df0fe071acc0e9aef4c44546b94373aaa2a6cdee1b",
+    "opened": "view_image in order after final GIF decode"
+  }
+]

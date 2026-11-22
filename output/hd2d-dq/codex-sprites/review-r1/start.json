@@ -1,0 +1,35 @@
+{
+  "utc": "2026-11-22T04:16:01.241310+00:00",
+  "base_commit": "8c31aa459a123a13fa1a0a4310d13f597afcfcce",
+  "review_evidence": "VERDICT: FAIL",
+  "reviewer": "general-purpose, Claude Opus 5.5 medium, blind first pass",
+  "passed_carried_from": {
+    "A/walk_down": {
+      "frame_00.png": "8f2ab99b7b771993bd8eab4b708e38c2fb38b6678c9102366f8ff123d65d3fe3",
+      "frame_01.png": "20077d5cfb2aa38ebdf4c825ac935ee97d601e59dce4f2003f55b3b0806f7a4c",
+      "frame_03.png": "52b1b045675835c898b74c9f667eb8a61827cd07cdd8c6f13091aac41a2b6469",
+      "frame_02.png": "8b50f8d6be548c320c6694c072d9f2b3f22f030d72733e9e57a39a62c22ed9e8"
+    },
+    "B/walk_right": {
+      "frame_00.png": "b17a6299fc97c29c03a0fe7d234e13fbc178447f9e36bf376b8b1fb4ecee09b4",
+      "frame_01.png": "31f91738cabe9837d8d14abf6cd86c47211a20446e8a09dfdf3c22d34fd719ad",
+      "frame_03.png": "c82c378b6319aa0725ace65522d6ffec9db6db854b588c6a14f3c8cb9168487c",
+      "frame_02.png": "e1a0cb52fc9cf6d0d26bf3a5b0b896641c0279fbc2565544673f7f7cb0e486e6"
+    },
+    "B/attack_right": {
+      "frame_00.png": "e34c6c0e7885a6cb2caed4340e5a4d8d88f0ae069862563f57fb2e98f214fafc",
+      "frame_01.png": "e3dd2662a3ba356b022904a46e93093a574ba5b04be5b727c165f73f0f7aecef",
+      "frame_03.png": "57e56881e66e22d4d6964d3839fc89f8f1534e63550431ecb1f0b2b0fe9cd962",
+      "frame_02.png": "6fe09e7b1d6864bd568e200e259c806f18da70d098654bdadef830552ef6ed64"
+    }
+  },
+  "failed": [
+    "A/walk_right/retry",
+    "A/attack_right",
+    "B/walk_down",
+    "C/walk_right",
+    "C/walk_down",
+    "C/attack_right"
+  ],
+  "review_open": []
+}

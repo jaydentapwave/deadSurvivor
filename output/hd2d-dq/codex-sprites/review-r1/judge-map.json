@@ -1,0 +1,8 @@
+{
+  "group01": "A/walk_right/retry",
+  "group02": "A/attack_right",
+  "group03": "B/walk_down",
+  "group04": "C/walk_right",
+  "group05": "C/walk_down",
+  "group06": "C/attack_right"
+}

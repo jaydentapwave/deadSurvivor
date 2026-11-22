@@ -1,0 +1,36 @@
+{
+  "reviewer": "general-purpose (Claude Opus 5.5, effort medium)",
+  "evidence": "VERDICT: FAIL",
+  "review_open": [],
+  "carried_from": {
+    "A/walk_down": {
+      "set": "set02",
+      "evidence": "set02 = A/walk_down: PASS.",
+      "note": "小 amplitude; slight chest highlight shift"
+    },
+    "B/walk_right": {
+      "set": "set04",
+      "evidence": "set04 = B/walk_right: PASS.",
+      "note": "small skin-coloured back-knee dot in frame02"
+    },
+    "B/attack_right": {
+      "set": "set06",
+      "evidence": "set06 = B/attack_right: PASS.",
+      "note": "slightly thin blade in frame00; holes result remains FAIL"
+    }
+  },
+  "recheck": {
+    "A/walk_right/retry": "set01: restore full connected thigh/shin/boot in frames01/03; retain generated contact frames00/02",
+    "A/attack_right": "set03: source sword outside head silhouette in wind-up; remove old black dot and connect raised arm",
+    "B/walk_down": "set05: replace full left forearm/weapon envelope, including generated fragments outside former narrow patch",
+    "C/walk_right": "set07: correct complete shin/boot cut; exclude source hand; stronger stride ±4/5 and lifted heel 4/5px, dark far boot",
+    "C/walk_down": "set08: increase alternate heel lift from1/2 to3/5px, retain upper tunic above moving thighs",
+    "C/attack_right": "set09: layer whole source shield/rim/boss above moving arm, place weapon outside shield"
+  },
+  "already_decided": [
+    "B right frame03 is not an open failure: independent read PASS overrides producer uncertainty",
+    "holes count alone did not fail the blind read: B attack remains carried PASS with its numeric holes FAIL preserved",
+    "C failures are stride, floating source-hand bars and shield occlusion, not merely generic unnatural joints",
+    "No reviewer finding is disputed; no new generation or Aether call"
+  ]
+}

@@ -1,0 +1,6 @@
+reference bruno_dq_down.png: pieces 1, holes 0, thin gaps 38
+FAIL frame_00.png: pieces 1, holes 3, thin gaps 36  +3 hole px
+FAIL frame_01.png: pieces 1, holes 3, thin gaps 37  +3 hole px
+FAIL frame_02.png: pieces 1, holes 2, thin gaps 37  +2 hole px
+FAIL frame_03.png: pieces 1, holes 2, thin gaps 36  +2 hole px
+FAIL 4 frames, 4 came apart or gained holes

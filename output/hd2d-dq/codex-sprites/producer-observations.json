@@ -1,0 +1,86 @@
+{
+  "status": "initial independent VERDICT: FAIL; 3 clip PASS carried, 6 repairs awaiting recheck",
+  "verdicts": {
+    "A/walk_right/retry": [
+      "NEEDS_REVIEW",
+      "이전 FAIL을 원본 픽셀 조각으로 수정했습니다. 수정 후 독립 재판독 대기입니다. set01: restore full connected thigh/shin/boot in frames01/03; retain generated contact frames00/02"
+    ],
+    "A/walk_down": [
+      "PASS",
+      "Claude 독립 판독 PASS. 그림·재생 파일을 바꾸지 않고 판정을 이어 갑니다. 작은 흠은 리뷰 기록에 남겼습니다."
+    ],
+    "A/attack_right": [
+      "NEEDS_REVIEW",
+      "이전 FAIL을 원본 픽셀 조각으로 수정했습니다. 수정 후 독립 재판독 대기입니다. set03: source sword outside head silhouette in wind-up; remove old black dot and connect raised arm"
+    ],
+    "B/walk_right": [
+      "PASS",
+      "Claude 독립 판독 PASS. 그림·재생 파일을 바꾸지 않고 판정을 이어 갑니다. 작은 흠은 리뷰 기록에 남겼습니다."
+    ],
+    "B/walk_down": [
+      "NEEDS_REVIEW",
+      "이전 FAIL을 원본 픽셀 조각으로 수정했습니다. 수정 후 독립 재판독 대기입니다. set05: replace full left forearm/weapon envelope, including generated fragments outside former narrow patch"
+    ],
+    "B/attack_right": [
+      "PASS",
+      "Claude 독립 판독 PASS. 그림·재생 파일을 바꾸지 않고 판정을 이어 갑니다. 작은 흠은 리뷰 기록에 남겼습니다."
+    ],
+    "C/walk_right": [
+      "NEEDS_REVIEW",
+      "이전 FAIL을 원본 픽셀 조각으로 수정했습니다. 수정 후 독립 재판독 대기입니다. set07: correct complete shin/boot cut; exclude source hand; stronger stride ±4/5 and lifted heel 4/5px, dark far boot"
+    ],
+    "C/walk_down": [
+      "NEEDS_REVIEW",
+      "이전 FAIL을 원본 픽셀 조각으로 수정했습니다. 수정 후 독립 재판독 대기입니다. set08: increase alternate heel lift from1/2 to3/5px, retain upper tunic above moving thighs"
+    ],
+    "C/attack_right": [
+      "NEEDS_REVIEW",
+      "이전 FAIL을 원본 픽셀 조각으로 수정했습니다. 수정 후 독립 재판독 대기입니다. set09: layer whole source shield/rim/boss above moving arm, place weapon outside shield"
+    ]
+  },
+  "legs": {
+    "A/walk_right/retry": [
+      "가까운 다리",
+      "가까운 다리 접지·통과",
+      "먼 다리",
+      "먼 다리 접지·통과"
+    ],
+    "A/walk_down": [
+      "화면 왼발",
+      "왼발 접지·통과",
+      "화면 오른발",
+      "오른발 접지·통과"
+    ],
+    "B/walk_right": [
+      "가까운 다리",
+      "다리 통과·뒤꿈치 연결(Claude PASS)",
+      "먼 다리",
+      "다리 통과·뒤꿈치 연결(Claude PASS)"
+    ],
+    "B/walk_down": [
+      "화면 왼발",
+      "왼발 접지·통과",
+      "화면 오른발",
+      "오른발 접지·통과"
+    ],
+    "C/walk_right": [
+      "가까운 다리",
+      "가까운 다리 접지·통과",
+      "먼 다리",
+      "먼 다리 접지·통과"
+    ],
+    "C/walk_down": [
+      "화면 왼발",
+      "왼발 접지·통과",
+      "화면 오른발",
+      "오른발 접지·통과"
+    ]
+  },
+  "attack_order": [
+    "wind-up: upward",
+    "strike: right",
+    "follow-through: downward",
+    "recovery: waist"
+  ],
+  "recommendation": "소량 자세 시안과 손질 출발점은 B. 40클립 양산 승인은 보류. Aether 품질은 이번에 측정하지 않아 우열을 단정하지 않음."
+}
