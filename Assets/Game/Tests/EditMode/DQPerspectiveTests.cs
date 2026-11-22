@@ -4,6 +4,147 @@ using UnityEngine;
 [Category("DQScreen")]
 public class DQPerspectiveTests
 {
+    [TestCase(1920,1080)]
+    [TestCase(2340,1080)]
+    [TestCase(2048,1536)]
+    public void PlacementUsesRealFrustumAndOnlyFarBoundaryCanRemainVisible(int width, int height)
+    {
+        var grid = TerrainHeightGrid.Flat;
+        var footprint = new ResourceService().LoadJson<ViewRulesData>("Data/View/view_rules").GameplayHalfExtent(width,height);
+        var limit = 32 - footprint.x - footprint.y;
+        foreach (var center in new[] {Vector2.zero,new Vector2(limit,0),new Vector2(0,limit),new Vector2(-limit*.75f,-limit*.25f)})
+        foreach (var angle in new[] {0,44,90,136,180,225,270,315})
+        foreach (var shakeX in new[] {-2f/48,2f/48})
+        foreach (var shakeY in new[] {-2f/48,2f/48})
+        {
+            var original = Frame(width,height);
+            var frame = new PerspectiveFrame(original.Position + new Vector3(center.x,shakeY,center.y) + Vector3.right*shakeX,
+                original.Rotation,20,(float)width/height,height);
+            var direction = new Vector2(Mathf.Cos(angle*Mathf.Deg2Rad),Mathf.Sin(angle*Mathf.Deg2Rad));
+            var result = PerspectivePlacementMath.Resolve(frame,grid,center,direction,16,32,.8f,out var blocked);
+            Assert.LessOrEqual(Mathf.Abs(result.x)+Mathf.Abs(result.y),32.001f);
+            Assert.Less(Mathf.Abs(Vector2.Dot(result-center,new Vector2(-direction.y,direction.x))),.001f);
+            if (!blocked)
+            {
+                var foot=frame.Project(new Vector3(result.x,0,result.y));
+                Assert.IsTrue(foot.x<0||foot.x>width||foot.y<0||foot.y>height);
+                var lo=new Vector2(float.PositiveInfinity,float.PositiveInfinity);var hi=-lo;
+                foreach(var x in new[]{-.65f,.65f}) foreach(var y in new[]{0f,1.2f})
+                {
+                    var pixel=frame.Project(new Vector3(result.x,0,result.y)+frame.Right*x+frame.Up*y);
+                    lo=Vector2.Min(lo,pixel);hi=Vector2.Max(hi,pixel);
+                }
+                Assert.IsTrue(hi.x<0||lo.x>width||hi.y<0||lo.y>height);
+            }
+            else
+            {
+                Assert.AreEqual(32,Mathf.Abs(result.x)+Mathf.Abs(result.y),.001f);
+                Assert.Greater(frame.Project(new Vector3(result.x,0,result.y)).y/height,.5f);
+            }
+        }
+    }
+
+    [Test]
+    public void TerrainSnapIsGroundedBoundedAndUsesMirroredPivotAtActualConsumer()
+    {
+        var texture = new Texture2D(7,11);
+        var sprite = Sprite.Create(texture,new Rect(0,0,7,11),new Vector2(.2f,.1f),48);
+        var root = new GameObject("snap consumer");
+        try
+        {
+            var upright = new GameObject("Upright");upright.transform.SetParent(root.transform);
+            var child = new GameObject("Body");child.transform.SetParent(upright.transform);
+            var body = child.AddComponent<SpriteRenderer>();body.sprite=sprite;body.flipX=true;
+            var view = root.AddComponent<MonsterView>();
+            typeof(MonsterView).GetField("bodyRenderer",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).SetValue(view,body);
+            var frame = Frame(1920,1080);
+            var grid = TerrainHeightGrid.Flat;
+            root.transform.position=new Vector3(.014f,0,.021f);
+            view.ApplyProjection(frame,grid);
+            var expected=frame.SnapCard(root.transform.position,new Vector2(sprite.rect.width-sprite.pivot.x,sprite.pivot.y),48,grid);
+            Assert.Less(Vector3.Distance(expected,upright.transform.position),1e-5f);
+            Assert.AreEqual(TerrainHeightMath.Sample(grid,expected.x,expected.z),expected.y,1e-5f);
+            Assert.LessOrEqual(Vector3.Distance(expected,root.transform.position),2f/48+1e-5f);
+        }
+        finally {Object.DestroyImmediate(root);Object.DestroyImmediate(sprite);Object.DestroyImmediate(texture);}
+    }
+
+    [TestCase(1920,1080)]
+    [TestCase(2340,1080)]
+    [TestCase(2048,1536)]
+    public void AllEightInputDirectionsAtThreeRegionsAndBothMagnitudes(int width,int height)
+    {
+        var frame=Frame(width,height);
+        foreach(var origin in new[]{Vector3.zero,new Vector3(3,.4f,5),new Vector3(8,0,-5)})
+        foreach(var normal in new[]{Vector3.up,new Vector3(-.04f,1,-.07f).normalized})
+        foreach(var magnitude in new[]{.5f,1f})
+        for(var i=0;i<8;i++)
+        {
+            var input=new Vector2(Mathf.Cos(i*Mathf.PI/4),Mathf.Sin(i*Mathf.PI/4))*magnitude;
+            var move=frame.InputDirection(origin,input,normal);
+            var delta=new Vector3(move.x,-(normal.x*move.x+normal.z*move.y)/normal.y,move.y)*.1f;
+            var projected=frame.Direction(origin,delta).normalized;
+            Assert.Less(Mathf.Abs(projected.x*input.normalized.y-projected.y*input.normalized.x),.001f);
+            Assert.Greater(Vector2.Dot(projected,input.normalized),.999f);
+            Assert.AreEqual(1,move.magnitude,.0001f);
+        }
+    }
+
+    [TestCase(1920,1080)]
+    [TestCase(2340,1080)]
+    [TestCase(2048,1536)]
+    public void MaximumShakeAndEveryLegalCenterFitRenderOnlyApron(int width,int height)
+    {
+        var original=Frame(width,height);
+        var footprint=new ResourceService().LoadJson<ViewRulesData>("Data/View/view_rules").GameplayHalfExtent(width,height);
+        var limit=32-footprint.x-footprint.y;
+        foreach(var center in new[]{Vector3.right*limit,Vector3.left*limit,Vector3.forward*limit,Vector3.back*limit})
+        foreach(var sign in new[]{-1,1})
+        foreach(var elevation in new[]{0f,.6f})
+        foreach(var verticalSign in new[]{-1,1})
+        {
+            var frame=new PerspectiveFrame(original.Position+center+original.Right*(sign*2f/48)+original.Up*(verticalSign*2f/48),original.Rotation,20,original.Aspect,height);
+            for(var i=0;i<4;i++)
+            {
+                Assert.IsTrue(frame.TryPlane(new Vector2(i&1,(i>>1)&1),elevation,out var point));
+                Assert.That(point.x,Is.InRange(-110f,110f));
+                Assert.That(point.z,Is.InRange(-100f,140f));
+            }
+        }
+    }
+
+    [Test]
+    public void SlopedTriangleSnapStaysOnSurfaceAndWithinVisualLimit()
+    {
+        var grid=TerrainHeightGrid.FromMillimetres(1,-1,-1,3,3,new[]{0,50,100,50,100,150,100,150,200});
+        var frame=Frame(1920,1080);
+        foreach(var x in new[]{-.2f,.13f,.48f}) foreach(var z in new[]{-.3f,.17f,.51f})
+        {
+            var point=new Vector3(x,TerrainHeightMath.Sample(grid,x,z),z);
+            var snapped=frame.SnapCard(point,new Vector2(3.5f,1),48,grid);
+            Assert.AreEqual(TerrainHeightMath.Sample(grid,snapped.x,snapped.z),snapped.y,.00001f);
+            Assert.LessOrEqual(Vector3.Distance(point,snapped),2f/48+.00001f);
+        }
+    }
+
+    [Test]
+    public void InvalidPlacementRayRejectsWithoutAnUnboundedSearch()
+    {
+        Assert.Throws<System.ArgumentOutOfRangeException>(()=>PerspectivePlacementMath.Resolve(Frame(1920,1080),TerrainHeightGrid.Flat,Vector2.zero,Vector2.zero,16,32,.8f,out _));
+        Assert.Throws<System.ArgumentOutOfRangeException>(()=>PerspectivePlacementMath.Resolve(Frame(1920,1080),TerrainHeightGrid.Flat,Vector2.zero,Vector2.right,float.PositiveInfinity,32,.8f,out _));
+    }
+
+    [Test]
+    public void UnrenderedCardsDoNotDivideByZeroOrReprojectBehindTheCamera()
+    {
+        var frame=Frame(1920,1080);
+        foreach(var depth in new[]{-1f,0f,frame.Near,frame.Far,frame.Far+1})
+        {
+            var point=frame.Position+frame.Forward*depth;
+            Assert.AreEqual(point,frame.SnapCard(point,new Vector2(3.5f,0),48,TerrainHeightGrid.Flat));
+        }
+    }
+
     private static PerspectiveFrame Frame(int width, int height)
     {
         var rotation = Quaternion.Euler(18, 0, 0);

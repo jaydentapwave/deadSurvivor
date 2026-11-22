@@ -83,7 +83,8 @@ public class MonsterRecycleService
             var direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
             var distance = Mathf.Min((halfExtent.x + recycle.PlaceMargin) / Mathf.Max(MinAxis, Mathf.Abs(direction.x)),
                 (halfExtent.y + recycle.PlaceMargin) / Mathf.Max(MinAxis, Mathf.Abs(direction.y)));
-            monster.Position = PartyMoveMath.ClampToDiamond(center + direction * distance, _fieldLimit);
+            monster.Position = _monsterSpawnService.ResolvePlacement(direction, distance, recycle.PlaceMargin, _fieldLimit, out var constrained);
+            monster.PlacementBoundaryConstrained = constrained;
             monster.PlacementVersion++;
             monster.OutsideSeconds = 0f;
             monster.AttackClock = Mathf.Max(recycle.MinAttackDelay, monster.AttackClock);

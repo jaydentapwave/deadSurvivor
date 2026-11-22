@@ -6,10 +6,12 @@ using UnityEngine;
 // 예고 그림이 있는 몬스터는 Windup·Fuse 동안 몸을 예고 그림으로 바꾼다(아트 기준서 3.10 돌진·자폭 예고). 다른 상태에서는 평소 그림.
 public class MonsterView : MonoBehaviour
 {
-    public void ApplyProjection(PerspectiveFrame frame)
+    public void ApplyProjection(PerspectiveFrame frame, TerrainHeightGrid terrain = null)
     {
         var upright = bodyRenderer.transform.parent;
-        upright.position = frame.SnapCard(transform.position, bodyRenderer.sprite.pivot, bodyRenderer.sprite.pixelsPerUnit);
+        var pivot = bodyRenderer.sprite.pivot;
+        if (bodyRenderer.flipX) pivot.x = bodyRenderer.sprite.rect.width - pivot.x;
+        upright.position = frame.SnapCard(transform.position, pivot, bodyRenderer.sprite.pixelsPerUnit, terrain);
     }
 
     private float _appearanceElapsed = SpawnAppearanceMath.Seconds;

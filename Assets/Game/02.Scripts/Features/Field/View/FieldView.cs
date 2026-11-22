@@ -631,6 +631,15 @@ public sealed class FieldOccluder
     }
     public void SetFaded(bool faded)
     {
+        if (!faded)
+        {
+            foreach (var renderer in _renderers)
+            {
+                renderer.GetPropertyBlock(_properties);
+                _properties.SetInt("_OcclusionRectCount", 0);
+                renderer.SetPropertyBlock(_properties);
+            }
+        }
         if (IsFaded == faded) return;
         IsFaded = faded;
         for (var i = 0; i < _renderers.Length; i++) _renderers[i].sharedMaterials = faded ? _faded[i] : _normal[i];

@@ -95,14 +95,37 @@ public readonly struct PerspectiveFrame
     }
 
     // Snap only a visual child in its camera-parallel plane, never its gameplay foot.
-    public Vector3 SnapCard(Vector3 position, Vector2 pivot, float pixelsPerUnit)
+    public Vector3 SnapCard(Vector3 position, Vector2 pivot, float pixelsPerUnit, TerrainHeightGrid terrain = null)
     {
+        if (!(pixelsPerUnit > 0)) throw new ArgumentOutOfRangeException(nameof(pixelsPerUnit));
+        var depth = Vector3.Dot(position - Position, Forward);
+        if (depth <= Near || depth >= Far) return position;
         var corner = position - Right * (pivot.x / pixelsPerUnit) - Up * (pivot.y / pixelsPerUnit);
         var pixel = Project(corner);
         var pitch = FocalPixels / (pixel.z * pixelsPerUnit);
         var snap = new Vector2(Mathf.Round(pixel.x / pitch) * pitch - pixel.x,
             Mathf.Round(pixel.y / pitch) * pitch - pixel.y) * (pixel.z / FocalPixels);
-        return position + Right * snap.x + Up * snap.y;
+        var candidate = position + Right * snap.x + Up * snap.y;
+        if (terrain == null)
+        {
+            return candidate;
+        }
+        var screen = Project(candidate);
+        var ray = Ray(new Vector2(screen.x / (Height * Aspect), screen.y / Height));
+        // Re-intersect the local piecewise terrain surface without scanning the full map.
+        var grounded = position;
+        for (var i = 0; i < 4; i++)
+        {
+            var normal = TerrainHeightMath.Normal(terrain, grounded.x, grounded.z);
+            var surface = new Vector3(grounded.x, TerrainHeightMath.Sample(terrain, grounded.x, grounded.z), grounded.z);
+            var denominator = Vector3.Dot(ray.direction, normal);
+            if (Mathf.Abs(denominator) < 1e-6f) return position;
+            grounded = ray.GetPoint(Vector3.Dot(surface - ray.origin, normal) / denominator);
+        }
+        grounded.y = TerrainHeightMath.Sample(terrain, grounded.x, grounded.z);
+        // At low pitch a half-texel on screen can be a large ground displacement.
+        // Reject that correction rather than move a visual foot off its terrain triangle.
+        return Vector3.Distance(grounded, position) <= 2f / pixelsPerUnit ? grounded : position;
     }
 
     public Vector3 PixelOffset(Vector3 anchor, Vector2 pixels)
@@ -183,5 +206,57 @@ public static class PerspectiveViewMath
                 nearest = t;
             }
         }
+    }
+}
+
+
+// The same selected ray and real perspective body envelope are used by spawn and recycle.
+public static class PerspectivePlacementMath
+{
+    public static Vector2 Resolve(PerspectiveFrame frame, TerrainHeightGrid terrain, Vector2 center,
+        Vector2 direction, float preferredDistance, float fieldLimit, float margin, out bool boundaryConstrained)
+    {
+        if (!Finite(center.x) || !Finite(center.y) || !Finite(direction.x) || !Finite(direction.y)
+            || !Finite(preferredDistance) || !Finite(fieldLimit) || !Finite(margin)
+            || direction.sqrMagnitude < 1e-8f || preferredDistance < 0 || fieldLimit <= 0 || margin < 0)
+            throw new ArgumentOutOfRangeException(nameof(direction), "Finite nonzero placement ray and nonnegative distances required.");
+        direction.Normalize();
+        var boundary = float.PositiveInfinity;
+        for (var x = -1; x <= 1; x += 2)
+        for (var z = -1; z <= 1; z += 2)
+        {
+            var slope = x * direction.x + z * direction.y;
+            if (slope > 1e-6f) boundary = Mathf.Min(boundary, (fieldLimit - x * center.x - z * center.y) / slope);
+        }
+        boundary = Mathf.Max(0, boundary);
+        var distance = Mathf.Min(preferredDistance, boundary);
+        while (distance < boundary && !Outside(frame, terrain, center + direction * distance, margin))
+            distance = Mathf.Min(boundary, distance + .25f);
+        var result = center + direction * distance;
+        boundaryConstrained = !Outside(frame, terrain, result, margin);
+        return result;
+    }
+
+    private static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
+
+    public static bool Outside(PerspectiveFrame frame, TerrainHeightGrid terrain, Vector2 floor, float margin)
+    {
+        var foot = new Vector3(floor.x, TerrainHeightMath.Sample(terrain, floor.x, floor.y), floor.y);
+        var min = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
+        var max = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
+        // Source atlas maximum body plus snap, hit motion and maximum camera shake.
+        var pad = margin + 3f / 48f;
+        for (var x = -1; x <= 1; x += 2)
+        for (var y = 0; y <= 1; y++)
+        for (var z = -1; z <= 1; z += 2)
+        {
+            var world = foot + frame.Right * (x * (.8f + pad)) + frame.Up * (y * 1.6f)
+                + new Vector3(0, y == 0 ? -pad : pad, z * pad);
+            var pixel = frame.Project(world);
+            if (pixel.z <= frame.Near) return false;
+            min = Vector2.Min(min, pixel);
+            max = Vector2.Max(max, pixel);
+        }
+        return max.x < 0 || min.x > frame.Height * frame.Aspect || max.y < 0 || min.y > frame.Height;
     }
 }

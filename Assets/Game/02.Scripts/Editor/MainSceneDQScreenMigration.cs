@@ -19,7 +19,11 @@ public static class MainSceneDQScreenMigration
     private static readonly string[] Prefabs = { "MonsterView", "ProjectileView", "EnemyShotView", "BurstView", "DamageNumberView", "MonsterHpBarView" };
 
     [MenuItem("DeadSurvivor/DQ/Apply Main screen")]
-    public static void Apply()
+    public static void Apply() => ApplyCore(null);
+
+    public static void ApplyForFailureTest(string checkpoint) => ApplyCore(checkpoint);
+
+    private static void ApplyCore(string failAfter)
     {
         if (Application.isPlaying || EditorApplication.isCompiling)
         {
@@ -33,7 +37,8 @@ public static class MainSceneDQScreenMigration
         }
         var targets = Prefabs.Select(PrefabPath).Concat(new[] { ScenePath, RendererPath, ApronPath,
             SettingsPath + "Mobile_RPAsset.asset", SettingsPath + "PC_RPAsset.asset" }).ToArray();
-        var before = targets.ToDictionary(p => p, p => File.Exists(p) ? File.ReadAllBytes(p) : null);
+        var before = targets.Concat(targets.Select(p => p + ".meta"))
+            .ToDictionary(p => p, p => File.Exists(p) ? File.ReadAllBytes(p) : null);
         try
         {
             var renderer = BuildRenderer();
@@ -55,8 +60,10 @@ public static class MainSceneDQScreenMigration
                     if (upright != null)
                     {
                         upright.localRotation = Quaternion.Euler(18, 0, 0);
-                        upright.localPosition = Vector3.zero;
+                        upright.localPosition = name == "ProjectileView" || name == "EnemyShotView"
+                            ? TiltedViewMath.UprightRotation(18) * (Vector3.up * .5f) : Vector3.zero;
                     }
+                    if (failAfter == "prefabs" && upright != null) upright.localPosition += Vector3.right;
                     PrefabUtility.SaveAsPrefabAsset(prefab, path);
                 }
                 finally
@@ -64,7 +71,9 @@ public static class MainSceneDQScreenMigration
                     PrefabUtility.UnloadPrefabContents(prefab);
                 }
             }
+            if (failAfter == "prefabs") throw new InvalidOperationException("Injected after prefab save");
             var scene = EditorSceneManager.OpenScene(ScenePath);
+            if (failAfter == "opened") throw new InvalidOperationException("Injected after scene open");
             var camera = Camera.main;
             foreach (var component in camera.GetComponents<Component>())
             {
@@ -101,9 +110,28 @@ public static class MainSceneDQScreenMigration
                 upright.localPosition = Vector3.zero;
             }
             BuildApron();
-            EditorSceneManager.MarkSceneDirty(scene);
-            EditorSceneManager.SaveScene(scene);
-            AssetDatabase.SaveAssets();
+            // Saving a scene can also persist dirty referenced assets in this Editor version.
+            // Preserve their in-memory edits/dirty flags while saving only declared outputs.
+            var unrelatedDirty = Resources.FindObjectsOfTypeAll<Object>()
+                .Where(o => AssetDatabase.Contains(o) && EditorUtility.IsDirty(o)
+                    && !targets.Contains(AssetDatabase.GetAssetPath(o))).ToArray();
+            foreach (var asset in unrelatedDirty) EditorUtility.ClearDirty(asset);
+            try
+            {
+                if (failAfter == "saved") camera.fieldOfView = 99; // Prove bytes really roll back.
+                EditorSceneManager.MarkSceneDirty(scene);
+                EditorSceneManager.SaveScene(scene);
+                foreach (var path in targets.Where(p => p != ScenePath))
+                {
+                    var asset = AssetDatabase.LoadMainAssetAtPath(path);
+                    if (asset != null) AssetDatabase.SaveAssetIfDirty(asset);
+                }
+            }
+            finally
+            {
+                foreach (var asset in unrelatedDirty) if (asset != null) EditorUtility.SetDirty(asset);
+            }
+            if (failAfter == "saved") throw new InvalidOperationException("Injected after target save");
             if (Camera.main.orthographic || Camera.main.GetComponent<HD2DBackgroundRig>() != null)
             {
                 throw new InvalidOperationException("[MainSceneDQScreenMigration] Projection wiring did not persist.");
@@ -120,10 +148,12 @@ public static class MainSceneDQScreenMigration
                 }
                 else if (File.Exists(pair.Key))
                 {
-                    AssetDatabase.DeleteAsset(pair.Key);
+                    File.Delete(pair.Key);
                 }
             }
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            foreach (var path in targets.Where(File.Exists))
+                AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
             EditorSceneManager.OpenScene(previousScenePath);
             throw;
         }

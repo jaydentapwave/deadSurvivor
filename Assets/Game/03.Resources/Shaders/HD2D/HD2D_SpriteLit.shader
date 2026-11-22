@@ -63,7 +63,8 @@ Shader "HD2D/HD2D_SpriteLit"
             {
                 float3 viewPosition = TransformWorldToView(o.positionWS);
                 viewPosition.z += _HD2DActorDepthBias;
-                o.positionCS = mul(UNITY_MATRIX_P, float4(viewPosition, 1));
+                float4 biased = mul(UNITY_MATRIX_P, float4(viewPosition, 1));
+                o.positionCS.z = biased.z / biased.w * o.positionCS.w;
             }
             o.screen = ComputeScreenPos(o.positionCS);
             o.uv = v.uv;

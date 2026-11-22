@@ -3,6 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 
 // F4 AC13 — 멀어진 적 재배치
+[Category("DQScreen")]
 public class MonsterRecycleTests
 {
     [Test]
@@ -64,11 +65,11 @@ public class MonsterRecycleTests
         Assert.AreEqual(recycle.HoldSeconds, movedAt, dt + 1e-3f);
         Assert.AreEqual(aheadStart, ahead.Position);
         var offset = behind.Position - context.PartyModel.Center;
-        var isOnEdge = Mathf.Abs(Mathf.Abs(offset.x) - (extent.x + recycle.PlaceMargin)) < 0.05f
-            || Mathf.Abs(Mathf.Abs(offset.y) - (extent.y + recycle.PlaceMargin)) < 0.05f;
-        Assert.IsTrue(isOnEdge, $"offset {offset}");
-        Assert.LessOrEqual(Mathf.Abs(offset.x), extent.x + recycle.PlaceMargin + 0.05f);
-        Assert.LessOrEqual(Mathf.Abs(offset.y), extent.y + recycle.PlaceMargin + 0.05f);
+        var frame = context.MonsterModel.PlacementFrame;
+        var foot = frame.Project(IsoProjection.FloorToWorld(behind.Position,context.RunRules.UnitScale,TerrainHeightGrid.Flat));
+        Assert.IsTrue(behind.PlacementBoundaryConstrained || foot.x<0 || foot.x>frame.Height*frame.Aspect || foot.y<0 || foot.y>frame.Height, $"offset {offset}");
+        Assert.LessOrEqual(Mathf.Abs(behind.Position.x)+Mathf.Abs(behind.Position.y),context.RunRules.FieldCells/(2f*context.RunRules.UnitScale)+.05f);
+        Assert.Greater(offset.magnitude,extent.magnitude);
         Assert.GreaterOrEqual(behind.AttackClock, recycle.MinAttackDelay - dt - 1e-3f);
     }
 
