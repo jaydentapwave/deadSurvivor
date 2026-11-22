@@ -104,21 +104,13 @@ Main에서 원근 18°·세로 FOV20°로 한 판이 돌고, 게임 바닥 좌�
 
 중심 이동 제한은 게임 들판 마름모와 진형 자리 여유를 보존하며, 시각용 외곽 바닥의 커버리지도 만족하는 영역으로 계산해야 한다. 게임 이동/스폰 계약의 기존 `SetViewHalfExtent`를 원근 footprint의 큰 값으로 덮지 않는다. 렌더 외곽 커버리지는 별도 시각 경계에서 확인한다. 화면 footprint를 들판에 억지로 넣어 중심을0에 고정하지 않는다. 이동 가능 영역 변화는 이번 카메라 전환 범위지만 수치 조정으로 전투 판정을 맞추지 않는다.
 
-### 4.3 스폰·재배치 — DR-02 디렉터 임시 결정 반영
+### 4.3 스폰·재배치 — 디렉터 임시 결정 2 (attempt3)
 
-원본: `.director/inbox/feedback-20261123-night-1to6-5.md`, 디렉터 임시 결정2026-11-23 01:45. 사용자는 자고 있으며 아침 사용자 확인 항목이다. 아래 결정은 재리뷰에서 다시 열지 않는다.
+원본 `.director/inbox/feedback-20261123-night-1to6-5-r3.md`,2026-11-23 02:40. 카메라18°/FOV20·들판32m·데이터/주기/수/종류·방향 난수·HP/충돌은 유지한다. **바꾸는 것은 화면 밖을 재는 스폰/재배치 자리 계산이다.** 고른 방향의 후보를 실제 원근 투영의 발·몸 상자가 화면 밖(기존 여유+최대shake 포함)이 될 때까지 같은 방향으로 민다. 들판의 첫 경계를 넘지 않는다. recycle도 같은 순수 계산을 쓴다.
 
-- **북쪽(화면 위)만 모든 방향 화면 밖 스폰 조건에서 제외한다.** 사용자 채택 카메라 판A18°·FOV20°, 현재 게임 들판32m 경계, 스폰·재배치 규칙과 데이터를 유지한다. 위치·HP·충돌·타깃 가능 시점은 그대로다.
-- 화면 안에서 새로 생성되거나 PlacementVersion 변경으로 재배치된 몬스터는 **0.30초**(허용0.25~0.35초) 동안 옅은 상태에서 제 모습으로 나타난다. 원근상 화면 안인 출현에만 적용하며 프리팹/재질은 이행 메뉴가 설정한다. 게임 판정을 지연하거나 비활성화하지 않는다.
-- 현재 몸 셰이더에 표시 전용 출현 비율을 전달한다. 기본은1, 시작0→1이며 대원 가림 재질이나 전체 공유 재질 값을 바꾸지 않는다. alpha-blend가 기존 깊이/clip 계약을 깨면 먼 안개색→본색 보간으로 구현한다(디렉터가 허용한 대안). 풀 재사용/일반 생성/재배치/재시작에서 초기화한다. 실제 사용한 방식과0.30초 연속 프레임을 증거로 남긴다. 시각용 시간만 진행하며 게임 상태를 수정하지 않는다.
-- 동·서·남은 지금 규칙대로 화면 밖 출현을 지킨다. SpawnFootVisibleCount/SpawnBodyVisibleCount는 표시 alpha나 색과 무관하게 **원래 몸·발의 실제 투영**으로 센다. 옅어졌다는 이유로 관측에서 빼지 않는다. 방향별 생성/재활용 건수와 보이는 발/몸 건수를 북/동/서/남으로 기록한다. 방향 분류는 각 placement의 party 중심 대비 바닥 방향을 camera의 수평 right/forward 축으로 분해해 주축으로 정한다(동률은 북/남 우선). 실제 viewport·원본 방향 벡터도 함께 기록해 코너 사례가 분류에 숨지 않게 한다.
-- 게임 스폰·재활용 메서드의 원·상자·마름모 clamp, 방향 난수/가중치·번호·수량·간격·행동·공격 지연은 변경하지 않는다. 기존 game ViewHalfExtent를 원근의 먼 footprint 최대값으로 덮어 게임 규칙을 바꾸지 않는다. 새로운 FloorViewBounds는 시각 커버리지·투영 관측용이다. 기존 game 범위와 새 시각 범위의 소비처를 분리하고 DR-04의 공개 Probe 의미를 유지한다.
+경계에 걸려 더 밀 수 없어 화면 안에 남는 먼 쪽만 기존 북쪽 예외와 같이0.30초 옅게 나타남 및6단계 가림 띠 자리 데이터로 인계한다. 방향 이름으로 이 예외를 판단하지 않는다. 기존 방향 분류·원시 발/몸 카운터·route기대식·baseline은 그대로다. 검사가 동서로 센 경계 제약 건수도FAIL그대로옆에 명시한다. 경계에 걸리지 않은 화면 내 출현은 결함이며0이 되어야 한다.
 
-**6단계 가림 띠 자리:** 계획 데이터는 `docs/features/dq-apply/north-spawn-mask-plan.json`. 북쪽 마름모 경계의 바깥에 렌더 전용 띠를 예약한다. 북쪽 경계 선분(-32,0)→(0,32)→(32,0)m, 경계 바깥쪽 너비0.5~3m, 땅 기준 능선/숲 높이1.5~3m(K39). 이 단계는 좌표·높이 요구와3화면비 투영 범위를 남긴다. 모델·숲 띠와 발 가림의 실제 화면 판정은 **6단계 몫, 이 단계 판정 밖**. 경계 바깥 모델이 안쪽 모든 스폰의 발을 기하학적으로 가린다고 미리 주장하지 않는다.6단계는 실제 스폰 위치/카메라 깊이와 교차 화면을 보고 띠의 앞뒤·형태를 조정하되 게임 판정 영역은 바꾸지 않는다.
-
-**판정 정책:** 기본 route.json8단계는 그대로 통과해야 한다. 전용 hd2d-terrain-flows의 SpawnFootVisibleCount==0은 그대로 실행한다. 북쪽 때문에 실패하면 **FAIL 그대로** 방향별 건수와 함께 기록하고 사용자 확인 대기 항목으로 올린다. 이 한 항목으로 수정 반복을 열지 않는다. 동·서·남에서 보이면 결함으로 수정한다. baseline/문턱/route 기대식은 변경·재생성하지 않는다.
-
-A-05의 현재 기준은 “동·서·남 화면 안 진입0 + 북쪽 옅은 출현0.25~0.35초 + 가림 띠 자리 데이터”다. 북쪽0건은 사용자 결정 대기다. 디렉터 임시 결정이 사용자 승인으로 승격된 것은 아니지만, 구현 재개의 권한 있는 지시다.
+`north-spawn-mask-plan.json`은6단계 자리 요구이며 현재 가림 성공이 아니다. 기존 A-05표의 동서남0과 북쪽 예외는위위치계산결정으로해석하며문턱을낮추지않는다. 이미승인된카메라/북쪽결정을다시열지않는다. 구현검증결과는별도verification문서에만기록한다.
 
 ## 5. 모든 소비처 이행 대조표
 
@@ -131,8 +123,8 @@ A-05의 현재 기준은 “동·서·남 화면 안 진입0 + 북쪽 옅은 출
 | Features/Field/Utils/IsoProjection.cs | TerrainHeightMath.SnapOnTerrain | floor↔world 유지, projection snap은 유일 시각 경로 |
 | Features/Party/Utils/PartyMoveMath.cs + Service/PartyMoveService.cs | sinTilt 입력·대칭 inset | 투영 보정 입력·비대칭 화면/시각 외곽 커버리지, 속도·follow 유지 |
 | Features/Field/Presenter/WorldPresenter.cs | ortho footprint·sinTilt facing | 확정된 실제 camera frame에서 bounds·보정값, 대원/적 위치별 facing |
-| Features/Monster/Model/MonsterModel.cs + Service/MonsterService.cs | ViewHalfExtent Vector2 | 기존 게임 ViewHalfExtent 계약 유지, 원근 FloorViewBounds는 시각 계층으로 분리(세이브 계약 변경0) |
-| MonsterSpawnService/MonsterRecycleService | 원·대칭상자·diamond clamp |게임 알고리즘·데이터 유지. 북쪽만0.30초 시각 출현, 방향별 원본 투영 관측;4.3절 임시 결정 |
+| Features/Monster/Model/MonsterModel.cs + Service/MonsterService.cs | ViewHalfExtent Vector2 | 이동용 게임 ViewHalfExtent 계약 유지, 스폰/재배치용 순수 projection snapshot·terrain/scale은 명시 전달. FloorViewBounds는 시각 범위, 세이브 계약 변경0 |
+| MonsterSpawnService/MonsterRecycleService | 원·대칭상자·diamond clamp |난수·데이터·주기·재활용 후보선정 유지. 자리 계산만 실제 원근 사다리꼴/몸/최대shake로 교체. 경계 제약 먼 쪽만0.30초 출현, 방향별 원본 관측;4.3절 결정2 |
 | Features/Combat/Service/CombatService.cs | 공격 facing=sinTilt | 위치별 screen tangent. Camera를 게임 서비스에 주입하지 않음 |
 | Features/Combat/Presenter/CombatWorldPresenter.cs | Screen()·delta의 고정 투영 | 위치별 Project delta·머리 앵커, 연결선 양끝 실제 화면좌표 |
 | Features/Combat/View/ProjectileView.cs | SnapScreenPlane .5 상수 | 현재 투영/깊이에서 시각 snap, 뿌리는 바닥점 |
@@ -257,7 +249,7 @@ Main 전용 renderer asset을 이행 메뉴가 갱신한다. 기존 효과·월�
 |킷의 정사영·도트배경 예시 |원근·매끈한3D | 이 프로젝트 기준서r2가 우선 |
 |몬스터 방향 원본 |4원화+앞대각정면 재사용,반전 포함 | D1 인계의 이미 알려진 차이. 고유8방향이라 재보고 금지 |
 
-이미 결정된 것은 리뷰에서 취향 대안으로 다시 열지 않는다. 이 문장의 DR-02 미결정 상태는 과거 이력이다. 현재 결정은13절과 inbox를 따른다. 다른 단계 항목은1절의 “N단계 몫, 이 단계 판정 밖”을 리뷰 입력에 그대로 넘긴다.
+이미 결정된 것은 리뷰에서 취향 대안으로 다시 열지 않는다. DR-02의 경계/스폰 충돌은 아직 결정된 것이 아니다. 다른 단계 항목은1절의 “N단계 몫, 이 단계 판정 밖”을 리뷰 입력에 그대로 넘긴다.
 
 ## 11. 이번 조사 근거·시간·놓친 것
 
@@ -272,7 +264,7 @@ Main 전용 renderer asset을 이행 메뉴가 갱신한다. 기존 효과·월�
 ## 12. 리뷰 수정·판정 기록(2차 작업, 구현 전)
 
 - 받은 판정: **`VERDICT: FAIL`**, design-reviewer, job `20261123-013222-4e519e`, Codex gpt-6.1-sol medium read-only112초. 사용자 전달 판정이며 직접 다시 실행한 리뷰가 아니다.
-- DR-02: **과거 FAIL 이력(13절 결정으로 해소)**. 당시 열린 지적이자 구현 차단. 북쪽 끝(0,0,32)의 screen y=0.90684, top floor z=46.5579m(독립 리뷰). 4.3절에 명확히 차단으로 반영, 통합 구현·A-05 BLOCKED 유지. 기준 충돌/사람 결정으로 중지한다.
+- DR-02: 열린 지적이자 구현 차단. 북쪽 끝(0,0,32)의 screen y=0.90684, top floor z=46.5579m(독립 리뷰). 4.3절에 명확히 차단으로 반영, 통합 구현·A-05 BLOCKED 유지. 기준 충돌/사람 결정으로 중지한다.
 - DR-03: 목록74·75행과 생성 호출→사용 상태→행 대응표 보완. “dash_line15클립 부재”만 사실 정정: 기존 `2e9b07c` 목록46행·데이터 clips에 이미 존재. 핵심 사용 계약 누락은 수용했다.
 - DR-04: 5.1절에 Probe6개 소비처의 정확한 조회·배치·복원 계약, 아래 route 명령·단계·기대식 보존을 추가했다.
 - DR-03/DR-04 문서 보완은 제작자 확인이며 독립 수정 확인 PASS가 아니다. DR-02 차단을 풀 결정 전에는 같은 열린 지적 때문에 리뷰를 다시 요청하지 않는다. 결정 후 design-reviewer에게 DR-03/DR-04 보완과 결정된 DR-02 방안을 함께 수정 확인받는다.
@@ -319,23 +311,3 @@ F-01~F-05는 확인된 런타임 결함이 아니다. 추가 검사 후보는 �
 - 관문 원근 호환성은 증거 없음 열린 지적이며 재리뷰 반복 사유가 아니다. 미지원이면 검사 부적합 BLOCKED 기록.
 - F-01~F-05는 기존 관문의 반례로 유지한다. 새 독립 전체Play를 추가하지 않는다.
 - 시간 상한은 이번 inbox 실행 시작부터180분,150분에마감전환. 최종 핸드오프는 `.director/outbox/20261123-night-1to6-5-r2.md`, attempt2다. 이전partial핸드오프를현재성공기록으로사용하지않는다.
-
-
-## 14. 구현 검증 현황 — attempt2 (최종 판정 아님)
-
-- 설계 수정 확인: 사용자 전달 design-reviewer job `20261123-014417-e35458`, `VERDICT: PASS`. 구현·Unity 검증 PASS를 뜻하지 않는다. FR-01의 과거 중지 문구는 위에 이력으로 표시했다.
-- 구현 진입점: `MainSceneDQScreenMigration.Apply` / 메뉴 `DeadSurvivor/DQ/Apply Main screen`. 새 렌더러는 `DQ_MainRenderer.asset`. 기존 TiltedView 이행 메뉴는 같은 진입점으로 연결한다. 옛 Background/Effects 이행 메뉴는 폐기 메시지로 중단한다.
-- `PerspectiveFrame`은 투영/역투영/입력 Jacobian/그림 스냅의 단일 계산 계약이다. `TiltedCameraRig.Frame`을 hit shake 적용 후 갱신하고 WorldPresenter 뒤 LateTick에서 가림을 갱신한다. 게임의 이동·스폰 논리 범위는 기존 ViewRules 반크기 계산으로 보존하고, 실제 화면 범위는 `FloorViewBounds`로 분리한다. Probe 경계는 실제 서비스 한계/scoped override를 사용한다.
-- 기본 경로 첫 유효 실행 `playable-main-r3`: 8/8 PASS. 그 이전 2회는 Unity Search 기본 인덱스 예외로 Play 진입 실패했다. 저장된 원시 실패를 보존했고, Unity 자체 기본 인덱스 생성 API로 로컬 캐시를 복구했다. 뒤따른 렌더링/봇 입력 보완의 최종 실행은 별도 증거를 남긴다.
-- 전용 경로 `playable-terrain`: 33/34 PASS, N9_RESULT FAIL. 기대식·baseline·경로 변경0. 원시 방향별 발 `[32,4,4,0]`, 몸 `[32,7,4,0]` (북/동/서/남). 전체 발40/몸43, 발-바닥 오차0. CSV와 JSON은 `output/hd2d-dq/apply/5/terrain-spawn-current*`에 동결했다.
-- **새 열린 결함 A-05**: 동·서 노출은 북쪽 예외로 덮을 수 없다. 현재 카메라·필드·스폰 규칙의 조합에서 발생한 실제 FAIL이며 완성 판정으로 승격하지 않는다. `A05-direction-failure.json`에 해당 행과 좌표가 있다. 방향 분류·카운터·알파를 바꿔 관측을 숨기지 않는다. 카메라/게임 규칙을 유지한 추가 해결의 승인 범위와 실제 기하를 마감 리뷰에 넘긴다.
-- 북쪽 표시 연출은0.30초 fog-color→원색, 알파/HP/충돌/위치 변화0. 가림 띠는 `north-spawn-mask-plan.json`의6단계 자리 요구이며 실제 숲/능선 성공과 다르다.
-- 관련 EditMode 89/89 PASS(중간 이력 포함 원시 JSON 저장). Unity 저장 파일의 YAML 공백은 자동 직렬화이며 코드 공백 검사와 분리해 기록한다. 이 문서는 독립 마감 리뷰 또는 최종 핸드오프를 대신하지 않는다.
-
-- 최종 기본 경로 `playable-main-final/report.json`: 8/8 PASS,145초. `editmode-final.json`: 89/89 PASS. `recompile-final-status.json`: completed/errors0. 두 번 이행의 최종 대상 hash 동일은 `migration-idempotence-indicator-final.json`에 있다.
-- 직접 판독한 캡처 경로/sha256/관찰은 `opened-main-images.json`; 시작·이동·실제 이동 한계9.842309m 도달 후 경계×3화면비, 이동8프레임. 실제 camera/alpha bbox는 각 `*-before.json`; 추가 `metadata-final-*`는 view/projection matrix·near/far·pixelRect도 포함한다. sourceHeight48에서94~96px,texel1.96~2.00px@1080이며 새56칸 그림 완료를 뜻하지 않는다.
-- `appearance-observed.json`은 게임 상태 변경 없는 실제 Editor update 관측131개, 경과0→0.3000366초와 shader `_Appearance`0→1이 일치한다. 첫 관측~완료 실시간차0.2805초. 북쪽 가림 숲/능선은 아직 없다(6단계).
-- 추가 미실행: near-plane 교차 가림 실제 프레임, 사망/부활 가림 복구 전용 프레임, 최대 흔들림 스폰, 피격 몸/HP 동시 프레임, 이행 중간 실패 주입. 단위 시험·기본 한 판으로 이 전용 반례까지 모두 PASS라 하지 않는다. 마감 리뷰에 이 한계를 넘긴다.
-- 네이티브 Play/TMP가 자동 직렬화한 비대상 font/material은 원래HEAD로 복원했고 변경에 포함하지 않는다. ProjectSettings 배경 실행 임시 override는 runner가 종료 시 복원했다. Editor auto tick은 시작 시 이미 enabled,이 실행에서 interval16ms로 갱신되었으며 이전 interval을 확보하지 못해 완전 복원이라 보고하지 않는다. Play stopped/backgroundfalse로 종료한다.
-
-- 마지막 가림 보완: near 평면을 통과하는 AABB는 남은8꼭짓점뿐 아니라12변의 near 교차점까지 투영한다. clip 앞 생존꼭짓점만 쓰던 경우보다 가림 범위를 작게 잡는 결함을 수정했다. 뒤쪽 전체 bounds는 빈 rect. 회귀시험 추가 후 `editmode-near-final.json`90/90 PASS, `recompile-near-status.json`errors0. 기본8단계/캡처는 이 마지막 근평면 교차 계산 보완 직전 수집이며, 게임 입력·규칙·일반 앞쪽 bounds 경로는 그 뒤 바뀌지 않았다. 과거89/89를현재90으로덮어쓰지않고둘다보존한다.

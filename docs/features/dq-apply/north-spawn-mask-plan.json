@@ -27,7 +27,7 @@
     1.5,
     3
   ],
-  "boundary": "render only; no collider, spawn/HP/data change",
+  "boundary": "render only; no collider or HP/data-value change. Spawn/recycle placement formula changes authorized by decision2.",
   "criterion": "6단계에서 실제 placement/camera depth와3화면비를 보고 먼언덕/숲띠로 스폰 발 경계를 완화.5단계는 자리만 제공, 실제가림PASS아님",
   "camera": {
     "pitch_degrees": 18,
@@ -44,5 +44,7 @@
     "terrain colour/texture",
     "lighting/fog tuning",
     "claim of geometric foot occlusion"
-  ]
+  ],
+  "decision2": ".director/inbox/feedback-20261123-night-1to6-5-r3.md",
+  "far_boundary_scope": "Actual field-constrained visible placements, regardless of direction name; NE/NW rim above includes those intervals. Raw direction counts/expectations unchanged."
 }
