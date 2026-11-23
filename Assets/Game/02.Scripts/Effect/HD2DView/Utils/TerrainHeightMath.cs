@@ -93,9 +93,6 @@ public static class TerrainHeightMath
     public static Vector3 ProjectOntoPlane(Vector3 point, Vector3 direction, Vector3 planePoint, Vector3 planeNormal) =>
         point + direction * (Vector3.Dot(planePoint - point, planeNormal) / Vector3.Dot(direction, planeNormal));
 
-    public static float ActorDepthBias(TerrainHeightGrid grid, float footHalfWidth, float sinTilt) =>
-        grid.IsFlat ? 0f : grid.MaxSlope * footHalfWidth / (sinTilt - grid.MaxSlope * Mathf.Sqrt(1f - sinTilt * sinTilt)) + .018f;
-
     // Positive when point lies behind the terrain on the same camera ray. theta is in radians.
     public static float RayGroundDepthGap(TerrainHeightGrid grid, Vector3 point, float theta)
     {

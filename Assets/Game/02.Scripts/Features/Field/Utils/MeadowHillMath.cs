@@ -5,18 +5,24 @@ using UnityEngine;
 // grid = judgment + hills on the same cells, used by everything that is drawn so all of it follows one surface.
 public static class MeadowHillMath
 {
-    public const float Amplitude = .6f;
-    public const float BroadWavelength = 14f;
+    public const float Amplitude = .5f;
+    public const float BroadWavelength = 16f;
     public const float FineWavelength = 6f;
     public const float FineWeight = .2f;
-    // Kept low so the global ActorDepthBias (it grows with the steepest slope) stays small.
-    public const float MaxSlope = .12f;
+    // Below tan(18 deg) = 0.325 so every visible slope still faces the camera (a ridge's back side is squeezed,
+    // not inverted) and the foot snap stays monotonic. Sprites bias their own depth (TerrainHeightTexture).
+    public const float MaxSlope = .30f;
     // Protected zones keep the judgment height: water edge + FlatRadius, bridge and tent footprints (centre + radius).
     public const float FlatRadius = 3f;
     public const float BridgeRadius = 6f;
     public const float TentRadius = 4f;
+    // Step 14: one ridge across the meadow beyond the stream (z ~ RidgeZ), so the near view has a crest that hides
+    // part of the meadow behind it. Gaussian cross-section; its steepest side is about 0.86 * height / width.
+    public const float RidgeHeight = 1.4f;
+    public const float RidgeWidth = 4.5f;
+    public const float RidgeZ = 22f;
     // Width of the smooth rise from a protected zone to full hills.
-    public const float BlendWidth = 6f;
+    public const float BlendWidth = 4f;
 
     public static TerrainHeightGrid Build(TerrainHeightGrid judgment, FieldLayoutData layout)
     {
@@ -31,17 +37,16 @@ public static class MeadowHillMath
                 var z = judgment.OriginZ + j * judgment.Cell;
                 // A vertex within one cell diagonal of a protected zone stays flat, so every triangle that
                 // touches the zone interpolates the judgment height exactly (not just its sampled corners).
-                hillList[j * width + i] = Hill(x, z, layout.seed) * Mask(x, z, layout, judgment.Cell * 1.4143f);
+                hillList[j * width + i] = (Hill(x, z, layout.seed) + Ridge(x, z, layout.seed)) * Mask(x, z, layout, judgment.Cell * 1.4143f);
             }
         }
-        // Keep the steepest visible slope under MaxSlope (ActorDepthBias diverges near tan(tilt)).
-        var scale = 1f;
-        var slope = Compose(judgment, hillList, 1f).MaxSlope;
-        if (slope > MaxSlope)
+        // Keep the steepest visible slope under MaxSlope (screen height collapses at tan(tilt)). Step 14: lower the
+        // hills only around the steep spots first, so one steep place does not flatten the whole meadow.
+        for (var pass = 0; pass < 8 && Compose(judgment, hillList, 1f).MaxSlope > MaxSlope; pass++)
         {
-            var judgmentSlope = judgment.MaxSlope;
-            scale = Mathf.Clamp01((MaxSlope - judgmentSlope) / Mathf.Max(slope - judgmentSlope, 1e-4f));
+            LowerSteepSpots(judgment, hillList);
         }
+        var scale = 1f;
         var grid = Compose(judgment, hillList, scale);
         // The scaled estimate can still overshoot where judgment and hill slopes add; shrink until it fits.
         // Millimetre rounding can also push a tiny scale over the limit; end at scale 0 (the judgment grid) if needed.
@@ -53,12 +58,66 @@ public static class MeadowHillMath
         return grid;
     }
 
+    // Scales the hill down by (limit / local slope) over a 5x5 neighbourhood of every too-steep vertex.
+    // Protected vertices have hill 0 and stay 0 under any factor.
+    private static void LowerSteepSpots(TerrainHeightGrid judgment, float[] hillList)
+    {
+        var width = judgment.Width;
+        var depth = judgment.Depth;
+        var cell = judgment.Cell;
+        var factorList = new float[hillList.Length];
+        for (var k = 0; k < factorList.Length; k++)
+        {
+            factorList[k] = 1f;
+        }
+        float Height(int i, int j) => judgment.Height(i, j) + hillList[j * width + i];
+        for (var j = 0; j < depth - 1; j++)
+        {
+            for (var i = 0; i < width - 1; i++)
+            {
+                var lower = new Vector2(Height(i + 1, j) - Height(i, j), Height(i + 1, j + 1) - Height(i + 1, j)).magnitude / cell;
+                var upper = new Vector2(Height(i + 1, j + 1) - Height(i, j + 1), Height(i, j + 1) - Height(i, j)).magnitude / cell;
+                var slope = Mathf.Max(lower, upper);
+                if (slope <= MaxSlope * .98f)
+                {
+                    continue;
+                }
+                var factor = MaxSlope * .9f / slope;
+                for (var dj = -2; dj <= 3; dj++)
+                {
+                    for (var di = -2; di <= 3; di++)
+                    {
+                        var ni = i + di;
+                        var nj = j + dj;
+                        if (ni >= 0 && nj >= 0 && ni < width && nj < depth)
+                        {
+                            factorList[nj * width + ni] = Mathf.Min(factorList[nj * width + ni], factor);
+                        }
+                    }
+                }
+            }
+        }
+        for (var k = 0; k < hillList.Length; k++)
+        {
+            hillList[k] *= factorList[k];
+        }
+    }
+
     // Smooth value noise in [-Amplitude, Amplitude]: a broad swell plus a finer roll.
     public static float Hill(float x, float z, int seed)
     {
         var broad = Noise(x / BroadWavelength, z / BroadWavelength, seed) * 2 - 1;
         var fine = Noise(x / FineWavelength, z / FineWavelength, seed + 7919) * 2 - 1;
         return Amplitude * ((1 - FineWeight) * broad + FineWeight * fine);
+    }
+
+    // The ridge line wanders in z along x and its height varies, so it reads as land, not a wall.
+    public static float Ridge(float x, float z, int seed)
+    {
+        var center = RidgeZ + 1.5f * Mathf.Sin(x / 9f + seed * .37f) + 1f * (Noise(x / 7f, 3.1f, seed + 101) * 2 - 1);
+        var height = RidgeHeight * (.75f + .5f * Noise(x / 11f, 7.3f, seed + 211));
+        var d = (z - center) / RidgeWidth;
+        return height * Mathf.Exp(-d * d);
     }
 
     // 0 inside a protected zone grown by margin, 1 at BlendWidth beyond it, smoothstep between.

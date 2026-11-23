@@ -112,20 +112,37 @@ public class TerrainHeightMathTests
     }
 
     [Test]
-    public void TB1TB2_ActorBiasUsesRayDepthAndFlatIsZero()
+    public void TB1TB2_SpriteBiasWalksTheCameraRayAndFlatIsZero()
     {
-        Assert.AreEqual(0, TerrainHeightMath.ActorDepthBias(TerrainHeightGrid.Flat, .15f, .5f));
-        var grid = Plane(.2f, 0);
-        Assert.AreEqual(.1098f, TerrainHeightMath.ActorDepthBias(grid, .15f, .5f), .0001);
-        Assert.AreEqual(.2016f, TerrainHeightMath.ActorDepthBias(grid, .3f, .5f), .0001);
-        for (var i = 0; i < 200; i++)
+        var camera = new Vector3(0, 4, -12);
+        Assert.AreEqual(0, TerrainHeightTexture.SpriteBias(TerrainHeightGrid.Flat, new Vector3(-.6f, 0, 0), new Vector3(.6f, 2, 0), camera));
+        // Side slope 0.3: the uphill corner is 0.18 m under ground and needs a pull; the bottom edge on the ground needs none above.
+        var side = Plane(.3f, 0);
+        var bias = TerrainHeightTexture.SpriteBias(side, new Vector3(-.6f, 0, 0), new Vector3(.6f, 2, 0), camera);
+        Assert.Greater(bias, .3f);
+        Assert.Less(bias, 1.2f);
+        // Edge above the ground everywhere: only the margin.
+        Assert.AreEqual(TerrainHeightTexture.Margin, TerrainHeightTexture.SpriteBias(side, new Vector3(-.6f, .2f, 0), new Vector3(.6f, 2, 0), camera), 1e-6);
+        // Both ends exposed, a 0.3 crease crossing the edge between two samples (x = 0.037): still pulled.
+        var ridge = TerrainHeightGrid.FromMillimetres(1, -3, -3, 7, 7, Heights(7, (i, j) => i == 3 ? 300 : 0));
+        Assert.Greater(TerrainHeightTexture.SpriteBias(ridge, new Vector3(-.963f, 0, 0), new Vector3(1.037f, 2, 0), camera), .2f);
+        // A sprite whose edge is buried deep behind a 2 m wall in front keeps its depth (occlusion wins), even if
+        // another sample is merely shallowly buried.
+        var wall = TerrainHeightGrid.FromMillimetres(1, -3, -3, 7, 7, Heights(7, (i, j) => j <= 2 ? 2000 : i >= 4 ? 300 : 0));
+        Assert.AreEqual(0, TerrainHeightTexture.SpriteBias(wall, new Vector3(-.5f, 0, -.5f), new Vector3(.5f, 2, -.5f), camera));
+    }
+
+    private static int[] Heights(int size, System.Func<int, int, int> height)
+    {
+        var heights = new int[size * size];
+        for (var j = 0; j < size; j++)
         {
-            var angle = i * Mathf.PI * 2 / 200;
-            var slope = Plane(.2f * Mathf.Cos(angle), .2f * Mathf.Sin(angle));
-            var p = new Vector3(.15f, 0, 0);
-            Assert.LessOrEqual(TerrainHeightMath.RayGroundDepthGap(slope, p, Mathf.PI / 6),
-                TerrainHeightMath.ActorDepthBias(slope, .15f, .5f) - .018f + 1e-5);
+            for (var i = 0; i < size; i++)
+            {
+                heights[j * size + i] = height(i, j);
+            }
         }
+        return heights;
     }
 
     [Test]

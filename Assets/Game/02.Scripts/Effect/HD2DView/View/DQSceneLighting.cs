@@ -5,6 +5,10 @@ using UnityEngine.Rendering;
 [ExecuteAlways, RequireComponent(typeof(Camera))]
 public sealed class DQSceneLighting : MonoBehaviour
 {
+    // Air colour starts this far beyond the focus and is full at AirEnd (metres): across the stream the meadow
+    // already pales (step 14), the far forest is fully hazed.
+    public const float AirStart = 3f;
+    public const float AirEnd = 36f;
     private Vector4 _previousFocus;
     private Vector4 _previousFog;
     private Camera _camera;
@@ -29,7 +33,7 @@ public sealed class DQSceneLighting : MonoBehaviour
         _applied = true;
         var rig = GetComponent<TiltedCameraRig>();
         var distance = rig != null && rig.Distance > 0 ? rig.Distance : TiltedCameraRig.DQDistance;
-        Shader.SetGlobalVector("_DQLightFocus", new Vector4(distance, 8, 48, 1));
+        Shader.SetGlobalVector("_DQLightFocus", new Vector4(distance, AirStart, AirEnd, 1));
         var color = new Color(120f / 255, 181f / 255, 214f / 255).linear;
         Shader.SetGlobalVector("_DQAirColor", new Vector4(color.r, color.g, color.b, 1));
     }

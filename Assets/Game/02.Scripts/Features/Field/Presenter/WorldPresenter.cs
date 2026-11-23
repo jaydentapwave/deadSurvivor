@@ -142,9 +142,21 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
         ReleaseDQDeaths();
         _resetSubscription?.Dispose();
         RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
-
+        Shader.SetGlobalVector("_HD2DTerrainGrid", Vector4.zero);
+        if (_terrainHeightTexture != null)
+        {
+            if (Application.isPlaying)
+            {
+                UnityEngine.Object.Destroy(_terrainHeightTexture);
+            }
+            else
+            {
+                UnityEngine.Object.DestroyImmediate(_terrainHeightTexture);
+            }
+        }
     }
 
+    private Texture2D _terrainHeightTexture;
     private readonly MoveRulesData _moveRules;
     private readonly PartyModel _partyModel;
     private readonly MonsterModel _monsterModel;
@@ -276,9 +288,10 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
         _rig.SetFocus(IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _judgmentTerrain));
         _viewRules.SetProjection(_rig.Frame, _runRules.UnitScale, _judgmentTerrain, _terrain);
         _monsterService.SetPlacementProjection(_rig.Frame, IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _judgmentTerrain), _judgmentTerrain, _runRules.UnitScale);
-        // Atlas source pixels, lowest opaque row (including downed bruno), PPU 48.
-        const float footHalfWidth = .625f;
-        Shader.SetGlobalFloat("_HD2DActorDepthBias", TerrainHeightMath.ActorDepthBias(_terrain, footHalfWidth, _viewRules.SinTilt));
+        // Sprites pull their own depth from the visible grid (per sprite, HD2D_SpriteLit SpriteDepthBias).
+        _terrainHeightTexture = TerrainHeightTexture.Create(_terrain);
+        Shader.SetGlobalTexture("_HD2DTerrainHeight", _terrainHeightTexture);
+        Shader.SetGlobalVector("_HD2DTerrainGrid", TerrainHeightTexture.Parameters(_terrain));
         BuildField();
         _fieldView.BuildLandscape(_fieldLayout, _terrain);
         foreach (var placement in _fieldLayout.placements)

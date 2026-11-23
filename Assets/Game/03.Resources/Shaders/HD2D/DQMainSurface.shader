@@ -226,7 +226,7 @@ Shader "DeadSurvivor/DQ/Main surface"
             // water opening and actor-window clip paths in the exact same GPU pass.
             if (_Diagnostic>1.5) c=_Diagnostic<2.5 ? half3(1,0,0) : _Diagnostic<3.5 ? half3(0,1,0) : half3(0,0,0);
             float eye=-TransformWorldToView(i.w).z;
-            if (_Diagnostic<.5) c=lerp(c,_DQAirColor.rgb,smoothstep(_DQLightFocus.x+8,_DQLightFocus.x+48,eye)*.82*_DQLightFocus.w);
+            if (_Diagnostic<.5) c=lerp(c,_DQAirColor.rgb,smoothstep(_DQLightFocus.x+_DQLightFocus.y,_DQLightFocus.x+_DQLightFocus.z,eye)*.82*_DQLightFocus.w);
             output.color=half4(c,_SoftFade>.5 ? 1-ActorWindowFade(i) : 1);
             return output;
         }

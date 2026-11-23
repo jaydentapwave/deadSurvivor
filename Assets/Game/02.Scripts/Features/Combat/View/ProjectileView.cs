@@ -27,7 +27,8 @@ public class ProjectileView : MonoBehaviour, IEffectFrameSource
         shadowRenderer.gameObject.layer = HD2DBackgroundRig.BackgroundLayer;
         shadowRenderer.sharedMaterial = terrainShadowMaterial;
         shadowRenderer.transform.localRotation = Quaternion.FromToRotation(Vector3.up, normal) * Quaternion.Euler(90, 0, 0);
-        shadowRenderer.transform.localPosition = normal * .001f;
+        // Lifted past a -0.30..+0.30 crease under the 0.3 m shadow's 0.15 m half width (step 14 hills).
+        shadowRenderer.transform.localPosition = normal * .1f;
     }
     public string EffectKey { get; private set; }
     public int FrameNumber { get; private set; }

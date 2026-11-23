@@ -45,7 +45,9 @@ Shader "HD2D/HD2D_SpriteLit"
         float4 _MeadowLight;
         float4 _SideShade;
         CBUFFER_END
-        float _HD2DActorDepthBias;
+        TEXTURE2D(_HD2DTerrainHeight);
+        float4 _HD2DTerrainHeight_TexelSize;
+        float4 _HD2DTerrainGrid;
         float _Appearance;
         float4 _DQSpriteUVRect;
         float4 _DQLightFocus, _DQAirColor;
@@ -65,6 +67,56 @@ Shader "HD2D/HD2D_SpriteLit"
             float4 screen : TEXCOORD2;
             float sunU : TEXCOORD3;
         };
+        // Same triangle split as TerrainHeightMath.Sample (C#), clamped to the grid.
+        float TerrainHeightAt(float2 xz)
+        {
+            float2 size = _HD2DTerrainHeight_TexelSize.zw;
+            float2 g = clamp((xz - _HD2DTerrainGrid.xy) * _HD2DTerrainGrid.z, 0, size - 1);
+            int2 c = (int2)min(floor(g), size - 2);
+            float2 f = g - c;
+            float h00 = LOAD_TEXTURE2D(_HD2DTerrainHeight, c).r;
+            float h11 = LOAD_TEXTURE2D(_HD2DTerrainHeight, c + int2(1, 1)).r;
+            if (f.x >= f.y)
+            {
+                float h10 = LOAD_TEXTURE2D(_HD2DTerrainHeight, c + int2(1, 0)).r;
+                return h00 + f.x * (h10 - h00) + f.y * (h11 - h10);
+            }
+            float h01 = LOAD_TEXTURE2D(_HD2DTerrainHeight, c + int2(0, 1)).r;
+            return h00 + f.y * (h01 - h00) + f.x * (h11 - h01);
+        }
+        // One view-depth pull per sprite (same rule as TerrainHeightTexture.SpriteBias): walk the camera ray from points
+        // every 0.1 m on the renderer bounds' bottom edge until it leaves the ground. Any point still buried after 1.5 m
+        // is behind a ridge: occlusion wins and the sprite keeps its depth.
+        float SpriteDepthBias()
+        {
+            if (_HD2DTerrainGrid.w < .5)
+            {
+                return 0;
+            }
+            float bias = 0;
+            int count = clamp((int)ceil((unity_RendererBounds_Max.x - unity_RendererBounds_Min.x) / .1) + 1, 2, 32);
+            [loop] for (int k = 0; k < count; k++)
+            {
+                float3 p = float3(lerp(unity_RendererBounds_Min.x, unity_RendererBounds_Max.x, k / (count - 1.0)), unity_RendererBounds_Min.y, unity_RendererBounds_Min.z);
+                float3 ray = normalize(_WorldSpaceCameraPos - p);
+                bool isOut = false;
+                [loop] for (float t = 0; t <= 1.5; t += .08)
+                {
+                    float3 q = p + ray * t;
+                    if (TerrainHeightAt(q.xz) <= q.y)
+                    {
+                        bias = max(bias, t);
+                        isOut = true;
+                        break;
+                    }
+                }
+                if (!isOut)
+                {
+                    return 0;
+                }
+            }
+            return bias + .08;
+        }
         // Same flip and alpha in all three passes, including the shadow silhouette.
         Varyings SpriteVertex(Attributes v)
         {
@@ -73,10 +125,11 @@ Shader "HD2D/HD2D_SpriteLit"
             float3 p = float3(v.positionOS.xy * lerp(float2(1,1), unity_SpriteProps.xy, _SpriteRenderer), v.positionOS.z);
             o.positionWS = TransformObjectToWorld(p);
             o.positionCS = TransformWorldToHClip(o.positionWS);
-            if (_HD2DActorDepthBias > 0)
+            float depthBias = SpriteDepthBias();
+            if (depthBias > 0)
             {
                 float3 viewPosition = TransformWorldToView(o.positionWS);
-                viewPosition.z += _HD2DActorDepthBias;
+                viewPosition.z += depthBias;
                 float4 biased = mul(UNITY_MATRIX_P, float4(viewPosition, 1));
                 o.positionCS.z = biased.z / biased.w * o.positionCS.w;
             }
@@ -176,7 +229,7 @@ Shader "HD2D/HD2D_SpriteLit"
                     c.rgb = saturate(c.rgb * SideShade(i.uv, i.sunU));
                 }
                 float eye = -TransformWorldToView(i.positionWS).z;
-                c.rgb = lerp(c.rgb,_DQAirColor.rgb,smoothstep(_DQLightFocus.x+8,_DQLightFocus.x+48,eye)*.65*_DQLightFocus.w);
+                c.rgb = lerp(c.rgb,_DQAirColor.rgb,smoothstep(_DQLightFocus.x+_DQLightFocus.y,_DQLightFocus.x+_DQLightFocus.z,eye)*.65*_DQLightFocus.w);
                 return half4(lerp(half3(.55,.68,.64),c.rgb,_Appearance),c.a);
             }
             half diffuse = saturate(dot(normalize(float3(0,0.85,-0.53)),sun.direction));

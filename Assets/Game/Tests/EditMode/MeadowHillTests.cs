@@ -14,8 +14,9 @@ public class MeadowHillTests
         var judgment = Judgment();
         var visual = MeadowHillMath.Build(judgment, Layout());
         Assert.LessOrEqual(visual.MaxSlope, MeadowHillMath.MaxSlope + 1e-4f);
-        // Hills must actually read: at least 40 cm of relief inside the playable diamond beyond the judgment relief.
-        Assert.Greater(visual.ReliefWithin(32) - judgment.ReliefWithin(32), .4f);
+        // Step 14: the ridge must read. Target was ~2 m; slope <= 0.30 between the stream zone and the north rim caps
+        // the shipped field at 1.43 m (step-11 value 0.69 m), so the floor guards against falling back.
+        Assert.That(visual.ReliefWithin(32), Is.InRange(1.35f, 2.4f));
         Assert.AreEqual(judgment.Width, visual.Width);
         Assert.AreEqual(judgment.OriginX, visual.OriginX);
     }

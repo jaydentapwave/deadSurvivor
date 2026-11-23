@@ -19,8 +19,9 @@ public class TerrainDataContractTests
         // BackgroundCard selects the preserved colour palette, not actor/background identity.
         Assert.That(actor.GetFloat("_BackgroundCard"), Is.EqualTo(1));
         var shader = File.ReadAllText(AssetDatabase.GetAssetPath(actor.shader));
-        Assert.That(shader, Does.Contain("if (_HD2DActorDepthBias > 0)"));
-        Assert.That(shader, Does.Not.Contain("_HD2DActorDepthBias > 0 && _BackgroundCard"));
+        // Per-sprite bias from the visible height grid, for every sprite (no BackgroundCard exception, no global value).
+        Assert.That(shader, Does.Contain("float depthBias = SpriteDepthBias();"));
+        Assert.That(shader, Does.Not.Contain("_HD2DActorDepthBias"));
     }
 
     [Test]
