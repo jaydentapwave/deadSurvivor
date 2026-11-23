@@ -358,7 +358,7 @@ public static class MainSceneDQBackgroundMigration
         material.SetVector("_MeadowLight", new Vector4(.09f, 1f, .15f, .2f));
         material.SetVector("_ShadeColor", new Vector4(.03f, .045f, .035f, 1));
         material.SetTexture("_Leaves", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "/Leaves.png"));
-        material.SetVector("_LeafPaint", new Vector4(.55f, .75f, .55f, 1.2f));
+        material.SetVector("_LeafPaint", new Vector4(.55f, .55f, .55f, 1.2f));
         ConfigureFade(material, fade);
         material.DisableKeyword("_TERRAIN_HEIGHT");
         return Save(material, name + ".mat");

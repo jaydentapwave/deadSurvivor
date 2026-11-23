@@ -150,7 +150,8 @@ Shader "DeadSurvivor/DQ/Main surface"
             ClipSurface(i);
             F output; output.depth=lerp(i.p.z,i.floorDepth.x/i.floorDepth.y,_FlatDepth);
             float2 fieldUV=(i.w.xz-_FieldRect.xy)/_FieldRect.zw;
-            float broad=Noise(i.w.xz*.12)*.06+Noise(i.w.xz*.047+14)*.10;
+            // Default (_GrassWeight 0) keeps the original .13/.08 mix; painted grass moves weight to the larger scale.
+            float broad=Noise(i.w.xz*.12)*lerp(.13,.06,_GrassWeight)+Noise(i.w.xz*.047+14)*lerp(.08,.10,_GrassWeight);
             half3 grass=lerp(half3(.025,.405,.057),half3(.026,.405,.085),_GrassWeight)*(.89+broad);
             float velvet=SAMPLE_TEXTURE2D(_Ground,sampler_Ground,i.w.xz/8).r;
             // Painted grass is a mean-0.5 detail map; 1.44 keeps the old velvet average brightness.
@@ -158,6 +159,10 @@ Shader "DeadSurvivor/DQ/Main surface"
             grass*=lerp(.67+1.55*velvet,1.44*max(0,1+(painted-1)*_GrassContrast),_GrassWeight);
             float sunPatch=smoothstep(.55,.85,Noise(i.w.xz*_MeadowLight.z+57))*_MeadowLight.w;
             grass*=lerp(1,half3(1.10,1.05,.80),sunPatch);
+            // Broad hue drift (warmer and cooler meadow) and a slightly softer saturation, scaled by the painted-grass weight.
+            float hueDrift=Noise(i.w.xz*.05+23);
+            grass*=lerp(1,lerp(half3(.92,1,1.10),half3(1.12,1,.82),hueDrift),_GrassWeight);
+            grass=lerp(grass,dot(grass,half3(.3,.59,.11)).xxx,.10*_GrassWeight);
             half3 soil=SAMPLE_TEXTURE2D(_Dirt,sampler_Dirt,i.w.xz/3).rgb;
             float path=SAMPLE_TEXTURE2D(_PathMask,sampler_PathMask,fieldUV).r;
             half4 zone=SAMPLE_TEXTURE2D(_ZoneMask,sampler_ZoneMask,fieldUV);
@@ -181,7 +186,9 @@ Shader "DeadSurvivor/DQ/Main surface"
                 if (_LeafDetail>.5)
                 {
                     float clump=Noise(i.w.xz*7+i.w.y*3);
-                    c*=.90+.20*clump;
+                    // Default (_LeafPaint.y 0) keeps the original .78+.40 clump; painted leaves calm it.
+                    float leafWeight=saturate(_LeafPaint.y*2);
+                    c*=lerp(.78,.90,leafWeight)+lerp(.40,.20,leafWeight)*clump;
                     #if defined(_TERRAIN_HEIGHT)
                     if (i.leafEdge>.5) c=half3(.035,.18,.055)*(.8+.4*clump);
                     #endif
@@ -195,7 +202,9 @@ Shader "DeadSurvivor/DQ/Main surface"
                     c*=lerp(_LeafPaint.z,_LeafPaint.w,smoothstep(-.6,.8,i.n.y));
                     float leafFar=1-.75*smoothstep(40,80,-TransformWorldToView(i.w).z);
                     float speck=Noise(float2(i.w.x+i.w.z*.7,i.w.y-i.w.z*.4)*34);
-                    c*=max(0,1+(leaf-1)*_LeafPaint.y*leafFar)*(1+(speck-.5)*.25*leafFar);
+                    c*=max(0,1+(leaf-1)*_LeafPaint.y*leafFar)*(1+(speck-.5)*.12*leafFar*leafWeight);
+                    // Pull the cyan model albedo toward leaf green.
+                    c*=lerp(1,half3(1.06,1.02,.74),leafWeight);
                 }
             }
             Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));
