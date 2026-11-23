@@ -18,41 +18,41 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: 9b74fb511d9264de1b4fb8254b394a07, type: 2}
     FadedMaterial: {fileID: 2100000, guid: f41a26f98b40e485f9fc2d416be93ea5, type: 2}
     Bounds:
-      m_Center: {x: 0.000690639, y: 0.7, z: 0.001101613}
-      m_Extent: {x: 0.5187981, y: 0.7, z: 0.6559534}
-    Triangles: 3046
+      m_Center: {x: 0, y: 0.70000005, z: 0}
+      m_Extent: {x: 0.49500796, y: 0.70000005, z: 0.642228}
+    Triangles: 5560
   - Id: tree_v2
     Prefab: {fileID: 8821244207884616161, guid: 83a3f0e786e3b4ed2819e6464edda0b0, type: 3}
     Material: {fileID: 2100000, guid: 7ba31c0dff65846dd92a1500cd46471f, type: 2}
     FadedMaterial: {fileID: 2100000, guid: b3e0c69b76fee478ab8733b16c154543, type: 2}
     Bounds:
-      m_Center: {x: 0.0008009076, y: 0.8000001, z: 0.0010941625}
-      m_Extent: {x: 0.602722, y: 0.8000001, z: 0.6476145}
-    Triangles: 2979
+      m_Center: {x: 0, y: 0.79999995, z: 0}
+      m_Extent: {x: 0.5756153, y: 0.79999995, z: 0.6296979}
+    Triangles: 5640
   - Id: tree_v3
     Prefab: {fileID: 763384486432914261, guid: 9181cf46467a64b77a3ecb0e2da0354c, type: 3}
     Material: {fileID: 2100000, guid: eda2db3f7888048ae9d254b94b66395d, type: 2}
     FadedMaterial: {fileID: 2100000, guid: 26dba530cfbda4e1eb714135f93a2c27, type: 2}
     Bounds:
-      m_Center: {x: 0.0007419586, y: 0.65, z: 0.0011142492}
-      m_Extent: {x: 0.5664253, y: 0.65, z: 0.6656264}
-    Triangles: 2992
+      m_Center: {x: -0.000000059604645, y: 0.65, z: 0}
+      m_Extent: {x: 0.54504204, y: 0.65, z: 0.6541169}
+    Triangles: 5716
   - Id: bush_v1
     Prefab: {fileID: 6752766103303038266, guid: 72f030609c16c44158acb80bec7e6de6, type: 3}
     Material: {fileID: 2100000, guid: 882e684635a0c4290ae3976e6e5a8da8, type: 2}
     FadedMaterial: {fileID: 2100000, guid: 6024e695238094a55824837b89eb9349, type: 2}
     Bounds:
-      m_Center: {x: 0.0005569756, y: 0.17499998, z: 0}
-      m_Extent: {x: 0.45324373, y: 0.17499998, z: 0.915816}
-    Triangles: 1278
+      m_Center: {x: 0, y: 0.175, z: 0}
+      m_Extent: {x: 0.45, y: 0.175, z: 0.915816}
+    Triangles: 2324
   - Id: bush_v2
     Prefab: {fileID: 932508150153604531, guid: 9ec98406f63854cd697e8d138afd56aa, type: 3}
     Material: {fileID: 2100000, guid: 9e7137fa1fed04aa7bc8c56a49120212, type: 2}
     FadedMaterial: {fileID: 2100000, guid: 9970807cfed7645298165202e1be006d, type: 2}
     Bounds:
-      m_Center: {x: 0.0005569756, y: 0.17499998, z: 0}
-      m_Extent: {x: 0.45324373, y: 0.17499998, z: 0.915816}
-    Triangles: 1278
+      m_Center: {x: 0, y: 0.175, z: 0}
+      m_Extent: {x: 0.45, y: 0.175, z: 0.915816}
+    Triangles: 2324
   - Id: boulder_v1
     Prefab: {fileID: 1421527817461354149, guid: 860f1052f141140c5aaed12621967753, type: 3}
     Material: {fileID: 2100000, guid: 5087f4366ea214e5fad907fdda78e9d0, type: 2}
@@ -122,22 +122,22 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: 01b42ad8ea9bc4a51a67558689dd59a5, type: 2}
     FadedMaterial: {fileID: 2100000, guid: b3e22fe4b261c4039b1b8fb4a061b83b, type: 2}
     Bounds:
-      m_Center: {x: 0, y: 0.1385, z: 0}
-      m_Extent: {x: 0.1875, y: 0.1385, z: 0.17804538}
-    Triangles: 38
+      m_Center: {x: -0.000000014901161, y: 0.1385, z: -0.000000014901161}
+      m_Extent: {x: 0.18749999, y: 0.1385, z: 0.17804536}
+    Triangles: 680
   - Id: flower_yellow
     Prefab: {fileID: 2365565534741818880, guid: 60af4b7d9e8bb461fac2d6f51cc0552e, type: 3}
     Material: {fileID: 2100000, guid: 0b39d3afd335c44d286bfe91bad7b523, type: 2}
     FadedMaterial: {fileID: 2100000, guid: f059c0dd4a9cf4783a077bc0e152018e, type: 2}
     Bounds:
-      m_Center: {x: 0, y: 0.1385, z: 0}
-      m_Extent: {x: 0.1875, y: 0.1385, z: 0.17523026}
-    Triangles: 38
+      m_Center: {x: -0.000000014901161, y: 0.1385, z: -0.000000014901161}
+      m_Extent: {x: 0.18749999, y: 0.1385, z: 0.17804536}
+    Triangles: 680
   - Id: flower_purple
     Prefab: {fileID: 7483332923754448153, guid: e9dd29b25b12540df9155f92bc2685e8, type: 3}
     Material: {fileID: 2100000, guid: 9bf97b21dd34c4139b53636aa5dc8d2a, type: 2}
     FadedMaterial: {fileID: 2100000, guid: 90ad3f8598f1543ef87f8d118b7deee1, type: 2}
     Bounds:
-      m_Center: {x: 0, y: 0.1385, z: 0}
-      m_Extent: {x: 0.1875, y: 0.1385, z: 0.17907149}
-    Triangles: 38
+      m_Center: {x: -0.000000014901161, y: 0.1385, z: -0.000000014901161}
+      m_Extent: {x: 0.18749999, y: 0.1385, z: 0.17804536}
+    Triangles: 680

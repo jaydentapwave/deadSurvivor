@@ -19,7 +19,8 @@ public static class MainSceneDQBackgroundMigration
     // Painted tileable textures (Codex image generation, colour matched by Tools/dq_painted_textures.py).
     private const string Painted = "Assets/Game/03.Resources/Art/HD2D/DQPainted/";
     private static readonly string[] PaintedKinds = { "Soil", "Wood", "Cloth", "Flag", "StonePath", "Plant", "Grass", "Leaves", "Stone", "FlowerWhite", "FlowerYellow", "FlowerPurple" };
-    private static readonly string[] Adopted = { "dq_tree_round_a", "dq_tree_round_c", "dq_tree_light", "dq_bush_b", "dq_rock_big_a", "dq_rock_big_b_r2", "dq_rock_small_a_r2", "dq_rock_small_b_r2" };
+    // Step 13: trees and bush take the step-12 r2 models (DQEnvironmentR2Import); rocks are unchanged.
+    private static readonly string[] Adopted = { "dq_tree_round_a_r2", "dq_tree_round_c_r2", "dq_tree_light_r2", "dq_bush_b_r2", "dq_rock_big_a", "dq_rock_big_b_r2", "dq_rock_small_a_r2", "dq_rock_small_b_r2" };
 
     [MenuItem("DeadSurvivor/DQ/Apply Main background")]
     public static void Apply() => ApplyCore(null);
@@ -90,6 +91,7 @@ public static class MainSceneDQBackgroundMigration
             {
                 serialized.FindProperty(pair.Item1).objectReferenceValue = pair.Item2;
             }
+            serialized.FindProperty("flagModel").objectReferenceValue = BuildFlagModel(wood, flag);
             serialized.FindProperty("modelCatalog").objectReferenceValue = catalog;
             serialized.FindProperty("useModelScenery").boolValue = true;
             serialized.ApplyModifiedPropertiesWithoutUndo();
@@ -391,18 +393,20 @@ public static class MainSceneDQBackgroundMigration
             var index = entry.Id.StartsWith("tree_") ? int.Parse(entry.Id.Substring(6)) - 1 :
                 entry.Id.StartsWith("bush_") ? 3 : entry.Id.StartsWith("boulder_") ? 4 + int.Parse(entry.Id.Substring(9)) - 1 :
                 entry.Id.StartsWith("stone_") ? 6 + int.Parse(entry.Id.Substring(7)) - 1 : -1;
-            var prefab = index >= 0 ? AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Game/03.Resources/Art/HD2D/RoundDQ3/Prefabs/" + Adopted[index] + ".prefab") : entry.Prefab;
+            // Flowers: the step-12 white flower mesh; yellow/purple are the same mesh with recoloured petals.
+            var adoptedId = index >= 0 ? Adopted[index] : entry.Id.StartsWith("flower_", StringComparison.Ordinal) ? entry.Id : null;
+            var prefab = adoptedId != null ? AssetDatabase.LoadAssetAtPath<GameObject>(DQEnvironmentR2Import.Art + "/Prefabs/" + adoptedId + ".prefab") : entry.Prefab;
             var instance = Object.Instantiate(prefab);
             try
             {
                 instance.name = entry.Id;
                 var texture = entry.Id.StartsWith("wall") || entry.Id.StartsWith("stone") || entry.Id.StartsWith("boulder") ? "Stone" : entry.Id == "flower_white" ? "FlowerWhite" : entry.Id == "flower_yellow" ? "FlowerYellow" : entry.Id == "flower_purple" ? "FlowerPurple" : "Plant";
                 var material = Surface(entry.Id, null, 5, texture);
-                if (index >= 0)
+                if (adoptedId != null)
                 {
                     material.SetTexture("_MainTex", prefab.GetComponentInChildren<Renderer>().sharedMaterial.GetTexture("_BaseMap"));
                     material.SetFloat("_WorldTexture", 0);
-                    if (index < 4)
+                    if (index >= 0 && index < 4)
                     {
                         material.SetFloat("_LeafDetail", 1);
                     }
@@ -417,10 +421,6 @@ public static class MainSceneDQBackgroundMigration
                     renderer.gameObject.layer = HD2DBackgroundRig.BackgroundLayer;
                 }
                 instance.layer = HD2DBackgroundRig.BackgroundLayer;
-                if (index >= 0 && index < 4)
-                {
-                    AddLeafEdges(instance, material, entry.Id);
-                }
                 var bounds = MeasureBounds(instance);
                 var saved = PrefabUtility.SaveAsPrefabAsset(instance, Root + "/" + entry.Id + ".prefab");
                 entries.Add(new FieldModelEntry { Id = entry.Id, Prefab = saved, Material = material, FadedMaterial = faded, Bounds = bounds,
@@ -437,41 +437,30 @@ public static class MainSceneDQBackgroundMigration
         return catalog;
     }
 
-    private static void AddLeafEdges(GameObject instance, Material material, string id)
+    // Step 13: the step-12 flag (pole + cloth with thickness) replaces the box pole and flat sprite cloth.
+    // Origin is the pole foot, the anchor FieldView.BuildProps places.
+    private static GameObject BuildFlagModel(Material wood, Material flag)
     {
-        var bounds = MeasureBounds(instance);
-        var vertices = new List<Vector3>();
-        var uv = new List<Vector2>();
-        var triangles = new List<int>();
-        var random = new System.Random(83);
-        for (var i = 0; i < 64; i++)
+        var root = new GameObject("Flag model");
+        try
         {
-            var angle = i * 2.399963f;
-            var level = .42f + (float)random.NextDouble() * .48f;
-            var radius = Mathf.Sin(level * Mathf.PI) * .50f;
-            var center = new Vector3(Mathf.Cos(angle) * bounds.size.x * radius, bounds.min.y + bounds.size.y * level,
-                Mathf.Sin(angle) * bounds.size.z * radius);
-            var right = new Vector3(Mathf.Cos(angle), .18f, Mathf.Sin(angle)) * (bounds.size.y * .020f);
-            var up = Vector3.up * (bounds.size.y * .009f);
-            var start = vertices.Count;
-            vertices.Add(center - right);
-            vertices.Add(center + up);
-            vertices.Add(center + right);
-            vertices.Add(center - up);
-            uv.AddRange(new[] { new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(.5f, .5f) });
-            triangles.AddRange(new[] { start, start + 1, start + 2, start, start + 2, start + 3 });
+            root.layer = HD2DBackgroundRig.BackgroundLayer;
+            foreach (var (part, name, material) in new[] { ("flag_pole", "Flag pole", wood), ("flag_cloth", "Flag cloth", flag) })
+            {
+                var child = new GameObject(name, typeof(MeshFilter), typeof(MeshRenderer));
+                child.transform.SetParent(root.transform, false);
+                child.layer = HD2DBackgroundRig.BackgroundLayer;
+                child.GetComponent<MeshFilter>().sharedMesh = AssetDatabase.LoadAssetAtPath<Mesh>(DQEnvironmentR2Import.Art + "/Meshes/" + part + ".asset");
+                var renderer = child.GetComponent<MeshRenderer>();
+                renderer.sharedMaterial = material;
+                renderer.shadowCastingMode = ShadowCastingMode.On;
+            }
+            return PrefabUtility.SaveAsPrefabAsset(root, Root + "/Flag.prefab");
         }
-        var mesh = new Mesh { name = id + " leaf edge silhouettes" };
-        mesh.SetVertices(vertices);
-        mesh.SetUVs(0, uv);
-        mesh.uv2 = Enumerable.Repeat(new Vector2(0, 1), vertices.Count).ToArray();
-        mesh.SetTriangles(triangles, 0);
-        mesh.RecalculateNormals();
-        var child = new GameObject("Leaf edge silhouettes", typeof(MeshFilter), typeof(MeshRenderer));
-        child.transform.SetParent(instance.transform, false);
-        child.layer = HD2DBackgroundRig.BackgroundLayer;
-        child.GetComponent<MeshFilter>().sharedMesh = Save(mesh, id + "-LeafEdges.asset");
-        child.GetComponent<MeshRenderer>().sharedMaterial = material;
+        finally
+        {
+            Object.DestroyImmediate(root);
+        }
     }
 
     private static Bounds MeasureBounds(GameObject root)

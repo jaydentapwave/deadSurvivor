@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 7ade5139c7f5741a8a5f41589cf376c2, type: 3}
+        m_Texture: {fileID: 2800000, guid: 849066c94d528475eba4bdbee8a5c9f5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PathMask:

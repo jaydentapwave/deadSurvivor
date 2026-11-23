@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 6898e4b90190c4c0eb24d4a8870d6fe8, type: 3}
+        m_Texture: {fileID: 2800000, guid: ce6880249bcba499ab219f7c84881875, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PathMask:
@@ -91,7 +91,7 @@ Material:
     - _SoftFade: 1
     - _SrcBlend: 5
     - _TerrainLightSlope: 8
-    - _WorldTexture: 1
+    - _WorldTexture: 0
     - _ZWrite: 1
     m_Colors:
     - _AlbedoTint: {r: 1, g: 1, b: 1, a: 1}

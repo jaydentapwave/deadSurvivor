@@ -26,6 +26,7 @@ public class FieldView : MonoBehaviour
     [SerializeField] private Material ditherTentMaterial;
     [SerializeField] private Material flagMaterial;
     [SerializeField] private Material ditherFlagMaterial;
+    [SerializeField] private GameObject flagModel;
     [SerializeField] private FieldModelCatalog modelCatalog;
     [SerializeField] private bool useModelScenery;
     public bool UsesModelScenery => useModelScenery;
@@ -431,6 +432,11 @@ public class FieldView : MonoBehaviour
                 AddWood(root.transform,new Vector3(0,.5f,0),new Vector3(.10f,1,.1f));
                 AddWood(root.transform,new Vector3(0,.82f,0),new Vector3(.8f,.36f,.08f));
             }
+            else if (placement.prop == "flag" && useModelScenery)
+            {
+                // Pole and cloth carry their own wood/flag materials; the occluder maps both to the faded pair.
+                Instantiate(flagModel, root.transform);
+            }
             else if (placement.prop == "flag")
             {
                 AddWood(root.transform,new Vector3(0,.8f,0),new Vector3(.065f,1.6f,.065f));
@@ -438,28 +444,10 @@ public class FieldView : MonoBehaviour
                 cloth.transform.SetParent(root.transform,false);
                 cloth.transform.localPosition = new Vector3(flag.rect.width / flag.pixelsPerUnit / 2,1.6f - flag.rect.height / flag.pixelsPerUnit,0);
                 cloth.transform.rotation = Quaternion.Euler(_tiltDegrees,0,0);
-                if (useModelScenery)
-                {
-                    var mesh = new Mesh { name = "Flag cloth UV mesh" };
-                    mesh.vertices = flag.vertices.Select(v => new Vector3(v.x, v.y, 0)).ToArray();
-                    mesh.uv = flag.vertices.Select(v => (v * flag.pixelsPerUnit + flag.pivot) / flag.rect.size).ToArray();
-                    mesh.triangles = flag.triangles.Select(i => (int)i).ToArray();
-                    mesh.RecalculateNormals();
-                    mesh.RecalculateBounds();
-                    _ownedMeshList.Add(mesh);
-                    cloth.AddComponent<MeshFilter>().sharedMesh = mesh;
-                    var renderer = cloth.AddComponent<MeshRenderer>();
-                    renderer.sharedMaterial = flagMaterial;
-                    renderer.shadowCastingMode = ShadowCastingMode.TwoSided;
-                    cloth.layer = HD2DBackgroundRig.BackgroundLayer;
-                }
-                else
-                {
-                    var renderer = cloth.AddComponent<SpriteRenderer>();
-                    renderer.sprite = flag;
-                    renderer.sharedMaterial = cardMaterial;
-                    renderer.shadowCastingMode = ShadowCastingMode.Off;
-                }
+                var renderer = cloth.AddComponent<SpriteRenderer>();
+                renderer.sprite = flag;
+                renderer.sharedMaterial = cardMaterial;
+                renderer.shadowCastingMode = ShadowCastingMode.Off;
             }
             ConfigureModelReference(root.GetComponentsInChildren<Renderer>(), root.transform.position.y);
             if (!_partDict.TryGetValue(placement.prop,out var partList))
