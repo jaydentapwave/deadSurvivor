@@ -15,7 +15,7 @@ public class MeadowHillTests
         var visual = MeadowHillMath.Build(judgment, Layout());
         Assert.LessOrEqual(MeadowHillMath.SlopeRatio(visual), 1f + 1e-3f);
         // Step 14: the ridge must read. Target was ~2 m; slope <= 0.30 between the stream zone and the north rim caps
-        // the shipped field at 1.43 m (step-11 value 0.69 m), so the floor guards against falling back.
+        // the shipped field at 1.375 m (step-11 value 0.69 m; target 1.6 not met), so the floor only guards against falling back.
         Assert.That(visual.ReliefWithin(32), Is.InRange(1.35f, 2.4f));
         Assert.AreEqual(judgment.Width, visual.Width);
         Assert.AreEqual(judgment.OriginX, visual.OriginX);
