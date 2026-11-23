@@ -450,7 +450,13 @@ public static class MainSceneDQBackgroundMigration
                 var child = new GameObject(name, typeof(MeshFilter), typeof(MeshRenderer));
                 child.transform.SetParent(root.transform, false);
                 child.layer = HD2DBackgroundRig.BackgroundLayer;
-                child.GetComponent<MeshFilter>().sharedMesh = AssetDatabase.LoadAssetAtPath<Mesh>(DQEnvironmentR2Import.Art + "/Meshes/" + part + ".asset");
+                var meshPath = DQEnvironmentR2Import.Art + "/Meshes/" + part + ".asset";
+                var mesh = AssetDatabase.LoadAssetAtPath<Mesh>(meshPath);
+                if (mesh == null)
+                {
+                    throw new InvalidDataException("Missing flag mesh " + meshPath + "; run Import environment r2 models first.");
+                }
+                child.GetComponent<MeshFilter>().sharedMesh = mesh;
                 var renderer = child.GetComponent<MeshRenderer>();
                 renderer.sharedMaterial = material;
                 renderer.shadowCastingMode = ShadowCastingMode.On;

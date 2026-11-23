@@ -434,8 +434,13 @@ public class FieldView : MonoBehaviour
             }
             else if (placement.prop == "flag" && useModelScenery)
             {
-                // Pole and cloth carry their own wood/flag materials; the occluder maps both to the faded pair.
-                Instantiate(flagModel, root.transform);
+                // Bind this view's wood/flag materials (another migration may swap flagMaterial) so the
+                // occluder maps both renderers to the faded pair.
+                var model = Instantiate(flagModel, root.transform);
+                foreach (var renderer in model.GetComponentsInChildren<MeshRenderer>())
+                {
+                    renderer.sharedMaterial = renderer.name == "Flag cloth" ? flagMaterial : woodMaterial;
+                }
             }
             else if (placement.prop == "flag")
             {

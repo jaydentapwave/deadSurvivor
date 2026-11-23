@@ -73,7 +73,6 @@ public static class DQEnvironmentR2Import
         {
             SaveMesh(part);
         }
-        AssetDatabase.SaveAssets();
     }
 
     private static Mesh SaveMesh(string id)
