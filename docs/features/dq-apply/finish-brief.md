@@ -35,3 +35,7 @@ MemberView는 기존 `ApplySprite`와 같은 호출에서 body의 DQAction/DQFra
 래스터 비교 기준은 `Tools/dq_telegraph_reference.py` **DQ-r2-raster-v1** 하나다. 반입된 r2 원본12타일과 assembly에서 직접 조립하고 floor capsule에 역매핑한다. 기준 SHA와 입력별 RGBA SHA는 `Assets/Game/Tests/EditMode/DQTelegraphReference.json`에 고정한다. 32방향+경계3방향×2치수×4단계 **280입력**, 허용차0이며 C#14시험 PASS에 포함된다. 기준 도구/원본 SHA가 달라지면 먼저 실패한다. 도구를 바꾸어 지금 결과에 자동 맞추지 않았다.
 
 효과15키의 정적 프레임 조합(55표본)은 Main의 실제 Burst/Projectile/EnemyShot view 경로에서 캡처한다. 이것은 모든 효과의 실제 엔진 프레임 연속/발동 타이밍 성공과 다르며 그 미확인 항목을 남긴다. 최초 JSON 직렬화 실패, 다음 ROI 화면비 불일치를 고쳐 실제16:9 캡처와 같은 camera.aspect에서 상자를 선언하도록 했다.
+
+## 종료 수명 수정 (L1)
+
+Play 종료 후 최종 콘솔에서 UI/렌더러/카메라가 파괴된 뒤의 Tick 예외를 확인했다. 여러 consumer에 가드를 더하는 대신 기존 소유자 `GameSceneLifetimeScope`가 Unity `OnApplicationQuit`에서 이미 있는 `DisposeCore()`를 호출하게 한다. 등록/DI 소유권/판정/게임 수치는 그대로이고, base `OnDestroy`의 같은 정리와 중복되어도 안전하다. 설치 VContainer의 `EntryPointDispatcher.Dispose`가 player-loop 항목을 중단하는 계약을 사용한다. `scene-exit-fix-plan.json`에 수정 전 원인/소스 지문을 남겼다. 수동 quit→중복 quit→실제 HUD/대원 파괴→4프레임 검사가1/1 PASS. 첫 두 fixture 실패(도메인 리로드 display class, 정상 시작 로그 미예상)는 별도로 보존했다. 자동 ExitPlayMode 기존 통합 검사와 일반 Play stop 콘솔 차이를 추가 확인한다.

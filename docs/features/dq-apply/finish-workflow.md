@@ -11,3 +11,9 @@
 시간: 시작22:37:08Z, 종×지형/턱 설계 단위22:37~23:07(상한30분), 효과·예고·메뉴/시험23:07~23:34, 전체시험/실제전투/전체경로·범위대조23:34부터. 종료 시각/나머지 활동은 최종 검증 기록에서 보완한다. 토큰 사용량은 호스트가 제공하지 않아 **미확인**이며0으로 적지 않는다. `Tools/Harness/session_time.py --markdown`은 세션jsonl이 없어 ValueError(max empty)로 실행 불가였다. 하위 에이전트0, 유료0, 성능측정0.
 
 - 효과 표본 ROI 화면비를 고친 뒤 heal 첫 장이 수신0이었다. 원인을 확인하니 fixture가 실제 HealHeight(56/48) 대신 바닥에 중앙 피벗을 두어 묻혔다. production 높이에 맞추고, 물/소품 뒤 가림과 풀 대비를 혼동하지 않도록 앞쪽 풀 구역으로 고정 grid를 옮겼다. **반영**: `DQFinishEffectsVerification`의 camera.aspect 저장·복원과 키별 실제 높이. 이 수정을 게임 결함 수리로 세지 않는다. 향후 fixture는 producer의 앵커를 직접 소비하는 진입점이 있으면 그것을 우선한다.
+
+- 최종 콘솔 조회가 Play 종료 시 UI/렌더러/카메라의 파괴 후 Tick 예외를 추가로 찾았다. 개별 뷰 가드만으로는 수명 순서를 닫지 못했다. 기존 `LifetimeScope.DisposeCore`/`EntryPointDispatcher.Dispose`를 읽어, 소유자는 그대로 두고 Unity quit에서 이미 있는 정리를 먼저 부르는 L1 수정으로 범위를 고정했다. 조기 정리→실제 HUD/대원 파괴→4프레임 및 자동 ExitPlayMode로 검증한다. **반영 후보**: 한 판 중 오류 수와 Play 종료 뒤 오류를 따로 조회해 마지막 단계에서도 빠뜨리지 않는다.
+
+- 새 종료 통합 시험 첫 실행은 EnterPlayMode 이전에 만들어진 assertion lambda의 display class가 도메인 리로드 뒤 복원되지 않아 17행에서 실패했다. 기존8단계 통합 시험에 적힌 같은 주의를 새 fixture에서 놓쳤다. 게임 실패로 세지 않고, 캡처 지역 변수를 EnterPlayMode 이후 helper iterator 안에서만 만들도록 바꾼다. **반영**: `DQSceneExitIntegrationTests.VerifyAfterEnter` 구조.
+
+- 종료 시험 둘째 실행의 실패는 예외가 아니라 정상 `[RunService] Run 1 seed 7 enemyCountScale 0` 로그를 `NoUnexpectedReceived`가 미예상으로 판정한 것이었다. 시작 로그 한 줄만 정확히 Expect하고, 파괴 뒤의 예상하지 못한 로그/예외 검사는 그대로 둔다. 로그 무시/console clear는 하지 않는다. 종료 결함의 수정 실패로 세지 않고 fixture 실패를 별도로 보존한다.
