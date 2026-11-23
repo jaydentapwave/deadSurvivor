@@ -116,7 +116,7 @@ public class DQLightingTests
             blob.SetGround(grid, material);
             Assert.AreSame(mesh, blob.OwnedMesh);
             Assert.IsTrue(root.GetComponentInChildren<MeshRenderer>().enabled);
-            Assert.AreEqual(.9f, mesh.bounds.size.x, 1e-5);
+            Assert.AreEqual(.9f * 1.3f, mesh.bounds.size.x, 1e-5); // step 11: the shadow rectangle is 1.3x the body width
             body.enabled = false;
             typeof(DQBlobShadow).GetMethod("LateUpdate", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(blob, null);
             Assert.IsFalse(root.GetComponentInChildren<MeshRenderer>().enabled);

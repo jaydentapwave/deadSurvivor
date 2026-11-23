@@ -16,6 +16,8 @@ Shader "HD2D/HD2D_SpriteLit"
         _BackgroundCard ("Native painted background card", Float) = 0
         _Dither ("Dither amount", Range(0,1)) = 0
         _HueShift ("Palette hue shift", Range(0,1)) = 0
+        _MeadowLight ("DQ floor cloud shade (copy of the floor material value; 0 = off)", Vector) = (0,0,0,0)
+        _SideShade ("DQ sun-side dot rim (x) and away-side darkening (y); 0 = off", Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -25,6 +27,7 @@ Shader "HD2D/HD2D_SpriteLit"
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        #include "DQMeadow.hlsl"
         TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
         float4 _MainTex_TexelSize;
         CBUFFER_START(UnityPerMaterial)
@@ -39,6 +42,8 @@ Shader "HD2D/HD2D_SpriteLit"
         float _ReceiveShadows;
         float _DQLighting;
         float _DQExposure;
+        float4 _MeadowLight;
+        float4 _SideShade;
         CBUFFER_END
         float _HD2DActorDepthBias;
         float _Appearance;
@@ -58,6 +63,7 @@ Shader "HD2D/HD2D_SpriteLit"
             float3 positionWS : TEXCOORD1;
             half4 color : COLOR;
             float4 screen : TEXCOORD2;
+            float sunU : TEXCOORD3;
         };
         // Same flip and alpha in all three passes, including the shadow silhouette.
         Varyings SpriteVertex(Attributes v)
@@ -76,6 +82,9 @@ Shader "HD2D/HD2D_SpriteLit"
             }
             o.screen = ComputeScreenPos(o.positionCS);
             o.uv = v.uv;
+            // Sun direction along the sprite's texture x axis (flip-aware): + means the sun is toward +u.
+            float3 textureRight = TransformObjectToWorldDir(float3(lerp(1, unity_SpriteProps.x, _SpriteRenderer), 0, 0));
+            o.sunU = dot(GetMainLight().direction, textureRight);
             o.color = v.color * lerp(half4(1,1,1,1), unity_SpriteColor, _SpriteRenderer) * _BaseColor;
             return o;
         }
@@ -84,6 +93,30 @@ Shader "HD2D/HD2D_SpriteLit"
             float4 c = SAMPLE_TEXTURE2D_LOD(_MainTex, sampler_MainTex, clamp(uv, _DQSpriteUVRect.xy, _DQSpriteUVRect.zw), 0);
             c.rgb *= c.a;
             return c;
+        }
+        // Per texel: the two texels nearest the sun edge lift, the far third of the body darkens.
+        // Distances are counted in whole texels along the sun axis, so the dot grid stays intact.
+        float SideShade(float2 uv, float sunU)
+        {
+            float weight = saturate(abs(sunU) * 4);
+            if (weight < .01)
+            {
+                return 1;
+            }
+            float2 texel = _MainTex_TexelSize.xy;
+            float2 center = (floor(uv / texel) + .5) * texel;
+            float2 toward = float2(sunU > 0 ? texel.x : -texel.x, 0);
+            float toSun = 13, toAway = 13;
+            [unroll] for (int k = 12; k >= 1; k--)
+            {
+                if (DQCell(center + toward * k).a < .5) toSun = k;
+                if (DQCell(center - toward * k).a < .5) toAway = k;
+            }
+            // 0 at the sun edge, 1 at the away edge; evaluated once per texel so steps follow the dot grid.
+            float across = toSun / (toSun + toAway);
+            float rim = toSun < 1.5 ? _SideShade.x : (toSun < 2.5 ? _SideShade.x * .5 : 0);
+            float away = _SideShade.y * smoothstep(.45, .75, across);
+            return 1 + (rim - away) * weight;
         }
         half4 SpriteSample(Varyings i)
         {
@@ -136,6 +169,12 @@ Shader "HD2D/HD2D_SpriteLit"
                 float energy = min(1, max(.04,dot(ambient,float3(.2126,.7152,.0722))) + dot(sun.color,float3(.2126,.7152,.0722))*.95*visibility)*_DQExposure;
                 float3 tint = lerp(ambient / max(max(ambient.r,ambient.g),max(ambient.b,.0001)), sun.color/max(max(sun.color.r,sun.color.g),max(sun.color.b,.0001)), visibility);
                 c.rgb = saturate(c.rgb * energy * lerp(1,tint,.3));
+                // Same cloud shade as the floor under the actor, and a dot-step sun side.
+                c.rgb *= DQCloudTint(DQCloudShade(i.positionWS.xz, _MeadowLight));
+                if (_SideShade.y > 0)
+                {
+                    c.rgb = saturate(c.rgb * SideShade(i.uv, i.sunU));
+                }
                 float eye = -TransformWorldToView(i.positionWS).z;
                 c.rgb = lerp(c.rgb,_DQAirColor.rgb,smoothstep(_DQLightFocus.x+8,_DQLightFocus.x+48,eye)*.65*_DQLightFocus.w);
                 return half4(lerp(half3(.55,.68,.64),c.rgb,_Appearance),c.a);

@@ -70,7 +70,8 @@ public sealed class DQBlobShadow : MonoBehaviour
         // The grid is the walkable reference; raised banks use the actor's actual support.
         var support = position.y - baseHeight;
         _vertices.Clear(); _uv.Clear(); _colors.Clear(); _indices.Clear();
-        var rectangle = new Rect(position.x - Width * .5f, position.z - Width * .325f, Width, Width * .65f);
+        // Wider than the body so the crisp ellipse (shape in the shared texture) shows around the feet.
+        var rectangle = new Rect(position.x - Width * .65f, position.z - Width * .45f, Width * 1.3f, Width * .9f);
         var minX = Mathf.FloorToInt((rectangle.xMin - _terrain.OriginX) / _terrain.Cell);
         var maxX = Mathf.FloorToInt((rectangle.xMax - _terrain.OriginX) / _terrain.Cell);
         var minZ = Mathf.FloorToInt((rectangle.yMin - _terrain.OriginZ) / _terrain.Cell);

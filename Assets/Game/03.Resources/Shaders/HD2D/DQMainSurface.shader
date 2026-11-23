@@ -49,6 +49,7 @@ Shader "DeadSurvivor/DQ/Main surface"
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        #include "DQMeadow.hlsl"
         TEXTURE2D(_Ground); SAMPLER(sampler_Ground);
         TEXTURE2D(_Stone); SAMPLER(sampler_Stone);
         TEXTURE2D(_Water); SAMPLER(sampler_Water);
@@ -139,12 +140,6 @@ Shader "DeadSurvivor/DQ/Main surface"
             ClipOpening(i);
         }
         struct F { half4 color:SV_Target; float depth:SV_Depth; };
-        float Hash(float2 p) { return frac(sin(dot(p,float2(127.1,311.7)))*43758.5453); }
-        float Noise(float2 p)
-        {
-            float2 a=floor(p), b=frac(p); b=b*b*(3-2*b);
-            return lerp(lerp(Hash(a),Hash(a+float2(1,0)),b.x),lerp(Hash(a+float2(0,1)),Hash(a+1),b.x),b.y);
-        }
         F Frag(V i)
         {
             ClipSurface(i);
@@ -224,9 +219,7 @@ Shader "DeadSurvivor/DQ/Main surface"
             if (_Category<.5 || (_Category>2.5 && _Category<3.5))
             {
                 // Slow cloud shade over the whole meadow, slightly cooler where shaded.
-                float cloud=Noise(i.w.xz*_MeadowLight.x+float2(31,7))*.65+Noise(i.w.xz*_MeadowLight.x*2.3+3)*.35;
-                float cloudShade=smoothstep(.34,.68,cloud)*_MeadowLight.y;
-                c*=lerp(1,half3(.80,.92,1.06),cloudShade)*(1-cloudShade*.62);
+                c*=DQCloudTint(DQCloudShade(i.w.xz,_MeadowLight));
             }
             if (_Diagnostic>.5) c=min(face,shade.x).xxx;
             // Measurement-only color override; preserve original vertex/reference depth,

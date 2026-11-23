@@ -19,6 +19,7 @@ public static class MainSceneDQLightMigration
     public const string BlurPath = Root + "/DQ_BandBlur.mat";
     public const string TexturePath = "Assets/Game/03.Resources/Art/HD2D/DQAppliedCharacters/FootSoft.png";
     public const string VolumePath = "Assets/Game/03.Resources/Settings/DQ_LightVolume.asset";
+    private const string MeadowMaterialPath = "Assets/Game/03.Resources/Art/HD2D/DQMainBackground/Ground.mat";
     private const string MonsterPath = "Assets/Game/03.Resources/Resources/Prefab/MonsterView.prefab";
     private const string DustPath = "Assets/Game/03.Resources/Resources/Prefab/HD2DAmbientDust.prefab";
 
@@ -73,7 +74,8 @@ public static class MainSceneDQLightMigration
             blob.SetTexture("_BankMask", mask);
             blob.SetVector("_FieldRect", rect);
             blob.SetColor("_ShadowTint", new Color(.18f, .25f, .19f));
-            blob.SetFloat("_Opacity", .65f);
+            // Step 11: a crisp ellipse at the reference sunlit ratio (shadow L* / floor L* about .76).
+            blob.SetFloat("_Opacity", .55f);
             blob.renderQueue = 2990;
             var body = MaterialAt(BodyPath, "HD2D/HD2D_SpriteLit");
             body.SetFloat("_DQLighting", 1);
@@ -81,6 +83,10 @@ public static class MainSceneDQLightMigration
             body.SetFloat("_ReceiveShadows", 1);
             body.SetFloat("_SpriteRenderer", 1);
             body.SetColor("_BaseColor", Color.white);
+            // Step 11: actors take the floor's cloud shade (copied from the one floor material) and a dot-step sun side.
+            var meadow = AssetDatabase.LoadAssetAtPath<Material>(MeadowMaterialPath);
+            body.SetVector("_MeadowLight", meadow.GetVector("_MeadowLight"));
+            body.SetVector("_SideShade", new Vector4(.08f, .30f, 0, 0));
             // Full-alpha native Main body/floor measurements, not gameplay stats or source-pixel edits.
             var profiles = AssetDatabase.LoadAssetAtPath<DQCharacterLightProfiles>(ProfilesPath);
             if (profiles == null)
@@ -371,8 +377,9 @@ public static class MainSceneDQLightMigration
             {
                 for (var x = 0; x < 64; x++)
                 {
-                    var radius = new Vector2((x + .5f) / 32 - 1, (y + .5f) / 32 - 1).magnitude;
-                    pixels[y * 64 + x] = new Color(1, 1, 1, 1 - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.25f, 1, radius)));
+                    // Ellipse leaning away from the sun (sun is front-left, shadow falls right and back), 3-4 px soft rim.
+                    var radius = new Vector2(((x + .5f) / 64 - .56f) / .40f, ((y + .5f) / 64 - .52f) / .44f).magnitude;
+                    pixels[y * 64 + x] = new Color(1, 1, 1, 1 - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.80f, 1, radius)));
                 }
             }
             texture.SetPixels(pixels);

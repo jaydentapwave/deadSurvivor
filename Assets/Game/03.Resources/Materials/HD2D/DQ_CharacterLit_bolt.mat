@@ -41,5 +41,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _DQSpriteUVRect: {r: 0, g: 0, b: 1, a: 1}
+    - _MeadowLight: {r: 0.09, g: 1, b: 0.15, a: 0.2}
+    - _SideShade: {r: 0.08, g: 0.3, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
