@@ -47,7 +47,7 @@ public sealed class ConformedDecal : MonoBehaviour
             offset.x = -offset.x;
         }
         ReleaseMesh();
-        _mesh = GroundDecalMath.Build(grid, foot + Quaternion.Euler(0, yawDegrees, 0) * new Vector3(offset.x, 0, offset.y), size, yawDegrees, .125f, .03f);
+        _mesh = GroundDecalMath.Build(grid, foot + Quaternion.Euler(0, yawDegrees, 0) * new Vector3(offset.x, 0, offset.y), size, yawDegrees, .125f, .05f);
         var vertices = _mesh.vertices;
         var uv = _mesh.uv;
         var colors = new Color[vertices.Length];
