@@ -11,10 +11,10 @@ from pathlib import Path
 
 def run(root, out, kit):
     import gate
+    if out.exists() and any(out.iterdir()):
+        raise ValueError('Use a fresh output directory; capture declarations are immutable')
     out.mkdir(parents=True, exist_ok=True)
     cap = out / 'frames'
-    if (out / 'manifest.json').exists():
-        raise ValueError('Use a fresh output directory; capture declarations are immutable')
 
     def dump(p, value):
         p.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
@@ -55,6 +55,7 @@ def run(root, out, kit):
             add(label+'-'+str(width),cap/(label+'-'+str(width)+'x1080.png'),[width,1080])
     add('overview',cap/'overview-1920x1920.png',[1920,1920])
     add('tour',out/'tour.json')
+    review = add('review', out/'review.json')
     for key, value in list(m['files'].items()):
         if value['path'].endswith('.png'):
             add(key+'-before',Path(value['path'][:-4]+'-before.json'))
@@ -73,13 +74,14 @@ def run(root, out, kit):
         p = root/item
         sources.update(x for x in p.rglob('*') if x.is_file()) if p.is_dir() else sources.add(p)
         if Path(str(p)+'.meta').is_file(): sources.add(Path(str(p)+'.meta'))
-    sources.update([root/'Tools/hd2d_main_gate.py',root/'Tools/dq_main_gate.py',root/'docs/art/아트-기준서.md'])
+    sources.update([root/'Tools/hd2d_main_gate.py',root/'Tools/dq_main_gate.py',root/'docs/art/아트-기준서.md',
+        kit/'gate.py', kit/'view.py', kit.parent/'config/gate.default.json'])
     for i, p in enumerate(sorted(sources)):
         m['sources'].append(add('source'+str(i), p))
     # Uninstrumented fields intentionally absent: generic gate catches Missing => BLOCKED.
     # G09 toon steps / G18 long directional shadow are obsolete r2 contracts; do not invent passing inputs.
     m['plates'] = [dict(id='DQMain',role='candidate',main=main,motion=moves,aspects=aspects,
-        capture_settings='settings',performance=['settings'],projection_observation='camera',
+        capture_settings='settings',performance=['settings'],projection_observation='camera',reviews=review,
         expected_camera=dict(mode='persp',angle=18,fov=20,height_px=112),regions=dict(props=[],monsters=[],ground=[]),
         lighting_region=[0,0,1920,1080])]
     plan_hash = gate.plan_hash(m)
@@ -117,7 +119,7 @@ def run(root, out, kit):
         p=Path(f['path'])
         if p.is_file(): f['sha256']=gate.sha(p)
     record=dict(run_id=m['run_id'],manifest_plan_sha256=plan_hash,source_before=before,source_after=after,
-        files={k:f['sha256'] for k,f in m['files'].items() if k!='record' and 'sha256' in f})
+        files={k:f['sha256'] for k,f in m['files'].items() if k not in ('record', review) and 'sha256' in f})
     dump(out/'capture-record.json',record)
     m['files']['record']['sha256']=gate.sha(out/'capture-record.json')
     dump(out/'manifest.json',m)

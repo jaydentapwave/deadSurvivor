@@ -29,8 +29,8 @@ MemberView는 기존 `ApplySprite`와 같은 호출에서 body의 DQAction/DQFra
 ## 기존 전체 시험의 명백한 옛 fixture 보완
 
 - MonsterBehavior B5의 balanced 슬롯 상한102는 현재 data의±45/±108(합153)과 맞지 않았다. 게임 data/행동은 그대로 두고 fixture의 현재 슬롯 수치153을 고정한다. 외곽 경로·피해 동등성 기대와 .001 허용치는 유지한다.
-- FieldModelBuild의 카드 footprint 시험은 Main에서 새 DQ catalog를 읽어 원래 카드 크기와 비교했다. 새 DQ 크기를 카드에 줄이는 대신, 이 **legacy 카드 footprint 계약 시험**만 기존 로컬 legacy catalog로 격리한다. 전체 모델/개수/footprint 기대식·.001 문턱은 유지하고 끝에 Main을 다시 연다. DQ 크기의 수용 여부는 DQ 배경 기준/별도 검증이지 이 옛 카드 크기 시험으로 PASS라 하지 않는다.
-- 원본 input 두 건은 허용 폴더에 없어 BLOCKED로 분류하고 기대로 지우지 않는다. 전체 결과는 마지막에 한 번 새로 실행하여 기록한다.
+- FieldModelBuild의 카드 footprint 시험은 Main에서 새 DQ catalog를 읽어 원래 카드 크기와 비교했다. 새 DQ 크기를 카드에 줄이는 대신, 옛 카드 직사각형 크기만 전용 시험에서 legacy catalog와 비교한다. Main의 카드 비활성화·발밑 그림자·깃발 3개·그림자·식생 배치는 실제 DQ catalog에서 검사한다. 전체 모델/개수/footprint 기대식·.001 문턱은 유지하고 끝에 Main을 다시 연다. DQ 크기의 수용 여부는 DQ 배경 기준/별도 검증이지 이 옛 카드 크기 시험으로 PASS라 하지 않는다.
+- 원본 input 두 건은 허용 폴더에 없어 BLOCKED로 분류하고 기대로 지우지 않는다. 9-r2 수정 후 전체 EditMode 731건 중 729건이 통과했다. 실패한 두 시험은 이 원본 부재 건이다.
 
 래스터 비교 기준은 `Tools/dq_telegraph_reference.py` **DQ-r2-raster-v1** 하나다. 반입된 r2 원본12타일과 assembly에서 직접 조립하고 floor capsule에 역매핑한다. 기준 SHA와 입력별 RGBA SHA는 `Assets/Game/Tests/EditMode/DQTelegraphReference.json`에 고정한다. 32방향+경계3방향×2치수×4단계 **280입력**, 허용차0이며 C#14시험 PASS에 포함된다. 기준 도구/원본 SHA가 달라지면 먼저 실패한다. 도구를 바꾸어 지금 결과에 자동 맞추지 않았다.
 
@@ -45,3 +45,19 @@ Play 종료 후 최종 콘솔에서 UI/렌더러/카메라가 파괴된 뒤의 T
 130분 상한 초과를01:19:38Z에 발견해 새 구현을 중단했다(시작22:37:08Z). 추가하던 엔진 연속 fixture는 미검증 상태여서 커밋된 정적 fixture로 되돌렸다. 따라서 15키의55정적 표본을 실제 엔진 연속/전수 심 판정 완료로 올리지 않는다. 7단계 높은 bank 수신·C4·K55·N9·C11, Main 관문 미계측/구 기준 매핑, 원본 입력2건은 열린 상태다. 기존 필수 리뷰를 직접 부르지 않고 구현 단위의 spec/client/algorithm 판정을 Claude 세션에 요청한다. 최종 핸드오프는 그 판정 뒤에 쓴다.
 
 최종 명령 확인: `compile-final-capped.json` 오류0, `scene-exit-tests-r3-status.json`1/1 및 `scene-exit-render-integration-status.json`1/1 PASS. `quit-window-delta.json` 일반 Main 실행·tour·자동 Play 종료 후 새 오류0(과거 콘솔 지우지 않음). `main-gate-post-exit/`에서 실제 원근18/FOV20·초점112.01399px PASS, generic G01/G02/G03/G04 PASS·10항목BLOCKED·G19 deferred로 전체FAIL 유지. 5423파일/5364소스 현재해시 일치. 최종 편집기는 Main/Edit/dirtyfalse. 브라우저 렌더는 CUA host부재로BLOCKED, 링크/이미지 파일 검사만PASS다.
+
+## 9-r2 수정 확인
+
+코드 기준은 `51432c8`이다. 멧돼지 예고의 경과 값은 반올림하지 않고 준비 시간에 맞춘 float 경계와 직접 비교한다. 경계 바로 앞과 뒤 및 종료를 포함해 DQ 시험 21건이 통과했다. 예고 타일은 EffectSpriteCache의 ResourceService에서, 대원 효과는 WorldPresenter의 ResourceService에서 읽어 MemberView에 전달한다. 누락은 ResourceService가 경로와 함께 오류로 남긴다.
+
+앞 회차 717/720은 수명 수정 전 실행이었다. 이번 전체 시험은 729/731이며 Main의 배치 검사와 옛 덤불 크기 검사를 각각 통과했다. 전체 결과와 화면별 입력 기록은 `output/hd2d-dq/apply/9/r2/`에 있다.
+
+### 수정 뒤 마감 결과
+
+기준 폴더는 `output/hd2d-dq/apply/9/r2/`다. `editmode-status.json`의 실패 두 건은 베이크 입력 field_layout.json과 임포트 입력 model.fbx 부재로 BLOCKED다. 수명 오류는 이번 전체 실행에서 재현되지 않았다. `playable/report.json`은 한 판 8/8, `ui/report.json`은 화면·입력 12/12다. 추가 UI 표본은 ui-first, ui-hp, ui-modal, ui-notch, ui-rescue 폴더에 있다. 하단 판넬 높이는 기준 화면의 64/360이다. 전투 아이템 칸은 쿨타임을 표시한다. 수동 입력을 명시한 목록 68행은 미확인으로 남겼다.
+
+15효과는 12키의 연속 캡처와 몬스터 3키의 실제 행동 캡처를 합쳐 확인했다. 첫 포자 표본은 충돌로 일찍 끝났고 첫 자폭은 제한 시간 안에 발동하지 않았다. 실제 몬스터와 대원의 거리를 고정한 새 표본에서는 포자 61프레임, 멧돼지 49프레임, 자폭 71프레임을 기록했다. `sequence-audit.json`과 `monster-audit.json`에 소멸까지 남겼다. `hdr-isolated-audit.json`은 별도의 55표본에서 풀 위 색 차이와 HDR 심을 확인한 결과다. 밝게 만든 6키에서 문턱을 넘었고 같은 그림의 심 세기를 1로 바꾼 대조군은 모두 0px였다. ΔE는 표본별 실측이며 기준서가 정한 수치 문턱은 없다. L7-05의 독립 양성 표본은 마법 심 7px, 나머지 배경 0px로 PASS다.
+
+`main-gate/gate-summary.md`는 원근 18°, 세로 시야각 20°, 초점 키 112.014px이고 전체 FAIL이다. G01·02·04 PASS, G03·06·07·08·09·11·12·13·15·18·20 BLOCKED, G19 deferred다. G03은 사전 선언된 판독 파일을 기다린다. `blind-index.json`과 `blind/판독.md`는 G20 독립 판독용 23장이다. 두 판독자가 직접 본 결과를 받은 뒤 `collect-g20.py <답1.json> <답2.json>`으로 같은 run_id에 결속하고 관문을 다시 계산한다. 현재 판독 점수는 없다. C4 추정 FAIL, K55 NOT_RUN, N9 33/34 FAIL, C11 BLOCKED, 높은 턱 수신 FAIL, 풀색과 소품 질감은 이월한다.
+
+수정 뒤 목록 76행은 됨 65, 안 됨 8, 미확인 3이다. `scope-rows.json`과 `scope-recount.json`에 행별 파일 지문과 재계수가 있다. 로컬 미리보기에는 새 효과·UI·이동 표본을 추가했다. `preview-check.json`에서 이미지 SHA와 문서 참조 157개가 일치했다. 브라우저 자체 렌더는 Chrome 프로세스 종료(-6)로 BLOCKED다.
