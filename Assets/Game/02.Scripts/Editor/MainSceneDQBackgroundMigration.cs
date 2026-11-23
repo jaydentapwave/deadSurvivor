@@ -18,7 +18,7 @@ public static class MainSceneDQBackgroundMigration
     private const string Data = "Assets/Game/03.Resources/Resources/Data/Field/";
     // Painted tileable textures (Codex image generation, colour matched by Tools/dq_painted_textures.py).
     private const string Painted = "Assets/Game/03.Resources/Art/HD2D/DQPainted/";
-    private static readonly string[] PaintedKinds = { "Soil", "Wood", "Cloth", "Flag", "StonePath", "Plant", "Grass", "Leaves" };
+    private static readonly string[] PaintedKinds = { "Soil", "Wood", "Cloth", "Flag", "StonePath", "Plant", "Grass", "Leaves", "Stone", "FlowerWhite", "FlowerYellow", "FlowerPurple" };
     private static readonly string[] Adopted = { "dq_tree_round_a", "dq_tree_round_c", "dq_tree_light", "dq_bush_b", "dq_rock_big_a", "dq_rock_big_b_r2", "dq_rock_small_a_r2", "dq_rock_small_b_r2" };
 
     [MenuItem("DeadSurvivor/DQ/Apply Main background")]
@@ -259,42 +259,6 @@ public static class MainSceneDQBackgroundMigration
         foreach (var kind in PaintedKinds)
         {
             File.Copy(Painted + kind + ".png", Root + "/" + kind + ".png", true);
-        }
-        foreach (var kind in new[] { "Stone", "FlowerWhite", "FlowerYellow", "FlowerPurple" })
-        {
-            const int size = 512;
-            var image = new Texture2D(size, size, TextureFormat.RGBA32, false);
-            try
-            {
-                var pixels = new Color[size * size];
-                var color = kind == "Soil" ? new Color(.72f, .64f, .44f) : kind == "Wood" ? new Color(.48f, .30f, .13f) :
-                    kind == "Cloth" ? new Color(.80f, .69f, .43f) : kind == "Flag" ? new Color(.56f, .17f, .14f) :
-                    kind == "StonePath" ? new Color(.41f, .39f, .29f) : kind == "Stone" ? new Color(.41f, .49f, .42f) : kind == "Plant" ? new Color(.22f, .58f, .19f) :
-                    kind == "FlowerWhite" ? new Color(.89f, .89f, .80f) : kind == "FlowerPurple" ? new Color(.56f, .28f, .68f) : new Color(.87f, .76f, .37f);
-                for (var y = 0; y < size; y++)
-                {
-                    for (var x = 0; x < size; x++)
-                    {
-                        var u = x / (float)size;
-                        var v = y / (float)size;
-                        var noise = Mathf.PerlinNoise(u * 8 + 17, v * 8 + 31);
-                        var variation = .90f + .16f * noise;
-                        if (kind == "Wood")
-                        {
-                            variation += .045f * Mathf.Sin((u + .013f * Mathf.Sin(v * 12)) * Mathf.PI * 32);
-                        }
-                        pixels[y * size + x] = color * variation;
-                        pixels[y * size + x].a = 1;
-                    }
-                }
-                image.SetPixels(pixels);
-                image.Apply();
-                File.WriteAllBytes(Root + "/" + kind + ".png", image.EncodeToPNG());
-            }
-            finally
-            {
-                Object.DestroyImmediate(image);
-            }
         }
         foreach (var kind in new[] { "Water" })
         {

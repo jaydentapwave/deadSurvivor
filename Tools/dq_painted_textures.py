@@ -22,6 +22,10 @@ JOBS = [
     ("Flag", "C/redcloth.png", (.56, .17, .14)),
     ("Leaves", "C/leaves.png", None),
     ("Plant", "C/leaves.png", (.22, .58, .19)),
+    ("Stone", "E/rock.png", (.41, .49, .42)),
+    ("FlowerWhite", "E/petals.png", (.89, .89, .80)),
+    ("FlowerYellow", "E/petals.png", (.87, .76, .37)),
+    ("FlowerPurple", "E/petals.png", (.56, .28, .68)),
 ]
 
 
