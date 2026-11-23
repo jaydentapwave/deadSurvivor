@@ -12,7 +12,7 @@ public class MonsterViewStateTests
     [SetUp]
     public void SetUp()
     {
-        _effects = new EffectSpriteCache();
+        _effects = new EffectSpriteCache(new ResourceService());
         _root = new GameObject("MonsterView");
         var body = _root.AddComponent<SpriteRenderer>();
         var line = new GameObject("DashLine").AddComponent<SpriteRenderer>();

@@ -54,10 +54,10 @@ public class MemberView : MonoBehaviour
     public string DQAction { get; private set; }
     public long DQHitAttackId { get; private set; }
 
-    public void InitializeDQ(DQActorClips actor)
+    public void InitializeDQ(DQActorClips actor, DQAttackFxLibrary attackFx)
     {
         _dq = actor;
-        _dqFx = Resources.Load<DQAttackFxLibrary>(DQAttackFxLibrary.ResourcePath);
+        _dqFx = attackFx;
         if (_dqFx != null)
         {
             if (_dqFxRenderer == null)

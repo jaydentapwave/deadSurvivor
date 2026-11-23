@@ -67,16 +67,10 @@ public class FieldModelBuildTests
     }
 
     [Test]
-    public void ModelsReplaceEveryCardWithoutFootShadowsAndMatchBushScreenFootprint()
+    public void MainModelsReplaceEveryCardWithoutFootShadows()
     {
         EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
         var field = Object.FindFirstObjectByType<FieldView>();
-        // This is the legacy card-footprint contract. DQ's adopted native-scale
-        // bush intentionally does not fit the old sprite rectangle.
-        var serialized = new SerializedObject(field);
-        serialized.FindProperty("modelCatalog").objectReferenceValue = AssetDatabase.LoadAssetAtPath<FieldModelCatalog>(
-            "Assets/Game/03.Resources/Models/HD2D/Scenery/FieldModelCatalog.asset");
-        serialized.ApplyModifiedPropertiesWithoutUndo();
         var layout = JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_layout.json"));
         Assert.IsTrue(field.UsesModelScenery);
         field.Initialize(30);
@@ -110,17 +104,42 @@ public class FieldModelBuildTests
             Assert.AreEqual(plantTriangles, batches.Sum(t => t.GetComponent<MeshFilter>().sharedMesh.triangles.Length));
             Assert.IsTrue(batches.All(t => t.GetComponent<MeshRenderer>().shadowCastingMode == UnityEngine.Rendering.ShadowCastingMode.Off));
 
+        }
+        finally
+        {
+            Object.DestroyImmediate(field.Landscape.gameObject);
+            EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        }
+    }
+
+    [Test]
+    public void LegacyBushMatchesAuthoredCardFootprint()
+    {
+        EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
+        var field = Object.FindFirstObjectByType<FieldView>();
+        try
+        {
+            // This is the legacy card-footprint contract. DQ's adopted native-scale
+            // bush intentionally does not fit the old sprite rectangle.
+            var serialized = new SerializedObject(field);
+            serialized.FindProperty("modelCatalog").objectReferenceValue = AssetDatabase.LoadAssetAtPath<FieldModelCatalog>(
+                "Assets/Game/03.Resources/Models/HD2D/Scenery/FieldModelCatalog.asset");
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            var layout = JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText("Assets/Game/03.Resources/Resources/Data/Field/field_layout.json"));
             var bush = layout.placements.First(p => p.sprite.StartsWith("bush_"));
+            var source = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/03.Resources/Art/AIGenerated/Decor/" + bush.sprite + ".png");
+            field.Initialize(30);
+            field.BuildLandscape(layout);
+            field.AddCard(source, bush, Vector3.down);
+            field.FinishScenery(new FieldLayoutData { seed = layout.seed, placements = new[] { bush } });
             var root = field.Landscape.Cast<Transform>().First(t => t.name.StartsWith("3D:bush:") && Vector3.Distance(t.localPosition, new Vector3(bush.x, bush.height, bush.y)) < .001f);
             var points = root.GetComponentsInChildren<MeshFilter>().SelectMany(f => f.sharedMesh.vertices.Select(f.transform.TransformPoint)).ToArray();
             var size = FieldModelMath.ProjectedSize(points, 0, 30);
-            var source = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Game/03.Resources/Art/AIGenerated/Decor/" + bush.sprite + ".png");
             Assert.That(size.x, Is.EqualTo(source.bounds.size.x).Within(.001));
             Assert.That(size.y, Is.EqualTo(source.bounds.size.y).Within(.001));
         }
         finally
         {
-            Object.DestroyImmediate(field.Landscape.gameObject);
             EditorSceneManager.OpenScene("Assets/Game/01.Scene/Main.unity");
         }
     }

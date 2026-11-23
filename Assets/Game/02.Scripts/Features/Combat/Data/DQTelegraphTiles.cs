@@ -22,10 +22,11 @@ public sealed class DQTelegraphTiles : ScriptableObject
         {
             throw new ArgumentOutOfRangeException(nameof(windupSeconds));
         }
-        // Canonical microseconds remove float representation noise at the authored
-        // 260/500/700ms boundaries; the authored timing itself is unchanged.
-        var micros = Math.Round((double)elapsed / windupSeconds * 800000, MidpointRounding.AwayFromZero);
-        return micros < 260000 ? 0 : micros < 500000 ? 1 : micros < 700000 ? 2 : 3;
+        // Scale the authored float boundaries, preserving adjacent elapsed values.
+        double scale = (double)windupSeconds / .8f;
+        return elapsed < (float)(.26f * scale) ? 0
+            : elapsed < (float)(.50f * scale) ? 1
+            : elapsed < (float)(.70f * scale) ? 2 : 3;
     }
 
     public EffectRaster Raster(double lengthMetres, double radiusMetres, double floorAngle, int stage)

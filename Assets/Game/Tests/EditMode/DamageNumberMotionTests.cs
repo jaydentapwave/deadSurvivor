@@ -149,7 +149,7 @@ public class DamageNumberMotionTests
         var rules = new FeedbackRulesRepository(resources);
         var factory = new DamageNumberViewFactory(pool, placeholder, atlas, rules, registry,
             resources.Load<DamageNumberView>("Prefab/DamageNumberView"), parent.transform);
-        var monsters = new MonsterViewFactory(pool, resources, new MonsterViewRegistry(), placeholder, atlas, context.RunRules, new EffectSpriteCache());
+        var monsters = new MonsterViewFactory(pool, resources, new MonsterViewRegistry(), placeholder, atlas, context.RunRules, new EffectSpriteCache(resources));
         var heights = new int[73 * 73];
         for (var j = 0; j < 73; j++)
         {

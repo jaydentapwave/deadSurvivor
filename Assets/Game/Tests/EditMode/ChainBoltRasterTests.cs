@@ -30,7 +30,7 @@ public class ChainBoltRasterTests
     [Test]
     public void FinishedChainResourcesAreReleasedWhileAnotherChainRemainsLive()
     {
-        using var cache = new EffectSpriteCache();
+        using var cache = new EffectSpriteCache(new ResourceService());
         var live = cache.Chain(110, 28, 7, 0);
         for (uint seed = 8; seed < 208; seed++)
         {

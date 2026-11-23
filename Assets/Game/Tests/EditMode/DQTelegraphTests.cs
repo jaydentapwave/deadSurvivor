@@ -63,6 +63,13 @@ public sealed class DQTelegraphTests
     [TestCase(.699f, 2)]
     [TestCase(.7f, 3)]
     [TestCase(.799f, 3)]
+    [TestCase(.8f, 3)]
+    [TestCase(.25999996f, 0)]
+    [TestCase(.26000002f, 1)]
+    [TestCase(.49999997f, 1)]
+    [TestCase(.50000006f, 2)]
+    [TestCase(.6999999f, 2)]
+    [TestCase(.70000005f, 3)]
     public void AdoptedTimingDoesNotLoop(float seconds, int expected)
     {
         Assert.That(DQTelegraphTiles.StageAt(seconds, .8f), Is.EqualTo(expected));
@@ -129,7 +136,7 @@ public sealed class DQTelegraphTests
     [Test]
     public void CachePreservesOriginalRadiusAndReleasesOwnedSprites()
     {
-        var cache = new EffectSpriteCache();
+        var cache = new EffectSpriteCache(new ResourceService());
         Assert.That(cache.HasDQTelegraph, Is.True);
         var sprite = cache.DQDash(3.6386, .3164, 0, 3);
         var texture = sprite.texture;
@@ -142,7 +149,7 @@ public sealed class DQTelegraphTests
     [Test]
     public void EndingOneWarningDoesNotDestroyAnotherWarning()
     {
-        var cache = new EffectSpriteCache();
+        var cache = new EffectSpriteCache(new ResourceService());
         var first = cache.DQDash(3.6386, .3164, 5.625f, 2, 1);
         var second = cache.DQDash(3.6386, .3164, 5.625f, 2, 2);
         cache.ReleaseDQDash(1);

@@ -13,13 +13,20 @@ public class EffectSpriteCache : IDisposable
     private DQTelegraphTiles _dqTelegraph;
     private bool _dqTelegraphLoaded;
 
+    private readonly ResourceService _resources;
+
+    public EffectSpriteCache(ResourceService resources)
+    {
+        _resources = resources;
+    }
+
     public bool HasDQTelegraph
     {
         get
         {
             if (!_dqTelegraphLoaded)
             {
-                _dqTelegraph = Resources.Load<DQTelegraphTiles>(DQTelegraphTiles.ResourcePath);
+                _dqTelegraph = _resources.Load<DQTelegraphTiles>(DQTelegraphTiles.ResourcePath);
                 _dqTelegraphLoaded = true;
             }
             return _dqTelegraph != null;

@@ -205,12 +205,15 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
     public float MemberFlashMaxSeconds { get; private set; } = -1f;
     public int IdleOffsetsSeen => (_idleOffsetSeenMask & 1) + ((_idleOffsetSeenMask >> 1) & 1);
 
+    private readonly DQAttackFxLibrary _attackFx;
+
     public WorldPresenter(CombatModel combatModel, MoveRulesData moveRules, PartyModel partyModel, MonsterModel monsterModel, MonsterService monsterService,
         PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, FieldLayoutData fieldLayout, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
         MonsterViewRegistry monsterViewRegistry, SpriteAtlasService spriteAtlasService, RunModel runModel, FieldView fieldView,
-        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig, TerrainHeightGrid terrain, FirstExpeditionService firstExpedition, EventBus eventBus = null)
+        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig, TerrainHeightGrid terrain, FirstExpeditionService firstExpedition, ResourceService resources, EventBus eventBus = null)
     {
+        _attackFx = resources.Load<DQAttackFxLibrary>(DQAttackFxLibrary.ResourcePath);
         _combatModel = combatModel;
         _eventBus = eventBus;
         _dqHits = new DQHitBuffer[memberViewList.Count];
@@ -463,7 +466,7 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
         var dq = _spriteAtlasService.DQ.Get(data.Id);
         if (hasArt && dq != null)
         {
-            view.InitializeDQ(dq);
+            view.InitializeDQ(dq, _attackFx);
         }
         else if (hasArt && motion != null)
         {

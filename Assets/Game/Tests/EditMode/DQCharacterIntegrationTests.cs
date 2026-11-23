@@ -53,7 +53,7 @@ public class DQCharacterIntegrationTests
         var registry = new MonsterViewRegistry();
         var pool = new PoolManager();
         var rules = resources.LoadJson<RunRulesData>("Data/Run/run_rules");
-        var factory = new MonsterViewFactory(pool, resources, registry, new PlaceholderSpriteFactory(), atlas, rules, new EffectSpriteCache());
+        var factory = new MonsterViewFactory(pool, resources, registry, new PlaceholderSpriteFactory(), atlas, rules, new EffectSpriteCache(resources));
         var data = new MonsterRepository(resources).Get("boar");
         var monster = new Monster(808, data, Vector2.zero, 18, 1, 0);
         var view = factory.Create(monster, null);
@@ -88,7 +88,7 @@ public class DQCharacterIntegrationTests
         var atlas = new SpriteAtlasService(resources);
         var registry = new MonsterViewRegistry();
         var factory = new MonsterViewFactory(new PoolManager(), resources, registry,
-            new PlaceholderSpriteFactory(), atlas, resources.LoadJson<RunRulesData>("Data/Run/run_rules"), new EffectSpriteCache());
+            new PlaceholderSpriteFactory(), atlas, resources.LoadJson<RunRulesData>("Data/Run/run_rules"), new EffectSpriteCache(resources));
         var repository = new MonsterRepository(resources);
         var boar = new Monster(901, repository.Get("boar"), Vector2.zero, 18, 1, 0);
         var view = factory.Create(boar, null);
