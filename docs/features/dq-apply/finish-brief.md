@@ -61,3 +61,13 @@ Play 종료 후 최종 콘솔에서 UI/렌더러/카메라가 파괴된 뒤의 T
 `main-gate/gate-summary.md`는 원근 18°, 세로 시야각 20°, 초점 키 112.014px이고 전체 FAIL이다. G01·02·04 PASS, G03·06·07·08·09·11·12·13·15·18·20 BLOCKED, G19 deferred다. G03은 사전 선언된 판독 파일을 기다린다. `blind-index.json`과 `blind/판독.md`는 G20 독립 판독용 23장이다. 두 판독자가 직접 본 결과를 받은 뒤 `collect-g20.py <답1.json> <답2.json>`으로 같은 run_id에 결속하고 관문을 다시 계산한다. 현재 판독 점수는 없다. C4 추정 FAIL, K55 NOT_RUN, N9 33/34 FAIL, C11 BLOCKED, 높은 턱 수신 FAIL, 풀색과 소품 질감은 이월한다.
 
 수정 뒤 목록 76행은 됨 65, 안 됨 8, 미확인 3이다. `scope-rows.json`과 `scope-recount.json`에 행별 파일 지문과 재계수가 있다. 로컬 미리보기에는 새 효과·UI·이동 표본을 추가했다. `preview-check.json`에서 이미지 SHA와 문서 참조 157개가 일치했다. 브라우저 자체 렌더는 Chrome 프로세스 종료(-6)로 BLOCKED다.
+
+### 1.25초 돌진 준비 시간 수정 확인
+
+9-r2의 spec-reviewer와 validator-client는 PASS였다. algorithm-tester는 준비 시간 1.25초에서 첫 전환이 한 float 빨라지는 T5를 발견했다. 0.8초와 1.6초는 두 값의 비율이 2여서 앞선 시험이 이 차이를 잡지 못했다. 이번에는 원본 정수 밀리초 비율 260/800, 500/800, 700/800을 double로 적용하고 비교할 경계에서 한 번 float로 바꾼다. 1.25초에서 정확히 표현되는 세 경계와 각각의 양옆 float를 회귀 시험에 넣었다.
+
+근거 폴더는 `output/hd2d-dq/apply/9/r3/`이다. `compile-status.json`은 오류 0건이다. 첫 시험은 Unity가 종료 상태였으나 결과 파일이 없어 집계에서 제외했다. 재실행한 전체 EditMode는 734건 중 732건이 통과했다. `timing-summary.json`에는 예고선 시험 통과 24건과 원본 누락으로 실패한 두 시험 이름이 있다. 한 판 경로는 8/8이다.
+
+G20은 앞서 고정한 23장(run_id `DQ-20261123T062735Z`)으로 judge.py의 두 판독기를 실행했다. Claude 응답은 `claude-reader.json`에 있다. 다섯 축 모두 2/4점, 중대 결함 3건이며 다리·천막 주변 갈색 얼룩, 전투 HUD와 결과 화면 글자 겹침, 조감 화면의 짙은 안개를 지적했다. Codex는 앱 서버 초기화 권한 오류로 응답을 내지 못했다. 두 판독자를 요구하는 관문은 NOT_RUN이고 G03·G20은 BLOCKED다. 한 판독자의 관찰을 기록해 후속 화면 점검에 넘긴다.
+
+원근 Main 관문의 첫 실행은 첫 지점 도달 전 이동 캡처가 일곱 장이라 G01·G02가 실패했다. 새 폴더에서 검증용 프레임 간격을 1/60초로 고정해 이동 여덟 장을 수집하고 이전 설정을 복원했다. `main-gate-retry/gate-summary.md`에서 G01·G02·G04는 PASS, 나머지 11개는 BLOCKED, G19는 deferred로 전체 FAIL이다. 첫 실행과 재시도 자료는 각각 보존했다.

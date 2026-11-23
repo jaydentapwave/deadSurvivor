@@ -22,11 +22,10 @@ public sealed class DQTelegraphTiles : ScriptableObject
         {
             throw new ArgumentOutOfRangeException(nameof(windupSeconds));
         }
-        // Scale the authored float boundaries, preserving adjacent elapsed values.
-        double scale = (double)windupSeconds / .8f;
-        return elapsed < (float)(.26f * scale) ? 0
-            : elapsed < (float)(.50f * scale) ? 1
-            : elapsed < (float)(.70f * scale) ? 2 : 3;
+        // The authored times are integer milliseconds on an 800 ms windup.
+        return elapsed < (float)(windupSeconds * (260d / 800d)) ? 0
+            : elapsed < (float)(windupSeconds * (500d / 800d)) ? 1
+            : elapsed < (float)(windupSeconds * (700d / 800d)) ? 2 : 3;
     }
 
     public EffectRaster Raster(double lengthMetres, double radiusMetres, double floorAngle, int stage)

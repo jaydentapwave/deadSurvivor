@@ -76,6 +76,19 @@ public sealed class DQTelegraphTests
         Assert.That(DQTelegraphTiles.StageAt(seconds * 2, 1.6f), Is.EqualTo(expected));
     }
 
+    [TestCase(.40625f, 1)]
+    [TestCase(.78125f, 2)]
+    [TestCase(1.09375f, 3)]
+    public void ScaledWindupChangesStageExactlyAtBoundary(float boundary, int nextStage)
+    {
+        int bits = BitConverter.SingleToInt32Bits(boundary);
+        float before = BitConverter.Int32BitsToSingle(bits - 1);
+        float after = BitConverter.Int32BitsToSingle(bits + 1);
+        Assert.That(DQTelegraphTiles.StageAt(before, 1.25f), Is.EqualTo(nextStage - 1));
+        Assert.That(DQTelegraphTiles.StageAt(boundary, 1.25f), Is.EqualTo(nextStage));
+        Assert.That(DQTelegraphTiles.StageAt(after, 1.25f), Is.EqualTo(nextStage));
+    }
+
     [Test]
     public void InvalidInputsFailAtBoundary()
     {
