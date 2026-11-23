@@ -70,6 +70,9 @@ public static class MainSceneDQBackgroundMigration
             var bank = Surface("Bank", (Material)serialized.FindProperty("bankMaterial").objectReferenceValue, 3, "Soil");
             // Preserve the existing walk-through decorative bank reference-depth contract.
             ground.SetFloat("_FlatDepth", 1);
+            // Step 11: view-only hills give the floor real slopes (up to .12); the 8x light exaggeration meant for
+            // centimetre banks turns them into near-black bands, so the meadow floor alone uses a milder factor.
+            ground.SetFloat("_TerrainLightSlope", 3);
             bank.SetFloat("_FlatDepth", 1);
             var wood = Surface("Wood", null, 4, "Wood");
             var woodFade = Surface("Wood_Fade", wood, 4, "Wood", .65f);

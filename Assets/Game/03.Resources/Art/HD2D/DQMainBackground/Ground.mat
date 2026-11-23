@@ -90,7 +90,7 @@ Material:
     - _PathEdge: 1
     - _SoftFade: 0
     - _SrcBlend: 1
-    - _TerrainLightSlope: 8
+    - _TerrainLightSlope: 3
     - _WorldTexture: 0
     - _ZWrite: 1
     m_Colors:

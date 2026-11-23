@@ -156,6 +156,7 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
     private readonly GroundPathData _groundPath;
     private readonly FieldLayoutData _fieldLayout;
     private readonly TerrainHeightGrid _terrain;
+    private readonly TerrainHeightGrid _judgmentTerrain;
     private readonly PlaceholderCombatData _combatData;
     private readonly PlaceholderSpriteFactory _placeholderSpriteFactory;
     private readonly MonsterViewFactory _monsterViewFactory;
@@ -211,7 +212,7 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
         PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, FieldLayoutData fieldLayout, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
         MonsterViewRegistry monsterViewRegistry, SpriteAtlasService spriteAtlasService, RunModel runModel, FieldView fieldView,
-        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig, TerrainHeightGrid terrain, FirstExpeditionService firstExpedition, ResourceService resources, EventBus eventBus = null)
+        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig, TerrainHeightGrid terrain, JudgmentTerrain judgmentTerrain, FirstExpeditionService firstExpedition, ResourceService resources, EventBus eventBus = null)
     {
         _attackFx = resources.Load<DQAttackFxLibrary>(DQAttackFxLibrary.ResourcePath);
         _combatModel = combatModel;
@@ -242,6 +243,7 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
         _groundPath = groundPath;
         _fieldLayout = fieldLayout;
         _terrain = terrain;
+        _judgmentTerrain = judgmentTerrain.Grid;
         _combatData = combatData;
         _placeholderSpriteFactory = placeholderSpriteFactory;
         _monsterViewFactory = monsterViewFactory;
@@ -270,9 +272,10 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
         RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
         _rig.Initialize(_viewRules.TiltDegrees, _viewRules.Distance, _viewRules.NearClip, _viewRules.FarClip, _viewRules.TargetFraction, _viewRules.MinScale);
         _fieldView.Initialize(_viewRules.TiltDegrees);
-        _rig.SetFocus(IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _terrain));
-        _viewRules.SetProjection(_rig.Frame, _runRules.UnitScale, _terrain);
-        _monsterService.SetPlacementProjection(_rig.Frame, IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _terrain), _terrain, _runRules.UnitScale);
+        // Camera focus, movement input and spawn projection stay on the judgment grid; drawn things use _terrain.
+        _rig.SetFocus(IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _judgmentTerrain));
+        _viewRules.SetProjection(_rig.Frame, _runRules.UnitScale, _judgmentTerrain, _terrain);
+        _monsterService.SetPlacementProjection(_rig.Frame, IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _judgmentTerrain), _judgmentTerrain, _runRules.UnitScale);
         // Atlas source pixels, lowest opaque row (including downed bruno), PPU 48.
         const float footHalfWidth = .625f;
         Shader.SetGlobalFloat("_HD2DActorDepthBias", TerrainHeightMath.ActorDepthBias(_terrain, footHalfWidth, _viewRules.SinTilt));
@@ -302,10 +305,10 @@ public class WorldPresenter : IInitializable, ILateTickable, IDisposable
         }
         _rig.UpdateScreen(_camera.pixelWidth, _camera.pixelHeight);
         UpdateViewExtent();
-        var center = IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _terrain);
+        var center = IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _judgmentTerrain);
         _rig.SetFocus(center);
-        _viewRules.SetProjection(_rig.Frame, _runRules.UnitScale, _terrain);
-        _monsterService.SetPlacementProjection(_rig.Frame, IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _terrain), _terrain, _runRules.UnitScale);
+        _viewRules.SetProjection(_rig.Frame, _runRules.UnitScale, _judgmentTerrain, _terrain);
+        _monsterService.SetPlacementProjection(_rig.Frame, center, _judgmentTerrain, _runRules.UnitScale);
         VisibleFloor = new FloorViewBounds(_rig.Frame, center.y);
         var isRunning = _runModel.Phase.CurrentValue == RunPhase.Battle && !_runModel.IsPaused.CurrentValue;
         var lastClock = _motionClock;

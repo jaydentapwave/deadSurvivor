@@ -41,7 +41,9 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<RunRulesData>(RunRulesPath), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<GroundPathData>(GroundPathPath), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<FieldLayoutData>("Data/Field/field_layout"), Lifetime.Scoped);
-        builder.Register(resolver => CreateTerrainGrid(resolver.Resolve<ResourceService>().LoadJson<FieldHeightData>("Data/Field/field_height")), Lifetime.Scoped);
+        // Judgment grid stays as loaded (movement, spawn, camera focus); the registered TerrainHeightGrid is the drawn one with view-only hills.
+        builder.Register(resolver => new JudgmentTerrain(CreateTerrainGrid(resolver.Resolve<ResourceService>().LoadJson<FieldHeightData>("Data/Field/field_height"))), Lifetime.Scoped);
+        builder.Register(resolver => MeadowHillMath.Build(resolver.Resolve<JudgmentTerrain>().Grid, resolver.Resolve<FieldLayoutData>()), Lifetime.Scoped);
         builder.Register(resolver => resolver.Resolve<ResourceService>().LoadJson<PlaceholderCombatData>(PlaceholderCombatPath),
             Lifetime.Scoped);
         builder.Register<CharacterRepository>(Lifetime.Scoped);

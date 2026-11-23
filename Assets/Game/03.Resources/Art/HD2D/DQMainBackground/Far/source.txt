@@ -1,0 +1,3 @@
+Codex image generation (gpt-6.2-astra imagegen, not paid), 2026-11-23 step 11.
+Prompt: output/hd2d-dq/apply/11/tex/far/prompt.txt (words from 배경-시점-관찰 colours only, no input images).
+sha256 6375800b0ee68c319775df600a60e9e547c671637600db02626bd0cffb267465

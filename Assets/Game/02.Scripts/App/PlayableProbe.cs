@@ -193,7 +193,8 @@ public static partial class PlayableProbe
     {
         get
         {
-            var expected = IsoProjection.FloorToWorld(Resolve<PartyModel>().Center, Resolve<RunRulesData>().UnitScale, Resolve<TerrainHeightGrid>());
+            // The camera follows the judgment grid (step 11 view-only hills do not move it).
+            var expected = IsoProjection.FloorToWorld(Resolve<PartyModel>().Center, Resolve<RunRulesData>().UnitScale, Resolve<JudgmentTerrain>().Grid);
             var camera = Resolve<Camera>().transform;
             var rig = Resolve<TiltedCameraRig>();
             var restored = camera.position + camera.forward * rig.Distance - camera.right * rig.ShakeOffset.x - camera.up * rig.ShakeOffset.y;

@@ -8,17 +8,20 @@ public class ViewRulesData
     public PerspectiveFrame Frame { get; set; }
     public bool HasFrame => Frame.Height > 0;
     public float WorldScale { get; private set; } = .0113f;
+    // Terrain: judgment grid for movement input. VisualTerrain: drawn grid for screen directions (facing, hit, slash offset).
     public TerrainHeightGrid Terrain { get; private set; } = TerrainHeightGrid.Flat;
-    public void SetProjection(PerspectiveFrame frame, float worldScale, TerrainHeightGrid terrain)
+    public TerrainHeightGrid VisualTerrain { get; private set; } = TerrainHeightGrid.Flat;
+    public void SetProjection(PerspectiveFrame frame, float worldScale, TerrainHeightGrid terrain, TerrainHeightGrid visualTerrain = null)
     {
         Frame = frame;
         WorldScale = worldScale;
         Terrain = terrain;
+        VisualTerrain = visualTerrain ?? terrain;
     }
     public Vector2 Direction(Vector2 floor, Vector2 delta)
     {
-        var from = IsoProjection.FloorToWorld(floor, WorldScale, Terrain);
-        var to = IsoProjection.FloorToWorld(floor + delta, WorldScale, Terrain);
+        var from = IsoProjection.FloorToWorld(floor, WorldScale, VisualTerrain);
+        var to = IsoProjection.FloorToWorld(floor + delta, WorldScale, VisualTerrain);
         return Frame.Direction(from, to - from);
     }
     public Vector3 IndicatorPosition(Vector3 foot, float bodyHeight, float offsetSourcePixels)
