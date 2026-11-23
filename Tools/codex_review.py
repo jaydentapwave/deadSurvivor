@@ -11,7 +11,7 @@ live in .ai/reviewers/<role>.md. The SubagentStop hook still records the relayed
                                                               exit 3: still running ("RUNNING <s>s"), call wait again
   codex_review.py selftest                                    prompt building and verdict handling, no Codex call
 
-Codex: model gpt-6.1-sol, reasoning medium (user 2026-11-15). Reviews are read-only on the repo; algorithm-tester gets a
+Codex: model gpt-6.2-astra, reasoning medium (user 2026-11-15). Reviews are read-only on the repo; algorithm-tester gets a
 writable scratch folder outside the repo so it can run extracted code. Total limit 40 minutes per job.
 """
 import argparse
@@ -28,7 +28,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 ROLES_DIR = ROOT / '.ai' / 'reviewers'
 JOBS = Path(os.environ.get('TMPDIR', '/tmp')) / 'deadsurvivor-codex-review'
-MODEL = 'gpt-6.1-sol'
+MODEL = 'gpt-6.2-astra'
 EFFORT = 'medium'
 LIMIT_SECONDS = 2400
 SCRATCH_ROLES = {'algorithm-tester'}

@@ -12,7 +12,7 @@
   hd2d_judge.py selftest
       모델 호출 없이 답 해석·점수 검사·review 구성을 시험한다.
 
-판독자: Codex gpt-6.1-sol medium(읽기 전용), Claude Opus 5.5 medium(Tools/claude_medium.sh, Read만 허용).
+판독자: Codex gpt-6.2-astra medium(읽기 전용), Claude Opus 5.5 medium(Tools/claude_medium.sh, Read만 허용).
 두 판독자는 서로의 답과 그림의 출처·의도(어느 판인지, 무엇을 기대하는지)를 모른다.
 """
 import argparse
@@ -29,7 +29,7 @@ ROOT = Path(__file__).resolve().parents[1]
 WORK = ROOT / 'output' / 'hd2d-관문' / 'judge-work'
 AXES = ['style', 'depth', 'readability', 'ground', 'motion']
 LIMIT_SECONDS = 900
-CODEX = ['codex', 'exec', '-m', 'gpt-6.1-sol', '-c', 'model_reasoning_effort="medium"', '-s', 'read-only',
+CODEX = ['codex', 'exec', '-m', 'gpt-6.2-astra', '-c', 'model_reasoning_effort="medium"', '-s', 'read-only',
          '--skip-git-repo-check']
 CLAUDE = [str(ROOT / 'Tools' / 'claude_medium.sh'), '-p', '--allowedTools', 'Read', '--output-format', 'text']
 
@@ -122,7 +122,7 @@ def judge(folder, names, has_motion):
     axes = AXES if has_motion else AXES[:4]
     prompt = build_prompt(names, has_motion)
     (folder / 'prompt.md').write_text(prompt, encoding='utf-8')
-    readers = {'codex-gpt-6.1-sol': run_codex, 'claude-opus-5.5': run_claude}
+    readers = {'codex-gpt-6.2-astra': run_codex, 'claude-opus-5.5': run_claude}
     result = {}
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
         futures = {name: pool.submit(fn, folder, names, prompt) for name, fn in readers.items()}

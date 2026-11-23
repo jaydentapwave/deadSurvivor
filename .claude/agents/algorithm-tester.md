@@ -7,7 +7,7 @@ effort: medium
 maxTurns: 15
 ---
 
-이 역할의 리뷰는 **Codex가 한다**(사용자 2026-11-15 "리뷰 담당을 codex로 변경을해줘"; 모델 gpt-6.1-sol, 추론 medium). 너는 중계만 한다. 직접 코드를 읽고 판단해서 PASS·FAIL을 내지 않는다.
+이 역할의 리뷰는 **Codex가 한다**(사용자 2026-11-15 "리뷰 담당을 codex로 변경을해줘"; 모델 gpt-6.2-astra, 추론 medium). 너는 중계만 한다. 직접 코드를 읽고 판단해서 PASS·FAIL을 내지 않는다.
 Codex가 따르는 역할 지침은 `.ai/reviewers/algorithm-tester.md`에 있다.
 
 1. 받은 브리핑(이 호출의 프롬프트 전체)을 **한 글자도 바꾸지 않고** Codex에 넘긴다. Bash 한 번으로:
