@@ -27,6 +27,19 @@ Shader "DeadSurvivor/DQ/Main surface"
         _DQBaseHeight("Model floor height",Float)=0
         _LeafDetail("Leaf clusters",Float)=0
         _WorldTexture("World texture instead of UV",Float)=0
+        _SoftFade("Actor window alpha fade instead of dither",Float)=0
+        [HideInInspector] _SrcBlend("Src blend",Float)=1
+        [HideInInspector] _DstBlend("Dst blend",Float)=0
+        [HideInInspector] _ZWrite("Z write",Float)=1
+        _GrassAlbedo("Painted grass albedo",2D)="white" {}
+        _GrassTile("Painted grass tile metres",Float)=6
+        _GrassWeight("Painted grass amount",Range(0,1))=0
+        _GrassContrast("Painted grass detail contrast",Float)=1
+        _PathEdge("Path edge grass mixing",Float)=0
+        _Leaves("Painted leaf detail",2D)="gray" {}
+        _LeafPaint("Leaf tile, contrast, underside, top lift",Vector)=(0,0,1,1)
+        _MeadowLight("Cloud shade (x scale, y depth) and sun patch (z scale, w lift)",Vector)=(0,0,0,0)
+        _ShadeColor("Shadowed grass multiplier",Vector)=(.045,.045,.045,1)
     }
     SubShader
     {
@@ -45,12 +58,17 @@ Shader "DeadSurvivor/DQ/Main surface"
         TEXTURE2D(_WaterMask); SAMPLER(sampler_WaterMask);
         TEXTURE2D(_ZoneMask); SAMPLER(sampler_ZoneMask);
         TEXTURE2D(_PathMask); SAMPLER(sampler_PathMask);
+        TEXTURE2D(_GrassAlbedo); SAMPLER(sampler_GrassAlbedo);
+        TEXTURE2D(_Leaves); SAMPLER(sampler_Leaves);
         CBUFFER_START(UnityPerMaterial)
         float4 _FieldRect; float _FlatDepth; float _Dither;
         float _Category;
         float _Diagnostic; float _AlphaClip; int _OcclusionRectCount;
         float _TerrainLightSlope; float _FlagWind;
         float _DQModel; float _DQBaseHeight; float _LeafDetail; float _WorldTexture;
+        float _SoftFade; float _SrcBlend; float _DstBlend; float _ZWrite;
+        float _GrassTile; float _GrassWeight; float4 _MeadowLight; float4 _ShadeColor;
+        float _GrassContrast; float _PathEdge; float4 _LeafPaint;
         float4 _AlbedoTint;
         float4 _OcclusionRects[64];
         CBUFFER_END
@@ -87,9 +105,22 @@ Shader "DeadSurvivor/DQ/Main surface"
         #endif
             if (_Category>1.5 && _Category<2.5) clip(waterOpening-.5);
         }
+        // Strongest actor-window coverage; edges ramp over several pixels so the fade reads as glass, not a cut.
+        float ActorWindowFade(V i)
+        {
+            float fade=0;
+            float2 uv=i.screen.xy/i.screen.w;
+            for (int index=0;index<_OcclusionRectCount;index++)
+            {
+                float4 window=_OcclusionRects[index];
+                float2 nearEdge=min(uv-window.xy,window.zw-uv)*_ScaledScreenParams.xy;
+                fade=max(fade,saturate(min(nearEdge.x,nearEdge.y)/14));
+            }
+            return fade*_Dither;
+        }
         void ClipSurface(V i)
         {
-            if (_Dither > .001)
+            if (_Dither > .001 && _SoftFade < .5)
             {
                 float2 uv=i.screen.xy/i.screen.w;
                 for (int index=0;index<_OcclusionRectCount;index++)
@@ -119,15 +150,20 @@ Shader "DeadSurvivor/DQ/Main surface"
             F output; output.depth=lerp(i.p.z,i.floorDepth.x/i.floorDepth.y,_FlatDepth);
             float2 fieldUV=(i.w.xz-_FieldRect.xy)/_FieldRect.zw;
             float broad=Noise(i.w.xz*.12)*.13+Noise(i.w.xz*.047+14)*.08;
-            half3 grass=half3(.025,.405,.057)*(.89+broad);
+            half3 grass=lerp(half3(.025,.405,.057),half3(.024,.400,.080),_GrassWeight)*(.89+broad);
             float velvet=SAMPLE_TEXTURE2D(_Ground,sampler_Ground,i.w.xz/8).r;
-            grass*=.67+1.55*velvet;
+            // Painted grass is a mean-0.5 detail map; 1.44 keeps the old velvet average brightness.
+            float painted=SAMPLE_TEXTURE2D(_GrassAlbedo,sampler_GrassAlbedo,i.w.xz/_GrassTile).r*2;
+            grass*=lerp(.67+1.55*velvet,1.44*max(0,1+(painted-1)*_GrassContrast),_GrassWeight);
+            float sunPatch=smoothstep(.55,.85,Noise(i.w.xz*_MeadowLight.z+57))*_MeadowLight.w;
+            grass*=lerp(1,half3(1.10,1.05,.80),sunPatch);
             half3 soil=SAMPLE_TEXTURE2D(_Dirt,sampler_Dirt,i.w.xz/3).rgb;
             float path=SAMPLE_TEXTURE2D(_PathMask,sampler_PathMask,fieldUV).r;
             half4 zone=SAMPLE_TEXTURE2D(_ZoneMask,sampler_ZoneMask,fieldUV);
             half3 stone=SAMPLE_TEXTURE2D(_Stone,sampler_Stone,i.w.xz/3).rgb;
             half3 c=lerp(grass,stone,smoothstep(.10,.85,zone.g));
-            c=lerp(c,soil,smoothstep(.05,.95,path));
+            float pathEdge=(painted-1)*.55+(Noise(i.w.xz*5.3+9)-.5)*.45;
+            c=lerp(c,soil,smoothstep(.05,.95,saturate(path+pathEdge*_PathEdge*(1-abs(path*2-1)))));
             if (_Category>2.5 && _Category<3.5)
             {
                 if (_WorldTexture>.5) soil=SAMPLE_TEXTURE2D(_Dirt,sampler_Dirt,float2(i.w.x+i.w.z,i.w.y)/3).rgb;
@@ -143,6 +179,13 @@ Shader "DeadSurvivor/DQ/Main surface"
                 c=SAMPLE_TEXTURE2D(_MainTex,sampler_MainTex,uv).rgb*_AlbedoTint.rgb;
                 if (_LeafDetail>.5)
                 {
+                    // Triplanar leaf clusters: world projection without the stretched stripes of a single axis.
+                    float3 blend=pow(abs(normalize(i.n)),4); blend/=blend.x+blend.y+blend.z;
+                    float leaf=(SAMPLE_TEXTURE2D(_Leaves,sampler_Leaves,i.w.zy*_LeafPaint.x).r*blend.x
+                        +SAMPLE_TEXTURE2D(_Leaves,sampler_Leaves,i.w.xz*_LeafPaint.x).r*blend.y
+                        +SAMPLE_TEXTURE2D(_Leaves,sampler_Leaves,i.w.xy*_LeafPaint.x).r*blend.z)*2;
+                    c*=max(0,1+(leaf-1)*_LeafPaint.y);
+                    c*=lerp(_LeafPaint.z,_LeafPaint.w,saturate(i.n.y*.5+.5));
                     float clump=Noise(i.w.xz*7+i.w.y*3);
                     c*=.78+.40*clump;
                     #if defined(_TERRAIN_HEIGHT)
@@ -153,16 +196,23 @@ Shader "DeadSurvivor/DQ/Main surface"
             Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));
             float3 normal=normalize(float3(i.n.x*(_Category<.5 ? _TerrainLightSlope : 1),i.n.y,i.n.z*(_Category<.5 ? _TerrainLightSlope : 1)));
             float face=lerp(.35,1,smoothstep(.0,.9,dot(normal,sun.direction)));
-            float shade=lerp(.045,1,sun.shadowAttenuation);
+            float3 shade=lerp(_ShadeColor.rgb,1,sun.shadowAttenuation);
             // A small chromatic sky term reaches both sunlit and shaded scenery.
             c*=min(face,shade)*sun.color + SampleSH(normal)*.2;
-            if (_Diagnostic>.5) c=min(face,shade).xxx;
+            if (_Category<.5 || (_Category>2.5 && _Category<3.5))
+            {
+                // Slow cloud shade over the whole meadow, slightly cooler where shaded.
+                float cloud=Noise(i.w.xz*_MeadowLight.x+float2(31,7))*.65+Noise(i.w.xz*_MeadowLight.x*2.3+3)*.35;
+                float cloudShade=smoothstep(.36,.60,cloud)*_MeadowLight.y;
+                c*=lerp(1,half3(.80,.92,1.06),cloudShade)*(1-cloudShade*.55);
+            }
+            if (_Diagnostic>.5) c=min(face,shade.x).xxx;
             // Measurement-only color override; preserve original vertex/reference depth,
             // water opening and actor-window clip paths in the exact same GPU pass.
             if (_Diagnostic>1.5) c=_Diagnostic<2.5 ? half3(1,0,0) : _Diagnostic<3.5 ? half3(0,1,0) : half3(0,0,0);
             float eye=-TransformWorldToView(i.w).z;
             if (_Diagnostic<.5) c=lerp(c,_DQAirColor.rgb,smoothstep(_DQLightFocus.x+8,_DQLightFocus.x+48,eye)*.82*_DQLightFocus.w);
-            output.color=half4(c,1);
+            output.color=half4(c,_SoftFade>.5 ? 1-ActorWindowFade(i) : 1);
             return output;
         }
         float3 _LightDirection;
@@ -178,6 +228,8 @@ Shader "DeadSurvivor/DQ/Main surface"
         {
             Name "ForwardLit"
             Tags { "LightMode"="UniversalForward" }
+            Blend [_SrcBlend] [_DstBlend]
+            ZWrite [_ZWrite]
             HLSLPROGRAM
             #pragma multi_compile_local _ _TERRAIN_HEIGHT
             #pragma vertex Vert

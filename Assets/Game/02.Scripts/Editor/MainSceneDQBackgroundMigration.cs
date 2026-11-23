@@ -16,6 +16,9 @@ public static class MainSceneDQBackgroundMigration
     public const string CatalogPath = Root + "/Catalog.asset";
     public const string Output = "output/hd2d-dq/apply/6";
     private const string Data = "Assets/Game/03.Resources/Resources/Data/Field/";
+    // Painted tileable textures (Codex image generation, colour matched by Tools/dq_painted_textures.py).
+    private const string Painted = "Assets/Game/03.Resources/Art/HD2D/DQPainted/";
+    private static readonly string[] PaintedKinds = { "Soil", "Wood", "Cloth", "Flag", "StonePath", "Plant", "Grass", "Leaves" };
     private static readonly string[] Adopted = { "dq_tree_round_a", "dq_tree_round_c", "dq_tree_light", "dq_bush_b", "dq_rock_big_a", "dq_rock_big_b_r2", "dq_rock_small_a_r2", "dq_rock_small_b_r2" };
 
     [MenuItem("DeadSurvivor/DQ/Apply Main background")]
@@ -253,7 +256,11 @@ public static class MainSceneDQBackgroundMigration
 
     private static void BuildTextures()
     {
-        foreach (var kind in new[] { "Soil", "Wood", "Cloth", "Flag", "Stone", "StonePath", "Plant", "FlowerWhite", "FlowerYellow", "FlowerPurple" })
+        foreach (var kind in PaintedKinds)
+        {
+            File.Copy(Painted + kind + ".png", Root + "/" + kind + ".png", true);
+        }
+        foreach (var kind in new[] { "Stone", "FlowerWhite", "FlowerYellow", "FlowerPurple" })
         {
             const int size = 512;
             var image = new Texture2D(size, size, TextureFormat.RGBA32, false);
@@ -340,7 +347,7 @@ public static class MainSceneDQBackgroundMigration
             importer.wrapMode = path.Contains("Mask") ? TextureWrapMode.Clamp : TextureWrapMode.Repeat;
             importer.textureCompression = TextureImporterCompression.Uncompressed;
             importer.maxTextureSize = 4096;
-            importer.sRGBTexture = !path.Contains("Mask");
+            importer.sRGBTexture = !path.Contains("Mask") && !path.EndsWith("/Grass.png", StringComparison.Ordinal) && !path.EndsWith("/Leaves.png", StringComparison.Ordinal);
             importer.SaveAndReimport();
         }
     }
@@ -364,7 +371,6 @@ public static class MainSceneDQBackgroundMigration
         material.shader = Shader.Find("DeadSurvivor/DQ/Main surface");
         material.name = name;
         material.SetFloat("_Category", category);
-        material.SetFloat("_Dither", fade);
         material.SetFloat("_WorldTexture", category == 5 ? 1 : 0);
         material.SetFloat("_TerrainLightSlope", 8);
         material.SetFloat("_FlatDepth", 0);
@@ -377,8 +383,30 @@ public static class MainSceneDQBackgroundMigration
         material.SetTexture("_WaterMask", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "/WaterMask.png"));
         material.SetTexture("_ZoneMask", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "/ZoneMask.png"));
         material.SetInt("_Cull", 0);
+        material.SetTexture("_GrassAlbedo", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "/Grass.png"));
+        material.SetFloat("_GrassTile", 4);
+        material.SetFloat("_GrassWeight", 1);
+        material.SetFloat("_GrassContrast", 2.8f);
+        material.SetFloat("_PathEdge", 1);
+        material.SetVector("_MeadowLight", new Vector4(.03f, .85f, .07f, .3f));
+        material.SetVector("_ShadeColor", new Vector4(.045f, .06f, .05f, 1));
+        material.SetTexture("_Leaves", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "/Leaves.png"));
+        material.SetVector("_LeafPaint", new Vector4(.2f, 1f, .55f, 1.2f));
+        ConfigureFade(material, fade);
         material.DisableKeyword("_TERRAIN_HEIGHT");
         return Save(material, name + ".mat");
+    }
+
+    // Occluding scenery fades as soft alpha over actors (drawn earlier in AlphaTest) instead of a dot screen.
+    private static void ConfigureFade(Material material, float fade)
+    {
+        material.SetFloat("_Dither", fade);
+        var isSoft = fade > 0;
+        material.SetFloat("_SoftFade", isSoft ? 1 : 0);
+        material.SetFloat("_SrcBlend", isSoft ? (float)BlendMode.SrcAlpha : (float)BlendMode.One);
+        material.SetFloat("_DstBlend", isSoft ? (float)BlendMode.OneMinusSrcAlpha : (float)BlendMode.Zero);
+        material.SetFloat("_ZWrite", 1);
+        material.renderQueue = isSoft ? (int)RenderQueue.Transparent : -1;
     }
 
     private static FieldModelCatalog BuildCatalog()
@@ -408,7 +436,7 @@ public static class MainSceneDQBackgroundMigration
                 }
                 var faded = new Material(material);
                 faded.name = entry.Id + "_Fade";
-                faded.SetFloat("_Dither", .65f);
+                ConfigureFade(faded, .65f);
                 faded = Save(faded, entry.Id + "_Fade.mat");
                 foreach (var renderer in instance.GetComponentsInChildren<Renderer>())
                 {
