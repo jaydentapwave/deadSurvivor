@@ -29,7 +29,9 @@ public static class MainSceneDQFarBackdropMigration
         {
             throw new InvalidOperationException("[MainSceneDQFarBackdropMigration] Requires saved Edit mode.");
         }
-        var previous = EditorSceneManager.GetActiveScene().path;
+        // Whole open-scene layout (all scenes, which is active) so a failure restores it exactly.
+        var previousSetup = EditorSceneManager.GetSceneManagerSetup();
+        var hasSwitchedScene = false;
         // Every file this menu writes, with its bytes before the run (null = did not exist), restored on any failure.
         var targets = new[] { TexturePath + ".meta", MaterialPath, MaterialPath + ".meta", MainSceneDQScreenMigration.ScenePath };
         var before = targets.ToDictionary(p => p, p => File.Exists(p) ? File.ReadAllBytes(p) : null);
@@ -62,6 +64,7 @@ public static class MainSceneDQFarBackdropMigration
             EditorUtility.SetDirty(material);
             AssetDatabase.SaveAssetIfDirty(material);
 
+            hasSwitchedScene = true;
             var scene = EditorSceneManager.OpenScene(MainSceneDQScreenMigration.ScenePath);
             var camera = Camera.main;
             var card = camera.transform.Find(ObjectName);
@@ -104,24 +107,41 @@ public static class MainSceneDQFarBackdropMigration
                 throw new InvalidOperationException("[MainSceneDQFarBackdropMigration] Far backdrop did not survive save/reopen.");
             }
         }
-        catch
+        catch (Exception original)
         {
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            if (hasSwitchedScene)
+            {
+                EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            }
+            // Restore only files whose bytes changed; keep going on a per-file error and report all of them.
+            var restoreErrorList = new System.Collections.Generic.List<string>();
             foreach (var pair in before)
             {
-                if (pair.Value != null)
+                try
                 {
-                    File.WriteAllBytes(pair.Key, pair.Value);
+                    var current = File.Exists(pair.Key) ? File.ReadAllBytes(pair.Key) : null;
+                    if (pair.Value == null && current != null)
+                    {
+                        File.Delete(pair.Key);
+                    }
+                    else if (pair.Value != null && (current == null || !current.SequenceEqual(pair.Value)))
+                    {
+                        File.WriteAllBytes(pair.Key, pair.Value);
+                    }
                 }
-                else if (File.Exists(pair.Key))
+                catch (Exception restore)
                 {
-                    File.Delete(pair.Key);
+                    restoreErrorList.Add(pair.Key + ": " + restore.Message);
                 }
             }
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport | ImportAssetOptions.ForceUpdate);
-            if (!string.IsNullOrEmpty(previous))
+            if (hasSwitchedScene && previousSetup.Length > 0)
             {
-                EditorSceneManager.OpenScene(previous);
+                EditorSceneManager.RestoreSceneManagerSetup(previousSetup);
+            }
+            if (restoreErrorList.Count > 0)
+            {
+                throw new AggregateException("[MainSceneDQFarBackdropMigration] Rollback incomplete: " + string.Join("; ", restoreErrorList), original);
             }
             throw;
         }
