@@ -26,6 +26,9 @@ public sealed class FieldModelEntry
     public GameObject Prefab;
     public Material Material;
     public Material FadedMaterial;
+    // Step 14 leaf-cluster cards on trees and bushes (null for other models).
+    public Material LeafMaterial;
+    public Material FadedLeafMaterial;
     public Bounds Bounds;
     public int Triangles;
 }

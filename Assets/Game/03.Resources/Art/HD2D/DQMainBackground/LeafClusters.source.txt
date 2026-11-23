@@ -1,0 +1,3 @@
+Codex image generation (gpt-6.2-astra imagegen, not paid), 2026-11-23 step 14 (K41 leaf-cluster cards).
+Prompt: output/hd2d-dq/apply/14/tex/leaf/prompt.txt (colour words from 기준서 3.5, no input images).
+sha256 cdfaf91814e98deddf3ef990841e3aafce8990fc3ff8e244bfafa704c2b15bf2

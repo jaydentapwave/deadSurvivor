@@ -421,9 +421,21 @@ public static class MainSceneDQBackgroundMigration
                     renderer.gameObject.layer = HD2DBackgroundRig.BackgroundLayer;
                 }
                 instance.layer = HD2DBackgroundRig.BackgroundLayer;
+                // Bounds before the leaf cards, so placement sizes stay those of the step-13 body.
                 var bounds = MeasureBounds(instance);
+                Material leafMaterial = null;
+                Material fadedLeafMaterial = null;
+                if (adoptedId != null && index >= 0 && index < 4)
+                {
+                    leafMaterial = LeafClusterMaterial(entry.Id);
+                    fadedLeafMaterial = new Material(leafMaterial) { name = entry.Id + "_Leaves_Fade" };
+                    ConfigureFade(fadedLeafMaterial, .65f);
+                    fadedLeafMaterial = Save(fadedLeafMaterial, entry.Id + "_Leaves_Fade.mat");
+                    AddLeafClusters(instance, adoptedId, leafMaterial, entry.Id, index == 3 ? BushLeafCards : TreeLeafCards, index == 3 ? BushLeafCardSize : LeafCardSize);
+                }
                 var saved = PrefabUtility.SaveAsPrefabAsset(instance, Root + "/" + entry.Id + ".prefab");
-                entries.Add(new FieldModelEntry { Id = entry.Id, Prefab = saved, Material = material, FadedMaterial = faded, Bounds = bounds,
+                entries.Add(new FieldModelEntry { Id = entry.Id, Prefab = saved, Material = material, FadedMaterial = faded,
+                    LeafMaterial = leafMaterial, FadedLeafMaterial = fadedLeafMaterial, Bounds = bounds,
                     Triangles = instance.GetComponentsInChildren<MeshFilter>().Sum(f => f.sharedMesh.triangles.Length / 3) });
             }
             finally
@@ -435,6 +447,137 @@ public static class MainSceneDQBackgroundMigration
         catalog.Entries = entries.ToArray();
         EditorUtility.SetDirty(catalog);
         return catalog;
+    }
+
+    // Step 14 (K41): leaf-cluster alpha cards laid over the crown surface; the step-13 body stays as the inner mass
+    // and shows through the gaps as the dark between clumps. Cards light with the crown normal (lit top, dark underside).
+    private const string LeafClusterTexture = Root + "/LeafClusters.png";
+    private const int TreeLeafCards = 220;
+    private const int BushLeafCards = 160;
+    // Bushes are scaled up to 1.6 m in the far understory, so their clumps are a smaller share of the crown.
+    private const float BushLeafCardSize = .13f;
+    // Card width as a share of the crown width; large clumps (step-10 lesson: small detail reads as noise).
+    private const float LeafCardSize = .22f;
+
+    private static Material LeafClusterMaterial(string id)
+    {
+        var material = Surface(id + "_Leaves", null, 5, "Plant");
+        material.SetTexture("_MainTex", AssetDatabase.LoadAssetAtPath<Texture2D>(LeafClusterTexture));
+        material.SetFloat("_WorldTexture", 0);
+        material.SetFloat("_AlphaClip", 1);
+        material.SetFloat("_LeafDetail", 0);
+        // Toward the crown body's teal green (기준서 3.5 숲 덩어리 #045737 / 잎 #58b847) so clumps sit on the body.
+        material.SetColor("_AlbedoTint", new Color(.62f, .80f, .70f, 1));
+        EditorUtility.SetDirty(material);
+        return material;
+    }
+
+    private static void AddLeafClusters(GameObject instance, string adoptedId, Material leafMaterial, string id, int cardCount, float cardSize)
+    {
+        var body = instance.GetComponentInChildren<MeshFilter>();
+        var toRoot = instance.transform.worldToLocalMatrix * body.transform.localToWorldMatrix;
+        var bodyMesh = body.sharedMesh;
+        var positions = bodyMesh.vertices.Select(v => toRoot.MultiplyPoint3x4(v)).ToArray();
+        var uvs = bodyMesh.uv;
+        var triangles = bodyMesh.triangles;
+        var albedo = new Texture2D(2, 2);
+        albedo.LoadImage(File.ReadAllBytes(DQEnvironmentR2Import.Art + "/Converted/" + adoptedId + "/basecolor.png"));
+        // Crown = triangles whose albedo is leaf (green over red); trunk and roots stay bare.
+        var leafTriangleList = new List<int>();
+        var areaList = new List<float>();
+        var total = 0f;
+        var crownMin = Vector3.positiveInfinity;
+        var crownMax = Vector3.negativeInfinity;
+        for (var t = 0; t < triangles.Length; t += 3)
+        {
+            var uv = (uvs[triangles[t]] + uvs[triangles[t + 1]] + uvs[triangles[t + 2]]) / 3f;
+            var color = albedo.GetPixelBilinear(uv.x, uv.y);
+            if (color.g <= color.r * 1.1f)
+            {
+                continue;
+            }
+            var a = positions[triangles[t]];
+            var b = positions[triangles[t + 1]];
+            var c = positions[triangles[t + 2]];
+            total += Vector3.Cross(b - a, c - a).magnitude * .5f;
+            leafTriangleList.Add(t);
+            areaList.Add(total);
+            crownMin = Vector3.Min(crownMin, Vector3.Min(a, Vector3.Min(b, c)));
+            crownMax = Vector3.Max(crownMax, Vector3.Max(a, Vector3.Max(b, c)));
+        }
+        Object.DestroyImmediate(albedo);
+        if (leafTriangleList.Count == 0)
+        {
+            throw new InvalidDataException("[MainSceneDQBackgroundMigration] No leaf triangles on " + adoptedId);
+        }
+        var center = (crownMin + crownMax) * .5f;
+        var crownWidth = Mathf.Max(crownMax.x - crownMin.x, crownMax.z - crownMin.z);
+        var random = new System.Random(1409 + cardCount + leafTriangleList.Count);
+        var vertexList = new List<Vector3>();
+        var normalList = new List<Vector3>();
+        var uvList = new List<Vector2>();
+        var indexList = new List<int>();
+        for (var k = 0; k < cardCount; k++)
+        {
+            var pick = areaList.BinarySearch((float)random.NextDouble() * total);
+            var t = leafTriangleList[pick < 0 ? Mathf.Min(~pick, leafTriangleList.Count - 1) : pick];
+            var a = positions[triangles[t]];
+            var b = positions[triangles[t + 1]];
+            var c = positions[triangles[t + 2]];
+            var u = (float)random.NextDouble();
+            var v = (float)random.NextDouble();
+            if (u + v > 1)
+            {
+                u = 1 - u;
+                v = 1 - v;
+            }
+            var point = a + (b - a) * u + (c - a) * v;
+            var outward = (point - center).normalized;
+            var normal = Vector3.Cross(b - a, c - a).normalized;
+            if (Vector3.Dot(normal, outward) < 0)
+            {
+                normal = -normal;
+            }
+            // Crown normal: the surface normal leaned toward the crown radius, with a little jitter so clumps overlap.
+            normal = (normal + outward + new Vector3((float)random.NextDouble() - .5f, (float)random.NextDouble() - .5f, (float)random.NextDouble() - .5f) * .3f).normalized;
+            var size = crownWidth * cardSize * (.8f + .4f * (float)random.NextDouble());
+            var right = Vector3.Cross(normal, Mathf.Abs(normal.y) > .9f ? Vector3.forward : Vector3.up).normalized;
+            var up = Vector3.Cross(right, normal);
+            var angle = (float)random.NextDouble() * Mathf.PI * 2;
+            var rotatedRight = (right * Mathf.Cos(angle) + up * Mathf.Sin(angle)) * size * .5f;
+            var rotatedUp = (up * Mathf.Cos(angle) - right * Mathf.Sin(angle)) * size * .5f;
+            // Half sunk into the body: only the upper leaves of a clump stand out, so the silhouette stays round.
+            var cardCenter = point - normal * size * .05f;
+            var cell = random.Next(4);
+            var cellOrigin = new Vector2(cell % 2, cell / 2) * .5f;
+            var start = vertexList.Count;
+            vertexList.Add(cardCenter - rotatedRight - rotatedUp);
+            vertexList.Add(cardCenter + rotatedRight - rotatedUp);
+            vertexList.Add(cardCenter + rotatedRight + rotatedUp);
+            vertexList.Add(cardCenter - rotatedRight + rotatedUp);
+            for (var corner = 0; corner < 4; corner++)
+            {
+                normalList.Add(normal);
+            }
+            uvList.Add(cellOrigin + new Vector2(.01f, .01f));
+            uvList.Add(cellOrigin + new Vector2(.49f, .01f));
+            uvList.Add(cellOrigin + new Vector2(.49f, .49f));
+            uvList.Add(cellOrigin + new Vector2(.01f, .49f));
+            indexList.AddRange(new[] { start, start + 1, start + 2, start, start + 2, start + 3 });
+        }
+        var mesh = new Mesh { name = id + " leaf clusters" };
+        mesh.SetVertices(vertexList);
+        mesh.SetNormals(normalList);
+        mesh.SetUVs(0, uvList);
+        mesh.SetTriangles(indexList, 0);
+        mesh.RecalculateBounds();
+        var child = new GameObject("Leaf clusters", typeof(MeshFilter), typeof(MeshRenderer));
+        child.transform.SetParent(instance.transform, false);
+        child.layer = HD2DBackgroundRig.BackgroundLayer;
+        child.GetComponent<MeshFilter>().sharedMesh = Save(mesh, id + "-Leaves.asset");
+        var renderer = child.GetComponent<MeshRenderer>();
+        renderer.sharedMaterial = leafMaterial;
+        renderer.shadowCastingMode = ShadowCastingMode.On;
     }
 
     // Step 13: the step-12 flag (pole + cloth with thickness) replaces the box pole and flat sprite cloth.
@@ -523,7 +666,8 @@ public static class MainSceneDQBackgroundMigration
         var hills = new List<Vector3>();
         var indices = new List<int>();
         const int count = 128;
-        var offsets = Enumerable.Range(0, 81).Select(i => i * .25f).ToArray();
+        // Fine rows near the field, then 2 m rows out to 64 m so the corners and wide screens never see past the land.
+        var offsets = Enumerable.Range(0, 81).Select(i => i * .25f).Concat(Enumerable.Range(1, 22).Select(i => 20 + i * 2f)).ToArray();
         for (var j = 0; j < offsets.Length; j++)
         {
             var offset = offsets[j];
@@ -563,7 +707,9 @@ public static class MainSceneDQBackgroundMigration
             var t = Mathf.Clamp01((i + .5f + .8f * Mathf.Sin(i * 2.39996f)) / 72);
             var rim = t < .5f ? Vector2.Lerp(new Vector2(-32, 0), new Vector2(0, 32), t * 2) : Vector2.Lerp(new Vector2(0, 32), new Vector2(32, 0), (t - .5f) * 2);
             var n = t < .5f ? new Vector2(-1, 1).normalized : new Vector2(1, 1).normalized;
-            var offset = .6f + 5.5f * Mathf.PerlinNoise(i * .71f, 8);
+            // Step 14: belt trees stay on the flat crest (offset <= 2.5). On the back slope (3..6) the crest hid their
+            // feet and they stood against the far painting (floating trees in the top corners).
+            var offset = .6f + 1.9f * Mathf.PerlinNoise(i * .71f, 8);
             var p = rim * (1 + Mathf.Sqrt(2) * offset / 32);
             var entry = catalog.Find("tree_v" + (i % 3 + 1));
             var existing = root.transform.Find("Far forest " + i);

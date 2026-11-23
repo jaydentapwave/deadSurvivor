@@ -70,10 +70,25 @@ public class FieldView : MonoBehaviour
             var faded = original == cardMaterial ? ditherSpriteMaterial :
                 original == woodMaterial ? ditherWoodMaterial :
                 original == tentMaterial ? ditherTentMaterial :
-                original == flagMaterial ? ditherFlagMaterial : modelCatalog.Entries.First(e => e.Material == original).FadedMaterial;
+                original == flagMaterial ? ditherFlagMaterial : FadedModelMaterial(original);
             ConfigureTerrainMaterial(faded);
             return faded;
         }));
+    }
+    private Material FadedModelMaterial(Material original)
+    {
+        foreach (var entry in modelCatalog.Entries)
+        {
+            if (entry.Material == original)
+            {
+                return entry.FadedMaterial;
+            }
+            if (entry.LeafMaterial != null && entry.LeafMaterial == original)
+            {
+                return entry.FadedLeafMaterial;
+            }
+        }
+        throw new System.InvalidOperationException("[FieldView] No faded material for " + original.name);
     }
     private Mesh _woodMesh;
     public Material CardMaterial => cardMaterial;
