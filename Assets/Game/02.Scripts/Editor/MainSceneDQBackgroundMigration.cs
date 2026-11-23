@@ -95,7 +95,10 @@ public static class MainSceneDQBackgroundMigration
             serialized.ApplyModifiedPropertiesWithoutUndo();
             var heights = JsonUtility.FromJson<FieldHeightData>(File.ReadAllText(Data + "field_height.json"));
             var grid = TerrainHeightGrid.FromMillimetres(heights.cell, heights.originX, heights.originZ, heights.width, heights.depth, heights.heightsMm);
-            BuildOuterBackground(ground, catalog, grid);
+            // Step 11: the render-only outer floor and north hills follow the same drawn grid as the runtime floor
+            // (judgment + MeadowHillMath hills, built from the shipped layout the game loads).
+            var layout = JsonUtility.FromJson<FieldLayoutData>(File.ReadAllText(Data + "field_layout.json"));
+            BuildOuterBackground(ground, catalog, MeadowHillMath.Build(grid, layout));
             // Persist only our outputs, even if the editor contains another session's dirty assets.
             foreach (var asset in Resources.FindObjectsOfTypeAll<Object>().Where(o => AssetDatabase.Contains(o)
                 && EditorUtility.IsDirty(o) && !AssetDatabase.GetAssetPath(o).StartsWith(Root, StringComparison.Ordinal)))

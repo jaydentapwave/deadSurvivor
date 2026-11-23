@@ -44,9 +44,10 @@ public static class MeadowHillMath
         }
         var grid = Compose(judgment, hillList, scale);
         // The scaled estimate can still overshoot where judgment and hill slopes add; shrink until it fits.
-        while (grid.MaxSlope > MaxSlope && scale > .01f)
+        // Millimetre rounding can also push a tiny scale over the limit; end at scale 0 (the judgment grid) if needed.
+        while (grid.MaxSlope > MaxSlope && scale > 0f)
         {
-            scale *= .9f;
+            scale = scale > .01f ? scale * .9f : 0f;
             grid = Compose(judgment, hillList, scale);
         }
         return grid;
@@ -89,9 +90,11 @@ public static class MeadowHillMath
             {
                 distance = Mathf.Min(distance, Vector2.Distance(point, points[0]) - halfWidth - FlatRadius);
             }
-            for (var k = 0; k + 1 < points.Length; k++)
+            // A pond contour is closed (IsInside joins last to first), so its closing edge counts too.
+            var segmentCount = water.name == "pond" && points.Length > 2 ? points.Length : points.Length - 1;
+            for (var k = 0; k < segmentCount; k++)
             {
-                distance = Mathf.Min(distance, SegmentDistance(point, points[k], points[k + 1]) - halfWidth - FlatRadius);
+                distance = Mathf.Min(distance, SegmentDistance(point, points[k], points[(k + 1) % points.Length]) - halfWidth - FlatRadius);
             }
         }
         foreach (var placement in layout.placements)

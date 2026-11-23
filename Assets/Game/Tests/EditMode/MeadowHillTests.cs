@@ -70,6 +70,34 @@ public class MeadowHillTests
     }
 
     [Test]
+    public void PondClosingEdgeIsProtectedInTheFinalHeight()
+    {
+        // Square pond (0,0)->(20,0)->(20,20)->(0,20); (-2,10) is 2 m from the closing (left) edge.
+        var layout = new FieldLayoutData
+        {
+            seed = 5,
+            water = new[] { new FieldWaterLayout { name = "pond", points = new[] { new Vector2(0, 0), new Vector2(20, 0), new Vector2(20, 20), new Vector2(0, 20) } } },
+            placements = new FieldLayoutPlacement[0],
+        };
+        Assert.AreEqual(-1f, MeadowHillMath.Clearance(-2f, 10f, layout), 1e-5f);
+        var visual = MeadowHillMath.Build(TerrainHeightGrid.Flat, layout);
+        for (var x = -2.9f; x <= 0f; x += .25f)
+        {
+            Assert.AreEqual(0f, TerrainHeightMath.Sample(visual, x, 10f), 1e-5f, $"{x}");
+        }
+    }
+
+    [Test]
+    public void RoundingNeverLeavesTheResultAboveTheSlopeLimit()
+    {
+        // algorithm-tester counterexample: 2x2 judgment at slope .1198; scale .0052 rounded to mm gave .1208.
+        var judgment = TerrainHeightGrid.FromMillimetres(1f, 3f, 4f, 2, 2, new[] { 0, 119, 14, 133 });
+        var layout = new FieldLayoutData { seed = 0, water = new FieldWaterLayout[0], placements = new FieldLayoutPlacement[0] };
+        Assert.LessOrEqual(judgment.MaxSlope, MeadowHillMath.MaxSlope);
+        Assert.LessOrEqual(MeadowHillMath.Build(judgment, layout).MaxSlope, MeadowHillMath.MaxSlope);
+    }
+
+    [Test]
     public void EmptyLayoutStillBuildsAndFlatJudgmentStaysUnderLimit()
     {
         var layout = new FieldLayoutData { seed = 1, water = new FieldWaterLayout[0], placements = new FieldLayoutPlacement[0] };

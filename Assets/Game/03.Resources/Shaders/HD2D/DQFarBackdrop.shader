@@ -14,6 +14,13 @@ Shader "DeadSurvivor/DQ/Far backdrop"
     SubShader
     {
         Tags { "RenderPipeline"="UniversalPipeline" "RenderType"="Opaque" "Queue"="Geometry+50" }
+        HLSLINCLUDE
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+        // One UnityPerMaterial layout shared by both passes (SRP Batcher).
+        CBUFFER_START(UnityPerMaterial)
+        float4 _MainTex_ST; float4 _Rows; float _Tile; float _Parallax; half4 _Tint;
+        CBUFFER_END
+        ENDHLSL
         Pass
         {
             Name "ForwardLit"
@@ -22,19 +29,16 @@ Shader "DeadSurvivor/DQ/Far backdrop"
             HLSLPROGRAM
             #pragma vertex Vert
             #pragma fragment Frag
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             TEXTURE2D(_MainTex); SAMPLER(sampler_MainTex);
-            CBUFFER_START(UnityPerMaterial)
-            float4 _MainTex_ST; float4 _Rows; float _Tile; float _Parallax; half4 _Tint;
-            CBUFFER_END
             struct A { float3 p:POSITION; float2 uv:TEXCOORD0; };
             struct V { float4 p:SV_POSITION; float2 uv:TEXCOORD0; };
             V Vert(A i)
             {
                 V o; o.p=TransformObjectToHClip(i.p);
-                // Quad local x in [-.5,.5] times object scale x gives card metres.
+                // Quad local x in [-.5,.5] times object scale x gives card metres. The card rides with the camera,
+                // so a fixed far peak must drift left when the camera moves right: sample further right by a share of camera x.
                 float width=length(float3(UNITY_MATRIX_M._m00,UNITY_MATRIX_M._m10,UNITY_MATRIX_M._m20));
-                float metres=i.p.x*width-_WorldSpaceCameraPos.x*_Parallax;
+                float metres=i.p.x*width+_WorldSpaceCameraPos.x*_Parallax;
                 o.uv=float2(metres/_Tile,lerp(_Rows.x,_Rows.y,i.uv.y));
                 return o;
             }
@@ -53,7 +57,6 @@ Shader "DeadSurvivor/DQ/Far backdrop"
             HLSLPROGRAM
             #pragma vertex Vert
             #pragma fragment Frag
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             struct A { float3 p:POSITION; };
             float4 Vert(A i):SV_POSITION { return TransformObjectToHClip(i.p); }
             half4 Frag():SV_Target { return 0; }
