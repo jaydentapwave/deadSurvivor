@@ -96,8 +96,8 @@ Material:
     m_Colors:
     - _AlbedoTint: {r: 1, g: 1, b: 1, a: 1}
     - _FieldRect: {r: -36, g: -36, b: 72, a: 72}
-    - _LeafPaint: {r: 0.2, g: 1, b: 0.55, a: 1.2}
+    - _LeafPaint: {r: 0.25, g: 1.5, b: 0.45, a: 1.25}
     - _MeadowLight: {r: 0.03, g: 0.85, b: 0.07, a: 0.3}
-    - _ShadeColor: {r: 0.045, g: 0.06, b: 0.05, a: 1}
+    - _ShadeColor: {r: 0.03, g: 0.045, b: 0.035, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -179,18 +179,20 @@ Shader "DeadSurvivor/DQ/Main surface"
                 c=SAMPLE_TEXTURE2D(_MainTex,sampler_MainTex,uv).rgb*_AlbedoTint.rgb;
                 if (_LeafDetail>.5)
                 {
-                    // Triplanar leaf clusters: world projection without the stretched stripes of a single axis.
-                    float3 blend=pow(abs(normalize(i.n)),4); blend/=blend.x+blend.y+blend.z;
-                    float leaf=(SAMPLE_TEXTURE2D(_Leaves,sampler_Leaves,i.w.zy*_LeafPaint.x).r*blend.x
-                        +SAMPLE_TEXTURE2D(_Leaves,sampler_Leaves,i.w.xz*_LeafPaint.x).r*blend.y
-                        +SAMPLE_TEXTURE2D(_Leaves,sampler_Leaves,i.w.xy*_LeafPaint.x).r*blend.z)*2;
-                    c*=max(0,1+(leaf-1)*_LeafPaint.y);
-                    c*=lerp(_LeafPaint.z,_LeafPaint.w,saturate(i.n.y*.5+.5));
                     float clump=Noise(i.w.xz*7+i.w.y*3);
                     c*=.78+.40*clump;
                     #if defined(_TERRAIN_HEIGHT)
                     if (i.leafEdge>.5) c=half3(.035,.18,.055)*(.8+.4*clump);
                     #endif
+                    // Triplanar leaf clusters (after the edge colour so every crown surface carries leaves).
+                    float3 blend=pow(abs(normalize(i.n)),4); blend/=blend.x+blend.y+blend.z;
+                    float leaf=(SAMPLE_TEXTURE2D(_Leaves,sampler_Leaves,i.w.zy*_LeafPaint.x).r*blend.x
+                        +SAMPLE_TEXTURE2D(_Leaves,sampler_Leaves,i.w.xz*_LeafPaint.x).r*blend.y
+                        +SAMPLE_TEXTURE2D(_Leaves,sampler_Leaves,i.w.xy*_LeafPaint.x).r*blend.z)*2;
+                    // Fine 2-3 px leaf speckle on top of the painted clusters (reference foliage reads leaf by leaf).
+                    float speck=Noise(float2(i.w.x+i.w.z*.7,i.w.y-i.w.z*.4)*34);
+                    c*=max(0,1+(leaf-1)*_LeafPaint.y)*(1+(speck-.5)*.6*saturate(_LeafPaint.y));
+                    c*=lerp(_LeafPaint.z,_LeafPaint.w,saturate(i.n.y*.5+.5));
                 }
             }
             Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));

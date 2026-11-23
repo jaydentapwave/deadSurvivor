@@ -16,7 +16,7 @@ OUT = Path(sys.argv[2])
 JOBS = [
     ("Grass", "A/grass.png", None),
     ("Soil", "A/dirt.png", (.72, .64, .44)),
-    ("StonePath", "B/flagstone.png", (.50, .48, .40)),
+    ("StonePath", "B/flagstone.png", (.62, .58, .48)),
     ("Wood", "B/wood.png", (.48, .30, .13)),
     ("Cloth", "C/canvas.png", (.80, .69, .43)),
     ("Flag", "C/redcloth.png", (.56, .17, .14)),

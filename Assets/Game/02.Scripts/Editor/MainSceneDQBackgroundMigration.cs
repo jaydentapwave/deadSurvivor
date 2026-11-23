@@ -347,6 +347,8 @@ public static class MainSceneDQBackgroundMigration
             importer.wrapMode = path.Contains("Mask") ? TextureWrapMode.Clamp : TextureWrapMode.Repeat;
             importer.textureCompression = TextureImporterCompression.Uncompressed;
             importer.maxTextureSize = 4096;
+            // Keep leaf clusters crisp at canopy distance instead of averaging them to a flat colour.
+            importer.mipMapBias = path.EndsWith("/Leaves.png", StringComparison.Ordinal) ? -1.5f : 0;
             importer.sRGBTexture = !path.Contains("Mask") && !path.EndsWith("/Grass.png", StringComparison.Ordinal) && !path.EndsWith("/Leaves.png", StringComparison.Ordinal);
             importer.SaveAndReimport();
         }
@@ -389,9 +391,9 @@ public static class MainSceneDQBackgroundMigration
         material.SetFloat("_GrassContrast", 2.8f);
         material.SetFloat("_PathEdge", 1);
         material.SetVector("_MeadowLight", new Vector4(.03f, .85f, .07f, .3f));
-        material.SetVector("_ShadeColor", new Vector4(.045f, .06f, .05f, 1));
+        material.SetVector("_ShadeColor", new Vector4(.03f, .045f, .035f, 1));
         material.SetTexture("_Leaves", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "/Leaves.png"));
-        material.SetVector("_LeafPaint", new Vector4(.2f, 1f, .55f, 1.2f));
+        material.SetVector("_LeafPaint", new Vector4(.25f, 1.5f, .45f, 1.25f));
         ConfigureFade(material, fade);
         material.DisableKeyword("_TERRAIN_HEIGHT");
         return Save(material, name + ".mat");
