@@ -36,6 +36,7 @@ Shader "DeadSurvivor/DQ/Main surface"
         _GrassWeight("Painted grass amount",Range(0,1))=0
         _GrassContrast("Painted grass detail contrast",Float)=1
         _PathEdge("Path edge grass mixing",Float)=0
+        _MeadowSlope("View-only rolling hill shading (x scale, y strength)",Vector)=(0,0,0,0)
         _Leaves("Painted leaf detail",2D)="gray" {}
         _LeafPaint("Leaf tile, contrast, underside, top lift",Vector)=(0,0,1,1)
         _MeadowLight("Cloud shade (x scale, y depth) and sun patch (z scale, w lift)",Vector)=(0,0,0,0)
@@ -68,7 +69,7 @@ Shader "DeadSurvivor/DQ/Main surface"
         float _DQModel; float _DQBaseHeight; float _LeafDetail; float _WorldTexture;
         float _SoftFade; float _SrcBlend; float _DstBlend; float _ZWrite;
         float _GrassTile; float _GrassWeight; float4 _MeadowLight; float4 _ShadeColor;
-        float _GrassContrast; float _PathEdge; float4 _LeafPaint;
+        float _GrassContrast; float _PathEdge; float4 _LeafPaint; float4 _MeadowSlope;
         float4 _AlbedoTint;
         float4 _OcclusionRects[64];
         CBUFFER_END
@@ -149,8 +150,8 @@ Shader "DeadSurvivor/DQ/Main surface"
             ClipSurface(i);
             F output; output.depth=lerp(i.p.z,i.floorDepth.x/i.floorDepth.y,_FlatDepth);
             float2 fieldUV=(i.w.xz-_FieldRect.xy)/_FieldRect.zw;
-            float broad=Noise(i.w.xz*.12)*.13+Noise(i.w.xz*.047+14)*.08;
-            half3 grass=lerp(half3(.025,.405,.057),half3(.024,.400,.080),_GrassWeight)*(.89+broad);
+            float broad=Noise(i.w.xz*.12)*.06+Noise(i.w.xz*.047+14)*.10;
+            half3 grass=lerp(half3(.025,.405,.057),half3(.026,.405,.085),_GrassWeight)*(.89+broad);
             float velvet=SAMPLE_TEXTURE2D(_Ground,sampler_Ground,i.w.xz/8).r;
             // Painted grass is a mean-0.5 detail map; 1.44 keeps the old velvet average brightness.
             float painted=SAMPLE_TEXTURE2D(_GrassAlbedo,sampler_GrassAlbedo,i.w.xz/_GrassTile).r*2;
@@ -180,7 +181,7 @@ Shader "DeadSurvivor/DQ/Main surface"
                 if (_LeafDetail>.5)
                 {
                     float clump=Noise(i.w.xz*7+i.w.y*3);
-                    c*=.78+.40*clump;
+                    c*=.90+.20*clump;
                     #if defined(_TERRAIN_HEIGHT)
                     if (i.leafEdge>.5) c=half3(.035,.18,.055)*(.8+.4*clump);
                     #endif
@@ -190,13 +191,23 @@ Shader "DeadSurvivor/DQ/Main surface"
                         +SAMPLE_TEXTURE2D(_Leaves,sampler_Leaves,i.w.xz*_LeafPaint.x).r*blend.y
                         +SAMPLE_TEXTURE2D(_Leaves,sampler_Leaves,i.w.xy*_LeafPaint.x).r*blend.z)*2;
                     // Fine 2-3 px leaf speckle on top of the painted clusters (reference foliage reads leaf by leaf).
+                    // Crown light first (lit top, dark underside), then fine even leaves that fade out with distance.
+                    c*=lerp(_LeafPaint.z,_LeafPaint.w,smoothstep(-.6,.8,i.n.y));
+                    float leafFar=1-.75*smoothstep(40,80,-TransformWorldToView(i.w).z);
                     float speck=Noise(float2(i.w.x+i.w.z*.7,i.w.y-i.w.z*.4)*34);
-                    c*=max(0,1+(leaf-1)*_LeafPaint.y)*(1+(speck-.5)*.6*saturate(_LeafPaint.y));
-                    c*=lerp(_LeafPaint.z,_LeafPaint.w,saturate(i.n.y*.5+.5));
+                    c*=max(0,1+(leaf-1)*_LeafPaint.y*leafFar)*(1+(speck-.5)*.25*leafFar);
                 }
             }
             Light sun=GetMainLight(TransformWorldToShadowCoord(i.w));
-            float3 normal=normalize(float3(i.n.x*(_Category<.5 ? _TerrainLightSlope : 1),i.n.y,i.n.z*(_Category<.5 ? _TerrainLightSlope : 1)));
+            float3 surfaceNormal=i.n;
+            if (_Category<.5 && _MeadowSlope.y>0)
+            {
+                // Lighting-only rolling hills: tilt the floor normal by a slow height field; positions stay flat.
+                float2 p=i.w.xz*_MeadowSlope.x; float e=.35;
+                float2 slope=float2(Noise(p+float2(e,0))-Noise(p-float2(e,0)),Noise(p+float2(0,e))-Noise(p-float2(0,e)))/(2*e);
+                surfaceNormal=normalize(float3(i.n.x-slope.x*_MeadowSlope.y,i.n.y,i.n.z-slope.y*_MeadowSlope.y));
+            }
+            float3 normal=normalize(float3(surfaceNormal.x*(_Category<.5 ? _TerrainLightSlope : 1),surfaceNormal.y,surfaceNormal.z*(_Category<.5 ? _TerrainLightSlope : 1)));
             float face=lerp(.35,1,smoothstep(.0,.9,dot(normal,sun.direction)));
             float3 shade=lerp(_ShadeColor.rgb,1,sun.shadowAttenuation);
             // A small chromatic sky term reaches both sunlit and shaded scenery.
@@ -205,8 +216,8 @@ Shader "DeadSurvivor/DQ/Main surface"
             {
                 // Slow cloud shade over the whole meadow, slightly cooler where shaded.
                 float cloud=Noise(i.w.xz*_MeadowLight.x+float2(31,7))*.65+Noise(i.w.xz*_MeadowLight.x*2.3+3)*.35;
-                float cloudShade=smoothstep(.36,.60,cloud)*_MeadowLight.y;
-                c*=lerp(1,half3(.80,.92,1.06),cloudShade)*(1-cloudShade*.55);
+                float cloudShade=smoothstep(.34,.68,cloud)*_MeadowLight.y;
+                c*=lerp(1,half3(.80,.92,1.06),cloudShade)*(1-cloudShade*.62);
             }
             if (_Diagnostic>.5) c=min(face,shade.x).xxx;
             // Measurement-only color override; preserve original vertex/reference depth,

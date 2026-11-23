@@ -16,7 +16,7 @@ OUT = Path(sys.argv[2])
 JOBS = [
     ("Grass", "A/grass.png", None),
     ("Soil", "A/dirt.png", (.72, .64, .44)),
-    ("StonePath", "B/flagstone.png", (.62, .58, .48)),
+    ("StonePath", "D/flagstone.png", (.62, .58, .48)),
     ("Wood", "B/wood.png", (.48, .30, .13)),
     ("Cloth", "C/canvas.png", (.80, .69, .43)),
     ("Flag", "C/redcloth.png", (.56, .17, .14)),
@@ -25,13 +25,25 @@ JOBS = [
 ]
 
 
+def wrap_blur(values, radius):
+    """Gaussian blur that wraps around the tile edges (FFT is periodic, so the texture stays tileable)."""
+    size = values.shape[0]
+    freq = np.fft.fftfreq(size)
+    gauss = np.exp(-2 * (np.pi * radius) ** 2 * (freq[:, None] ** 2 + freq[None, :] ** 2))
+    return np.real(np.fft.ifft2(np.fft.fft2(values) * gauss))
+
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     for name, source, target in JOBS:
         a = np.asarray(Image.open(SRC / source).convert("RGB").resize((1024, 1024), Image.LANCZOS)).astype(np.float64) / 255
         if target is None:
             luma = .299 * a[..., 0] + .587 * a[..., 1] + .114 * a[..., 2]
-            out = np.clip(.5 * luma / luma.mean(), 0, 1)
+            ratio = luma / luma.mean()
+            if name == "Grass":
+                # Keep only fine blade grain: mid-size blotches read as ripples when tiled; big light comes from the shader.
+                ratio = ratio - wrap_blur(ratio, 12) + 1
+            out = np.clip(.5 * ratio, 0, 1)
             out = np.repeat(out[..., None], 3, axis=2)
         else:
             out = np.clip(a * (np.array(target) / a.reshape(-1, 3).mean(0)), 0, 1)

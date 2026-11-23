@@ -388,12 +388,13 @@ public static class MainSceneDQBackgroundMigration
         material.SetTexture("_GrassAlbedo", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "/Grass.png"));
         material.SetFloat("_GrassTile", 4);
         material.SetFloat("_GrassWeight", 1);
-        material.SetFloat("_GrassContrast", 2.8f);
+        material.SetFloat("_GrassContrast", 5.5f);
         material.SetFloat("_PathEdge", 1);
-        material.SetVector("_MeadowLight", new Vector4(.03f, .85f, .07f, .3f));
+        material.SetVector("_MeadowSlope", new Vector4(.12f, .04f, 0, 0));
+        material.SetVector("_MeadowLight", new Vector4(.09f, 1f, .15f, .2f));
         material.SetVector("_ShadeColor", new Vector4(.03f, .045f, .035f, 1));
         material.SetTexture("_Leaves", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "/Leaves.png"));
-        material.SetVector("_LeafPaint", new Vector4(.25f, 1.5f, .45f, 1.25f));
+        material.SetVector("_LeafPaint", new Vector4(.55f, .75f, .55f, 1.2f));
         ConfigureFade(material, fade);
         material.DisableKeyword("_TERRAIN_HEIGHT");
         return Save(material, name + ".mat");
