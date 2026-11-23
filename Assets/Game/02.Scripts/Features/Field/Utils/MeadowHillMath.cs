@@ -12,14 +12,19 @@ public static class MeadowHillMath
     // Below tan(18 deg) = 0.325 so every visible slope still faces the camera (a ridge's back side is squeezed,
     // not inverted) and the foot snap stays monotonic. Sprites bias their own depth (TerrainHeightTexture).
     public const float MaxSlope = .30f;
+    // Step 14 r2: a slope that falls away from the camera (+z downhill) may be steeper than tan(18 deg); it turns its
+    // back to the camera and the crest in front of it hides the meadow behind (real occlusion). Sprites behind the
+    // crest keep their depth (TerrainHeightTexture: occlusion wins).
+    public const float MaxBackSlope = .8f;
+    public const float RidgeBackWidth = 1.8f;
     // Protected zones keep the judgment height: water edge + FlatRadius, bridge and tent footprints (centre + radius).
     public const float FlatRadius = 3f;
     public const float BridgeRadius = 6f;
     public const float TentRadius = 4f;
     // Step 14: one ridge across the meadow beyond the stream (z ~ RidgeZ), so the near view has a crest that hides
     // part of the meadow behind it. Gaussian cross-section; its steepest side is about 0.86 * height / width.
-    public const float RidgeHeight = 1.4f;
-    public const float RidgeWidth = 4.5f;
+    public const float RidgeHeight = 1.3f;
+    public const float RidgeWidth = 5.5f;
     public const float RidgeZ = 22f;
     // Width of the smooth rise from a protected zone to full hills.
     public const float BlendWidth = 4f;
@@ -42,7 +47,7 @@ public static class MeadowHillMath
         }
         // Keep the steepest visible slope under MaxSlope (screen height collapses at tan(tilt)). Step 14: lower the
         // hills only around the steep spots first, so one steep place does not flatten the whole meadow.
-        for (var pass = 0; pass < 8 && Compose(judgment, hillList, 1f).MaxSlope > MaxSlope; pass++)
+        for (var pass = 0; pass < 32 && SlopeRatio(Compose(judgment, hillList, 1f)) > 1f; pass++)
         {
             LowerSteepSpots(judgment, hillList);
         }
@@ -50,7 +55,7 @@ public static class MeadowHillMath
         var grid = Compose(judgment, hillList, scale);
         // The scaled estimate can still overshoot where judgment and hill slopes add; shrink until it fits.
         // Millimetre rounding can also push a tiny scale over the limit; end at scale 0 (the judgment grid) if needed.
-        while (grid.MaxSlope > MaxSlope && scale > 0f)
+        while (SlopeRatio(grid) > 1f && scale > 0f)
         {
             scale = scale > .01f ? scale * .9f : 0f;
             grid = Compose(judgment, hillList, scale);
@@ -75,14 +80,14 @@ public static class MeadowHillMath
         {
             for (var i = 0; i < width - 1; i++)
             {
-                var lower = new Vector2(Height(i + 1, j) - Height(i, j), Height(i + 1, j + 1) - Height(i + 1, j)).magnitude / cell;
-                var upper = new Vector2(Height(i + 1, j + 1) - Height(i, j + 1), Height(i, j + 1) - Height(i, j)).magnitude / cell;
-                var slope = Mathf.Max(lower, upper);
-                if (slope <= MaxSlope * .98f)
+                var lower = new Vector2(Height(i + 1, j) - Height(i, j), Height(i + 1, j + 1) - Height(i + 1, j)) / cell;
+                var upper = new Vector2(Height(i + 1, j + 1) - Height(i, j + 1), Height(i, j + 1) - Height(i, j)) / cell;
+                var ratio = Mathf.Max(Ratio(lower), Ratio(upper));
+                if (ratio <= .98f)
                 {
                     continue;
                 }
-                var factor = MaxSlope * .9f / slope;
+                var factor = .9f / ratio;
                 for (var dj = -2; dj <= 3; dj++)
                 {
                     for (var di = -2; di <= 3; di++)
@@ -111,12 +116,34 @@ public static class MeadowHillMath
         return Amplitude * ((1 - FineWeight) * broad + FineWeight * fine);
     }
 
+    // Largest triangle slope as a share of its limit: side and camera-facing slopes against MaxSlope, slopes that fall
+    // away from the camera against MaxBackSlope. <= 1 means the grid is within limits.
+    public static float SlopeRatio(TerrainHeightGrid grid)
+    {
+        var ratio = 0f;
+        for (var j = 0; j < grid.Depth - 1; j++)
+        {
+            for (var i = 0; i < grid.Width - 1; i++)
+            {
+                var lower = new Vector2(grid.Height(i + 1, j) - grid.Height(i, j), grid.Height(i + 1, j + 1) - grid.Height(i + 1, j)) / grid.Cell;
+                var upper = new Vector2(grid.Height(i + 1, j + 1) - grid.Height(i, j + 1), grid.Height(i, j + 1) - grid.Height(i, j)) / grid.Cell;
+                ratio = Mathf.Max(ratio, Mathf.Max(Ratio(lower), Ratio(upper)));
+            }
+        }
+        return ratio;
+    }
+
+    // gradient = (dh/dx, dh/dz); negative dz is ground falling away from the camera.
+    private static float Ratio(Vector2 gradient) =>
+        Mathf.Max(new Vector2(gradient.x, Mathf.Max(gradient.y, 0f)).magnitude / MaxSlope, Mathf.Max(-gradient.y, 0f) / MaxBackSlope);
+
     // The ridge line wanders in z along x and its height varies, so it reads as land, not a wall.
     public static float Ridge(float x, float z, int seed)
     {
-        var center = RidgeZ + 1.5f * Mathf.Sin(x / 9f + seed * .37f) + 1f * (Noise(x / 7f, 3.1f, seed + 101) * 2 - 1);
-        var height = RidgeHeight * (.75f + .5f * Noise(x / 11f, 7.3f, seed + 211));
-        var d = (z - center) / RidgeWidth;
+        var center = RidgeZ + .6f * Mathf.Sin(x / 9f + seed * .37f) + .3f * (Noise(x / 7f, 3.1f, seed + 101) * 2 - 1);
+        var height = RidgeHeight * (.9f + .2f * Noise(x / 11f, 7.3f, seed + 211));
+        // Camera-facing (south) side is broad; the far side falls steeply so the crest hides the meadow behind it.
+        var d = (z - center) / (z < center ? RidgeWidth : RidgeBackWidth);
         return height * Mathf.Exp(-d * d);
     }
 

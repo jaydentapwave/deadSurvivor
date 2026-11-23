@@ -499,7 +499,13 @@ public static class MainSceneDQBackgroundMigration
             var a = positions[triangles[t]];
             var b = positions[triangles[t + 1]];
             var c = positions[triangles[t + 2]];
-            total += Vector3.Cross(b - a, c - a).magnitude * .5f;
+            var area = Vector3.Cross(b - a, c - a).magnitude * .5f;
+            // A zero-area triangle would tie in the cumulative list and could be picked; it carries no surface.
+            if (area <= 1e-8f)
+            {
+                continue;
+            }
+            total += area;
             leafTriangleList.Add(t);
             areaList.Add(total);
             crownMin = Vector3.Min(crownMin, Vector3.Min(a, Vector3.Min(b, c)));

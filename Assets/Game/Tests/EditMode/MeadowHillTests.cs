@@ -13,7 +13,7 @@ public class MeadowHillTests
     {
         var judgment = Judgment();
         var visual = MeadowHillMath.Build(judgment, Layout());
-        Assert.LessOrEqual(visual.MaxSlope, MeadowHillMath.MaxSlope + 1e-4f);
+        Assert.LessOrEqual(MeadowHillMath.SlopeRatio(visual), 1f + 1e-3f);
         // Step 14: the ridge must read. Target was ~2 m; slope <= 0.30 between the stream zone and the north rim caps
         // the shipped field at 1.43 m (step-11 value 0.69 m), so the floor guards against falling back.
         Assert.That(visual.ReliefWithin(32), Is.InRange(1.35f, 2.4f));
@@ -95,7 +95,7 @@ public class MeadowHillTests
         var judgment = TerrainHeightGrid.FromMillimetres(1f, 3f, 4f, 2, 2, new[] { 0, 119, 14, 133 });
         var layout = new FieldLayoutData { seed = 0, water = new FieldWaterLayout[0], placements = new FieldLayoutPlacement[0] };
         Assert.LessOrEqual(judgment.MaxSlope, MeadowHillMath.MaxSlope);
-        Assert.LessOrEqual(MeadowHillMath.Build(judgment, layout).MaxSlope, MeadowHillMath.MaxSlope);
+        Assert.LessOrEqual(MeadowHillMath.SlopeRatio(MeadowHillMath.Build(judgment, layout)), 1f);
     }
 
     [Test]
@@ -104,6 +104,6 @@ public class MeadowHillTests
         var layout = new FieldLayoutData { seed = 1, water = new FieldWaterLayout[0], placements = new FieldLayoutPlacement[0] };
         var visual = MeadowHillMath.Build(TerrainHeightGrid.Flat, layout);
         Assert.IsFalse(visual.IsFlat);
-        Assert.LessOrEqual(visual.MaxSlope, MeadowHillMath.MaxSlope + 1e-4f);
+        Assert.LessOrEqual(MeadowHillMath.SlopeRatio(visual), 1f + 1e-3f);
     }
 }

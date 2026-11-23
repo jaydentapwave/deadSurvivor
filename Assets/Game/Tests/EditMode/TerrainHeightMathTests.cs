@@ -121,8 +121,12 @@ public class TerrainHeightMathTests
         var bias = TerrainHeightTexture.SpriteBias(side, new Vector3(-.6f, 0, 0), new Vector3(.6f, 2, 0), camera);
         Assert.Greater(bias, .3f);
         Assert.Less(bias, 1.2f);
-        // Edge above the ground everywhere: only the margin.
-        Assert.AreEqual(TerrainHeightTexture.Margin, TerrainHeightTexture.SpriteBias(side, new Vector3(-.6f, .2f, 0), new Vector3(.6f, 2, 0), camera), 1e-6);
+        // Edge above the ground everywhere (airborne sprite): no pull.
+        Assert.AreEqual(0, TerrainHeightTexture.SpriteBias(side, new Vector3(-.6f, .2f, 0), new Vector3(.6f, 2, 0), camera));
+        // Outside the grid the height clamps to the edge like TerrainHeightMath.Sample: same answer as at the edge.
+        // (side varies only in x, so a sprite far beyond the grid in z sees the same heights as one on the edge).
+        Assert.AreEqual(TerrainHeightTexture.SpriteBias(side, new Vector3(-.6f, 0, 0), new Vector3(.6f, 2, 0), camera),
+            TerrainHeightTexture.SpriteBias(side, new Vector3(-.6f, 0, 40), new Vector3(.6f, 2, 40), camera + new Vector3(0, 0, 40)), 1e-5);
         // Both ends exposed, a 0.3 crease crossing the edge between two samples (x = 0.037): still pulled.
         var ridge = TerrainHeightGrid.FromMillimetres(1, -3, -3, 7, 7, Heights(7, (i, j) => i == 3 ? 300 : 0));
         Assert.Greater(TerrainHeightTexture.SpriteBias(ridge, new Vector3(-.963f, 0, 0), new Vector3(1.037f, 2, 0), camera), .2f);

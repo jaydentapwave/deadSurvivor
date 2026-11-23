@@ -8,7 +8,8 @@ public static class TerrainHeightTexture
     // at most 0.30 * 0.05 = 0.015 m, which Margin covers along a ray rising >= 0.2 per metre.
     public const float SampleSpacing = .1f;
     public const int MaxSamples = 32;
-    public const float WalkStep = .08f;
+    // Walk points t = WalkLimit * k / WalkSteps, k = 0..WalkSteps (about 0.08 m apart, the end point included).
+    public const int WalkSteps = 19;
     public const float WalkLimit = 1.5f;
     public const float Margin = .08f;
 
@@ -54,8 +55,9 @@ public static class TerrainHeightTexture
             var point = new Vector3(Mathf.Lerp(boundsMin.x, boundsMax.x, k / (count - 1f)), boundsMin.y, boundsMin.z);
             var ray = (cameraPosition - point).normalized;
             var isOut = false;
-            for (var t = 0f; t <= WalkLimit; t += WalkStep)
+            for (var step = 0; step <= WalkSteps; step++)
             {
+                var t = WalkLimit * step / WalkSteps;
                 var p = point + ray * t;
                 if (TerrainHeightMath.Sample(grid, p.x, p.z) <= p.y)
                 {
@@ -69,7 +71,8 @@ public static class TerrainHeightTexture
                 return 0f;
             }
         }
-        return bias + Margin;
+        // Margin only when some sample was buried; a sprite fully above the ground keeps its depth.
+        return bias > 0f ? bias + Margin : 0f;
     }
 
     public static int SampleCount(float width) => Mathf.Clamp(Mathf.CeilToInt(width / SampleSpacing) + 1, 2, MaxSamples);

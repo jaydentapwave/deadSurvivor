@@ -100,8 +100,9 @@ Shader "HD2D/HD2D_SpriteLit"
                 float3 p = float3(lerp(unity_RendererBounds_Min.x, unity_RendererBounds_Max.x, k / (count - 1.0)), unity_RendererBounds_Min.y, unity_RendererBounds_Min.z);
                 float3 ray = normalize(_WorldSpaceCameraPos - p);
                 bool isOut = false;
-                [loop] for (float t = 0; t <= 1.5; t += .08)
+                [loop] for (int step = 0; step <= 19; step++)
                 {
+                    float t = 1.5 * step / 19.0;
                     float3 q = p + ray * t;
                     if (TerrainHeightAt(q.xz) <= q.y)
                     {
@@ -115,7 +116,7 @@ Shader "HD2D/HD2D_SpriteLit"
                     return 0;
                 }
             }
-            return bias + .08;
+            return bias > 0 ? bias + .08 : 0;
         }
         // Same flip and alpha in all three passes, including the shadow silhouette.
         Varyings SpriteVertex(Attributes v)
