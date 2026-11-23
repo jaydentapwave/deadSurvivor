@@ -39,3 +39,9 @@ MemberView는 기존 `ApplySprite`와 같은 호출에서 body의 DQAction/DQFra
 ## 종료 수명 수정 (L1)
 
 Play 종료 후 최종 콘솔에서 UI/렌더러/카메라가 파괴된 뒤의 Tick 예외를 확인했다. 여러 consumer에 가드를 더하는 대신 기존 소유자 `GameSceneLifetimeScope`가 Unity `OnApplicationQuit`에서 이미 있는 `DisposeCore()`를 호출하게 한다. 등록/DI 소유권/판정/게임 수치는 그대로이고, base `OnDestroy`의 같은 정리와 중복되어도 안전하다. 설치 VContainer의 `EntryPointDispatcher.Dispose`가 player-loop 항목을 중단하는 계약을 사용한다. `scene-exit-fix-plan.json`에 수정 전 원인/소스 지문을 남겼다. 수동 quit→중복 quit→실제 HUD/대원 파괴→4프레임 검사가1/1 PASS. 첫 두 fixture 실패(도메인 리로드 display class, 정상 시작 로그 미예상)는 별도로 보존했다. 자동 ExitPlayMode 기존 통합 검사와 일반 Play stop 콘솔 차이를 추가 확인한다.
+
+## 마감 상태
+
+130분 상한 초과를01:19:38Z에 발견해 새 구현을 중단했다(시작22:37:08Z). 추가하던 엔진 연속 fixture는 미검증 상태여서 커밋된 정적 fixture로 되돌렸다. 따라서 15키의55정적 표본을 실제 엔진 연속/전수 심 판정 완료로 올리지 않는다. 7단계 높은 bank 수신·C4·K55·N9·C11, Main 관문 미계측/구 기준 매핑, 원본 입력2건은 열린 상태다. 기존 필수 리뷰를 직접 부르지 않고 구현 단위의 spec/client/algorithm 판정을 Claude 세션에 요청한다. 최종 핸드오프는 그 판정 뒤에 쓴다.
+
+최종 명령 확인: `compile-final-capped.json` 오류0, `scene-exit-tests-r3-status.json`1/1 및 `scene-exit-render-integration-status.json`1/1 PASS. `quit-window-delta.json` 일반 Main 실행·tour·자동 Play 종료 후 새 오류0(과거 콘솔 지우지 않음). `main-gate-post-exit/`에서 실제 원근18/FOV20·초점112.01399px PASS, generic G01/G02/G03/G04 PASS·10항목BLOCKED·G19 deferred로 전체FAIL 유지. 5423파일/5364소스 현재해시 일치. 최종 편집기는 Main/Edit/dirtyfalse. 브라우저 렌더는 CUA host부재로BLOCKED, 링크/이미지 파일 검사만PASS다.
