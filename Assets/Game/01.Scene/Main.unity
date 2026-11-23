@@ -62675,7 +62675,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49f8acfeaf4d9474394a90e23e4ba099, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: HD2D.View::DQSceneLighting
 --- !u!1 &1444913481
 GameObject:

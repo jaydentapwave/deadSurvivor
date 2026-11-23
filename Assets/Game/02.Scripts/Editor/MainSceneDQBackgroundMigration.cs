@@ -452,7 +452,7 @@ public static class MainSceneDQBackgroundMigration
     // Step 14 (K41): leaf-cluster alpha cards laid over the crown surface; the step-13 body stays as the inner mass
     // and shows through the gaps as the dark between clumps. Cards light with the crown normal (lit top, dark underside).
     private const string LeafClusterTexture = Root + "/LeafClusters.png";
-    private const int TreeLeafCards = 220;
+    private const int TreeLeafCards = 320;
     private const int BushLeafCards = 160;
     // Bushes are scaled up to 1.6 m in the far understory, so their clumps are a smaller share of the crown.
     private const float BushLeafCardSize = .13f;

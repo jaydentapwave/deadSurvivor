@@ -7,8 +7,8 @@ public sealed class DQSceneLighting : MonoBehaviour
 {
     // Air colour starts this far beyond the focus and is full at AirEnd (metres): across the stream the meadow
     // already pales (step 14), the far forest is fully hazed.
-    public const float AirStart = 3f;
-    public const float AirEnd = 36f;
+    public const float AirStart = 5f;
+    public const float AirEnd = 44f;
     private Vector4 _previousFocus;
     private Vector4 _previousFog;
     private Camera _camera;

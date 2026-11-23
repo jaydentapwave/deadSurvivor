@@ -22,7 +22,7 @@ MonoBehaviour:
     Bounds:
       m_Center: {x: 0, y: 0.70000005, z: 0}
       m_Extent: {x: 0.49500796, y: 0.70000005, z: 0.642228}
-    Triangles: 6000
+    Triangles: 6200
   - Id: tree_v2
     Prefab: {fileID: 8821244207884616161, guid: 83a3f0e786e3b4ed2819e6464edda0b0, type: 3}
     Material: {fileID: 2100000, guid: 7ba31c0dff65846dd92a1500cd46471f, type: 2}
@@ -32,7 +32,7 @@ MonoBehaviour:
     Bounds:
       m_Center: {x: 0, y: 0.79999995, z: 0}
       m_Extent: {x: 0.5756153, y: 0.79999995, z: 0.6296979}
-    Triangles: 6080
+    Triangles: 6280
   - Id: tree_v3
     Prefab: {fileID: 763384486432914261, guid: 9181cf46467a64b77a3ecb0e2da0354c, type: 3}
     Material: {fileID: 2100000, guid: eda2db3f7888048ae9d254b94b66395d, type: 2}
@@ -42,7 +42,7 @@ MonoBehaviour:
     Bounds:
       m_Center: {x: -0.000000059604645, y: 0.65, z: 0}
       m_Extent: {x: 0.54504204, y: 0.65, z: 0.6541169}
-    Triangles: 6156
+    Triangles: 6356
   - Id: bush_v1
     Prefab: {fileID: 6752766103303038266, guid: 72f030609c16c44158acb80bec7e6de6, type: 3}
     Material: {fileID: 2100000, guid: 882e684635a0c4290ae3976e6e5a8da8, type: 2}
