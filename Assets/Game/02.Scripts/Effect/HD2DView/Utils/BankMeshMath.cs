@@ -94,6 +94,53 @@ public static class BankMeshMath
 
     public static Mesh Build(FieldBankRun[] runs, float step, float height) => Build(Cells(runs), step, height);
 
+    // DQ view-only rounding: taper old decorative banks into the unchanged floor.
+    // Cell coverage and gameplay coordinates remain untouched; no vertical voxel wall.
+    public static void RoundProfile(Mesh mesh, FieldBankRun[] runs, Rect[] rectangles, float step, int seed)
+    {
+        var cells = runs != null ? Cells(runs) : Cells(rectangles, step, seed);
+        var vertices = mesh.vertices;
+        var cache = new Dictionary<Vector2, float>();
+        const float radius = 1.25f;
+        var reach = Mathf.CeilToInt(radius / step) + 1;
+        for (var i = 0; i < vertices.Length; i++)
+        {
+            if (vertices[i].y <= 0) continue;
+            var point = new Vector2(vertices[i].x, vertices[i].z);
+            if (!cache.TryGetValue(point, out var factor))
+            {
+                var cell = new Vector2Int(Mathf.FloorToInt(point.x / step), Mathf.FloorToInt(point.y / step));
+                var distance = radius;
+                for (var z = -reach; z <= reach; z++)
+                for (var x = -reach; x <= reach; x++)
+                {
+                    var next = cell + new Vector2Int(x, z);
+                    if (cells.Contains(next)) continue;
+                    var nearest = new Vector2(Mathf.Clamp(point.x, next.x * step, (next.x + 1) * step), Mathf.Clamp(point.y, next.y * step, (next.y + 1) * step));
+                    distance = Mathf.Min(distance, Vector2.Distance(point, nearest));
+                }
+                factor = Mathf.SmoothStep(0, 1, distance / radius);
+                cache.Add(point, factor);
+            }
+            vertices[i].y *= factor;
+        }
+        mesh.vertices = vertices;
+        mesh.RecalculateNormals();
+        WeldNormals(mesh);
+        mesh.RecalculateBounds();
+    }
+
+    // Call AFTER the last height deformation, not just after the decorative taper.
+    public static void WeldNormals(Mesh mesh)
+    {
+        var vertices=mesh.vertices;
+        var normals=mesh.normals;
+        var sums=new Dictionary<Vector3,Vector3>();
+        for(var i=0;i<vertices.Length;i++) sums[vertices[i]]=sums.TryGetValue(vertices[i],out var sum)?sum+normals[i]:normals[i];
+        for(var i=0;i<vertices.Length;i++) normals[i]=sums[vertices[i]].normalized;
+        mesh.normals=normals;
+    }
+
     private static Mesh Build(HashSet<Vector2Int> cellSet, float step, float height)
     {
         var vertexList = new List<Vector3>();

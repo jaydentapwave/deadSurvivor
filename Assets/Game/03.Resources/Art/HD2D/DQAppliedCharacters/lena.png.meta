@@ -1,0 +1,5147 @@
+fileFormatVersion: 2
+guid: f316c6f1ae5e742b39e0e9227538111e
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 48
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: dq_lena_0000
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 558cd824c457d61c0800000000000000
+      internalID: -4508818681533446059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0001
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ead185629a168eb0800000000000000
+      internalID: -4718054343553459483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0002
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa09cd0c5e1204fb0800000000000000
+      internalID: -4665691943288926033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0003
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b06a6f7af93b08100800000000000000
+      internalID: 108283889356023307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0004
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce496a73e9d365690800000000000000
+      internalID: -7613830370275453716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0005
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 852bde230dbffee60800000000000000
+      internalID: 7993884735232127576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0006
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3556373f96f804730800000000000000
+      internalID: 3981339755814282579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0007
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44a76d1e88ffe6bf0800000000000000
+      internalID: -329044759381902780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0008
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d3618936ee6b5f10800000000000000
+      internalID: 2259521573142750167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0009
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d14e897c607a8f60800000000000000
+      internalID: 8037360096194216406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0010
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fe03f07b7017d6a0800000000000000
+      internalID: -6424648221058724106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0011
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: faf1941e3efdbf9a0800000000000000
+      internalID: -6198114292315119697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0012
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b1be283c96743fe0800000000000000
+      internalID: -1210211986526260807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0013
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 918c5288a12176590800000000000000
+      internalID: -7681150734294464487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0014
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59470c7d9611799e0800000000000000
+      internalID: -1614802795100081003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0015
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d2d6a126bd6ae870800000000000000
+      internalID: 8712897058117702360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0016
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 061f3d4e938347070800000000000000
+      internalID: 8103163450849751392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0017
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bb5cb8869f071cb0800000000000000
+      internalID: -4893425330901197902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0018
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c932a1ceb962c2150800000000000000
+      internalID: 5849092467170354076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0019
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af2a258d83273e6f0800000000000000
+      internalID: -656555532192931078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0020
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6da3f4eefd2b99240800000000000000
+      internalID: 4799063552785595094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0021
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6decf72bb13b5a250800000000000000
+      internalID: 5955363013807558358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0022
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bc47780c23914100800000000000000
+      internalID: 90515284854000818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0023
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ec5e09f93ed735d0800000000000000
+      internalID: -3082751079338844960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0024
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab2ab09e32b2b3ac0800000000000000
+      internalID: -3874455621188476230
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0025
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9aee4be3602a38c0800000000000000
+      internalID: -4018864103953077604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0026
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7439f268a1d8492c0800000000000000
+      internalID: -4425757388738423993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0027
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09d58bddb0383e9b0800000000000000
+      internalID: -5052050269991838320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0028
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41b1bac310898bd10800000000000000
+      internalID: 2141628753894906644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0029
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d161cf0409aeaac40800000000000000
+      internalID: 5524485798209787421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0030
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa042ab47b1b93130800000000000000
+      internalID: 3547061582337032367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0031
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 083d20d25e05ec5d0800000000000000
+      internalID: -3040403753195613312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0032
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63c071d7d6d18d0a0800000000000000
+      internalID: -6856698076584276938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0033
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91bc407ef6ab6b450800000000000000
+      internalID: 6104271334727273241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0034
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b224965a7fe18010800000000000000
+      internalID: 1189495085320118965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0035
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc5a2679208ffdb50800000000000000
+      internalID: 6620282667271366095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0036
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3cafc0c4905adbc0800000000000000
+      internalID: -3757602339267040193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0037
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f43b081e38918e80800000000000000
+      internalID: -8178088055869328139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0038
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f44ea484a62749530800000000000000
+      internalID: 3860836581368325199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0039
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3d0694d0e750d670800000000000000
+      internalID: 8561439514782207291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0040
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a10b916dbb2c39b90800000000000000
+      internalID: -7236226064247574502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0041
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 333c822d903c92530800000000000000
+      internalID: 3830807405003326259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0042
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d903db4ed8240e50800000000000000
+      internalID: 6774584674692041170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0043
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 880fdbdd531080600800000000000000
+      internalID: 434598694906359944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0044
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcd5f9d1c3007f290800000000000000
+      internalID: -7856810766729519669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0045
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84a9ec59107e5fdb0800000000000000
+      internalID: -4758643437252732344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0046
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e65e69caf5d0b580800000000000000
+      internalID: -8813309197666068759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0047
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cce852113a105aab0800000000000000
+      internalID: -4997586411618726196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0048
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a24182eaa9dfc1ab0800000000000000
+      internalID: -5035871442518404054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0049
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7698c18ca79506c0800000000000000
+      internalID: -4177766312148691333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0050
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 103e4b58589c92820800000000000000
+      internalID: 2894065810873312001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0051
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99c1c0efc6d4ce760800000000000000
+      internalID: 7488445410924305561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0052
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2c26123cf33edb80800000000000000
+      internalID: -8368193899342713812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0053
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8368b0572fbc94c00800000000000000
+      internalID: 885463043961226808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0054
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58c961f6849083db0800000000000000
+      internalID: -4812085995139326843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0055
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77fa9c1c3674f6390800000000000000
+      internalID: -7822955533940707465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0056
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4fe6982da4dfada0800000000000000
+      internalID: -5931288344048242870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0057
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa42b88241a3744b0800000000000000
+      internalID: -5456328565282102102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0058
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c5419823b5ef0750800000000000000
+      internalID: 6273485363592906184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0059
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ca632be1da5083b0800000000000000
+      internalID: -5512306086261855545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0060
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2404963e802b4ea90800000000000000
+      internalID: -7285502545933811646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0061
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 613a569890053f780800000000000000
+      internalID: -8650482457358523626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0062
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5368913b767e04670800000000000000
+      internalID: 8521064927557420597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0063
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a9ce83f27eb57460800000000000000
+      internalID: 7238901376989710760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0064
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68eb706e0b2d10780800000000000000
+      internalID: -8718455746397225338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0065
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54972cdc204829910800000000000000
+      internalID: 1842680345124829509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0066
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8507791bd4d9d6320800000000000000
+      internalID: 2552869520806473816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0067
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46451e1fa3574de00800000000000000
+      internalID: 1068607907620279396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0068
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53ce1826754f7b070800000000000000
+      internalID: 8122229109137992757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0069
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f738b9f2fc5b21b10800000000000000
+      internalID: 1950821490066424703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0070
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9648fdb148a9d72b0800000000000000
+      internalID: -5585138070675553175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0071
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0778b89e3504064c0800000000000000
+      internalID: -4296363315366754448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0072
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e004d0a6f7c5e690800000000000000
+      internalID: -7573427336279490327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0073
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28d1345a375981980800000000000000
+      internalID: -8567933967145951870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0074
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db2ad760ce2423550800000000000000
+      internalID: 6139042823548019389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0075
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 410a89f8425502da0800000000000000
+      internalID: -5971679490376949740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0076
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4497acd14aa296990800000000000000
+      internalID: -7392330428989146812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0077
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5bcf72dd918a59b50800000000000000
+      internalID: 6599365658019364021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0078
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56963131faeae6670800000000000000
+      internalID: 8533950410876217701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0079
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed2000795b8a33180800000000000000
+      internalID: -9136773721128697122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0080
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 948e1b1f3358d5180800000000000000
+      internalID: -9124990811837962167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0081
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fa5896b48e5667c0800000000000000
+      internalID: -4078468488445273358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0082
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71e52e57e8027d470800000000000000
+      internalID: 8419233824627645975
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0083
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba5aa0903eba8bcf0800000000000000
+      internalID: -236249988839332437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0084
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed3911bb1d479c820800000000000000
+      internalID: 2939008675971437534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0085
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dd1fd979cce4fd60800000000000000
+      internalID: 7923217994528792022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0086
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd032e45a9854f6d0800000000000000
+      internalID: -2957641635403255589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0087
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc7b6536a66bc7b20800000000000000
+      internalID: 3133580008792438731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0088
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e3c3124e0ec506a0800000000000000
+      internalID: -6483549527896505369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0089
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d22a8f920a894ee0800000000000000
+      internalID: -1276337275511627052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0090
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c186cf76f3740ccd0800000000000000
+      internalID: -2539951852183853028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0091
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 548d8c0c7bce0c610800000000000000
+      internalID: 1639570538320418885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0092
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc4e6ec82d292d8f0800000000000000
+      internalID: -517189574189456177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0093
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d84f51b4ed598bc0800000000000000
+      internalID: -3780387175391082284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0094
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8041e7a831033d040800000000000000
+      internalID: 4671130098999366664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0095
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a49e9554b3055750800000000000000
+      internalID: 6292940127385588897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0096
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 367ce4d08d8437b00800000000000000
+      internalID: 825083249512335203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0097
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4cd3c74c3aee83b0800000000000000
+      internalID: -5508207749604582321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0098
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55a56f84e1134e970800000000000000
+      internalID: 8783199179422194261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0099
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f44b8d6cce8fb7bf0800000000000000
+      internalID: -325392852222167985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0100
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: caf732640f7e1cc70800000000000000
+      internalID: 8989721350363119532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0101
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5af164cb521662a0800000000000000
+      internalID: -6744683206594659746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0102
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2778e2be39d2729d0800000000000000
+      internalID: -2799218530058336398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0103
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3fcfd99a1ad13230800000000000000
+      internalID: 3616911783540805434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0104
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5528615cdd169420800000000000000
+      internalID: 2636327463967794523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0105
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 554a4f5fa932a6930800000000000000
+      internalID: 4137158356151608405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0106
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f080aef28250b6a80800000000000000
+      internalID: -8472672603806758897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0107
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9371faea2436c97b0800000000000000
+      internalID: -5216185130352175303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0108
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 388a23745c7632030800000000000000
+      internalID: 3468730235006134403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0109
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b949b5390ac88fc0800000000000000
+      internalID: -3492319370120967755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0110
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7b1cc0fdb294fab0800000000000000
+      internalID: -4975190343851172993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0111
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a5cc17e566da2650800000000000000
+      internalID: 6209010769441113507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0112
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b3ef7fade4b345f0800000000000000
+      internalID: -773575778032950352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0113
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d6c662b5c865f720800000000000000
+      internalID: 2879322735084226259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0114
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9639a03fdc04f48a0800000000000000
+      internalID: -6318760498887486615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0115
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 142365c0e1dc5b6c0800000000000000
+      internalID: -4128167954475503039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0116
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: edf5e6e6137b77950800000000000000
+      internalID: 6446822814538162142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0117
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19bce5af07e1c2c20800000000000000
+      internalID: 3182952507229784977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0118
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93db59a9fb08b1790800000000000000
+      internalID: -7558305989190632135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0119
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9145fadb91dd4a80800000000000000
+      internalID: -8480892055945133666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0120
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37bda3da85fd8a9a0800000000000000
+      internalID: -6221477313255908493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0121
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8071d3e8174826370800000000000000
+      internalID: 8314353485331896072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0122
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c2c76ee7e6f54640800000000000000
+      internalID: 5063724832045646530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0123
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3e05b6f239428b330800000000000000
+      internalID: 3726768906223440099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0124
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3acaeaaee46af1c0800000000000000
+      internalID: -4469148703979288001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0125
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5610f7c2a07cb2100800000000000000
+      internalID: 84379864546607461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0126
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14d5c9edd58935540800000000000000
+      internalID: 4995503940618181953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0127
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ea81afad5fc40e00800000000000000
+      internalID: 1010160217723341540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0128
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49950002c40b73a10800000000000000
+      internalID: 1889172409706109332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0129
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbbe64adccc26d090800000000000000
+      internalID: -8010165628884816965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0130
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac8b8d98666eb5f80800000000000000
+      internalID: -8116640575331452726
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0131
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38304ec43a803fae0800000000000000
+      internalID: -1516859152031022205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0132
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dd3be4b186a1c5c0800000000000000
+      internalID: -4196890301716283943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0133
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ce308faf7aec3060800000000000000
+      internalID: 6934675360369884867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0134
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94a99ec57dd2b13f0800000000000000
+      internalID: -929098495121843639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0135
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f21a9e4402aaafa70800000000000000
+      internalID: 8861582272376709423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0136
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 479c6ca4c665aa2e0800000000000000
+      internalID: -2113782051986028172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0137
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9af7cda10e84f9e0800000000000000
+      internalID: -1588488630693266786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0138
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83044423d3e545ac0800000000000000
+      internalID: -3867362563075063752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0139
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0feafd1141a9c7710800000000000000
+      internalID: 1692396970974359280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0140
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 612bb018f7d3a24a0800000000000000
+      internalID: -6617409084632354282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0141
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db7d44479db0b9cc0800000000000000
+      internalID: -3703353239995623491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0142
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9c2b4a604a802b80800000000000000
+      internalID: -8421579293916975970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0143
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4791f2395abe9f680800000000000000
+      internalID: -8720680107054786188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0144
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 716fc2f4daaa9bc40800000000000000
+      internalID: 5528637678908405271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0145
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d7c5d5f4435928730800000000000000
+      internalID: 3999923470960778365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0146
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea847c989165ddca0800000000000000
+      internalID: -5990537261647181650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0147
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a53003bcc738be00800000000000000
+      internalID: 1060659064561743268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0148
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13da38b7b914c01a0800000000000000
+      internalID: -6842021597834662607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0149
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b59c82e7a90bf3e0800000000000000
+      internalID: -2019009391280482894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0150
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e387c23bb3348a110800000000000000
+      internalID: 1272340818420332606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0151
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c95187b8bad0c8e0800000000000000
+      internalID: -1675098574494279229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0152
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e6569c67f2e6fe70800000000000000
+      internalID: 9148749245356332775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0153
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08706462e521690a0800000000000000
+      internalID: -6875287585556134016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0154
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ef42013414a786b0800000000000000
+      internalID: -5294082430322192413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0155
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4514f4506265f0c70800000000000000
+      internalID: 8939458506651550036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0156
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f9e1930224ee8210800000000000000
+      internalID: 1337256974115531257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0157
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ecab466fa21c18e60800000000000000
+      internalID: 7962858006434331342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0158
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b4c4f7a17c527510800000000000000
+      internalID: 1545399265360397495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0159
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77fbcb032fca48290800000000000000
+      internalID: -7888990491046527113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0160
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f0f4412e7b73ef00800000000000000
+      internalID: 1144894511936499958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0161
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 398ac12e6b6096730800000000000000
+      internalID: 3992729927187998867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0162
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8a6c942621c88f10800000000000000
+      internalID: 2272278381575563915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0163
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae61805079e9556f0800000000000000
+      internalID: -696476195897207062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0164
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e8580ac4b2c9ee80800000000000000
+      internalID: -8148767969010755359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0165
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9e3188e51c290620800000000000000
+      internalID: 2740770320838377119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0166
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0e7d3758196b2600800000000000000
+      internalID: 444564541489905166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0167
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0200ca859756d9280800000000000000
+      internalID: -9034953705582231520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0168
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b7767fe1d95593d0800000000000000
+      internalID: -3200553201976313936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0169
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d6f1887cb8b509b0800000000000000
+      internalID: -5114478682194184496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0170
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1170edf3d3b8f8e0800000000000000
+      internalID: -1659378739607211748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0171
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c0b3fee2eba87920800000000000000
+      internalID: 2988327343920230592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0172
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48d5a01e872931e00800000000000000
+      internalID: 1014315388957777284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0173
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ffce1e01ca97c16f0800000000000000
+      internalID: -712560861106803457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0174
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc178d509b4d4a080800000000000000
+      internalID: -9176976249542118964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0175
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31df5c29ee09a6e80800000000000000
+      internalID: -8184570018453390061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0176
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef3fa2a391d612480800000000000000
+      internalID: -8925733031354108930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0177
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 392d3bfec1f69e700800000000000000
+      internalID: 570108997910385299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0178
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12c7d9a2e093485f0800000000000000
+      internalID: -755416104484111327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0179
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ded9bb78b001b3be0800000000000000
+      internalID: -1496584809462653459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0180
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b5474de41aabd2d0800000000000000
+      internalID: -3252819298988112462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0181
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb5bcd2546b13c2a0800000000000000
+      internalID: -6718496101405772357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0182
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c734b7fbbec4be120800000000000000
+      internalID: 2444131798192178044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0183
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26d3e0cb667c83d70800000000000000
+      internalID: 9023181097492430178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0184
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7b36234aaf94bd30800000000000000
+      internalID: 4446354285741357950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0185
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5e6527b1178a8f00800000000000000
+      internalID: 1119855967511866974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0186
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c2d4c5f3352da3e0800000000000000
+      internalID: -2040934151032089915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0187
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b7037cd1015c3d70800000000000000
+      internalID: 9024176821778974645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0188
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6c299c24dbc9bd30800000000000000
+      internalID: 4447810219146816621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0189
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 637d23c1dc0056440800000000000000
+      internalID: 4928346248168265526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0190
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a475b4d0f3abbec0800000000000000
+      internalID: -3550063626495363931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0191
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbb572e2d9827ffe0800000000000000
+      internalID: -1155410123847935041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0192
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f4a89ceb99a22e80800000000000000
+      internalID: -8204809083961170696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0193
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7cab67602f29ee720800000000000000
+      internalID: 2877398780124510919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0194
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7206218b71ea768f0800000000000000
+      internalID: -547277412806533081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0195
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d37f5b3f2f509b340800000000000000
+      internalID: 4879938212261656381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0196
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c638914b3c597370800000000000000
+      internalID: 8320783196117022402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0197
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b4da522078101a60800000000000000
+      internalID: 7642635437539513527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0198
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2bd227b2499fa780800000000000000
+      internalID: -8669542245845509332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0199
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28ca302d60e098fa0800000000000000
+      internalID: -5798087622806754174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0200
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8a39cc9883686b80800000000000000
+      internalID: -8401355666462524786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0201
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74aab45bc33b0eee0800000000000000
+      internalID: -1233789224578471353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0202
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3541569ca14705e0800000000000000
+      internalID: -1943512504674990789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0203
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18a9b858580aff250800000000000000
+      internalID: 5980675325502921345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0204
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bb91587722d690c0800000000000000
+      internalID: -4569233704956617800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0205
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 078f0521784c9feb0800000000000000
+      internalID: -4685497852895365008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0206
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19485508d9cfe9510800000000000000
+      internalID: 1557960274509923473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0207
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c526120b485034ad0800000000000000
+      internalID: -2719323682552847780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0208
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65d99510dcc733740800000000000000
+      internalID: 5130581620437917014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0209
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fbb95b265fbb1b080800000000000000
+      internalID: -9173344303379539009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0210
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ecb76dde50dec840800000000000000
+      internalID: 5246359721793273065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0211
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 886865816187c7c20800000000000000
+      internalID: 3205569071073887880
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0212
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 765c93a9f2db0dde0800000000000000
+      internalID: -1310339479416224409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0213
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c26fd3a8c54e3790800000000000000
+      internalID: -7548519197381270839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0214
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5f84152743476440800000000000000
+      internalID: 4928982290024140639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0215
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 02cee6b90732dbe00800000000000000
+      internalID: 1062044053680352288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_lena_0216
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dce66ba093fa06850800000000000000
+      internalID: 6368282532629606093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      dq_lena_0000: -4508818681533446059
+      dq_lena_0001: -4718054343553459483
+      dq_lena_0002: -4665691943288926033
+      dq_lena_0003: 108283889356023307
+      dq_lena_0004: -7613830370275453716
+      dq_lena_0005: 7993884735232127576
+      dq_lena_0006: 3981339755814282579
+      dq_lena_0007: -329044759381902780
+      dq_lena_0008: 2259521573142750167
+      dq_lena_0009: 8037360096194216406
+      dq_lena_0010: -6424648221058724106
+      dq_lena_0011: -6198114292315119697
+      dq_lena_0012: -1210211986526260807
+      dq_lena_0013: -7681150734294464487
+      dq_lena_0014: -1614802795100081003
+      dq_lena_0015: 8712897058117702360
+      dq_lena_0016: 8103163450849751392
+      dq_lena_0017: -4893425330901197902
+      dq_lena_0018: 5849092467170354076
+      dq_lena_0019: -656555532192931078
+      dq_lena_0020: 4799063552785595094
+      dq_lena_0021: 5955363013807558358
+      dq_lena_0022: 90515284854000818
+      dq_lena_0023: -3082751079338844960
+      dq_lena_0024: -3874455621188476230
+      dq_lena_0025: -4018864103953077604
+      dq_lena_0026: -4425757388738423993
+      dq_lena_0027: -5052050269991838320
+      dq_lena_0028: 2141628753894906644
+      dq_lena_0029: 5524485798209787421
+      dq_lena_0030: 3547061582337032367
+      dq_lena_0031: -3040403753195613312
+      dq_lena_0032: -6856698076584276938
+      dq_lena_0033: 6104271334727273241
+      dq_lena_0034: 1189495085320118965
+      dq_lena_0035: 6620282667271366095
+      dq_lena_0036: -3757602339267040193
+      dq_lena_0037: -8178088055869328139
+      dq_lena_0038: 3860836581368325199
+      dq_lena_0039: 8561439514782207291
+      dq_lena_0040: -7236226064247574502
+      dq_lena_0041: 3830807405003326259
+      dq_lena_0042: 6774584674692041170
+      dq_lena_0043: 434598694906359944
+      dq_lena_0044: -7856810766729519669
+      dq_lena_0045: -4758643437252732344
+      dq_lena_0046: -8813309197666068759
+      dq_lena_0047: -4997586411618726196
+      dq_lena_0048: -5035871442518404054
+      dq_lena_0049: -4177766312148691333
+      dq_lena_0050: 2894065810873312001
+      dq_lena_0051: 7488445410924305561
+      dq_lena_0052: -8368193899342713812
+      dq_lena_0053: 885463043961226808
+      dq_lena_0054: -4812085995139326843
+      dq_lena_0055: -7822955533940707465
+      dq_lena_0056: -5931288344048242870
+      dq_lena_0057: -5456328565282102102
+      dq_lena_0058: 6273485363592906184
+      dq_lena_0059: -5512306086261855545
+      dq_lena_0060: -7285502545933811646
+      dq_lena_0061: -8650482457358523626
+      dq_lena_0062: 8521064927557420597
+      dq_lena_0063: 7238901376989710760
+      dq_lena_0064: -8718455746397225338
+      dq_lena_0065: 1842680345124829509
+      dq_lena_0066: 2552869520806473816
+      dq_lena_0067: 1068607907620279396
+      dq_lena_0068: 8122229109137992757
+      dq_lena_0069: 1950821490066424703
+      dq_lena_0070: -5585138070675553175
+      dq_lena_0071: -4296363315366754448
+      dq_lena_0072: -7573427336279490327
+      dq_lena_0073: -8567933967145951870
+      dq_lena_0074: 6139042823548019389
+      dq_lena_0075: -5971679490376949740
+      dq_lena_0076: -7392330428989146812
+      dq_lena_0077: 6599365658019364021
+      dq_lena_0078: 8533950410876217701
+      dq_lena_0079: -9136773721128697122
+      dq_lena_0080: -9124990811837962167
+      dq_lena_0081: -4078468488445273358
+      dq_lena_0082: 8419233824627645975
+      dq_lena_0083: -236249988839332437
+      dq_lena_0084: 2939008675971437534
+      dq_lena_0085: 7923217994528792022
+      dq_lena_0086: -2957641635403255589
+      dq_lena_0087: 3133580008792438731
+      dq_lena_0088: -6483549527896505369
+      dq_lena_0089: -1276337275511627052
+      dq_lena_0090: -2539951852183853028
+      dq_lena_0091: 1639570538320418885
+      dq_lena_0092: -517189574189456177
+      dq_lena_0093: -3780387175391082284
+      dq_lena_0094: 4671130098999366664
+      dq_lena_0095: 6292940127385588897
+      dq_lena_0096: 825083249512335203
+      dq_lena_0097: -5508207749604582321
+      dq_lena_0098: 8783199179422194261
+      dq_lena_0099: -325392852222167985
+      dq_lena_0100: 8989721350363119532
+      dq_lena_0101: -6744683206594659746
+      dq_lena_0102: -2799218530058336398
+      dq_lena_0103: 3616911783540805434
+      dq_lena_0104: 2636327463967794523
+      dq_lena_0105: 4137158356151608405
+      dq_lena_0106: -8472672603806758897
+      dq_lena_0107: -5216185130352175303
+      dq_lena_0108: 3468730235006134403
+      dq_lena_0109: -3492319370120967755
+      dq_lena_0110: -4975190343851172993
+      dq_lena_0111: 6209010769441113507
+      dq_lena_0112: -773575778032950352
+      dq_lena_0113: 2879322735084226259
+      dq_lena_0114: -6318760498887486615
+      dq_lena_0115: -4128167954475503039
+      dq_lena_0116: 6446822814538162142
+      dq_lena_0117: 3182952507229784977
+      dq_lena_0118: -7558305989190632135
+      dq_lena_0119: -8480892055945133666
+      dq_lena_0120: -6221477313255908493
+      dq_lena_0121: 8314353485331896072
+      dq_lena_0122: 5063724832045646530
+      dq_lena_0123: 3726768906223440099
+      dq_lena_0124: -4469148703979288001
+      dq_lena_0125: 84379864546607461
+      dq_lena_0126: 4995503940618181953
+      dq_lena_0127: 1010160217723341540
+      dq_lena_0128: 1889172409706109332
+      dq_lena_0129: -8010165628884816965
+      dq_lena_0130: -8116640575331452726
+      dq_lena_0131: -1516859152031022205
+      dq_lena_0132: -4196890301716283943
+      dq_lena_0133: 6934675360369884867
+      dq_lena_0134: -929098495121843639
+      dq_lena_0135: 8861582272376709423
+      dq_lena_0136: -2113782051986028172
+      dq_lena_0137: -1588488630693266786
+      dq_lena_0138: -3867362563075063752
+      dq_lena_0139: 1692396970974359280
+      dq_lena_0140: -6617409084632354282
+      dq_lena_0141: -3703353239995623491
+      dq_lena_0142: -8421579293916975970
+      dq_lena_0143: -8720680107054786188
+      dq_lena_0144: 5528637678908405271
+      dq_lena_0145: 3999923470960778365
+      dq_lena_0146: -5990537261647181650
+      dq_lena_0147: 1060659064561743268
+      dq_lena_0148: -6842021597834662607
+      dq_lena_0149: -2019009391280482894
+      dq_lena_0150: 1272340818420332606
+      dq_lena_0151: -1675098574494279229
+      dq_lena_0152: 9148749245356332775
+      dq_lena_0153: -6875287585556134016
+      dq_lena_0154: -5294082430322192413
+      dq_lena_0155: 8939458506651550036
+      dq_lena_0156: 1337256974115531257
+      dq_lena_0157: 7962858006434331342
+      dq_lena_0158: 1545399265360397495
+      dq_lena_0159: -7888990491046527113
+      dq_lena_0160: 1144894511936499958
+      dq_lena_0161: 3992729927187998867
+      dq_lena_0162: 2272278381575563915
+      dq_lena_0163: -696476195897207062
+      dq_lena_0164: -8148767969010755359
+      dq_lena_0165: 2740770320838377119
+      dq_lena_0166: 444564541489905166
+      dq_lena_0167: -9034953705582231520
+      dq_lena_0168: -3200553201976313936
+      dq_lena_0169: -5114478682194184496
+      dq_lena_0170: -1659378739607211748
+      dq_lena_0171: 2988327343920230592
+      dq_lena_0172: 1014315388957777284
+      dq_lena_0173: -712560861106803457
+      dq_lena_0174: -9176976249542118964
+      dq_lena_0175: -8184570018453390061
+      dq_lena_0176: -8925733031354108930
+      dq_lena_0177: 570108997910385299
+      dq_lena_0178: -755416104484111327
+      dq_lena_0179: -1496584809462653459
+      dq_lena_0180: -3252819298988112462
+      dq_lena_0181: -6718496101405772357
+      dq_lena_0182: 2444131798192178044
+      dq_lena_0183: 9023181097492430178
+      dq_lena_0184: 4446354285741357950
+      dq_lena_0185: 1119855967511866974
+      dq_lena_0186: -2040934151032089915
+      dq_lena_0187: 9024176821778974645
+      dq_lena_0188: 4447810219146816621
+      dq_lena_0189: 4928346248168265526
+      dq_lena_0190: -3550063626495363931
+      dq_lena_0191: -1155410123847935041
+      dq_lena_0192: -8204809083961170696
+      dq_lena_0193: 2877398780124510919
+      dq_lena_0194: -547277412806533081
+      dq_lena_0195: 4879938212261656381
+      dq_lena_0196: 8320783196117022402
+      dq_lena_0197: 7642635437539513527
+      dq_lena_0198: -8669542245845509332
+      dq_lena_0199: -5798087622806754174
+      dq_lena_0200: -8401355666462524786
+      dq_lena_0201: -1233789224578471353
+      dq_lena_0202: -1943512504674990789
+      dq_lena_0203: 5980675325502921345
+      dq_lena_0204: -4569233704956617800
+      dq_lena_0205: -4685497852895365008
+      dq_lena_0206: 1557960274509923473
+      dq_lena_0207: -2719323682552847780
+      dq_lena_0208: 5130581620437917014
+      dq_lena_0209: -9173344303379539009
+      dq_lena_0210: 5246359721793273065
+      dq_lena_0211: 3205569071073887880
+      dq_lena_0212: -1310339479416224409
+      dq_lena_0213: -7548519197381270839
+      dq_lena_0214: 4928982290024140639
+      dq_lena_0215: 1062044053680352288
+      dq_lena_0216: 6368282532629606093
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

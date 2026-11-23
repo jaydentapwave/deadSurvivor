@@ -1,0 +1,45 @@
+{
+  "tile_width": 34,
+  "body_height": 32,
+  "origin": [
+    17,
+    192
+  ],
+  "end": [
+    17,
+    17
+  ],
+  "duration_ms": [
+    260,
+    240,
+    200,
+    100
+  ],
+  "start_cap": "start_* at origin row",
+  "body": "32px repeat; crop final body only for desired length",
+  "tip": "tip_* top at end-radius",
+  "path_length_game_units": 322,
+  "full_collision_width_game_units": 56,
+  "existing_runtime_width": "hard-coded perpendicular 4..5px rails, not dashHitRadius; scaleY2 in MonsterView",
+  "new_art": "full collision capsule; raster opaque width30px at PPU48, native pixel centres, radius15px",
+  "repeat_seam": "body_*.png first/last columns identical; top/bottom rail identical; centre chevrons periodic32",
+  "canvas": [
+    34,
+    209
+  ],
+  "tip_height": 60,
+  "start_height": 17,
+  "stage_fill_front_y": [
+    192,
+    134,
+    75,
+    17
+  ],
+  "assembly": "Same positions and sizes. Mask active tile layer by global fill_front_y; outline always visible. No centre rail.",
+  "fill_semantics": "0 outline only; 1 origin third; 2 origin two thirds; 3 whole path+tip flash",
+  "palette": [
+    "#77211d",
+    "#c44334",
+    "#e4b67e"
+  ]
+}

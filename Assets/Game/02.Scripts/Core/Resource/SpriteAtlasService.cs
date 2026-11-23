@@ -20,6 +20,8 @@ public class SpriteAtlasService : IDisposable
 
     private readonly Dictionary<Sprite, int> _visibleWidthDict = new();
     private Texture2D _readback;
+    private DQMotionLibrary _dq;
+    public DQMotionLibrary DQ => _dq ??= new DQMotionLibrary(_resourceService, this);
     private readonly ResourceService _resourceService;
     private readonly Dictionary<string, Sprite> _spriteDict = new();
     private readonly Dictionary<string, SpriteAtlas> _atlasDict = new();
@@ -49,12 +51,17 @@ public class SpriteAtlasService : IDisposable
     // Missing optional directions/clips are normal while stage 5 art is being produced.
     public bool TryGet(string spriteName, out Sprite sprite, string atlasPath = CharactersAtlasPath)
     {
+        if (atlasPath == CharactersAtlasPath && DQ.TryLegacy(spriteName, out sprite))
+        {
+            return sprite != null;
+        }
         var canonical = spriteName;
         foreach (var alias in DirectionAliasDict)
         {
             canonical = canonical.Replace(alias.Key, alias.Value);
         }
-        if (_spriteDict.TryGetValue(spriteName, out sprite))
+        var cacheKey = atlasPath + "/" + spriteName;
+        if (_spriteDict.TryGetValue(cacheKey, out sprite))
         {
             return sprite != null;
         }
@@ -69,7 +76,7 @@ public class SpriteAtlasService : IDisposable
         {
             TryGet(canonical, out sprite, atlasPath);
         }
-        _spriteDict.Add(spriteName, sprite);
+        _spriteDict.Add(cacheKey, sprite);
         return sprite != null;
     }
 

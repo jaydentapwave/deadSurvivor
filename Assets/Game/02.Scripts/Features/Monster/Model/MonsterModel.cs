@@ -17,6 +17,10 @@ public class MonsterModel
     public IReadOnlyList<EnemyShot> EnemyShotList => _enemyShotList;
     // 카메라가 보는 바닥 영역의 반 크기(바닥 단위)
     public Vector2 ViewHalfExtent { get; set; }
+    public PerspectiveFrame PlacementFrame { get; set; }
+    public Vector3 PlacementFocus { get; set; }
+    public TerrainHeightGrid PlacementTerrain { get; set; }
+    public float PlacementScale { get; set; }
 
     // 이번 웨이브 셈. Clear()는 지우지 않고 ResetWaveCounts()(다음 웨이브 시작)만 지운다
     public int SpawnedCount { get; set; }
@@ -66,6 +70,7 @@ public class MonsterModel
 
 public class Monster
 {
+    public bool PlacementBoundaryConstrained { get; set; }
     private readonly List<PartyMember> _dashHitMemberList = new();
 
     public int Id { get; }

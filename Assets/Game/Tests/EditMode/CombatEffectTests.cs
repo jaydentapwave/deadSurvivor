@@ -2,6 +2,7 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 
+[Category("DQScreen")]
 public class CombatEffectTests
 {
     [TestCase("sword", "", "slash_sword")]
@@ -119,8 +120,8 @@ public class CombatEffectTests
                 Assert.AreEqual(new Vector3(1, 2, 1), shadow.localScale);
                 Assert.AreEqual(0f, shadow.localEulerAngles.y);
                 var position = view.transform.localPosition;
-                var pixels = new Vector2(position.x, position.z * .5f) * Const.PixelsPerUnit;
-                Assert.Less(Vector2.Distance(pixels, new Vector2(Mathf.Round(pixels.x), Mathf.Round(pixels.y))), 0.0001f);
+                Assert.That(Vector3.Distance(position, new Vector3(2f, 0f, 3f)), Is.LessThan(.0001f),
+                    "Physical root stays on the floor; only the visual card is pixel-snapped.");
                 if (previous != null)
                 {
                     Assert.AreSame(previous, view);
@@ -203,6 +204,9 @@ public class CombatEffectTests
     public void ProjectileCornersStayOnNativeGridForEveryBakedDirectionAndFlip(string key)
     {
         var view = Object.Instantiate(Resources.Load<ProjectileView>("Prefab/ProjectileView"));
+        var rotation = Quaternion.Euler(18, 0, 0);
+        var projection = new PerspectiveFrame(new Vector3(0, .95f, 0) - rotation * Vector3.forward * TiltedCameraRig.DQDistance,
+            rotation, 20, 16f / 9f, 1080);
         try
         {
             var shadow = view.transform.Find("Shadow");
@@ -216,19 +220,21 @@ public class CombatEffectTests
                 view.SetFrame(sprite, key, 1, key == "fireball");
                 var direction = (Vector2)(Quaternion.Euler(0, 0, degrees) * Vector3.right);
                 var position = new Vector3(2.017f, 0, -3.013f);
-                view.UpdateView(position, direction);
-                Assert.AreEqual(TiltedViewMath.SnapToTexels(position, .5f, 48), view.transform.localPosition);
+                view.UpdateView(position, direction, projection);
+                Assert.AreEqual(position, view.transform.localPosition);
                 Assert.AreEqual(shadowLocal, shadow.localPosition);
                 foreach (var vertex in sprite.vertices)
                 {
                     var local = new Vector3(facing.flipX ? -vertex.x : vertex.x, facing.flipY ? -vertex.y : vertex.y, 0);
                     var world = view.BodyRenderer.transform.TransformPoint(local);
-                    var pixels = new Vector2(world.x, Vector3.Dot(world, view.BodyRenderer.transform.up)) * sprite.pixelsPerUnit;
+                    var projected = projection.Project(world);
+                    var pitch = projection.FocalPixels / (projected.z * sprite.pixelsPerUnit);
+                    var pixels = (Vector2)projected / pitch;
                     Assert.Less(Vector2.Distance(pixels, new Vector2(Mathf.Round(pixels.x), Mathf.Round(pixels.y))), .0001f,
                         $"{sprite.name} angle={degrees} corner={pixels}");
                 }
                 var first = view.BodyRenderer.transform.position;
-                view.UpdateView(position, direction);
+                view.UpdateView(position, direction, projection);
                 Assert.AreEqual(first, view.BodyRenderer.transform.position, "snap must not accumulate");
             }
         }
@@ -283,7 +289,7 @@ public class CombatEffectTests
             var root = view.transform.position;
             Assert.AreEqual(new Vector3(0, 0, .6f), view.BodyRenderer.transform.localPosition);
             var displacement = view.BodyRenderer.transform.position - root;
-            var cameraForward = Quaternion.Euler(30, 0, 0) * Vector3.forward;
+            var cameraForward = Quaternion.Euler(18, 0, 0) * Vector3.forward;
             Assert.Less(Vector3.Cross(cameraForward, displacement).magnitude, 1e-5f);
             Assert.Greater(Vector3.Dot(cameraForward, displacement), .59f);
             Assert.IsTrue(view.IsShown);

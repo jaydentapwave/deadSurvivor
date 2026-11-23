@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13550ef4f6bdc4a9d937972d1663d850, type: 3}
+  m_Name: DQ_CharacterLightProfiles
+  m_EditorClassIdentifier: HD2D.View::DQCharacterLightProfiles
+  Entries:
+  - ActorId: bruno
+    Material: {fileID: 2100000, guid: ff8cc880aa2be4e1ab03d77222308fe0, type: 2}
+  - ActorId: lena
+    Material: {fileID: 2100000, guid: 58fff01e90a694e6f8c40335f611e226, type: 2}
+  - ActorId: mira
+    Material: {fileID: 2100000, guid: 797e1117f69c54457bf904a138ff834b, type: 2}
+  - ActorId: bolt
+    Material: {fileID: 2100000, guid: 5b109d3100b3e4250ada02bb8243cb30, type: 2}

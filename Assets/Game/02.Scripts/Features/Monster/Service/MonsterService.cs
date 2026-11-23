@@ -44,6 +44,14 @@ public class MonsterService
     // 카메라가 보는 바닥 영역의 반 크기(바닥 단위). 생성 거리 = 이 대각선 + 생성 여유, 재배치 상자도 이 값
     public void SetViewHalfExtent(Vector2 floorHalfExtent) => _monsterModel.ViewHalfExtent = floorHalfExtent;
 
+    public void SetPlacementProjection(PerspectiveFrame frame, Vector3 focus, TerrainHeightGrid terrain, float scale)
+    {
+        _monsterModel.PlacementFrame = frame;
+        _monsterModel.PlacementFocus = focus;
+        _monsterModel.PlacementTerrain = terrain;
+        _monsterModel.PlacementScale = scale;
+    }
+
     // 몬스터 번호는 판이 바뀌어도 이어서 늘린다(같은 프레임에 로비 → 출발하면 지난 판 적의 View가 등록부에 남아 있을 수 있다)
     public void BeginRun(int seed)
     {

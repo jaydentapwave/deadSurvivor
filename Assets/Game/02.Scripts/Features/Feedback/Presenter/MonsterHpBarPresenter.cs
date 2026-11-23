@@ -239,7 +239,7 @@ public class MonsterHpBarPresenter : IInitializable, ILateTickable, IDisposable
     private Vector3 GetBarPosition(Monster monster)
     {
         var foot = IsoProjection.FloorToWorldSnapped(monster.Position, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
-        return foot + TiltedViewMath.UprightOffset(_monsterViewFactory.GetHeadHeight(monster.Data) + _rules.OffsetPx / Const.PixelsPerUnit, _viewRules.TiltDegrees);
+        return _viewRules.IndicatorPosition(foot, _monsterViewFactory.GetHeadHeight(monster.Data), _rules.OffsetPx);
     }
 
     private void OnBattleLeft() => ReleaseAll();

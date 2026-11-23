@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 
+[Category("DQScreen")]
 public class FieldOcclusionPresenterTests
 {
     [Test]
@@ -138,6 +139,9 @@ public class FieldOcclusionPresenterTests
             presenter.Tick();
             Assert.AreEqual(0,presenter.FadedCount);
             Assert.AreSame(normal,prop.GetComponent<Renderer>().sharedMaterial);
+            var restoredBlock = new MaterialPropertyBlock();
+            prop.GetComponent<Renderer>().GetPropertyBlock(restoredBlock);
+            Assert.AreEqual(0,restoredBlock.GetInt("_OcclusionRectCount"));
             members[0].transform.position = new Vector3(0,0,-2);
             presenter.Tick();
             Assert.AreEqual(0,presenter.FadedCount,"A prop behind the member stays opaque");

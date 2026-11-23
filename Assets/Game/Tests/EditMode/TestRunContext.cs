@@ -79,6 +79,9 @@ internal class TestRunContext
         EnemyShotService = new EnemyShotService(MonsterModel, PartyModel, PartyService);
         MonsterService = new MonsterService(MonsterModel, MonsterSpawnService, MonsterRecycleService, MonsterBehaviorService,
             EnemyShotService, CombatFeedbackModel);
+        var rotation = Quaternion.Euler(18, 0, 0);
+        MonsterService.SetPlacementProjection(new PerspectiveFrame(new Vector3(0, .95f, 0) - rotation * Vector3.forward * TiltedCameraRig.DQDistance,
+            rotation, 20, 16f / 9f, 1080), Vector3.zero, TerrainHeightGrid.Flat, RunRules.UnitScale);
         EquipmentStatService = new EquipmentStatService(ItemRepository, CombatRulesRepository,
             placementInfo ?? new NoBagPlacementInfo());
         CombatService = new CombatService(CombatModel, PartyModel, PartyService, MonsterModel, MonsterService, ItemRepository,

@@ -1,8 +1,29 @@
 using NUnit.Framework;
 using UnityEngine;
 
+[Category("DQScreen")]
 public class OcclusionMathTests
 {
+    [Test]
+    public void NearPlaneIntersectionsExpandTheVisibleSilhouetteAndBehindBoundsAreEmpty()
+    {
+        var go = new GameObject("Near-plane camera");
+        try
+        {
+            var camera = go.AddComponent<Camera>();
+            camera.nearClipPlane = 1;
+            camera.fieldOfView = 90;
+            camera.aspect = 1;
+            var clipped = OcclusionMath.ProjectBounds(camera, new Bounds(Vector3.forward, Vector3.one * 2));
+            Assert.AreEqual(0, clipped.xMin, .0001f);
+            Assert.AreEqual(1, clipped.xMax, .0001f);
+            Assert.AreEqual(0, clipped.yMin, .0001f);
+            Assert.AreEqual(1, clipped.yMax, .0001f);
+            Assert.AreEqual(0, OcclusionMath.ProjectBounds(camera, new Bounds(Vector3.back * 2, Vector3.one)).width);
+        }
+        finally { Object.DestroyImmediate(go); }
+    }
+
     [TestCase(2, 3, true)]
     [TestCase(3, 2, false)]
     [TestCase(2, 2, false)]

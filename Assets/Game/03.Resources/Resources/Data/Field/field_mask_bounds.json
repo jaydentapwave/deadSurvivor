@@ -1,0 +1,10 @@
+{
+  "texture": "FieldBankMask",
+  "width": 3456,
+  "height": 1728,
+  "xMin": -36,
+  "zMin": -36,
+  "widthMetres": 72,
+  "depthMetres": 72,
+  "source": "tools/map_pcg/map_pcg/export.py texture_coords (48 x / 24 z texels per metre)"
+}

@@ -52,7 +52,9 @@ public class MonsterBehaviorTests
             foreach (var member in context.PartyModel.MemberList)
             {
                 var slot = member.Position - context.PartyModel.Center;
-                Assert.LessOrEqual(Mathf.Abs(slot.x) + Mathf.Abs(slot.y), 102f + .001f);
+                // Adopted balanced.json slots are (+/-45,+/-108); the former
+                // +/-30,+/-72 layout's102 bound is not the current fixture.
+                Assert.LessOrEqual(Mathf.Abs(slot.x) + Mathf.Abs(slot.y), 153f + .001f);
                 Assert.Greater(SegmentMath.Distance(monster.Position, end, member.Position), monster.Data.Charge.DashHitRadius);
             }
         }

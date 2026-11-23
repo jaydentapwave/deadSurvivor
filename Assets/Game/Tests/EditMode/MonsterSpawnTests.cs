@@ -4,6 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 
 // F4 AC8(무리)·AC9~AC12 — 정규·버닝 생성, 방향, 생성 거리, 같은 시드
+[Category("DQScreen")]
 public class MonsterSpawnTests
 {
     private const int DirectionSamples = 10000;
@@ -126,6 +127,8 @@ public class MonsterSpawnTests
         foreach (var aspect in new[] { 16f / 9f, 21f / 9f, 4f / 3f })
         {
             var context = new TestRunContext();
+            var oldFrame = context.MonsterModel.PlacementFrame;
+            context.MonsterService.SetPlacementProjection(new PerspectiveFrame(oldFrame.Position,oldFrame.Rotation,20,aspect,360),Vector3.zero,TerrainHeightGrid.Flat,context.RunRules.UnitScale);
             var halfHeight = 360f / Const.PixelsPerUnit / 2f;
             var extent = TiltedViewMath.Footprint(halfHeight, aspect, .5f) / context.RunRules.UnitScale;
             context.MonsterService.SetViewHalfExtent(extent);
@@ -134,7 +137,11 @@ public class MonsterSpawnTests
 
             Assert.AreEqual(1, context.MonsterModel.MonsterList.Count);
             var distance = Vector2.Distance(context.MonsterModel.MonsterList[0].Position, context.PartyModel.Center);
-            Assert.AreEqual(extent.magnitude + 70f, distance, 1e-2f, $"aspect {aspect}");
+            var monster = context.MonsterModel.MonsterList[0];
+            Assert.GreaterOrEqual(distance + .01f, extent.magnitude + 70f);
+            Assert.LessOrEqual(Mathf.Abs(monster.Position.x)+Mathf.Abs(monster.Position.y),context.RunRules.FieldCells/(2f*context.RunRules.UnitScale)+.01f);
+            var foot = context.MonsterModel.PlacementFrame.Project(IsoProjection.FloorToWorld(monster.Position,context.RunRules.UnitScale,TerrainHeightGrid.Flat));
+            Assert.IsTrue(monster.PlacementBoundaryConstrained || foot.x<0 || foot.x>360*aspect || foot.y<0 || foot.y>360,$"aspect {aspect}");
         }
     }
 

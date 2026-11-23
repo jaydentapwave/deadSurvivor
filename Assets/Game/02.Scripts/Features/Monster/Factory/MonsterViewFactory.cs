@@ -54,6 +54,10 @@ public class MonsterViewFactory
         var body = GetBodySprite(data);
         view.Initialize(body.sprite, body.warningSprite, body.hasArt, _dashLineSprite, _blastAreaSprite, dashLength, blastRadius, _runRules.UnitScale);
         view.InitializeEffects(_effectSpriteCache);
+        if (data.Behavior == MonsterBehavior.Charge)
+        {
+            view.InitializeDash(data.Charge.DashHitRadius, data.Charge.WindupSeconds);
+        }
         if (body.hasArt)
         {
             if (!_directionDict.TryGetValue(data.Id, out var directions))
@@ -66,10 +70,28 @@ public class MonsterViewFactory
             }
             view.InitializeDirections(directions.body, directions.warning);
         }
+        var dq = _spriteAtlasService.DQ.Get(data.Id);
+        if (dq != null)
+        {
+            view.InitializeDQ(dq);
+            view.ApplyDQAnimation(0, false);
+        }
         view.InitializeShadow(_spriteAtlasService.Get("shadow"), _spriteAtlasService.GetVisibleWidth(body.sprite));
         _monsterViewRegistry.Register(monster.Id, view);
         return view;
     }
+
+    public MonsterView Detach(int monsterId)
+    {
+        if (!_monsterViewRegistry.TryGet(monsterId, out var view))
+        {
+            return null;
+        }
+        _monsterViewRegistry.Unregister(monsterId);
+        return view;
+    }
+
+    public void ReleaseDetached(MonsterView view) => _poolManager.Release(PoolKey, view);
 
     public void Release(int monsterId)
     {

@@ -59,6 +59,7 @@ def write_masks(L, out_dir):
     out.mkdir(parents=True, exist_ok=True)
     X, Y = texture_coords()
     G = sample_ground(L, X, Y)
+    (out / 'field_mask_bounds.json').write_text(json.dumps({'texture': 'FieldBankMask', 'width': TEX_W, 'height': TEX_H, 'xMin': float(X.min() - .5 / 48), 'zMin': float(Y.min() - .5 / 24), 'widthMetres': TEX_W / 48, 'depthMetres': TEX_H / 24}, indent=2) + '\n')
     Image.fromarray((G['path'] * 255).astype(np.uint8), 'L').save(out / 'FieldPathMask.png')
     white = lambda m: np.repeat((m * 255).astype(np.uint8)[..., None], 4, axis=2)
     Image.fromarray(white(G['water']), 'RGBA').save(out / 'FieldWaterMask.png')

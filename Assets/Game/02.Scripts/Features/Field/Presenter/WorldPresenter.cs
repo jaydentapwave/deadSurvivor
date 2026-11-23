@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.Rendering;
 using VContainer.Unity;
 
 // 바닥 평면 모델 → 월드 그림(기획서 E·F절): 바닥 깔기(풀 4장 섞기·흙길, 아트 기준서 3.2·3.3), 원정대·적 그림 위치, 카메라 중심, 보이는 바닥 영역을 생성기에 알림.
@@ -10,12 +11,140 @@ using VContainer.Unity;
 // 움직임 시계는 전투 중·일시정지 아님일 때만 흐르고, 멈춘 프레임에는 방향·움직임을 그대로 둔다(판 시작 리셋·쓰러진 대원 정리는 늘).
 // 이동량은 시뮬레이션(30Hz 고정 걸음)이 진행된 프레임에만 본다. 걸음이 없는 그리기 프레임은 이동량이 0이라 멈춤으로 보면
 // 걷는 중에도 대기·hop 오프셋이 프레임마다 깜빡이므로, 그 프레임은 지난 방향·이동 여부를 그대로 쓴다.
-public class WorldPresenter : IInitializable, ILateTickable
+public class WorldPresenter : IInitializable, ILateTickable, IDisposable
 {
     private static readonly Vector2 FootPivot = new(0.5f, 0f);
     private static readonly Matrix4x4 FlipMatrix = Matrix4x4.Scale(new Vector3(-1f, 1f, 1f));
 
     private readonly CombatModel _combatModel;
+    private readonly EventBus _eventBus;
+    private IDisposable _hitSubscription;
+    private IDisposable _monsterHitSubscription;
+    private readonly Dictionary<int, Monster> _lastMonsterDict = new();
+    private readonly Dictionary<int, Vector2> _monsterHitDict = new();
+    private readonly List<MonsterView> _dqDeathList = new();
+    public int DQDeathCount => _dqDeathList.Count;
+    public IReadOnlyList<MonsterView> DQDeathViews => _dqDeathList;
+    private readonly List<string> _dqHitRows = new();
+    private readonly Queue<string> _dqHitAudit = new();
+    public string DQHitAudit => string.Join("\n", _dqHitAudit);
+    private bool _disposed;
+    public string DQHitObservations => string.Join("\n", _dqHitRows);
+    public int DQHitsPending
+    {
+        get
+        {
+            var count = 0;
+            foreach (var buffer in _dqHits)
+            {
+                count += buffer.Count;
+            }
+            return count;
+        }
+    }
+
+
+    private void OnMonsterAttack(in GameEvent.MonsterAttackEvent e)
+    {
+        _monsterHitDict[e.MonsterId] = e.Direction;
+    }
+
+    private void ReleaseDQDeaths()
+    {
+        foreach (var view in _dqDeathList)
+        {
+            _monsterViewFactory.ReleaseDetached(view);
+        }
+        _dqDeathList.Clear();
+        _monsterHitDict.Clear();
+    }
+
+    private IDisposable _resetSubscription;
+    private DQHitBuffer[] _dqHits;
+    private long[] _appliedHitIds;
+    private int _hitFrame = -1;
+    public int DQHitsRendered { get; private set; }
+
+    private void OnMemberAttackHit(in GameEvent.MemberAttackHitEvent e)
+    {
+        try
+        {
+            if (e.MemberIndex >= 0 && e.MemberIndex < _dqHits.Length)
+            {
+                _dqHits[e.MemberIndex].Add(e.Hit);
+                if (_dqHitRows.Count < 512)
+                {
+                    _dqHitRows.Add($"receive,{Time.frameCount},{e.MemberIndex},{e.Hit.AttackId},{e.Hit.Step},{e.Hit.Facing.Label}");
+                }
+            }
+        }
+        catch (Exception error)
+        {
+            GameLogger.LogError("DQ hit presentation: " + error.Message);
+        }
+    }
+
+    private void OnMemberVisualReset(in GameEvent.MemberVisualResetEvent e)
+    {
+        for (var i = 0; i < _dqHits.Length; i++)
+        {
+            if (e.MemberIndex < 0 || e.MemberIndex == i)
+            {
+                _dqHits[i].Clear(e.Reason);
+                if (e.Reason == "run-start" || e.Reason == "revive")
+                {
+                    _memberViewList[i].ResetDQVisualState();
+                }
+                _appliedHitIds[i] = 0;
+            }
+        }
+    }
+
+    private void OnEndCameraRendering(ScriptableRenderContext context, Camera camera)
+    {
+        if (_disposed || camera != _camera || _hitFrame != Time.frameCount)
+        {
+            return;
+        }
+        foreach (var death in _dqDeathList)
+        {
+            death.AcknowledgeDQRender();
+        }
+        for (var i = 0; i < _dqHits.Length; i++)
+        {
+            if (_appliedHitIds[i] > 0 && _memberViewList[i].gameObject.activeInHierarchy)
+            {
+                if (_dqHitRows.Count < 512)
+                {
+                    _dqHitRows.Add($"render,{Time.frameCount},{i},{_appliedHitIds[i]},{_memberViewList[i].DQFrame},{_memberViewList[i].Facing.Label}");
+                }
+                _dqHits[i].Acknowledge(_appliedHitIds[i]);
+                _appliedHitIds[i] = 0;
+                DQHitsRendered++;
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+        _disposed = true;
+        for (var i = 0; i < _dqHits.Length; i++)
+        {
+            _dqHits[i].Clear("dispose");
+            _appliedHitIds[i] = 0;
+        }
+        _hitSubscription?.Dispose();
+        _monsterHitSubscription?.Dispose();
+        ReleaseDQDeaths();
+        _resetSubscription?.Dispose();
+        RenderPipelineManager.endCameraRendering -= OnEndCameraRendering;
+
+    }
+
     private readonly MoveRulesData _moveRules;
     private readonly PartyModel _partyModel;
     private readonly MonsterModel _monsterModel;
@@ -44,6 +173,10 @@ public class WorldPresenter : IInitializable, ILateTickable
     public string PlacementObservations => string.Join("\n", _placementObservationRows);
     public int SpawnFootVisibleCount { get; private set; }
     public int SpawnBodyVisibleCount { get; private set; }
+    // north/east/west/south; independent of appearance colour or alpha.
+    public int[] SpawnFeetByDirection { get; } = new int[4];
+    public int[] SpawnBodiesByDirection { get; } = new int[4];
+    public FloorViewBounds VisibleFloor { get; private set; }
     private readonly IReadOnlyList<MemberView> _memberViewList;
 
     private readonly HashSet<int> _aliveMonsterIdSet = new();
@@ -72,13 +205,32 @@ public class WorldPresenter : IInitializable, ILateTickable
     public float MemberFlashMaxSeconds { get; private set; } = -1f;
     public int IdleOffsetsSeen => (_idleOffsetSeenMask & 1) + ((_idleOffsetSeenMask >> 1) & 1);
 
+    private readonly DQAttackFxLibrary _attackFx;
+
     public WorldPresenter(CombatModel combatModel, MoveRulesData moveRules, PartyModel partyModel, MonsterModel monsterModel, MonsterService monsterService,
         PartyMoveService partyMoveService, CharacterRepository characterRepository, RunRulesData runRules, GroundPathData groundPath, FieldLayoutData fieldLayout, PlaceholderCombatData combatData,
         PlaceholderSpriteFactory placeholderSpriteFactory, MonsterViewFactory monsterViewFactory,
         MonsterViewRegistry monsterViewRegistry, SpriteAtlasService spriteAtlasService, RunModel runModel, FieldView fieldView,
-        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig, TerrainHeightGrid terrain, FirstExpeditionService firstExpedition)
+        Camera camera, IReadOnlyList<MemberView> memberViewList, ViewRulesData viewRules, TiltedCameraRig rig, TerrainHeightGrid terrain, FirstExpeditionService firstExpedition, ResourceService resources, EventBus eventBus = null)
     {
+        _attackFx = resources.Load<DQAttackFxLibrary>(DQAttackFxLibrary.ResourcePath);
         _combatModel = combatModel;
+        _eventBus = eventBus;
+        _dqHits = new DQHitBuffer[memberViewList.Count];
+        _appliedHitIds = new long[memberViewList.Count];
+        for (var i = 0; i < _dqHits.Length; i++)
+        {
+            _dqHits[i] = new DQHitBuffer();
+            var memberIndex = i;
+            _dqHits[i].Recorded += entry =>
+            {
+                if (_dqHitAudit.Count == 512)
+                {
+                    _dqHitAudit.Dequeue();
+                }
+                _dqHitAudit.Enqueue($"{Time.frameCount},{memberIndex},{entry.Hit.AttackId},{entry.Hit.Step},{entry.Hit.Facing.Label},{entry.Batch},{entry.AppliedAttackId},{entry.Reason}");
+            };
+        }
         _moveRules = moveRules;
         _partyModel = partyModel;
         _monsterModel = monsterModel;
@@ -112,8 +264,15 @@ public class WorldPresenter : IInitializable, ILateTickable
 
     public void Initialize()
     {
+        _monsterHitSubscription = _eventBus?.Subscribe<GameEvent.MonsterAttackEvent>(OnMonsterAttack);
+        _hitSubscription = _eventBus?.Subscribe<GameEvent.MemberAttackHitEvent>(OnMemberAttackHit);
+        _resetSubscription = _eventBus?.Subscribe<GameEvent.MemberVisualResetEvent>(OnMemberVisualReset);
+        RenderPipelineManager.endCameraRendering += OnEndCameraRendering;
         _rig.Initialize(_viewRules.TiltDegrees, _viewRules.Distance, _viewRules.NearClip, _viewRules.FarClip, _viewRules.TargetFraction, _viewRules.MinScale);
         _fieldView.Initialize(_viewRules.TiltDegrees);
+        _rig.SetFocus(IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _terrain));
+        _viewRules.SetProjection(_rig.Frame, _runRules.UnitScale, _terrain);
+        _monsterService.SetPlacementProjection(_rig.Frame, IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _terrain), _terrain, _runRules.UnitScale);
         // Atlas source pixels, lowest opaque row (including downed bruno), PPU 48.
         const float footHalfWidth = .625f;
         Shader.SetGlobalFloat("_HD2DActorDepthBias", TerrainHeightMath.ActorDepthBias(_terrain, footHalfWidth, _viewRules.SinTilt));
@@ -137,10 +296,17 @@ public class WorldPresenter : IInitializable, ILateTickable
 
     public void LateTick()
     {
+        if (_disposed)
+        {
+            return;
+        }
         _rig.UpdateScreen(_camera.pixelWidth, _camera.pixelHeight);
         UpdateViewExtent();
-        var center = IsoProjection.FloorToWorldSnapped(_partyModel.Center, _runRules.UnitScale, _viewRules.SinTilt, _terrain);
+        var center = IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _terrain);
         _rig.SetFocus(center);
+        _viewRules.SetProjection(_rig.Frame, _runRules.UnitScale, _terrain);
+        _monsterService.SetPlacementProjection(_rig.Frame, IsoProjection.FloorToWorld(_partyModel.Center, _runRules.UnitScale, _terrain), _terrain, _runRules.UnitScale);
+        VisibleFloor = new FloorViewBounds(_rig.Frame, center.y);
         var isRunning = _runModel.Phase.CurrentValue == RunPhase.Battle && !_runModel.IsPaused.CurrentValue;
         var lastClock = _motionClock;
         _motionClock = SpriteMotion.Advance(_motionClock, Time.deltaTime, isRunning);
@@ -154,10 +320,13 @@ public class WorldPresenter : IInitializable, ILateTickable
         _lastRunCount = _runModel.RunCount.CurrentValue;
         if (isRunStarted)
         {
+            ReleaseDQDeaths();
             _isRecordingPlacements = false;
             _placementObservationRows.Clear();
             SpawnFootVisibleCount = 0;
             SpawnBodyVisibleCount = 0;
+        Array.Clear(SpawnFeetByDirection, 0, 4);
+            Array.Clear(SpawnBodiesByDirection, 0, 4);
             _placementVersionDict.Clear();
             MemberHitFlashTotal = 0;
             MemberFlashMaxSeconds = -1f;
@@ -165,6 +334,26 @@ public class WorldPresenter : IInitializable, ILateTickable
         }
 
         UpdateMemberViews(isRunning, hasStepped, _motionClock - lastClock, isRunStarted);
+        _hitFrame = Time.frameCount;
+        for (var i = 0; i < _memberViewList.Count; i++)
+        {
+            var member = _memberViewList[i];
+            if (member.IsDowned || !member.gameObject.activeInHierarchy)
+            {
+                _dqHits[i].Clear(member.IsDowned ? "suppressed-by-death" : "inactive");
+                _appliedHitIds[i] = 0;
+            }
+            else if (_dqHits[i].Count > 0 && member.HasDQ)
+            {
+                var hit = _dqHits[i].Latest;
+                member.ApplyDQHit(hit);
+                _appliedHitIds[i] = hit.AttackId;
+            }
+            if (member.gameObject.activeInHierarchy)
+            {
+                member.ApplyProjection(_viewRules.Frame, _terrain);
+            }
+        }
         SyncMonsterViews(isRunning, hasStepped);
     }
 
@@ -272,9 +461,14 @@ public class WorldPresenter : IInitializable, ILateTickable
         {
             view.InitializeDirections(_spriteAtlasService.GetDirections(key));
         }
-        view.InitializeShadow();
+        view.InitializeShadow(_spriteAtlasService.GetVisibleWidth(view.BodyRenderer.sprite));
         var motion = data.Motion;
-        if (hasArt && motion != null)
+        var dq = _spriteAtlasService.DQ.Get(data.Id);
+        if (hasArt && dq != null)
+        {
+            view.InitializeDQ(dq, _attackFx);
+        }
+        else if (hasArt && motion != null)
         {
             view.InitializeClips(motion,
                 _spriteAtlasService.GetDirectionFrames(key, "walk", motion.WalkFrames),
@@ -285,9 +479,7 @@ public class WorldPresenter : IInitializable, ILateTickable
     // 카메라가 보는 월드 영역 → 바닥 단위 반 크기. 바뀔 때만 생성기에 알린다
     private void UpdateViewExtent()
     {
-        var halfHeight = _camera.orthographicSize;
-        var floorHalfExtent = (TiltedViewMath.Footprint(halfHeight, _camera.aspect, _viewRules.SinTilt)
-            + Vector2.up * _viewRules.TerrainDepthPad) / _runRules.UnitScale;
+        var floorHalfExtent = _viewRules.GameplayHalfExtent(_camera.pixelWidth, _camera.pixelHeight) / _runRules.UnitScale;
         if (floorHalfExtent == _viewHalfExtent)
         {
             return;
@@ -302,9 +494,11 @@ public class WorldPresenter : IInitializable, ILateTickable
     {
         _isRecordingPlacements = true;
         _placementObservationRows.Clear();
-        _placementObservationRows.Add("time,id,version,type,footX,footY,bodyXMin,bodyYMin,bodyXMax,bodyYMax,footVisible,bodyVisible");
+        _placementObservationRows.Add("time,id,version,type,footX,footY,bodyXMin,bodyYMin,bodyXMax,bodyYMax,footVisible,bodyVisible,direction,boundaryConstrained");
         SpawnFootVisibleCount = 0;
         SpawnBodyVisibleCount = 0;
+        Array.Clear(SpawnFeetByDirection, 0, 4);
+        Array.Clear(SpawnBodiesByDirection, 0, 4);
     }
 
     private void ObservePlacement(Monster monster, MonsterView view)
@@ -314,11 +508,14 @@ public class WorldPresenter : IInitializable, ILateTickable
             return;
         }
         _placementVersionDict[monster.Id] = monster.PlacementVersion;
+        var relative = monster.Position - _partyModel.Center;
+        var direction = SpawnAppearanceMath.Direction(relative);
         var foot = _camera.WorldToViewportPoint(view.transform.position);
         var isFootVisible = foot.z > 0 && foot.x >= 0 && foot.x <= 1 && foot.y >= 0 && foot.y <= 1;
         if (isFootVisible)
         {
             SpawnFootVisibleCount++;
+            SpawnFeetByDirection[direction]++;
         }
         var body = view.BodyRenderer;
         var bounds = OcclusionMath.ProjectBounds(_camera, body.bounds);
@@ -327,12 +524,14 @@ public class WorldPresenter : IInitializable, ILateTickable
         if (isBodyVisible)
         {
             SpawnBodyVisibleCount++;
+            SpawnBodiesByDirection[direction]++;
         }
+        view.BeginAppearance(isFootVisible || isBodyVisible);
         if (_isRecordingPlacements)
         {
             _placementObservationRows.Add(string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", Time.time, monster.Id, monster.PlacementVersion,
-                monster.Data.Id, foot.x, foot.y, bounds.xMin, bounds.yMin, bounds.xMax, bounds.yMax, isFootVisible, isBodyVisible));
+                "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}", Time.time, monster.Id, monster.PlacementVersion,
+                monster.Data.Id, foot.x, foot.y, bounds.xMin, bounds.yMin, bounds.xMax, bounds.yMax, isFootVisible, isBodyVisible, new[] { "north", "east", "west", "south" }[direction], monster.PlacementBoundaryConstrained));
         }
     }
 
@@ -383,6 +582,10 @@ public class WorldPresenter : IInitializable, ILateTickable
             _lastMemberFloors[i] = member.Position;
             view.SetVisible(true);
             _downedSeconds[i] = member.IsAlive ? 0f : _downedSeconds[i] + Time.deltaTime;
+            var canFinishFall = !member.IsAlive && !_runModel.IsPaused.CurrentValue
+                && _runModel.Phase.CurrentValue == RunPhase.Result;
+            if (isRunStarted) view.ResetDQVisualState();
+            view.AdvanceDQClock(isRunStarted ? 0 : isRunning ? deltaSeconds : canFinishFall ? Time.deltaTime : 0f);
             view.UpdateView(position, member.Hp / member.MaxHp, member.IsAlive, _downedSeconds[i]);
             view.SetGround(_terrain, TerrainHeightMath.Normal(_terrain, position.x, position.z), _fieldView.TerrainShadowMaterial);
             if (isRunStarted || didCharacterChange || _waitingSlot == i)
@@ -455,7 +658,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         if (hasStepped)
         {
             var minMove = view.MinMovePixels / Const.PixelsPerUnit;
-            facing = SpriteFacing.Next(view.Facing, TiltedViewMath.FloorToScreenPlane(delta * _runRules.UnitScale, _viewRules.SinTilt), minMove, _viewRules.FacingHoldDegrees);
+            facing = SpriteFacing.Next(view.Facing, _viewRules.Direction(_lastMemberFloors[index] - delta, delta), minMove, _viewRules.FacingHoldDegrees);
             _isMemberMovings[index] = delta.sqrMagnitude >= Mathf.Pow(minMove / _runRules.UnitScale, 2);
             if (_isMemberMovings[index])
             {
@@ -485,6 +688,10 @@ public class WorldPresenter : IInitializable, ILateTickable
         }
 
         var offset = new Vector2Int(SpriteMotion.GetHitOffsetX(flash.IsOn, facing.IsFlipped), idleOffsetY);
+        if (view.HasDQ)
+        {
+            offset.y = 0;
+        }
         view.ApplyMotion(facing, offset, flash.IsOn);
         view.ApplyAnimation(_isMemberMovings[index], _walkClocks[index], attack);
     }
@@ -513,13 +720,29 @@ public class WorldPresenter : IInitializable, ILateTickable
             // 새로 꺼낸 그림은 이동량 0으로 본다(풀에 있던 자리에서 뛰지 않게)
             var delta = isNew ? Vector2.zero : monster.Position - _lastMonsterFloors[monster.Id];
             _lastMonsterFloors[monster.Id] = monster.Position;
+            _lastMonsterDict[monster.Id] = monster;
             view.UpdateView(position);
+            view.UpdateState(monster.Phase, monster.DashDirection, DQPhaseElapsed(monster));
             view.SetTerrain(_terrain, TerrainHeightMath.Normal(_terrain, position.x, position.z), _fieldView.TerrainShadowMaterial);
             if (isRunning)
             {
                 UpdateMonsterMotion(view, monster, hasStepped, delta);
             }
+            if (view.HasDQ)
+            {
+                if (_monsterHitDict.Remove(monster.Id, out var hitDirection))
+                {
+                    var hitFacing = SpriteFacing.Next(view.Facing, _viewRules.Direction(monster.Position, hitDirection), .001f, 0);
+                    view.BeginDQAttack(hitFacing);
+                }
+                view.ApplyDQAnimation(isRunning ? Time.deltaTime * _runRules.SpeedOptions[_runModel.SpeedIndex.CurrentValue] : 0,
+                    _movingMonsterIdSet.Contains(monster.Id),
+                    isRunning && hasStepped && monster.Data.Speed > 0 ? delta.magnitude / monster.Data.Speed : 0,
+                    DQPhaseElapsed(monster));
+            }
+            view.ApplyProjection(_viewRules.Frame, _terrain);
             ObservePlacement(monster, view);
+            view.AdvanceAppearance(isRunning ? Time.unscaledDeltaTime : 0f);
         }
 
         _releaseIdList.Clear();
@@ -533,11 +756,57 @@ public class WorldPresenter : IInitializable, ILateTickable
 
         foreach (var id in _releaseIdList)
         {
-            _monsterViewFactory.Release(id);
+            if (_lastMonsterDict.TryGetValue(id, out var removed) && !removed.IsAlive && isRunning
+                && _monsterViewRegistry.TryGet(id, out var dying) && dying.HasDQ)
+            {
+                _monsterViewFactory.Detach(id);
+                dying.BeginDQFall();
+                _dqDeathList.Add(dying);
+            }
+            else
+            {
+                _monsterViewFactory.Release(id);
+            }
+            _lastMonsterDict.Remove(id);
+            _monsterHitDict.Remove(id);
             _movingMonsterIdSet.Remove(id);
             _lastMonsterFloors.Remove(id);
             _placementVersionDict.Remove(id);
         }
+        if (_runModel.Phase.CurrentValue != RunPhase.Battle)
+        {
+            ReleaseDQDeaths();
+        }
+        else
+        {
+            for (var i = _dqDeathList.Count - 1; i >= 0; i--)
+            {
+                var view = _dqDeathList[i];
+                if (view.DQFallFinished)
+                {
+                    _monsterViewFactory.ReleaseDetached(view);
+                    _dqDeathList.RemoveAt(i);
+                    continue;
+                }
+                view.ApplyDQAnimation(isRunning ? Time.deltaTime * _runRules.SpeedOptions[_runModel.SpeedIndex.CurrentValue] : 0, false);
+                view.ApplyProjection(_viewRules.Frame, _terrain);
+            }
+        }
+    }
+
+    // PhaseClock is a simulation countdown. Read its elapsed value, including speed,
+    // pause and a phase first observed after several simulation steps; do not integrate render time.
+    private static float DQPhaseElapsed(Monster monster)
+    {
+        var duration = monster.Phase switch
+        {
+            MonsterPhase.Windup => monster.Data.Charge.WindupSeconds,
+            MonsterPhase.Dash => monster.Data.Charge.DashSeconds,
+            MonsterPhase.Recover => monster.Data.Charge.RecoverSeconds,
+            MonsterPhase.Fuse => monster.Data.Bomb.FuseSeconds,
+            _ => 0f
+        };
+        return Mathf.Max(0, duration - monster.PhaseClock);
     }
 
     // 8방향과 이동 중 hop/squash, 예고 중 좌우 1px 흔들림. hop 시작은 (번호 × stagger) mod 주기로 어긋낸다(결정적)
@@ -547,7 +816,7 @@ public class WorldPresenter : IInitializable, ILateTickable
         if (hasStepped)
         {
             var minMove = view.MinMovePixels / Const.PixelsPerUnit;
-            facing = SpriteFacing.Next(view.Facing, TiltedViewMath.FloorToScreenPlane(delta * _runRules.UnitScale, _viewRules.SinTilt), minMove, _viewRules.FacingHoldDegrees);
+            facing = SpriteFacing.Next(view.Facing, _viewRules.Direction(monster.Position - delta, delta), minMove, _viewRules.FacingHoldDegrees);
             if (delta.sqrMagnitude >= Mathf.Pow(minMove / _runRules.UnitScale, 2))
             {
                 _movingMonsterIdSet.Add(monster.Id);

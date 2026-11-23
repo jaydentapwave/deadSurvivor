@@ -148,8 +148,23 @@ public class MonsterSpawnService
         var direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
         // Limits and positions are gameplay floor units, not rendered metres.
         var limit = _runRules.FieldCells / (2f * _runRules.UnitScale) - rules.FieldEdgeMargin;
-        var position = PartyMoveMath.ClampToDiamond(_partyModel.Center + direction * distance, limit);
-        AddMonster(data, position, _waveData.HpScale, _waveData.DamageScale);
+        var position = ResolvePlacement(direction, distance, rules.SpawnMargin, limit, out var constrained);
+        AddMonster(data, position, _waveData.HpScale, _waveData.DamageScale).PlacementBoundaryConstrained = constrained;
+    }
+
+    public Vector2 ResolvePlacement(Vector2 direction, float distance, float margin, float limit, out bool constrained)
+    {
+        var model = _monsterModel;
+        if (model.PlacementFrame.Height == 0)
+            throw new System.InvalidOperationException("[MonsterSpawnService] Perspective placement must be initialized before spawn.");
+        var scale = model.PlacementScale;
+        var center = _partyModel.Center * scale;
+        var focus = IsoProjection.FloorToWorld(_partyModel.Center, scale, model.PlacementTerrain);
+        var old = model.PlacementFrame;
+        var frame = new PerspectiveFrame(old.Position + focus - model.PlacementFocus, old.Rotation,
+            old.FieldOfView, old.Aspect, old.Height, old.Near, old.Far);
+        return PerspectivePlacementMath.Resolve(frame, model.PlacementTerrain, center, direction,
+            distance * scale, limit * scale, margin * scale, out constrained) / scale;
     }
 
     public Monster SpawnEncounterGuard(Vector2 position)

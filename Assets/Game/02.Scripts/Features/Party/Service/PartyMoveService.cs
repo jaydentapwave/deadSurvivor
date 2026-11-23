@@ -10,14 +10,36 @@ public class PartyMoveService
     private readonly MoveRulesData _moveRules;
     // 들판 마름모 |x| + |y| ≤ 반대각선(바닥 단위). 들판은 원점 가운데 fieldCells칸, 칸 폭 1유닛(Const.PixelsPerUnit)
     private readonly float _fieldHalfDiagonal;
+    private readonly float _unitScale;
 
     // 중심이 움직일 수 있는 마름모(들판 − 보이는 영역). 보이는 영역을 받기 전에는 들판 전체
     private float _centerLimit;
+    private bool _hasLimitOverride;
+    public float CenterLimit => _hasLimitOverride ? _fieldHalfDiagonal : _centerLimit;
+    public System.IDisposable OverrideMovementLimit()
+    {
+        _hasLimitOverride = true;
+        return new MovementLimitScope(this);
+    }
+    private sealed class MovementLimitScope : System.IDisposable
+    {
+        private PartyMoveService _owner;
+        public MovementLimitScope(PartyMoveService owner) => _owner = owner;
+        public void Dispose()
+        {
+            if (_owner != null)
+            {
+                _owner._hasLimitOverride = false;
+                _owner = null;
+            }
+        }
+    }
 
     public PartyMoveService(PartyModel partyModel, PartyMoveModel partyMoveModel, FormationService formationService,
         MoveRulesData moveRules, RunRulesData runRules, ViewRulesData viewRules)
     {
         _partyModel = partyModel;
+        _unitScale = runRules.UnitScale;
         _viewRules = viewRules;
         _partyMoveModel = partyMoveModel;
         _formationService = formationService;
@@ -66,13 +88,19 @@ public class PartyMoveService
         }
     }
 
-    public Vector2 ClampCenter(Vector2 center) => PartyMoveMath.ClampToDiamond(center, _centerLimit);
+    public Vector2 ClampCenter(Vector2 center) => PartyMoveMath.ClampToDiamond(center, CenterLimit);
 
     // 한 걸음(A절 1~4): 중심 이동 → 들판 마름모 안으로 → 살아 있는 대원이 자리 쪽으로 다가감. 쓰러진 대원은 그대로
     public void Step(float deltaSeconds)
     {
         var moveInput = _partyMoveModel.MoveInput;
-        var direction = PartyMoveMath.ScreenToFloorDirection(moveInput, _viewRules.SinTilt);
+        var world = new Vector3(_partyModel.Center.x, 0, _partyModel.Center.y);
+        // Frame coordinates are metres; infer the existing gameplay conversion once.
+        world *= _unitScale;
+        world.y = TerrainHeightMath.Sample(_viewRules.Terrain, world.x, world.z);
+        var direction = _viewRules.HasFrame
+            ? _viewRules.Frame.InputDirection(world, moveInput, TerrainHeightMath.Normal(_viewRules.Terrain, world.x, world.z))
+            : PartyMoveMath.ScreenToFloorDirection(moveInput, _viewRules.SinTilt);
         var center = _partyModel.Center + direction * (moveInput.magnitude * _moveRules.MoveSpeed * deltaSeconds);
         center = ClampCenter(center);
         _partyModel.SetCenter(center);

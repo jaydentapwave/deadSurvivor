@@ -5,6 +5,17 @@ using UnityEngine;
 // 몸 그림은 자식(Body)이라 대기·피격 오프셋은 몸 자식만 옮기고 HP 막대는 따라가지 않는다. 번쩍임은 몸 자식의 자식(같은 스프라이트·flipX, 흰 재질).
 public class MemberView : MonoBehaviour
 {
+    private DQAttackFxLibrary _dqFx;
+    private SpriteRenderer _dqFxRenderer;
+    public SpriteRenderer DQAttackFxRenderer => _dqFxRenderer;
+    public void ApplyProjection(PerspectiveFrame frame, TerrainHeightGrid terrain = null)
+    {
+        var upright = bodyRenderer.transform.parent;
+        var pivot = bodyRenderer.sprite.pivot;
+        if (bodyRenderer.flipX) pivot.x = bodyRenderer.sprite.rect.width - pivot.x;
+        upright.position = frame.SnapCard(transform.position, pivot, bodyRenderer.sprite.pixelsPerUnit, terrain);
+    }
+
     [SerializeField] private SpriteRenderer bodyRenderer;
     public SpriteRenderer BodyRenderer => bodyRenderer;
     [SerializeField] private Material shadowMaterial;
@@ -32,6 +43,103 @@ public class MemberView : MonoBehaviour
     [SerializeField] private float minMovePixels = 0.25f;
     [SerializeField] private float facingAxisRatio = 0.25f;
 
+    private DQActorClips _dq;
+    private Sprite _dqHitSprite;
+    private float _dqIdleClock;
+    private float _dqFallClock;
+    private bool _dqWasMoving;
+    public bool HasDQ => _dq != null;
+    public string DQActorId => _dq?.Data.actorId;
+    public int DQFrame { get; private set; }
+    public string DQAction { get; private set; }
+    public long DQHitAttackId { get; private set; }
+
+    public void InitializeDQ(DQActorClips actor, DQAttackFxLibrary attackFx)
+    {
+        _dq = actor;
+        _dqFx = attackFx;
+        if (_dqFx != null)
+        {
+            if (_dqFxRenderer == null)
+            {
+                var child = new GameObject("DQ attack cue", typeof(SpriteRenderer));
+                child.layer = bodyRenderer.gameObject.layer;
+                child.transform.SetParent(bodyRenderer.transform, false);
+                _dqFxRenderer = child.GetComponent<SpriteRenderer>();
+                _dqFxRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                _dqFxRenderer.receiveShadows = false;
+            }
+            _dqFxRenderer.sharedMaterial = actor.Data.actorId == "bruno" || actor.Data.actorId == "lena"
+                ? _dqFx.bladeMaterial : _dqFx.magicMaterial;
+            _dqFxRenderer.enabled = false;
+        }
+        if (dqLightProfiles != null)
+        {
+            bodyRenderer.sharedMaterial = dqLightProfiles.Find(actor.Data.actorId);
+        }
+        _dqHitSprite = null;
+        _dqIdleClock = 0;
+        _dqFallClock = 0;
+        _dqWasMoving = false;
+        _downedSprite = actor.Lying;
+        var directions = new Sprite[5];
+        for (var i = 0; i < 5; i++)
+        {
+            directions[i] = actor.Static((FacingDirection)i);
+            foreach (var action in new[] { "walk", "idle", "attack" })
+            {
+                if (actor.Clip(action, (FacingDirection)i) == null)
+                {
+                    throw new System.InvalidOperationException("Missing DQ member direction: " + actor.Data.actorId);
+                }
+            }
+        }
+        InitializeDirections(directions);
+        // Adopted DQ body height 56px. The existing bar size/colour remains unchanged.
+        var bar = hpBackRenderer.transform.localPosition;
+        bar.y = (56 + hpBarGapPixels) / (float)Const.PixelsPerUnit;
+        hpBackRenderer.transform.localPosition = bar;
+        hpFillRenderer.transform.localPosition = bar;
+        FacingFallbackCount = 0;
+    }
+
+    public void ResetDQVisualState()
+    {
+        _dqHitSprite = null;
+        _motionSprite = null;
+        _dqIdleClock = _dqFallClock = 0;
+        _dqWasMoving = false;
+        DQAction = null;
+        DQFrame = 0;
+        DQHitAttackId = 0;
+        if (_dqFxRenderer != null)
+        {
+            _dqFxRenderer.enabled = false;
+        }
+    }
+
+    public void AdvanceDQClock(float delta)
+    {
+        _dqIdleClock += delta;
+        _dqFallClock = IsDowned ? _dqFallClock + delta : 0;
+    }
+
+    public void ApplyDQHit(DQHitRecord hit)
+    {
+        if (_dq == null || IsDowned)
+        {
+            return;
+        }
+        _dqHitSprite = null;
+        Facing = hit.Facing;
+        var clip = _dq.Clip("attack", Facing.Direction);
+        DQAction = "attack-hit";
+        DQFrame = clip.eventFrame;
+        DQHitAttackId = hit.AttackId;
+        _motionSprite = _dq.Frame(clip, DQFrame);
+        ApplySprite();
+    }
+
     private Sprite _downedSprite;
     private Sprite _motionSprite;
     private Sprite[] _directionSprites;
@@ -45,6 +153,10 @@ public class MemberView : MonoBehaviour
         get; private set;
     }
     private MemberMotionData _motionData;
+    [SerializeField] private Material dqBlobShadowMaterial;
+    [SerializeField] private DQCharacterLightProfiles dqLightProfiles;
+    private DQBlobShadow _dqBlobShadow;
+    private MaterialPropertyBlock _dqLightingProperties;
     private UprightContactShadow _contactShadow;
 
     public int BodyDiameterPixels => bodyDiameterPixels;
@@ -73,6 +185,13 @@ public class MemberView : MonoBehaviour
     public void Initialize(Sprite frontSprite, Sprite backSprite, Sprite downedSprite, Sprite hpBarSprite, Sprite hpFillSprite, bool hasArt)
     {
         _motionSprite = null;
+        _dq = null;
+        _dqHitSprite = null;
+        _dqIdleClock = _dqFallClock = 0;
+        _dqWasMoving = false;
+        DQAction = null;
+        DQFrame = 0;
+        DQHitAttackId = 0;
         _motionData = null;
         FacingFallbackCount = 0;
         _directionSprites = new[] { null, frontSprite, null, backSprite, null };
@@ -101,6 +220,10 @@ public class MemberView : MonoBehaviour
         if (IsDowned == isAlive)
         {
             IsDowned = !isAlive;
+            _dqFallClock = 0;
+            _dqIdleClock = 0;
+            _dqHitSprite = null;
+            _motionSprite = null;
             ApplySprite();
         }
     }
@@ -114,6 +237,17 @@ public class MemberView : MonoBehaviour
     // 방향(앞·뒤 스프라이트, 좌우 반전)·몸 오프셋(정수 픽셀)·흰 번쩍임을 한 번에 적용
     public void ApplyMotion(SpriteFacing facing, Vector2Int bodyOffsetPixels, bool isFlashOn)
     {
+        if (_dq != null)
+        {
+            if (isFlashOn && !flashRenderer.enabled)
+            {
+                _dqHitSprite = bodyRenderer.sprite;
+            }
+            else if (!isFlashOn)
+            {
+                _dqHitSprite = null;
+            }
+        }
         Facing = facing;
         ApplySprite();
         bodyRenderer.transform.localPosition = SpriteMotion.ToUnits(bodyOffsetPixels);
@@ -153,14 +287,26 @@ public class MemberView : MonoBehaviour
 
     public void SetGround(TerrainHeightGrid terrain, Vector3 normal, Material terrainShadow)
     {
+        if (_dqBlobShadow != null)
+        {
+            _dqBlobShadow.SetGround(terrain, terrainShadow);
+            return;
+        }
         if (!terrain.IsFlat)
         {
             _contactShadow.SetGround(normal, terrainShadow);
         }
     }
 
-    public void InitializeShadow()
+    public void InitializeShadow(float widthPixels = 28)
     {
+        if (dqBlobShadowMaterial != null)
+        {
+            _dqBlobShadow = GetComponent<DQBlobShadow>() ?? gameObject.AddComponent<DQBlobShadow>();
+            _dqBlobShadow.Initialize(bodyRenderer, dqBlobShadowMaterial, widthPixels / bodyRenderer.sprite.pixelsPerUnit);
+            shadowCaster.SetCastingShadow(false);
+            return;
+        }
         if (_contactShadow == null)
         {
             _contactShadow = gameObject.AddComponent<UprightContactShadow>();
@@ -172,6 +318,27 @@ public class MemberView : MonoBehaviour
     public void ApplyAnimation(bool isMoving, float walkClock, MemberAttackMotion attack)
     {
         _motionSprite = null;
+        if (_dq != null)
+        {
+            DQAction = IsDowned ? "fall" : attack.IsPlaying ? "attack" : isMoving ? "walk" : "idle";
+            if (isMoving != _dqWasMoving)
+            {
+                _dqIdleClock = 0;
+                _dqWasMoving = isMoving;
+            }
+            var clip = _dq.Clip(DQAction, Facing.Direction);
+            if (DQAction == "attack")
+            {
+                DQFrame = DQClipMath.AttackFrame(clip, attack.Elapsed, attack.HitSeconds, attack.HasHit);
+            }
+            else
+            {
+                DQFrame = DQClipMath.FrameAt(clip, IsDowned ? _dqFallClock : isMoving ? walkClock : _dqIdleClock);
+            }
+            _motionSprite = IsDowned && _dqFallClock >= clip.Seconds ? _dq.Lying : _dq.Frame(clip, DQFrame);
+            ApplySprite();
+            return;
+        }
         if (!IsDowned && _motionData != null && HasArt)
         {
             if (attack.IsPlaying)
@@ -197,9 +364,19 @@ public class MemberView : MonoBehaviour
     // 쓰러짐이면 쓰러진 그림, 아니면 방향의 앞·뒤 그림. 좌우 반전은 늘 Facing(쓰러진 뒤에는 쓰러질 때 방향)
     private void ApplySprite()
     {
-        var sprite = IsDowned ? _downedSprite : _motionSprite != null ? _motionSprite : _directionSprites[(int)SpriteFacing.ResolveAvailable(Facing.Direction, _spriteMask)];
-        bodyRenderer.sprite = sprite;
+        var sprite = !IsDowned && _dqHitSprite != null ? _dqHitSprite : _dq != null && _motionSprite != null ? _motionSprite : IsDowned ? _downedSprite : _motionSprite != null ? _motionSprite : _directionSprites[(int)SpriteFacing.ResolveAvailable(Facing.Direction, _spriteMask)];
+        DQSpriteLighting.Apply(bodyRenderer, sprite, ref _dqLightingProperties);
         bodyRenderer.flipX = Facing.IsFlipped;
+        if (_dqFxRenderer != null)
+        {
+            var cue = _dq != null && _dqFx != null && !IsDowned && (DQAction == "attack" || DQAction == "attack-hit")
+                ? _dqFx.GetFrame(_dq.Data.actorId, Facing.Direction, DQFrame) : null;
+            _dqFxRenderer.sprite = cue;
+            _dqFxRenderer.flipX = Facing.IsFlipped;
+            _dqFxRenderer.sortingLayerID = bodyRenderer.sortingLayerID;
+            _dqFxRenderer.sortingOrder = bodyRenderer.sortingOrder + 1;
+            _dqFxRenderer.enabled = cue != null;
+        }
         flashRenderer.sprite = sprite;
         flashRenderer.flipX = Facing.IsFlipped;
     }

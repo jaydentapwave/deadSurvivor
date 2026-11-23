@@ -9,6 +9,71 @@ public class EffectSpriteCache : IDisposable
     private readonly Dictionary<(string, int, double, int, int), Sprite> _spriteDict = new();
     private readonly Dictionary<(int, int, uint, int), Sprite> _chainDict = new();
     private readonly List<Object> _createdList = new();
+    private readonly Dictionary<(int, double, double, float, int), Sprite> _dqDashDict = new();
+    private DQTelegraphTiles _dqTelegraph;
+    private bool _dqTelegraphLoaded;
+
+    private readonly ResourceService _resources;
+
+    public EffectSpriteCache(ResourceService resources)
+    {
+        _resources = resources;
+    }
+
+    public bool HasDQTelegraph
+    {
+        get
+        {
+            if (!_dqTelegraphLoaded)
+            {
+                _dqTelegraph = _resources.Load<DQTelegraphTiles>(DQTelegraphTiles.ResourcePath);
+                _dqTelegraphLoaded = true;
+            }
+            return _dqTelegraph != null;
+        }
+    }
+
+    public Sprite DQDash(double lengthMetres, double radiusMetres, float floorAngle, int stage, int ownerId = 0)
+    {
+        if (!HasDQTelegraph)
+        {
+            return Dash(lengthMetres, floorAngle, Mathf.Min(stage, 2));
+        }
+        var angle = Mathf.Repeat(floorAngle, 360);
+        var key = (ownerId, lengthMetres, radiusMetres, angle, stage);
+        if (!_dqDashDict.TryGetValue(key, out var sprite))
+        {
+            sprite = Create(_dqTelegraph.Raster(lengthMetres, radiusMetres, angle, stage), $"dq_dash_line_{stage + 1}");
+            _dqDashDict.Add(key, sprite);
+        }
+        return sprite;
+    }
+
+    public void ReleaseDQDash(int ownerId)
+    {
+        if (_dqDashDict.Count == 0)
+        {
+            return;
+        }
+        var keys = new List<(int, double, double, float, int)>();
+        foreach (var pair in _dqDashDict)
+        {
+            if (pair.Key.Item1 == ownerId)
+            {
+                keys.Add(pair.Key);
+            }
+        }
+        foreach (var key in keys)
+        {
+            var sprite = _dqDashDict[key];
+            var texture = sprite.texture;
+            _dqDashDict.Remove(key);
+            _createdList.Remove(sprite);
+            _createdList.Remove(texture);
+            DestroyOwned(sprite);
+            DestroyOwned(texture);
+        }
+    }
 
     public Sprite Ring(string kind, double radiusMeters, int frame)
     {
@@ -105,6 +170,7 @@ public class EffectSpriteCache : IDisposable
         }
         _spriteDict.Clear();
         _chainDict.Clear();
+        _dqDashDict.Clear();
         _createdList.Clear();
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 using VContainer.Unity;
 
 // B7 reveals party members only. Monsters behind scenery do not fade that scenery.
-public sealed class FieldOcclusionPresenter : ITickable
+public sealed class FieldOcclusionPresenter : ILateTickable
 {
     private readonly FieldView _field;
     private readonly Camera _camera;
@@ -18,7 +18,9 @@ public sealed class FieldOcclusionPresenter : ITickable
         _members = members;
     }
 
-    public void Tick()
+    // Kept for existing explicit callers/tests; the registered lifecycle is LateTick.
+    public void Tick() => LateTick();
+    public void LateTick()
     {
         FadedCount = 0;
         foreach (var prop in _field.Occluders)

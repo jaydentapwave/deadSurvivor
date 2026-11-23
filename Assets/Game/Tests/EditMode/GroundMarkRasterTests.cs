@@ -22,7 +22,7 @@ public class GroundMarkRasterTests
     [Test]
     public void CacheReusesFramesButDoesNotAliasDifferentRadii()
     {
-        using var cache = new EffectSpriteCache();
+        using var cache = new EffectSpriteCache(new ResourceService());
         var first = cache.Ring("heal", 1.9, 2);
         Assert.AreSame(first, cache.Ring("heal", 1.9, 2));
         Assert.AreNotSame(first, cache.Ring("heal", 1.9001, 2));

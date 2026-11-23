@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using UnityEngine;
+[Category("DQScreen")]
 public class TiltedCameraRigTests
 {
     [TestCase(false)] [TestCase(true)]
@@ -21,7 +22,7 @@ public class TiltedCameraRigTests
     }
     private static float Error(Transform camera,TiltedCameraRig rig,Vector3 expected)
     {
-        var diff=camera.position+camera.forward*rig.Distance-camera.right*rig.ShakeOffset.x-camera.up*rig.ShakeOffset.y-expected;
+        var diff=camera.position+camera.forward*rig.Distance-camera.right*rig.ShakeOffset.x-camera.up*rig.ShakeOffset.y-Vector3.up*TiltedCameraRig.FocusHeight-expected;
         return new Vector2(Vector3.Dot(diff,camera.right),Vector3.Dot(diff,camera.up)).magnitude;
     }
     [Test]
@@ -35,7 +36,7 @@ public class TiltedCameraRigTests
             var grid = TerrainHeightMathTests.Plane(0, .2f);
             var foot = TerrainHeightMath.SnapOnTerrain(grid, 0, .02f, .5f, 48);
             rig.SetFocus(foot);
-            var restored = go.transform.position + go.transform.forward * rig.Distance;
+            var restored = go.transform.position + go.transform.forward * rig.Distance - Vector3.up * TiltedCameraRig.FocusHeight;
             Assert.AreEqual(.03094649f, restored.z, .000004f);
             Assert.Less(Vector3.Distance(restored, foot), .000005f);
             var unsnapped = IsoProjection.FloorToWorld(new Vector2(0, .02f), 1, grid);

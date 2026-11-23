@@ -3,9 +3,14 @@ using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
-// Main.unity의 모든 등록(기획서 A절). 등록만 하고 다른 일은 하지 않는다.
+// Main.unity의 모든 등록과 장면 소유 컨테이너의 종료 수명(기획서 A절).
 public class GameSceneLifetimeScope : LifetimeScope
 {
+    // Unity quit precedes native view destruction. Base OnDestroy is too late for
+    // some child/UI destruction orders; the existing idempotent owner cleanup
+    // also removes VContainer's player-loop entries before their next tick.
+    private void OnApplicationQuit() => DisposeCore();
+
     private const string RunRulesPath = "Data/Run/run_rules";
     private const string GroundPathPath = "Data/Field/ground_path";
     private const string PlaceholderCombatPath = "Data/Run/placeholder_combat";
@@ -123,6 +128,8 @@ public class GameSceneLifetimeScope : LifetimeScope
         builder.RegisterEntryPoint<BattleHudPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<PrepPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<ResultPresenter>(Lifetime.Scoped).AsSelf();
+        // Finalize shake before WorldPresenter snapshots this frame's projection.
+        builder.RegisterEntryPoint<HitReactionPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<WorldPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<FirstExpeditionPresenter>(Lifetime.Scoped);
         builder.RegisterEntryPoint<FieldOcclusionPresenter>(Lifetime.Scoped).AsSelf();
@@ -138,7 +145,6 @@ public class GameSceneLifetimeScope : LifetimeScope
         // F6 피드백. Rig가 초점과 흔들림을 따로 받아 LateTick 순서에 의존하지 않는다.
         builder.RegisterEntryPoint<DamageNumberPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<HpLossPresenter>(Lifetime.Scoped).AsSelf();
-        builder.RegisterEntryPoint<HitReactionPresenter>(Lifetime.Scoped).AsSelf();
         builder.RegisterEntryPoint<MonsterHpBarPresenter>(Lifetime.Scoped).AsSelf();
     }
     // D-T8: logging belongs to the Game loading boundary, never HD2D.View.

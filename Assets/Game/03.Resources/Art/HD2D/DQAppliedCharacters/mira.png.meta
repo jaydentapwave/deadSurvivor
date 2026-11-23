@@ -1,0 +1,5469 @@
+fileFormatVersion: 2
+guid: 668583fd285054481876177a892f13bd
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 48
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: dq_mira_0000
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23cc84f9b4cd9c160800000000000000
+      internalID: 7046405309350857778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0001
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76020bc048dc63e50800000000000000
+      internalID: 6788839455339847783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0002
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e66ecd04ccf39430800000000000000
+      internalID: 3788649630524139240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0003
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 965ccca6b1d26cdf0800000000000000
+      internalID: -160391140945902231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0004
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8b9212518b6ff890800000000000000
+      internalID: -7422095457711383668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0005
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a24568da3734c5a20800000000000000
+      internalID: 3052388811561915434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0006
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a865c8d0a4567d090800000000000000
+      internalID: -8009822043525851510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0007
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11b91a42615087df0800000000000000
+      internalID: -182390192246514927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0008
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d28ee82e6a14de910800000000000000
+      internalID: 1868221605450016813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0009
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 030d295112d149020800000000000000
+      internalID: 2347533333699940400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0010
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd19eac34c7777b20800000000000000
+      internalID: 3132103750574838236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0011
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 827b520d51452bf10800000000000000
+      internalID: 2283980413693441832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0012
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e0e9a8e1bb93fad0800000000000000
+      internalID: -2669618965685608220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0013
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c601592ad947045c0800000000000000
+      internalID: -4233255429341900692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0014
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac80b763385b89740800000000000000
+      internalID: 5159072948312279242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0015
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 1124
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01531b13360842e90800000000000000
+      internalID: -7051369953031539440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0016
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66e7481bc7a0d8060800000000000000
+      internalID: 6957228530027757158
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0017
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68d347d688f7321a0800000000000000
+      internalID: -6835479585489666682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0018
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eec54d04a07ff68c0800000000000000
+      internalID: -4003709920299688722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0019
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41ddfc439e9433d90800000000000000
+      internalID: -7119265319980376812
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0020
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b4f597b5a97612b10800000000000000
+      internalID: 1954957625912811339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0021
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 123fd6c6e9a09b3a0800000000000000
+      internalID: -6649271699295571167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0022
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e9468b4f86167c80800000000000000
+      internalID: -8325442056444556823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0023
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51f3755923f44dc30800000000000000
+      internalID: 4383215416010817301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0024
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9acf8956364dcb400800000000000000
+      internalID: 341381195144690857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0025
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06f64e294215c2a50800000000000000
+      internalID: 6497657579913899872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0026
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a213e6ad0ebeb7fe0800000000000000
+      internalID: -1190098325539507926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0027
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2510035f709582220800000000000000
+      internalID: 2461315087071183186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0028
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81dbcf59b21feb660800000000000000
+      internalID: 7403620006945930520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0029
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dbab3b323d4ebcb0800000000000000
+      internalID: -4846351270866605097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0030
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74cb2359879aa8250800000000000000
+      internalID: 5947752593260461127
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0031
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 1044
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b07834f9f94eddf30800000000000000
+      internalID: 4602085768465450763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0032
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05e4ab84d4c57ab20800000000000000
+      internalID: 3145584351743987280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0033
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37ab9adb3973a0b60800000000000000
+      internalID: 7713038419507133043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0034
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38fe2577c4867a640800000000000000
+      internalID: 5091152581394362243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0035
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f581ff3bbb6cb20e0800000000000000
+      internalID: -2293521075734112161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0036
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3002c4c4184fa7200800000000000000
+      internalID: 178723971402571779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0037
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4b0c7bd2c824ba70800000000000000
+      internalID: 8841736785806232396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0038
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71ebdfa49b7d57630800000000000000
+      internalID: 3924279841150320151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0039
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe275c4ecc90e09c0800000000000000
+      internalID: -3959216246795963665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0040
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f887ddeecfc3d0570800000000000000
+      internalID: 8434464734171723919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0041
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b458bb80bb69e92a0800000000000000
+      internalID: -6728775063195384501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0042
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 221820943de4ae880800000000000000
+      internalID: -8580959470631091934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0043
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db30d6fd3afa1b400800000000000000
+      internalID: 338244565392491453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0044
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e35d457c1ec67ac80800000000000000
+      internalID: -8311554870321294018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0045
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19bc874155e839090800000000000000
+      internalID: -8028917214604637295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0046
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 743fb53a3d3b17de0800000000000000
+      internalID: -1337089892792143033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0047
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 964
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc68de2190e228890800000000000000
+      internalID: -7457347416464980276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0048
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 922306c5a9e4e1480800000000000000
+      internalID: -8926610986520006103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0049
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88f313ef6d8467060800000000000000
+      internalID: 6950823163117780872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0050
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17cc3d1c2b3847740800000000000000
+      internalID: 5148885077770620017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0051
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69e8d98e9798227a0800000000000000
+      internalID: -6403404563480736106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0052
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59689f15fc87e5060800000000000000
+      internalID: 6944120507280754325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0053
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdca5dfa3655a59f0800000000000000
+      internalID: -478976523721397029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0054
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 247191d5ae59f7b30800000000000000
+      internalID: 4287310204096812866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0055
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9884ccb812939d80800000000000000
+      internalID: -8245085857841379172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0056
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ebe811f634815370800000000000000
+      internalID: 8309568158983318500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0057
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 434ec0dcf3a653320800000000000000
+      internalID: 2537050787348800564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0058
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75dd9a4b65c94a980800000000000000
+      internalID: -8528519898120725161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0059
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95ffc5455784edf00800000000000000
+      internalID: 1143431024162439001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0060
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e23682fd053ac83c0800000000000000
+      internalID: -4355927171837435090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0061
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c42b172cd20cf3b0800000000000000
+      internalID: -5477499902217214780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0062
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a69d065858ed0de0800000000000000
+      internalID: -1365179645924895068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0063
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 884
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cc2c8fd9caf57bf0800000000000000
+      internalID: -327079652968616764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0064
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01308e8da1e9bb080800000000000000
+      internalID: -9170562378064461040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0065
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26c28065c355f81d0800000000000000
+      internalID: -3346362280483214238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0066
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3d0015d3433600e0800000000000000
+      internalID: -2304097792923005635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0067
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ef663908e4359110800000000000000
+      internalID: 1266977041366282213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0068
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 511ed2a6fafdde720800000000000000
+      internalID: 2877201681453277461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0069
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07a18fde969680b50800000000000000
+      internalID: 6559608760950069872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0070
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5352534e5786e190800000000000000
+      internalID: -7933504854640405669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0071
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f1ffb6c57597fc00800000000000000
+      internalID: 934379780780847607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0072
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 363a5584ece031c10800000000000000
+      internalID: 2022976936759108451
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0073
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56578dc6c2078d870800000000000000
+      internalID: 8707833215627851109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0074
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c08d25b731c61c20800000000000000
+      internalID: 3176939032163483844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0075
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b69997491dfaab70800000000000000
+      internalID: 8911213097723205296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0076
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ed6790a5531cba30800000000000000
+      internalID: 4232279008308850149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0077
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c00f824b5de7a2190800000000000000
+      internalID: -7986431532872437748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0078
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d1d2e3257d1ea430800000000000000
+      internalID: 3796003924870353361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0079
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 804
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a189f784e36f9f3b0800000000000000
+      internalID: -5478076724354770918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0080
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 51ad9e4b14951b980800000000000000
+      internalID: -8524934480892667371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0081
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59d4ca1264a618470800000000000000
+      internalID: 8395108029840510357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0082
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 670f82055044ce620800000000000000
+      internalID: 2804691457555361910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0083
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86a0ac7099ca73960800000000000000
+      internalID: 7581718270962174568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0084
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a66b3a537977c6820800000000000000
+      internalID: 2912834550325556842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0085
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dad5214c0b3586220800000000000000
+      internalID: 2479323613536345517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0086
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6dd558e9552062d60800000000000000
+      internalID: 7864976366004166102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0087
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efa2db7132529e8c0800000000000000
+      internalID: -3969600763898025218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0088
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bd44db302d202f90800000000000000
+      internalID: -6980529805958296141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0089
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37a3aae9db82b8d90800000000000000
+      internalID: -7094531993116198285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0090
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e0f597bf0d00fcd0800000000000000
+      internalID: -2526505029799120665
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0091
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6691fa1329906ac40800000000000000
+      internalID: 5523112516519926118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0092
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5e9ece3049754af0800000000000000
+      internalID: -412790473995936163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0093
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c450b0a426a67d730800000000000000
+      internalID: 4023801762460403020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0094
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3bb2032ac707d6f0800000000000000
+      internalID: -660050255634318534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0095
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 724
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 912d2f6451f263330800000000000000
+      internalID: 3690188713107837465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0096
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dc5d6a55a5294e40800000000000000
+      internalID: 5641081400375205081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0097
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e37d03c176eb6290800000000000000
+      internalID: -7895964145385901087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0098
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98330d4199f0806e0800000000000000
+      internalID: -1871228495018839159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0099
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 023dd357f5b6f78c0800000000000000
+      internalID: -3999359886348659936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0100
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6c174ffbf30f33ff0800000000000000
+      internalID: -57438213631610426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0101
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38f84f15ef54f0b40800000000000000
+      internalID: 5408618636094246787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0102
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 784e5763da6dbec50800000000000000
+      internalID: 6695681310447756423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0103
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3d778ca4192e2780800000000000000
+      internalID: -8705975860889944773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0104
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7461d7017a991050800000000000000
+      internalID: 5771814207705146494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0105
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ff184bbab6e08bb0800000000000000
+      internalID: -4935691501917691919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0106
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07747662097e1a100800000000000000
+      internalID: 117629671593953136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0107
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8b460add3abff630800000000000000
+      internalID: 3963090971922942863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0108
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71792154c01afe5a0800000000000000
+      internalID: -6489791463947069673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0109
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28d5341e2e0d174d0800000000000000
+      internalID: -3138497792440050302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0110
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dee143f0dcc7dd30800000000000000
+      internalID: 4456255554112843473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0111
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 644
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c465fae1036b819d0800000000000000
+      internalID: -2803290450248640948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0112
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fb46eaf5b1cd4bb0800000000000000
+      internalID: -4950087428067668999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0113
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c1f2abc57e2acd20800000000000000
+      internalID: 3299500760464814530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0114
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc4dea3de2a19b770800000000000000
+      internalID: 8626955349627163851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0115
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00cd39b73b2754eb0800000000000000
+      internalID: -4736253317912208384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0116
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e619a8171d477350800000000000000
+      internalID: 6014360588969907945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0117
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fcafb15e81678730800000000000000
+      internalID: 4001274057826741497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0118
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf93cf4e9fad2f1b0800000000000000
+      internalID: -5624192217808881156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0119
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e82b5d8bd0f49e740800000000000000
+      internalID: 5181759766620648078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0120
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef6a68b5118b49fb0800000000000000
+      internalID: -4641882931222632706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0121
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09dd3bfb7012f5630800000000000000
+      internalID: 3917886518000344464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0122
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36aa792dee49fc6d0800000000000000
+      internalID: -2967989875957585309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0123
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6f5afad72a1cb010800000000000000
+      internalID: 1205867558708338543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0124
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c48b3b052ee93ee00800000000000000
+      internalID: 1072875831098062924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0125
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d17099d6abf7edb0800000000000000
+      internalID: -4762561386887745065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0126
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59551f4db7aa9c750800000000000000
+      internalID: 6325774600448857493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0127
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 564
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7650fa6ff90ab52b0800000000000000
+      internalID: -5594701503178799769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0128
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 219c6bbcc3860b690800000000000000
+      internalID: -7588450761794205422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0129
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 208939241410a5260800000000000000
+      internalID: 7086978343422367746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0130
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15b342fdcdfc6ba10800000000000000
+      internalID: 1924954438290914129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0131
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6c564864f4782700800000000000000
+      internalID: 515790750404205676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0132
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dda660f6127b156c0800000000000000
+      internalID: -4156339626861761827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0133
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dceca7eda9a8fa830800000000000000
+      internalID: 4084635784810516173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0134
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9a9432952e818580800000000000000
+      internalID: -8826617502651606369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0135
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d509b0a62c95a230800000000000000
+      internalID: 3649494762772825553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0136
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5591ba847cb2ae0b0800000000000000
+      internalID: -5698694243566282411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0137
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88d64574de8ab8250800000000000000
+      internalID: 5948033469930302856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0138
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4a41cc1d07cdbc40800000000000000
+      internalID: 5529794776611768911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0139
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09aa9bfb56070bf90800000000000000
+      internalID: -6939923443467310448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0140
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7b63b3e1609d4570800000000000000
+      internalID: 8452570825750702970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0141
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66e304870e18a6ca0800000000000000
+      internalID: -6022858750564483482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0142
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cadbb316e1132a470800000000000000
+      internalID: 8404333861176851884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0143
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 484
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ee35d95c563e6630800000000000000
+      internalID: 3922132095758319330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0144
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98a24494cdc808010800000000000000
+      internalID: 1189105179375708809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0145
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb9aa6b5c84c345d0800000000000000
+      internalID: -3079401613083104833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0146
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 396560fba1f37b4c0800000000000000
+      internalID: -4271876337431062893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0147
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20af09a689ee727f0800000000000000
+      internalID: -637278483859310078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0148
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f3ff52dc52c2fa2a0800000000000000
+      internalID: -6724107177773629633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0149
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1637bf9803aebcaa0800000000000000
+      internalID: -6139556172795251871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0150
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 815db7070095894f0800000000000000
+      internalID: -821809073573079784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0151
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9cb105bea59617660800000000000000
+      internalID: 7381797103452822473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0152
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2cadc8c712645c70800000000000000
+      internalID: 8958893413039451179
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0153
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ecdb9369ef1f7690800000000000000
+      internalID: -7602322558719107865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0154
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01a1e08212ecc5590800000000000000
+      internalID: -7684040222399653360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0155
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c90d7cefdc2e0ae0800000000000000
+      internalID: -1581277078903518784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0156
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa1d18cd0bfc49100800000000000000
+      internalID: 113944249111794090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0157
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f753becd7efc52fc0800000000000000
+      internalID: -3520178938969377409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0158
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33bf83eae23cbdaa0800000000000000
+      internalID: -6135095462103286989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0159
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 404
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9951d6e14c1b41870800000000000000
+      internalID: 8652736239967737241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0160
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f0ec113f0a918760800000000000000
+      internalID: 7458411847941415154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0161
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0827af747d1a2520800000000000000
+      internalID: 2677985314620254219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0162
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6be7b03ab6fb0ba10800000000000000
+      internalID: 1923247509905047222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0163
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5516dd279ee432420800000000000000
+      internalID: 2604011774111736149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0164
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5df434cfc05a26120800000000000000
+      internalID: 2405666626159726549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0165
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 223be7c6144ca2a70800000000000000
+      internalID: 8803064206921216802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0166
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d211c2ad8def5d0e0800000000000000
+      internalID: -2245608631847612115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0167
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92a64c859b4433090800000000000000
+      internalID: -8056019745586779607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0168
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1b3513e1dc740a70800000000000000
+      internalID: 8792289613433879322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0169
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cdb89aecda37aaf0800000000000000
+      internalID: -385274522613793340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0170
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19a186a34961f9e10800000000000000
+      internalID: 2206507168325704337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0171
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1e36cb05cacee050800000000000000
+      internalID: 5831821515146280476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0172
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a5f8ec7fc50f6db0800000000000000
+      internalID: -4796608689414277722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0173
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ae5cb954aef69050800000000000000
+      internalID: 5807108751374442146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0174
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8f9c9a3f12d182c0800000000000000
+      internalID: -4431029526786695285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0175
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 324
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa9925724a8d22070800000000000000
+      internalID: 8080258881002052015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0176
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6947becd6d1cbdbc0800000000000000
+      internalID: -3757196335536966506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0177
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61ababcbc1ce56c80800000000000000
+      internalID: -8329992327582270954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0178
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c1688f4e3c1946f0800000000000000
+      internalID: -699997213131513401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0179
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e69cc5f647a16e270800000000000000
+      internalID: 8279334052354115950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0180
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b9bfaec0271a1150800000000000000
+      internalID: 5844008896140655030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0181
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 218b252b61a66d880800000000000000
+      internalID: -8586558993821681646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0182
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4c9d29f1f6e7d340800000000000000
+      internalID: 4888629847475985482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0183
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67e1945972bac97f0800000000000000
+      internalID: -604420063477817738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0184
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6f0297a6d2bc2f50800000000000000
+      internalID: 6858052967582535534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0185
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46dbced569a3f2c60800000000000000
+      internalID: 7795513897496919396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0186
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 134aaf888ee697070800000000000000
+      internalID: 8104630949439513649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0187
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f28b21ea0a91ad3e0800000000000000
+      internalID: -2028280504271062993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0188
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc1a30f2f81ca9cf0800000000000000
+      internalID: -244670409025019441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0189
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b0fd447b98d950a10800000000000000
+      internalID: 1875078034680504075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0190
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 854cdd9173f5c24c0800000000000000
+      internalID: -4310966053038603176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0191
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 244
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5771a0adeca880940800000000000000
+      internalID: 5262608785608415093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0192
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 128ade0892a6da970800000000000000
+      internalID: 8767780776049485857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0193
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d9b767b84d51cb50800000000000000
+      internalID: 6611668294852655568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0194
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fdf9132248d059680800000000000000
+      internalID: -8749071839936798753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0195
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2859a87fd3c8e9660800000000000000
+      internalID: 7394501835962881410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0196
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc977d8cc96a371c0800000000000000
+      internalID: -4507075609753060917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0197
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc51c9d93b1be9db0800000000000000
+      internalID: -4783190369219373617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0198
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d15e3a3afb07bb60800000000000000
+      internalID: 7761685652143231444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0199
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4feede94b4bad05a0800000000000000
+      internalID: -6553393542902976780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0200
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba28e5b444e79f830800000000000000
+      internalID: 4105451367112278699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0201
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fffb38209defdea0800000000000000
+      internalID: -5845692587897520135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0202
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a75a2fc756153d180800000000000000
+      internalID: -9091833726401075846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0203
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e09f99e4e8a87740800000000000000
+      internalID: 5150051875023720679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0204
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fa961bcc04991e60800000000000000
+      internalID: 7933535001257614071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0205
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: baaa29c1f7de02ff0800000000000000
+      internalID: -62789264587183445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0206
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8cb46bcb2fc88d10800000000000000
+      internalID: 2128178610935479434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0207
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 164
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc87cf2fd8a2b2f30800000000000000
+      internalID: 4551778637543405775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0208
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1577d1d5b6022f9c0800000000000000
+      internalID: -3895015082226256047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0209
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b927267506e6c4ba0800000000000000
+      internalID: -6103382034931879269
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0210
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efcf3114da59338d0800000000000000
+      internalID: -2867783966351164162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0211
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd2c30876e1b87880800000000000000
+      internalID: -8612938683931966753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0212
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2afad5190bb70b40800000000000000
+      internalID: 5406495525377341997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0213
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b089ae39f52f6d250800000000000000
+      internalID: 5969224848443611147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0214
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d4fd17843b52b720800000000000000
+      internalID: 2860448994497000662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0215
+      rect:
+        serializedVersion: 2
+        x: 564
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15af2555946636c30800000000000000
+      internalID: 4351434130120178257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0216
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80370fd1912e76cd0800000000000000
+      internalID: -2564832865259851000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0217
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eacf6dc1cb84c4ba0800000000000000
+      internalID: -6103423422218961746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0218
+      rect:
+        serializedVersion: 2
+        x: 804
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ebcaf050b363edd0800000000000000
+      internalID: -2458011362690151453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0219
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14568f92e5e6991c0800000000000000
+      internalID: -4496441402242603711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0220
+      rect:
+        serializedVersion: 2
+        x: 964
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb55e4ae7121b4260800000000000000
+      internalID: 7082774732894787006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0221
+      rect:
+        serializedVersion: 2
+        x: 1044
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92997ec67ebca0500800000000000000
+      internalID: 363326914781747497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0222
+      rect:
+        serializedVersion: 2
+        x: 1124
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 779fe22a7638bdc50800000000000000
+      internalID: 6691086152514861431
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0223
+      rect:
+        serializedVersion: 2
+        x: 1204
+        y: 84
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 032b7548424c10070800000000000000
+      internalID: 8070947668342846000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0224
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 665c3533083b749c0800000000000000
+      internalID: -3942985585541266074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0225
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e47ec107f26c7550800000000000000
+      internalID: 6159907203362747625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0226
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4375950b0abe2e70800000000000000
+      internalID: 9092409254208697166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0227
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 429aa4843f0ea0fb0800000000000000
+      internalID: -4680681527203682012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0228
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0012e92bf712e5b00800000000000000
+      internalID: 819129014569279744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0229
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cd4b81f6e1b58ad0800000000000000
+      internalID: -2700556796085711418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dq_mira_0230
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 4
+        width: 72
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.11111111}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b6bd5bb4f0b24140800000000000000
+      internalID: 4702515526090208948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      dq_mira_0000: 7046405309350857778
+      dq_mira_0001: 6788839455339847783
+      dq_mira_0002: 3788649630524139240
+      dq_mira_0003: -160391140945902231
+      dq_mira_0004: -7422095457711383668
+      dq_mira_0005: 3052388811561915434
+      dq_mira_0006: -8009822043525851510
+      dq_mira_0007: -182390192246514927
+      dq_mira_0008: 1868221605450016813
+      dq_mira_0009: 2347533333699940400
+      dq_mira_0010: 3132103750574838236
+      dq_mira_0011: 2283980413693441832
+      dq_mira_0012: -2669618965685608220
+      dq_mira_0013: -4233255429341900692
+      dq_mira_0014: 5159072948312279242
+      dq_mira_0015: -7051369953031539440
+      dq_mira_0016: 6957228530027757158
+      dq_mira_0017: -6835479585489666682
+      dq_mira_0018: -4003709920299688722
+      dq_mira_0019: -7119265319980376812
+      dq_mira_0020: 1954957625912811339
+      dq_mira_0021: -6649271699295571167
+      dq_mira_0022: -8325442056444556823
+      dq_mira_0023: 4383215416010817301
+      dq_mira_0024: 341381195144690857
+      dq_mira_0025: 6497657579913899872
+      dq_mira_0026: -1190098325539507926
+      dq_mira_0027: 2461315087071183186
+      dq_mira_0028: 7403620006945930520
+      dq_mira_0029: -4846351270866605097
+      dq_mira_0030: 5947752593260461127
+      dq_mira_0031: 4602085768465450763
+      dq_mira_0032: 3145584351743987280
+      dq_mira_0033: 7713038419507133043
+      dq_mira_0034: 5091152581394362243
+      dq_mira_0035: -2293521075734112161
+      dq_mira_0036: 178723971402571779
+      dq_mira_0037: 8841736785806232396
+      dq_mira_0038: 3924279841150320151
+      dq_mira_0039: -3959216246795963665
+      dq_mira_0040: 8434464734171723919
+      dq_mira_0041: -6728775063195384501
+      dq_mira_0042: -8580959470631091934
+      dq_mira_0043: 338244565392491453
+      dq_mira_0044: -8311554870321294018
+      dq_mira_0045: -8028917214604637295
+      dq_mira_0046: -1337089892792143033
+      dq_mira_0047: -7457347416464980276
+      dq_mira_0048: -8926610986520006103
+      dq_mira_0049: 6950823163117780872
+      dq_mira_0050: 5148885077770620017
+      dq_mira_0051: -6403404563480736106
+      dq_mira_0052: 6944120507280754325
+      dq_mira_0053: -478976523721397029
+      dq_mira_0054: 4287310204096812866
+      dq_mira_0055: -8245085857841379172
+      dq_mira_0056: 8309568158983318500
+      dq_mira_0057: 2537050787348800564
+      dq_mira_0058: -8528519898120725161
+      dq_mira_0059: 1143431024162439001
+      dq_mira_0060: -4355927171837435090
+      dq_mira_0061: -5477499902217214780
+      dq_mira_0062: -1365179645924895068
+      dq_mira_0063: -327079652968616764
+      dq_mira_0064: -9170562378064461040
+      dq_mira_0065: -3346362280483214238
+      dq_mira_0066: -2304097792923005635
+      dq_mira_0067: 1266977041366282213
+      dq_mira_0068: 2877201681453277461
+      dq_mira_0069: 6559608760950069872
+      dq_mira_0070: -7933504854640405669
+      dq_mira_0071: 934379780780847607
+      dq_mira_0072: 2022976936759108451
+      dq_mira_0073: 8707833215627851109
+      dq_mira_0074: 3176939032163483844
+      dq_mira_0075: 8911213097723205296
+      dq_mira_0076: 4232279008308850149
+      dq_mira_0077: -7986431532872437748
+      dq_mira_0078: 3796003924870353361
+      dq_mira_0079: -5478076724354770918
+      dq_mira_0080: -8524934480892667371
+      dq_mira_0081: 8395108029840510357
+      dq_mira_0082: 2804691457555361910
+      dq_mira_0083: 7581718270962174568
+      dq_mira_0084: 2912834550325556842
+      dq_mira_0085: 2479323613536345517
+      dq_mira_0086: 7864976366004166102
+      dq_mira_0087: -3969600763898025218
+      dq_mira_0088: -6980529805958296141
+      dq_mira_0089: -7094531993116198285
+      dq_mira_0090: -2526505029799120665
+      dq_mira_0091: 5523112516519926118
+      dq_mira_0092: -412790473995936163
+      dq_mira_0093: 4023801762460403020
+      dq_mira_0094: -660050255634318534
+      dq_mira_0095: 3690188713107837465
+      dq_mira_0096: 5641081400375205081
+      dq_mira_0097: -7895964145385901087
+      dq_mira_0098: -1871228495018839159
+      dq_mira_0099: -3999359886348659936
+      dq_mira_0100: -57438213631610426
+      dq_mira_0101: 5408618636094246787
+      dq_mira_0102: 6695681310447756423
+      dq_mira_0103: -8705975860889944773
+      dq_mira_0104: 5771814207705146494
+      dq_mira_0105: -4935691501917691919
+      dq_mira_0106: 117629671593953136
+      dq_mira_0107: 3963090971922942863
+      dq_mira_0108: -6489791463947069673
+      dq_mira_0109: -3138497792440050302
+      dq_mira_0110: 4456255554112843473
+      dq_mira_0111: -2803290450248640948
+      dq_mira_0112: -4950087428067668999
+      dq_mira_0113: 3299500760464814530
+      dq_mira_0114: 8626955349627163851
+      dq_mira_0115: -4736253317912208384
+      dq_mira_0116: 6014360588969907945
+      dq_mira_0117: 4001274057826741497
+      dq_mira_0118: -5624192217808881156
+      dq_mira_0119: 5181759766620648078
+      dq_mira_0120: -4641882931222632706
+      dq_mira_0121: 3917886518000344464
+      dq_mira_0122: -2967989875957585309
+      dq_mira_0123: 1205867558708338543
+      dq_mira_0124: 1072875831098062924
+      dq_mira_0125: -4762561386887745065
+      dq_mira_0126: 6325774600448857493
+      dq_mira_0127: -5594701503178799769
+      dq_mira_0128: -7588450761794205422
+      dq_mira_0129: 7086978343422367746
+      dq_mira_0130: 1924954438290914129
+      dq_mira_0131: 515790750404205676
+      dq_mira_0132: -4156339626861761827
+      dq_mira_0133: 4084635784810516173
+      dq_mira_0134: -8826617502651606369
+      dq_mira_0135: 3649494762772825553
+      dq_mira_0136: -5698694243566282411
+      dq_mira_0137: 5948033469930302856
+      dq_mira_0138: 5529794776611768911
+      dq_mira_0139: -6939923443467310448
+      dq_mira_0140: 8452570825750702970
+      dq_mira_0141: -6022858750564483482
+      dq_mira_0142: 8404333861176851884
+      dq_mira_0143: 3922132095758319330
+      dq_mira_0144: 1189105179375708809
+      dq_mira_0145: -3079401613083104833
+      dq_mira_0146: -4271876337431062893
+      dq_mira_0147: -637278483859310078
+      dq_mira_0148: -6724107177773629633
+      dq_mira_0149: -6139556172795251871
+      dq_mira_0150: -821809073573079784
+      dq_mira_0151: 7381797103452822473
+      dq_mira_0152: 8958893413039451179
+      dq_mira_0153: -7602322558719107865
+      dq_mira_0154: -7684040222399653360
+      dq_mira_0155: -1581277078903518784
+      dq_mira_0156: 113944249111794090
+      dq_mira_0157: -3520178938969377409
+      dq_mira_0158: -6135095462103286989
+      dq_mira_0159: 8652736239967737241
+      dq_mira_0160: 7458411847941415154
+      dq_mira_0161: 2677985314620254219
+      dq_mira_0162: 1923247509905047222
+      dq_mira_0163: 2604011774111736149
+      dq_mira_0164: 2405666626159726549
+      dq_mira_0165: 8803064206921216802
+      dq_mira_0166: -2245608631847612115
+      dq_mira_0167: -8056019745586779607
+      dq_mira_0168: 8792289613433879322
+      dq_mira_0169: -385274522613793340
+      dq_mira_0170: 2206507168325704337
+      dq_mira_0171: 5831821515146280476
+      dq_mira_0172: -4796608689414277722
+      dq_mira_0173: 5807108751374442146
+      dq_mira_0174: -4431029526786695285
+      dq_mira_0175: 8080258881002052015
+      dq_mira_0176: -3757196335536966506
+      dq_mira_0177: -8329992327582270954
+      dq_mira_0178: -699997213131513401
+      dq_mira_0179: 8279334052354115950
+      dq_mira_0180: 5844008896140655030
+      dq_mira_0181: -8586558993821681646
+      dq_mira_0182: 4888629847475985482
+      dq_mira_0183: -604420063477817738
+      dq_mira_0184: 6858052967582535534
+      dq_mira_0185: 7795513897496919396
+      dq_mira_0186: 8104630949439513649
+      dq_mira_0187: -2028280504271062993
+      dq_mira_0188: -244670409025019441
+      dq_mira_0189: 1875078034680504075
+      dq_mira_0190: -4310966053038603176
+      dq_mira_0191: 5262608785608415093
+      dq_mira_0192: 8767780776049485857
+      dq_mira_0193: 6611668294852655568
+      dq_mira_0194: -8749071839936798753
+      dq_mira_0195: 7394501835962881410
+      dq_mira_0196: -4507075609753060917
+      dq_mira_0197: -4783190369219373617
+      dq_mira_0198: 7761685652143231444
+      dq_mira_0199: -6553393542902976780
+      dq_mira_0200: 4105451367112278699
+      dq_mira_0201: -5845692587897520135
+      dq_mira_0202: -9091833726401075846
+      dq_mira_0203: 5150051875023720679
+      dq_mira_0204: 7933535001257614071
+      dq_mira_0205: -62789264587183445
+      dq_mira_0206: 2128178610935479434
+      dq_mira_0207: 4551778637543405775
+      dq_mira_0208: -3895015082226256047
+      dq_mira_0209: -6103382034931879269
+      dq_mira_0210: -2867783966351164162
+      dq_mira_0211: -8612938683931966753
+      dq_mira_0212: 5406495525377341997
+      dq_mira_0213: 5969224848443611147
+      dq_mira_0214: 2860448994497000662
+      dq_mira_0215: 4351434130120178257
+      dq_mira_0216: -2564832865259851000
+      dq_mira_0217: -6103423422218961746
+      dq_mira_0218: -2458011362690151453
+      dq_mira_0219: -4496441402242603711
+      dq_mira_0220: 7082774732894787006
+      dq_mira_0221: 363326914781747497
+      dq_mira_0222: 6691086152514861431
+      dq_mira_0223: 8070947668342846000
+      dq_mira_0224: -3942985585541266074
+      dq_mira_0225: 6159907203362747625
+      dq_mira_0226: 9092409254208697166
+      dq_mira_0227: -4680681527203682012
+      dq_mira_0228: 819129014569279744
+      dq_mira_0229: -2700556796085711418
+      dq_mira_0230: 4702515526090208948
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

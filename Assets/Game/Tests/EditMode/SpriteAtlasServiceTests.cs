@@ -59,14 +59,20 @@ public class SpriteAtlasServiceTests
     [Test]
     public void ReturnsEverySpriteWithPpuAndItsApprovedPivot()
     {
-        var service = new SpriteAtlasService(new ResourceService());
+        var resources = new ResourceService();
+        var service = new SpriteAtlasService(resources);
+        var approved = resources.LoadJson<DQClipCatalog>("Data/DQ/dq_character_clips").actors.SelectMany(actor => actor.sprites).ToDictionary(sprite => sprite.key);
         foreach (var spriteName in SpriteNames.Concat(EffectNames))
         {
             var sprite = service.Get(spriteName);
 
             Assert.IsNotNull(sprite, spriteName);
             Assert.AreEqual(Const.PixelsPerUnit, sprite.pixelsPerUnit, spriteName);
-            Assert.AreEqual(new Vector2(sprite.rect.width * .5f, EffectNames.Contains(spriteName) ? sprite.rect.height * .5f : 0f), sprite.pivot, spriteName);
+            var key = sprite.name.Replace("(Clone)", "");
+            var expectedPivot = approved.TryGetValue(key, out var source)
+                ? new Vector2(source.pivotX, source.size - source.pivotY)
+                : new Vector2(sprite.rect.width * .5f, EffectNames.Contains(spriteName) ? sprite.rect.height * .5f : 0f);
+            Assert.AreEqual(expectedPivot, sprite.pivot, spriteName);
             Assert.AreSame(sprite, service.Get(spriteName), spriteName);
         }
 
@@ -128,9 +134,10 @@ public class SpriteAtlasServiceTests
     // Dispose의 Object.Destroy는 에디터 시험에서 쓸 수 없어 시험이 직접 지운다
     private static void DestroyAll(SpriteAtlasService service)
     {
-        foreach (var spriteName in SpriteNames.Concat(EffectNames))
+        var sprites = SpriteNames.Concat(EffectNames).Select(name => service.Get(name)).Distinct().ToArray();
+        foreach (var sprite in sprites)
         {
-            Object.DestroyImmediate(service.Get(spriteName));
+            Object.DestroyImmediate(sprite);
         }
     }
 }

@@ -61,6 +61,7 @@ public static class MainSceneBuilder
             BuildScene();
             EditorSceneManager.SaveScene(scene, ScenePath);
             createdPathList.Add(ScenePath);
+            MainSceneDQScreenMigration.Apply();
             GameLogger.Log($"[MainSceneBuilder] Built {ScenePath} and {MonsterPrefabPath}");
         }
         catch

@@ -3,6 +3,18 @@ using UnityEngine;
 
 public class AmbientMotionMathTests
 {
+    [Test]
+    public void DestroyedSceneParticleCanReceiveTheFinalTickAndDispose()
+    {
+        var particle = new GameObject("unloaded ambient child").AddComponent<ParticleSystem>();
+        var presenter = new AmbientEffectsPresenter(null, null, null, null, null, null, null);
+        typeof(AmbientEffectsPresenter).GetField("_dust", System.Reflection.BindingFlags.Instance
+            | System.Reflection.BindingFlags.NonPublic).SetValue(presenter, particle);
+        Object.DestroyImmediate(particle.gameObject);
+        Assert.DoesNotThrow(presenter.Tick);
+        Assert.DoesNotThrow(presenter.Dispose);
+    }
+
     [TestCase(0, 0)]
     [TestCase(.249999, 0)]
     [TestCase(.25, 1)]
@@ -41,7 +53,7 @@ public class AmbientMotionMathTests
     {
         var prefab = Resources.Load<ParticleSystem>("Prefab/HD2DAmbientDust");
         Assert.NotNull(prefab);
-        Assert.AreEqual(36, prefab.main.maxParticles);
+        Assert.AreEqual(16, prefab.main.maxParticles); // DQ K44: fewer floating lights; tighter cap than the previous 36.
         Assert.AreEqual(1.4f, prefab.emission.rateOverTime.constant, .00001f);
         Assert.AreEqual(18f, prefab.main.startLifetime.constant);
         var particles = Object.Instantiate(prefab);
@@ -49,7 +61,7 @@ public class AmbientMotionMathTests
         {
             particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             particles.Emit(100);
-            Assert.That(particles.particleCount, Is.InRange(1, 36));
+            Assert.That(particles.particleCount, Is.InRange(1, 16));
             Assert.AreEqual(0, particles.gameObject.layer);
             Assert.AreEqual(UnityEngine.Rendering.ShadowCastingMode.Off, particles.GetComponent<ParticleSystemRenderer>().shadowCastingMode);
         }
